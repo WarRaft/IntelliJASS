@@ -56,6 +56,18 @@
         <colorSettingsPage
                 implementation="org.intellij.sdk.language.jass.JassColorSettingsPage"
         />
+        <annotator
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassAnnotator"
+        />
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassLineMarkerProvider"
+        />
+        <completion.contributor
+                language="Jass"
+                implementationClass="org.intellij.sdk.language.jass.JassCompletionContributor"
+        />
 
         <!-- Simple -->
         <fileType name="Simple File"
@@ -75,13 +87,20 @@
         <colorSettingsPage
                 implementation="org.intellij.sdk.language.SimpleColorSettingsPage"
         />
+        <annotator
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.SimpleAnnotator"
+        />
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"
+        />
+        <completion.contributor
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"
+        />
 
         <iconProvider implementation="org.intellij.sdk.language.SimplePropertyIconProvider"/>
-        <annotator language="JAVA" implementationClass="org.intellij.sdk.language.SimpleAnnotator"/>
-        <codeInsight.lineMarkerProvider language="JAVA"
-                                        implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"/>
-        <completion.contributor language="Simple"
-                                implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"/>
         <psi.referenceContributor language="JAVA"
                                   implementation="org.intellij.sdk.language.SimpleReferenceContributor"/>
         <lang.refactoringSupport language="Simple"

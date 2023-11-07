@@ -1,8 +1,9 @@
 # You are reading the ".properties" entry.
 ! The exclamation mark can also mark text as comments.
 websiteUrl = https://en.wikipedia.org/
+website = https://en.wikipedia.org/
 
-language = English
+language = Hello
 # The backslash below tells the application to continue reading
 # the value onto the next line.
 message = Welcome to \
