@@ -1,4 +1,3 @@
-// https://github.com/JetBrains/intellij-plugins/blob/master/Dart/src/com/jetbrains/lang/dart/lexer/Dart.flex
 package org.intellij.sdk.language.jass;
 
 import com.intellij.lexer.FlexLexer;

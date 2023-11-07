@@ -1,5 +1,3 @@
-
-
 package org.intellij.sdk.language.psi;
 
 import com.intellij.extapi.psi.PsiFileBase;

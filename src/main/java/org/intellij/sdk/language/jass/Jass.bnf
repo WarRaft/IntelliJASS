@@ -4,7 +4,7 @@
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-  psiClassPrefix="Simple"
+  psiClassPrefix="Jass"
   psiImplClassSuffix="Impl"
   psiPackage="org.intellij.sdk.language.jass.psi"
   psiImplPackage="org.intellij.sdk.language.jass.psi.impl"
@@ -12,10 +12,15 @@
   elementTypeHolderClass="org.intellij.sdk.language.jass.psi.JassTypes"
   elementTypeClass="org.intellij.sdk.language.jass.psi.JassElementType"
   tokenTypeClass="org.intellij.sdk.language.jass.psi.JassTokenType"
+
+  psiImplUtilClass="org.intellij.sdk.language.jass.psi.impl.JassPsiImplUtil"
 }
 
-simpleFile ::= item_*
+jassFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF)
 
 property ::= (KEY? SEPARATOR VALUE?) | KEY
+{
+  methods=[getKey getValue]
+}

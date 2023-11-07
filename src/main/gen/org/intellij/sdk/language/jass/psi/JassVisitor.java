@@ -5,9 +5,9 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
 
-public class SimpleVisitor extends PsiElementVisitor {
+public class JassVisitor extends PsiElementVisitor {
 
-  public void visitProperty(@NotNull SimpleProperty o) {
+  public void visitProperty(@NotNull JassProperty o) {
     visitPsiElement(o);
   }
 

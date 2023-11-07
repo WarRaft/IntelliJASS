@@ -41,7 +41,20 @@
         <fileType name="Jass File"
                   implementationClass="org.intellij.sdk.language.jass.JassFileType"
                   fieldName="INSTANCE"
-                  language="Jass" extensions="j"
+                  language="Jass"
+                  extensions="j"
+        />
+        <lang.parserDefinition
+                language="Jass"
+                implementationClass="org.intellij.sdk.language.jass.JassParserDefinition"
+        />
+
+        <lang.syntaxHighlighterFactory
+                language="Jass"
+                implementationClass="org.intellij.sdk.language.jass.JassSyntaxHighlighterFactory"
+        />
+        <colorSettingsPage
+                implementation="org.intellij.sdk.language.jass.JassColorSettingsPage"
         />
 
         <!-- Simple -->
@@ -51,12 +64,19 @@
                   language="Simple"
                   extensions="simple"
         />
-        <lang.parserDefinition language="Simple"
-                               implementationClass="org.intellij.sdk.language.SimpleParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="Simple"
-                                       implementationClass="org.intellij.sdk.language.SimpleSyntaxHighlighterFactory"/>
+        <lang.parserDefinition
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleParserDefinition"
+        />
+        <lang.syntaxHighlighterFactory
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleSyntaxHighlighterFactory"
+        />
+        <colorSettingsPage
+                implementation="org.intellij.sdk.language.SimpleColorSettingsPage"
+        />
+
         <iconProvider implementation="org.intellij.sdk.language.SimplePropertyIconProvider"/>
-        <colorSettingsPage implementation="org.intellij.sdk.language.SimpleColorSettingsPage"/>
         <annotator language="JAVA" implementationClass="org.intellij.sdk.language.SimpleAnnotator"/>
         <codeInsight.lineMarkerProvider language="JAVA"
                                         implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"/>
