@@ -1,16 +1,18 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.openapi.fileTypes;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import org.intellij.sdk.language.jass.JassIcons;
+import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public final class JassFileType extends LanguageFileType {
+public final class LanguageFileType_JASS extends LanguageFileType {
 
-    public static final JassFileType INSTANCE = new JassFileType();
+    public static final LanguageFileType_JASS INSTANCE = new LanguageFileType_JASS();
 
-    private JassFileType() {
-        super(JassLanguage.INSTANCE);
+    private LanguageFileType_JASS() {
+        super(Language_JASS.INSTANCE);
     }
 
     @NotNull

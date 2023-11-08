@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.codeInsight.completion;
 
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
@@ -7,9 +7,9 @@ import com.intellij.util.ProcessingContext;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
-final class JassCompletionContributor extends CompletionContributor {
+final class CompletionContributor_JASS extends CompletionContributor {
 
-    JassCompletionContributor() {
+    CompletionContributor_JASS() {
         extend(CompletionType.BASIC, PlatformPatterns.psiElement(JassTypes.VALUE),
                 new CompletionProvider<>() {
                     public void addCompletions(@NotNull CompletionParameters parameters,

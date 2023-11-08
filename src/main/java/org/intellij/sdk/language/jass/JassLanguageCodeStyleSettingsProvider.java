@@ -3,6 +3,7 @@ package org.intellij.sdk.language.jass;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
+import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
 final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
@@ -10,7 +11,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @NotNull
     @Override
     public Language getLanguage() {
-        return JassLanguage.INSTANCE;
+        return Language_JASS.INSTANCE;
     }
 
     @Override

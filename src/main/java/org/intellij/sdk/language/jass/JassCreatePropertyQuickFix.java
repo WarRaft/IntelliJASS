@@ -18,6 +18,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
+import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 import org.intellij.sdk.language.jass.psi.JassElementFactory;
 import org.intellij.sdk.language.jass.psi.JassFile;
 import org.intellij.sdk.language.jass.psi.JassProperty;
@@ -55,12 +56,12 @@ class JassCreatePropertyQuickFix extends BaseIntentionAction {
       IncorrectOperationException {
     ApplicationManager.getApplication().invokeLater(() -> {
       Collection<VirtualFile> virtualFiles =
-          FileTypeIndex.getFiles(JassFileType.INSTANCE, GlobalSearchScope.allScope(project));
+          FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
       if (virtualFiles.size() == 1) {
         createProperty(project, virtualFiles.iterator().next());
       } else {
         final FileChooserDescriptor descriptor =
-            FileChooserDescriptorFactory.createSingleFileDescriptor(JassFileType.INSTANCE);
+            FileChooserDescriptorFactory.createSingleFileDescriptor(LanguageFileType_JASS.INSTANCE);
         descriptor.setRoots(ProjectUtil.guessProjectDir(project));
         final VirtualFile file1 = FileChooser.chooseFile(descriptor, project, null);
         if (file1 != null) {

@@ -7,6 +7,7 @@ import com.intellij.psi.codeStyle.CodeStyleConfigurable;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
+import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
 final class JassCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
@@ -34,7 +35,7 @@ final class JassCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
     private static class JassCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
 
         public JassCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
-            super(JassLanguage.INSTANCE, currentSettings, settings);
+            super(Language_JASS.INSTANCE, currentSettings, settings);
         }
 
     }

@@ -3,6 +3,7 @@ package org.intellij.sdk.language.jass;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension;
 import com.intellij.lang.Language;
+import guru.xgm.jass.lang.Language_JASS;
 import org.intellij.sdk.language.jass.psi.JassFile;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,7 @@ final class JassStructureAwareNavbar extends StructureAwareNavBarModelExtension 
     @NotNull
     @Override
     protected Language getLanguage() {
-        return JassLanguage.INSTANCE;
+        return Language_JASS.INSTANCE;
     }
 
     @Override

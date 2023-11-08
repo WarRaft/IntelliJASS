@@ -11,6 +11,7 @@ import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
+import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 import org.intellij.sdk.language.jass.psi.JassFile;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +30,7 @@ public class JassUtil {
     public static List<JassProperty> findProperties(Project project, String key) {
         List<JassProperty> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(JassFileType.INSTANCE, GlobalSearchScope.allScope(project));
+                FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
             JassFile simpleFile = (JassFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
@@ -49,7 +50,7 @@ public class JassUtil {
     public static List<JassProperty> findProperties(Project project) {
         List<JassProperty> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(JassFileType.INSTANCE, GlobalSearchScope.allScope(project));
+                FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
             JassFile simpleFile = (JassFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {

@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -10,15 +10,16 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import org.intellij.sdk.language.jass.JassLexerAdapter;
 import org.intellij.sdk.language.jass.psi.JassFile;
 import org.intellij.sdk.language.jass.psi.JassTokenSets;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.intellij.sdk.language.parser.JassParser;
 import org.jetbrains.annotations.NotNull;
 
-final class JassParserDefinition implements ParserDefinition {
+final class ParserDefinition_JASS implements ParserDefinition {
 
-    public static final IFileElementType FILE = new IFileElementType(JassLanguage.INSTANCE);
+    public static final IFileElementType FILE = new IFileElementType(Language_JASS.INSTANCE);
 
     @NotNull
     @Override

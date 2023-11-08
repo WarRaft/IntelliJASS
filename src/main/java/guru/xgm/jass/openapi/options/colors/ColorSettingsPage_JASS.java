@@ -1,17 +1,19 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.openapi.options.colors;
 
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import org.intellij.sdk.language.jass.JassIcons;
+import org.intellij.sdk.language.jass.JassSyntaxHighlighter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.Map;
 
-final class JassColorSettingsPage implements ColorSettingsPage {
+final class ColorSettingsPage_JASS implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Key", JassSyntaxHighlighter.KEY),

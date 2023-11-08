@@ -3,7 +3,7 @@ package org.intellij.sdk.language.jass.psi;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileFactory;
-import org.intellij.sdk.language.jass.JassFileType;
+import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 
 public class JassElementFactory {
 
@@ -14,7 +14,7 @@ public class JassElementFactory {
 
     public static JassFile createFile(Project project, String text) {
         String name = "dummy.j";
-        return (JassFile) PsiFileFactory.getInstance(project).createFileFromText(name, JassFileType.INSTANCE, text);
+        return (JassFile) PsiFileFactory.getInstance(project).createFileFromText(name, LanguageFileType_JASS.INSTANCE, text);
     }
 
     public static JassProperty createProperty(Project project, String name, String value) {

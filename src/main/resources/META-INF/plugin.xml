@@ -3,6 +3,7 @@
     <id>JASS</id>
     <name>JASS</name>
     <version>1.0.0</version>
+    <vendor url="https://xgm.guru">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
@@ -28,57 +29,40 @@
     ]]>
     </change-notes>
 
-    <!-- Text to display as company information on Settings | Plugin page -->
-    <vendor url="https://plugins.jetbrains.com">IntelliJ Platform SDK</vendor>
-
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Jass -->
         <fileType name="JASS File"
-                  implementationClass="org.intellij.sdk.language.jass.JassFileType"
+                  implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS"
                   fieldName="INSTANCE"
                   language="JASS"
                   extensions="j"
         />
-        <lang.parserDefinition
-                language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassParserDefinition"
-        />
-
         <lang.syntaxHighlighterFactory
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassSyntaxHighlighterFactory"
+                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactory_JASS"
         />
         <colorSettingsPage
-                implementation="org.intellij.sdk.language.jass.JassColorSettingsPage"
-        />
-        <annotator
-                language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassAnnotator"
-        />
-        <codeInsight.lineMarkerProvider
-                language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassLineMarkerProvider"
+                implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPage_JASS"
         />
         <completion.contributor
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassCompletionContributor"
+                implementationClass="guru.xgm.jass.codeInsight.completion.CompletionContributor_JASS"
         />
-        <psi.referenceContributor
-                language="JAVA"
-                implementation="org.intellij.sdk.language.jass.JassReferenceContributor"
+        <lang.parserDefinition
+                language="JASS"
+                implementationClass="guru.xgm.jass.lang.ParserDefinition_JASS"
         />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
         <lang.refactoringSupport
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassRefactoringSupportProvider"
+                implementationClass="guru.xgm.jass.lang.refactoring.RefactoringSupportProvider_JASS"
         />
         <lang.findUsagesProvider
                 language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassFindUsagesProvider"
         />
-        <lang.foldingBuilder
-                language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassFoldingBuilder"
-        />
+
         <iconProvider
                 implementation="org.intellij.sdk.language.jass.JassPropertyIconProvider"
         />
@@ -113,6 +97,24 @@
         <spellchecker.support
                 language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassSpellcheckingStrategy"
+        />
+
+
+        <annotator
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassAnnotator"
+        />
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassLineMarkerProvider"
+        />
+        <psi.referenceContributor
+                language="JAVA"
+                implementation="org.intellij.sdk.language.jass.JassReferenceContributor"
+        />
+        <lang.foldingBuilder
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassFoldingBuilder"
         />
 
         <!-- Simple -->
