@@ -12,7 +12,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.intellij.sdk.language.jass.JassLexerAdapter;
 import org.intellij.sdk.language.jass.psi.JassFile;
-import org.intellij.sdk.language.jass.psi.JassTokenSets;
+import guru.xgm.jass.psi.TokenSets_JASS;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.intellij.sdk.language.parser.JassParser;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ final class ParserDefinition_JASS implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return JassTokenSets.COMMENTS;
+        return TokenSets_JASS.COMMENTS;
     }
 
     @NotNull

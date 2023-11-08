@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
 import org.intellij.sdk.language.jass.psi.JassProperty;
-import org.intellij.sdk.language.jass.psi.JassTokenSets;
+import guru.xgm.jass.psi.TokenSets_JASS;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +16,8 @@ final class JassFindUsagesProvider implements FindUsagesProvider {
     @Override
     public @NotNull WordsScanner getWordsScanner() {
         return new DefaultWordsScanner(new JassLexerAdapter(),
-                JassTokenSets.IDENTIFIERS,
-                JassTokenSets.COMMENTS,
+                TokenSets_JASS.IDENTIFIERS,
+                TokenSets_JASS.COMMENTS,
                 TokenSet.EMPTY);
     }
 

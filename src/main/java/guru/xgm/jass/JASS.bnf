@@ -11,7 +11,7 @@
 
   elementTypeHolderClass="org.intellij.sdk.language.jass.psi.JassTypes"
   elementTypeClass="org.intellij.sdk.language.jass.psi.JassElementType"
-  tokenTypeClass="org.intellij.sdk.language.jass.psi.JassTokenType"
+  tokenTypeClass="guru.xgm.jass.psi.tree.IElementType_JASS"
 
   psiImplUtilClass="org.intellij.sdk.language.jass.psi.impl.JassPsiImplUtil"
 }
@@ -22,6 +22,6 @@ private item_ ::= (property|COMMENT|CRLF)
 
 property ::= (KEY? SEPARATOR VALUE?) | KEY {
   mixin="org.intellij.sdk.language.jass.psi.impl.JassNamedElementImpl"
-  implements="org.intellij.sdk.language.jass.psi.JassNamedElement"
+  implements="guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }
