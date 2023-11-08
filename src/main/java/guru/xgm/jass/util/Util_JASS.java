@@ -1,4 +1,4 @@
-package guru.xgm.jass;
+package guru.xgm.jass.util;
 
 import com.google.common.collect.Lists;
 import com.intellij.openapi.project.Project;

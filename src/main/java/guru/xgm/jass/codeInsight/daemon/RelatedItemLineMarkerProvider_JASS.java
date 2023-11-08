@@ -9,7 +9,7 @@ import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl;
 import guru.xgm.jass.lang.annotation.Annotator_JASS;
 import guru.xgm.jass.openapi.util.Icons_JASS;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 

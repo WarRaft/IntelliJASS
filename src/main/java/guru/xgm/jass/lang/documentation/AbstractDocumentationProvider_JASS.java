@@ -4,7 +4,7 @@ import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

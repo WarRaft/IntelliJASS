@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import guru.xgm.jass.openapi.util.Icons_JASS;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

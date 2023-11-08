@@ -15,7 +15,7 @@ import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.util.PsiLiteralUtil;
 import com.intellij.util.containers.ContainerUtil;
 import guru.xgm.jass.lang.annotation.Annotator_JASS;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

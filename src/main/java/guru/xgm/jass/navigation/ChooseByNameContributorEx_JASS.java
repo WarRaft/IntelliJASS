@@ -8,7 +8,7 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

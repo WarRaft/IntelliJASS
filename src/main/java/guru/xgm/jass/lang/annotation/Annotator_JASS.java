@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
 import guru.xgm.jass.codeInsight.intention.impl.BaseIntentionAction_JASS;
 import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBase_JASS;
-import guru.xgm.jass.Util_JASS;
+import guru.xgm.jass.util.Util_JASS;
 import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 
