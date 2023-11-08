@@ -1,13 +1,14 @@
-package org.intellij.sdk.language;
+package guru.xgm.jgas.lexer;
+
+import guru.xgm.jgas.psi.Types_JGAS;
 
 import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
-import org.intellij.sdk.language.psi.SimpleTypes;
 import com.intellij.psi.TokenType;
+import com.intellij.psi.tree.IElementType;
 
 %%
 
-%class SimpleLexer
+%class Lexer_JGAS
 %implements FlexLexer
 %unicode
 %function advance
@@ -27,17 +28,17 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 
 %%
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
+<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return Types_JGAS.COMMENT; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return SimpleTypes.KEY; }
+<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return Types_JGAS.KEY; }
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return SimpleTypes.SEPARATOR; }
+<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return Types_JGAS.SEPARATOR; }
 
 <WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
 <WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
 
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return Types_JGAS.VALUE; }
 
 ({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 

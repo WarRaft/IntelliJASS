@@ -30,85 +30,85 @@
     </change-notes>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="JASS File"
-                  implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS"
+        <fileType name="JGAS File"
+                  implementationClass="guru.xgm.jgas.openapi.fileTypes.LanguageFileType_JGAS"
                   fieldName="INSTANCE"
-                  language="JASS"
-                  extensions="j"
+                  language="JGAS"
+                  extensions="jgas"
         />
         <colorSettingsPage
-                implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPage_JASS"
+                implementation="guru.xgm.jgas.openapi.options.colors.ColorSettingsPage_JGAS"
         />
         <completion.contributor
-                language="JASS"
-                implementationClass="guru.xgm.jass.codeInsight.completion.CompletionContributor_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.codeInsight.completion.CompletionContributor_JGAS"
         />
         <lang.syntaxHighlighterFactory
-                language="JASS"
-                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactory_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.openapi.fileTypes.SyntaxHighlighterFactory_vJGAS"
         />
         <lang.parserDefinition
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.ParserDefinition_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.ParserDefinition_vJGAS"
         />
         <lang.refactoringSupport
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.refactoring.RefactoringSupportProvider_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.refactoring.RefactoringSupportProvider_vJGAS"
         />
         <lang.findUsagesProvider
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.findUsages.FindUsagesProvider_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.findUsages.FindUsagesProvider_vJGAS"
         />
         <lang.psiStructureViewFactory
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.PsiStructureViewFactory_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.PsiStructureViewFactory_vJGAS"
         />
         <lang.formatter
-                language="JASS"
-                implementationClass="guru.xgm.jass.formatting.FormattingModelBuilder_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.formatting.FormattingModelBuilder_vJGAS"
         />
         <lang.commenter
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.Commenter_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.Commenter_JGAS"
         />
         <lang.documentationProvider
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.documentation.AbstractDocumentationProvider_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.lang.documentation.AbstractDocumentationProvider_vJGAS"
         />
         <iconProvider
-                implementation="guru.xgm.jass.ide.IconProvider_JASS"
+                implementation="guru.xgm.jgas.ide.IconProvider_vJGAS"
         />
         <gotoSymbolContributor
-                implementation="guru.xgm.jass.navigation.ChooseByNameContributorEx_JASS"
+                implementation="guru.xgm.jgas.navigation.ChooseByNameContributorEx_vJGAS"
         />
         <navbar
-                implementation="guru.xgm.jass.ide.navigationToolbar.StructureAwareNavBarModelExtension_JASS"
+                implementation="guru.xgm.jgas.ide.navigationToolbar.StructureAwareNavBarModelExtension_vJGAS"
         />
         <codeStyleSettingsProvider
-                implementation="guru.xgm.jass.psi.codeStyle.CodeStyleSettingsProvider_JASS"
+                implementation="guru.xgm.jgas.psi.codeStyle.CodeStyleSettingsProvider_vJGAS"
         />
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.jass.psi.codeStyle.LanguageCodeStyleSettingsProvider_JASS"
+                implementation="guru.xgm.jgas.psi.codeStyle.LanguageCodeStyleSettingsProvider_vJGAS"
         />
         <spellchecker.support
-                language="JASS"
-                implementationClass="guru.xgm.jass.spellchecker.tokenizer.SpellcheckingStrategy_JASS"
+                language="JGAS"
+                implementationClass="guru.xgm.jgas.spellchecker.tokenizer.SpellcheckingStrategy_JGAS"
         />
         <annotator
                 language="JAVA"
-                implementationClass="guru.xgm.jass.lang.annotation.Annotator_JASS"
+                implementationClass="guru.xgm.jgas.lang.annotation.Annotator_JGAS"
         />
         <codeInsight.lineMarkerProvider
                 language="JAVA"
-                implementationClass="guru.xgm.jass.codeInsight.daemon.RelatedItemLineMarkerProvider_JASS"
+                implementationClass="guru.xgm.jgas.codeInsight.daemon.RelatedItemLineMarkerProvider_JGAS"
         />
         <psi.referenceContributor
                 language="JAVA"
-                implementation="guru.xgm.jass.psi.PsiReferenceContributor_JASS"
+                implementation="guru.xgm.jgas.psi.PsiReferenceContributor_vJGAS"
         />
         <lang.foldingBuilder
                 language="JAVA"
-                implementationClass="guru.xgm.jass.lang.folding.FoldingBuilderEx_JASS"
+                implementationClass="guru.xgm.jgas.lang.folding.FoldingBuilderEx_JGAS"
         />
     </extensions>
 

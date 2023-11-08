@@ -1,0 +1,25 @@
+{
+  parserClass="guru.xgm.jgas.lang.PsiParser_JGAS"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="JGAS_"
+  psiImplClassSuffix="Impl"
+
+  psiPackage=               "guru.xgm.jgas.psi"
+  psiImplPackage=           "guru.xgm.jgas.psi.impl"
+  elementTypeHolderClass=   "guru.xgm.jgas.psi.Types_JGAS"
+  psiImplUtilClass=         "guru.xgm.jgas.psi.PsiImplUtil_JGAS"
+  elementTypeClass=         "guru.xgm.jgas.psi.tree.IElementType_Element_JGAS"
+  tokenTypeClass=           "guru.xgm.jgas.psi.tree.IElementType_Token_JGAS"
+}
+
+jassFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY {
+  mixin="guru.xgm.jgas.extapi.psi.ASTWrapperPsiElement_JGAS"
+  implements="guru.xgm.jgas.psi.PsiNameIdentifierOwner_JGAS"
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+}

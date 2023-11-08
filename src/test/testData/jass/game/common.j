@@ -263,12 +263,12 @@ constant native GetObjectName takes integer objectId returns string
 globals
 
 //===================================================
-// Game Constants	
+// Game Constants
 //===================================================
 
 constant boolean FALSE = false
 constant boolean TRUE = true
-constant integer JASS_MAX_ARRAY_SIZE = 262144
+constant integer JGAS_MAX_ARRAY_SIZE = 262144
 
 constant integer PLAYER_NEUTRAL_PASSIVE = 15
 constant integer PLAYER_NEUTRAL_AGGRESSIVE = 12
@@ -500,7 +500,7 @@ constant cursoranimtype CURSORANIM_TYPE_UP = ConvertCursorAnimType(9)
 constant cursoranimtype CURSORANIM_TYPE_DOWN = ConvertCursorAnimType(10)
 
 //===================================================
-// Map Setup Constants	
+// Map Setup Constants
 //===================================================
 
 constant racepreference RACE_PREF_HUMAN = ConvertRacePref(1)
@@ -556,7 +556,7 @@ constant mapflag MAP_RELOADED = ConvertMapFlag(8192 * 64)
 constant placement MAP_PLACEMENT_RANDOM = ConvertPlacement(0) // random among all slots
 constant placement MAP_PLACEMENT_FIXED = ConvertPlacement(1) // player 0 in start loc 0...
 constant placement MAP_PLACEMENT_USE_MAP_SETTINGS = ConvertPlacement(2) // whatever was specified by the script
-constant placement MAP_PLACEMENT_TEAMS_TOGETHER = ConvertPlacement(3) // random with allies next to each other	
+constant placement MAP_PLACEMENT_TEAMS_TOGETHER = ConvertPlacement(3) // random with allies next to each other
 
 constant startlocprio MAP_LOC_PRIO_LOW = ConvertStartLocPrio(0)
 constant startlocprio MAP_LOC_PRIO_HIGH = ConvertStartLocPrio(1)
@@ -682,20 +682,20 @@ constant playerscore PLAYER_SCORE_TOTAL = ConvertPlayerScore(24)
 //about the event.
 //
 // Do NOT change the order or value of these constants
-// without insuring that the JASS_GAME_EVENTS_WAR3 enum
+// without insuring that the JGAS_GAME_EVENTS_WAR3 enum
 // is changed to match.
 //
 //===================================================
 
 //===================================================
-// For use with TriggerRegisterGameEvent	
-//===================================================	
+// For use with TriggerRegisterGameEvent
+//===================================================
 
 constant gameevent EVENT_GAME_VICTORY = ConvertGameEvent(0)
 constant gameevent EVENT_GAME_END_LEVEL = ConvertGameEvent(1)
 
 constant gameevent EVENT_GAME_VARIABLE_LIMIT = ConvertGameEvent(2)
-constant gameevent EVENT_GAME_STATE_LIMIT = ConvertGameEvent(3) 
+constant gameevent EVENT_GAME_STATE_LIMIT = ConvertGameEvent(3)
 
 constant gameevent EVENT_GAME_TIMER_EXPIRED = ConvertGameEvent(4)
 
@@ -705,7 +705,7 @@ constant gameevent EVENT_GAME_LEAVE_REGION = ConvertGameEvent(6)
 constant gameevent EVENT_GAME_TRACKABLE_HIT = ConvertGameEvent(7)
 constant gameevent EVENT_GAME_TRACKABLE_TRACK = ConvertGameEvent(8)
 
-constant gameevent EVENT_GAME_SHOW_SKILL = ConvertGameEvent(9)	
+constant gameevent EVENT_GAME_SHOW_SKILL = ConvertGameEvent(9)
 constant gameevent EVENT_GAME_BUILD_SUBMENU = ConvertGameEvent(10)
 
 //===================================================
@@ -789,10 +789,10 @@ constant unitevent EVENT_UNIT_HIDDEN = ConvertUnitEvent(56)
 constant unitevent EVENT_UNIT_SELECTED = ConvertUnitEvent(57)
 constant unitevent EVENT_UNIT_DESELECTED = ConvertUnitEvent(58)
 
-constant unitevent EVENT_UNIT_STATE_LIMIT = ConvertUnitEvent(59) 
+constant unitevent EVENT_UNIT_STATE_LIMIT = ConvertUnitEvent(59)
 
-// Events which may have a filter for the "other unit" 
-// 
+// Events which may have a filter for the "other unit"
+//
 constant unitevent EVENT_UNIT_ACQUIRED_TARGET = ConvertUnitEvent(60)
 constant unitevent EVENT_UNIT_TARGET_IN_RANGE = ConvertUnitEvent(61)
 constant unitevent EVENT_UNIT_ATTACKED = ConvertUnitEvent(62)
@@ -805,9 +805,9 @@ constant unitevent EVENT_UNIT_UPGRADE_START = ConvertUnitEvent(66)
 constant unitevent EVENT_UNIT_UPGRADE_CANCEL = ConvertUnitEvent(67)
 constant unitevent EVENT_UNIT_UPGRADE_FINISH = ConvertUnitEvent(68)
 
-// Events which involve the specified unit performing 
-// training of other units 
-// 
+// Events which involve the specified unit performing
+// training of other units
+//
 constant unitevent EVENT_UNIT_TRAIN_START = ConvertUnitEvent(69)
 constant unitevent EVENT_UNIT_TRAIN_CANCEL = ConvertUnitEvent(70)
 constant unitevent EVENT_UNIT_TRAIN_FINISH = ConvertUnitEvent(71)
@@ -860,8 +860,8 @@ constant dialogevent EVENT_DIALOG_CLICK = ConvertDialogEvent(91)
 //===================================================
 
 //===================================================
-// For use with TriggerRegisterGameEvent	
-//===================================================	
+// For use with TriggerRegisterGameEvent
+//===================================================
 
 constant gameevent EVENT_GAME_LOADED = ConvertGameEvent(256)
 constant gameevent EVENT_GAME_TOURNAMENT_FINISH_SOON = ConvertGameEvent(257)
@@ -932,7 +932,7 @@ constant unitevent EVENT_UNIT_PROJECTILE_LAUNCH = ConvertUnitEvent(610)
 constant unitevent EVENT_UNIT_PROJECTILE_HIT = ConvertUnitEvent(611)
 
 //===================================================
-// Limit Event API constants	
+// Limit Event API constants
 // variable, player state, game state, and unit state events
 // ( do NOT change the order of these... )
 //===================================================
@@ -1406,7 +1406,7 @@ constant abilityintegerfield ABILITY_IF_CASTER_ATTACHMENTS = ConvertAbilityInteg
 constant abilityintegerfield ABILITY_IF_PRIORITY = ConvertAbilityIntegerField('apri')
 constant abilityintegerfield ABILITY_IF_LEVELS = ConvertAbilityIntegerField('alev')
 constant abilityintegerfield ABILITY_IF_REQUIRED_LEVEL = ConvertAbilityIntegerField('arlv')
-constant abilityintegerfield ABILITY_IF_LEVEL_SKIP_REQUIREMENT = ConvertAbilityIntegerField('alsk') 
+constant abilityintegerfield ABILITY_IF_LEVEL_SKIP_REQUIREMENT = ConvertAbilityIntegerField('alsk')
 
 constant abilitybooleanfield ABILITY_BF_HERO_ABILITY = ConvertAbilityBooleanField('aher') // Get only
 constant abilitybooleanfield ABILITY_BF_ITEM_ABILITY = ConvertAbilityBooleanField('aite')
@@ -1785,7 +1785,7 @@ constant abilityreallevelfield ABILITY_RLF_MOVEMENT_SPEED_FACTOR_POI3 = ConvertA
 constant abilityreallevelfield ABILITY_RLF_EXTRA_DAMAGE_POA1 = ConvertAbilityRealLevelField('Poa1')
 constant abilityreallevelfield ABILITY_RLF_DAMAGE_PER_SECOND_POA2 = ConvertAbilityRealLevelField('Poa2')
 constant abilityreallevelfield ABILITY_RLF_ATTACK_SPEED_FACTOR_POA3 = ConvertAbilityRealLevelField('Poa3')
-constant abilityreallevelfield ABILITY_RLF_MOVEMENT_SPEED_FACTOR_POA4 = ConvertAbilityRealLevelField('Poa4') 
+constant abilityreallevelfield ABILITY_RLF_MOVEMENT_SPEED_FACTOR_POA4 = ConvertAbilityRealLevelField('Poa4')
 constant abilityreallevelfield ABILITY_RLF_DAMAGE_AMPLIFICATION = ConvertAbilityRealLevelField('Pos2')
 constant abilityreallevelfield ABILITY_RLF_CHANCE_TO_STOMP_PERCENT = ConvertAbilityRealLevelField('War1')
 constant abilityreallevelfield ABILITY_RLF_DAMAGE_DEALT_WAR2 = ConvertAbilityRealLevelField('War2')
@@ -2296,7 +2296,7 @@ constant unitstringfield UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField('uubs')
 constant unitstringfield UNIT_SF_SPECIAL = ConvertUnitStringField('uspa')
 constant unitstringfield UNIT_SF_NAME = ConvertUnitStringField('unam')
 constant unitstringfield UNIT_SF_PROPER_NAMES = ConvertUnitStringField('upro')
-constant unitstringfield UNIT_SF_PROPER_NAME = ConvertUnitStringField('uprn') // Get Only	
+constant unitstringfield UNIT_SF_PROPER_NAME = ConvertUnitStringField('uprn') // Get Only
 constant unitstringfield UNIT_SF_TOOLTIP_AWAKEN = ConvertUnitStringField('uawt')
 constant unitstringfield UNIT_SF_TOOLTIP_NORMAL = ConvertUnitStringField('utip')
 constant unitstringfield UNIT_SF_TOOLTIP_EXTENDED = ConvertUnitStringField('utub')
@@ -2574,7 +2574,7 @@ native SetPlayerStartLocation takes player whichPlayer, integer startLocIndex re
 // which removes it from consideration for subsequently placed players
 // ( i.e. you can use this to put people in a fixed loc and then
 // use random placement for any unplaced players etc )
-native ForcePlayerStartLocation takes player whichPlayer, integer startLocIndex returns nothing 
+native ForcePlayerStartLocation takes player whichPlayer, integer startLocIndex returns nothing
 native SetPlayerColor takes player whichPlayer, playercolor color returns nothing
 native SetPlayerAlliance takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting, boolean value returns nothing
 native SetPlayerTaxRate takes player sourcePlayer, player otherPlayer, playerstate whichResource, integer rate returns nothing
@@ -2984,7 +2984,7 @@ constant native GetEventDamageSource takes nothing returns unit
 // EVENT_UNIT_DECAY
 // Use the GetDyingUnit and GetDecayingUnit funcs above
 
-// EVENT_UNIT_DETECTED 
+// EVENT_UNIT_DETECTED
 constant native GetEventDetectingPlayer takes nothing returns player
 
 native TriggerRegisterFilterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent, boolexpr filter returns event
@@ -3933,7 +3933,7 @@ native SetSoundChannel takes sound soundHandle, integer channel returns nothing
 native SetSoundVolume takes sound soundHandle, integer volume returns nothing
 native SetSoundPitch takes sound soundHandle, real pitch returns nothing
 
-// the following method must be called immediately after calling "StartSound" 
+// the following method must be called immediately after calling "StartSound"
 native SetSoundPlayPosition takes sound soundHandle, integer millisecs returns nothing
 
 // these calls are only valid if the sound was created with 3d enabled
@@ -5002,7 +5002,7 @@ native SetTrackableRoll takes trackable whichTrackable, real roll returns boolea
 native SetTrackableOrientation takes trackable whichTrackable, real yaw, real pitch, real roll returns nothing
 native SetTrackableMaterialTexture takes trackable whichTrackable, string textureName, integer materialId, integer textureIndex returns nothing
 native SetTrackableTexture takes trackable whichTrackable, string textureName, integer textureIndex returns nothing
-native SetTrackableReplaceableTexture takes trackable whichTrackable, string textureName, integer textureIndex returns nothing	
+native SetTrackableReplaceableTexture takes trackable whichTrackable, string textureName, integer textureIndex returns nothing
 native SetTrackableModel takes trackable whichTrackable, string modelName returns nothing
 native SetTrackableModelEx takes trackable whichTrackable, string modelName, integer playerColour returns nothing
 native GetTrackableModelObjectPositionX takes trackable whichTrackable, string whichObject returns real
@@ -5241,7 +5241,7 @@ native SetUnitBaseWeaponStringFieldById takes integer unitTypeId, unitweaponstri
 //
 
 // Field API
-// Unit 
+// Unit
 native GetUnitIntegerField takes unit whichUnit, unitintegerfield whichField returns integer
 native SetUnitIntegerField takes unit whichUnit, unitintegerfield whichField, integer value returns boolean
 
@@ -5315,14 +5315,14 @@ native DisableUnitAbility takes unit whichUnit, integer abilityId, boolean hide,
 native EnableUnitAbility takes unit whichUnit, integer abilityId, boolean show, boolean enable returns nothing
 native IsUnitSelectable takes unit whichUnit returns boolean
 native SetUnitSelectable takes unit whichUnit, boolean selectable returns nothing
-native SetUnitControl takes unit whichUnit, integer flagValue, boolean isSetFlagValue, boolean ismove, boolean isattack, boolean isinventory returns nothing // flagValue = 0x200 and isSetFlagValue = true to emulate pause 
+native SetUnitControl takes unit whichUnit, integer flagValue, boolean isSetFlagValue, boolean ismove, boolean isattack, boolean isinventory returns nothing // flagValue = 0x200 and isSetFlagValue = true to emulate pause
 native SetUnitLocustFlag takes unit whichUnit, integer flag, integer mode returns nothing
 native SetUnitTruesightImmuneState takes unit whichUnit, boolean state returns nothing
 native GetUnitZ takes unit whichUnit returns real
 native GetUnitDamageReduction takes unit whichUnit returns real
 native GetUnitMagicResistByType takes unit whichUnit, integer resistType returns real
 native GetUnitEluneMagicResist takes unit whichUnit returns real
-native GetUnitRunicMagicResist takes unit whichUnit returns real 
+native GetUnitRunicMagicResist takes unit whichUnit returns real
 native GetUnitTotalMagicResist takes unit whichUnit returns real
 native IsUnitGatherer takes unit whichUnit returns boolean
 native GetUnitCurrentResources takes unit whichUnit returns integer
@@ -6093,7 +6093,7 @@ native DestroyCommandButtonEffect takes commandbuttoneffect whichEffect returns 
 // Bit Operations
 native BlzBitOr takes integer x, integer y returns integer
 native BlzBitAnd takes integer x, integer y returns integer
-native BlzBitXor takes integer x, integer y returns integer 
+native BlzBitXor takes integer x, integer y returns integer
 
 // Intanced Object Operations
 // Ability
@@ -6130,7 +6130,7 @@ native BlzRemoveAbilityIntegerLevelArrayField takes ability whichAbility, abilit
 native BlzRemoveAbilityRealLevelArrayField takes ability whichAbility, abilityreallevelarrayfield whichField, integer level, real value returns boolean
 native BlzRemoveAbilityStringLevelArrayField takes ability whichAbility, abilitystringlevelarrayfield whichField, integer level, string value returns boolean
 
-// Item 
+// Item
 native BlzGetItemAbilityByIndex takes item whichItem, integer index returns ability
 native BlzGetItemAbility takes item whichItem, integer abilCode returns ability
 native BlzItemAddAbility takes item whichItem, integer abilCode returns boolean
@@ -6144,7 +6144,7 @@ native BlzSetItemRealField takes item whichItem, itemrealfield whichField, real 
 native BlzSetItemStringField takes item whichItem, itemstringfield whichField, string value returns boolean
 native BlzItemRemoveAbility takes item whichItem, integer abilCode returns boolean
 
-// Unit 
+// Unit
 native BlzGetUnitBooleanField takes unit whichUnit, unitbooleanfield whichField returns boolean
 native BlzGetUnitIntegerField takes unit whichUnit, unitintegerfield whichField returns integer
 native BlzGetUnitRealField takes unit whichUnit, unitrealfield whichField returns real
