@@ -1,22 +1,20 @@
-package org.intellij.sdk.language;
+package guru.xgm.jass.lexer;
 
-import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
+import guru.xgm.jass.psi.Types_JASS;
+
+//import static guru.xgm.jass.psi.AngelScriptElementTypes.*;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static org.intellij.sdk.language.psi.AngelScriptElementTypes.*;
+import com.intellij.lexer.FlexLexer;
+import com.intellij.psi.TokenType;
+import com.intellij.psi.tree.IElementType;
+
 
 %%
 
-%{
-  public _AngelScriptLexer() {
-    this((java.io.Reader)null);
-  }
-%}
-
 %public
-%class _AngelScriptLexer
+%class Lexer_JASS
 %implements FlexLexer
 %function advance
 %type IElementType

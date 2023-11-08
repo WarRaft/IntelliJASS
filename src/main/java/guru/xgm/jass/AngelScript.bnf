@@ -177,8 +177,8 @@ FUNC          ::= ('shared' | 'external')* ('private' | 'protected')? ((TYPE '&'
 INTERFACE     ::= ('external' | 'shared')* ('interface') IDENTIFIER (';' | ((':' IDENTIFIER (',' IDENTIFIER)*)? '{' (VIRTPROP | INTFMTHD)* '}'))
 STRUCT        ::= ('external' | 'shared')* 'struct' IDENTIFIER (';' | STATBLOCK)
 VAR           ::= ('private'|'protected')? TYPE IDENTIFIER (( '=' (INITLIST | CONDITION)) | ARGLIST)? (',' IDENTIFIER (( '=' (INITLIST | CONDITION)) | ARGLIST)?)* ';' {
-  mixin="org.intellij.sdk.language.psi.impl.AngelScriptNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.AngelScriptNamedElement"
+  mixin="guru.xgm.jass.extapi.psi.ASTWrapperPsiElement_JASS"
+  implements="guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS"
   methods=[getIdent getName setName getNameIdentifier getPresentation]
 //  pin=5
  // recoverWhile="var_recover"
