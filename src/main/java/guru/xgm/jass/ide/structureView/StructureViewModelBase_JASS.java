@@ -6,7 +6,7 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,12 +30,12 @@ public class StructureViewModelBase_JASS extends StructureViewModelBase implemen
 
   @Override
   public boolean isAlwaysLeaf(StructureViewTreeElement element) {
-    return element.getValue() instanceof JassProperty;
+    return element.getValue() instanceof JASS_Property;
   }
 
   @Override
   protected Class<?> @NotNull [] getSuitableClasses() {
-    return new Class[]{JassProperty.class};
+    return new Class[]{JASS_Property.class};
   }
 
 }

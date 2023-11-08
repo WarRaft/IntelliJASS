@@ -8,8 +8,8 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
-import org.intellij.sdk.language.jass.psi.impl.JassPropertyImpl;
+import guru.xgm.jass.psi.JASS_Property;
+import guru.xgm.jass.psi.impl.JASS_PropertyImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -60,10 +60,10 @@ public class StructureViewTreeElement_JASS implements StructureViewTreeElement, 
     @Override
     public TreeElement @NotNull [] getChildren() {
         if (myElement instanceof PsiFileBase_JASS) {
-            List<JassProperty> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, JassProperty.class);
+            List<JASS_Property> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, JASS_Property.class);
             List<TreeElement> treeElements = new ArrayList<>(properties.size());
-            for (JassProperty property : properties) {
-                treeElements.add(new StructureViewTreeElement_JASS((JassPropertyImpl) property));
+            for (JASS_Property property : properties) {
+                treeElements.add(new StructureViewTreeElement_JASS((JASS_PropertyImpl) property));
             }
             return treeElements.toArray(new TreeElement[0]);
         }

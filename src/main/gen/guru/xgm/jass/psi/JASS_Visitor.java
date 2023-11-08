@@ -1,14 +1,13 @@
 // This is a generated file. Not intended for manual editing.
-package org.intellij.sdk.language.jass.psi;
+package guru.xgm.jass.psi;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
-import guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS;
 
-public class JassVisitor extends PsiElementVisitor {
+public class JASS_Visitor extends PsiElementVisitor {
 
-  public void visitProperty(@NotNull JassProperty o) {
+  public void visitProperty(@NotNull JASS_Property o) {
     visitPsiNameIdentifierOwner_JASS(o);
   }
 

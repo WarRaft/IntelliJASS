@@ -13,7 +13,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -27,16 +27,16 @@ public class Util_JASS {
      * @param key     to check
      * @return matching properties
      */
-    public static List<JassProperty> findProperties(Project project, String key) {
-        List<JassProperty> result = new ArrayList<>();
+    public static List<JASS_Property> findProperties(Project project, String key) {
+        List<JASS_Property> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
             PsiFileBase_JASS simpleFile = (PsiFileBase_JASS) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                JassProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JassProperty.class);
+                JASS_Property[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JASS_Property.class);
                 if (properties != null) {
-                    for (JassProperty property : properties) {
+                    for (JASS_Property property : properties) {
                         if (key.equals(property.getKey())) {
                             result.add(property);
                         }
@@ -47,14 +47,14 @@ public class Util_JASS {
         return result;
     }
 
-    public static List<JassProperty> findProperties(Project project) {
-        List<JassProperty> result = new ArrayList<>();
+    public static List<JASS_Property> findProperties(Project project) {
+        List<JASS_Property> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
             PsiFileBase_JASS simpleFile = (PsiFileBase_JASS) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                JassProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JassProperty.class);
+                JASS_Property[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JASS_Property.class);
                 if (properties != null) {
                     Collections.addAll(result, properties);
                 }
@@ -66,7 +66,7 @@ public class Util_JASS {
     /**
      * Attempts to collect any comment elements above the Jass key/value pair.
      */
-    public static @NotNull String findDocumentationComment(JassProperty property) {
+    public static @NotNull String findDocumentationComment(JASS_Property property) {
         List<String> result = new LinkedList<>();
         PsiElement element = property.getPrevSibling();
         while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {

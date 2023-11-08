@@ -5,7 +5,7 @@ import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension;
 import com.intellij.lang.Language;
 import guru.xgm.jass.lang.Language_JASS;
 import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +24,8 @@ final class StructureAwareNavBarModelExtension_JASS extends StructureAwareNavBar
         if (object instanceof PsiFileBase_JASS) {
             return ((PsiFileBase_JASS) object).getName();
         }
-        if (object instanceof JassProperty) {
-            return ((JassProperty) object).getName();
+        if (object instanceof JASS_Property) {
+            return ((JASS_Property) object).getName();
         }
 
         return null;
@@ -34,7 +34,7 @@ final class StructureAwareNavBarModelExtension_JASS extends StructureAwareNavBar
     @Override
     @Nullable
     public Icon getIcon(Object object) {
-        if (object instanceof JassProperty) {
+        if (object instanceof JASS_Property) {
             return AllIcons.Nodes.Property;
         }
 

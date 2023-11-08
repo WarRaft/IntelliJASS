@@ -19,9 +19,9 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
-import org.intellij.sdk.language.jass.psi.JassElementFactory;
+import guru.xgm.jass.psi.ElementFactory_JASS;
 import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -78,10 +78,10 @@ public class BaseIntentionAction_JASS extends BaseIntentionAction {
       ASTNode lastChildNode = simpleFile.getNode().getLastChildNode();
       // TODO: Add another check for CRLF
       if (lastChildNode != null/* && !lastChildNode.getElementType().equals(JassTypes.CRLF)*/) {
-        simpleFile.getNode().addChild(JassElementFactory.createCRLF(project).getNode());
+        simpleFile.getNode().addChild(ElementFactory_JASS.createCRLF(project).getNode());
       }
       // IMPORTANT: change spaces to escaped spaces or the new node will only have the first word for the key
-      JassProperty property = JassElementFactory.createProperty(project, key.replaceAll(" ", "\\\\ "), "");
+      JASS_Property property = ElementFactory_JASS.createProperty(project, key.replaceAll(" ", "\\\\ "), "");
       simpleFile.getNode().addChild(property.getNode());
       ((Navigatable) property.getLastChild().getNavigationElement()).navigate(true);
       Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();

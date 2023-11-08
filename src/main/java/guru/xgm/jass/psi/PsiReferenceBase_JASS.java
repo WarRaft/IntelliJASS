@@ -7,7 +7,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import guru.xgm.jass.openapi.util.Icons_JASS;
 import guru.xgm.jass.Util_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,9 +25,9 @@ public final class PsiReferenceBase_JASS extends PsiReferenceBase<PsiElement> im
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<JassProperty> properties = Util_JASS.findProperties(project, key);
+        final List<JASS_Property> properties = Util_JASS.findProperties(project, key);
         List<ResolveResult> results = new ArrayList<>();
-        for (JassProperty property : properties) {
+        for (JASS_Property property : properties) {
             results.add(new PsiElementResolveResult(property));
         }
         return results.toArray(new ResolveResult[0]);
@@ -44,9 +43,9 @@ public final class PsiReferenceBase_JASS extends PsiReferenceBase<PsiElement> im
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject();
-        List<JassProperty> properties = Util_JASS.findProperties(project);
+        List<JASS_Property> properties = Util_JASS.findProperties(project);
         List<LookupElement> variants = new ArrayList<>();
-        for (final JassProperty property : properties) {
+        for (final JASS_Property property : properties) {
             if (property.getKey() != null && !property.getKey().isEmpty()) {
                 variants.add(LookupElementBuilder
                         .create(property).withIcon(Icons_JASS.FILE)

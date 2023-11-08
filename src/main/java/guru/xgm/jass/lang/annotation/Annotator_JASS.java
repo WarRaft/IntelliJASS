@@ -11,7 +11,7 @@ import com.intellij.psi.PsiLiteralExpression;
 import guru.xgm.jass.codeInsight.intention.impl.BaseIntentionAction_JASS;
 import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBase_JASS;
 import guru.xgm.jass.Util_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public final class Annotator_JASS implements Annotator {
 
         // Get the list of properties for given key
         String key = value.substring(SIMPLE_PREFIX_STR.length() + SIMPLE_SEPARATOR_STR.length());
-        List<JassProperty> properties = Util_JASS.findProperties(element.getProject(), key);
+        List<JASS_Property> properties = Util_JASS.findProperties(element.getProject(), key);
         if (properties.isEmpty()) {
             holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved property")
                     .range(keyRange)

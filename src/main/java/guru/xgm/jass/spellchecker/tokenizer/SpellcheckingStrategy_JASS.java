@@ -10,8 +10,8 @@ import com.intellij.spellchecker.inspections.PlainTextSplitter;
 import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
 import com.intellij.spellchecker.tokenizer.TokenConsumer;
 import com.intellij.spellchecker.tokenizer.Tokenizer;
-import org.intellij.sdk.language.jass.psi.JassProperty;
-import org.intellij.sdk.language.jass.psi.JassTypes;
+import guru.xgm.jass.psi.Types_JASS;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 
 final class SpellcheckingStrategy_JASS extends SpellcheckingStrategy {
@@ -22,7 +22,7 @@ final class SpellcheckingStrategy_JASS extends SpellcheckingStrategy {
             return new JassCommentTokenizer();
         }
 
-        if (element instanceof JassProperty) {
+        if (element instanceof JASS_Property) {
             return new JassPropertyTokenizer();
         }
 
@@ -49,11 +49,11 @@ final class SpellcheckingStrategy_JASS extends SpellcheckingStrategy {
 
     }
 
-    private static class JassPropertyTokenizer extends Tokenizer<JassProperty> {
+    private static class JassPropertyTokenizer extends Tokenizer<JASS_Property> {
 
-        public void tokenize(@NotNull JassProperty element, TokenConsumer consumer) {
+        public void tokenize(@NotNull JASS_Property element, TokenConsumer consumer) {
             //Spell check the keys and values of properties with different splitters
-            final ASTNode key = element.getNode().findChildByType(JassTypes.KEY);
+            final ASTNode key = element.getNode().findChildByType(Types_JASS.KEY);
             if (key != null && key.getTextLength() > 0) {
                 final PsiElement keyPsi = key.getPsi();
                 final String text = key.getText();
@@ -63,7 +63,7 @@ final class SpellcheckingStrategy_JASS extends SpellcheckingStrategy {
                         TextRange.allOf(text), IdentifierSplitter.getInstance());
             }
 
-            final ASTNode value = element.getNode().findChildByType(JassTypes.VALUE);
+            final ASTNode value = element.getNode().findChildByType(Types_JASS.VALUE);
             if (value != null && value.getTextLength() > 0) {
                 final PsiElement valuePsi = value.getPsi();
                 final String text = valuePsi.getText();

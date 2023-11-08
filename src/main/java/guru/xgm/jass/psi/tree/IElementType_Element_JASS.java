@@ -5,14 +5,14 @@ import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public class IElementType_JASS extends IElementType {
+public class IElementType_Element_JASS extends IElementType {
 
-    public IElementType_JASS(@NotNull @NonNls String debugName) {
+    public IElementType_Element_JASS(@NotNull @NonNls String debugName) {
         super(debugName, Language_JASS.INSTANCE);
     }
 
     @Override
     public String toString() {
-        return "IElementType_JASS." + super.toString();
+        return "IElementType_Element_JASS." + super.toString();
     }
 }

@@ -9,7 +9,7 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
 import guru.xgm.jass.Util_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +23,7 @@ final class ChooseByNameContributorEx_JASS implements ChooseByNameContributorEx 
                              @Nullable IdFilter filter) {
         Project project = Objects.requireNonNull(scope.getProject());
         List<String> propertyKeys = ContainerUtil.map(
-                Util_JASS.findProperties(project), JassProperty::getKey);
+                Util_JASS.findProperties(project), JASS_Property::getKey);
         ContainerUtil.process(propertyKeys, processor);
     }
 

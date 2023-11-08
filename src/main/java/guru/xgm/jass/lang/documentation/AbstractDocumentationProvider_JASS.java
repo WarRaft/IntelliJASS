@@ -5,7 +5,7 @@ import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
 import guru.xgm.jass.Util_JASS;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.psi.JASS_Property;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,11 +34,11 @@ final class AbstractDocumentationProvider_JASS extends AbstractDocumentationProv
    */
   @Override
   public @Nullable String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
-    if (element instanceof JassProperty) {
-      final String key = ((JassProperty) element).getKey();
-      final String value = ((JassProperty) element).getValue();
+    if (element instanceof JASS_Property) {
+      final String key = ((JASS_Property) element).getKey();
+      final String value = ((JASS_Property) element).getValue();
       final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-      final String docComment = Util_JASS.findDocumentationComment((JassProperty) element);
+      final String docComment = Util_JASS.findDocumentationComment((JASS_Property) element);
 
       return renderFullDoc(key, value, file, docComment);
     }
@@ -50,8 +50,8 @@ final class AbstractDocumentationProvider_JASS extends AbstractDocumentationProv
    */
   @Override
   public @Nullable String getQuickNavigateInfo(PsiElement element, PsiElement originalElement) {
-    if (element instanceof JassProperty) {
-      final String key = ((JassProperty) element).getKey();
+    if (element instanceof JASS_Property) {
+      final String key = ((JASS_Property) element).getKey();
       final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
       return "\"" + key + "\" in " + file;
     }

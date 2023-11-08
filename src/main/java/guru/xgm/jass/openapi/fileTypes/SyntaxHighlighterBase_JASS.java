@@ -8,7 +8,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import guru.xgm.jass.lexer.FlexAdapter_JASS;
-import org.intellij.sdk.language.jass.psi.JassTypes;
+import guru.xgm.jass.psi.Types_JASS;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
@@ -42,10 +42,10 @@ public class SyntaxHighlighterBase_JASS extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(JassTypes.SEPARATOR)) return SEPARATOR_KEYS;
-        if (tokenType.equals(JassTypes.KEY)) return KEY_KEYS;
-        if (tokenType.equals(JassTypes.VALUE)) return VALUE_KEYS;
-        if (tokenType.equals(JassTypes.COMMENT)) return COMMENT_KEYS;
+        if (tokenType.equals(Types_JASS.SEPARATOR)) return SEPARATOR_KEYS;
+        if (tokenType.equals(Types_JASS.KEY)) return KEY_KEYS;
+        if (tokenType.equals(Types_JASS.VALUE)) return VALUE_KEYS;
+        if (tokenType.equals(Types_JASS.COMMENT)) return COMMENT_KEYS;
         if (tokenType.equals(TokenType.BAD_CHARACTER)) return BAD_CHAR_KEYS;
         return EMPTY_KEYS;
     }

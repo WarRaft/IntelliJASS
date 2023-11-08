@@ -1,19 +1,18 @@
 // https://github.com/JetBrains/intellij-plugins/blob/master/Dart/src/com/jetbrains/lang/dart/Dart.bnf
 {
-  parserClass="org.intellij.sdk.language.jass.parser.JassParser"
+  parserClass="guru.xgm.jass.lang.PsiParser_JASS"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-  psiClassPrefix="Jass"
+  psiClassPrefix="JASS_"
   psiImplClassSuffix="Impl"
-  psiPackage="org.intellij.sdk.language.jass.psi"
-  psiImplPackage="org.intellij.sdk.language.jass.psi.impl"
 
-  elementTypeHolderClass="org.intellij.sdk.language.jass.psi.JassTypes"
-  elementTypeClass="org.intellij.sdk.language.jass.psi.IElementType_JASS"
-  tokenTypeClass="guru.xgm.jass.psi.tree.IElementType_JASS"
-
-  psiImplUtilClass="org.intellij.sdk.language.jass.psi.impl.JassPsiImplUtil"
+  psiPackage=               "guru.xgm.jass.psi"
+  psiImplPackage=           "guru.xgm.jass.psi.impl"
+  elementTypeHolderClass=   "guru.xgm.jass.psi.Types_JASS"
+  psiImplUtilClass=         "guru.xgm.jass.psi.PsiImplUtil_JASS"
+  elementTypeClass=         "guru.xgm.jass.psi.tree.IElementType_Element_JASS"
+  tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementType_Token_JASS"
 }
 
 jassFile ::= item_*
@@ -21,7 +20,7 @@ jassFile ::= item_*
 private item_ ::= (property|COMMENT|CRLF)
 
 property ::= (KEY? SEPARATOR VALUE?) | KEY {
-  mixin="org.intellij.sdk.language.jass.psi.impl.JassNamedElementImpl"
+  mixin="guru.xgm.jass.extapi.psi.ASTWrapperPsiElement_JASS"
   implements="guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }

@@ -4,16 +4,16 @@ import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import guru.xgm.jass.lang.Language_JASS;
 import guru.xgm.jass.psi.formatter.common.AbstractBlock_JASS;
-import org.intellij.sdk.language.jass.psi.JassTypes;
+import guru.xgm.jass.psi.Types_JASS;
 import org.jetbrains.annotations.NotNull;
 
 final class FormattingModelBuilder_JASS implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, Language_JASS.INSTANCE)
-                .around(JassTypes.SEPARATOR)
+                .around(Types_JASS.SEPARATOR)
                 .spaceIf(settings.getCommonSettings(Language_JASS.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
-                .before(JassTypes.PROPERTY)
+                .before(Types_JASS.PROPERTY)
                 .none();
     }
 
