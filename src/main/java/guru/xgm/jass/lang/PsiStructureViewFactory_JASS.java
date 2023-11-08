@@ -6,7 +6,7 @@ import com.intellij.ide.structureView.TreeBasedStructureViewBuilder;
 import com.intellij.lang.PsiStructureViewFactory;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
-import org.intellij.sdk.language.jass.JassStructureViewModel;
+import guru.xgm.jass.ide.structureView.StructureViewModelBase_JASS;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +17,7 @@ final class PsiStructureViewFactory_JASS implements PsiStructureViewFactory {
             @NotNull
             @Override
             public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
-                return new JassStructureViewModel(editor, psiFile);
+                return new StructureViewModelBase_JASS(editor, psiFile);
             }
         };
     }

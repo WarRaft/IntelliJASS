@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.ide.structureView;
 
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
@@ -7,7 +7,7 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.intellij.sdk.language.jass.psi.JassFile;
+import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.intellij.sdk.language.jass.psi.impl.JassPropertyImpl;
 import org.jetbrains.annotations.NotNull;
@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JassStructureViewElement implements StructureViewTreeElement, SortableTreeElement {
+public class StructureViewTreeElement_JASS implements StructureViewTreeElement, SortableTreeElement {
 
     private final NavigatablePsiElement myElement;
 
-    public JassStructureViewElement(NavigatablePsiElement element) {
+    public StructureViewTreeElement_JASS(NavigatablePsiElement element) {
         this.myElement = element;
     }
 
@@ -59,11 +59,11 @@ public class JassStructureViewElement implements StructureViewTreeElement, Sorta
 
     @Override
     public TreeElement @NotNull [] getChildren() {
-        if (myElement instanceof JassFile) {
+        if (myElement instanceof PsiFileBase_JASS) {
             List<JassProperty> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, JassProperty.class);
             List<TreeElement> treeElements = new ArrayList<>(properties.size());
             for (JassProperty property : properties) {
-                treeElements.add(new JassStructureViewElement((JassPropertyImpl) property));
+                treeElements.add(new StructureViewTreeElement_JASS((JassPropertyImpl) property));
             }
             return treeElements.toArray(new TreeElement[0]);
         }

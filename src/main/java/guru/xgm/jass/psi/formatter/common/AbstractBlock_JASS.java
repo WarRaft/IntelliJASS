@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.psi.formatter.common;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
@@ -10,12 +10,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JassBlock extends AbstractBlock {
+public class AbstractBlock_JASS extends AbstractBlock {
 
     private final SpacingBuilder spacingBuilder;
 
-    public JassBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                     SpacingBuilder spacingBuilder) {
+    public AbstractBlock_JASS(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
+                              SpacingBuilder spacingBuilder) {
         super(node, wrap, alignment);
         this.spacingBuilder = spacingBuilder;
     }
@@ -26,7 +26,7 @@ public class JassBlock extends AbstractBlock {
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (child.getElementType() != TokenType.WHITE_SPACE) {
-                Block block = new JassBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
+                Block block = new AbstractBlock_JASS(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(),
                         spacingBuilder);
                 blocks.add(block);
             }

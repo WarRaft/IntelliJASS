@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.openapi.fileTypes;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
@@ -7,12 +7,13 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import guru.xgm.jass.lexer.FlexAdapter_JASS;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class JassSyntaxHighlighter extends SyntaxHighlighterBase {
+public class SyntaxHighlighterBase_JASS extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey SEPARATOR =
             createTextAttributesKey("JASS_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
@@ -36,7 +37,7 @@ public class JassSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
-        return new JassLexerAdapter();
+        return new FlexAdapter_JASS();
     }
 
     @Override

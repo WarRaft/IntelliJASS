@@ -113,8 +113,6 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-
-        <!-- Simple -->
         <fileType name="Simple File"
                   implementationClass="org.intellij.sdk.language.SimpleFileType"
                   fieldName="INSTANCE"

@@ -8,8 +8,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl;
 import guru.xgm.jass.lang.annotation.Annotator_JASS;
-import org.intellij.sdk.language.jass.JassIcons;
-import org.intellij.sdk.language.jass.JassUtil;
+import guru.xgm.jass.openapi.util.Icons_JASS;
+import guru.xgm.jass.Util_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,11 +36,11 @@ final class RelatedItemLineMarkerProvider_JASS extends RelatedItemLineMarkerProv
         String possibleProperties = value.substring(
                 Annotator_JASS.SIMPLE_PREFIX_STR.length() + Annotator_JASS.SIMPLE_SEPARATOR_STR.length()
         );
-        final List<JassProperty> properties = JassUtil.findProperties(project, possibleProperties);
+        final List<JassProperty> properties = Util_JASS.findProperties(project, possibleProperties);
         if (!properties.isEmpty()) {
             // Add the property to a collection of line marker info
             NavigationGutterIconBuilder<PsiElement> builder =
-                    NavigationGutterIconBuilder.create(JassIcons.FILE)
+                    NavigationGutterIconBuilder.create(Icons_JASS.FILE)
                             .setTargets(properties)
                             .setTooltipText("Navigate to Jass language property");
             result.add(builder.createLineMarkerInfo(element));

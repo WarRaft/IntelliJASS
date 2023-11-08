@@ -1,6 +1,4 @@
-// https://plugins.jetbrains.com/docs/intellij/lexer-and-parser-definition.html#define-a-lexer
-
-package org.intellij.sdk.language.jass.psi;
+package guru.xgm.jass.extapi.psi;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
@@ -9,9 +7,9 @@ import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
-public class JassFile extends PsiFileBase {
+public class PsiFileBase_JASS extends PsiFileBase {
 
-    public JassFile(@NotNull FileViewProvider viewProvider) {
+    public PsiFileBase_JASS(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, Language_JASS.INSTANCE);
     }
 

@@ -1,7 +1,7 @@
 package guru.xgm.jass.openapi.fileTypes;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import org.intellij.sdk.language.jass.JassIcons;
+import guru.xgm.jass.openapi.util.Icons_JASS;
 import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +35,6 @@ public final class LanguageFileType_JASS extends LanguageFileType {
 
     @Override
     public @NotNull Icon getIcon() {
-        return JassIcons.FILE;
+        return Icons_JASS.FILE;
     }
 }

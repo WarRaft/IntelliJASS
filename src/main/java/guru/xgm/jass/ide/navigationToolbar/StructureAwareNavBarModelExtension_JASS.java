@@ -4,7 +4,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension;
 import com.intellij.lang.Language;
 import guru.xgm.jass.lang.Language_JASS;
-import org.intellij.sdk.language.jass.psi.JassFile;
+import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,8 +21,8 @@ final class StructureAwareNavBarModelExtension_JASS extends StructureAwareNavBar
 
     @Override
     public @Nullable String getPresentableText(Object object) {
-        if (object instanceof JassFile) {
-            return ((JassFile) object).getName();
+        if (object instanceof PsiFileBase_JASS) {
+            return ((PsiFileBase_JASS) object).getName();
         }
         if (object instanceof JassProperty) {
             return ((JassProperty) object).getName();

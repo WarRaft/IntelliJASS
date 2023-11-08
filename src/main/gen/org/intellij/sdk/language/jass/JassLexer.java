@@ -9,7 +9,7 @@ import org.intellij.sdk.language.jass.psi.JassTypes;
 import com.intellij.psi.TokenType;
 
 
-class JassLexer implements FlexLexer {
+public class JassLexer implements FlexLexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -282,7 +282,7 @@ class JassLexer implements FlexLexer {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  JassLexer(java.io.Reader in) {
+  public JassLexer(java.io.Reader in) {
     this.zzReader = in;
   }
 
@@ -434,7 +434,7 @@ class JassLexer implements FlexLexer {
   private void zzDoEOF() {
     if (!zzEOFDone) {
       zzEOFDone = true;
-    
+
     }
   }
 

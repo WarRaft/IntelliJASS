@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.ide.structureView;
 
 import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
@@ -10,11 +10,11 @@ import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class JassStructureViewModel extends StructureViewModelBase implements
+public class StructureViewModelBase_JASS extends StructureViewModelBase implements
     StructureViewModel.ElementInfoProvider {
 
-  public JassStructureViewModel(@Nullable Editor editor, PsiFile psiFile) {
-    super(psiFile, editor, new JassStructureViewElement(psiFile));
+  public StructureViewModelBase_JASS(@Nullable Editor editor, PsiFile psiFile) {
+    super(psiFile, editor, new StructureViewTreeElement_JASS(psiFile));
   }
 
   @NotNull

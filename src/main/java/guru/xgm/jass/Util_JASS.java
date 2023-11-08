@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass;
 
 import com.google.common.collect.Lists;
 import com.intellij.openapi.project.Project;
@@ -12,13 +12,13 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
-import org.intellij.sdk.language.jass.psi.JassFile;
+import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class JassUtil {
+public class Util_JASS {
 
     /**
      * Searches the entire project for Jass language files with instances of the Jass property with the given key.
@@ -32,7 +32,7 @@ public class JassUtil {
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
-            JassFile simpleFile = (JassFile) PsiManager.getInstance(project).findFile(virtualFile);
+            PsiFileBase_JASS simpleFile = (PsiFileBase_JASS) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
                 JassProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JassProperty.class);
                 if (properties != null) {
@@ -52,7 +52,7 @@ public class JassUtil {
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(LanguageFileType_JASS.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
-            JassFile simpleFile = (JassFile) PsiManager.getInstance(project).findFile(virtualFile);
+            PsiFileBase_JASS simpleFile = (PsiFileBase_JASS) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
                 JassProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, JassProperty.class);
                 if (properties != null) {

@@ -4,7 +4,7 @@ import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
-import org.intellij.sdk.language.jass.JassUtil;
+import guru.xgm.jass.Util_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +38,7 @@ final class AbstractDocumentationProvider_JASS extends AbstractDocumentationProv
       final String key = ((JassProperty) element).getKey();
       final String value = ((JassProperty) element).getValue();
       final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-      final String docComment = JassUtil.findDocumentationComment((JassProperty) element);
+      final String docComment = Util_JASS.findDocumentationComment((JassProperty) element);
 
       return renderFullDoc(key, value, file, docComment);
     }

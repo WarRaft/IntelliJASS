@@ -10,7 +10,7 @@
   psiImplPackage="org.intellij.sdk.language.jass.psi.impl"
 
   elementTypeHolderClass="org.intellij.sdk.language.jass.psi.JassTypes"
-  elementTypeClass="org.intellij.sdk.language.jass.psi.JassElementType"
+  elementTypeClass="org.intellij.sdk.language.jass.psi.IElementType_JASS"
   tokenTypeClass="guru.xgm.jass.psi.tree.IElementType_JASS"
 
   psiImplUtilClass="org.intellij.sdk.language.jass.psi.impl.JassPsiImplUtil"

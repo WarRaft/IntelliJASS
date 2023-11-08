@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.codeInsight.intention.impl;
 
 import com.intellij.codeInsight.intention.impl.BaseIntentionAction;
 import com.intellij.lang.ASTNode;
@@ -20,17 +20,17 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import guru.xgm.jass.openapi.fileTypes.LanguageFileType_JASS;
 import org.intellij.sdk.language.jass.psi.JassElementFactory;
-import org.intellij.sdk.language.jass.psi.JassFile;
+import guru.xgm.jass.extapi.psi.PsiFileBase_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-public class JassCreatePropertyQuickFix extends BaseIntentionAction {
+public class BaseIntentionAction_JASS extends BaseIntentionAction {
 
   private final String key;
 
-  public JassCreatePropertyQuickFix(String key) {
+  public BaseIntentionAction_JASS(String key) {
     this.key = key;
   }
 
@@ -73,7 +73,7 @@ public class JassCreatePropertyQuickFix extends BaseIntentionAction {
 
   private void createProperty(final Project project, final VirtualFile file) {
     WriteCommandAction.writeCommandAction(project).run(() -> {
-      JassFile simpleFile = (JassFile) PsiManager.getInstance(project).findFile(file);
+      PsiFileBase_JASS simpleFile = (PsiFileBase_JASS) PsiManager.getInstance(project).findFile(file);
       assert simpleFile != null;
       ASTNode lastChildNode = simpleFile.getNode().getLastChildNode();
       // TODO: Add another check for CRLF

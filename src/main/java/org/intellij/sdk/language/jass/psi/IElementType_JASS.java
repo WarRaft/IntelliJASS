@@ -5,9 +5,9 @@ import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public class JassElementType extends IElementType {
+public class IElementType_JASS extends IElementType {
 
-    public JassElementType(@NotNull @NonNls String debugName) {
+    public IElementType_JASS(@NotNull @NonNls String debugName) {
         super(debugName, Language_JASS.INSTANCE);
     }
 }

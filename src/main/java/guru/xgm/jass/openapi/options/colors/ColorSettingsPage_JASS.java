@@ -5,8 +5,8 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import org.intellij.sdk.language.jass.JassIcons;
-import org.intellij.sdk.language.jass.JassSyntaxHighlighter;
+import guru.xgm.jass.openapi.util.Icons_JASS;
+import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBase_JASS;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,21 +16,21 @@ import java.util.Map;
 final class ColorSettingsPage_JASS implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Key", JassSyntaxHighlighter.KEY),
-            new AttributesDescriptor("Separator", JassSyntaxHighlighter.SEPARATOR),
-            new AttributesDescriptor("Value", JassSyntaxHighlighter.VALUE),
-            new AttributesDescriptor("Bad value", JassSyntaxHighlighter.BAD_CHARACTER)
+            new AttributesDescriptor("Key", SyntaxHighlighterBase_JASS.KEY),
+            new AttributesDescriptor("Separator", SyntaxHighlighterBase_JASS.SEPARATOR),
+            new AttributesDescriptor("Value", SyntaxHighlighterBase_JASS.VALUE),
+            new AttributesDescriptor("Bad value", SyntaxHighlighterBase_JASS.BAD_CHARACTER)
     };
 
     @Override
     public @NotNull Icon getIcon() {
-        return JassIcons.FILE;
+        return Icons_JASS.FILE;
     }
 
     @NotNull
     @Override
     public SyntaxHighlighter getHighlighter() {
-        return new JassSyntaxHighlighter();
+        return new SyntaxHighlighterBase_JASS();
     }
 
     @NotNull

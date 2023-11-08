@@ -3,7 +3,7 @@ package guru.xgm.jass.formatting;
 import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import guru.xgm.jass.lang.Language_JASS;
-import org.intellij.sdk.language.jass.JassBlock;
+import guru.xgm.jass.psi.formatter.common.AbstractBlock_JASS;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,7 @@ final class FormattingModelBuilder_JASS implements FormattingModelBuilder {
         final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(formattingContext.getContainingFile(),
-                        new JassBlock(formattingContext.getNode(),
+                        new AbstractBlock_JASS(formattingContext.getNode(),
                                 Wrap.createWrap(WrapType.NONE, false),
                                 Alignment.createAlignment(),
                                 createSpaceBuilder(codeStyleSettings)),

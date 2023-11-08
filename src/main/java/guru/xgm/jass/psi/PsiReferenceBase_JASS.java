@@ -1,10 +1,12 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.psi;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import guru.xgm.jass.openapi.util.Icons_JASS;
+import guru.xgm.jass.Util_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class JassReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public final class PsiReferenceBase_JASS extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
     private final String key;
 
-    public JassReference(@NotNull PsiElement element, TextRange textRange) {
+    public PsiReferenceBase_JASS(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
         key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset());
     }
@@ -24,7 +26,7 @@ public final class JassReference extends PsiReferenceBase<PsiElement> implements
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<JassProperty> properties = JassUtil.findProperties(project, key);
+        final List<JassProperty> properties = Util_JASS.findProperties(project, key);
         List<ResolveResult> results = new ArrayList<>();
         for (JassProperty property : properties) {
             results.add(new PsiElementResolveResult(property));
@@ -42,12 +44,12 @@ public final class JassReference extends PsiReferenceBase<PsiElement> implements
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject();
-        List<JassProperty> properties = JassUtil.findProperties(project);
+        List<JassProperty> properties = Util_JASS.findProperties(project);
         List<LookupElement> variants = new ArrayList<>();
         for (final JassProperty property : properties) {
             if (property.getKey() != null && !property.getKey().isEmpty()) {
                 variants.add(LookupElementBuilder
-                        .create(property).withIcon(JassIcons.FILE)
+                        .create(property).withIcon(Icons_JASS.FILE)
                         .withTypeText(property.getContainingFile().getName())
                 );
             }

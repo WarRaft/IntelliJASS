@@ -8,9 +8,9 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
-import org.intellij.sdk.language.jass.JassCreatePropertyQuickFix;
-import org.intellij.sdk.language.jass.JassSyntaxHighlighter;
-import org.intellij.sdk.language.jass.JassUtil;
+import guru.xgm.jass.codeInsight.intention.impl.BaseIntentionAction_JASS;
+import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBase_JASS;
+import guru.xgm.jass.Util_JASS;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,23 +42,23 @@ public final class Annotator_JASS implements Annotator {
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(prefixRange).textAttributes(DefaultLanguageHighlighterColors.KEYWORD).create();
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(separatorRange).textAttributes(JassSyntaxHighlighter.SEPARATOR).create();
+                .range(separatorRange).textAttributes(SyntaxHighlighterBase_JASS.SEPARATOR).create();
 
 
         // Get the list of properties for given key
         String key = value.substring(SIMPLE_PREFIX_STR.length() + SIMPLE_SEPARATOR_STR.length());
-        List<JassProperty> properties = JassUtil.findProperties(element.getProject(), key);
+        List<JassProperty> properties = Util_JASS.findProperties(element.getProject(), key);
         if (properties.isEmpty()) {
             holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved property")
                     .range(keyRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
                     // ** Tutorial step 19. - Add a quick fix for the string containing possible properties
-                    .withFix(new JassCreatePropertyQuickFix(key))
+                    .withFix(new BaseIntentionAction_JASS(key))
                     .create();
         } else {
             // Found at least one property, force the text attributes to Jass syntax value character
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(keyRange).textAttributes(JassSyntaxHighlighter.VALUE).create();
+                    .range(keyRange).textAttributes(SyntaxHighlighterBase_JASS.VALUE).create();
         }
     }
 

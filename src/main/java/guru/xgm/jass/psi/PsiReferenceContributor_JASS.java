@@ -4,7 +4,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
-import org.intellij.sdk.language.jass.JassReference;
 import org.jetbrains.annotations.NotNull;
 
 import static guru.xgm.jass.lang.annotation.Annotator_JASS.SIMPLE_PREFIX_STR;
@@ -25,7 +24,7 @@ final class PsiReferenceContributor_JASS extends PsiReferenceContributor {
 
                         if ((value != null && value.startsWith(SIMPLE_PREFIX_STR + SIMPLE_SEPARATOR_STR))) {
                             TextRange property = new TextRange(SIMPLE_PREFIX_STR.length() + SIMPLE_SEPARATOR_STR.length() + 1, value.length() + 1);
-                            return new PsiReference[]{new JassReference(element, property)};
+                            return new PsiReference[]{new PsiReferenceBase_JASS(element, property)};
                         }
                         return PsiReference.EMPTY_ARRAY;
                     }
