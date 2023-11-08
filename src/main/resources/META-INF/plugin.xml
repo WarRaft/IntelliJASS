@@ -1,15 +1,12 @@
 <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
+    <id>JASS</id>
+    <name>JASS</name>
+    <version>1.0.0</version>
 
-    <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
-    <id>org.intellij.sdk.language</id>
-
-    <!-- Text to display as name on Settings | Plugin page -->
-    <name>SDK: Simple Language Sample</name>
-
-    <!-- Product and plugin compatibility requirements -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
+
 
     <!-- Text to display as description on Settings | Plugin page -->
     <description>
@@ -105,6 +102,18 @@
         <langCodeStyleSettingsProvider
                 implementation="org.intellij.sdk.language.jass.JassLanguageCodeStyleSettingsProvider"
         />
+        <lang.commenter
+                language="JASS"
+                implementationClass="org.intellij.sdk.language.jass.JassCommenter"
+        />
+        <lang.documentationProvider
+                language="JASS"
+                implementationClass="org.intellij.sdk.language.jass.JassDocumentationProvider"
+        />
+        <spellchecker.support
+                language="JASS"
+                implementationClass="org.intellij.sdk.language.jass.JassSpellcheckingStrategy"
+        />
 
         <!-- Simple -->
         <fileType name="Simple File"
@@ -172,14 +181,21 @@
         <codeStyleSettingsProvider
                 implementation="org.intellij.sdk.language.SimpleCodeStyleSettingsProvider"
         />
-
         <langCodeStyleSettingsProvider
-                implementation="org.intellij.sdk.language.SimpleLanguageCodeStyleSettingsProvider"/>
-        <lang.commenter language="Simple" implementationClass="org.intellij.sdk.language.SimpleCommenter"/>
-        <lang.documentationProvider language="Simple"
-                                    implementationClass="org.intellij.sdk.language.SimpleDocumentationProvider"/>
-        <spellchecker.support language="Simple"
-                              implementationClass="org.intellij.sdk.language.SimpleSpellcheckingStrategy"/>
+                implementation="org.intellij.sdk.language.SimpleLanguageCodeStyleSettingsProvider"
+        />
+        <lang.commenter
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleCommenter"
+        />
+        <lang.documentationProvider
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleDocumentationProvider"
+        />
+        <spellchecker.support
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleSpellcheckingStrategy"
+        />
     </extensions>
 
 </idea-plugin>

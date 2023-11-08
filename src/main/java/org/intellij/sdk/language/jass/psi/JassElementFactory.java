@@ -7,9 +7,9 @@ import org.intellij.sdk.language.jass.JassFileType;
 
 public class JassElementFactory {
 
-    public static org.intellij.sdk.language.jass.psi.JassProperty createProperty(Project project, String name) {
+    public static JassProperty createProperty(Project project, String name) {
         final JassFile file = createFile(project, name);
-        return (org.intellij.sdk.language.jass.psi.JassProperty) file.getFirstChild();
+        return (JassProperty) file.getFirstChild();
     }
 
     public static JassFile createFile(Project project, String text) {
@@ -17,7 +17,7 @@ public class JassElementFactory {
         return (JassFile) PsiFileFactory.getInstance(project).createFileFromText(name, JassFileType.INSTANCE, text);
     }
 
-    public static org.intellij.sdk.language.jass.psi.JassProperty createProperty(Project project, String name, String value) {
+    public static JassProperty createProperty(Project project, String name, String value) {
         final JassFile file = createFile(project, name + " = " + value);
         return (JassProperty) file.getFirstChild();
     }
