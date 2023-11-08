@@ -4,7 +4,7 @@ import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-final class Commenter_JGAS implements Commenter {
+final class Commenter_vJGAS implements Commenter {
 
     @Override
     public @NotNull String getLineCommentPrefix() {

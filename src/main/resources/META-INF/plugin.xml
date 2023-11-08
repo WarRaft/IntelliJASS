@@ -69,7 +69,7 @@
         />
         <lang.commenter
                 language="JGAS"
-                implementationClass="guru.xgm.jgas.lang.Commenter_JGAS"
+                implementationClass="guru.xgm.jgas.lang.Commenter_vJGAS"
         />
         <lang.documentationProvider
                 language="JGAS"
