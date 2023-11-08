@@ -8,6 +8,10 @@ import com.intellij.psi.PsiElement;
 public class JassVisitor extends PsiElementVisitor {
 
   public void visitProperty(@NotNull JassProperty o) {
+    visitNamedElement(o);
+  }
+
+  public void visitNamedElement(@NotNull JassNamedElement o) {
     visitPsiElement(o);
   }
 

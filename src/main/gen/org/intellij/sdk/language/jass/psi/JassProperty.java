@@ -5,10 +5,16 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassProperty extends PsiElement {
+public interface JassProperty extends JassNamedElement {
 
   String getKey();
 
   String getValue();
+
+  String getName();
+
+  PsiElement setName(String newName);
+
+  PsiElement getNameIdentifier();
 
 }

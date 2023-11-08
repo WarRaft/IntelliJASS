@@ -68,6 +68,22 @@
                 language="Jass"
                 implementationClass="org.intellij.sdk.language.jass.JassCompletionContributor"
         />
+        <psi.referenceContributor
+                language="JAVA"
+                implementation="org.intellij.sdk.language.jass.JassReferenceContributor"
+        />
+        <lang.refactoringSupport
+                language="Jass"
+                implementationClass="org.intellij.sdk.language.jass.JassRefactoringSupportProvider"
+        />
+        <lang.findUsagesProvider
+                language="Jass"
+                implementationClass="org.intellij.sdk.language.jass.JassFindUsagesProvider"
+        />
+        <lang.foldingBuilder
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.jass.JassFoldingBuilder"
+        />
 
         <!-- Simple -->
         <fileType name="Simple File"
@@ -99,15 +115,26 @@
                 language="Simple"
                 implementationClass="org.intellij.sdk.language.SimpleCompletionContributor"
         />
+        <psi.referenceContributor
+                language="JAVA"
+                implementation="org.intellij.sdk.language.SimpleReferenceContributor"
+        />
+        <lang.refactoringSupport
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleRefactoringSupportProvider"
+        />
+        <lang.findUsagesProvider
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleFindUsagesProvider"
+        />
+        <lang.foldingBuilder
+                language="JAVA"
+                implementationClass="org.intellij.sdk.language.SimpleFoldingBuilder"
+        />
+
 
         <iconProvider implementation="org.intellij.sdk.language.SimplePropertyIconProvider"/>
-        <psi.referenceContributor language="JAVA"
-                                  implementation="org.intellij.sdk.language.SimpleReferenceContributor"/>
-        <lang.refactoringSupport language="Simple"
-                                 implementationClass="org.intellij.sdk.language.SimpleRefactoringSupportProvider"/>
-        <lang.findUsagesProvider language="Simple"
-                                 implementationClass="org.intellij.sdk.language.SimpleFindUsagesProvider"/>
-        <lang.foldingBuilder language="JAVA" implementationClass="org.intellij.sdk.language.SimpleFoldingBuilder"/>
+
         <gotoSymbolContributor implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"/>
         <lang.psiStructureViewFactory language="Simple"
                                       implementationClass="org.intellij.sdk.language.SimpleStructureViewFactory"/>

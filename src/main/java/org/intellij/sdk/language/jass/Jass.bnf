@@ -20,7 +20,8 @@ jassFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF)
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY
-{
-  methods=[getKey getValue]
+property ::= (KEY? SEPARATOR VALUE?) | KEY {
+  mixin="org.intellij.sdk.language.jass.psi.impl.JassNamedElementImpl"
+  implements="org.intellij.sdk.language.jass.psi.JassNamedElement"
+  methods=[getKey getValue getName setName getNameIdentifier]
 }
