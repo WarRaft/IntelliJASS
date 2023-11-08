@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang.findUsages;
 
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -6,12 +6,14 @@ import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
-import org.intellij.sdk.language.jass.psi.JassProperty;
+import guru.xgm.jass.lang.annotation.Annotator_JASS;
 import guru.xgm.jass.psi.TokenSets_JASS;
+import org.intellij.sdk.language.jass.JassLexerAdapter;
+import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-final class JassFindUsagesProvider implements FindUsagesProvider {
+final class FindUsagesProvider_JASS implements FindUsagesProvider {
 
     @Override
     public @NotNull WordsScanner getWordsScanner() {
@@ -55,7 +57,7 @@ final class JassFindUsagesProvider implements FindUsagesProvider {
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
         if (element instanceof JassProperty) {
             return ((JassProperty) element).getKey() +
-                    JassAnnotator.SIMPLE_SEPARATOR_STR +
+                    Annotator_JASS.SIMPLE_SEPARATOR_STR +
                     ((JassProperty) element).getValue();
         }
         return "";

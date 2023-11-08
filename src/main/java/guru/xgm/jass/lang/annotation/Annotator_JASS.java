@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang.annotation;
 
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -8,12 +8,15 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
+import org.intellij.sdk.language.jass.JassCreatePropertyQuickFix;
+import org.intellij.sdk.language.jass.JassSyntaxHighlighter;
+import org.intellij.sdk.language.jass.JassUtil;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-final class JassAnnotator implements Annotator {
+public final class Annotator_JASS implements Annotator {
 
     // Define strings for the Jass language prefix - used for annotations, line markers, etc.
     public static final String SIMPLE_PREFIX_STR = "jass";

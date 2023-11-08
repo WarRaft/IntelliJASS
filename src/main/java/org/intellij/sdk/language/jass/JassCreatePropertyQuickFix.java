@@ -26,11 +26,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-class JassCreatePropertyQuickFix extends BaseIntentionAction {
+public class JassCreatePropertyQuickFix extends BaseIntentionAction {
 
   private final String key;
 
-  JassCreatePropertyQuickFix(String key) {
+  public JassCreatePropertyQuickFix(String key) {
     this.key = key;
   }
 

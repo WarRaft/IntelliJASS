@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.ide.navigationToolbar;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-final class JassStructureAwareNavbar extends StructureAwareNavBarModelExtension {
+final class StructureAwareNavBarModelExtension_JASS extends StructureAwareNavBarModelExtension {
 
     @NotNull
     @Override

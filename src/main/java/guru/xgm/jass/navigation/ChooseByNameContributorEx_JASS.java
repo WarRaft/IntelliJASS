@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.navigation;
 
 import com.intellij.navigation.ChooseByNameContributorEx;
 import com.intellij.navigation.NavigationItem;
@@ -8,6 +8,7 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
+import org.intellij.sdk.language.jass.JassUtil;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-final class JassChooseByNameContributor implements ChooseByNameContributorEx {
+final class ChooseByNameContributorEx_JASS implements ChooseByNameContributorEx {
     @Override
     public void processNames(@NotNull Processor<? super String> processor,
                              @NotNull GlobalSearchScope scope,

@@ -14,8 +14,8 @@ public class JassBlock extends AbstractBlock {
 
     private final SpacingBuilder spacingBuilder;
 
-    protected JassBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
-                        SpacingBuilder spacingBuilder) {
+    public JassBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment,
+                     SpacingBuilder spacingBuilder) {
         super(node, wrap, alignment);
         this.spacingBuilder = spacingBuilder;
     }

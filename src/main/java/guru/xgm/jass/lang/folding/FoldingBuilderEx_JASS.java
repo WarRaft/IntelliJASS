@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang.folding;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilderEx;
@@ -14,6 +14,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.util.PsiLiteralUtil;
 import com.intellij.util.containers.ContainerUtil;
+import guru.xgm.jass.lang.annotation.Annotator_JASS;
+import org.intellij.sdk.language.jass.JassUtil;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,12 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-final class JassFoldingBuilder extends FoldingBuilderEx implements DumbAware {
+final class FoldingBuilderEx_JASS extends FoldingBuilderEx implements DumbAware {
 
   @Override
   public FoldingDescriptor @NotNull [] buildFoldRegions(@NotNull PsiElement root, @NotNull Document document, boolean quick) {
     // Initialize the group of folding regions that will expand/collapse together.
-    FoldingGroup group = FoldingGroup.newGroup(JassAnnotator.SIMPLE_PREFIX_STR);
+    FoldingGroup group = FoldingGroup.newGroup(Annotator_JASS.SIMPLE_PREFIX_STR);
     // Initialize the list of folding regions
     List<FoldingDescriptor> descriptors = new ArrayList<>();
 
@@ -38,10 +40,10 @@ final class JassFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         super.visitLiteralExpression(literalExpression);
 
         String value = PsiLiteralUtil.getStringLiteralContent(literalExpression);
-        if (value != null && value.startsWith(JassAnnotator.SIMPLE_PREFIX_STR + JassAnnotator.SIMPLE_SEPARATOR_STR)) {
+        if (value != null && value.startsWith(Annotator_JASS.SIMPLE_PREFIX_STR + Annotator_JASS.SIMPLE_SEPARATOR_STR)) {
           Project project = literalExpression.getProject();
           String key = value.substring(
-              JassAnnotator.SIMPLE_PREFIX_STR.length() + JassAnnotator.SIMPLE_SEPARATOR_STR.length()
+              Annotator_JASS.SIMPLE_PREFIX_STR.length() + Annotator_JASS.SIMPLE_SEPARATOR_STR.length()
           );
           // find JassProperty for the given key in the project
           JassProperty simpleProperty = ContainerUtil.getOnlyItem(JassUtil.findProperties(project, key));
@@ -75,8 +77,8 @@ final class JassFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         return null;
       }
 
-      String key = text.substring(JassAnnotator.SIMPLE_PREFIX_STR.length() +
-          JassAnnotator.SIMPLE_SEPARATOR_STR.length());
+      String key = text.substring(Annotator_JASS.SIMPLE_PREFIX_STR.length() +
+          Annotator_JASS.SIMPLE_SEPARATOR_STR.length());
 
       JassProperty simpleProperty = ContainerUtil.getOnlyItem(
           JassUtil.findProperties(psiLiteralExpression.getProject(), key)

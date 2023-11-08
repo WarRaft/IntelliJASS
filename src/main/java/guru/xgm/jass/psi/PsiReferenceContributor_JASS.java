@@ -1,15 +1,16 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.psi;
 
 import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
+import org.intellij.sdk.language.jass.JassReference;
 import org.jetbrains.annotations.NotNull;
 
-import static org.intellij.sdk.language.jass.JassAnnotator.SIMPLE_PREFIX_STR;
-import static org.intellij.sdk.language.jass.JassAnnotator.SIMPLE_SEPARATOR_STR;
+import static guru.xgm.jass.lang.annotation.Annotator_JASS.SIMPLE_PREFIX_STR;
+import static guru.xgm.jass.lang.annotation.Annotator_JASS.SIMPLE_SEPARATOR_STR;
 
-final class JassReferenceContributor extends PsiReferenceContributor {
+final class PsiReferenceContributor_JASS extends PsiReferenceContributor {
     @Override
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
         registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression.class),

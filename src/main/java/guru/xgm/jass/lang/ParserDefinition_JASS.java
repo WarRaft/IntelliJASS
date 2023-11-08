@@ -14,7 +14,7 @@ import org.intellij.sdk.language.jass.JassLexerAdapter;
 import org.intellij.sdk.language.jass.psi.JassFile;
 import guru.xgm.jass.psi.TokenSets_JASS;
 import org.intellij.sdk.language.jass.psi.JassTypes;
-import org.intellij.sdk.language.parser.JassParser;
+import org.intellij.sdk.language.jass.parser.JassParser;
 import org.jetbrains.annotations.NotNull;
 
 final class ParserDefinition_JASS implements ParserDefinition {

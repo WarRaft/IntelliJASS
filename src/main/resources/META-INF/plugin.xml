@@ -36,10 +36,6 @@
                   language="JASS"
                   extensions="j"
         />
-        <lang.syntaxHighlighterFactory
-                language="JASS"
-                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactory_JASS"
-        />
         <colorSettingsPage
                 implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPage_JASS"
         />
@@ -47,75 +43,76 @@
                 language="JASS"
                 implementationClass="guru.xgm.jass.codeInsight.completion.CompletionContributor_JASS"
         />
+        <lang.syntaxHighlighterFactory
+                language="JASS"
+                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactory_JASS"
+        />
         <lang.parserDefinition
                 language="JASS"
                 implementationClass="guru.xgm.jass.lang.ParserDefinition_JASS"
         />
-    </extensions>
-
-    <extensions defaultExtensionNs="com.intellij">
         <lang.refactoringSupport
                 language="JASS"
                 implementationClass="guru.xgm.jass.lang.refactoring.RefactoringSupportProvider_JASS"
         />
         <lang.findUsagesProvider
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassFindUsagesProvider"
-        />
-
-        <iconProvider
-                implementation="org.intellij.sdk.language.jass.JassPropertyIconProvider"
-        />
-        <gotoSymbolContributor
-                implementation="org.intellij.sdk.language.jass.JassChooseByNameContributor"
+                implementationClass="guru.xgm.jass.lang.findUsages.FindUsagesProvider_JASS"
         />
         <lang.psiStructureViewFactory
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassStructureViewFactory"
-        />
-        <navbar
-                implementation="org.intellij.sdk.language.jass.JassStructureAwareNavbar"
+                implementationClass="guru.xgm.jass.lang.PsiStructureViewFactory_JASS"
         />
         <lang.formatter
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassFormattingModelBuilder"
-        />
-        <codeStyleSettingsProvider
-                implementation="org.intellij.sdk.language.jass.JassCodeStyleSettingsProvider"
-        />
-        <langCodeStyleSettingsProvider
-                implementation="org.intellij.sdk.language.jass.JassLanguageCodeStyleSettingsProvider"
+                implementationClass="guru.xgm.jass.formatting.FormattingModelBuilder_JASS"
         />
         <lang.commenter
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassCommenter"
+                implementationClass="guru.xgm.jass.lang.Commenter_JASS"
         />
         <lang.documentationProvider
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassDocumentationProvider"
+                implementationClass="guru.xgm.jass.lang.documentation.AbstractDocumentationProvider_JASS"
+        />
+        <iconProvider
+                implementation="guru.xgm.jass.ide.IconProvider_JASS"
+        />
+        <gotoSymbolContributor
+                implementation="guru.xgm.jass.navigation.ChooseByNameContributorEx_JASS"
+        />
+        <navbar
+                implementation="guru.xgm.jass.ide.navigationToolbar.StructureAwareNavBarModelExtension_JASS"
+        />
+        <codeStyleSettingsProvider
+                implementation="guru.xgm.jass.psi.codeStyle.CodeStyleSettingsProvider_JASS"
+        />
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.jass.psi.codeStyle.LanguageCodeStyleSettingsProvider_JASS"
         />
         <spellchecker.support
                 language="JASS"
-                implementationClass="org.intellij.sdk.language.jass.JassSpellcheckingStrategy"
+                implementationClass="guru.xgm.jass.spellchecker.tokenizer.SpellcheckingStrategy_JASS"
         />
-
-
         <annotator
                 language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassAnnotator"
+                implementationClass="guru.xgm.jass.lang.annotation.Annotator_JASS"
         />
         <codeInsight.lineMarkerProvider
                 language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassLineMarkerProvider"
+                implementationClass="guru.xgm.jass.codeInsight.daemon.RelatedItemLineMarkerProvider_JASS"
         />
         <psi.referenceContributor
                 language="JAVA"
-                implementation="org.intellij.sdk.language.jass.JassReferenceContributor"
+                implementation="guru.xgm.jass.psi.PsiReferenceContributor_JASS"
         />
         <lang.foldingBuilder
                 language="JAVA"
-                implementationClass="org.intellij.sdk.language.jass.JassFoldingBuilder"
+                implementationClass="guru.xgm.jass.lang.folding.FoldingBuilderEx_JASS"
         />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
 
         <!-- Simple -->
         <fileType name="Simple File"

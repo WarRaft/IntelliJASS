@@ -1,10 +1,10 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang;
 
 import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-final class JassCommenter implements Commenter {
+final class Commenter_JASS implements Commenter {
 
     @Override
     public @NotNull String getLineCommentPrefix() {

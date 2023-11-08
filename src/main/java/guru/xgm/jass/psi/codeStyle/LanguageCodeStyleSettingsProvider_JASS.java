@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.psi.codeStyle;
 
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
@@ -6,7 +6,7 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
 import guru.xgm.jass.lang.Language_JASS;
 import org.jetbrains.annotations.NotNull;
 
-final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
+final class LanguageCodeStyleSettingsProvider_JASS extends LanguageCodeStyleSettingsProvider {
 
     @NotNull
     @Override
@@ -26,19 +26,20 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
 
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
-        return "# You are reading the \".properties\" entry.\n" +
-                "! The exclamation mark can also mark text as comments.\n" +
-                "website = https://en.wikipedia.org/\n" +
-                "\n" +
-                "language = English\n" +
-                "# The backslash below tells the application to continue reading\n" +
-                "# the value onto the next line.\n" +
-                "message = Welcome to \\\n" +
-                "          Wikipedia!\n" +
-                "# Add spaces to the key\n" +
-                "key\\ with\\ spaces = This is the value that could be looked up with the key \"key with spaces\".\n" +
-                "# Unicode\n" +
-                "tab : \\u0009";
+        return """
+                # You are reading the ".properties" entry.
+                ! The exclamation mark can also mark text as comments.
+                website = https://en.wikipedia.org/
+
+                language = English
+                # The backslash below tells the application to continue reading
+                # the value onto the next line.
+                message = Welcome to \\
+                          Wikipedia!
+                # Add spaces to the key
+                key\\ with\\ spaces = This is the value that could be looked up with the key "key with spaces".
+                # Unicode
+                tab : \\u0009""";
     }
 
 }

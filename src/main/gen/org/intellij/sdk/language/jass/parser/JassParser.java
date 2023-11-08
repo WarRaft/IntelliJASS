@@ -1,5 +1,5 @@
 // This is a generated file. Not intended for manual editing.
-package org.intellij.sdk.language.parser;
+package org.intellij.sdk.language.jass.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;

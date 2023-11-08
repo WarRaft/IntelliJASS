@@ -1,9 +1,10 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.lang.documentation;
 
 import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
+import org.intellij.sdk.language.jass.JassUtil;
 import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @see <a href="https://plugins.jetbrains.com/docs/intellij/documentation.html">Documentation (IntelliJ Platform Docs)</a>
  */
-final class JassDocumentationProvider extends AbstractDocumentationProvider {
+final class AbstractDocumentationProvider_JASS extends AbstractDocumentationProvider {
 
   /**
    * For the Jass Language, we don't have online documentation. However, if your language provides

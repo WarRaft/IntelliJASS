@@ -12,11 +12,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-final class JassReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public final class JassReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
     private final String key;
 
-    JassReference(@NotNull PsiElement element, TextRange textRange) {
+    public JassReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
         key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset());
     }

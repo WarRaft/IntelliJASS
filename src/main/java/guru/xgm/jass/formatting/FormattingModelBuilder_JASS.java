@@ -1,12 +1,13 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.formatting;
 
 import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import guru.xgm.jass.lang.Language_JASS;
+import org.intellij.sdk.language.jass.JassBlock;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
-final class JassFormattingModelBuilder implements FormattingModelBuilder {
+final class FormattingModelBuilder_JASS implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, Language_JASS.INSTANCE)

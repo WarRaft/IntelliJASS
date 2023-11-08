@@ -1,6 +1,6 @@
 // https://github.com/JetBrains/intellij-plugins/blob/master/Dart/src/com/jetbrains/lang/dart/Dart.bnf
 {
-  parserClass="org.intellij.sdk.language.parser.JassParser"
+  parserClass="org.intellij.sdk.language.jass.parser.JassParser"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 

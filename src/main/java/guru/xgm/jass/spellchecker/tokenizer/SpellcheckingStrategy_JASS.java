@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.spellchecker.tokenizer;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
@@ -14,7 +14,7 @@ import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.intellij.sdk.language.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
-final class JassSpellcheckingStrategy extends SpellcheckingStrategy {
+final class SpellcheckingStrategy_JASS extends SpellcheckingStrategy {
 
     @Override
     public @NotNull Tokenizer<?> getTokenizer(PsiElement element) {

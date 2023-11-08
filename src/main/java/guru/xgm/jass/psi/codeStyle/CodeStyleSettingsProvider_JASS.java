@@ -1,4 +1,4 @@
-package org.intellij.sdk.language.jass;
+package guru.xgm.jass.psi.codeStyle;
 
 import com.intellij.application.options.CodeStyleAbstractConfigurable;
 import com.intellij.application.options.CodeStyleAbstractPanel;
@@ -8,9 +8,10 @@ import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
 import guru.xgm.jass.lang.Language_JASS;
+import org.intellij.sdk.language.jass.JassCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 
-final class JassCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
+final class CodeStyleSettingsProvider_JASS extends CodeStyleSettingsProvider {
     @Override
     public CustomCodeStyleSettings createCustomSettings(@NotNull CodeStyleSettings settings) {
         return new JassCodeStyleSettings(settings);
