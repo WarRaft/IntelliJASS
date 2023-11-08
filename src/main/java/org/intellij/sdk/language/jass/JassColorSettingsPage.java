@@ -68,7 +68,7 @@ final class JassColorSettingsPage implements ColorSettingsPage {
     @NotNull
     @Override
     public String getDisplayName() {
-        return "Jass";
+        return "JASS";
     }
 
 }

@@ -23,5 +23,5 @@ private item_ ::= (property|COMMENT|CRLF)
 property ::= (KEY? SEPARATOR VALUE?) | KEY {
   mixin="org.intellij.sdk.language.jass.psi.impl.JassNamedElementImpl"
   implements="org.intellij.sdk.language.jass.psi.JassNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier]
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }

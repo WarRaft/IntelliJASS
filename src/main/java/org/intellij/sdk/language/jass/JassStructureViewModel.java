@@ -1,6 +1,4 @@
-
-
-package org.intellij.sdk.language;
+package org.intellij.sdk.language.jass;
 
 import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
@@ -8,15 +6,15 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
-import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.jass.psi.JassProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SimpleStructureViewModel extends StructureViewModelBase implements
+public class JassStructureViewModel extends StructureViewModelBase implements
     StructureViewModel.ElementInfoProvider {
 
-  public SimpleStructureViewModel(@Nullable Editor editor, PsiFile psiFile) {
-    super(psiFile, editor, new SimpleStructureViewElement(psiFile));
+  public JassStructureViewModel(@Nullable Editor editor, PsiFile psiFile) {
+    super(psiFile, editor, new JassStructureViewElement(psiFile));
   }
 
   @NotNull
@@ -32,12 +30,12 @@ public class SimpleStructureViewModel extends StructureViewModelBase implements
 
   @Override
   public boolean isAlwaysLeaf(StructureViewTreeElement element) {
-    return element.getValue() instanceof SimpleProperty;
+    return element.getValue() instanceof JassProperty;
   }
 
   @Override
   protected Class<?> @NotNull [] getSuitableClasses() {
-    return new Class[]{SimpleProperty.class};
+    return new Class[]{JassProperty.class};
   }
 
 }

@@ -6,6 +6,6 @@ public class JassLanguage extends Language {
     public static final JassLanguage INSTANCE = new JassLanguage();
 
     private JassLanguage() {
-        super("Jass");
+        super("JASS");
     }
 }

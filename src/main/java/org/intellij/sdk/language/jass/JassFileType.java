@@ -16,13 +16,13 @@ public final class JassFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "Jass File";
+        return "JASS File";
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "Jass language file";
+        return "JASS language file";
     }
 
     @NotNull

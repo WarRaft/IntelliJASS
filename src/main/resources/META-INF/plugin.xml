@@ -1,6 +1,4 @@
-<!-- Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license. -->
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-
+<!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
 
     <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
@@ -38,19 +36,19 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Jass -->
-        <fileType name="Jass File"
+        <fileType name="JASS File"
                   implementationClass="org.intellij.sdk.language.jass.JassFileType"
                   fieldName="INSTANCE"
-                  language="Jass"
+                  language="JASS"
                   extensions="j"
         />
         <lang.parserDefinition
-                language="Jass"
+                language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassParserDefinition"
         />
 
         <lang.syntaxHighlighterFactory
-                language="Jass"
+                language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassSyntaxHighlighterFactory"
         />
         <colorSettingsPage
@@ -65,7 +63,7 @@
                 implementationClass="org.intellij.sdk.language.jass.JassLineMarkerProvider"
         />
         <completion.contributor
-                language="Jass"
+                language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassCompletionContributor"
         />
         <psi.referenceContributor
@@ -73,16 +71,39 @@
                 implementation="org.intellij.sdk.language.jass.JassReferenceContributor"
         />
         <lang.refactoringSupport
-                language="Jass"
+                language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassRefactoringSupportProvider"
         />
         <lang.findUsagesProvider
-                language="Jass"
+                language="JASS"
                 implementationClass="org.intellij.sdk.language.jass.JassFindUsagesProvider"
         />
         <lang.foldingBuilder
                 language="JAVA"
                 implementationClass="org.intellij.sdk.language.jass.JassFoldingBuilder"
+        />
+        <iconProvider
+                implementation="org.intellij.sdk.language.jass.JassPropertyIconProvider"
+        />
+        <gotoSymbolContributor
+                implementation="org.intellij.sdk.language.jass.JassChooseByNameContributor"
+        />
+        <lang.psiStructureViewFactory
+                language="JASS"
+                implementationClass="org.intellij.sdk.language.jass.JassStructureViewFactory"
+        />
+        <navbar
+                implementation="org.intellij.sdk.language.jass.JassStructureAwareNavbar"
+        />
+        <lang.formatter
+                language="JASS"
+                implementationClass="org.intellij.sdk.language.jass.JassFormattingModelBuilder"
+        />
+        <codeStyleSettingsProvider
+                implementation="org.intellij.sdk.language.jass.JassCodeStyleSettingsProvider"
+        />
+        <langCodeStyleSettingsProvider
+                implementation="org.intellij.sdk.language.jass.JassLanguageCodeStyleSettingsProvider"
         />
 
         <!-- Simple -->
@@ -131,16 +152,27 @@
                 language="JAVA"
                 implementationClass="org.intellij.sdk.language.SimpleFoldingBuilder"
         />
+        <iconProvider
+                implementation="org.intellij.sdk.language.SimplePropertyIconProvider"
+        />
+        <gotoSymbolContributor
+                implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"
+        />
+        <lang.psiStructureViewFactory
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleStructureViewFactory"
+        />
+        <navbar
+                implementation="org.intellij.sdk.language.SimpleStructureAwareNavbar"
+        />
+        <lang.formatter
+                language="Simple"
+                implementationClass="org.intellij.sdk.language.SimpleFormattingModelBuilder"
+        />
+        <codeStyleSettingsProvider
+                implementation="org.intellij.sdk.language.SimpleCodeStyleSettingsProvider"
+        />
 
-
-        <iconProvider implementation="org.intellij.sdk.language.SimplePropertyIconProvider"/>
-
-        <gotoSymbolContributor implementation="org.intellij.sdk.language.SimpleChooseByNameContributor"/>
-        <lang.psiStructureViewFactory language="Simple"
-                                      implementationClass="org.intellij.sdk.language.SimpleStructureViewFactory"/>
-        <navbar implementation="org.intellij.sdk.language.SimpleStructureAwareNavbar"/>
-        <lang.formatter language="Simple" implementationClass="org.intellij.sdk.language.SimpleFormattingModelBuilder"/>
-        <codeStyleSettingsProvider implementation="org.intellij.sdk.language.SimpleCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
                 implementation="org.intellij.sdk.language.SimpleLanguageCodeStyleSettingsProvider"/>
         <lang.commenter language="Simple" implementationClass="org.intellij.sdk.language.SimpleCommenter"/>

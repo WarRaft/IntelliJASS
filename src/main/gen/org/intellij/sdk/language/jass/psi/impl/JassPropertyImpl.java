@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static org.intellij.sdk.language.jass.psi.JassTypes.*;
 import org.intellij.sdk.language.jass.psi.*;
+import com.intellij.navigation.ItemPresentation;
 
 public class JassPropertyImpl extends JassNamedElementImpl implements JassProperty {
 
@@ -49,6 +50,11 @@ public class JassPropertyImpl extends JassNamedElementImpl implements JassProper
   @Override
   public PsiElement getNameIdentifier() {
     return JassPsiImplUtil.getNameIdentifier(this);
+  }
+
+  @Override
+  public ItemPresentation getPresentation() {
+    return JassPsiImplUtil.getPresentation(this);
   }
 
 }
