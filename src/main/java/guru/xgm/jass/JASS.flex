@@ -28,18 +28,42 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 
 %%
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return TypesJASS.COMMENT; }
+<YYINITIAL> {
+{WHITE_SPACE}{ return WHITE_SPACE; }
+"and"{ return AND; }
+//    array = 'array',
+//    call = 'call',
+//    constant = 'constant',
+//    debug = 'debug',
+//    else = 'else',
+//    elseif = 'elseif',
+//    endfunction = 'endfunction',
+//    endglobals = 'endglobals',
+//    endif = 'endif',
+//    endloop = 'endloop',
+//    exitwhen = 'exitwhen',
+//    extends = 'extends',
+//    false = 'false',
+//    function = 'function',
+//    globals = 'globals',
+//    if = 'if',
+//    local = 'local',
+//    loop = 'loop',
+//    native = 'native',
+//    not = 'not',
+//    null = 'null',
+//    nothing = 'nothing',
+//    or = 'or',
+//    returns = 'returns',
+//    return = 'return',
+//    set = 'set',
+//    takes = 'takes',
+//    then = 'then',
+//    type = 'type',
+"type"{ return TYPE; }
+//    true = 'true',
+}
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return TypesJASS.KEY; }
+[^] { return TokenType.BAD_CHARACTER; }
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return TypesJASS.SEPARATOR; }
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return TypesJASS.VALUE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-[^]                                                         { return TokenType.BAD_CHARACTER; }

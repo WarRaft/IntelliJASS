@@ -36,6 +36,10 @@
                   language="JASS"
                   extensions="j"
         />
+        <lang.parserDefinition
+                language="JASS"
+                implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"
+        />
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

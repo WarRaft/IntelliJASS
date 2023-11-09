@@ -1,6 +1,6 @@
-package guru.xgm.jgas.lexer;
+package guru.xgm.jass.lexer;
 
-//import static guru.xgm.jgas.psi.AngelScriptElementTypes.*;
+//import static guru.xgm.jass.psi.AngelScriptElementTypes.*;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -10,7 +10,7 @@ import com.intellij.psi.tree.IElementType;
 %%
 
 %public
-%class Lexer_JGAS
+%class LexerJASS
 %implements FlexLexer
 %function advance
 %type IElementType

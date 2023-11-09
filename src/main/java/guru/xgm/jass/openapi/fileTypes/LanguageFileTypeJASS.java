@@ -1,8 +1,9 @@
 package guru.xgm.jass.openapi.fileTypes;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
 import guru.xgm.jass.lang.LanguageJASS;
 import guru.xgm.jass.icons.IconsJASS;
+
+import com.intellij.openapi.fileTypes.LanguageFileType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

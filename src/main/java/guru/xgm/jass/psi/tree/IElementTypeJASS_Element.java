@@ -1,7 +1,8 @@
 package guru.xgm.jass.psi.tree;
 
-import com.intellij.psi.tree.IElementType;
 import guru.xgm.jass.lang.LanguageJASS;
+
+import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

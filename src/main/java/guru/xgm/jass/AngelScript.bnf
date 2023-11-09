@@ -1,19 +1,19 @@
 {
   //parserUtilClass="org.intellij.sdk.language.parser.AngelScriptParserUtil"
 
-  parserClass="guru.xgm.jgas.lang.PsiParser_JGAS"
+  parserClass="guru.xgm.jass.lang.PsiParser_JASS"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-  psiClassPrefix="JGAS_"
+  psiClassPrefix="JASS_"
   psiImplClassSuffix="Impl"
 
-  psiPackage=               "guru.xgm.jgas.psi"
-  psiImplPackage=           "guru.xgm.jgas.psi.impl"
-  elementTypeHolderClass=   "guru.xgm.jgas.psi.Types_JGAS"
-  psiImplUtilClass=         "guru.xgm.jgas.psi.PsiImplUtil_JGAS"
-  elementTypeClass=         "guru.xgm.jgas.psi.tree.IElementType_Element_JGAS"
-  tokenTypeClass=           "guru.xgm.jgas.psi.tree.IElementType_Token_JGAS"
+  psiPackage=               "guru.xgm.jass.psi"
+  psiImplPackage=           "guru.xgm.jass.psi.impl"
+  elementTypeHolderClass=   "guru.xgm.jass.psi.Types_JASS"
+  psiImplUtilClass=         "guru.xgm.jass.psi.PsiImplUtil_JASS"
+  elementTypeClass=         "guru.xgm.jass.psi.tree.IElementType_Element_JASS"
+  tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementType_Token_JASS"
 
     tokens = [
 
@@ -177,8 +177,8 @@ FUNC          ::= ('shared' | 'external')* ('private' | 'protected')? ((TYPE '&'
 INTERFACE     ::= ('external' | 'shared')* ('interface') IDENTIFIER (';' | ((':' IDENTIFIER (',' IDENTIFIER)*)? '{' (VIRTPROP | INTFMTHD)* '}'))
 STRUCT        ::= ('external' | 'shared')* 'struct' IDENTIFIER (';' | STATBLOCK)
 VAR           ::= ('private'|'protected')? TYPE IDENTIFIER (( '=' (INITLIST | CONDITION)) | ARGLIST)? (',' IDENTIFIER (( '=' (INITLIST | CONDITION)) | ARGLIST)?)* ';' {
-  mixin="guru.xgm.jgas.extapi.psi.ASTWrapperPsiElement_JGAS"
-  implements="guru.xgm.jgas.psi.PsiNameIdentifierOwner_JGAS"
+  mixin="guru.xgm.jass.extapi.psi.ASTWrapperPsiElement_JASS"
+  implements="guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS"
   methods=[getIdent getName setName getNameIdentifier getPresentation]
 //  pin=5
  // recoverWhile="var_recover"
