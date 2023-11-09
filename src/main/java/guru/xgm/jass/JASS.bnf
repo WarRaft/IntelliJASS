@@ -1,0 +1,21 @@
+{
+  parserClass="guru.xgm.jass.lang.PsiParserJASS"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="JASS"
+  psiImplClassSuffix="Impl"
+
+  psiPackage=               "guru.xgm.jass.psi"
+  psiImplPackage=           "guru.xgm.jass.psi.impl"
+  elementTypeHolderClass=   "guru.xgm.jass.psi.TypesJASS"
+  psiImplUtilClass=         "guru.xgm.jass.psi.PsiImplUtilJASS"
+  elementTypeClass=         "guru.xgm.jass.psi.tree.IElementType_ElementJASS"
+  tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementType_TokenJASS"
+}
+
+jassFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY

@@ -30,6 +30,15 @@
     </change-notes>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileType name="JASS file"
+                  implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"
+                  fieldName="INSTANCE"
+                  language="JASS"
+                  extensions="j"
+        />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
         <fileType name="JGAS File"
                   implementationClass="guru.xgm.jgas.openapi.fileTypes.LanguageFileType_JGAS"
                   fieldName="INSTANCE"

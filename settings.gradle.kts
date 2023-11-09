@@ -1,1 +1,1 @@
-rootProject.name = "intellijass"
+rootProject.name = "IntelliJASS"

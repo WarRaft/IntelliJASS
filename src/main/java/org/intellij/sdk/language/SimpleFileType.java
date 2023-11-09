@@ -1,5 +1,3 @@
-
-
 package org.intellij.sdk.language;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;

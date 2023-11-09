@@ -30,7 +30,7 @@ public final class LanguageFileType_JGAS extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "j";
+        return "jgas";
     }
 
     @Override
