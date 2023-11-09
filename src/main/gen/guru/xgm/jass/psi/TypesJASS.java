@@ -10,20 +10,20 @@ import guru.xgm.jass.psi.impl.*;
 
 public interface TypesJASS {
 
-    IElementType PROPERTY = new IElementTypeJASS_Element("PROPERTY");
-    IElementType COMMENT = new IElementTypeJASS_Token("COMMENT");
-    IElementType CRLF = new IElementTypeJASS_Token("CRLF");
-    IElementType KEY = new IElementTypeJASS_Token("KEY");
-    IElementType SEPARATOR = new IElementTypeJASS_Token("SEPARATOR");
-    IElementType VALUE = new IElementTypeJASS_Token("VALUE");
+  IElementType TYPE_DECLARATION = new IElementTypeJASS_Element("TYPE_DECLARATION");
 
-    class Factory {
-        public static PsiElement createElement(ASTNode node) {
-            IElementType type = node.getElementType();
-            if (type == PROPERTY) {
-                return new JASSPropertyImpl(node);
-            }
-            throw new AssertionError("Unknown element type: " + type);
-        }
+  IElementType IDENTIFIER = new IElementTypeJASS_Token("IDENTIFIER");
+  IElementType KEYWORD_EXTENDS = new IElementTypeJASS_Token("KEYWORD_EXTENDS");
+  IElementType KEYWORD_TYPE = new IElementTypeJASS_Token("KEYWORD_TYPE");
+  IElementType SINGLE_LINE_COMMENT = new IElementTypeJASS_Token("SINGLE_LINE_COMMENT");
+
+  class Factory {
+    public static PsiElement createElement(ASTNode node) {
+      IElementType type = node.getElementType();
+      if (type == TYPE_DECLARATION) {
+        return new JASSTypeDeclarationImpl(node);
+      }
+      throw new AssertionError("Unknown element type: " + type);
     }
+  }
 }

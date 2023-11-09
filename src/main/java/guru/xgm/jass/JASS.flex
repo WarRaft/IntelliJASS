@@ -8,29 +8,24 @@ import com.intellij.psi.tree.IElementType;
 
 %%
 
+%public
 %class LexerJASS
 %implements FlexLexer
-%unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
+%unicode
 
-CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+SINGLE_LINE_COMMENT="/""/"[^\n]*
+IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
 
 %state WAITING_VALUE
 
 %%
 
 <YYINITIAL> {
-{WHITE_SPACE}{ return WHITE_SPACE; }
-"and"{ return AND; }
+{WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+//"and" { return TypesJASS.K_AND; }
 //    array = 'array',
 //    call = 'call',
 //    constant = 'constant',
@@ -42,7 +37,7 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 //    endif = 'endif',
 //    endloop = 'endloop',
 //    exitwhen = 'exitwhen',
-//    extends = 'extends',
+"extends" { return TypesJASS.KEYWORD_EXTENDS; }
 //    false = 'false',
 //    function = 'function',
 //    globals = 'globals',
@@ -59,10 +54,13 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 //    set = 'set',
 //    takes = 'takes',
 //    then = 'then',
-//    type = 'type',
-"type"{ return TYPE; }
+"type" { return TypesJASS.KEYWORD_TYPE; }
 //    true = 'true',
+
+{IDENTIFIER} { return TypesJASS.IDENTIFIER; }
+{SINGLE_LINE_COMMENT} { return TypesJASS.SINGLE_LINE_COMMENT;}
 }
+
 
 [^] { return TokenType.BAD_CHARACTER; }
 

@@ -32,68 +32,51 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return jassFile(b, l + 1);
+    return script(b, l + 1);
   }
 
   /* ********************************************************** */
-  // property|COMMENT|CRLF
-  static boolean item_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "item_")) return false;
-    boolean r;
-    r = property(b, l + 1);
-    if (!r) r = consumeToken(b, COMMENT);
-    if (!r) r = consumeToken(b, CRLF);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // item_*
-  static boolean jassFile(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "jassFile")) return false;
+  // (typeDeclaration|SINGLE_LINE_COMMENT)*
+  static boolean script(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "script")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!item_(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "jassFile", c)) break;
+      if (!script_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "script", c)) break;
     }
     return true;
   }
 
-  /* ********************************************************** */
-  // (KEY? SEPARATOR VALUE?) | KEY
-  public static boolean property(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, "<property>", KEY, SEPARATOR)) return false;
+  // typeDeclaration|SINGLE_LINE_COMMENT
+  private static boolean script_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "script_0")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = property_0(b, l + 1);
-    if (!r) r = consumeToken(b, KEY);
-    exit_section_(b, l, m, r, false, null);
+    r = typeDeclaration(b, l + 1);
+    if (!r) r = consumeToken(b, SINGLE_LINE_COMMENT);
     return r;
   }
 
-  // KEY? SEPARATOR VALUE?
-  private static boolean property_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property_0")) return false;
+  /* ********************************************************** */
+  // KEYWORD_TYPE IDENTIFIER KEYWORD_EXTENDS IDENTIFIER SINGLE_LINE_COMMENT*
+  public static boolean typeDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration")) return false;
+    if (!nextTokenIs(b, KEYWORD_TYPE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = property_0_0(b, l + 1);
-    r = r && consumeToken(b, SEPARATOR);
-    r = r && property_0_2(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = consumeTokens(b, 0, KEYWORD_TYPE, IDENTIFIER, KEYWORD_EXTENDS, IDENTIFIER);
+    r = r && typeDeclaration_4(b, l + 1);
+    exit_section_(b, m, TYPE_DECLARATION, r);
     return r;
   }
 
-  // KEY?
-  private static boolean property_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property_0_0")) return false;
-    consumeToken(b, KEY);
-    return true;
-  }
-
-  // VALUE?
-  private static boolean property_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property_0_2")) return false;
-    consumeToken(b, VALUE);
+  // SINGLE_LINE_COMMENT*
+  private static boolean typeDeclaration_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_4")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!consumeToken(b, SINGLE_LINE_COMMENT)) break;
+      if (!empty_element_parsed_guard_(b, "typeDeclaration_4", c)) break;
+    }
     return true;
   }
 

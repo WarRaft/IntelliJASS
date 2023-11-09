@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSPropertyImpl extends ASTWrapperPsiElement implements JASSProperty {
+public class JASSTypeDeclarationImpl extends ASTWrapperPsiElement implements JASSTypeDeclaration {
 
-  public JASSPropertyImpl(@NotNull ASTNode node) {
+  public JASSTypeDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitTypeDeclaration(this);
   }
 
   @Override

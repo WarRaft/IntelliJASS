@@ -29,10 +29,12 @@ final class ParserDefinitionJASS implements ParserDefinition {
         return new FlexAdapterJASS();
     }
 
+
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return TokenSetsJASS.COMMENTS;
+        //return TokenSetsJASS.COMMENTS;
+        return TokenSet.EMPTY;
     }
 
     @NotNull

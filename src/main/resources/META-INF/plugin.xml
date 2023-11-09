@@ -40,6 +40,13 @@
                 language="JASS"
                 implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"
         />
+        <lang.syntaxHighlighterFactory
+                language="JASS"
+                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"
+        />
+        <colorSettingsPage
+                implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"
+        />
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -48,9 +55,6 @@
                   fieldName="INSTANCE"
                   language="JGAS"
                   extensions="jgas"
-        />
-        <colorSettingsPage
-                implementation="guru.xgm.jgas.openapi.options.colors.ColorSettingsPage_JGAS"
         />
         <completion.contributor
                 language="JGAS"
