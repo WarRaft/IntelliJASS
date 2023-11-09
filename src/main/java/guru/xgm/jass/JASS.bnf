@@ -13,6 +13,8 @@
   tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
 }
 
-script ::= (typeDeclaration|SINGLE_LINE_COMMENT)*
+script ::= (typeDeclaration|nativeDeclaration|SINGLE_LINE_COMMENT)*
 
 typeDeclaration ::= KEYWORD_TYPE IDENTIFIER KEYWORD_EXTENDS IDENTIFIER SINGLE_LINE_COMMENT*
+nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE IDENTIFIER KEYWORD_TAKES (KEYWORD_NOTHING|variableDeclaration (COMMA variableDeclaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|IDENTIFIER)
+private variableDeclaration ::= IDENTIFIER IDENTIFIER

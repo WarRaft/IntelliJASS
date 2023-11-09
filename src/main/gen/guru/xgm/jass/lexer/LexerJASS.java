@@ -66,10 +66,12 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\16\0"+
-    "\1\3\12\4\7\0\32\5\4\0\1\5\1\0\3\5"+
-    "\1\6\1\7\10\5\1\10\1\5\1\11\2\5\1\12"+
-    "\1\13\3\5\1\14\1\15\1\5\u0185\0";
+    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\13\0"+
+    "\1\3\2\0\1\4\12\5\7\0\32\6\4\0\1\6"+
+    "\1\0\1\7\1\6\1\10\1\11\1\12\1\6\1\13"+
+    "\1\14\1\15\1\6\1\16\2\6\1\17\1\20\1\21"+
+    "\1\6\1\22\1\23\1\24\1\25\1\26\1\6\1\27"+
+    "\1\30\1\6\u0185\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -96,11 +98,12 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\1\3\3\1\4\5\3\1\5"+
-    "\2\3\1\6";
+    "\2\0\1\1\1\2\1\3\1\1\6\4\1\5\24\4"+
+    "\1\6\5\4\1\7\2\4\1\10\3\4\1\11\1\12"+
+    "\1\13\1\14";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[18];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -125,12 +128,16 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\16\0\34\0\34\0\52\0\70\0\106\0\124"+
-    "\0\142\0\160\0\176\0\214\0\232\0\250\0\70\0\266"+
-    "\0\304\0\70";
+    "\0\0\0\31\0\62\0\62\0\62\0\113\0\144\0\175"+
+    "\0\226\0\257\0\310\0\341\0\372\0\u0113\0\u012c\0\u0145"+
+    "\0\u015e\0\u0177\0\u0190\0\u01a9\0\u01c2\0\u01db\0\u01f4\0\u020d"+
+    "\0\u0226\0\u023f\0\u0258\0\u0271\0\u028a\0\u02a3\0\u02bc\0\u02d5"+
+    "\0\u02ee\0\144\0\u0307\0\u0320\0\u0339\0\u0352\0\u036b\0\144"+
+    "\0\u0384\0\u039d\0\144\0\u03b6\0\u03cf\0\u03e8\0\144\0\144"+
+    "\0\144\0\144";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[18];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -153,16 +160,30 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\1\5\1\3\2\6\1\7\3\6\1\10"+
-    "\2\6\16\3\21\0\1\11\16\0\12\6\4\0\10\6"+
-    "\1\12\1\6\4\0\11\6\1\13\2\11\1\0\13\11"+
-    "\4\0\7\6\1\14\2\6\4\0\5\6\1\15\4\6"+
-    "\4\0\3\6\1\16\6\6\4\0\3\6\1\17\6\6"+
-    "\4\0\4\6\1\20\5\6\4\0\2\6\1\21\7\6"+
-    "\4\0\6\6\1\22\3\6";
+    "\1\3\2\4\1\5\1\6\1\3\2\7\1\10\1\7"+
+    "\1\11\4\7\1\12\2\7\1\13\1\7\1\14\4\7"+
+    "\31\3\35\0\1\15\31\0\24\7\5\0\13\7\1\16"+
+    "\10\7\5\0\22\7\1\17\1\7\5\0\2\7\1\20"+
+    "\10\7\1\21\10\7\5\0\5\7\1\22\16\7\5\0"+
+    "\2\7\1\23\20\7\1\24\2\15\1\0\26\15\5\0"+
+    "\12\7\1\25\11\7\5\0\17\7\1\26\4\7\5\0"+
+    "\17\7\1\27\4\7\5\0\17\7\1\30\4\7\5\0"+
+    "\17\7\1\31\4\7\5\0\11\7\1\32\12\7\5\0"+
+    "\14\7\1\33\7\7\5\0\16\7\1\34\5\7\5\0"+
+    "\5\7\1\35\16\7\5\0\10\7\1\36\13\7\5\0"+
+    "\7\7\1\37\14\7\5\0\20\7\1\40\3\7\5\0"+
+    "\5\7\1\41\16\7\5\0\5\7\1\42\16\7\5\0"+
+    "\17\7\1\43\4\7\5\0\12\7\1\44\11\7\5\0"+
+    "\21\7\1\45\2\7\5\0\10\7\1\46\13\7\5\0"+
+    "\15\7\1\47\6\7\5\0\16\7\1\50\5\7\5\0"+
+    "\2\7\1\51\21\7\5\0\4\7\1\52\17\7\5\0"+
+    "\5\7\1\53\16\7\5\0\12\7\1\54\11\7\5\0"+
+    "\12\7\1\55\11\7\5\0\12\7\1\56\11\7\5\0"+
+    "\16\7\1\57\5\7\5\0\6\7\1\60\15\7\5\0"+
+    "\16\7\1\61\5\7\5\0\17\7\1\62\4\7";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[210];
+    int [] result = new int[1025];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -200,10 +221,10 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\2\11\16\1";
+    "\2\0\3\11\55\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[18];
+    int [] result = new int[50];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -516,32 +537,62 @@ public class LexerJASS implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 7: break;
+          case 13: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 8: break;
+          case 14: break;
           case 3:
+            { return TypesJASS.COMMA;
+            }
+          // fall through
+          case 15: break;
+          case 4:
             { return TypesJASS.IDENTIFIER;
             }
           // fall through
-          case 9: break;
-          case 4:
+          case 16: break;
+          case 5:
             { return TypesJASS.SINGLE_LINE_COMMENT;
             }
           // fall through
-          case 10: break;
-          case 5:
+          case 17: break;
+          case 6:
             { return TypesJASS.KEYWORD_TYPE;
             }
           // fall through
-          case 11: break;
-          case 6:
+          case 18: break;
+          case 7:
+            { return TypesJASS.KEYWORD_TAKES;
+            }
+          // fall through
+          case 19: break;
+          case 8:
+            { return TypesJASS.KEYWORD_NATIVE;
+            }
+          // fall through
+          case 20: break;
+          case 9:
             { return TypesJASS.KEYWORD_EXTENDS;
             }
           // fall through
-          case 12: break;
+          case 21: break;
+          case 10:
+            { return TypesJASS.KEYWORD_NOTHING;
+            }
+          // fall through
+          case 22: break;
+          case 11:
+            { return TypesJASS.KEYWORD_RETURNS;
+            }
+          // fall through
+          case 23: break;
+          case 12:
+            { return TypesJASS.KEYWORD_CONSTANT;
+            }
+          // fall through
+          case 24: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

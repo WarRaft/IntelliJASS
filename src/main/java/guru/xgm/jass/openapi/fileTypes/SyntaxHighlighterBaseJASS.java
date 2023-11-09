@@ -42,6 +42,11 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         // keyword
         if (tokenType == TypesJASS.KEYWORD_TYPE) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_EXTENDS) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_CONSTANT) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_NATIVE) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_TAKES) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_RETURNS) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_NOTHING) return KEYWORD_KEYS;
         // comment
         if (tokenType == TypesJASS.SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
         // bad

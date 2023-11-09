@@ -28,7 +28,7 @@ IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
 //"and" { return TypesJASS.K_AND; }
 //    array = 'array',
 //    call = 'call',
-//    constant = 'constant',
+"constant" { return TypesJASS.KEYWORD_CONSTANT; }
 //    debug = 'debug',
 //    else = 'else',
 //    elseif = 'elseif',
@@ -44,18 +44,22 @@ IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
 //    if = 'if',
 //    local = 'local',
 //    loop = 'loop',
-//    native = 'native',
+"native" { return TypesJASS.KEYWORD_NATIVE; }
 //    not = 'not',
 //    null = 'null',
 //    nothing = 'nothing',
+"nothing" { return TypesJASS.KEYWORD_NOTHING; }
 //    or = 'or',
 //    returns = 'returns',
+"returns" { return TypesJASS.KEYWORD_RETURNS; }
 //    return = 'return',
 //    set = 'set',
-//    takes = 'takes',
+"takes" { return TypesJASS.KEYWORD_TAKES; }
 //    then = 'then',
 "type" { return TypesJASS.KEYWORD_TYPE; }
 //    true = 'true',
+
+"," { return TypesJASS.COMMA; }
 
 {IDENTIFIER} { return TypesJASS.IDENTIFIER; }
 {SINGLE_LINE_COMMENT} { return TypesJASS.SINGLE_LINE_COMMENT;}

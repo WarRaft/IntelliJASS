@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class JASSVisitor extends PsiElementVisitor {
 
+  public void visitNativeDeclaration(@NotNull JASSNativeDeclaration o) {
+    visitPsiElement(o);
+  }
+
   public void visitTypeDeclaration(@NotNull JASSTypeDeclaration o) {
     visitPsiElement(o);
   }
