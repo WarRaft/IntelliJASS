@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements JASSNativeDeclaration {
+public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements JASSVariableDeclaration {
 
-  public JASSNativeDeclarationImpl(@NotNull ASTNode node) {
+  public JASSVariableDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitNativeDeclaration(this);
+    visitor.visitVariableDeclaration(this);
   }
 
   @Override
@@ -28,21 +28,21 @@ public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements J
   }
 
   @Override
+  @Nullable
+  public JASSExpression getExpression() {
+    return findChildByClass(JASSExpression.class);
+  }
+
+  @Override
   @NotNull
-  public List<JASSArgumentDelaration> getArgumentDelarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSArgumentDelaration.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSFunctionName getFunctionName() {
-    return findChildByClass(JASSFunctionName.class);
-  }
-
-  @Override
-  @Nullable
   public JASSType getType() {
-    return findChildByClass(JASSType.class);
+    return findNotNullChildByClass(JASSType.class);
+  }
+
+  @Override
+  @NotNull
+  public JASSVariable getVariable() {
+    return findNotNullChildByClass(JASSVariable.class);
   }
 
 }

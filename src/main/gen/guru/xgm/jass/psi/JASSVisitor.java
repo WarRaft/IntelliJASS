@@ -7,15 +7,43 @@ import com.intellij.psi.PsiElement;
 
 public class JASSVisitor extends PsiElementVisitor {
 
+  public void visitAddition(@NotNull JASSAddition o) {
+    visitPsiElement(o);
+  }
+
   public void visitArgumentDelaration(@NotNull JASSArgumentDelaration o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionDeclaration(@NotNull JASSFunctionDeclaration o) {
+  public void visitExpression(@NotNull JASSExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionCall(@NotNull JASSFunctionCall o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionName(@NotNull JASSFunctionName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitGlobalsDeclaration(@NotNull JASSGlobalsDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMultiplication(@NotNull JASSMultiplication o) {
     visitPsiElement(o);
   }
 
   public void visitNativeDeclaration(@NotNull JASSNativeDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPrimary(@NotNull JASSPrimary o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPrimaryTerm(@NotNull JASSPrimaryTerm o) {
     visitPsiElement(o);
   }
 
@@ -28,6 +56,10 @@ public class JASSVisitor extends PsiElementVisitor {
   }
 
   public void visitVariable(@NotNull JASSVariable o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVariableDeclaration(@NotNull JASSVariableDeclaration o) {
     visitPsiElement(o);
   }
 

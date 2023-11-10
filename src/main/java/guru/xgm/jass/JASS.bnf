@@ -16,86 +16,46 @@
 script ::= (
 typeDeclaration
 |nativeDeclaration
+|globalsDeclaration
 |SINGLE_LINE_COMMENT)* {recoverWhile="scriptRecover"}
-private scriptRecover ::= !(KEYWORD_TYPE|KEYWORD_CONSTANT|KEYWORD_NATIVE|SINGLE_LINE_COMMENT)
+private scriptRecover ::= !(
+KEYWORD_TYPE
+|KEYWORD_CONSTANT
+|KEYWORD_NATIVE
+|KEYWORD_GLOBALS
+)
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
+
+
 
 typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
-nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionDeclaration KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
+nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
+globalsDeclaration ::= KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS {pin=1}
+variableDeclaration ::= KEYWORD_CONSTANT? type variable (ASSIGN expression)? {pin=3}
 
 type ::= IDENTIFIER
 variable ::= IDENTIFIER
-functionDeclaration ::= IDENTIFIER
+functionName ::= IDENTIFIER
 argumentDelaration ::= type variable
 
-/*
-<program> ::= <declaration-list> <function-definition>
+functionCall ::= IDENTIFIER LPAREN (expression (COMMA expression)*)? RPAREN {pin=1}
 
-<declaration-list> ::= <declaration> | <declaration> <declaration-list>
 
-<declaration> ::= "type" <type-name> "extends" "handle"
-               | "constant" "native" <function-name> "takes" <parameter-list> "returns" <return-type>
 
-<function-definition> ::= "function" <function-name> <parameter-list> <return-type> <function-body> "endfunction"
-
-<type-name> ::= "timetype" | "variabletype" | "jassthread" | "handlelist" | "textfilehandle"
-
-<function-name> ::= <identifier>
-
-<parameter-list> ::= <parameter> | <parameter> "," <parameter-list>
-
-<parameter> ::= <parameter-type> <parameter-name>
-
-<parameter-type> ::= "integer" | "real" | "string" | "boolean" | "player" | "unit" | "..." | "code"
-
-<parameter-name> ::= <identifier>
-
-<return-type> ::= <type-name>
-
-<function-body> ::= <statement-list>
-
-<statement-list> ::= <statement> | <statement> <statement-list>
-
-<statement> ::= <assignment-statement> | <function-call> | "if" <condition> "then" <statement> "endif" | ...
-
-<assignment-statement> ::= <identifier> "=" <expression>
-
-<function-call> ::= <function-name> "(" <argument-list> ")"
-
-<argument-list> ::= <expression> | <expression> "," <argument-list>
-
-<expression> ::= <literal> | <identifier> | <function-call> | ...
-
-<literal> ::= <integer> | <real> | <string> | "true" | "false"
-
-<condition> ::= <expression> <comparison-operator> <expression>
-
-<comparison-operator> ::= "==" | "!=" | "<" | "<=" | ">" | ">="
- */
-
+// expression
+expression ::= addition ((AND|OR) addition)*
+addition ::= multiplication ((PLUS|MINUS) multiplication)*
+multiplication ::= primary ((MUL|DIV) primary)*
+primary ::= primaryTerm | not primary
+primaryTerm ::= MINUS? INTEGER|functionCall|IDENTIFIER
 
 /*
-<expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
+file ::= expr*
 
-<term> ::= <factor> | <factor> "*" <term>
+expr ::=  plus_expr | expr_
+expr_ ::= array_ref_expr | const_expr
 
-<factor> ::= <primary> | "-" <primary>
-
-<primary> ::= <literal> | <identifier> | "(" <expression> ")" | <function-call>
-
-<literal> ::= <integer> | <real>
-
-<function-call> ::= <function-name> "(" <argument-list> ")"
-
-<argument-list> ::= <expression> | <expression> "," <argument-list>
-
-<identifier> ::= <identifier-name>
-
-<identifier-name> ::= ...  // Здесь следует определить правила для имени переменной или функции
-
-<function-name> ::= ...  // Здесь следует определить правила для имени функции
-
-<integer> ::= ...  // Здесь следует определить правила для целых чисел
-
-<real> ::= ...  // Здесь следует определить правила для чисел с плавающей запятой
-
+plus_expr ::= expr_ '+' expr
+const_expr ::= number
+array_ref_expr ::= id '[' expr ']'
  */

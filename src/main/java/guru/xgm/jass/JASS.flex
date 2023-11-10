@@ -17,7 +17,8 @@ import com.intellij.psi.tree.IElementType;
 
 WHITE_SPACE=[\ \n\t\f]
 SINGLE_LINE_COMMENT="/""/"[^\n]*
-IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
+IDENTIFIER=[A-Za-z_][_0-9A-Za-z]*
+INTEGER=[0-9]+
 
 %state WAITING_VALUE
 
@@ -33,19 +34,19 @@ IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
 //    else = 'else',
 //    elseif = 'elseif',
 //    endfunction = 'endfunction',
-//    endglobals = 'endglobals',
+"endglobals" { return TypesJASS.KEYWORD_ENDGLOBALS; }
 //    endif = 'endif',
 //    endloop = 'endloop',
 //    exitwhen = 'exitwhen',
 "extends" { return TypesJASS.KEYWORD_EXTENDS; }
 //    false = 'false',
 //    function = 'function',
-//    globals = 'globals',
+"globals" { return TypesJASS.KEYWORD_GLOBALS; }
 //    if = 'if',
 //    local = 'local',
 //    loop = 'loop',
 "native" { return TypesJASS.KEYWORD_NATIVE; }
-//    not = 'not',
+"not" { return TypesJASS.NOT; }
 //    null = 'null',
 //    nothing = 'nothing',
 "nothing" { return TypesJASS.KEYWORD_NOTHING; }
@@ -60,8 +61,16 @@ IDENTIFIER=([A-Za-z_][_0-9A-Za-z]*)
 //    true = 'true',
 
 "," { return TypesJASS.COMMA; }
+"=" { return TypesJASS.ASSIGN;}
+"+" { return TypesJASS.PLUS;}
+"-" { return TypesJASS.MINUS;}
+"*" { return TypesJASS.MUL;}
+"/" { return TypesJASS.DIV;}
+"(" { return TypesJASS.LPAREN;}
+"(" { return TypesJASS.RPAREN;}
 
 {IDENTIFIER} { return TypesJASS.IDENTIFIER; }
+{INTEGER} { return TypesJASS.INTEGER; }
 {SINGLE_LINE_COMMENT} { return TypesJASS.SINGLE_LINE_COMMENT;}
 }
 

@@ -36,6 +36,49 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // multiplication ((PLUS|MINUS) multiplication)*
+  public static boolean addition(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "addition")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ADDITION, "<addition>");
+    r = multiplication(b, l + 1);
+    r = r && addition_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ((PLUS|MINUS) multiplication)*
+  private static boolean addition_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "addition_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!addition_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "addition_1", c)) break;
+    }
+    return true;
+  }
+
+  // (PLUS|MINUS) multiplication
+  private static boolean addition_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "addition_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = addition_1_0_0(b, l + 1);
+    r = r && multiplication(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // PLUS|MINUS
+  private static boolean addition_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "addition_1_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, PLUS);
+    if (!r) r = consumeToken(b, MINUS);
+    return r;
+  }
+
+  /* ********************************************************** */
   // type variable
   public static boolean argumentDelaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argumentDelaration")) return false;
@@ -49,19 +92,196 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER
-  public static boolean functionDeclaration(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionDeclaration")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+  // addition ((AND|OR) addition)*
+  public static boolean expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
+    r = addition(b, l + 1);
+    r = r && expression_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ((AND|OR) addition)*
+  private static boolean expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!expression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "expression_1", c)) break;
+    }
+    return true;
+  }
+
+  // (AND|OR) addition
+  private static boolean expression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, FUNCTION_DECLARATION, r);
+    r = expression_1_0_0(b, l + 1);
+    r = r && addition(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // AND|OR
+  private static boolean expression_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_1_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, AND);
+    if (!r) r = consumeToken(b, OR);
     return r;
   }
 
   /* ********************************************************** */
-  // KEYWORD_CONSTANT? KEYWORD_NATIVE functionDeclaration KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type)
+  // IDENTIFIER LPAREN (expression (COMMA expression)*)? RPAREN
+  public static boolean functionCall(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, null);
+    r = consumeTokens(b, 1, IDENTIFIER, LPAREN);
+    p = r; // pin = 1
+    r = r && report_error_(b, functionCall_2(b, l + 1));
+    r = p && consumeToken(b, RPAREN) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // (expression (COMMA expression)*)?
+  private static boolean functionCall_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2")) return false;
+    functionCall_2_0(b, l + 1);
+    return true;
+  }
+
+  // expression (COMMA expression)*
+  private static boolean functionCall_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = expression(b, l + 1);
+    r = r && functionCall_2_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA expression)*
+  private static boolean functionCall_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!functionCall_2_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "functionCall_2_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA expression
+  private static boolean functionCall_2_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IDENTIFIER
+  public static boolean functionName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionName")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, FUNCTION_NAME, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS
+  public static boolean globalsDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalsDeclaration")) return false;
+    if (!nextTokenIs(b, KEYWORD_GLOBALS)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, GLOBALS_DECLARATION, null);
+    r = consumeToken(b, KEYWORD_GLOBALS);
+    p = r; // pin = 1
+    r = r && report_error_(b, globalsDeclaration_1(b, l + 1));
+    r = p && consumeToken(b, KEYWORD_ENDGLOBALS) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // (variableDeclaration)*
+  private static boolean globalsDeclaration_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalsDeclaration_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!globalsDeclaration_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "globalsDeclaration_1", c)) break;
+    }
+    return true;
+  }
+
+  // (variableDeclaration)
+  private static boolean globalsDeclaration_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalsDeclaration_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = variableDeclaration(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // primary ((MUL|DIV) primary)*
+  public static boolean multiplication(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplication")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, MULTIPLICATION, "<multiplication>");
+    r = primary(b, l + 1);
+    r = r && multiplication_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ((MUL|DIV) primary)*
+  private static boolean multiplication_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplication_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!multiplication_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multiplication_1", c)) break;
+    }
+    return true;
+  }
+
+  // (MUL|DIV) primary
+  private static boolean multiplication_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplication_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = multiplication_1_0_0(b, l + 1);
+    r = r && primary(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // MUL|DIV
+  private static boolean multiplication_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplication_1_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, MUL);
+    if (!r) r = consumeToken(b, DIV);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type)
   public static boolean nativeDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nativeDeclaration")) return false;
     if (!nextTokenIs(b, "<native declaration>", KEYWORD_CONSTANT, KEYWORD_NATIVE)) return false;
@@ -70,7 +290,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     r = nativeDeclaration_0(b, l + 1);
     r = r && consumeToken(b, KEYWORD_NATIVE);
     p = r; // pin = 2
-    r = r && report_error_(b, functionDeclaration(b, l + 1));
+    r = r && report_error_(b, functionName(b, l + 1));
     r = p && report_error_(b, consumeToken(b, KEYWORD_TAKES)) && r;
     r = p && report_error_(b, nativeDeclaration_4(b, l + 1)) && r;
     r = p && report_error_(b, consumeToken(b, KEYWORD_RETURNS)) && r;
@@ -140,9 +360,64 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // primaryTerm | not primary
+  public static boolean primary(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primary")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PRIMARY, "<primary>");
+    r = primaryTerm(b, l + 1);
+    if (!r) r = primary_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // not primary
+  private static boolean primary_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primary_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NOT);
+    r = r && primary(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // MINUS? INTEGER|functionCall|IDENTIFIER
+  public static boolean primaryTerm(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTerm")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PRIMARY_TERM, "<primary term>");
+    r = primaryTerm_0(b, l + 1);
+    if (!r) r = functionCall(b, l + 1);
+    if (!r) r = consumeToken(b, IDENTIFIER);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // MINUS? INTEGER
+  private static boolean primaryTerm_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTerm_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = primaryTerm_0_0(b, l + 1);
+    r = r && consumeToken(b, INTEGER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // MINUS?
+  private static boolean primaryTerm_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTerm_0_0")) return false;
+    consumeToken(b, MINUS);
+    return true;
+  }
+
+  /* ********************************************************** */
   // (
   // typeDeclaration
   // |nativeDeclaration
+  // |globalsDeclaration
   // |SINGLE_LINE_COMMENT)*
   static boolean script(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "script")) return false;
@@ -158,18 +433,25 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
 
   // typeDeclaration
   // |nativeDeclaration
+  // |globalsDeclaration
   // |SINGLE_LINE_COMMENT
   private static boolean script_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "script_0")) return false;
     boolean r;
     r = typeDeclaration(b, l + 1);
     if (!r) r = nativeDeclaration(b, l + 1);
+    if (!r) r = globalsDeclaration(b, l + 1);
     if (!r) r = consumeToken(b, SINGLE_LINE_COMMENT);
     return r;
   }
 
   /* ********************************************************** */
-  // !(KEYWORD_TYPE|KEYWORD_CONSTANT|KEYWORD_NATIVE|SINGLE_LINE_COMMENT)
+  // !(
+  // KEYWORD_TYPE
+  // |KEYWORD_CONSTANT
+  // |KEYWORD_NATIVE
+  // |KEYWORD_GLOBALS
+  // )
   static boolean scriptRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "scriptRecover")) return false;
     boolean r;
@@ -179,14 +461,17 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // KEYWORD_TYPE|KEYWORD_CONSTANT|KEYWORD_NATIVE|SINGLE_LINE_COMMENT
+  // KEYWORD_TYPE
+  // |KEYWORD_CONSTANT
+  // |KEYWORD_NATIVE
+  // |KEYWORD_GLOBALS
   private static boolean scriptRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "scriptRecover_0")) return false;
     boolean r;
     r = consumeToken(b, KEYWORD_TYPE);
     if (!r) r = consumeToken(b, KEYWORD_CONSTANT);
     if (!r) r = consumeToken(b, KEYWORD_NATIVE);
-    if (!r) r = consumeToken(b, SINGLE_LINE_COMMENT);
+    if (!r) r = consumeToken(b, KEYWORD_GLOBALS);
     return r;
   }
 
@@ -227,6 +512,47 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER);
     exit_section_(b, m, VARIABLE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KEYWORD_CONSTANT? type variable (ASSIGN expression)?
+  public static boolean variableDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variableDeclaration")) return false;
+    if (!nextTokenIs(b, "<variable declaration>", IDENTIFIER, KEYWORD_CONSTANT)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, VARIABLE_DECLARATION, "<variable declaration>");
+    r = variableDeclaration_0(b, l + 1);
+    r = r && type(b, l + 1);
+    r = r && variable(b, l + 1);
+    p = r; // pin = 3
+    r = r && variableDeclaration_3(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // KEYWORD_CONSTANT?
+  private static boolean variableDeclaration_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variableDeclaration_0")) return false;
+    consumeToken(b, KEYWORD_CONSTANT);
+    return true;
+  }
+
+  // (ASSIGN expression)?
+  private static boolean variableDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variableDeclaration_3")) return false;
+    variableDeclaration_3_0(b, l + 1);
+    return true;
+  }
+
+  // ASSIGN expression
+  private static boolean variableDeclaration_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variableDeclaration_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ASSIGN);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

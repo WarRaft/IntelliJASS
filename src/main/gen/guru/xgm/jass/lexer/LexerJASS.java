@@ -66,12 +66,13 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\13\0"+
-    "\1\3\2\0\1\4\12\5\7\0\32\6\4\0\1\6"+
-    "\1\0\1\7\1\6\1\10\1\11\1\12\1\6\1\13"+
-    "\1\14\1\15\1\6\1\16\2\6\1\17\1\20\1\21"+
-    "\1\6\1\22\1\23\1\24\1\25\1\26\1\6\1\27"+
-    "\1\30\1\6\u0185\0";
+    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\7\0"+
+    "\1\3\1\0\1\4\1\5\1\6\1\7\1\0\1\10"+
+    "\12\11\3\0\1\12\3\0\32\13\4\0\1\13\1\0"+
+    "\1\14\1\15\1\16\1\17\1\20\1\13\1\21\1\22"+
+    "\1\23\1\13\1\24\1\25\1\13\1\26\1\27\1\30"+
+    "\1\13\1\31\1\32\1\33\1\34\1\35\1\13\1\36"+
+    "\1\37\1\13\u0185\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -98,12 +99,13 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\3\1\1\6\4\1\5\24\4"+
-    "\1\6\5\4\1\7\2\4\1\10\3\4\1\11\1\12"+
-    "\1\13\1\14";
+    "\2\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\10\1\11\1\12\7\13\1\14\16\13\1\15\13\13"+
+    "\1\16\7\13\1\17\4\13\1\20\4\13\1\21\1\22"+
+    "\1\23\1\24\1\25\2\13\1\26";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[50];
+    int [] result = new int[72];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -128,16 +130,18 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\31\0\62\0\62\0\62\0\113\0\144\0\175"+
-    "\0\226\0\257\0\310\0\341\0\372\0\u0113\0\u012c\0\u0145"+
-    "\0\u015e\0\u0177\0\u0190\0\u01a9\0\u01c2\0\u01db\0\u01f4\0\u020d"+
-    "\0\u0226\0\u023f\0\u0258\0\u0271\0\u028a\0\u02a3\0\u02bc\0\u02d5"+
-    "\0\u02ee\0\144\0\u0307\0\u0320\0\u0339\0\u0352\0\u036b\0\144"+
-    "\0\u0384\0\u039d\0\144\0\u03b6\0\u03cf\0\u03e8\0\144\0\144"+
-    "\0\144\0\144";
+    "\0\0\0\40\0\100\0\100\0\100\0\100\0\100\0\100"+
+    "\0\100\0\140\0\200\0\100\0\240\0\300\0\340\0\u0100"+
+    "\0\u0120\0\u0140\0\u0160\0\u0180\0\u01a0\0\u01c0\0\u01e0\0\u0200"+
+    "\0\u0220\0\u0240\0\u0260\0\u0280\0\u02a0\0\u02c0\0\u02e0\0\u0300"+
+    "\0\u0320\0\u0340\0\u0360\0\u0380\0\u03a0\0\u03c0\0\u03e0\0\u0400"+
+    "\0\u0420\0\u0440\0\u0460\0\u0480\0\u04a0\0\u04c0\0\240\0\u04e0"+
+    "\0\u0500\0\u0520\0\u0540\0\u0560\0\u0580\0\u05a0\0\240\0\u05c0"+
+    "\0\u05e0\0\u0600\0\u0620\0\240\0\u0640\0\u0660\0\u0680\0\u06a0"+
+    "\0\240\0\240\0\240\0\240\0\240\0\u06c0\0\u06e0\0\240";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[50];
+    int [] result = new int[72];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -160,30 +164,51 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\1\5\1\6\1\3\2\7\1\10\1\7"+
-    "\1\11\4\7\1\12\2\7\1\13\1\7\1\14\4\7"+
-    "\31\3\35\0\1\15\31\0\24\7\5\0\13\7\1\16"+
-    "\10\7\5\0\22\7\1\17\1\7\5\0\2\7\1\20"+
-    "\10\7\1\21\10\7\5\0\5\7\1\22\16\7\5\0"+
-    "\2\7\1\23\20\7\1\24\2\15\1\0\26\15\5\0"+
-    "\12\7\1\25\11\7\5\0\17\7\1\26\4\7\5\0"+
-    "\17\7\1\27\4\7\5\0\17\7\1\30\4\7\5\0"+
-    "\17\7\1\31\4\7\5\0\11\7\1\32\12\7\5\0"+
-    "\14\7\1\33\7\7\5\0\16\7\1\34\5\7\5\0"+
-    "\5\7\1\35\16\7\5\0\10\7\1\36\13\7\5\0"+
-    "\7\7\1\37\14\7\5\0\20\7\1\40\3\7\5\0"+
-    "\5\7\1\41\16\7\5\0\5\7\1\42\16\7\5\0"+
-    "\17\7\1\43\4\7\5\0\12\7\1\44\11\7\5\0"+
-    "\21\7\1\45\2\7\5\0\10\7\1\46\13\7\5\0"+
-    "\15\7\1\47\6\7\5\0\16\7\1\50\5\7\5\0"+
-    "\2\7\1\51\21\7\5\0\4\7\1\52\17\7\5\0"+
-    "\5\7\1\53\16\7\5\0\12\7\1\54\11\7\5\0"+
-    "\12\7\1\55\11\7\5\0\12\7\1\56\11\7\5\0"+
-    "\16\7\1\57\5\7\5\0\6\7\1\60\15\7\5\0"+
-    "\16\7\1\61\5\7\5\0\17\7\1\62\4\7";
+    "\1\3\2\4\1\5\1\6\1\7\1\10\1\11\1\12"+
+    "\1\13\1\14\3\15\1\16\1\15\1\17\1\20\4\15"+
+    "\1\21\2\15\1\22\1\15\1\23\4\15\40\3\50\0"+
+    "\1\24\40\0\1\13\37\0\1\15\1\0\25\15\11\0"+
+    "\1\15\1\0\14\15\1\25\10\15\11\0\1\15\1\0"+
+    "\13\15\1\26\7\15\1\27\1\15\11\0\1\15\1\0"+
+    "\12\15\1\30\12\15\11\0\1\15\1\0\1\15\1\31"+
+    "\12\15\1\32\10\15\11\0\1\15\1\0\5\15\1\33"+
+    "\17\15\11\0\1\15\1\0\1\15\1\34\22\15\1\35"+
+    "\2\24\1\0\35\24\11\0\1\15\1\0\13\15\1\36"+
+    "\11\15\11\0\1\15\1\0\4\15\1\37\20\15\11\0"+
+    "\1\15\1\0\20\15\1\40\4\15\11\0\1\15\1\0"+
+    "\14\15\1\41\10\15\11\0\1\15\1\0\20\15\1\42"+
+    "\4\15\11\0\1\15\1\0\20\15\1\43\4\15\11\0"+
+    "\1\15\1\0\20\15\1\44\4\15\11\0\1\15\1\0"+
+    "\11\15\1\45\13\15\11\0\1\15\1\0\15\15\1\46"+
+    "\7\15\11\0\1\15\1\0\17\15\1\47\5\15\11\0"+
+    "\1\15\1\0\6\15\1\50\16\15\11\0\1\15\1\0"+
+    "\5\15\1\51\17\15\11\0\1\15\1\0\2\15\1\52"+
+    "\22\15\11\0\1\15\1\0\10\15\1\53\14\15\11\0"+
+    "\1\15\1\0\7\15\1\54\15\15\11\0\1\15\1\0"+
+    "\21\15\1\55\3\15\11\0\1\15\1\0\5\15\1\56"+
+    "\17\15\11\0\1\15\1\0\5\15\1\57\17\15\11\0"+
+    "\1\15\1\0\20\15\1\60\4\15\11\0\1\15\1\0"+
+    "\12\15\1\61\12\15\11\0\1\15\1\0\13\15\1\62"+
+    "\11\15\11\0\1\15\1\0\1\15\1\63\23\15\11\0"+
+    "\1\15\1\0\22\15\1\64\2\15\11\0\1\15\1\0"+
+    "\10\15\1\65\14\15\11\0\1\15\1\0\16\15\1\66"+
+    "\6\15\11\0\1\15\1\0\17\15\1\67\5\15\11\0"+
+    "\1\15\1\0\1\15\1\70\23\15\11\0\1\15\1\0"+
+    "\14\15\1\71\10\15\11\0\1\15\1\0\4\15\1\72"+
+    "\20\15\11\0\1\15\1\0\12\15\1\73\12\15\11\0"+
+    "\1\15\1\0\5\15\1\74\17\15\11\0\1\15\1\0"+
+    "\13\15\1\75\11\15\11\0\1\15\1\0\13\15\1\76"+
+    "\11\15\11\0\1\15\1\0\13\15\1\77\11\15\11\0"+
+    "\1\15\1\0\2\15\1\100\22\15\11\0\1\15\1\0"+
+    "\17\15\1\101\5\15\11\0\1\15\1\0\17\15\1\102"+
+    "\5\15\11\0\1\15\1\0\6\15\1\103\16\15\11\0"+
+    "\1\15\1\0\17\15\1\104\5\15\11\0\1\15\1\0"+
+    "\20\15\1\105\4\15\11\0\1\15\1\0\1\15\1\106"+
+    "\23\15\11\0\1\15\1\0\12\15\1\107\12\15\11\0"+
+    "\1\15\1\0\17\15\1\110\5\15";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1025];
+    int [] result = new int[1792];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -221,10 +246,10 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\3\11\55\1";
+    "\2\0\7\11\2\1\1\11\74\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[50];
+    int [] result = new int[72];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -537,62 +562,112 @@ public class LexerJASS implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 13: break;
+          case 23: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 14: break;
+          case 24: break;
           case 3:
+            { return TypesJASS.LPAREN;
+            }
+          // fall through
+          case 25: break;
+          case 4:
+            { return TypesJASS.MUL;
+            }
+          // fall through
+          case 26: break;
+          case 5:
+            { return TypesJASS.PLUS;
+            }
+          // fall through
+          case 27: break;
+          case 6:
             { return TypesJASS.COMMA;
             }
           // fall through
-          case 15: break;
-          case 4:
+          case 28: break;
+          case 7:
+            { return TypesJASS.MINUS;
+            }
+          // fall through
+          case 29: break;
+          case 8:
+            { return TypesJASS.DIV;
+            }
+          // fall through
+          case 30: break;
+          case 9:
+            { return TypesJASS.INTEGER;
+            }
+          // fall through
+          case 31: break;
+          case 10:
+            { return TypesJASS.ASSIGN;
+            }
+          // fall through
+          case 32: break;
+          case 11:
             { return TypesJASS.IDENTIFIER;
             }
           // fall through
-          case 16: break;
-          case 5:
+          case 33: break;
+          case 12:
             { return TypesJASS.SINGLE_LINE_COMMENT;
             }
           // fall through
-          case 17: break;
-          case 6:
+          case 34: break;
+          case 13:
+            { return TypesJASS.NOT;
+            }
+          // fall through
+          case 35: break;
+          case 14:
             { return TypesJASS.KEYWORD_TYPE;
             }
           // fall through
-          case 18: break;
-          case 7:
+          case 36: break;
+          case 15:
             { return TypesJASS.KEYWORD_TAKES;
             }
           // fall through
-          case 19: break;
-          case 8:
+          case 37: break;
+          case 16:
             { return TypesJASS.KEYWORD_NATIVE;
             }
           // fall through
-          case 20: break;
-          case 9:
+          case 38: break;
+          case 17:
             { return TypesJASS.KEYWORD_EXTENDS;
             }
           // fall through
-          case 21: break;
-          case 10:
+          case 39: break;
+          case 18:
+            { return TypesJASS.KEYWORD_GLOBALS;
+            }
+          // fall through
+          case 40: break;
+          case 19:
             { return TypesJASS.KEYWORD_NOTHING;
             }
           // fall through
-          case 22: break;
-          case 11:
+          case 41: break;
+          case 20:
             { return TypesJASS.KEYWORD_RETURNS;
             }
           // fall through
-          case 23: break;
-          case 12:
+          case 42: break;
+          case 21:
             { return TypesJASS.KEYWORD_CONSTANT;
             }
           // fall through
-          case 24: break;
+          case 43: break;
+          case 22:
+            { return TypesJASS.KEYWORD_ENDGLOBALS;
+            }
+          // fall through
+          case 44: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSNativeDeclaration extends PsiElement {
+public interface JASSVariableDeclaration extends PsiElement {
+
+  @Nullable
+  JASSExpression getExpression();
 
   @NotNull
-  List<JASSArgumentDelaration> getArgumentDelarationList();
-
-  @Nullable
-  JASSFunctionName getFunctionName();
-
-  @Nullable
   JASSType getType();
+
+  @NotNull
+  JASSVariable getVariable();
 
 }

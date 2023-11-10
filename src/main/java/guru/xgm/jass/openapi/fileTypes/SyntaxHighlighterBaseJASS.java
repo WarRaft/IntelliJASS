@@ -33,8 +33,8 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
     public static final TextAttributesKey COMMA = createTextAttributesKey("JASS_COMMA", DefaultLanguageHighlighterColors.COMMA);
     private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{COMMA};
     // FUNCTION_DECLARATION
-    public static final TextAttributesKey FUNCTION_DECLARATION = createTextAttributesKey("JASS_FUNCTION_DECLARATION", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
-    private static final TextAttributesKey[] FUNCTION_DECLARATION_KEYS = new TextAttributesKey[]{FUNCTION_DECLARATION};
+    public static final TextAttributesKey NUMBER = createTextAttributesKey("JASS_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+    private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
 
 
     @NotNull
@@ -54,11 +54,14 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         if (tokenType == TypesJASS.KEYWORD_TAKES) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_RETURNS) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_NOTHING) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_GLOBALS) return KEYWORD_KEYS;
+        if (tokenType == TypesJASS.KEYWORD_ENDGLOBALS) return KEYWORD_KEYS;
 
         if (tokenType == TypesJASS.SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == TypesJASS.COMMA) return COMMA_KEYS;
-        if (tokenType == TypesJASS.FUNCTION_DECLARATION) return FUNCTION_DECLARATION_KEYS;
+
+        if (tokenType == TypesJASS.INTEGER) return NUMBER_KEYS;
 
 
         return EMPTY_KEYS;

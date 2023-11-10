@@ -180,54 +180,62 @@ VAR           ::= ('private'|'protected')? TYPE IDENTIFIER (( '=' (INITLIST | CO
   mixin="guru.xgm.jass.extapi.psi.ASTWrapperPsiElement_JASS"
   implements="guru.xgm.jass.psi.PsiNameIdentifierOwner_JASS"
   methods=[getIdent getName setName getNameIdentifier getPresentation]
-//  pin=5
- // recoverWhile="var_recover"
+  pin=5
+  recoverWhile="var_recover"
 }
 private var_recover ::= !(';' | TYPE)
 IMPORT        ::= 'import' TYPE '&'? IDENTIFIER PARAMLIST FUNCATTR 'from' STRING ';' {pin=1}
-ENUM          ::= ('shared' | 'external')* 'enum' IDENTIFIER (';' | ('{' (IDENTIFIER ('=' EXPR)? (',' IDENTIFIER ('=' EXPR)?)* ',' ?)? '}')) {pin=2}
+ENUM          ::= ('shared' | 'external')* 'enum' IDENTIFIER (';' | ('{' (IDENTIFIER ('=' expression)? (',' IDENTIFIER ('=' expression)?)* ',' ?)? '}')) {pin=2}
+
 FUNCDEF       ::= ('external' | 'shared')* 'funcdef' TYPE '&'? IDENTIFIER PARAMLIST ';' {pin=2}
 VIRTPROP      ::= ('private' | 'protected')? TYPE '&'? IDENTIFIER '{' (('get' | 'set') 'const'? FUNCATTR? (STATBLOCK | ';'))* '}'
 MIXIN         ::= 'mixin' CLAZZ {pin=1}
 INTFMTHD      ::= TYPE '&'? IDENTIFIER PARAMLIST 'const'? ';'
 STATBLOCK     ::= '{' (VAR | STATEMENT )* '}'
-PARAMLIST     ::= '(' ('void' | (TYPE TYPEMOD IDENTIFIER? ('=' EXPR)? (',' TYPE TYPEMOD IDENTIFIER? ('=' EXPR)?)*))? ')'
+PARAMLIST     ::= '(' ('void' | (TYPE TYPEMOD IDENTIFIER? ('=' expression)? (',' TYPE TYPEMOD IDENTIFIER? ('=' expression)?)*))? ')'
 TYPEMOD       ::= ('&' ('in' | 'out' | 'inout')?)?
 TYPE          ::= 'const'? SCOPE DATATYPE ('<' TYPE (',' TYPE)* '>')? ( ('[' ']') | ('@' 'const'?) )*
-INITLIST      ::= '{' (ASSIGN | INITLIST)? (',' (ASSIGN | INITLIST)?)* '}'
+INITLIST      ::= '{' (assign | INITLIST)? (',' (assign | INITLIST)?)* '}'
 SCOPE         ::= '::'? (IDENTIFIER '::')* (IDENTIFIER ('<' TYPE (',' TYPE)* '>')? '::')?
 DATATYPE      ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
 PRIMTYPE      ::= 'void' | 'int' | 'int8' | 'int16' | 'int32' | 'int64' | 'uint' | 'uint8' | 'uint16' | 'uint32' | 'uint64' | t_float | 'double' | 'bool' {pin=1}
 FUNCATTR      ::= ('override' | 'final' | 'explicit' | 'property')*
 STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
-SWITCH        ::= 'switch' '(' ASSIGN ')' '{' CASE* '}' {pin=1}
+SWITCH        ::= 'switch' '(' assign ')' '{' CASE* '}' {pin=1}
 BREAK         ::= 'break' ';' {pin=1}
-FOR           ::= 'for' '(' (VAR | EXPRSTAT) EXPRSTAT (ASSIGN (',' ASSIGN)*)? ')' STATEMENT {pin=1}
-WHILE         ::= 'while' '(' ASSIGN ')' STATEMENT {pin=1}
-DOWHILE       ::= 'do' STATEMENT 'while' '(' ASSIGN ')' ';' {pin=1}
-IF            ::= 'if' '(' ASSIGN ')' STATEMENT ('else' STATEMENT)? {pin=1}
+FOR           ::= 'for' '(' (VAR | EXPRSTAT) EXPRSTAT (assign (',' assign)*)? ')' STATEMENT {pin=1}
+WHILE         ::= 'while' '(' assign ')' STATEMENT {pin=1}
+DOWHILE       ::= 'do' STATEMENT 'while' '(' assign ')' ';' {pin=1}
+IF            ::= 'if' '(' assign ')' STATEMENT ('else' STATEMENT)? {pin=1}
 CONTINUE      ::= 'continue' ';' {pin=1}
-EXPRSTAT      ::= ASSIGN? ';' // {recoverWhile="exprstat_recover"}
+EXPRSTAT      ::= assign? ';' // {recoverWhile="exprstat_recover"}
 //private exprstat_recover ::= !(';')
 TRY           ::= 'try' STATBLOCK 'catch' STATBLOCK {pin=1}
-RETURN        ::= 'return' ASSIGN? ';' {pin=1}
-CASE          ::= (('case' EXPR) | 'default') ':' STATEMENT*
-EXPR          ::= EXPRTERM (EXPROP EXPRTERM)*
-EXPRTERM      ::= ((TYPE '=')? INITLIST) | ((EXPRPREOP)* EXPRVALUE (EXPRPOSTOP)*)
-EXPRVALUE     ::= LAMBDA | 'void' | CONSTRUCTCALL | FUNCCALL | VARACCESS | CAST | LITERAL | '(' ASSIGN ')'
+RETURN        ::= 'return' assign? ';' {pin=1}
+CASE          ::= (('case' expression) | 'default') ':' STATEMENT*
+
+expression          ::= EXPRTERM (EXPROP EXPRTERM)*
+expressionOperator     ::= '-' | '+' | '!' | '++' | '--' | '~' | '@'
+EXPROP        ::= MATHOP | BITOP | COMPOP | LOGICOP
+
+EXPRTERM      ::= ((TYPE '=')? INITLIST) | ((expressionOperator)* EXPRVALUE (EXPRPOSTOP)*)
+
+EXPRVALUE     ::= LAMBDA | 'void' | CONSTRUCTCALL | FUNCCALL | VARACCESS | CAST | LITERAL | '(' assign ')'
+
 CONSTRUCTCALL ::= TYPE ARGLIST
-EXPRPREOP     ::= '-' | '+' | '!' | '++' | '--' | '~' | '@'
-EXPRPOSTOP    ::= ASSIGN | ('.' (FUNCCALL | IDENTIFIER)) | ('[' (IDENTIFIER ':')? ASSIGN (',' (IDENTIFIER ':' ASSIGN)?)* ']') | ARGLIST | '++' | '--'
-SETTING       ::= '[' EXPR? (TYPE? IDENTIFIER '=' ((INITLIST | EXPR)) | ARGLIST)? (','? IDENTIFIER (( '=' (INITLIST | EXPR)) | ARGLIST)?)* SETTING* ']'
-CAST          ::= 'cast' '<' TYPE '>' '(' ASSIGN ')' {pin=1}
+
+EXPRPOSTOP    ::= assign | ('.' (FUNCCALL | IDENTIFIER)) | ('[' (IDENTIFIER ':')? assign (',' (IDENTIFIER ':' assign)?)* ']') | ARGLIST | '++' | '--'
+SETTING       ::= '[' expression? (TYPE? IDENTIFIER '=' ((INITLIST | expression)) | ARGLIST)? (','? IDENTIFIER (( '=' (INITLIST | expression)) | ARGLIST)?)* SETTING* ']'
+CAST          ::= 'cast' '<' TYPE '>' '(' assign ')' {pin=1}
 LAMBDA        ::= 'function' ARGLIST STATBLOCK {pin=1}
 LITERAL       ::= NUMBER | STRING | BITS | t_true | t_false | t_null
 FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
 VARACCESS     ::= SCOPE IDENTIFIER
-ARGLIST       ::= '(' ((IDENTIFIER ':')? ASSIGN (',' (IDENTIFIER ':')? ASSIGN)*)? ')'
-ASSIGN        ::= CONDITION ( ASSIGNOP ASSIGN )?
-CONDITION     ::= EXPR ('?' ASSIGN ':' ASSIGN)?
-EXPROP        ::= MATHOP | BITOP | COMPOP | LOGICOP
+ARGLIST       ::= '(' ((IDENTIFIER ':')? assign (',' (IDENTIFIER ':')? assign)*)? ')'
+
+assign        ::= CONDITION ( ASSIGNOP assign )?
+
+CONDITION     ::= expression ('?' assign ':' assign)?
 BITOP         ::= '&' | '|' | '^' | t_LESS t_LESS t_LESS | t_LESS t_LESS | t_GREATER t_GREATER t_GREATER | t_GREATER t_GREATER
 MATHOP        ::= '+' | '-' | '*' | '/' | '' | '**' | '%'
 COMPOP        ::= '==' | '!=' | t_LESS | '<=' | t_GREATER | '>=' | '!' t_IS | t_IS
