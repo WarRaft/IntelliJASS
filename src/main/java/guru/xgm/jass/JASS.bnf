@@ -13,8 +13,89 @@
   tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
 }
 
-script ::= (typeDeclaration|nativeDeclaration|SINGLE_LINE_COMMENT)*
+script ::= (
+typeDeclaration
+|nativeDeclaration
+|SINGLE_LINE_COMMENT)* {recoverWhile="scriptRecover"}
+private scriptRecover ::= !(KEYWORD_TYPE|KEYWORD_CONSTANT|KEYWORD_NATIVE|SINGLE_LINE_COMMENT)
 
-typeDeclaration ::= KEYWORD_TYPE IDENTIFIER KEYWORD_EXTENDS IDENTIFIER SINGLE_LINE_COMMENT*
-nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE IDENTIFIER KEYWORD_TAKES (KEYWORD_NOTHING|variableDeclaration (COMMA variableDeclaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|IDENTIFIER)
-private variableDeclaration ::= IDENTIFIER IDENTIFIER
+typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
+nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionDeclaration KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
+
+type ::= IDENTIFIER
+variable ::= IDENTIFIER
+functionDeclaration ::= IDENTIFIER
+argumentDelaration ::= type variable
+
+/*
+<program> ::= <declaration-list> <function-definition>
+
+<declaration-list> ::= <declaration> | <declaration> <declaration-list>
+
+<declaration> ::= "type" <type-name> "extends" "handle"
+               | "constant" "native" <function-name> "takes" <parameter-list> "returns" <return-type>
+
+<function-definition> ::= "function" <function-name> <parameter-list> <return-type> <function-body> "endfunction"
+
+<type-name> ::= "timetype" | "variabletype" | "jassthread" | "handlelist" | "textfilehandle"
+
+<function-name> ::= <identifier>
+
+<parameter-list> ::= <parameter> | <parameter> "," <parameter-list>
+
+<parameter> ::= <parameter-type> <parameter-name>
+
+<parameter-type> ::= "integer" | "real" | "string" | "boolean" | "player" | "unit" | "..." | "code"
+
+<parameter-name> ::= <identifier>
+
+<return-type> ::= <type-name>
+
+<function-body> ::= <statement-list>
+
+<statement-list> ::= <statement> | <statement> <statement-list>
+
+<statement> ::= <assignment-statement> | <function-call> | "if" <condition> "then" <statement> "endif" | ...
+
+<assignment-statement> ::= <identifier> "=" <expression>
+
+<function-call> ::= <function-name> "(" <argument-list> ")"
+
+<argument-list> ::= <expression> | <expression> "," <argument-list>
+
+<expression> ::= <literal> | <identifier> | <function-call> | ...
+
+<literal> ::= <integer> | <real> | <string> | "true" | "false"
+
+<condition> ::= <expression> <comparison-operator> <expression>
+
+<comparison-operator> ::= "==" | "!=" | "<" | "<=" | ">" | ">="
+ */
+
+
+/*
+<expression> ::= <term> | <term> "+" <expression> | <term> "-" <expression>
+
+<term> ::= <factor> | <factor> "*" <term>
+
+<factor> ::= <primary> | "-" <primary>
+
+<primary> ::= <literal> | <identifier> | "(" <expression> ")" | <function-call>
+
+<literal> ::= <integer> | <real>
+
+<function-call> ::= <function-name> "(" <argument-list> ")"
+
+<argument-list> ::= <expression> | <expression> "," <argument-list>
+
+<identifier> ::= <identifier-name>
+
+<identifier-name> ::= ...  // Здесь следует определить правила для имени переменной или функции
+
+<function-name> ::= ...  // Здесь следует определить правила для имени функции
+
+<integer> ::= ...  // Здесь следует определить правила для целых чисел
+
+<real> ::= ...  // Здесь следует определить правила для чисел с плавающей запятой
+
+ */

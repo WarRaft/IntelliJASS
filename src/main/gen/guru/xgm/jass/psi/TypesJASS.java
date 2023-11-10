@@ -10,8 +10,12 @@ import guru.xgm.jass.psi.impl.*;
 
 public interface TypesJASS {
 
+  IElementType ARGUMENT_DELARATION = new IElementTypeJASS_Element("ARGUMENT_DELARATION");
+  IElementType FUNCTION_DECLARATION = new IElementTypeJASS_Element("FUNCTION_DECLARATION");
   IElementType NATIVE_DECLARATION = new IElementTypeJASS_Element("NATIVE_DECLARATION");
+  IElementType TYPE = new IElementTypeJASS_Element("TYPE");
   IElementType TYPE_DECLARATION = new IElementTypeJASS_Element("TYPE_DECLARATION");
+  IElementType VARIABLE = new IElementTypeJASS_Element("VARIABLE");
 
   IElementType COMMA = new IElementTypeJASS_Token("COMMA");
   IElementType IDENTIFIER = new IElementTypeJASS_Token("IDENTIFIER");
@@ -27,11 +31,23 @@ public interface TypesJASS {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == NATIVE_DECLARATION) {
+      if (type == ARGUMENT_DELARATION) {
+        return new JASSArgumentDelarationImpl(node);
+      }
+      else if (type == FUNCTION_DECLARATION) {
+        return new JASSFunctionDeclarationImpl(node);
+      }
+      else if (type == NATIVE_DECLARATION) {
         return new JASSNativeDeclarationImpl(node);
+      }
+      else if (type == TYPE) {
+        return new JASSTypeImpl(node);
       }
       else if (type == TYPE_DECLARATION) {
         return new JASSTypeDeclarationImpl(node);
+      }
+      else if (type == VARIABLE) {
+        return new JASSVariableImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

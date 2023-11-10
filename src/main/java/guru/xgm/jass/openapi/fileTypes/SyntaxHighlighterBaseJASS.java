@@ -29,6 +29,13 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     // EMPTY_KEYS
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
+    // COMMA
+    public static final TextAttributesKey COMMA = createTextAttributesKey("JASS_COMMA", DefaultLanguageHighlighterColors.COMMA);
+    private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{COMMA};
+    // FUNCTION_DECLARATION
+    public static final TextAttributesKey FUNCTION_DECLARATION = createTextAttributesKey("JASS_FUNCTION_DECLARATION", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
+    private static final TextAttributesKey[] FUNCTION_DECLARATION_KEYS = new TextAttributesKey[]{FUNCTION_DECLARATION};
+
 
     @NotNull
     @Override
@@ -39,7 +46,7 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
         if (tokenType == TypesJASS.IDENTIFIER) return IDENTIFIER_KEYS;
-        // keyword
+
         if (tokenType == TypesJASS.KEYWORD_TYPE) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_EXTENDS) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_CONSTANT) return KEYWORD_KEYS;
@@ -47,11 +54,13 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         if (tokenType == TypesJASS.KEYWORD_TAKES) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_RETURNS) return KEYWORD_KEYS;
         if (tokenType == TypesJASS.KEYWORD_NOTHING) return KEYWORD_KEYS;
-        // comment
+
         if (tokenType == TypesJASS.SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
-        // bad
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
-        // return
+        if (tokenType == TypesJASS.COMMA) return COMMA_KEYS;
+        if (tokenType == TypesJASS.FUNCTION_DECLARATION) return FUNCTION_DECLARATION_KEYS;
+
+
         return EMPTY_KEYS;
     }
 

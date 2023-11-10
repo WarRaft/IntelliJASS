@@ -11,38 +11,20 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements JASSNativeDeclaration {
+public class JASSFunctionDeclarationImpl extends ASTWrapperPsiElement implements JASSFunctionDeclaration {
 
-  public JASSNativeDeclarationImpl(@NotNull ASTNode node) {
+  public JASSFunctionDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitNativeDeclaration(this);
+    visitor.visitFunctionDeclaration(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JASSVisitor) accept((JASSVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<JASSArgumentDelaration> getArgumentDelarationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSArgumentDelaration.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSFunctionDeclaration getFunctionDeclaration() {
-    return findChildByClass(JASSFunctionDeclaration.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSType getType() {
-    return findChildByClass(JASSType.class);
   }
 
 }
