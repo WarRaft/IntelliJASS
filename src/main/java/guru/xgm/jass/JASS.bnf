@@ -35,12 +35,14 @@ KEYWORD_TYPE
 expression ::= assignExpression
   | conditionalExpression
   | additionGroup
+  | booleanGroup
   | multiplyGroup
   | unaryGroup
   | callExpression
   | qualificationExpression
   | primaryGroup
   {extraRoot=true}
+private booleanGroup ::= andExpression | orExpression
 private unaryGroup ::= plusUnaryExpression | minusUnaryExpression | notUnaryExpression
 private multiplyGroup ::= mulExpression | divExpression
 private additionGroup ::= plusExpression | minusExpression
@@ -51,8 +53,8 @@ fake refExpression ::= expression? DOT IDENTIFIER
 refSimpleExpression ::= IDENTIFIER {extends=refExpression elementType=refExpression}
 qualificationExpression ::= expression DOT IDENTIFIER {extends=refExpression elementType=refExpression}
 callExpression ::= refExpression argumentList
-argumentList ::= LPAREN [ !RPAREN expression  (COMMA expression) * ] RPAREN {pin(".*")=1}
-literalExpression ::= INTEGER
+argumentList ::= LPAREN [ !RPAREN expression  (COMMA expression)* ] RPAREN {pin(".*")=1}
+literalExpression ::= INTEGER | REAL | RAWCODE | HEX | STRING
 assignExpression ::= expression ASSIGN expression { rightAssociative=true }
 conditionalExpression ::= expression (LT | RT | LT_EQ | RT_EQ | EQ_EQ | NEQ) expression
 divExpression ::= expression DIV expression
@@ -62,16 +64,18 @@ minusUnaryExpression ::= MINUS expression
 plusExpression ::= expression PLUS expression
 plusUnaryExpression ::= PLUS expression
 notUnaryExpression ::= NOT expression
+andExpression ::= expression AND expression
+orExpression ::= expression OR expression
 parenExpression ::= LPAREN expression RPAREN
 
 // DECLARATION
 typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
-nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|typedVariable (COMMA typedVariable)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
+nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argument (COMMA argument)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
 globalsDeclaration ::= KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS {pin=1}
-variableDeclaration ::= KEYWORD_CONSTANT? type variable (ASSIGN expression)? {pin=3}
+variableDeclaration ::= KEYWORD_CONSTANT? type ARRAY? variable (ASSIGN expression)? {pin=3}
 
 type ::= IDENTIFIER
 variable ::= IDENTIFIER
 functionName ::= IDENTIFIER
-typedVariable ::= type variable
+argument ::= type variable
 

@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements JASSVariableDeclaration {
+public class JASSArgumentImpl extends ASTWrapperPsiElement implements JASSArgument {
 
-  public JASSVariableDeclarationImpl(@NotNull ASTNode node) {
+  public JASSArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitVariableDeclaration(this);
+    visitor.visitArgument(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
-  public JASSExpression getExpression() {
-    return findChildByClass(JASSExpression.class);
-  }
-
-  @Override
   @NotNull
   public JASSType getType() {
     return findNotNullChildByClass(JASSType.class);
   }
 
   @Override
-  @Nullable
+  @NotNull
   public JASSVariable getVariable() {
-    return findChildByClass(JASSVariable.class);
+    return findNotNullChildByClass(JASSVariable.class);
   }
 
 }

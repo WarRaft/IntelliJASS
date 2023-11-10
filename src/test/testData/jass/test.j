@@ -1,10 +1,11 @@
 globals
 
+e e = "String \" cscsc"
 
-s  b = 1 + + + - - + 2
+s array b = 1 + + + - - + 2.22332 - 'ASf' + $3434 + 0x224
+a array c = e and d or v
 
-
-constant integer PLAYER_NEUTRAL_PASSIVE = 15
+constant integer PLAYER_NEUTRAL_PASSIVE = 15/2
 constant integer PLAYER_NEUTRAL_AGGRESSIVE = 12
 
 constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0 + a + (1 - 3))

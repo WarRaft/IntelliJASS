@@ -1,10 +1,12 @@
 package guru.xgm.jass.lexer;
 
-import guru.xgm.jass.psi.TypesJASS;
+import static guru.xgm.jass.psi.TypesJASS.*;
 
 import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.TokenType;
+
 import com.intellij.psi.tree.IElementType;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %%
 
@@ -18,73 +20,83 @@ import com.intellij.psi.tree.IElementType;
 WHITE_SPACE=[\ \n\t\f]
 SINGLE_LINE_COMMENT="/""/"[^\n]*
 IDENTIFIER=[A-Za-z_][_0-9A-Za-z]*
-INTEGER=[0-9]+
+DIGIT=[0-9]
+HEX_DIGIT=[0-9a-fA-F]
+HEX = (0x|\$) {HEX_DIGIT}*
+INTEGER={DIGIT}+
+DOT = "."
+REAL = ({DIGIT}+ ({DOT} {DIGIT}+)?) | ({DOT} {DIGIT}+)
+RAWCODE= "'"[^']*"'"
+STRING=\"([^\"\\]|\\.)*\"
 
 %state WAITING_VALUE
 
 %%
 
 <YYINITIAL> {
-{WHITE_SPACE} { return TokenType.WHITE_SPACE; }
-//"and" { return TypesJASS.K_AND; }
-//    array = 'array',
+{WHITE_SPACE} { return WHITE_SPACE; }
+"and" { return AND; }
+"array" { return ARRAY; }
 //    call = 'call',
-"constant" { return TypesJASS.KEYWORD_CONSTANT; }
+"constant" { return KEYWORD_CONSTANT; }
 //    debug = 'debug',
 //    else = 'else',
 //    elseif = 'elseif',
 //    endfunction = 'endfunction',
-"endglobals" { return TypesJASS.KEYWORD_ENDGLOBALS; }
+"endglobals" { return KEYWORD_ENDGLOBALS; }
 //    endif = 'endif',
 //    endloop = 'endloop',
 //    exitwhen = 'exitwhen',
-"extends" { return TypesJASS.KEYWORD_EXTENDS; }
+"extends" { return KEYWORD_EXTENDS; }
 //    false = 'false',
 //    function = 'function',
-"globals" { return TypesJASS.KEYWORD_GLOBALS; }
+"globals" { return KEYWORD_GLOBALS; }
 //    if = 'if',
 //    local = 'local',
 //    loop = 'loop',
-"native" { return TypesJASS.KEYWORD_NATIVE; }
-"not" { return TypesJASS.NOT; }
+"native" { return KEYWORD_NATIVE; }
+"not" { return NOT; }
 //    null = 'null',
 //    nothing = 'nothing',
-"nothing" { return TypesJASS.KEYWORD_NOTHING; }
-//    or = 'or',
-//    returns = 'returns',
-"returns" { return TypesJASS.KEYWORD_RETURNS; }
+"nothing" { return KEYWORD_NOTHING; }
+"or" { return OR; }
+"returns" { return KEYWORD_RETURNS; }
 //    return = 'return',
 //    set = 'set',
-"takes" { return TypesJASS.KEYWORD_TAKES; }
+"takes" { return KEYWORD_TAKES; }
 //    then = 'then',
-"type" { return TypesJASS.KEYWORD_TYPE; }
+"type" { return KEYWORD_TYPE; }
 //    true = 'true',
 
 
-"not" { return TypesJASS.NOT;}
-"." { return TypesJASS.DOT;}
-"," { return TypesJASS.COMMA;}
-"=" { return TypesJASS.ASSIGN;}
-"+" { return TypesJASS.PLUS;}
-"-" { return TypesJASS.MINUS;}
-"*" { return TypesJASS.MUL;}
-"/" { return TypesJASS.DIV;}
-"(" { return TypesJASS.LPAREN;}
-")" { return TypesJASS.RPAREN;}
+"not" { return NOT;}
+{DOT} { return DOT;}
+"," { return COMMA;}
+"=" { return ASSIGN;}
+"+" { return PLUS;}
+"-" { return MINUS;}
+"*" { return MUL;}
+"/" { return DIV;}
+"(" { return LPAREN;}
+")" { return RPAREN;}
 
-"<" { return TypesJASS.LT;}
-"<=" { return TypesJASS.LT_EQ;}
-">" { return TypesJASS.RT;}
-">=" { return TypesJASS.RT_EQ;}
-"==" { return TypesJASS.EQ_EQ;}
-"!=" { return TypesJASS.NEQ;}
+"<" { return LT;}
+"<=" { return LT_EQ;}
+">" { return RT;}
+">=" { return RT_EQ;}
+"==" { return EQ_EQ;}
+"!=" { return NEQ;}
 
-{IDENTIFIER} { return TypesJASS.IDENTIFIER; }
-{INTEGER} { return TypesJASS.INTEGER; }
-{SINGLE_LINE_COMMENT} { return TypesJASS.SINGLE_LINE_COMMENT;}
+{IDENTIFIER} { return IDENTIFIER; }
+{INTEGER} { return INTEGER; }
+{REAL} {return REAL;}
+{HEX} {return HEX;}
+{RAWCODE} {return RAWCODE;}
+{STRING} {return STRING;}
+
+{SINGLE_LINE_COMMENT} { return SINGLE_LINE_COMMENT;}
 }
 
-
-[^] { return TokenType.BAD_CHARACTER; }
+[^] { return BAD_CHARACTER; }
 
 

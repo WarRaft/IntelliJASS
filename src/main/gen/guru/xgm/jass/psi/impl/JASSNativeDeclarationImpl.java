@@ -28,6 +28,12 @@ public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements J
   }
 
   @Override
+  @NotNull
+  public List<JASSArgument> getArgumentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSArgument.class);
+  }
+
+  @Override
   @Nullable
   public JASSFunctionName getFunctionName() {
     return findChildByClass(JASSFunctionName.class);
@@ -37,12 +43,6 @@ public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements J
   @Nullable
   public JASSType getType() {
     return findChildByClass(JASSType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<JASSTypedVariable> getTypedVariableList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSTypedVariable.class);
   }
 
 }

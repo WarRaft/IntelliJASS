@@ -7,6 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public class JASSVisitor extends PsiElementVisitor {
 
+  public void visitAndExpression(@NotNull JASSAndExpression o) {
+    visitExpression(o);
+  }
+
+  public void visitArgument(@NotNull JASSArgument o) {
+    visitPsiElement(o);
+  }
+
   public void visitArgumentList(@NotNull JASSArgumentList o) {
     visitPsiElement(o);
   }
@@ -63,6 +71,10 @@ public class JASSVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitOrExpression(@NotNull JASSOrExpression o) {
+    visitExpression(o);
+  }
+
   public void visitParenExpression(@NotNull JASSParenExpression o) {
     visitExpression(o);
   }
@@ -84,10 +96,6 @@ public class JASSVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeDeclaration(@NotNull JASSTypeDeclaration o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypedVariable(@NotNull JASSTypedVariable o) {
     visitPsiElement(o);
   }
 

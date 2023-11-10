@@ -10,6 +10,8 @@ import guru.xgm.jass.psi.impl.*;
 
 public interface TypesJASS {
 
+  IElementType AND_EXPRESSION = new IElementTypeJASS_Element("AND_EXPRESSION");
+  IElementType ARGUMENT = new IElementTypeJASS_Element("ARGUMENT");
   IElementType ARGUMENT_LIST = new IElementTypeJASS_Element("ARGUMENT_LIST");
   IElementType ASSIGN_EXPRESSION = new IElementTypeJASS_Element("ASSIGN_EXPRESSION");
   IElementType CALL_EXPRESSION = new IElementTypeJASS_Element("CALL_EXPRESSION");
@@ -24,21 +26,24 @@ public interface TypesJASS {
   IElementType MUL_EXPRESSION = new IElementTypeJASS_Element("MUL_EXPRESSION");
   IElementType NATIVE_DECLARATION = new IElementTypeJASS_Element("NATIVE_DECLARATION");
   IElementType NOT_UNARY_EXPRESSION = new IElementTypeJASS_Element("NOT_UNARY_EXPRESSION");
+  IElementType OR_EXPRESSION = new IElementTypeJASS_Element("OR_EXPRESSION");
   IElementType PAREN_EXPRESSION = new IElementTypeJASS_Element("PAREN_EXPRESSION");
   IElementType PLUS_EXPRESSION = new IElementTypeJASS_Element("PLUS_EXPRESSION");
   IElementType PLUS_UNARY_EXPRESSION = new IElementTypeJASS_Element("PLUS_UNARY_EXPRESSION");
   IElementType REF_EXPRESSION = new IElementTypeJASS_Element("REF_EXPRESSION");
   IElementType TYPE = new IElementTypeJASS_Element("TYPE");
-  IElementType TYPED_VARIABLE = new IElementTypeJASS_Element("TYPED_VARIABLE");
   IElementType TYPE_DECLARATION = new IElementTypeJASS_Element("TYPE_DECLARATION");
   IElementType VARIABLE = new IElementTypeJASS_Element("VARIABLE");
   IElementType VARIABLE_DECLARATION = new IElementTypeJASS_Element("VARIABLE_DECLARATION");
 
+  IElementType AND = new IElementTypeJASS_Token("AND");
+  IElementType ARRAY = new IElementTypeJASS_Token("ARRAY");
   IElementType ASSIGN = new IElementTypeJASS_Token("ASSIGN");
   IElementType COMMA = new IElementTypeJASS_Token("COMMA");
   IElementType DIV = new IElementTypeJASS_Token("DIV");
   IElementType DOT = new IElementTypeJASS_Token("DOT");
   IElementType EQ_EQ = new IElementTypeJASS_Token("EQ_EQ");
+  IElementType HEX = new IElementTypeJASS_Token("HEX");
   IElementType IDENTIFIER = new IElementTypeJASS_Token("IDENTIFIER");
   IElementType INTEGER = new IElementTypeJASS_Token("INTEGER");
   IElementType KEYWORD_CONSTANT = new IElementTypeJASS_Token("KEYWORD_CONSTANT");
@@ -57,16 +62,26 @@ public interface TypesJASS {
   IElementType MUL = new IElementTypeJASS_Token("MUL");
   IElementType NEQ = new IElementTypeJASS_Token("NEQ");
   IElementType NOT = new IElementTypeJASS_Token("NOT");
+  IElementType OR = new IElementTypeJASS_Token("OR");
   IElementType PLUS = new IElementTypeJASS_Token("PLUS");
+  IElementType RAWCODE = new IElementTypeJASS_Token("RAWCODE");
+  IElementType REAL = new IElementTypeJASS_Token("REAL");
   IElementType RPAREN = new IElementTypeJASS_Token("RPAREN");
   IElementType RT = new IElementTypeJASS_Token("RT");
   IElementType RT_EQ = new IElementTypeJASS_Token("RT_EQ");
   IElementType SINGLE_LINE_COMMENT = new IElementTypeJASS_Token("SINGLE_LINE_COMMENT");
+  IElementType STRING = new IElementTypeJASS_Token("STRING");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ARGUMENT_LIST) {
+      if (type == AND_EXPRESSION) {
+        return new JASSAndExpressionImpl(node);
+      }
+      else if (type == ARGUMENT) {
+        return new JASSArgumentImpl(node);
+      }
+      else if (type == ARGUMENT_LIST) {
         return new JASSArgumentListImpl(node);
       }
       else if (type == ASSIGN_EXPRESSION) {
@@ -105,6 +120,9 @@ public interface TypesJASS {
       else if (type == NOT_UNARY_EXPRESSION) {
         return new JASSNotUnaryExpressionImpl(node);
       }
+      else if (type == OR_EXPRESSION) {
+        return new JASSOrExpressionImpl(node);
+      }
       else if (type == PAREN_EXPRESSION) {
         return new JASSParenExpressionImpl(node);
       }
@@ -119,9 +137,6 @@ public interface TypesJASS {
       }
       else if (type == TYPE) {
         return new JASSTypeImpl(node);
-      }
-      else if (type == TYPED_VARIABLE) {
-        return new JASSTypedVariableImpl(node);
       }
       else if (type == TYPE_DECLARATION) {
         return new JASSTypeDeclarationImpl(node);
