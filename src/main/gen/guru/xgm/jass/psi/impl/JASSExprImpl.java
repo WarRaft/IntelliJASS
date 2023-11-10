@@ -11,26 +11,20 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSMultiplicationImpl extends ASTWrapperPsiElement implements JASSMultiplication {
+public abstract class JASSExprImpl extends ASTWrapperPsiElement implements JASSExpr {
 
-  public JASSMultiplicationImpl(@NotNull ASTNode node) {
+  public JASSExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitMultiplication(this);
+    visitor.visitExpr(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JASSVisitor) accept((JASSVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<JASSPrimary> getPrimaryList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSPrimary.class);
   }
 
 }

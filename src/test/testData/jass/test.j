@@ -1,12 +1,14 @@
 globals
 
-constant integer JGAS_MAX_ARRAY_SIZE = 262144 //sssfsfsf
-integer JGAS_MAX_ARRAY_SIZE = 262144 + 123 / 12 - - 22
+
+
+constant  b = 1 + + + - - + 2
+
 
 constant integer PLAYER_NEUTRAL_PASSIVE = 15
 constant integer PLAYER_NEUTRAL_AGGRESSIVE = 12
 
-constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0 + a)
+constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0 + a + (1 - 3))
 constant playercolor PLAYER_COLOR_BLUE = ConvertPlayerColor(1)
 constant playercolor PLAYER_COLOR_CYAN = ConvertPlayerColor(2)
 constant playercolor PLAYER_COLOR_PURPLE = ConvertPlayerColor(3)

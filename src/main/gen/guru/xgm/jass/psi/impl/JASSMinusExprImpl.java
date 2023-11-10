@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
 import guru.xgm.jass.psi.*;
 
-public class JASSAdditionExpressionImpl extends JASSExpressionImpl implements JASSAdditionExpression {
+public class JASSMinusExprImpl extends JASSExprImpl implements JASSMinusExpr {
 
-  public JASSAdditionExpressionImpl(@NotNull ASTNode node) {
+  public JASSMinusExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitAdditionExpression(this);
+    visitor.visitMinusExpr(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class JASSAdditionExpressionImpl extends JASSExpressionImpl implements JA
 
   @Override
   @NotNull
-  public List<JASSMultiplication> getMultiplicationList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSMultiplication.class);
+  public List<JASSExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpr.class);
   }
 
 }

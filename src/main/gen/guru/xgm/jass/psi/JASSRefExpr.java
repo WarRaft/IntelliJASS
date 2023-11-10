@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSPrimary extends PsiElement {
+public interface JASSRefExpr extends JASSExpr {
 
   @Nullable
-  JASSPrimary getPrimary();
-
-  @Nullable
-  JASSPrimaryTermExpression getPrimaryTermExpression();
+  JASSExpr getExpr();
 
 }

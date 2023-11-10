@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSFunctionCallImpl extends ASTWrapperPsiElement implements JASSFunctionCall {
+public class JASSElvisExprImpl extends JASSExprImpl implements JASSElvisExpr {
 
-  public JASSFunctionCallImpl(@NotNull ASTNode node) {
+  public JASSElvisExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitFunctionCall(this);
+    visitor.visitElvisExpr(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class JASSFunctionCallImpl extends ASTWrapperPsiElement implements JASSFu
 
   @Override
   @NotNull
-  public List<JASSExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpression.class);
+  public List<JASSExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpr.class);
   }
 
 }

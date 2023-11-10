@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements JASSVariableDeclaration {
+public class JASSFactorialExprImpl extends JASSExprImpl implements JASSFactorialExpr {
 
-  public JASSVariableDeclarationImpl(@NotNull ASTNode node) {
+  public JASSFactorialExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitVariableDeclaration(this);
+    visitor.visitFactorialExpr(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
+  @NotNull
   public JASSExpr getExpr() {
-    return findChildByClass(JASSExpr.class);
-  }
-
-  @Override
-  @NotNull
-  public JASSType getType() {
-    return findNotNullChildByClass(JASSType.class);
-  }
-
-  @Override
-  @NotNull
-  public JASSVariable getVariable() {
-    return findNotNullChildByClass(JASSVariable.class);
+    return findNotNullChildByClass(JASSExpr.class);
   }
 
 }

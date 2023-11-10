@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSMultiplication extends PsiElement {
+public interface JASSArgList extends PsiElement {
 
   @NotNull
-  List<JASSPrimary> getPrimaryList();
+  List<JASSExpr> getExprList();
 
 }

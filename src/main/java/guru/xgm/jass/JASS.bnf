@@ -12,7 +12,19 @@
   elementTypeClass=         "guru.xgm.jass.psi.tree.IElementTypeJASS_Element"
   tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
 
-  extends(".*Expression")="expression"
+  //extends(".*Expression")="expression"
+
+  tokens = [
+    OR="or"
+    AND="and"
+    EQUAL="=="
+    NOT_EQUAL="!="
+    MINUS="-"
+    NOT="not"
+    syntax='regexp:;|\.|\+|-|\*\*|\*|==|=|/|,|\(|\)|\^|\!=|\!|>=|<=|>|<'
+  ]
+
+   extends(".*expr")=expr
 }
 
 script ::= (
@@ -26,63 +38,106 @@ KEYWORD_TYPE
 |KEYWORD_NATIVE
 |KEYWORD_GLOBALS
 )
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
+// https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+
+
+// left recursion and empty PSI children define expression root
+expr ::= assign_expr
+  | conditional_group
+  | add_group
+  | boolean_group
+  | mul_group
+  | unary_group
+  | exp_expr
+  | factorial_expr
+  | call_expr
+  | qualification_expr
+  | primary_group
+  {extraRoot=true}
+private boolean_group ::= xor_expr | between_expr | is_not_expr
+private conditional_group ::= elvis_expr | conditional_expr
+private unary_group ::= unary_plus_expr | unary_min_expr | unary_not_expr
+private mul_group ::= mul_expr | div_expr
+private add_group ::= plus_expr | minus_expr
+private primary_group ::=  simple_ref_expr | literal_expr | paren_expr
+
+// expressions: auto-operator detection or parens
+//noinspection BnfUnusedRule
+fake ref_expr ::= expr? '.' IDENTIFIER
+simple_ref_expr ::= IDENTIFIER {extends=ref_expr elementType=ref_expr}
+qualification_expr ::= expr '.' IDENTIFIER {extends=ref_expr elementType=ref_expr}
+call_expr ::= ref_expr arg_list
+arg_list ::= '(' [ !')' expr  (',' expr) * ] ')' {pin(".*")=1}
+literal_expr ::= INTEGER
+unary_min_expr ::= MINUS expr
+unary_plus_expr ::= PLUS expr
+unary_not_expr ::= '!' expr
+xor_expr ::= expr '^' expr
+assign_expr ::= expr '=' expr { rightAssociative=true }
+conditional_expr ::= expr ('<' | '>' | '<=' | '>=' | '==' | '!=') expr
+div_expr ::= expr DIV expr
+mul_expr ::= expr MUL expr
+minus_expr ::= expr MINUS expr
+plus_expr ::= expr PLUS expr
+exp_expr ::= expr ('**' expr) + // N-ary variant
+factorial_expr ::= expr '!'
+paren_expr ::= LPAREN expr RPAREN
+elvis_expr ::= expr '?' expr ':' expr
+is_not_expr ::= expr IS NOT expr
+between_expr ::= expr BETWEEN add_group AND add_group {
+  methods=[testExpr="expr[0]"]
+}
+
+/*
+
+
+relationalExpression ::= additiveExpression | relationalExpression "" additiveExpression | relationalExpression "=" additiveExpression | relationalExpression "" additiveExpression | relationalExpression "=" additiveExpression
+
+additiveExpression ::= multiplicativeExpression | additiveExpression "+" multiplicativeExpression | additiveExpression "-" multiplicativeExpression
+
+multiplicativeExpression ::= unaryExpression | multiplicativeExpression "*" unaryExpression | multiplicativeExpression "/" unaryExpression
+
+unaryExpression ::= primary | "-" primary | "not" primary
+
+primary ::= literal | identifier | "(" expression ")" | functionCall
+
+literal ::= integer | real
+
+functionCall ::= functionName "(" argumentList ")"
+
+argumentList ::= expression | expression "," argumentList
+
+identifier ::= identifierName
+
+identifierName ::= ...  // Здесь следует определить правила для имени переменной или функции
+
+functionName ::= ...  // Здесь следует определить правила для имени функции
+
+integer ::= ...  // Здесь следует определить правила для целых чисел
+
+real ::= ...  // Здесь следует определить правила для чисел с плавающей запятой
+
+ */
+
+/*
+expression ::= additionExpression ((AND|OR) additionExpression)*
+additionExpression ::= multiplicationExpression ((PLUS|MINUS) multiplicationExpression)*
+multiplicationExpression ::= primary ((MUL|DIV) primary)*
+primary ::= primaryTermExpression | not primary
+primaryTermExpression ::= MINUS? INTEGER|functionCall|IDENTIFIER
+ */
 
 
 typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
 nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argumentDelaration (COMMA argumentDelaration)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
 globalsDeclaration ::= KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS {pin=1}
-variableDeclaration ::= KEYWORD_CONSTANT? type variable (ASSIGN expression)? {pin=3}
+variableDeclaration ::= KEYWORD_CONSTANT? type variable (ASSIGN expr)? {pin=3}
 
 type ::= IDENTIFIER
 variable ::= IDENTIFIER
 functionName ::= IDENTIFIER
 argumentDelaration ::= type variable
 
-functionCall ::= IDENTIFIER LPAREN (expression (COMMA expression)*)? RPAREN {pin=1}
+//functionCall ::= IDENTIFIER LPAREN (expr (COMMA expr)*)? RPAREN {pin=1}
 
-// expression
-expression ::= additionExpression ((AND|OR) additionExpression)*
-additionExpression ::= multiplicationExpression ((PLUS|MINUS) multiplicationExpression)*
-multiplicationExpression ::= primary ((MUL|DIV) primary)*
-primary ::= primaryTermExpression | not primary
-primaryTermExpression ::= MINUS? INTEGER|functionCall|IDENTIFIER
-
-/*
-<expression> ::= <conditional-expression>
-
-<conditional-expression> ::= <logical-or-expression>
-
-<logical-or-expression> ::= <logical-and-expression> | <logical-or-expression> "or" <logical-and-expression>
-
-<logical-and-expression> ::= <equality-expression> | <logical-and-expression> "and" <equality-expression>
-
-<equality-expression> ::= <relational-expression> | <equality-expression> "==" <relational-expression> | <equality-expression> "!=" <relational-expression>
-
-<relational-expression> ::= <additive-expression> | <relational-expression> "<" <additive-expression> | <relational-expression> "<=" <additive-expression> | <relational-expression> ">" <additive-expression> | <relational-expression> ">=" <additive-expression>
-
-<additive-expression> ::= <multiplicative-expression> | <additive-expression> "+" <multiplicative-expression> | <additive-expression> "-" <multiplicative-expression>
-
-<multiplicative-expression> ::= <unary-expression> | <multiplicative-expression> "*" <unary-expression> | <multiplicative-expression> "/" <unary-expression>
-
-<unary-expression> ::= <primary> | "-" <primary> | "not" <primary>
-
-<primary> ::= <literal> | <identifier> | "(" <expression> ")" | <function-call>
-
-<literal> ::= <integer> | <real>
-
-<function-call> ::= <function-name> "(" <argument-list> ")"
-
-<argument-list> ::= <expression> | <expression> "," <argument-list>
-
-<identifier> ::= <identifier-name>
-
-<identifier-name> ::= ...  // Здесь следует определить правила для имени переменной или функции
-
-<function-name> ::= ...  // Здесь следует определить правила для имени функции
-
-<integer> ::= ...  // Здесь следует определить правила для целых чисел
-
-<real> ::= ...  // Здесь следует определить правила для чисел с плавающей запятой
-
-
- */

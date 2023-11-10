@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSPrimaryImpl extends ASTWrapperPsiElement implements JASSPrimary {
+public class JASSDivExprImpl extends JASSExprImpl implements JASSDivExpr {
 
-  public JASSPrimaryImpl(@NotNull ASTNode node) {
+  public JASSDivExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitPrimary(this);
+    visitor.visitDivExpr(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class JASSPrimaryImpl extends ASTWrapperPsiElement implements JASSPrimary
   }
 
   @Override
-  @Nullable
-  public JASSPrimary getPrimary() {
-    return findChildByClass(JASSPrimary.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSPrimaryTermExpression getPrimaryTermExpression() {
-    return findChildByClass(JASSPrimaryTermExpression.class);
+  @NotNull
+  public List<JASSExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpr.class);
   }
 
 }

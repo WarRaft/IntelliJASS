@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSVariableDeclaration extends PsiElement {
-
-  @Nullable
-  JASSExpr getExpr();
+public interface JASSPlusExpr extends JASSExpr {
 
   @NotNull
-  JASSType getType();
-
-  @NotNull
-  JASSVariable getVariable();
+  List<JASSExpr> getExprList();
 
 }

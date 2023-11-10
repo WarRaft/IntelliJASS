@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
 import guru.xgm.jass.psi.*;
 
-public class JASSPrimaryTermExpressionImpl extends JASSExpressionImpl implements JASSPrimaryTermExpression {
+public class JASSUnaryNotExprImpl extends JASSExprImpl implements JASSUnaryNotExpr {
 
-  public JASSPrimaryTermExpressionImpl(@NotNull ASTNode node) {
+  public JASSUnaryNotExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitPrimaryTermExpression(this);
+    visitor.visitUnaryNotExpr(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class JASSPrimaryTermExpressionImpl extends JASSExpressionImpl implements
 
   @Override
   @Nullable
-  public JASSFunctionCall getFunctionCall() {
-    return findChildByClass(JASSFunctionCall.class);
+  public JASSExpr getExpr() {
+    return findChildByClass(JASSExpr.class);
   }
 
 }
