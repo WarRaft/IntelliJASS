@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements JASSNativeDeclaration {
+public class JASSCallExpressionImpl extends JASSExpressionImpl implements JASSCallExpression {
 
-  public JASSNativeDeclarationImpl(@NotNull ASTNode node) {
+  public JASSCallExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitNativeDeclaration(this);
+    visitor.visitCallExpression(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements J
   }
 
   @Override
-  @Nullable
-  public JASSFunctionName getFunctionName() {
-    return findChildByClass(JASSFunctionName.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSType getType() {
-    return findChildByClass(JASSType.class);
+  @NotNull
+  public JASSArgumentList getArgumentList() {
+    return findNotNullChildByClass(JASSArgumentList.class);
   }
 
   @Override
   @NotNull
-  public List<JASSTypedVariable> getTypedVariableList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSTypedVariable.class);
+  public JASSRefExpression getRefExpression() {
+    return findNotNullChildByClass(JASSRefExpression.class);
   }
 
 }

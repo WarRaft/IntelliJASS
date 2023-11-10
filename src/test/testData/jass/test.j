@@ -1,8 +1,7 @@
 globals
 
 
-
-constant  b = 1 + + + - - + 2
+s  b = 1 + + + - - + 2
 
 
 constant integer PLAYER_NEUTRAL_PASSIVE = 15

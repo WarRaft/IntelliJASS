@@ -7,13 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface JASSNativeDeclaration extends PsiElement {
 
-  @NotNull
-  List<JASSArgumentDelaration> getArgumentDelarationList();
-
   @Nullable
   JASSFunctionName getFunctionName();
 
   @Nullable
   JASSType getType();
+
+  @NotNull
+  List<JASSTypedVariable> getTypedVariableList();
 
 }

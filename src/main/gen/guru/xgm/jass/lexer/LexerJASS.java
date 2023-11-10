@@ -66,13 +66,13 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\7\0"+
-    "\1\3\1\4\1\5\1\6\1\7\1\10\1\0\1\11"+
-    "\12\12\3\0\1\13\3\0\32\14\4\0\1\14\1\0"+
-    "\1\15\1\16\1\17\1\20\1\21\1\14\1\22\1\23"+
-    "\1\24\1\14\1\25\1\26\1\14\1\27\1\30\1\31"+
-    "\1\14\1\32\1\33\1\34\1\35\1\36\1\14\1\37"+
-    "\1\40\1\14\u0185\0";
+    "\11\0\1\1\1\2\1\0\1\1\23\0\1\1\1\3"+
+    "\6\0\1\4\1\5\1\6\1\7\1\10\1\11\1\12"+
+    "\1\13\12\14\2\0\1\15\1\16\1\17\2\0\32\20"+
+    "\4\0\1\20\1\0\1\21\1\22\1\23\1\24\1\25"+
+    "\1\20\1\26\1\27\1\30\1\20\1\31\1\32\1\20"+
+    "\1\33\1\34\1\35\1\20\1\36\1\37\1\40\1\41"+
+    "\1\42\1\20\1\43\1\44\1\20\u0185\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -99,13 +99,14 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\7\14\1\15\16\14\1\16"+
-    "\13\14\1\17\7\14\1\20\4\14\1\21\4\14\1\22"+
-    "\1\23\1\24\1\25\1\26\2\14\1\27";
+    "\2\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\7\17\1\20\1\21\1\22\1\23\1\24\16\17\1\25"+
+    "\13\17\1\26\7\17\1\27\4\17\1\30\4\17\1\31"+
+    "\1\32\1\33\1\34\1\35\2\17\1\36";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[73];
+    int [] result = new int[81];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -130,19 +131,20 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\41\0\102\0\102\0\102\0\102\0\102\0\102"+
-    "\0\102\0\102\0\143\0\204\0\102\0\245\0\306\0\347"+
-    "\0\u0108\0\u0129\0\u014a\0\u016b\0\u018c\0\u01ad\0\u01ce\0\u01ef"+
-    "\0\u0210\0\u0231\0\u0252\0\u0273\0\u0294\0\u02b5\0\u02d6\0\u02f7"+
-    "\0\u0318\0\u0339\0\u035a\0\u037b\0\u039c\0\u03bd\0\u03de\0\u03ff"+
-    "\0\u0420\0\u0441\0\u0462\0\u0483\0\u04a4\0\u04c5\0\u04e6\0\245"+
-    "\0\u0507\0\u0528\0\u0549\0\u056a\0\u058b\0\u05ac\0\u05cd\0\245"+
-    "\0\u05ee\0\u060f\0\u0630\0\u0651\0\245\0\u0672\0\u0693\0\u06b4"+
-    "\0\u06d5\0\245\0\245\0\245\0\245\0\245\0\u06f6\0\u0717"+
-    "\0\245";
+    "\0\0\0\45\0\112\0\112\0\157\0\112\0\112\0\112"+
+    "\0\112\0\112\0\112\0\112\0\224\0\271\0\336\0\u0103"+
+    "\0\u0128\0\u014d\0\u0172\0\u0197\0\u01bc\0\u01e1\0\u0206\0\u022b"+
+    "\0\112\0\u0250\0\112\0\112\0\112\0\u0275\0\u029a\0\u02bf"+
+    "\0\u02e4\0\u0309\0\u032e\0\u0353\0\u0378\0\u039d\0\u03c2\0\u03e7"+
+    "\0\u040c\0\u0431\0\u0456\0\u047b\0\u04a0\0\u04c5\0\u04ea\0\u050f"+
+    "\0\u0534\0\u0559\0\u057e\0\u05a3\0\u05c8\0\u05ed\0\u0612\0\u014d"+
+    "\0\u0637\0\u065c\0\u0681\0\u06a6\0\u06cb\0\u06f0\0\u0715\0\u014d"+
+    "\0\u073a\0\u075f\0\u0784\0\u07a9\0\u014d\0\u07ce\0\u07f3\0\u0818"+
+    "\0\u083d\0\u014d\0\u014d\0\u014d\0\u014d\0\u014d\0\u0862\0\u0887"+
+    "\0\u014d";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[73];
+    int [] result = new int[81];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -166,50 +168,52 @@ public class LexerJASS implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\3\2\4\1\5\1\6\1\7\1\10\1\11\1\12"+
-    "\1\13\1\14\1\15\3\16\1\17\1\16\1\20\1\21"+
-    "\4\16\1\22\2\16\1\23\1\16\1\24\4\16\41\3"+
-    "\52\0\1\25\41\0\1\14\40\0\1\16\1\0\25\16"+
-    "\12\0\1\16\1\0\14\16\1\26\10\16\12\0\1\16"+
-    "\1\0\13\16\1\27\7\16\1\30\1\16\12\0\1\16"+
-    "\1\0\12\16\1\31\12\16\12\0\1\16\1\0\1\16"+
-    "\1\32\12\16\1\33\10\16\12\0\1\16\1\0\5\16"+
-    "\1\34\17\16\12\0\1\16\1\0\1\16\1\35\22\16"+
-    "\1\36\2\25\1\0\36\25\12\0\1\16\1\0\13\16"+
-    "\1\37\11\16\12\0\1\16\1\0\4\16\1\40\20\16"+
-    "\12\0\1\16\1\0\20\16\1\41\4\16\12\0\1\16"+
-    "\1\0\14\16\1\42\10\16\12\0\1\16\1\0\20\16"+
-    "\1\43\4\16\12\0\1\16\1\0\20\16\1\44\4\16"+
-    "\12\0\1\16\1\0\20\16\1\45\4\16\12\0\1\16"+
-    "\1\0\11\16\1\46\13\16\12\0\1\16\1\0\15\16"+
-    "\1\47\7\16\12\0\1\16\1\0\17\16\1\50\5\16"+
-    "\12\0\1\16\1\0\6\16\1\51\16\16\12\0\1\16"+
-    "\1\0\5\16\1\52\17\16\12\0\1\16\1\0\2\16"+
-    "\1\53\22\16\12\0\1\16\1\0\10\16\1\54\14\16"+
-    "\12\0\1\16\1\0\7\16\1\55\15\16\12\0\1\16"+
-    "\1\0\21\16\1\56\3\16\12\0\1\16\1\0\5\16"+
-    "\1\57\17\16\12\0\1\16\1\0\5\16\1\60\17\16"+
-    "\12\0\1\16\1\0\20\16\1\61\4\16\12\0\1\16"+
-    "\1\0\12\16\1\62\12\16\12\0\1\16\1\0\13\16"+
-    "\1\63\11\16\12\0\1\16\1\0\1\16\1\64\23\16"+
-    "\12\0\1\16\1\0\22\16\1\65\2\16\12\0\1\16"+
-    "\1\0\10\16\1\66\14\16\12\0\1\16\1\0\16\16"+
-    "\1\67\6\16\12\0\1\16\1\0\17\16\1\70\5\16"+
-    "\12\0\1\16\1\0\1\16\1\71\23\16\12\0\1\16"+
-    "\1\0\14\16\1\72\10\16\12\0\1\16\1\0\4\16"+
-    "\1\73\20\16\12\0\1\16\1\0\12\16\1\74\12\16"+
-    "\12\0\1\16\1\0\5\16\1\75\17\16\12\0\1\16"+
-    "\1\0\13\16\1\76\11\16\12\0\1\16\1\0\13\16"+
-    "\1\77\11\16\12\0\1\16\1\0\13\16\1\100\11\16"+
-    "\12\0\1\16\1\0\2\16\1\101\22\16\12\0\1\16"+
-    "\1\0\17\16\1\102\5\16\12\0\1\16\1\0\17\16"+
-    "\1\103\5\16\12\0\1\16\1\0\6\16\1\104\16\16"+
-    "\12\0\1\16\1\0\17\16\1\105\5\16\12\0\1\16"+
-    "\1\0\20\16\1\106\4\16\12\0\1\16\1\0\1\16"+
-    "\1\107\23\16\12\0\1\16\1\0\12\16\1\110\12\16"+
-    "\12\0\1\16\1\0\17\16\1\111\5\16";
+    "\1\13\1\14\1\15\1\16\1\17\1\20\1\21\3\22"+
+    "\1\23\1\22\1\24\1\25\4\22\1\26\2\22\1\27"+
+    "\1\22\1\30\4\22\45\3\63\0\1\31\41\0\1\32"+
+    "\45\0\1\16\46\0\1\33\44\0\1\34\44\0\1\35"+
+    "\42\0\1\22\3\0\25\22\14\0\1\22\3\0\14\22"+
+    "\1\36\10\22\14\0\1\22\3\0\13\22\1\37\7\22"+
+    "\1\40\1\22\14\0\1\22\3\0\12\22\1\41\12\22"+
+    "\14\0\1\22\3\0\1\22\1\42\12\22\1\43\10\22"+
+    "\14\0\1\22\3\0\5\22\1\44\17\22\14\0\1\22"+
+    "\3\0\1\22\1\45\22\22\1\46\2\32\1\0\42\32"+
+    "\14\0\1\22\3\0\13\22\1\47\11\22\14\0\1\22"+
+    "\3\0\4\22\1\50\20\22\14\0\1\22\3\0\20\22"+
+    "\1\51\4\22\14\0\1\22\3\0\14\22\1\52\10\22"+
+    "\14\0\1\22\3\0\20\22\1\53\4\22\14\0\1\22"+
+    "\3\0\20\22\1\54\4\22\14\0\1\22\3\0\20\22"+
+    "\1\55\4\22\14\0\1\22\3\0\11\22\1\56\13\22"+
+    "\14\0\1\22\3\0\15\22\1\57\7\22\14\0\1\22"+
+    "\3\0\17\22\1\60\5\22\14\0\1\22\3\0\6\22"+
+    "\1\61\16\22\14\0\1\22\3\0\5\22\1\62\17\22"+
+    "\14\0\1\22\3\0\2\22\1\63\22\22\14\0\1\22"+
+    "\3\0\10\22\1\64\14\22\14\0\1\22\3\0\7\22"+
+    "\1\65\15\22\14\0\1\22\3\0\21\22\1\66\3\22"+
+    "\14\0\1\22\3\0\5\22\1\67\17\22\14\0\1\22"+
+    "\3\0\5\22\1\70\17\22\14\0\1\22\3\0\20\22"+
+    "\1\71\4\22\14\0\1\22\3\0\12\22\1\72\12\22"+
+    "\14\0\1\22\3\0\13\22\1\73\11\22\14\0\1\22"+
+    "\3\0\1\22\1\74\23\22\14\0\1\22\3\0\22\22"+
+    "\1\75\2\22\14\0\1\22\3\0\10\22\1\76\14\22"+
+    "\14\0\1\22\3\0\16\22\1\77\6\22\14\0\1\22"+
+    "\3\0\17\22\1\100\5\22\14\0\1\22\3\0\1\22"+
+    "\1\101\23\22\14\0\1\22\3\0\14\22\1\102\10\22"+
+    "\14\0\1\22\3\0\4\22\1\103\20\22\14\0\1\22"+
+    "\3\0\12\22\1\104\12\22\14\0\1\22\3\0\5\22"+
+    "\1\105\17\22\14\0\1\22\3\0\13\22\1\106\11\22"+
+    "\14\0\1\22\3\0\13\22\1\107\11\22\14\0\1\22"+
+    "\3\0\13\22\1\110\11\22\14\0\1\22\3\0\2\22"+
+    "\1\111\22\22\14\0\1\22\3\0\17\22\1\112\5\22"+
+    "\14\0\1\22\3\0\17\22\1\113\5\22\14\0\1\22"+
+    "\3\0\6\22\1\114\16\22\14\0\1\22\3\0\17\22"+
+    "\1\115\5\22\14\0\1\22\3\0\20\22\1\116\4\22"+
+    "\14\0\1\22\3\0\1\22\1\117\23\22\14\0\1\22"+
+    "\3\0\12\22\1\120\12\22\14\0\1\22\3\0\17\22"+
+    "\1\121\5\22";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1848];
+    int [] result = new int[2220];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -247,10 +251,11 @@ public class LexerJASS implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\10\11\2\1\1\11\74\1";
+    "\2\0\2\11\1\1\7\11\14\1\1\11\1\1\3\11"+
+    "\64\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[73];
+    int [] result = new int[81];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -563,117 +568,152 @@ public class LexerJASS implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 24: break;
+          case 31: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 25: break;
+          case 32: break;
           case 3:
             { return TypesJASS.LPAREN;
             }
           // fall through
-          case 26: break;
+          case 33: break;
           case 4:
             { return TypesJASS.RPAREN;
             }
           // fall through
-          case 27: break;
+          case 34: break;
           case 5:
             { return TypesJASS.MUL;
             }
           // fall through
-          case 28: break;
+          case 35: break;
           case 6:
             { return TypesJASS.PLUS;
             }
           // fall through
-          case 29: break;
+          case 36: break;
           case 7:
             { return TypesJASS.COMMA;
             }
           // fall through
-          case 30: break;
+          case 37: break;
           case 8:
             { return TypesJASS.MINUS;
             }
           // fall through
-          case 31: break;
-          case 9:
-            { return TypesJASS.DIV;
-            }
-          // fall through
-          case 32: break;
-          case 10:
-            { return TypesJASS.INTEGER;
-            }
-          // fall through
-          case 33: break;
-          case 11:
-            { return TypesJASS.ASSIGN;
-            }
-          // fall through
-          case 34: break;
-          case 12:
-            { return TypesJASS.IDENTIFIER;
-            }
-          // fall through
-          case 35: break;
-          case 13:
-            { return TypesJASS.SINGLE_LINE_COMMENT;
-            }
-          // fall through
-          case 36: break;
-          case 14:
-            { return TypesJASS.NOT;
-            }
-          // fall through
-          case 37: break;
-          case 15:
-            { return TypesJASS.KEYWORD_TYPE;
-            }
-          // fall through
           case 38: break;
-          case 16:
-            { return TypesJASS.KEYWORD_TAKES;
+          case 9:
+            { return TypesJASS.DOT;
             }
           // fall through
           case 39: break;
-          case 17:
-            { return TypesJASS.KEYWORD_NATIVE;
+          case 10:
+            { return TypesJASS.DIV;
             }
           // fall through
           case 40: break;
-          case 18:
-            { return TypesJASS.KEYWORD_EXTENDS;
+          case 11:
+            { return TypesJASS.INTEGER;
             }
           // fall through
           case 41: break;
-          case 19:
-            { return TypesJASS.KEYWORD_GLOBALS;
+          case 12:
+            { return TypesJASS.LT;
             }
           // fall through
           case 42: break;
-          case 20:
-            { return TypesJASS.KEYWORD_NOTHING;
+          case 13:
+            { return TypesJASS.ASSIGN;
             }
           // fall through
           case 43: break;
-          case 21:
-            { return TypesJASS.KEYWORD_RETURNS;
+          case 14:
+            { return TypesJASS.RT;
             }
           // fall through
           case 44: break;
-          case 22:
-            { return TypesJASS.KEYWORD_CONSTANT;
+          case 15:
+            { return TypesJASS.IDENTIFIER;
             }
           // fall through
           case 45: break;
-          case 23:
-            { return TypesJASS.KEYWORD_ENDGLOBALS;
+          case 16:
+            { return TypesJASS.NEQ;
             }
           // fall through
           case 46: break;
+          case 17:
+            { return TypesJASS.SINGLE_LINE_COMMENT;
+            }
+          // fall through
+          case 47: break;
+          case 18:
+            { return TypesJASS.LT_EQ;
+            }
+          // fall through
+          case 48: break;
+          case 19:
+            { return TypesJASS.EQ_EQ;
+            }
+          // fall through
+          case 49: break;
+          case 20:
+            { return TypesJASS.RT_EQ;
+            }
+          // fall through
+          case 50: break;
+          case 21:
+            { return TypesJASS.NOT;
+            }
+          // fall through
+          case 51: break;
+          case 22:
+            { return TypesJASS.KEYWORD_TYPE;
+            }
+          // fall through
+          case 52: break;
+          case 23:
+            { return TypesJASS.KEYWORD_TAKES;
+            }
+          // fall through
+          case 53: break;
+          case 24:
+            { return TypesJASS.KEYWORD_NATIVE;
+            }
+          // fall through
+          case 54: break;
+          case 25:
+            { return TypesJASS.KEYWORD_EXTENDS;
+            }
+          // fall through
+          case 55: break;
+          case 26:
+            { return TypesJASS.KEYWORD_GLOBALS;
+            }
+          // fall through
+          case 56: break;
+          case 27:
+            { return TypesJASS.KEYWORD_NOTHING;
+            }
+          // fall through
+          case 57: break;
+          case 28:
+            { return TypesJASS.KEYWORD_RETURNS;
+            }
+          // fall through
+          case 58: break;
+          case 29:
+            { return TypesJASS.KEYWORD_CONSTANT;
+            }
+          // fall through
+          case 59: break;
+          case 30:
+            { return TypesJASS.KEYWORD_ENDGLOBALS;
+            }
+          // fall through
+          case 60: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

@@ -60,6 +60,9 @@ INTEGER=[0-9]+
 "type" { return TypesJASS.KEYWORD_TYPE; }
 //    true = 'true',
 
+
+"not" { return TypesJASS.NOT;}
+"." { return TypesJASS.DOT;}
 "," { return TypesJASS.COMMA;}
 "=" { return TypesJASS.ASSIGN;}
 "+" { return TypesJASS.PLUS;}
@@ -68,6 +71,13 @@ INTEGER=[0-9]+
 "/" { return TypesJASS.DIV;}
 "(" { return TypesJASS.LPAREN;}
 ")" { return TypesJASS.RPAREN;}
+
+"<" { return TypesJASS.LT;}
+"<=" { return TypesJASS.LT_EQ;}
+">" { return TypesJASS.RT;}
+">=" { return TypesJASS.RT_EQ;}
+"==" { return TypesJASS.EQ_EQ;}
+"!=" { return TypesJASS.NEQ;}
 
 {IDENTIFIER} { return TypesJASS.IDENTIFIER; }
 {INTEGER} { return TypesJASS.INTEGER; }

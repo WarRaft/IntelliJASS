@@ -12,23 +12,3 @@ message = Welcome to \
 key\ with\ spaces = This is the value that could be looked up with the key "key with spaces".
 # Unicode
 tab : \u0009
-
-test
-
-type agent extends handle // all reference counted objects
-
-constant native ConvertRace takes integer i returns race
-
-globals
-constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0)
-
-endglobals
-
-native AddHeroXP takes unit whichHero, integer xpToAdd, boolean showEyeCandy returns nothing
-
-function main takes nothing returns nothing
-
-
-endfunction
-
-
