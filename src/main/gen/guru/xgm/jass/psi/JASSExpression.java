@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JASSExpression extends PsiElement {
 
   @NotNull
-  List<JASSAddition> getAdditionList();
+  List<JASSAdditionExpression> getAdditionExpressionList();
 
 }

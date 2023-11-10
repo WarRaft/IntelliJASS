@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public class JASSVisitor extends PsiElementVisitor {
 
-  public void visitAddition(@NotNull JASSAddition o) {
-    visitPsiElement(o);
+  public void visitAdditionExpression(@NotNull JASSAdditionExpression o) {
+    visitExpression(o);
   }
 
   public void visitArgumentDelaration(@NotNull JASSArgumentDelaration o) {
@@ -43,8 +43,8 @@ public class JASSVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPrimaryTerm(@NotNull JASSPrimaryTerm o) {
-    visitPsiElement(o);
+  public void visitPrimaryTermExpression(@NotNull JASSPrimaryTermExpression o) {
+    visitExpression(o);
   }
 
   public void visitType(@NotNull JASSType o) {

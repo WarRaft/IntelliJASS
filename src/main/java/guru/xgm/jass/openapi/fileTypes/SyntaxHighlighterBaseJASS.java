@@ -61,7 +61,7 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == TypesJASS.COMMA) return COMMA_KEYS;
 
-        if (tokenType == TypesJASS.INTEGER) return NUMBER_KEYS;
+        //if (tokenType == TypesJASS.INTEGER) return NUMBER_KEYS;
 
 
         return EMPTY_KEYS;

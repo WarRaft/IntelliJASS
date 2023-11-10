@@ -29,8 +29,8 @@ public class JASSExpressionImpl extends ASTWrapperPsiElement implements JASSExpr
 
   @Override
   @NotNull
-  public List<JASSAddition> getAdditionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSAddition.class);
+  public List<JASSAdditionExpression> getAdditionExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSAdditionExpression.class);
   }
 
 }

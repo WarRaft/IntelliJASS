@@ -10,7 +10,7 @@ import guru.xgm.jass.psi.impl.*;
 
 public interface TypesJASS {
 
-  IElementType ADDITION = new IElementTypeJASS_Element("ADDITION");
+  IElementType ADDITION_EXPRESSION = new IElementTypeJASS_Element("ADDITION_EXPRESSION");
   IElementType ARGUMENT_DELARATION = new IElementTypeJASS_Element("ARGUMENT_DELARATION");
   IElementType EXPRESSION = new IElementTypeJASS_Element("EXPRESSION");
   IElementType FUNCTION_CALL = new IElementTypeJASS_Element("FUNCTION_CALL");
@@ -19,7 +19,7 @@ public interface TypesJASS {
   IElementType MULTIPLICATION = new IElementTypeJASS_Element("MULTIPLICATION");
   IElementType NATIVE_DECLARATION = new IElementTypeJASS_Element("NATIVE_DECLARATION");
   IElementType PRIMARY = new IElementTypeJASS_Element("PRIMARY");
-  IElementType PRIMARY_TERM = new IElementTypeJASS_Element("PRIMARY_TERM");
+  IElementType PRIMARY_TERM_EXPRESSION = new IElementTypeJASS_Element("PRIMARY_TERM_EXPRESSION");
   IElementType TYPE = new IElementTypeJASS_Element("TYPE");
   IElementType TYPE_DECLARATION = new IElementTypeJASS_Element("TYPE_DECLARATION");
   IElementType VARIABLE = new IElementTypeJASS_Element("VARIABLE");
@@ -52,8 +52,8 @@ public interface TypesJASS {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ADDITION) {
-        return new JASSAdditionImpl(node);
+      if (type == ADDITION_EXPRESSION) {
+        return new JASSAdditionExpressionImpl(node);
       }
       else if (type == ARGUMENT_DELARATION) {
         return new JASSArgumentDelarationImpl(node);
@@ -79,8 +79,8 @@ public interface TypesJASS {
       else if (type == PRIMARY) {
         return new JASSPrimaryImpl(node);
       }
-      else if (type == PRIMARY_TERM) {
-        return new JASSPrimaryTermImpl(node);
+      else if (type == PRIMARY_TERM_EXPRESSION) {
+        return new JASSPrimaryTermExpressionImpl(node);
       }
       else if (type == TYPE) {
         return new JASSTypeImpl(node);

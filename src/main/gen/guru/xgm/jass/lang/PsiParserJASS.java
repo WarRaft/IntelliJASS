@@ -21,7 +21,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
 
   public void parseLight(IElementType t, PsiBuilder b) {
     boolean r;
-    b = adapt_builder_(t, b, this, null);
+    b = adapt_builder_(t, b, this, EXTENDS_SETS_);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
     r = parse_root_(t, b);
     exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
@@ -35,43 +35,47 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     return script(b, l + 1);
   }
 
+  public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
+    create_token_set_(ADDITION_EXPRESSION, EXPRESSION, PRIMARY_TERM_EXPRESSION),
+  };
+
   /* ********************************************************** */
   // multiplication ((PLUS|MINUS) multiplication)*
-  public static boolean addition(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "addition")) return false;
+  public static boolean additionExpression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "additionExpression")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ADDITION, "<addition>");
+    Marker m = enter_section_(b, l, _NONE_, ADDITION_EXPRESSION, "<addition expression>");
     r = multiplication(b, l + 1);
-    r = r && addition_1(b, l + 1);
+    r = r && additionExpression_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // ((PLUS|MINUS) multiplication)*
-  private static boolean addition_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "addition_1")) return false;
+  private static boolean additionExpression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "additionExpression_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!addition_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "addition_1", c)) break;
+      if (!additionExpression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "additionExpression_1", c)) break;
     }
     return true;
   }
 
   // (PLUS|MINUS) multiplication
-  private static boolean addition_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "addition_1_0")) return false;
+  private static boolean additionExpression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "additionExpression_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = addition_1_0_0(b, l + 1);
+    r = additionExpression_1_0_0(b, l + 1);
     r = r && multiplication(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // PLUS|MINUS
-  private static boolean addition_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "addition_1_0_0")) return false;
+  private static boolean additionExpression_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "additionExpression_1_0_0")) return false;
     boolean r;
     r = consumeToken(b, PLUS);
     if (!r) r = consumeToken(b, MINUS);
@@ -92,18 +96,18 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // addition ((AND|OR) addition)*
+  // additionExpression ((AND|OR) additionExpression)*
   public static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
-    r = addition(b, l + 1);
+    Marker m = enter_section_(b, l, _COLLAPSE_, EXPRESSION, "<expression>");
+    r = additionExpression(b, l + 1);
     r = r && expression_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // ((AND|OR) addition)*
+  // ((AND|OR) additionExpression)*
   private static boolean expression_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression_1")) return false;
     while (true) {
@@ -114,13 +118,13 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (AND|OR) addition
+  // (AND|OR) additionExpression
   private static boolean expression_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = expression_1_0_0(b, l + 1);
-    r = r && addition(b, l + 1);
+    r = r && additionExpression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -360,12 +364,12 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // primaryTerm | not primary
+  // primaryTermExpression | not primary
   public static boolean primary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "primary")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PRIMARY, "<primary>");
-    r = primaryTerm(b, l + 1);
+    r = primaryTermExpression(b, l + 1);
     if (!r) r = primary_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -384,11 +388,11 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // MINUS? INTEGER|functionCall|IDENTIFIER
-  public static boolean primaryTerm(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "primaryTerm")) return false;
+  public static boolean primaryTermExpression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTermExpression")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PRIMARY_TERM, "<primary term>");
-    r = primaryTerm_0(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, PRIMARY_TERM_EXPRESSION, "<primary term expression>");
+    r = primaryTermExpression_0(b, l + 1);
     if (!r) r = functionCall(b, l + 1);
     if (!r) r = consumeToken(b, IDENTIFIER);
     exit_section_(b, l, m, r, false, null);
@@ -396,19 +400,19 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   // MINUS? INTEGER
-  private static boolean primaryTerm_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "primaryTerm_0")) return false;
+  private static boolean primaryTermExpression_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTermExpression_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = primaryTerm_0_0(b, l + 1);
+    r = primaryTermExpression_0_0(b, l + 1);
     r = r && consumeToken(b, INTEGER);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // MINUS?
-  private static boolean primaryTerm_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "primaryTerm_0_0")) return false;
+  private static boolean primaryTermExpression_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "primaryTermExpression_0_0")) return false;
     consumeToken(b, MINUS);
     return true;
   }

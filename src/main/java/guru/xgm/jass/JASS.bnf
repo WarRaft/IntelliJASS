@@ -11,6 +11,8 @@
   //psiImplUtilClass=         "guru.xgm.jass.psi.PsiImplUtilJASS"
   elementTypeClass=         "guru.xgm.jass.psi.tree.IElementTypeJASS_Element"
   tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
+
+  extends(".*Expression")="expression"
 }
 
 script ::= (
@@ -24,8 +26,6 @@ KEYWORD_TYPE
 |KEYWORD_NATIVE
 |KEYWORD_GLOBALS
 )
-// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
-
 
 
 typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
@@ -40,22 +40,49 @@ argumentDelaration ::= type variable
 
 functionCall ::= IDENTIFIER LPAREN (expression (COMMA expression)*)? RPAREN {pin=1}
 
-
-
 // expression
-expression ::= addition ((AND|OR) addition)*
-addition ::= multiplication ((PLUS|MINUS) multiplication)*
-multiplication ::= primary ((MUL|DIV) primary)*
-primary ::= primaryTerm | not primary
-primaryTerm ::= MINUS? INTEGER|functionCall|IDENTIFIER
+expression ::= additionExpression ((AND|OR) additionExpression)*
+additionExpression ::= multiplicationExpression ((PLUS|MINUS) multiplicationExpression)*
+multiplicationExpression ::= primary ((MUL|DIV) primary)*
+primary ::= primaryTermExpression | not primary
+primaryTermExpression ::= MINUS? INTEGER|functionCall|IDENTIFIER
 
 /*
-file ::= expr*
+<expression> ::= <conditional-expression>
 
-expr ::=  plus_expr | expr_
-expr_ ::= array_ref_expr | const_expr
+<conditional-expression> ::= <logical-or-expression>
 
-plus_expr ::= expr_ '+' expr
-const_expr ::= number
-array_ref_expr ::= id '[' expr ']'
+<logical-or-expression> ::= <logical-and-expression> | <logical-or-expression> "or" <logical-and-expression>
+
+<logical-and-expression> ::= <equality-expression> | <logical-and-expression> "and" <equality-expression>
+
+<equality-expression> ::= <relational-expression> | <equality-expression> "==" <relational-expression> | <equality-expression> "!=" <relational-expression>
+
+<relational-expression> ::= <additive-expression> | <relational-expression> "<" <additive-expression> | <relational-expression> "<=" <additive-expression> | <relational-expression> ">" <additive-expression> | <relational-expression> ">=" <additive-expression>
+
+<additive-expression> ::= <multiplicative-expression> | <additive-expression> "+" <multiplicative-expression> | <additive-expression> "-" <multiplicative-expression>
+
+<multiplicative-expression> ::= <unary-expression> | <multiplicative-expression> "*" <unary-expression> | <multiplicative-expression> "/" <unary-expression>
+
+<unary-expression> ::= <primary> | "-" <primary> | "not" <primary>
+
+<primary> ::= <literal> | <identifier> | "(" <expression> ")" | <function-call>
+
+<literal> ::= <integer> | <real>
+
+<function-call> ::= <function-name> "(" <argument-list> ")"
+
+<argument-list> ::= <expression> | <expression> "," <argument-list>
+
+<identifier> ::= <identifier-name>
+
+<identifier-name> ::= ...  // Здесь следует определить правила для имени переменной или функции
+
+<function-name> ::= ...  // Здесь следует определить правила для имени функции
+
+<integer> ::= ...  // Здесь следует определить правила для целых чисел
+
+<real> ::= ...  // Здесь следует определить правила для чисел с плавающей запятой
+
+
  */

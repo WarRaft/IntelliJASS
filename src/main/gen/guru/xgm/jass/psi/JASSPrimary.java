@@ -11,6 +11,6 @@ public interface JASSPrimary extends PsiElement {
   JASSPrimary getPrimary();
 
   @Nullable
-  JASSPrimaryTerm getPrimaryTerm();
+  JASSPrimaryTermExpression getPrimaryTermExpression();
 
 }

@@ -35,8 +35,8 @@ public class JASSPrimaryImpl extends ASTWrapperPsiElement implements JASSPrimary
 
   @Override
   @Nullable
-  public JASSPrimaryTerm getPrimaryTerm() {
-    return findChildByClass(JASSPrimaryTerm.class);
+  public JASSPrimaryTermExpression getPrimaryTermExpression() {
+    return findChildByClass(JASSPrimaryTermExpression.class);
   }
 
 }

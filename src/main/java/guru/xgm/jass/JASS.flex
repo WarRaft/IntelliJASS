@@ -60,14 +60,14 @@ INTEGER=[0-9]+
 "type" { return TypesJASS.KEYWORD_TYPE; }
 //    true = 'true',
 
-"," { return TypesJASS.COMMA; }
+"," { return TypesJASS.COMMA;}
 "=" { return TypesJASS.ASSIGN;}
 "+" { return TypesJASS.PLUS;}
 "-" { return TypesJASS.MINUS;}
 "*" { return TypesJASS.MUL;}
 "/" { return TypesJASS.DIV;}
 "(" { return TypesJASS.LPAREN;}
-"(" { return TypesJASS.RPAREN;}
+")" { return TypesJASS.RPAREN;}
 
 {IDENTIFIER} { return TypesJASS.IDENTIFIER; }
 {INTEGER} { return TypesJASS.INTEGER; }

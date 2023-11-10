@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSPrimaryTermImpl extends ASTWrapperPsiElement implements JASSPrimaryTerm {
+public class JASSPrimaryTermExpressionImpl extends JASSExpressionImpl implements JASSPrimaryTermExpression {
 
-  public JASSPrimaryTermImpl(@NotNull ASTNode node) {
+  public JASSPrimaryTermExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitPrimaryTerm(this);
+    visitor.visitPrimaryTermExpression(this);
   }
 
   @Override

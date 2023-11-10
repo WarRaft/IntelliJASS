@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSAdditionImpl extends ASTWrapperPsiElement implements JASSAddition {
+public class JASSAdditionExpressionImpl extends JASSExpressionImpl implements JASSAdditionExpression {
 
-  public JASSAdditionImpl(@NotNull ASTNode node) {
+  public JASSAdditionExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitAddition(this);
+    visitor.visitAdditionExpression(this);
   }
 
   @Override
