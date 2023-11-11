@@ -43,23 +43,281 @@ property ::= ID EQ expression {pin=2}
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
-expression ::= addition
+expression ::= comparsion
+
+private comparsion ::= addition comparsionExpression*
+left comparsionExpression ::= comparsionOperator addition
+private comparsionOperator ::= LT|GT
 
 private addition ::=multiplication plusExpression*
 left plusExpression ::= plusOperator multiplication
+private plusOperator ::= PLUS|MINUS
 
 private multiplication ::= primary mulExpression*
 left mulExpression  ::= mulOperator primary
+private mulOperator ::= MUL|DIV
 
 private primary ::= MINUS? primaryInner
 
-private mulOperator ::= MUL|DIV
-private plusOperator ::= PLUS|MINUS
-
-private primaryInner ::= literalExpression | refExpression | parenExpression
+private primaryInner ::= literalExpression | idExpression | parenExpression
 parenExpression ::= LP expression RP {pin=1}
-refExpression ::= id
+idExpression ::= id
 literalExpression ::= number | string | float
 
 // === DECLARATION
 typeDeclaration ::= TYPE ID EXTENDS ID
+
+/*
+
+// --------------------------
+// BEGIN EXPRESSIONS
+// --------------------------
+Expression ::=
+    CommaExpr |
+    AssignGroup |
+    ConditionalExpr |
+    OrOrExpr |
+    AndAndExpr |
+    OrExpr |
+    XorExpr |
+    AndExpr |
+    CmpGroup |
+    AddGroup |
+    CatExpr |
+    MulGroup |
+    UnaryGroup |
+    PostfixGroup |
+    PrimaryExpr
+
+CommaExpr ::= Expression (PARAM_SEP Expression)?
+
+private AssignGroup ::=
+    AssignExpr |
+    PlusAssignExpr |
+    MinusAssignExpr |
+    MulAssignExpr |
+    DivAssignExpr |
+    ModAssignExpr |
+    BitAndAssignExpr |
+    BitOrAssignExpr |
+    BitXorAssignExpr |
+    ConcatAssignExpr |
+    ShiftLeftAssignExpr |
+    ShiftRightAssignExpr |
+    UnsignedShiftRightAssignExpr |
+    PowAssignExpr
+
+AssignExpr ::= Expression ASSIGN_OP Expression
+PlusAssignExpr ::= Expression PLUS_ASSIGN_OP Expression
+MinusAssignExpr ::= Expression MINUS_ASSIGN_OP Expression
+MulAssignExpr ::= Expression MUL_ASSIGN_OP Expression
+DivAssignExpr ::= Expression DIV_ASSIGN_OP Expression
+ModAssignExpr ::= Expression MOD_ASSIGN_OP Expression
+BitAndAssignExpr ::= Expression BIT_AND_ASSIGN_OP Expression
+BitOrAssignExpr ::= Expression BIT_OR_ASSIGN_OP Expression
+BitXorAssignExpr ::= Expression BIT_XOR_ASSIGN_OP Expression
+ConcatAssignExpr ::= Expression CONCAT_ASSIGN_OP Expression
+ShiftLeftAssignExpr ::= Expression SHIFT_LEFT_ASSIGN_OP Expression
+ShiftRightAssignExpr ::= Expression SHIFT_RIGHT_ASSIGN_OP Expression
+UnsignedShiftRightAssignExpr ::= Expression UNSIGNED_SHIFT_RIGHT_ASSIGN_OP Expression
+PowAssignExpr ::= Expression POW_ASSIGN_OP Expression
+
+ConditionalExpr ::= Expression QUESTION_OP Expression COLON_OP Expression
+
+OrOrExpr ::= Expression OR_OP Expression
+
+AndAndExpr ::= Expression AND_OP Expression
+
+OrExpr ::= Expression BIT_OR_OP Expression
+
+XorExpr ::= Expression BIT_XOR_OP Expression
+
+AndExpr ::= Expression BIT_OR_OP Expression
+
+private CmpGroup ::=
+    EqualExpr |
+    NotEqualsExpr |
+    IdentityExpr |
+    NotIdentityExpr |
+    LessThanExpr |
+    LessThanEqualsExpr |
+    GreaterThanExpr |
+    GreaterThanEqualsExpr |
+    UnorderedExpr |
+    UnorderedOrEqualExpr |
+    LessThanOrGreaterThanExpr |
+    LessEqualOrGreaterThanExpr |
+    UnorderedLessOrEqualExpr |
+    UnorderedOrLessExpr |
+    UnorderedGreaterOrEqualExpr |
+    UnorderedOrGreaterExpr |
+    InExpr |
+    NotInExpr |
+    ShiftLeftExpr |
+    ShiftRightExpr |
+    UnsignedShiftRightExpr
+
+
+EqualExpr ::= Expression EQUALS_OP Expression
+NotEqualsExpr ::= Expression NOT_EQUALS_OP Expression
+IdentityExpr ::= Expression IS Expression
+NotIdentityExpr ::= Expression NOT_IS Expression
+LessThanExpr ::= Expression LESS_THAN_OP Expression
+LessThanEqualsExpr ::= Expression LESS_THAN_EQUALS_OP Expression
+GreaterThanExpr ::= Expression GREATER_THAN_OP Expression
+GreaterThanEqualsExpr ::= Expression GREATER_THAN_EQUALS_OP Expression
+UnorderedExpr ::= Expression UNORDERED_OP Expression
+UnorderedOrEqualExpr ::= Expression UNORDERED_OR_EQUAL_OP Expression
+LessThanOrGreaterThanExpr ::= Expression LESS_OR_GREATER_OP Expression
+LessEqualOrGreaterThanExpr ::= Expression LESS_EQUAL_OR_GREATER_OP Expression
+UnorderedLessOrEqualExpr ::= Expression UNORDERED_LESS_OR_EQUAL_OP Expression
+UnorderedOrLessExpr ::= Expression UNORDERED_OR_LESS_OP Expression
+UnorderedGreaterOrEqualExpr ::=  Expression UNORDERED_GREATER_OR_EQUAL_OP Expression
+UnorderedOrGreaterExpr ::= Expression UNORDERED_OR_GREATER_OP Expression
+
+InExpr ::= Expression IN Expression
+NotInExpr ::= Expression NOT_IN Expression
+
+ShiftLeftExpr ::= Expression SHIFT_LEFT_OP Expression
+ShiftRightExpr ::= Expression SHIFT_RIGHT_OP Expression
+UnsignedShiftRightExpr ::= Expression UNSIGNED_SHIFT_RIGHT_OP Expression
+
+private AddGroup ::=
+    PlusExpr |
+    MinusExpr
+
+PlusExpr ::= Expression PLUS_OP Expression
+MinusExpr ::= Expression MINUS_OP Expression
+
+CatExpr ::= Expression CONCAT_OP Expression
+
+private MulGroup ::=
+    MulExpr |
+    DivExpr |
+    ModExpr
+
+MulExpr ::= Expression MUL_OP Expression
+DivExpr ::= Expression DIV_OP Expression
+ModExpr ::= Expression MOD_OP Expression
+
+private UnaryGroup ::=
+    BitAndExpr |
+    IncrementExpr |
+    DecrementExpr |
+    DerefExpr |
+    NegateExpr |
+    PositExpr |
+    NotExpr |
+    ComplementExpr |
+    StaticDerefExpr |
+    StaticDerefTemplateExpr |
+    DeleteExpr |
+    CastExpr |
+    CtorsExpr |
+    PowExpr
+
+BitAndExpr ::= BIT_AND_OP Expression
+IncrementExpr ::= INCREMENT_OP Expression
+DecrementExpr ::= DECREMENT_OP Expression
+DerefExpr ::= MUL_OP Expression
+NegateExpr ::= MINUS_OP Expression
+PositExpr ::= PLUS_OP Expression
+NotExpr ::= NOT_OP Expression
+ComplementExpr ::= CONCAT_OP Expression
+StaticDerefExpr ::= EXPR_START Type EXPR_END DOT_OP IDENTIFIER
+StaticDerefTemplateExpr ::= EXPR_START Type EXPR_END DOT_OP TemplateInstance
+DeleteExpr ::= DELETE Expression
+
+CastExpr ::= CAST EXPR_START Type EXPR_END Expression
+CtorsExpr ::= CAST EXPR_START TypeCtors? EXPR_END Expression
+
+PowExpr ::= Expression POW_OP Expression
+
+NewExpression ::=
+    (NEW AllocatorArguments? Type) |
+    NewExpressionWithArgs
+
+NewExpressionWithArgs ::=
+    (NEW AllocatorArguments? Type LEFT_BRACKET AssignExpr RIGHT_BRACKET) |
+    (NEW AllocatorArguments? Type EXPR_START ArgumentList? EXPR_END) |
+    NewAnonClassExpression
+
+AllocatorArguments ::= (EXPR_START ArgumentList? EXPR_END)
+
+ArgumentList ::=
+    (AssignExpr PARAM_SEP ArgumentList) |
+    (AssignExpr PARAM_SEP) |
+    AssignExpr
+
+NewAnonClassExpression ::= (NEW AllocatorArguments? CLASS ClassArguments? SuperClass? Interfaces? AggregateBody)
+
+ClassArguments ::= (EXPR_START ArgumentList? EXPR_END)
+
+private PostfixGroup ::=
+    MemberExpr |
+    TemplateMemberExpr |
+    NewMemberExpr |
+    PostIncrementExpr |
+    PostDecrementExpr |
+    ArrayExpr |
+    DeclExpr |
+    IndexExpr |
+    EmptySliceExpr |
+    SliceExpr
+
+MemberExpr ::= Expression DOT_OP IDENTIFIER
+TemplateMemberExpr ::= Expression DOT_OP TemplateInstance
+NewMemberExpr ::= Expression DOT_OP NewExpression
+PostIncrementExpr ::= Expression INCREMENT_OP
+PostDecrementExpr ::= Expression DECREMENT_OP
+ArrayExpr ::= Expression EXPR_START ArgumentList? EXPR_END
+DeclExpr ::= TypeCtors? BasicType EXPR_START ArgumentList? EXPR_END
+IndexExpr ::= Expression LEFT_BRACKET ArgumentList RIGHT_BRACKET
+EmptySliceExpr ::= Expression LEFT_BRACKET RIGHT_BRACKET
+SliceExpr ::= Expression LEFT_BRACKET Slice PARAM_SEP? RIGHT_BRACKET
+
+Slice ::=
+    Expression |
+    (Expression PARAM_SEP Slice) |
+    (Expression DOTDOT_OP Expression PARAM_SEP Slice) |
+    (Expression DOTDOT_OP Expression)
+
+PrimaryExpr ::=
+    IDENTIFIER |
+    (DOT_OP IDENTIFIER) |
+    TemplateInstance |
+    (DOT_OP TemplateInstance) |
+    THIS |
+    SUPER |
+    NULL |
+    TRUE |
+    FALSE |
+    DOLLAR_OP |
+    INTEGER_LITERAL |
+    FLOAT_LITERAL |
+    CHARACTER_LITERAL |
+    StringLiterals |
+    ArrayLiteral |
+    AssocArrayLiteral |
+    FunctionLiteral |
+    AssertExpr |
+    MixinExpr |
+    ImportExpr |
+    NewExpressionWithArgs |
+    (BasicTypeX DOT_OP IDENTIFIER) |
+    Typeof |
+    TypeidExpression |
+    IsExpression |
+    (EXPR_START Expression EXPR_END) |
+    TraitsExpression |
+    SpecialKeyword
+
+StringLiterals ::=
+    (STRING_LITERAL StringLiteralsPrime) |
+    (TokenString StringLiteralsPrime)
+
+StringLiteralsPrime ::=
+    ((STRING_LITERAL StringLiteralsPrime) |
+    (TokenString StringLiteralsPrime))?
+
+ */
