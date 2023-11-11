@@ -1,0 +1,61 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="JASS"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "guru.xgm.jass.lang.PsiParserJASS"
+    psiPackage=               "guru.xgm.jass.psi"
+    psiImplPackage=           "guru.xgm.jass.psi.impl"
+    elementTypeHolderClass=   "guru.xgm.jass.psi.TypesJASS"
+    elementTypeClass=         "guru.xgm.jass.psi.tree.IElementTypeJASS_Element"
+    tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
+
+    extends(".*Expression")=expression
+
+    tokens = [
+        space='regexp:\s+'
+        SINGLE_LINE_COMMENT="regexp://[^\n]*"
+        SEMI=';'
+        EQ='='
+        LP='('
+        RP=')'
+
+        space='regexp:\s+'
+        comment='regexp://.*'
+        number='regexp:\d+(\.\d*)?'
+        string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+
+        op_1='+'
+        op_2='-'
+        op_3='*'
+        op_4='/'
+        op_5='!'
+
+        TYPE='type'
+
+        id='regexp:\p{Alpha}\w*'
+    ]
+}
+
+root ::= (property|typeDeclaration)*
+
+
+property ::= id '=' expression {pin=2}
+
+expression ::= factor plusExpression *
+left plusExpression ::= plusOpertor factor
+private plusOpertor ::= '+'|'-'
+private factor ::= primary mulExpression *
+left mulExpression  ::= mul_op primary
+private mul_op ::= '*'|'/'
+private primary ::= primary_inner factorialExpression ?
+left factorialExpression ::= '!'
+
+private primary_inner ::= literalExpression | refExpression | parenExpression
+
+parenExpression ::= LP expression RP {pin=1}
+refExpression ::= id
+literalExpression ::= number | string | float
+
+typeDeclaration ::= TYPE id

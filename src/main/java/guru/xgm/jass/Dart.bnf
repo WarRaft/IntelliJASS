@@ -253,18 +253,18 @@ varDeclarationListPart ::= componentName varInit?
 }
 
 classDefinition ::= metadata* (mixinClassModifiers | classModifiers) 'class' componentName typeParameters? (mixinApplication | standardClassDeclarationTail)
-{pin=4 mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
+{pin=4  }
 
 private classModifiers ::= 'sealed' | 'abstract'? ('base' | 'interface' | 'final')?
 private mixinClassModifiers ::= 'abstract'? 'base'? 'mixin'
 
 mixinDeclaration ::= metadata* mixinModifier? 'mixin' componentName typeParameters? onMixins? interfaces? classBody
-{mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
+{ }
 
 private mixinModifier ::= 'sealed' | 'base' | 'interface' | 'final'
 
 enumDefinition ::= metadata* 'enum' componentName typeParameters? mixins? interfaces? '{' enumConstantDeclaration? (',' enumConstantDeclaration)* ','? ';'? classMembers '}'
-{pin=3  mixin="com.jetbrains.lang.dart.psi.impl.AbstractDartPsiClass" implements="com.jetbrains.lang.dart.psi.DartClass"}
+{pin=3   }
 
 enumConstantDeclaration ::= metadata* componentName typeArguments? '.' componentName arguments |
                             metadata* componentName typeArguments? arguments?
@@ -569,7 +569,7 @@ namedArgument ::= parameterNameReferenceExpression ':' expression {
 }
 
 parameterNameReferenceExpression ::= << nonStrictID >>
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 
 expression ::= assignExpressionWrapper {recoverWhile="expression_recover"}
 private expression_recover ::= !(<<nonStrictID>> |
@@ -610,7 +610,7 @@ prefixExpression ::= (prefixOperator prefixExpression) | awaitExpression | suffi
 prefixOperator ::= '-' | '+' | '--' | '++' | '!' | '~'
 
 awaitExpression ::= <<isInsideSyncOrAsyncFunction>> 'await' prefixExpression
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 
 private suffixExpressionWrapper ::= valueExpression suffixExpression*
 left suffixExpression ::= ('--' | '++')
@@ -638,7 +638,7 @@ private callOrArrayAccessOrQualifiedRefExpression ::= (callExpression | arrayAcc
 private refOrThisOrSuperOrParenExpression ::= (referenceExpression | thisExpression | superExpression | << parenthesizedExpressionWrapper >>)
 
 left callExpression ::= typeArguments? ('.' 'new')? <<argumentsWrapper>>
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl"  methods = [getArguments]}
+{  methods = [getArguments]}
 left arrayAccessExpression ::= arrayAccess
 
 
@@ -648,21 +648,21 @@ libraryComponentReferenceExpression ::= << nonStrictID >>
 {mixin="com.jetbrains.lang.dart.psi.impl.DartLibraryComponentReferenceExpressionBase" }
 
 referenceExpression ::= << nonStrictID >>
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 
 left qualifiedReferenceExpression ::= '.' (referenceExpression | 'new') | '?.' referenceExpression {elementType="referenceExpression"}
 cascadeReferenceExpression ::= ('?..' | '..') << cascadeStopper >> (arrayAccess | refOrThisOrSuperOrParenExpression callOrArrayAccessOrQualifiedRefExpression) << varInitWrapper >>
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 
 simpleQualifiedReferenceExpression ::= referenceExpression qualifiedReferenceExpression* {elementType="referenceExpression"}
 
 thisExpression ::= 'this'
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 superExpression ::= 'super'
-{mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl" }
+{ }
 
 newExpression ::= newExpressionWithKeyword | simpleQualifiedReferenceExpression typeArguments '.' (referenceExpression | 'new') <<argumentsWrapper>> {
-  mixin="com.jetbrains.lang.dart.psi.impl.DartReferenceImpl"
+
 
   methods=[isConstantObjectExpression getArguments]
 }

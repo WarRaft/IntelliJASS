@@ -8,7 +8,6 @@
     psiPackage=               "guru.xgm.jass.psi"
     psiImplPackage=           "guru.xgm.jass.psi.impl"
     elementTypeHolderClass=   "guru.xgm.jass.psi.TypesJASS"
-    //psiImplUtilClass=         "guru.xgm.jass.psi.PsiImplUtilJASS"
     elementTypeClass=         "guru.xgm.jass.psi.tree.IElementTypeJASS_Element"
     tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
 
@@ -35,6 +34,7 @@ KEYWORD_TYPE
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
 // https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+
 expression ::= assignExpression
   | conditionalExpression
   | additionGroup
