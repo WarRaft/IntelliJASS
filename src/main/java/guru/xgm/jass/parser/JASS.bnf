@@ -14,48 +14,52 @@
     extends(".*Expression")=expression
 
     tokens = [
-        space='regexp:\s+'
+        WHITE_SPACE='regexp:\s+'
         SINGLE_LINE_COMMENT="regexp://[^\n]*"
-        SEMI=';'
+
         EQ='='
+        PLUS='+'
+        MINUS='-'
+        MUL='*'
+        DIV='/'
         LP='('
         RP=')'
+        LT='<'
+        GT='>'
 
-        space='regexp:\s+'
-        comment='regexp://.*'
+        TYPE='type'
+        EXTENDS='extends'
+
         number='regexp:\d+(\.\d*)?'
         string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
 
-        op_1='+'
-        op_2='-'
-        op_3='*'
-        op_4='/'
-        op_5='!'
-
-        TYPE='type'
-
-        id='regexp:\p{Alpha}\w*'
+        ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
     ]
 }
 
-root ::= (property|typeDeclaration)*
+root ::= (typeDeclaration|property)*
 
+property ::= ID EQ expression {pin=2}
 
-property ::= id '=' expression {pin=2}
+// === EXPRESSION
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+expression ::= addition
 
-expression ::= factor plusExpression *
-left plusExpression ::= plusOpertor factor
-private plusOpertor ::= '+'|'-'
-private factor ::= primary mulExpression *
-left mulExpression  ::= mul_op primary
-private mul_op ::= '*'|'/'
-private primary ::= primary_inner factorialExpression ?
-left factorialExpression ::= '!'
+private addition ::=multiplication plusExpression*
+left plusExpression ::= plusOperator multiplication
 
-private primary_inner ::= literalExpression | refExpression | parenExpression
+private multiplication ::= primary mulExpression*
+left mulExpression  ::= mulOperator primary
 
+private primary ::= MINUS? primaryInner
+
+private mulOperator ::= MUL|DIV
+private plusOperator ::= PLUS|MINUS
+
+private primaryInner ::= literalExpression | refExpression | parenExpression
 parenExpression ::= LP expression RP {pin=1}
 refExpression ::= id
 literalExpression ::= number | string | float
 
-typeDeclaration ::= TYPE id
+// === DECLARATION
+typeDeclaration ::= TYPE ID EXTENDS ID
