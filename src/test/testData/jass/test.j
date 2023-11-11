@@ -21,3 +21,16 @@ constant playercolor PLAYER_COLOR_GREEN = ConvertPlayerColor(6)
 //===================================================
 
 endglobals
+
+native CreateGroup takes nothing returns group
+native DestroyGroup takes group whichGroup returns nothing
+native GroupAddUnit takes group whichGroup, unit whichUnit returns nothing
+native GroupRemoveUnit takes group whichGroup, unit whichUnit returns nothing
+native GroupClear takes group whichGroup returns nothing
+
+function BJDebugMsg takes string msg, fuck d, c e returns nothing
+    set a = 1
+
+    set d = 2 + d = 42 = ddd
+
+endfunction

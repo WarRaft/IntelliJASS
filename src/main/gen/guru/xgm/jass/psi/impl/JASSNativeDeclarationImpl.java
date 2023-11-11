@@ -29,20 +29,8 @@ public class JASSNativeDeclarationImpl extends ASTWrapperPsiElement implements J
 
   @Override
   @NotNull
-  public List<JASSArgument> getArgumentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSArgument.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSFunctionName getFunctionName() {
-    return findChildByClass(JASSFunctionName.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSType getType() {
-    return findChildByClass(JASSType.class);
+  public JASSFunctionHead getFunctionHead() {
+    return findNotNullChildByClass(JASSFunctionHead.class);
   }
 
 }

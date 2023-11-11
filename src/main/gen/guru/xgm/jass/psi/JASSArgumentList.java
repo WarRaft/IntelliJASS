@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JASSArgumentList extends PsiElement {
 
   @NotNull
-  List<JASSExpression> getExpressionList();
+  List<JASSArgument> getArgumentList();
 
 }

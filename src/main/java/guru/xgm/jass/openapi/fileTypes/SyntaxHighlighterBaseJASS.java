@@ -12,6 +12,8 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
@@ -49,28 +51,38 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
         if (tokenType == TypesJASS.IDENTIFIER) return IDENTIFIER_KEYS;
 
-        if (tokenType == TypesJASS.KEYWORD_TYPE) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_EXTENDS) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_CONSTANT) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_NATIVE) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_TAKES) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_RETURNS) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_NOTHING) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_GLOBALS) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.KEYWORD_ENDGLOBALS) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.ARRAY) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.AND) return KEYWORD_KEYS;
-        if (tokenType == TypesJASS.OR) return KEYWORD_KEYS;
+        if (Arrays.asList(
+                TypesJASS.KEYWORD_TYPE,
+                TypesJASS.KEYWORD_EXTENDS,
+                TypesJASS.KEYWORD_CONSTANT,
+                TypesJASS.KEYWORD_NATIVE,
+                TypesJASS.KEYWORD_TAKES,
+                TypesJASS.KEYWORD_RETURNS,
+                TypesJASS.NOTHING,
+                TypesJASS.KEYWORD_GLOBALS,
+                TypesJASS.KEYWORD_ENDGLOBALS,
+                TypesJASS.KEYWORD_FUNCTION,
+                TypesJASS.KEYWORD_ENDFUNCTION,
+                TypesJASS.ARRAY,
+                TypesJASS.AND,
+                TypesJASS.OR,
+                TypesJASS.SET
+        ).contains(tokenType)) {
+            return KEYWORD_KEYS;
+        }
+
+        if (Arrays.asList(
+                TypesJASS.INTEGER,
+                TypesJASS.REAL,
+                TypesJASS.RAWCODE,
+                TypesJASS.HEX
+        ).contains(tokenType)) {
+            return NUMBER_KEYS;
+        }
 
         if (tokenType == TypesJASS.SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == TypesJASS.COMMA) return COMMA_KEYS;
-
-        if (tokenType == TypesJASS.INTEGER) return NUMBER_KEYS;
-        if (tokenType == TypesJASS.REAL) return NUMBER_KEYS;
-        if (tokenType == TypesJASS.RAWCODE) return NUMBER_KEYS;
-        if (tokenType == TypesJASS.HEX) return NUMBER_KEYS;
-
         if (tokenType == TypesJASS.STRING) return STRING_KEYS;
 
         return EMPTY_KEYS;

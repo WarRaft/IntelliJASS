@@ -29,8 +29,8 @@ public class JASSArgumentListImpl extends ASTWrapperPsiElement implements JASSAr
 
   @Override
   @NotNull
-  public List<JASSExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpression.class);
+  public List<JASSArgument> getArgumentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSArgument.class);
   }
 
 }

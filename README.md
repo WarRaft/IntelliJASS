@@ -1,3 +1,9 @@
+# Link
+- https://github.com/inwc3/wc3libs/tree/master
+- https://github.com/inwc3/JMPQ3
+- https://github.com/jhonnold/mpq
+
+
 # Simple Language Sample [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg)][docs]
 *Reference: [Custom Language Support Tutorial in IntelliJ SDK Docs][docs:custom_language_support_tutorial]*
 

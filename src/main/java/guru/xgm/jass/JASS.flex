@@ -35,41 +35,41 @@ STRING=\"([^\"\\]|\\.)*\"
 
 <YYINITIAL> {
 {WHITE_SPACE} { return WHITE_SPACE; }
-"and" { return AND; }
-"array" { return ARRAY; }
 //    call = 'call',
 "constant" { return KEYWORD_CONSTANT; }
 //    debug = 'debug',
 //    else = 'else',
 //    elseif = 'elseif',
 //    endfunction = 'endfunction',
+"endfunction" { return KEYWORD_ENDFUNCTION; }
 "endglobals" { return KEYWORD_ENDGLOBALS; }
 //    endif = 'endif',
 //    endloop = 'endloop',
 //    exitwhen = 'exitwhen',
 "extends" { return KEYWORD_EXTENDS; }
-//    false = 'false',
-//    function = 'function',
+"function" { return KEYWORD_FUNCTION; }
 "globals" { return KEYWORD_GLOBALS; }
 //    if = 'if',
 //    local = 'local',
 //    loop = 'loop',
 "native" { return KEYWORD_NATIVE; }
-"not" { return NOT; }
+"nothing" { return NOTHING; }
 //    null = 'null',
 //    nothing = 'nothing',
-"nothing" { return KEYWORD_NOTHING; }
-"or" { return OR; }
 "returns" { return KEYWORD_RETURNS; }
 //    return = 'return',
 //    set = 'set',
 "takes" { return KEYWORD_TAKES; }
 //    then = 'then',
 "type" { return KEYWORD_TYPE; }
-//    true = 'true',
 
-
+"array" { return ARRAY; }
+"and" { return AND; }
+"or" { return OR; }
+"true" { return TRUE; }
+"false" { return FALSE; }
 "not" { return NOT;}
+"set" { return SET;}
 {DOT} { return DOT;}
 "," { return COMMA;}
 "=" { return ASSIGN;}
@@ -87,12 +87,13 @@ STRING=\"([^\"\\]|\\.)*\"
 "==" { return EQ_EQ;}
 "!=" { return NEQ;}
 
-{IDENTIFIER} { return IDENTIFIER; }
 {INTEGER} { return INTEGER; }
 {REAL} {return REAL;}
 {HEX} {return HEX;}
 {RAWCODE} {return RAWCODE;}
 {STRING} {return STRING;}
+
+{IDENTIFIER} { return IDENTIFIER; }
 
 {SINGLE_LINE_COMMENT} { return SINGLE_LINE_COMMENT;}
 }

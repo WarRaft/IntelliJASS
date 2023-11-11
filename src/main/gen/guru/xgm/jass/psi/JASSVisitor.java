@@ -23,8 +23,16 @@ public class JASSVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitAssignStatement(@NotNull JASSAssignStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitCallExpression(@NotNull JASSCallExpression o) {
     visitExpression(o);
+  }
+
+  public void visitCallParamenters(@NotNull JASSCallParamenters o) {
+    visitPsiElement(o);
   }
 
   public void visitConditionalExpression(@NotNull JASSConditionalExpression o) {
@@ -36,6 +44,14 @@ public class JASSVisitor extends PsiElementVisitor {
   }
 
   public void visitExpression(@NotNull JASSExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionDeclaration(@NotNull JASSFunctionDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionHead(@NotNull JASSFunctionHead o) {
     visitPsiElement(o);
   }
 
@@ -89,6 +105,10 @@ public class JASSVisitor extends PsiElementVisitor {
 
   public void visitRefExpression(@NotNull JASSRefExpression o) {
     visitExpression(o);
+  }
+
+  public void visitStatementList(@NotNull JASSStatementList o) {
+    visitPsiElement(o);
   }
 
   public void visitType(@NotNull JASSType o) {

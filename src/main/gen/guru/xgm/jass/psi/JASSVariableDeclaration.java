@@ -13,7 +13,7 @@ public interface JASSVariableDeclaration extends PsiElement {
   @NotNull
   JASSType getType();
 
-  @Nullable
+  @NotNull
   JASSVariable getVariable();
 
 }

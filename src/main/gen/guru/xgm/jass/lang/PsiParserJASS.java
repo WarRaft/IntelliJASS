@@ -63,43 +63,111 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LPAREN [ !RPAREN expression  (COMMA expression)* ] RPAREN
+  // argument  (COMMA argument)*
   public static boolean argumentList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argumentList")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = argument(b, l + 1);
+    r = r && argumentList_1(b, l + 1);
+    exit_section_(b, m, ARGUMENT_LIST, r);
+    return r;
+  }
+
+  // (COMMA argument)*
+  private static boolean argumentList_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argumentList_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!argumentList_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "argumentList_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA argument
+  private static boolean argumentList_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argumentList_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && argument(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // SET? variable ASSIGN expression
+  public static boolean assignStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignStatement")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, ASSIGN_STATEMENT, "<assign statement>");
+    r = assignStatement_0(b, l + 1);
+    r = r && variable(b, l + 1);
+    r = r && consumeToken(b, ASSIGN);
+    p = r; // pin = 3
+    r = r && expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, p, PsiParserJASS::assignStatementRecover);
+    return r || p;
+  }
+
+  // SET?
+  private static boolean assignStatement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignStatement_0")) return false;
+    consumeToken(b, SET);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // !(SET)
+  static boolean assignStatementRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignStatementRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, SET);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LPAREN [ !RPAREN expression  (COMMA expression)* ] RPAREN
+  public static boolean callParamenters(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters")) return false;
     if (!nextTokenIs(b, LPAREN)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, ARGUMENT_LIST, null);
+    Marker m = enter_section_(b, l, _NONE_, CALL_PARAMENTERS, null);
     r = consumeToken(b, LPAREN);
     p = r; // pin = 1
-    r = r && report_error_(b, argumentList_1(b, l + 1));
+    r = r && report_error_(b, callParamenters_1(b, l + 1));
     r = p && consumeToken(b, RPAREN) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   // [ !RPAREN expression  (COMMA expression)* ]
-  private static boolean argumentList_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argumentList_1")) return false;
-    argumentList_1_0(b, l + 1);
+  private static boolean callParamenters_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters_1")) return false;
+    callParamenters_1_0(b, l + 1);
     return true;
   }
 
   // !RPAREN expression  (COMMA expression)*
-  private static boolean argumentList_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argumentList_1_0")) return false;
+  private static boolean callParamenters_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters_1_0")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
-    r = argumentList_1_0_0(b, l + 1);
+    r = callParamenters_1_0_0(b, l + 1);
     p = r; // pin = 1
     r = r && report_error_(b, expression(b, l + 1, -1));
-    r = p && argumentList_1_0_2(b, l + 1) && r;
+    r = p && callParamenters_1_0_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   // !RPAREN
-  private static boolean argumentList_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argumentList_1_0_0")) return false;
+  private static boolean callParamenters_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters_1_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NOT_);
     r = !consumeToken(b, RPAREN);
@@ -108,19 +176,19 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   // (COMMA expression)*
-  private static boolean argumentList_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argumentList_1_0_2")) return false;
+  private static boolean callParamenters_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters_1_0_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!argumentList_1_0_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "argumentList_1_0_2", c)) break;
+      if (!callParamenters_1_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "callParamenters_1_0_2", c)) break;
     }
     return true;
   }
 
   // COMMA expression
-  private static boolean argumentList_1_0_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argumentList_1_0_2_0")) return false;
+  private static boolean callParamenters_1_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callParamenters_1_0_2_0")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = consumeToken(b, COMMA);
@@ -128,6 +196,79 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     r = r && expression(b, l + 1, -1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // KEYWORD_FUNCTION functionHead statementList KEYWORD_ENDFUNCTION
+  public static boolean functionDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DECLARATION, "<function declaration>");
+    r = consumeToken(b, KEYWORD_FUNCTION);
+    p = r; // pin = 1
+    r = r && report_error_(b, functionHead(b, l + 1));
+    r = p && report_error_(b, statementList(b, l + 1)) && r;
+    r = p && consumeToken(b, KEYWORD_ENDFUNCTION) && r;
+    exit_section_(b, l, m, r, p, PsiParserJASS::functionDeclarationRecover);
+    return r || p;
+  }
+
+  /* ********************************************************** */
+  // !(KEYWORD_FUNCTION | IDENTIFIER ASSIGN | KEYWORD_ENDFUNCTION)
+  static boolean functionDeclarationRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclarationRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !functionDeclarationRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // KEYWORD_FUNCTION | IDENTIFIER ASSIGN | KEYWORD_ENDFUNCTION
+  private static boolean functionDeclarationRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclarationRecover_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KEYWORD_FUNCTION);
+    if (!r) r = parseTokens(b, 0, IDENTIFIER, ASSIGN);
+    if (!r) r = consumeToken(b, KEYWORD_ENDFUNCTION);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // functionName KEYWORD_TAKES (NOTHING|argumentList) KEYWORD_RETURNS (NOTHING|type)
+  public static boolean functionHead(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionHead")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_HEAD, null);
+    r = functionName(b, l + 1);
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, KEYWORD_TAKES));
+    r = p && report_error_(b, functionHead_2(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, KEYWORD_RETURNS)) && r;
+    r = p && functionHead_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // NOTHING|argumentList
+  private static boolean functionHead_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionHead_2")) return false;
+    boolean r;
+    r = consumeToken(b, NOTHING);
+    if (!r) r = argumentList(b, l + 1);
+    return r;
+  }
+
+  // NOTHING|type
+  private static boolean functionHead_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionHead_4")) return false;
+    boolean r;
+    r = consumeToken(b, NOTHING);
+    if (!r) r = type(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -147,14 +288,13 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   public static boolean globalsDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "globalsDeclaration")) return false;
     if (!nextTokenIs(b, KEYWORD_GLOBALS)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, GLOBALS_DECLARATION, null);
+    boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, KEYWORD_GLOBALS);
-    p = r; // pin = 1
-    r = r && report_error_(b, globalsDeclaration_1(b, l + 1));
-    r = p && consumeToken(b, KEYWORD_ENDGLOBALS) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
+    r = r && globalsDeclaration_1(b, l + 1);
+    r = r && consumeToken(b, KEYWORD_ENDGLOBALS);
+    exit_section_(b, m, GLOBALS_DECLARATION, r);
+    return r;
   }
 
   // (variableDeclaration)*
@@ -179,22 +319,17 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argument (COMMA argument)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type)
+  // KEYWORD_CONSTANT? KEYWORD_NATIVE functionHead
   public static boolean nativeDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nativeDeclaration")) return false;
     if (!nextTokenIs(b, "<native declaration>", KEYWORD_CONSTANT, KEYWORD_NATIVE)) return false;
-    boolean r, p;
+    boolean r;
     Marker m = enter_section_(b, l, _NONE_, NATIVE_DECLARATION, "<native declaration>");
     r = nativeDeclaration_0(b, l + 1);
     r = r && consumeToken(b, KEYWORD_NATIVE);
-    p = r; // pin = 2
-    r = r && report_error_(b, functionName(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, KEYWORD_TAKES)) && r;
-    r = p && report_error_(b, nativeDeclaration_4(b, l + 1)) && r;
-    r = p && report_error_(b, consumeToken(b, KEYWORD_RETURNS)) && r;
-    r = p && nativeDeclaration_6(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
+    r = r && functionHead(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   // KEYWORD_CONSTANT?
@@ -204,64 +339,13 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // KEYWORD_NOTHING|argument (COMMA argument)*
-  private static boolean nativeDeclaration_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nativeDeclaration_4")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KEYWORD_NOTHING);
-    if (!r) r = nativeDeclaration_4_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // argument (COMMA argument)*
-  private static boolean nativeDeclaration_4_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nativeDeclaration_4_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = argument(b, l + 1);
-    r = r && nativeDeclaration_4_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (COMMA argument)*
-  private static boolean nativeDeclaration_4_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nativeDeclaration_4_1_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!nativeDeclaration_4_1_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "nativeDeclaration_4_1_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA argument
-  private static boolean nativeDeclaration_4_1_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nativeDeclaration_4_1_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && argument(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // KEYWORD_NOTHING|type
-  private static boolean nativeDeclaration_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nativeDeclaration_6")) return false;
-    boolean r;
-    r = consumeToken(b, KEYWORD_NOTHING);
-    if (!r) r = type(b, l + 1);
-    return r;
-  }
-
   /* ********************************************************** */
   // (
   // typeDeclaration
   // |nativeDeclaration
-  // |globalsDeclaration)*
+  // |globalsDeclaration
+  // |functionDeclaration
+  // )*
   static boolean script(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "script")) return false;
     Marker m = enter_section_(b, l, _NONE_);
@@ -277,12 +361,16 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   // typeDeclaration
   // |nativeDeclaration
   // |globalsDeclaration
+  // |functionDeclaration
   private static boolean script_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "script_0")) return false;
     boolean r;
+    Marker m = enter_section_(b);
     r = typeDeclaration(b, l + 1);
     if (!r) r = nativeDeclaration(b, l + 1);
     if (!r) r = globalsDeclaration(b, l + 1);
+    if (!r) r = functionDeclaration(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -292,6 +380,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   // |KEYWORD_CONSTANT
   // |KEYWORD_NATIVE
   // |KEYWORD_GLOBALS
+  // |KEYWORD_FUNCTION
   // )
   static boolean scriptRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "scriptRecover")) return false;
@@ -306,6 +395,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
   // |KEYWORD_CONSTANT
   // |KEYWORD_NATIVE
   // |KEYWORD_GLOBALS
+  // |KEYWORD_FUNCTION
   private static boolean scriptRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "scriptRecover_0")) return false;
     boolean r;
@@ -313,6 +403,31 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, KEYWORD_CONSTANT);
     if (!r) r = consumeToken(b, KEYWORD_NATIVE);
     if (!r) r = consumeToken(b, KEYWORD_GLOBALS);
+    if (!r) r = consumeToken(b, KEYWORD_FUNCTION);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (assignStatement)*
+  public static boolean statementList(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "statementList")) return false;
+    Marker m = enter_section_(b, l, _NONE_, STATEMENT_LIST, "<statement list>");
+    while (true) {
+      int c = current_position_(b);
+      if (!statementList_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "statementList", c)) break;
+    }
+    exit_section_(b, l, m, true, false, null);
+    return true;
+  }
+
+  // (assignStatement)
+  private static boolean statementList_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "statementList_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = assignStatement(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -366,9 +481,9 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     r = variableDeclaration_0(b, l + 1);
     r = r && type(b, l + 1);
     r = r && variableDeclaration_2(b, l + 1);
-    p = r; // pin = 3
-    r = r && report_error_(b, variable(b, l + 1));
-    r = p && variableDeclaration_4(b, l + 1) && r;
+    r = r && variable(b, l + 1);
+    p = r; // pin = 4
+    r = r && variableDeclaration_4(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -471,7 +586,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
         r = expression(b, l, 4);
         exit_section_(b, l, m, DIV_EXPRESSION, r, true, null);
       }
-      else if (g < 6 && leftMarkerIs(b, REF_EXPRESSION) && argumentList(b, l + 1)) {
+      else if (g < 6 && leftMarkerIs(b, REF_EXPRESSION) && callParamenters(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, CALL_EXPRESSION, r, true, null);
       }
@@ -547,7 +662,7 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // INTEGER | REAL | RAWCODE | HEX | STRING
+  // INTEGER | REAL | RAWCODE | HEX | STRING | TRUE | FALSE
   public static boolean literalExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "literalExpression")) return false;
     boolean r;
@@ -557,6 +672,8 @@ public class PsiParserJASS implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, RAWCODE);
     if (!r) r = consumeTokenSmart(b, HEX);
     if (!r) r = consumeTokenSmart(b, STRING);
+    if (!r) r = consumeTokenSmart(b, TRUE);
+    if (!r) r = consumeTokenSmart(b, FALSE);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

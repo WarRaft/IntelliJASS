@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSNativeDeclaration extends PsiElement {
+public interface JASSCallParamenters extends PsiElement {
 
   @NotNull
-  JASSFunctionHead getFunctionHead();
+  List<JASSExpression> getExpressionList();
 
 }

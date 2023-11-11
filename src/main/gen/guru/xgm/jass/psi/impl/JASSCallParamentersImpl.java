@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSCallExpressionImpl extends JASSExpressionImpl implements JASSCallExpression {
+public class JASSCallParamentersImpl extends ASTWrapperPsiElement implements JASSCallParamenters {
 
-  public JASSCallExpressionImpl(@NotNull ASTNode node) {
+  public JASSCallParamentersImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitCallExpression(this);
+    visitor.visitCallParamenters(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class JASSCallExpressionImpl extends JASSExpressionImpl implements JASSCa
 
   @Override
   @NotNull
-  public JASSCallParamenters getCallParamenters() {
-    return findNotNullChildByClass(JASSCallParamenters.class);
-  }
-
-  @Override
-  @NotNull
-  public JASSRefExpression getRefExpression() {
-    return findNotNullChildByClass(JASSRefExpression.class);
+  public List<JASSExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpression.class);
   }
 
 }

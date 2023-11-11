@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface JASSCallExpression extends JASSExpression {
 
   @NotNull
-  JASSArgumentList getArgumentList();
+  JASSCallParamenters getCallParamenters();
 
   @NotNull
   JASSRefExpression getRefExpression();

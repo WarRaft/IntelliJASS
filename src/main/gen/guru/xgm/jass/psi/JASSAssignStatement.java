@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSNativeDeclaration extends PsiElement {
+public interface JASSAssignStatement extends PsiElement {
+
+  @Nullable
+  JASSExpression getExpression();
 
   @NotNull
-  JASSFunctionHead getFunctionHead();
+  JASSVariable getVariable();
 
 }

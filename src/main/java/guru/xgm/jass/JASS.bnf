@@ -22,12 +22,15 @@
 script ::= (
 typeDeclaration
 |nativeDeclaration
-|globalsDeclaration)* {recoverWhile="scriptRecover"}
+|globalsDeclaration
+|functionDeclaration
+)* {recoverWhile=scriptRecover}
 private scriptRecover ::= !(
 KEYWORD_TYPE
 |KEYWORD_CONSTANT
 |KEYWORD_NATIVE
 |KEYWORD_GLOBALS
+|KEYWORD_FUNCTION
 )
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities
@@ -52,9 +55,9 @@ private primaryGroup ::=  refSimpleExpression | literalExpression | parenExpress
 fake refExpression ::= expression? DOT IDENTIFIER
 refSimpleExpression ::= IDENTIFIER {extends=refExpression elementType=refExpression}
 qualificationExpression ::= expression DOT IDENTIFIER {extends=refExpression elementType=refExpression}
-callExpression ::= refExpression argumentList
-argumentList ::= LPAREN [ !RPAREN expression  (COMMA expression)* ] RPAREN {pin(".*")=1}
-literalExpression ::= INTEGER | REAL | RAWCODE | HEX | STRING
+callExpression ::= refExpression callParamenters
+callParamenters ::= LPAREN [ !RPAREN expression  (COMMA expression)* ] RPAREN {pin(".*")=1}
+literalExpression ::= INTEGER | REAL | RAWCODE | HEX | STRING | TRUE | FALSE
 assignExpression ::= expression ASSIGN expression { rightAssociative=true }
 conditionalExpression ::= expression (LT | RT | LT_EQ | RT_EQ | EQ_EQ | NEQ) expression
 divExpression ::= expression DIV expression
@@ -68,14 +71,26 @@ andExpression ::= expression AND expression
 orExpression ::= expression OR expression
 parenExpression ::= LPAREN expression RPAREN
 
-// DECLARATION
+
 typeDeclaration ::= KEYWORD_TYPE type KEYWORD_EXTENDS type {pin=1}
-nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionName KEYWORD_TAKES (KEYWORD_NOTHING|argument (COMMA argument)*) KEYWORD_RETURNS (KEYWORD_NOTHING|type) {pin=2}
-globalsDeclaration ::= KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS {pin=1}
-variableDeclaration ::= KEYWORD_CONSTANT? type ARRAY? variable (ASSIGN expression)? {pin=3}
+globalsDeclaration ::= KEYWORD_GLOBALS (variableDeclaration)* KEYWORD_ENDGLOBALS {pin=3}
+variableDeclaration ::= KEYWORD_CONSTANT? type ARRAY? variable (ASSIGN expression)? {pin=4}
+
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+
+nativeDeclaration ::= KEYWORD_CONSTANT? KEYWORD_NATIVE functionHead
+functionHead ::= functionName KEYWORD_TAKES (NOTHING|argumentList) KEYWORD_RETURNS (NOTHING|type) {pin=1}
+functionDeclaration ::= KEYWORD_FUNCTION functionHead statementList KEYWORD_ENDFUNCTION {pin=1 recoverWhile=functionDeclarationRecover}
+private functionDeclarationRecover ::= !(KEYWORD_FUNCTION | IDENTIFIER ASSIGN | KEYWORD_ENDFUNCTION)
+
+statementList ::= (assignStatement)*
+assignStatement ::= SET? variable ASSIGN expression {pin=3 recoverWhile=assignStatementRecover}
+private assignStatementRecover ::= !(SET)
 
 type ::= IDENTIFIER
 variable ::= IDENTIFIER
 functionName ::= IDENTIFIER
+argumentList ::= argument  (COMMA argument)*
 argument ::= type variable
 

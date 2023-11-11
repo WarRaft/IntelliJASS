@@ -40,9 +40,9 @@ public class JASSVariableDeclarationImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
+  @NotNull
   public JASSVariable getVariable() {
-    return findChildByClass(JASSVariable.class);
+    return findNotNullChildByClass(JASSVariable.class);
   }
 
 }
