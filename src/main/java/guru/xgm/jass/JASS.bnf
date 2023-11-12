@@ -4,7 +4,7 @@
     psiClassPrefix="JASS"
     psiImplClassSuffix="Impl"
 
-    parserClass=              "guru.xgm.jass.lang.PsiParserJASS"
+    parserClass=              "guru.xgm.jass.parser.JASSParser"
     psiPackage=               "guru.xgm.jass.psi"
     psiImplPackage=           "guru.xgm.jass.psi.impl"
     elementTypeHolderClass=   "guru.xgm.jass.psi.TypesJASS"

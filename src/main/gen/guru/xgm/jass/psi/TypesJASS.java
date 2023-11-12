@@ -10,167 +10,133 @@ import guru.xgm.jass.psi.impl.*;
 
 public interface TypesJASS {
 
-  IElementType AND_EXPRESSION = new IElementTypeJASS_Element("AND_EXPRESSION");
-  IElementType ARGUMENT = new IElementTypeJASS_Element("ARGUMENT");
-  IElementType ARGUMENT_LIST = new IElementTypeJASS_Element("ARGUMENT_LIST");
-  IElementType ASSIGN_EXPRESSION = new IElementTypeJASS_Element("ASSIGN_EXPRESSION");
-  IElementType ASSIGN_STATEMENT = new IElementTypeJASS_Element("ASSIGN_STATEMENT");
-  IElementType CALL_EXPRESSION = new IElementTypeJASS_Element("CALL_EXPRESSION");
-  IElementType CALL_PARAMENTERS = new IElementTypeJASS_Element("CALL_PARAMENTERS");
-  IElementType CONDITIONAL_EXPRESSION = new IElementTypeJASS_Element("CONDITIONAL_EXPRESSION");
-  IElementType DIV_EXPRESSION = new IElementTypeJASS_Element("DIV_EXPRESSION");
+  IElementType AND_EXPR = new IElementTypeJASS_Element("AND_EXPR");
+  IElementType ARRAY_LITERAL = new IElementTypeJASS_Element("ARRAY_LITERAL");
+  IElementType DIV_EXPR = new IElementTypeJASS_Element("DIV_EXPR");
+  IElementType DIV_UNARY_EXPR = new IElementTypeJASS_Element("DIV_UNARY_EXPR");
+  IElementType EQUAL_EXPR = new IElementTypeJASS_Element("EQUAL_EXPR");
   IElementType EXPRESSION = new IElementTypeJASS_Element("EXPRESSION");
-  IElementType FUNCTION_DECLARATION = new IElementTypeJASS_Element("FUNCTION_DECLARATION");
-  IElementType FUNCTION_HEAD = new IElementTypeJASS_Element("FUNCTION_HEAD");
-  IElementType FUNCTION_NAME = new IElementTypeJASS_Element("FUNCTION_NAME");
-  IElementType GLOBALS_DECLARATION = new IElementTypeJASS_Element("GLOBALS_DECLARATION");
-  IElementType LITERAL_EXPRESSION = new IElementTypeJASS_Element("LITERAL_EXPRESSION");
-  IElementType MINUS_EXPRESSION = new IElementTypeJASS_Element("MINUS_EXPRESSION");
-  IElementType MINUS_UNARY_EXPRESSION = new IElementTypeJASS_Element("MINUS_UNARY_EXPRESSION");
-  IElementType MUL_EXPRESSION = new IElementTypeJASS_Element("MUL_EXPRESSION");
-  IElementType NATIVE_DECLARATION = new IElementTypeJASS_Element("NATIVE_DECLARATION");
-  IElementType NOT_UNARY_EXPRESSION = new IElementTypeJASS_Element("NOT_UNARY_EXPRESSION");
-  IElementType OR_EXPRESSION = new IElementTypeJASS_Element("OR_EXPRESSION");
-  IElementType PAREN_EXPRESSION = new IElementTypeJASS_Element("PAREN_EXPRESSION");
-  IElementType PLUS_EXPRESSION = new IElementTypeJASS_Element("PLUS_EXPRESSION");
-  IElementType PLUS_UNARY_EXPRESSION = new IElementTypeJASS_Element("PLUS_UNARY_EXPRESSION");
-  IElementType REF_EXPRESSION = new IElementTypeJASS_Element("REF_EXPRESSION");
-  IElementType STATEMENT_LIST = new IElementTypeJASS_Element("STATEMENT_LIST");
-  IElementType TYPE = new IElementTypeJASS_Element("TYPE");
-  IElementType TYPE_DECLARATION = new IElementTypeJASS_Element("TYPE_DECLARATION");
-  IElementType VARIABLE = new IElementTypeJASS_Element("VARIABLE");
-  IElementType VARIABLE_DECLARATION = new IElementTypeJASS_Element("VARIABLE_DECLARATION");
+  IElementType FUNCTION_LITERAL = new IElementTypeJASS_Element("FUNCTION_LITERAL");
+  IElementType GREATER_THAN_EQUALS_EXPR = new IElementTypeJASS_Element("GREATER_THAN_EQUALS_EXPR");
+  IElementType GREATER_THAN_EXPR = new IElementTypeJASS_Element("GREATER_THAN_EXPR");
+  IElementType LESS_THAN_EQUALS_EXPR = new IElementTypeJASS_Element("LESS_THAN_EQUALS_EXPR");
+  IElementType LESS_THAN_EXPR = new IElementTypeJASS_Element("LESS_THAN_EXPR");
+  IElementType MINUS_EXPR = new IElementTypeJASS_Element("MINUS_EXPR");
+  IElementType MINUS_UNARY_EXPR = new IElementTypeJASS_Element("MINUS_UNARY_EXPR");
+  IElementType MUL_EXPR = new IElementTypeJASS_Element("MUL_EXPR");
+  IElementType MUL_UNARY_EXPR = new IElementTypeJASS_Element("MUL_UNARY_EXPR");
+  IElementType NOT_EQUALS_EXPR = new IElementTypeJASS_Element("NOT_EQUALS_EXPR");
+  IElementType NOT_EXPR = new IElementTypeJASS_Element("NOT_EXPR");
+  IElementType OR_EXPR = new IElementTypeJASS_Element("OR_EXPR");
+  IElementType PLUS_EXPR = new IElementTypeJASS_Element("PLUS_EXPR");
+  IElementType PLUS_UNARY_EXPR = new IElementTypeJASS_Element("PLUS_UNARY_EXPR");
+  IElementType PRIMARY_EXPR = new IElementTypeJASS_Element("PRIMARY_EXPR");
+  IElementType PROPERTY = new IElementTypeJASS_Element("PROPERTY");
 
-  IElementType AND = new IElementTypeJASS_Token("AND");
-  IElementType ARRAY = new IElementTypeJASS_Token("ARRAY");
-  IElementType ASSIGN = new IElementTypeJASS_Token("ASSIGN");
-  IElementType COMMA = new IElementTypeJASS_Token("COMMA");
-  IElementType DIV = new IElementTypeJASS_Token("DIV");
-  IElementType DOT = new IElementTypeJASS_Token("DOT");
-  IElementType EQ_EQ = new IElementTypeJASS_Token("EQ_EQ");
-  IElementType FALSE = new IElementTypeJASS_Token("FALSE");
+  IElementType AND = new IElementTypeJASS_Token("and");
+  IElementType ARRAY = new IElementTypeJASS_Token("array");
+  IElementType COMMA = new IElementTypeJASS_Token(",");
+  IElementType CONSTANT = new IElementTypeJASS_Token("constant");
+  IElementType DIV = new IElementTypeJASS_Token("/");
+  IElementType ENDFUNCTION = new IElementTypeJASS_Token("endfunction");
+  IElementType ENDGLOBALS = new IElementTypeJASS_Token("endglobals");
+  IElementType EQ = new IElementTypeJASS_Token("=");
+  IElementType EXTENDS = new IElementTypeJASS_Token("extends");
+  IElementType FUNCTION = new IElementTypeJASS_Token("function");
+  IElementType GLOBALS = new IElementTypeJASS_Token("globals");
+  IElementType GT = new IElementTypeJASS_Token(">");
+  IElementType GTEQ = new IElementTypeJASS_Token(">=");
   IElementType HEX = new IElementTypeJASS_Token("HEX");
-  IElementType IDENTIFIER = new IElementTypeJASS_Token("IDENTIFIER");
+  IElementType ID = new IElementTypeJASS_Token("ID");
   IElementType INTEGER = new IElementTypeJASS_Token("INTEGER");
-  IElementType KEYWORD_CONSTANT = new IElementTypeJASS_Token("KEYWORD_CONSTANT");
-  IElementType KEYWORD_ENDFUNCTION = new IElementTypeJASS_Token("KEYWORD_ENDFUNCTION");
-  IElementType KEYWORD_ENDGLOBALS = new IElementTypeJASS_Token("KEYWORD_ENDGLOBALS");
-  IElementType KEYWORD_EXTENDS = new IElementTypeJASS_Token("KEYWORD_EXTENDS");
-  IElementType KEYWORD_FUNCTION = new IElementTypeJASS_Token("KEYWORD_FUNCTION");
-  IElementType KEYWORD_GLOBALS = new IElementTypeJASS_Token("KEYWORD_GLOBALS");
-  IElementType KEYWORD_NATIVE = new IElementTypeJASS_Token("KEYWORD_NATIVE");
-  IElementType KEYWORD_RETURNS = new IElementTypeJASS_Token("KEYWORD_RETURNS");
-  IElementType KEYWORD_TAKES = new IElementTypeJASS_Token("KEYWORD_TAKES");
-  IElementType KEYWORD_TYPE = new IElementTypeJASS_Token("KEYWORD_TYPE");
-  IElementType LPAREN = new IElementTypeJASS_Token("LPAREN");
-  IElementType LT = new IElementTypeJASS_Token("LT");
-  IElementType LT_EQ = new IElementTypeJASS_Token("LT_EQ");
-  IElementType MINUS = new IElementTypeJASS_Token("MINUS");
-  IElementType MUL = new IElementTypeJASS_Token("MUL");
-  IElementType NEQ = new IElementTypeJASS_Token("NEQ");
-  IElementType NOT = new IElementTypeJASS_Token("NOT");
-  IElementType NOTHING = new IElementTypeJASS_Token("NOTHING");
-  IElementType OR = new IElementTypeJASS_Token("OR");
-  IElementType PLUS = new IElementTypeJASS_Token("PLUS");
+  IElementType LB = new IElementTypeJASS_Token("[");
+  IElementType LP = new IElementTypeJASS_Token("(");
+  IElementType LT = new IElementTypeJASS_Token("<");
+  IElementType LTEQ = new IElementTypeJASS_Token("<=");
+  IElementType MINUS = new IElementTypeJASS_Token("-");
+  IElementType MUL = new IElementTypeJASS_Token("*");
+  IElementType NATIVE = new IElementTypeJASS_Token("native");
+  IElementType NEQ = new IElementTypeJASS_Token("!=");
+  IElementType NOT = new IElementTypeJASS_Token("not");
+  IElementType NOTHING = new IElementTypeJASS_Token("nothing");
+  IElementType OR = new IElementTypeJASS_Token("or");
+  IElementType PLUS = new IElementTypeJASS_Token("+");
   IElementType RAWCODE = new IElementTypeJASS_Token("RAWCODE");
+  IElementType RB = new IElementTypeJASS_Token("]");
   IElementType REAL = new IElementTypeJASS_Token("REAL");
-  IElementType RPAREN = new IElementTypeJASS_Token("RPAREN");
-  IElementType RT = new IElementTypeJASS_Token("RT");
-  IElementType RT_EQ = new IElementTypeJASS_Token("RT_EQ");
-  IElementType SET = new IElementTypeJASS_Token("SET");
+  IElementType RETURNS = new IElementTypeJASS_Token("returns");
+  IElementType RP = new IElementTypeJASS_Token(")");
+  IElementType SET = new IElementTypeJASS_Token("set");
   IElementType SINGLE_LINE_COMMENT = new IElementTypeJASS_Token("SINGLE_LINE_COMMENT");
   IElementType STRING = new IElementTypeJASS_Token("STRING");
-  IElementType TRUE = new IElementTypeJASS_Token("TRUE");
+  IElementType TAKES = new IElementTypeJASS_Token("takes");
+  IElementType TYPE = new IElementTypeJASS_Token("type");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == AND_EXPRESSION) {
-        return new JASSAndExpressionImpl(node);
+      if (type == AND_EXPR) {
+        return new JASSAndExprImpl(node);
       }
-      else if (type == ARGUMENT) {
-        return new JASSArgumentImpl(node);
+      else if (type == ARRAY_LITERAL) {
+        return new JASSArrayLiteralImpl(node);
       }
-      else if (type == ARGUMENT_LIST) {
-        return new JASSArgumentListImpl(node);
+      else if (type == DIV_EXPR) {
+        return new JASSDivExprImpl(node);
       }
-      else if (type == ASSIGN_EXPRESSION) {
-        return new JASSAssignExpressionImpl(node);
+      else if (type == DIV_UNARY_EXPR) {
+        return new JASSDivUnaryExprImpl(node);
       }
-      else if (type == ASSIGN_STATEMENT) {
-        return new JASSAssignStatementImpl(node);
+      else if (type == EQUAL_EXPR) {
+        return new JASSEqualExprImpl(node);
       }
-      else if (type == CALL_EXPRESSION) {
-        return new JASSCallExpressionImpl(node);
+      else if (type == FUNCTION_LITERAL) {
+        return new JASSFunctionLiteralImpl(node);
       }
-      else if (type == CALL_PARAMENTERS) {
-        return new JASSCallParamentersImpl(node);
+      else if (type == GREATER_THAN_EQUALS_EXPR) {
+        return new JASSGreaterThanEqualsExprImpl(node);
       }
-      else if (type == CONDITIONAL_EXPRESSION) {
-        return new JASSConditionalExpressionImpl(node);
+      else if (type == GREATER_THAN_EXPR) {
+        return new JASSGreaterThanExprImpl(node);
       }
-      else if (type == DIV_EXPRESSION) {
-        return new JASSDivExpressionImpl(node);
+      else if (type == LESS_THAN_EQUALS_EXPR) {
+        return new JASSLessThanEqualsExprImpl(node);
       }
-      else if (type == FUNCTION_DECLARATION) {
-        return new JASSFunctionDeclarationImpl(node);
+      else if (type == LESS_THAN_EXPR) {
+        return new JASSLessThanExprImpl(node);
       }
-      else if (type == FUNCTION_HEAD) {
-        return new JASSFunctionHeadImpl(node);
+      else if (type == MINUS_EXPR) {
+        return new JASSMinusExprImpl(node);
       }
-      else if (type == FUNCTION_NAME) {
-        return new JASSFunctionNameImpl(node);
+      else if (type == MINUS_UNARY_EXPR) {
+        return new JASSMinusUnaryExprImpl(node);
       }
-      else if (type == GLOBALS_DECLARATION) {
-        return new JASSGlobalsDeclarationImpl(node);
+      else if (type == MUL_EXPR) {
+        return new JASSMulExprImpl(node);
       }
-      else if (type == LITERAL_EXPRESSION) {
-        return new JASSLiteralExpressionImpl(node);
+      else if (type == MUL_UNARY_EXPR) {
+        return new JASSMulUnaryExprImpl(node);
       }
-      else if (type == MINUS_EXPRESSION) {
-        return new JASSMinusExpressionImpl(node);
+      else if (type == NOT_EQUALS_EXPR) {
+        return new JASSNotEqualsExprImpl(node);
       }
-      else if (type == MINUS_UNARY_EXPRESSION) {
-        return new JASSMinusUnaryExpressionImpl(node);
+      else if (type == NOT_EXPR) {
+        return new JASSNotExprImpl(node);
       }
-      else if (type == MUL_EXPRESSION) {
-        return new JASSMulExpressionImpl(node);
+      else if (type == OR_EXPR) {
+        return new JASSOrExprImpl(node);
       }
-      else if (type == NATIVE_DECLARATION) {
-        return new JASSNativeDeclarationImpl(node);
+      else if (type == PLUS_EXPR) {
+        return new JASSPlusExprImpl(node);
       }
-      else if (type == NOT_UNARY_EXPRESSION) {
-        return new JASSNotUnaryExpressionImpl(node);
+      else if (type == PLUS_UNARY_EXPR) {
+        return new JASSPlusUnaryExprImpl(node);
       }
-      else if (type == OR_EXPRESSION) {
-        return new JASSOrExpressionImpl(node);
+      else if (type == PRIMARY_EXPR) {
+        return new JASSPrimaryExprImpl(node);
       }
-      else if (type == PAREN_EXPRESSION) {
-        return new JASSParenExpressionImpl(node);
-      }
-      else if (type == PLUS_EXPRESSION) {
-        return new JASSPlusExpressionImpl(node);
-      }
-      else if (type == PLUS_UNARY_EXPRESSION) {
-        return new JASSPlusUnaryExpressionImpl(node);
-      }
-      else if (type == REF_EXPRESSION) {
-        return new JASSRefExpressionImpl(node);
-      }
-      else if (type == STATEMENT_LIST) {
-        return new JASSStatementListImpl(node);
-      }
-      else if (type == TYPE) {
-        return new JASSTypeImpl(node);
-      }
-      else if (type == TYPE_DECLARATION) {
-        return new JASSTypeDeclarationImpl(node);
-      }
-      else if (type == VARIABLE) {
-        return new JASSVariableImpl(node);
-      }
-      else if (type == VARIABLE_DECLARATION) {
-        return new JASSVariableDeclarationImpl(node);
+      else if (type == PROPERTY) {
+        return new JASSPropertyImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

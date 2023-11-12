@@ -49,20 +49,20 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType == TypesJASS.IDENTIFIER) return IDENTIFIER_KEYS;
+        if (tokenType == TypesJASS.ID) return IDENTIFIER_KEYS;
 
         if (Arrays.asList(
-                TypesJASS.KEYWORD_TYPE,
-                TypesJASS.KEYWORD_EXTENDS,
-                TypesJASS.KEYWORD_CONSTANT,
-                TypesJASS.KEYWORD_NATIVE,
-                TypesJASS.KEYWORD_TAKES,
-                TypesJASS.KEYWORD_RETURNS,
+                TypesJASS.TYPE,
+                TypesJASS.EXTENDS,
+                TypesJASS.CONSTANT,
+                TypesJASS.NATIVE,
+                TypesJASS.TAKES,
+                TypesJASS.RETURNS,
                 TypesJASS.NOTHING,
-                TypesJASS.KEYWORD_GLOBALS,
-                TypesJASS.KEYWORD_ENDGLOBALS,
-                TypesJASS.KEYWORD_FUNCTION,
-                TypesJASS.KEYWORD_ENDFUNCTION,
+                TypesJASS.GLOBALS,
+                TypesJASS.ENDGLOBALS,
+                TypesJASS.FUNCTION,
+                TypesJASS.ENDFUNCTION,
                 TypesJASS.ARRAY,
                 TypesJASS.AND,
                 TypesJASS.OR,

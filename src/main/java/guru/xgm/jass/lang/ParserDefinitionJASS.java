@@ -12,6 +12,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import guru.xgm.jass.extapi.psi.PsiFileBaseJASS;
 import guru.xgm.jass.lexer.FlexAdapterJASS;
+import guru.xgm.jass.parser.JASSParser;
 import guru.xgm.jass.psi.TokenSetsJASS;
 import guru.xgm.jass.psi.TypesJASS;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +42,7 @@ final class ParserDefinitionJASS implements ParserDefinition {
     @NotNull
     @Override
     public PsiParser createParser(final Project project) {
-        return new PsiParserJASS();
+        return new JASSParser();
     }
 
     @NotNull

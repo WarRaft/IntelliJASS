@@ -4,7 +4,8 @@
     psiClassPrefix="JASS"
     psiImplClassSuffix="Impl"
 
-    parserClass=              "guru.xgm.jass.lang.PsiParserJASS"
+    parserClass=              "guru.xgm.jass.parser.JASSParser"
+
     psiPackage=               "guru.xgm.jass.psi"
     psiImplPackage=           "guru.xgm.jass.psi.impl"
     elementTypeHolderClass=   "guru.xgm.jass.psi.TypesJASS"
@@ -17,6 +18,16 @@
         WHITE_SPACE='regexp:\s+'
         SINGLE_LINE_COMMENT="regexp://[^\n]*"
 
+        CONSTANT='constant'
+        NATIVE='native'
+        TAKES='takes'
+        RETURNS='returns'
+        NOTHING='nothing'
+        GLOBALS='globals'
+        ENDGLOBALS='endglobals'
+        FUNCTION='function'
+        ENDFUNCTION='endfunction'
+        ARRAY='array'
         AND='and'
         OR='or'
         NOT='not'
@@ -40,9 +51,13 @@
 
         TYPE='type'
         EXTENDS='extends'
+        SET='set'
 
-        number='regexp:\d+(\.\d*)?'
-        string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+        REAL='regexp:\d+\.\d*|\.\d+'
+        INTEGER='regexp:\d+'
+        HEX='regexp:(0x|\$)[0-9a-fA-F]+'
+        STRING="regexp:\"([^\"\\]|\\.)*\""
+        RAWCODE="regexp:'[^']*'"
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
     ]
@@ -51,6 +66,9 @@
 root ::= (property)*
 
 property ::= ID EQ Expression {pin=2}
+// === DECLARATION
+
+
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
@@ -109,7 +127,8 @@ PrimaryExpr ::=
     ArrayLiteral |
     FunctionLiteral |
     ID |
-    number
+    REAL |
+    STRING
 
 ArrayLiteral ::= ID LB Expression RB
 FunctionLiteral ::= ID LP Expression (COMMA Expression)* RP
