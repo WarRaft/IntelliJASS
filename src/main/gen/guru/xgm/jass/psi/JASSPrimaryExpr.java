@@ -11,10 +11,19 @@ public interface JASSPrimaryExpr extends JASSExpression {
   JASSArrayLiteral getArrayLiteral();
 
   @Nullable
-  JASSFunctionLiteral getFunctionLiteral();
+  JASSFunctionCallLiteral getFunctionCallLiteral();
+
+  @Nullable
+  PsiElement getHex();
 
   @Nullable
   PsiElement getId();
+
+  @Nullable
+  PsiElement getInteger();
+
+  @Nullable
+  PsiElement getRawcode();
 
   @Nullable
   PsiElement getReal();

@@ -35,14 +35,32 @@ public class JASSPrimaryExprImpl extends JASSExpressionImpl implements JASSPrima
 
   @Override
   @Nullable
-  public JASSFunctionLiteral getFunctionLiteral() {
-    return findChildByClass(JASSFunctionLiteral.class);
+  public JASSFunctionCallLiteral getFunctionCallLiteral() {
+    return findChildByClass(JASSFunctionCallLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHex() {
+    return findChildByType(HEX);
   }
 
   @Override
   @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInteger() {
+    return findChildByType(INTEGER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRawcode() {
+    return findChildByType(RAWCODE);
   }
 
   @Override

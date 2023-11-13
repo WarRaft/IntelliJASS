@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSProperty extends PsiElement {
+public interface JASSElseIfStatement extends PsiElement {
 
   @Nullable
   JASSExpression getExpression();
 
   @NotNull
-  PsiElement getId();
+  List<JASSStatement> getStatementList();
 
 }

@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSArrayLiteralImpl extends ASTWrapperPsiElement implements JASSArrayLiteral {
+public class JASSFunctionDeclarationImpl extends ASTWrapperPsiElement implements JASSFunctionDeclaration {
 
-  public JASSArrayLiteralImpl(@NotNull ASTNode node) {
+  public JASSFunctionDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitArrayLiteral(this);
+    visitor.visitFunctionDeclaration(this);
   }
 
   @Override
@@ -29,14 +29,14 @@ public class JASSArrayLiteralImpl extends ASTWrapperPsiElement implements JASSAr
 
   @Override
   @Nullable
-  public JASSExpression getExpression() {
-    return findChildByClass(JASSExpression.class);
+  public JASSFunctionHead getFunctionHead() {
+    return findChildByClass(JASSFunctionHead.class);
   }
 
   @Override
   @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
+  public List<JASSStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSStatement.class);
   }
 
 }

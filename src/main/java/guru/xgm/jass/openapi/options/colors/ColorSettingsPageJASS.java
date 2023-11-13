@@ -17,7 +17,7 @@ import java.util.Map;
 final class ColorSettingsPageJASS implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Identifier", SyntaxHighlighterBaseJASS.IDENTIFIER),
+            new AttributesDescriptor("Identifier", SyntaxHighlighterBaseJASS.JASS_ID),
             new AttributesDescriptor("Keyword", SyntaxHighlighterBaseJASS.KEYWORD),
             new AttributesDescriptor("Comment", SyntaxHighlighterBaseJASS.LINE_COMMENT),
             new AttributesDescriptor("Bad character", SyntaxHighlighterBaseJASS.BAD_CHARACTER),

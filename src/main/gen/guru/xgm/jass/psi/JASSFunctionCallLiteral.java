@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSArrayLiteral extends PsiElement {
+public interface JASSFunctionCallLiteral extends PsiElement {
 
-  @Nullable
-  JASSExpression getExpression();
+  @NotNull
+  List<JASSArgument> getArgumentList();
 
   @NotNull
   PsiElement getId();

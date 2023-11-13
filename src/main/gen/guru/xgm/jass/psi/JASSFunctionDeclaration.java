@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSArrayLiteral extends PsiElement {
+public interface JASSFunctionDeclaration extends PsiElement {
 
   @Nullable
-  JASSExpression getExpression();
+  JASSFunctionHead getFunctionHead();
 
   @NotNull
-  PsiElement getId();
+  List<JASSStatement> getStatementList();
 
 }

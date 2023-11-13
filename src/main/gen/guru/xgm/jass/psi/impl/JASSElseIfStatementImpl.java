@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSPropertyImpl extends ASTWrapperPsiElement implements JASSProperty {
+public class JASSElseIfStatementImpl extends ASTWrapperPsiElement implements JASSElseIfStatement {
 
-  public JASSPropertyImpl(@NotNull ASTNode node) {
+  public JASSElseIfStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitElseIfStatement(this);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class JASSPropertyImpl extends ASTWrapperPsiElement implements JASSProper
 
   @Override
   @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
+  public List<JASSStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSStatement.class);
   }
 
 }
