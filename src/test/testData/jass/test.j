@@ -31,6 +31,6 @@ native GroupClear takes group whichGroup returns nothing
 function BJDebugMsg takes string msg, fuck d, c e returns nothing
     set a = 1
 
-    set d = 2 + d = 42 = ddd
+    set d = 2 + d
 
 endfunction

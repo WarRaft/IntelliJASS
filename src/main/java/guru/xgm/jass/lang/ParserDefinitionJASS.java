@@ -17,9 +17,9 @@ import guru.xgm.jass.psi.TokenSetsJASS;
 import guru.xgm.jass.psi.TypesJASS;
 import org.jetbrains.annotations.NotNull;
 
-final class ParserDefinitionJASS implements ParserDefinition {
+public final class ParserDefinitionJASS implements ParserDefinition {
 
-    public static final IFileElementType FILE = new IFileElementType(LanguageJASS.INSTANCE);
+    public static final IFileElementType JASS_FILE = new IFileElementType(LanguageJASS.INSTANCE);
 
     @NotNull
     @Override
@@ -48,7 +48,7 @@ final class ParserDefinitionJASS implements ParserDefinition {
     @NotNull
     @Override
     public IFileElementType getFileNodeType() {
-        return FILE;
+        return JASS_FILE;
     }
 
     @NotNull

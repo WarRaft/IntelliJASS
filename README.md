@@ -2,7 +2,6 @@
 - https://github.com/inwc3/wc3libs/tree/master
 - https://github.com/inwc3/JMPQ3
 - https://github.com/jhonnold/mpq
-- https://plugins.jetbrains.com/plugin/23120-jass/edit
 
 
 # Simple Language Sample [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg)][docs]
