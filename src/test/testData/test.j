@@ -22,6 +22,12 @@ constant playercolor PLAYER_COLOR_GREEN = ConvertPlayerColor(6)
 
 endglobals
 
+globals
+
+
+
+endglobals
+
 native CreateGroup takes nothing returns group
 native DestroyGroup takes group whichGroup returns nothing
 native GroupAddUnit takes group whichGroup, unit whichUnit returns nothing
