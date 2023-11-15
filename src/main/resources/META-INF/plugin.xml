@@ -35,19 +35,10 @@
     </extensions>
 
     <description><![CDATA[
-        <p>Just Another Scripting Syntax for
+        <p>Just Another Scripting Syntax (JASS) for
             <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a>.</p>
         <hr>
-        <p>Current features</p>
-        <ul>
-            <li>JASS syntax hightlight</li>
-        </ul>
-
-        <p>Future features</p>
-        <ul>
-            <li>Smart coding assistance for JASS that includes code completion, formatting, navigation, intentions, refactorings, and more</li>
-            <li>Open ingame binary files</li>
-        </ul>
+        Code folding, highlight and open binary ingame file.
         ]]></description>
 
     <change-notes><![CDATA[
