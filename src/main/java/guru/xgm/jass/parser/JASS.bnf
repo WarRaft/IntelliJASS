@@ -92,7 +92,9 @@ TypeDeclaration ::= TYPE ID EXTENDS ID {pin=1}
 
 TypedVariable ::= ID ID
 ParamList ::= TypedVariable  (COMMA TypedVariable)*
-FunctionHead ::= ID TAKES (NOTHING|ParamList) RETURNS (NOTHING|ID) {pin=2}
+
+FunctionName ::= ID
+FunctionHead ::= FunctionName TAKES (NOTHING|ParamList) RETURNS (NOTHING|ID) {pin=2}
 NativeDeclaration ::= CONSTANT? NATIVE FunctionHead {pin=2}
 
 GlobalsDeclaration ::= GLOBALS GlobalVarDeclaration* ENDGLOBALS {pin=1}
@@ -134,6 +136,8 @@ ExitWhenStatement ::=EXITWHEN Expression {pin=1}
 // https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
 // https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+
+// integer, real, boolean, string, code, handle
 
 Expression ::=
     AddGroup |

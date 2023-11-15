@@ -12,9 +12,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import guru.xgm.jass.extapi.psi.PsiFileBaseJASS;
 import guru.xgm.jass.lang.ParserDefinitionJASS;
-import guru.xgm.jass.psi.JASSFunctionDeclaration;
-import guru.xgm.jass.psi.JASSGlobalsDeclaration;
-import guru.xgm.jass.psi.TypesJASS;
+import guru.xgm.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -25,7 +23,7 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
     @Override
     protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
         final IElementType type = node.getElementType();
-        return type == ParserDefinitionJASS.JASS_FILE || type == TypesJASS.GLOBALS_DECLARATION;
+        return type == ParserDefinitionJASS.JASS_FILE || type == TypesJASS.GLOBALS_DECLARATION || type == TypesJASS.FUNCTION_DECLARATION;
     }
 
     @Override
@@ -36,33 +34,40 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
                 root,
                 PsiComment.class,
                 JASSGlobalsDeclaration.class,
-                JASSFunctionDeclaration.class
+                JASSFunctionDeclaration.class,
+                JASSIfStatement.class,
+                JASSLoopStatement.class
         );
 
         for (PsiElement psiElement : psiElements) {
-            // globals
-            if (psiElement instanceof JASSGlobalsDeclaration) {
-                descriptors.add(new FoldingDescriptor(psiElement, psiElement.getTextRange()));
-            }
-
-            // functions
-            if (psiElement instanceof JASSFunctionDeclaration) {
+            if (psiElement instanceof JASSGlobalsDeclaration ||
+                    psiElement instanceof JASSFunctionDeclaration ||
+                    psiElement instanceof JASSIfStatement ||
+                    psiElement instanceof JASSLoopStatement
+            ) {
                 descriptors.add(new FoldingDescriptor(psiElement, psiElement.getTextRange()));
             }
         }
-
     }
 
     @Override
     protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
         final IElementType type = node.getElementType();
 
-        // globals
         if (type == TypesJASS.GLOBALS_DECLARATION) {
             final var psi = node.getPsi(JASSGlobalsDeclaration.class);
             final int size = psi.getGlobalVarDeclarationList().size();
             return "globals" + (size == 0 ? "..." : " (" + size + ")");
         }
+
+        if (type == TypesJASS.FUNCTION_DECLARATION) {
+            final var psi = node.getPsi(JASSFunctionDeclaration.class);
+            final JASSFunctionHead head = psi.getFunctionHead();
+            return "function" + (head == null ? "..." : " " + head.getFunctionName().getText());
+        }
+
+        if (type == TypesJASS.IF_STATEMENT) return "if...";
+        if (type == TypesJASS.LOOP_STATEMENT) return "loop...";
 
         return null;
     }

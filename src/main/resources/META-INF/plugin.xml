@@ -3,21 +3,25 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
     <vendor url="https://xgm.guru">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
-    <description>
-        <![CDATA[
-      Just Another Script System support plugin.
-    ]]>
-    </description>
-    <change-notes>
-        <![CDATA[
-    ]]>
-    </change-notes>
+    <description><![CDATA[
+<p>Support for <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos#Modding">JASS</a></p>
+<hr>
+<p>Current features</p>
+<ul>
+<li>JASS syntax hightlight</li>
+</ul>
 
+<p>Future features</p>
+<ul>
+<li>Smart coding assistance for JASS that includes code completion, formatting, navigation, intentions, refactorings, and more</li>
+<li>Open ingame binary files</li>
+</ul>
+  ]]></description>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="JASS file"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"

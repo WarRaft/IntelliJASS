@@ -24,6 +24,7 @@ public interface TypesJASS {
   IElementType FUNCTION_CALL_LITERAL = new IElementTypeJASS_Element("FUNCTION_CALL_LITERAL");
   IElementType FUNCTION_DECLARATION = new IElementTypeJASS_Element("FUNCTION_DECLARATION");
   IElementType FUNCTION_HEAD = new IElementTypeJASS_Element("FUNCTION_HEAD");
+  IElementType FUNCTION_NAME = new IElementTypeJASS_Element("FUNCTION_NAME");
   IElementType FUNCTION_SEND_LITERAL = new IElementTypeJASS_Element("FUNCTION_SEND_LITERAL");
   IElementType GLOBALS_DECLARATION = new IElementTypeJASS_Element("GLOBALS_DECLARATION");
   IElementType GLOBAL_VAR_DECLARATION = new IElementTypeJASS_Element("GLOBAL_VAR_DECLARATION");
@@ -149,6 +150,9 @@ public interface TypesJASS {
       }
       else if (type == FUNCTION_HEAD) {
         return new JASSFunctionHeadImpl(node);
+      }
+      else if (type == FUNCTION_NAME) {
+        return new JASSFunctionNameImpl(node);
       }
       else if (type == FUNCTION_SEND_LITERAL) {
         return new JASSFunctionSendLiteralImpl(node);

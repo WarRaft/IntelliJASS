@@ -39,4 +39,12 @@ function BJDebugMsg takes string msg, fuck d, c e returns nothing
 
     set d = 2 + d
 
+        if a > b
+            loop
+
+            exitwhen 22
+
+            endloop
+        endif
+
 endfunction

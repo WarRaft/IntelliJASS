@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSFunctionHead extends PsiElement {
+public interface JASSFunctionName extends PsiElement {
 
   @NotNull
-  JASSFunctionName getFunctionName();
-
-  @Nullable
-  JASSParamList getParamList();
-
-  @Nullable
   PsiElement getId();
 
 }

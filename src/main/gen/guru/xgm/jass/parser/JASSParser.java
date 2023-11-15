@@ -258,13 +258,14 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ID TAKES (NOTHING|ParamList) RETURNS (NOTHING|ID)
+  // FunctionName TAKES (NOTHING|ParamList) RETURNS (NOTHING|ID)
   public static boolean FunctionHead(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionHead")) return false;
     if (!nextTokenIs(b, ID)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_HEAD, null);
-    r = consumeTokens(b, 2, ID, TAKES);
+    r = FunctionName(b, l + 1);
+    r = r && consumeToken(b, TAKES);
     p = r; // pin = 2
     r = r && report_error_(b, FunctionHead_2(b, l + 1));
     r = p && report_error_(b, consumeToken(b, RETURNS)) && r;
@@ -288,6 +289,18 @@ public class JASSParser implements PsiParser, LightPsiParser {
     boolean r;
     r = consumeToken(b, NOTHING);
     if (!r) r = consumeToken(b, ID);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // ID
+  public static boolean FunctionName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionName")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    exit_section_(b, m, FUNCTION_NAME, r);
     return r;
   }
 
