@@ -22,6 +22,8 @@
 <li>Open ingame binary files</li>
 </ul>
   ]]></description>
+
+
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="JASS file"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"
@@ -40,10 +42,12 @@
         <colorSettingsPage
                 implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"
         />
-        <lang.foldingBuilder
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.folding.CustomFoldingBuilderJASS"
-        />
+
+        <!-- folding -->
+        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.CustomFoldingBuilderJASS"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.jass.lang.folding.CodeFoldingOptionsProviderJASS"/>
+        <applicationService serviceImplementation="guru.xgm.jass.lang.folding.CodeFoldingSettingsJASS"/>
+
     </extensions>
 
 </idea-plugin>

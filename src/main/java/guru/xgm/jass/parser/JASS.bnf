@@ -12,7 +12,7 @@
     elementTypeClass=         "guru.xgm.jass.psi.tree.IElementTypeJASS_Element"
     tokenTypeClass=           "guru.xgm.jass.psi.tree.IElementTypeJASS_Token"
 
-    extends(".*Expr")=Expression
+    extends(".*Expr")=Expr
 
     tokens = [
         WHITE_SPACE='regexp:\s+'
@@ -69,67 +69,74 @@
         LT='<'
         GT='>'
 
-        REAL='regexp:\d+\.\d*|\.\d+'
-        HEX='regexp:(0x|\$)[0-9a-fA-F]+'
-        INTEGER='regexp:\d+'
-        RAWCODE="regexp:'[^']*'"
-        STRING="regexp:\"([^\"\\]|\\.)*\""
+        REALVAl='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        RAWVAl="regexp:'[^']*'"
+        STRVAL="regexp:\"([^\"\\]|\\.)*\""
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
     ]
 }
 
 Root ::= (
-    TypeDeclaration |
-    NativeDeclaration |
-    GlobalsDeclaration |
-    FunctionDeclaration
+    TypeDecl |
+    NativeDecl |
+    GlobalsDecl |
+    FuncDecl
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
-// === DECLARATION
-TypeDeclaration ::= TYPE ID EXTENDS ID {pin=1}
+// === TYPE
+TypeDecl ::= TYPE ID EXTENDS ID {pin=1}
 
-TypedVariable ::= ID ID
-ParamList ::= TypedVariable  (COMMA TypedVariable)*
+TypeVar ::= ID ID
+TypeVarList ::= TypeVar  (COMMA TypeVar)*
 
-FunctionName ::= ID
-FunctionHead ::= FunctionName TAKES (NOTHING|ParamList) RETURNS (NOTHING|ID) {pin=2}
-NativeDeclaration ::= CONSTANT? NATIVE FunctionHead {pin=2}
+// === FUNCTION
+Arg ::= Expr|ArgCode
+ArgList ::= Arg (COMMA Arg)*
+ArgCode ::= FUNCTION FuncCallName {pin=1}
+FuncCall ::= FuncCallName LP ArgList? RP
+FuncCallName ::= ID
+FuncDeclName ::= ID
+FuncHead ::= FuncDeclName TAKES (NOTHING|TypeVarList) RETURNS (NOTHING|ID) {pin=2}
+NativeDecl ::= CONSTANT? NATIVE FuncHead {pin=2}
 
-GlobalsDeclaration ::= GLOBALS GlobalVarDeclaration* ENDGLOBALS {pin=1}
+GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
 
-GlobalVarDeclaration ::= CONSTANT? ID ARRAY? ID (EQ Expression)? {pin=2 recoverWhile=GlobalVarDeclarationRecover}
-private GlobalVarDeclarationRecover ::= !(CONSTANT|ENDGLOBALS|ID ID|ID ARRAY|ID EQ)
+GlobalVarName ::= ID
+GlobalVarDecl ::= CONSTANT? GlobalVarName ARRAY? ID (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
+private GlobalVarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|ID ID|ID ARRAY|ID EQ)
 
-FunctionDeclaration ::= FUNCTION FunctionHead Statement* ENDFUNCTION {pin=1}
+FuncDecl ::= FUNCTION FuncHead Stmt* ENDFUNCTION {pin=1}
 
-Statement ::=
-    SetStatement |
-    CallStatement |
-    LocalVarStatement |
-    ReturnStatement |
-    IfStatement |
-    LoopStatement |
-    ExitWhenStatement
-    {recoverWhile=StatementRecover}
+Stmt ::=
+    SetStmt |
+    CallStmt |
+    LocalVarStmt |
+    ReturnStmt |
+    IfStmt |
+    LoopStmt |
+    ExitWhenStmt
+    {recoverWhile=StmtRecover}
 
-private StatementRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|ID ID|ID ARRAY)
+private StmtRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|ID ID|ID ARRAY)
 
-LocalVarStatement ::= LOCAL? ID ARRAY? ID (EQ Expression)? {pin=2}
+LocalVarStmt ::= LOCAL? ID ARRAY? ID (EQ Expr)? {pin=2}
 
-SetStatement ::= SET? (ArrayLiteral|ID) EQ Expression {pin=3}
+SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 
-CallStatement ::= DEBUG? CALL? FunctionCallLiteral
+CallStmt ::= DEBUG? CALL? FuncCall
 
-ReturnStatement ::= RETURN Expression?
+ReturnStmt ::= RETURN Expr?
 
-IfStatement ::= IF Expression THEN? (Statement|ElseIfStatement|ElseStatement)* ENDIF {pin=1}
-ElseIfStatement ::= ELSEIF Expression THEN? Statement* {pin=1}
-ElseStatement ::= ELSE Statement* {pin=1}
+IfStmt ::= IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF {pin=1}
+ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
+ElseStmt ::= ELSE Stmt* {pin=1}
 
-LoopStatement ::= LOOP Statement* ENDLOOP {pin=1}
-ExitWhenStatement ::=EXITWHEN Expression {pin=1}
+LoopStmt ::= LOOP Stmt* ENDLOOP {pin=1}
+ExitWhenStmt ::=EXITWHEN Expr {pin=1}
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
@@ -139,22 +146,22 @@ ExitWhenStatement ::=EXITWHEN Expression {pin=1}
 
 // integer, real, boolean, string, code, handle
 
-Expression ::=
+Expr ::=
     AddGroup |
     MulGroup |
     UnaryGroup |
-    ComparsionGroup |
+    CmpGroup |
     OrExpr |
     AndExpr |
     PrimaryExpr
 
 private AddGroup ::= PlusExpr | MinusExpr
-PlusExpr ::= Expression PLUS Expression
-MinusExpr ::= Expression MINUS Expression
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
 
 private MulGroup ::= MulExpr | DivExpr
-MulExpr ::= Expression MUL Expression
-DivExpr ::= Expression DIV Expression
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
 
 private UnaryGroup ::=
     MulUnaryExpr |
@@ -163,48 +170,43 @@ private UnaryGroup ::=
     MinusUnaryExpr |
     NotExpr
 
-MulUnaryExpr ::= MUL Expression
-DivUnaryExpr ::= DIV Expression
-PlusUnaryExpr ::= PLUS Expression
-MinusUnaryExpr ::= MINUS Expression
-NotExpr ::= NOT Expression
+MulUnaryExpr ::= MUL Expr
+DivUnaryExpr ::= DIV Expr
+PlusUnaryExpr ::= PLUS Expr
+MinusUnaryExpr ::= MINUS Expr
+NotExpr ::= NOT Expr
 
-private ComparsionGroup ::=
-    EqualExpr |
-    NotEqualsExpr |
-    LessThanExpr |
-    LessThanEqualsExpr |
-    GreaterThanExpr |
-    GreaterThanEqualsExpr
+private CmpGroup ::=
+    EqExpr |
+    NEqExpr |
+    LTExpr |
+    LTEqExpr |
+    GTExpr |
+    GTEqExpr
 
-EqualExpr ::= Expression EQEQ Expression
-NotEqualsExpr ::= Expression NEQ Expression
-LessThanExpr ::= Expression LT Expression
-LessThanEqualsExpr ::= Expression LTEQ Expression
-GreaterThanExpr ::= Expression GT Expression
-GreaterThanEqualsExpr ::= Expression GTEQ Expression
+EqExpr ::= Expr EQEQ Expr
+NEqExpr ::= Expr NEQ Expr
+LTExpr ::= Expr LT Expr
+LTEqExpr ::= Expr LTEQ Expr
+GTExpr ::= Expr GT Expr
+GTEqExpr ::= Expr GTEQ Expr
 
-OrExpr ::= Expression OR Expression
-AndExpr ::= Expression AND Expression
-ParenExpr ::= LP Expression RP
+OrExpr ::= Expr OR Expr
+AndExpr ::= Expr AND Expr
+ParenExpr ::= LP Expr RP
 
 PrimaryExpr ::=
     FALSE |
     NULL |
     TRUE |
     ParenExpr |
-    ArrayLiteral |
-    FunctionCallLiteral |
-    REAL |
-    HEX |
-    INTEGER |
-    RAWCODE |
-    STRING |
+    ArrayAccess |
+    FuncCall |
+    REALVAL |
+    HEXVAL |
+    INTVAL |
+    RAWVAL |
+    STRVAL |
     ID
 
-ArrayLiteral ::= ID LB Expression? RB
-
-FunctionSendLiteral ::= FUNCTION ID {pin=1}
-Argument ::= Expression|FunctionSendLiteral
-FunctionCallLiteral ::= ID LP (Argument (COMMA Argument)*)? RP
-
+ArrayAccess ::= ID LB Expr? RB

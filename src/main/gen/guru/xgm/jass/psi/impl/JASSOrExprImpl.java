@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
 import guru.xgm.jass.psi.*;
 
-public class JASSOrExprImpl extends JASSExpressionImpl implements JASSOrExpr {
+public class JASSOrExprImpl extends JASSExprImpl implements JASSOrExpr {
 
   public JASSOrExprImpl(@NotNull ASTNode node) {
     super(node);
@@ -29,8 +29,8 @@ public class JASSOrExprImpl extends JASSExpressionImpl implements JASSOrExpr {
 
   @Override
   @NotNull
-  public List<JASSExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpression.class);
+  public List<JASSExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSExpr.class);
   }
 
 }

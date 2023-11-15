@@ -5,30 +5,24 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSPrimaryExpr extends JASSExpression {
+public interface JASSPrimaryExpr extends JASSExpr {
 
   @Nullable
-  JASSArrayLiteral getArrayLiteral();
+  JASSArrayAccess getArrayAccess();
 
   @Nullable
-  JASSFunctionCallLiteral getFunctionCallLiteral();
+  JASSFuncCall getFuncCall();
 
   @Nullable
-  PsiElement getHex();
+  PsiElement getHexval();
 
   @Nullable
   PsiElement getId();
 
   @Nullable
-  PsiElement getInteger();
+  PsiElement getIntval();
 
   @Nullable
-  PsiElement getRawcode();
-
-  @Nullable
-  PsiElement getReal();
-
-  @Nullable
-  PsiElement getString();
+  PsiElement getStrval();
 
 }

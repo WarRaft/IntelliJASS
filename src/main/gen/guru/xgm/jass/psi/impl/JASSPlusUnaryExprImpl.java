@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
 import guru.xgm.jass.psi.*;
 
-public class JASSPlusUnaryExprImpl extends JASSExpressionImpl implements JASSPlusUnaryExpr {
+public class JASSPlusUnaryExprImpl extends JASSExprImpl implements JASSPlusUnaryExpr {
 
   public JASSPlusUnaryExprImpl(@NotNull ASTNode node) {
     super(node);
@@ -29,8 +29,8 @@ public class JASSPlusUnaryExprImpl extends JASSExpressionImpl implements JASSPlu
 
   @Override
   @Nullable
-  public JASSExpression getExpression() {
-    return findChildByClass(JASSExpression.class);
+  public JASSExpr getExpr() {
+    return findChildByClass(JASSExpr.class);
   }
 
 }

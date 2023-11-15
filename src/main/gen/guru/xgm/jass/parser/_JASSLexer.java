@@ -711,7 +711,7 @@ public class _JASSLexer implements FlexLexer {
           // fall through
           case 65: break;
           case 10:
-            { return INTEGER;
+            { return INTVAL;
             }
           // fall through
           case 66: break;
@@ -751,22 +751,22 @@ public class _JASSLexer implements FlexLexer {
           // fall through
           case 73: break;
           case 18:
-            { return STRING;
+            { return STRVAL;
             }
           // fall through
           case 74: break;
           case 19:
-            { return HEX;
+            { return HEXVAL;
             }
           // fall through
           case 75: break;
           case 20:
-            { return RAWCODE;
+            { return RAWVAL;
             }
           // fall through
           case 76: break;
           case 21:
-            { return REAL;
+            { return REALVAL;
             }
           // fall through
           case 77: break;

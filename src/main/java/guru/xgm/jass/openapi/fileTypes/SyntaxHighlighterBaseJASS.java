@@ -80,10 +80,10 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         }
 
         if (Arrays.asList(
-                INTEGER,
-                REAL,
-                RAWCODE,
-                HEX
+                INTVAL,
+                REALVAL,
+                RAWVAL,
+                HEXVAL
         ).contains(tokenType)) {
             return NUMBER_KEYS;
         }
@@ -91,7 +91,7 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
         if (tokenType == SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == COMMA) return COMMA_KEYS;
-        if (tokenType == STRING) return STRING_KEYS;
+        if (tokenType == STRVAL) return STRING_KEYS;
 
         return EMPTY_KEYS;
     }

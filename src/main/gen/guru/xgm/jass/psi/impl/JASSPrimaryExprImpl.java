@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.TypesJASS.*;
 import guru.xgm.jass.psi.*;
 
-public class JASSPrimaryExprImpl extends JASSExpressionImpl implements JASSPrimaryExpr {
+public class JASSPrimaryExprImpl extends JASSExprImpl implements JASSPrimaryExpr {
 
   public JASSPrimaryExprImpl(@NotNull ASTNode node) {
     super(node);
@@ -29,20 +29,20 @@ public class JASSPrimaryExprImpl extends JASSExpressionImpl implements JASSPrima
 
   @Override
   @Nullable
-  public JASSArrayLiteral getArrayLiteral() {
-    return findChildByClass(JASSArrayLiteral.class);
+  public JASSArrayAccess getArrayAccess() {
+    return findChildByClass(JASSArrayAccess.class);
   }
 
   @Override
   @Nullable
-  public JASSFunctionCallLiteral getFunctionCallLiteral() {
-    return findChildByClass(JASSFunctionCallLiteral.class);
+  public JASSFuncCall getFuncCall() {
+    return findChildByClass(JASSFuncCall.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getHex() {
-    return findChildByType(HEX);
+  public PsiElement getHexval() {
+    return findChildByType(HEXVAL);
   }
 
   @Override
@@ -53,26 +53,14 @@ public class JASSPrimaryExprImpl extends JASSExpressionImpl implements JASSPrima
 
   @Override
   @Nullable
-  public PsiElement getInteger() {
-    return findChildByType(INTEGER);
+  public PsiElement getIntval() {
+    return findChildByType(INTVAL);
   }
 
   @Override
   @Nullable
-  public PsiElement getRawcode() {
-    return findChildByType(RAWCODE);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getReal() {
-    return findChildByType(REAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(STRING);
+  public PsiElement getStrval() {
+    return findChildByType(STRVAL);
   }
 
 }

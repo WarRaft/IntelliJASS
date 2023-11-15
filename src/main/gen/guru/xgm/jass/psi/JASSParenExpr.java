@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSParenExpr extends JASSExpression {
+public interface JASSParenExpr extends JASSExpr {
 
   @NotNull
-  JASSExpression getExpression();
+  JASSExpr getExpr();
 
 }

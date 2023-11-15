@@ -8,174 +8,186 @@ import com.intellij.psi.PsiElement;
 public class JASSVisitor extends PsiElementVisitor {
 
   public void visitAndExpr(@NotNull JASSAndExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
-  public void visitArgument(@NotNull JASSArgument o) {
+  public void visitArg(@NotNull JASSArg o) {
     visitPsiElement(o);
   }
 
-  public void visitArrayLiteral(@NotNull JASSArrayLiteral o) {
+  public void visitArgCode(@NotNull JASSArgCode o) {
     visitPsiElement(o);
   }
 
-  public void visitCallStatement(@NotNull JASSCallStatement o) {
+  public void visitArgList(@NotNull JASSArgList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArrayAccess(@NotNull JASSArrayAccess o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCallStmt(@NotNull JASSCallStmt o) {
     visitPsiElement(o);
   }
 
   public void visitDivExpr(@NotNull JASSDivExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitDivUnaryExpr(@NotNull JASSDivUnaryExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
-  public void visitElseIfStatement(@NotNull JASSElseIfStatement o) {
+  public void visitElseIfStmt(@NotNull JASSElseIfStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitElseStatement(@NotNull JASSElseStatement o) {
+  public void visitElseStmt(@NotNull JASSElseStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitEqualExpr(@NotNull JASSEqualExpr o) {
-    visitExpression(o);
+  public void visitEqExpr(@NotNull JASSEqExpr o) {
+    visitExpr(o);
   }
 
-  public void visitExitWhenStatement(@NotNull JASSExitWhenStatement o) {
+  public void visitExitWhenStmt(@NotNull JASSExitWhenStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitExpression(@NotNull JASSExpression o) {
+  public void visitExpr(@NotNull JASSExpr o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionCallLiteral(@NotNull JASSFunctionCallLiteral o) {
+  public void visitFuncCall(@NotNull JASSFuncCall o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionDeclaration(@NotNull JASSFunctionDeclaration o) {
+  public void visitFuncCallName(@NotNull JASSFuncCallName o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionHead(@NotNull JASSFunctionHead o) {
+  public void visitFuncDecl(@NotNull JASSFuncDecl o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionName(@NotNull JASSFunctionName o) {
+  public void visitFuncDeclName(@NotNull JASSFuncDeclName o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionSendLiteral(@NotNull JASSFunctionSendLiteral o) {
+  public void visitFuncHead(@NotNull JASSFuncHead o) {
     visitPsiElement(o);
   }
 
-  public void visitGlobalVarDeclaration(@NotNull JASSGlobalVarDeclaration o) {
+  public void visitGTEqExpr(@NotNull JASSGTEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGTExpr(@NotNull JASSGTExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGlobalVarDecl(@NotNull JASSGlobalVarDecl o) {
     visitPsiElement(o);
   }
 
-  public void visitGlobalsDeclaration(@NotNull JASSGlobalsDeclaration o) {
+  public void visitGlobalVarName(@NotNull JASSGlobalVarName o) {
     visitPsiElement(o);
   }
 
-  public void visitGreaterThanEqualsExpr(@NotNull JASSGreaterThanEqualsExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitGreaterThanExpr(@NotNull JASSGreaterThanExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitIfStatement(@NotNull JASSIfStatement o) {
+  public void visitGlobalsDecl(@NotNull JASSGlobalsDecl o) {
     visitPsiElement(o);
   }
 
-  public void visitLessThanEqualsExpr(@NotNull JASSLessThanEqualsExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitLessThanExpr(@NotNull JASSLessThanExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitLocalVarStatement(@NotNull JASSLocalVarStatement o) {
+  public void visitIfStmt(@NotNull JASSIfStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitLoopStatement(@NotNull JASSLoopStatement o) {
+  public void visitLTEqExpr(@NotNull JASSLTEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitLTExpr(@NotNull JASSLTExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitLocalVarStmt(@NotNull JASSLocalVarStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLoopStmt(@NotNull JASSLoopStmt o) {
     visitPsiElement(o);
   }
 
   public void visitMinusExpr(@NotNull JASSMinusExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitMinusUnaryExpr(@NotNull JASSMinusUnaryExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitMulExpr(@NotNull JASSMulExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitMulUnaryExpr(@NotNull JASSMulUnaryExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
-  public void visitNativeDeclaration(@NotNull JASSNativeDeclaration o) {
+  public void visitNEqExpr(@NotNull JASSNEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitNativeDecl(@NotNull JASSNativeDecl o) {
     visitPsiElement(o);
-  }
-
-  public void visitNotEqualsExpr(@NotNull JASSNotEqualsExpr o) {
-    visitExpression(o);
   }
 
   public void visitNotExpr(@NotNull JASSNotExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitOrExpr(@NotNull JASSOrExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitParamList(@NotNull JASSParamList o) {
-    visitPsiElement(o);
+    visitExpr(o);
   }
 
   public void visitParenExpr(@NotNull JASSParenExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitPlusExpr(@NotNull JASSPlusExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitPlusUnaryExpr(@NotNull JASSPlusUnaryExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
   public void visitPrimaryExpr(@NotNull JASSPrimaryExpr o) {
-    visitExpression(o);
+    visitExpr(o);
   }
 
-  public void visitReturnStatement(@NotNull JASSReturnStatement o) {
+  public void visitReturnStmt(@NotNull JASSReturnStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitSetStatement(@NotNull JASSSetStatement o) {
+  public void visitSetStmt(@NotNull JASSSetStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitStatement(@NotNull JASSStatement o) {
+  public void visitStmt(@NotNull JASSStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeDeclaration(@NotNull JASSTypeDeclaration o) {
+  public void visitTypeDecl(@NotNull JASSTypeDecl o) {
     visitPsiElement(o);
   }
 
-  public void visitTypedVariable(@NotNull JASSTypedVariable o) {
+  public void visitTypeVar(@NotNull JASSTypeVar o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeVarList(@NotNull JASSTypeVarList o) {
     visitPsiElement(o);
   }
 

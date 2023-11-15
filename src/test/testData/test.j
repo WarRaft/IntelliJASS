@@ -22,7 +22,10 @@ constant playercolor PLAYER_COLOR_GREEN = ConvertPlayerColor(6)
 
 endglobals
 
+
 globals
+
+
 
 
 

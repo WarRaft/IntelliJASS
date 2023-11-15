@@ -27,11 +27,11 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-REAL=[0-9]+\.[0-9]*|\.[0-9]+
-HEX=(0x|\$)[0-9a-fA-F]+
-INTEGER=[0-9]+
-RAWCODE='[^']*'
-STRING=\"([^\"\\]|\\.)*\"
+REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
+HEXVAL=(0x|\$)[0-9a-fA-F]+
+INTVAL=[0-9]+
+RAWVAL='[^']*'
+STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*
 
 %%
@@ -88,11 +88,11 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
-  {REAL}                      { return REAL; }
-  {HEX}                       { return HEX; }
-  {INTEGER}                   { return INTEGER; }
-  {RAWCODE}                   { return RAWCODE; }
-  {STRING}                    { return STRING; }
+  {REALVAL}                   { return REALVAL; }
+  {HEXVAL}                    { return HEXVAL; }
+  {INTVAL}                    { return INTVAL; }
+  {RAWVAL}                    { return RAWVAL; }
+  {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
 }
