@@ -8,7 +8,9 @@ public class CodeFoldingOptionsProviderJASS extends BeanConfigurable<CodeFolding
         super(CodeFoldingSettingsJASS.getInstance(), "JASS");
         CodeFoldingSettingsJASS settings = getInstance();
         assert settings != null;
-        checkBox("Globals", settings::isGlobals, settings::setGlobals);
-        checkBox("Function", settings::isFunction, settings::setFunction);
+        checkBox("Globals", settings::isFoldGlobals, settings::setFoldGlobals);
+        checkBox("Function", settings::isFoldFunction, settings::setFoldFunction);
+        checkBox("If", settings::isFoldIf, settings::setFoldIf);
+        checkBox("Loop", settings::isFoldLoop, settings::setFoldLoop);
     }
 }

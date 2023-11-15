@@ -26,9 +26,6 @@ endglobals
 globals
 
 
-
-
-
 endglobals
 
 native CreateGroup takes nothing returns group
@@ -44,10 +41,11 @@ function BJDebugMsg takes string msg, fuck d, c e returns nothing
 
         if a > b
             loop
-
-            exitwhen 22
-
+             exitwhen 22
             endloop
         endif
 
+endfunction
+
+function a takes nothing returns nothing
 endfunction

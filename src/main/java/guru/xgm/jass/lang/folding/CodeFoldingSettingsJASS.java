@@ -10,8 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 @State(name = "CodeFoldingSettingsJASS", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
 public class CodeFoldingSettingsJASS implements PersistentStateComponent<CodeFoldingSettingsJASS> {
-    private boolean _globals = false;
-    private boolean _function = false;
+    private boolean foldGlobals = false;
+    private boolean foldFunction = false;
+    private boolean foldIf = false;
+    private boolean foldLoop = false;
 
     public static CodeFoldingSettingsJASS getInstance() {
         return ApplicationManager.getApplication().getService(CodeFoldingSettingsJASS.class);
@@ -27,19 +29,35 @@ public class CodeFoldingSettingsJASS implements PersistentStateComponent<CodeFol
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public boolean isGlobals() {
-        return _globals;
+    public boolean isFoldGlobals() {
+        return foldGlobals;
     }
 
-    public void setGlobals(final boolean value) {
-        _globals = value;
+    public void setFoldGlobals(boolean foldGlobals) {
+        this.foldGlobals = foldGlobals;
     }
 
-    public boolean isFunction() {
-        return _function;
+    public boolean isFoldFunction() {
+        return foldFunction;
     }
 
-    public void setFunction(final boolean value) {
-        _function = value;
+    public void setFoldFunction(boolean foldFunction) {
+        this.foldFunction = foldFunction;
+    }
+
+    public boolean isFoldIf() {
+        return foldIf;
+    }
+
+    public void setFoldIf(boolean foldIf) {
+        this.foldIf = foldIf;
+    }
+
+    public boolean isFoldLoop() {
+        return foldLoop;
+    }
+
+    public void setFoldLoop(boolean foldLoop) {
+        this.foldLoop = foldLoop;
     }
 }

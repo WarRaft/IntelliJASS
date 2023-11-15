@@ -39,24 +39,40 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
                 JASSLoopStmt.class
         );
 
-        for (PsiElement psiElement : psiElements) {
+        for (PsiElement element : psiElements) {
+            if (element instanceof JASSFuncDecl) {
+                final JASSFuncHead head = ((JASSFuncDecl) element).getFuncHead();
+                if (head == null) continue;
 
+                final ASTNode s = head.getNode();
+                final ASTNode e = element.getNode().findChildByType(TypesJASS.ENDFUNCTION, s);
+                if (s == null || e == null) continue;
 
-            /*
-            final ASTNode lBrace = element.getNode().findChildByType(DartTokenTypes.LBRACE);
-        final ASTNode rBrace = element.getNode().findChildByType(DartTokenTypes.RBRACE, lBrace);
-        if (lBrace != null && rBrace != null && rBrace.getStartOffset() - lBrace.getStartOffset() > 2) {
-          descriptors.add(new FoldingDescriptor(element, TextRange.create(lBrace.getStartOffset(), rBrace.getStartOffset() + 1)));
-        }
-             */
-
-            if (psiElement instanceof JASSGlobalsDecl ||
-                    psiElement instanceof JASSFuncDecl ||
-                    psiElement instanceof JASSIfStmt ||
-                    psiElement instanceof JASSLoopStmt
-            ) {
-                descriptors.add(new FoldingDescriptor(psiElement, psiElement.getTextRange()));
+                descriptors.add(new FoldingDescriptor(element, TextRange.create(s.getStartOffset() + s.getTextLength(), e.getStartOffset())));
+                continue;
             }
+
+            if (element instanceof JASSIfStmt) {
+                final JASSExpr expr = ((JASSIfStmt) element).getExpr();
+                if (expr == null) continue;
+
+                final ASTNode s = expr.getNode();
+                final ASTNode e = element.getNode().findChildByType(TypesJASS.ENDIF, s);
+                if (s == null || e == null) continue;
+
+                descriptors.add(new FoldingDescriptor(element, TextRange.create(s.getStartOffset() + s.getTextLength(), e.getStartOffset())));
+                continue;
+            }
+
+            if (element instanceof JASSLoopStmt) {
+                foldSimple(element, TypesJASS.LOOP, TypesJASS.ENDLOOP, descriptors);
+                continue;
+            }
+
+            if (element instanceof JASSGlobalsDecl) {
+                foldSimple(element, TypesJASS.GLOBALS, TypesJASS.ENDGLOBALS, descriptors);
+            }
+
         }
     }
 
@@ -67,17 +83,13 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
         if (type == TypesJASS.GLOBALS_DECL) {
             final var psi = node.getPsi(JASSGlobalsDecl.class);
             final int size = psi.getGlobalVarDeclList().size();
-            return "globals" + (size == 0 ? "..." : " (" + size + ")");
+            return size == 0 ? " ... " : " (" + size + ") ";
         }
 
-        if (type == TypesJASS.FUNC_DECL) {
-            final var psi = node.getPsi(JASSFuncDecl.class);
-            final JASSFuncHead head = psi.getFuncHead();
-            return "function" + (head == null ? "..." : " " + head.getFuncDeclName().getText());
-        }
-
-        if (type == TypesJASS.IF_STMT) return "if...";
-        if (type == TypesJASS.LOOP_STMT) return "loop...";
+        if (type == TypesJASS.FUNC_DECL ||
+                type == TypesJASS.IF_STMT ||
+                type == TypesJASS.LOOP_STMT
+        ) return " ... ";
 
         return null;
     }
@@ -88,9 +100,21 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
         //final CodeFoldingSettings settings = CodeFoldingSettings.getInstance();
         final CodeFoldingSettingsJASS jass = CodeFoldingSettingsJASS.getInstance();
 
-        if (type == TypesJASS.GLOBALS_DECL) return jass.isGlobals();
-        if (type == TypesJASS.FUNC_DECL) return jass.isFunction();
+        if (type == TypesJASS.GLOBALS_DECL) return jass.isFoldGlobals();
+        if (type == TypesJASS.FUNC_DECL) return jass.isFoldFunction();
+        if (type == TypesJASS.IF_STMT) return jass.isFoldIf();
+        if (type == TypesJASS.LOOP_STMT) return jass.isFoldLoop();
 
         return false;
     }
+
+    private void foldSimple(PsiElement element, IElementType start, IElementType end, List<FoldingDescriptor> descriptors) {
+        final ASTNode s = element.getNode().findChildByType(start);
+        final ASTNode e = element.getNode().findChildByType(end, s);
+
+        if (s == null || e == null) return;
+
+        descriptors.add(new FoldingDescriptor(element, TextRange.create(s.getStartOffset() + s.getTextLength(), e.getStartOffset())));
+    }
+
 }

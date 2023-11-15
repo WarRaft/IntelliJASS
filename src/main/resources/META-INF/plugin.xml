@@ -8,22 +8,6 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <description><![CDATA[
-<p>Support for <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos#Modding">JASS</a></p>
-<hr>
-<p>Current features</p>
-<ul>
-<li>JASS syntax hightlight</li>
-</ul>
-
-<p>Future features</p>
-<ul>
-<li>Smart coding assistance for JASS that includes code completion, formatting, navigation, intentions, refactorings, and more</li>
-<li>Open ingame binary files</li>
-</ul>
-  ]]></description>
-
-
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="JASS file"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"
@@ -49,5 +33,28 @@
         <applicationService serviceImplementation="guru.xgm.jass.lang.folding.CodeFoldingSettingsJASS"/>
 
     </extensions>
+
+    <description><![CDATA[
+        <p>Just Another Scripting Syntax for
+            <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a>.</p>
+        <hr>
+        <p>Current features</p>
+        <ul>
+            <li>JASS syntax hightlight</li>
+        </ul>
+
+        <p>Future features</p>
+        <ul>
+            <li>Smart coding assistance for JASS that includes code completion, formatting, navigation, intentions, refactorings, and more</li>
+            <li>Open ingame binary files</li>
+        </ul>
+        ]]></description>
+
+    <change-notes><![CDATA[
+        <p><b>2.0.4</b>:</p>
+        <ul>
+            <li>Folding globals and functions</li>
+        </ul>
+        ]]></change-notes>
 
 </idea-plugin>
