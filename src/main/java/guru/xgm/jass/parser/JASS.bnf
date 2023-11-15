@@ -103,6 +103,7 @@ FuncDeclName ::= ID
 FuncHead ::= FuncDeclName TAKES (NOTHING|TypeVarList) RETURNS (NOTHING|ID) {pin=2}
 NativeDecl ::= CONSTANT? NATIVE FuncHead {pin=2}
 
+// ===
 GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
 
 GlobalVarName ::= ID

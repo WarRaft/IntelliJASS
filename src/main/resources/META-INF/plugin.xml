@@ -32,6 +32,9 @@
         <codeFoldingOptionsProvider instance="guru.xgm.jass.lang.folding.CodeFoldingOptionsProviderJASS"/>
         <applicationService serviceImplementation="guru.xgm.jass.lang.folding.CodeFoldingSettingsJASS"/>
 
+        <!-- formatter -->
+        <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.FormattingModelBuilderJASS"/>
+
     </extensions>
 
     <description><![CDATA[
