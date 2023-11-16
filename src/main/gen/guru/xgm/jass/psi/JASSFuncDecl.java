@@ -8,7 +8,13 @@ import com.intellij.psi.PsiElement;
 public interface JASSFuncDecl extends PsiElement {
 
   @Nullable
-  JASSFuncHead getFuncHead();
+  JASSFuncDeclName getFuncDeclName();
+
+  @Nullable
+  JASSFuncReturns getFuncReturns();
+
+  @Nullable
+  JASSFuncTakes getFuncTakes();
 
   @NotNull
   List<JASSStmt> getStmtList();

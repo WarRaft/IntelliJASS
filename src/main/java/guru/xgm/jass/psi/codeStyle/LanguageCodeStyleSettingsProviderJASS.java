@@ -21,15 +21,15 @@ final class LanguageCodeStyleSettingsProviderJASS extends LanguageCodeStyleSetti
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
         if (settingsType == SettingsType.INDENT_SETTINGS) {
             consumer.showStandardOptions(
-                    "INDENT_SIZE",
-                    "CONTINUATION_INDENT_SIZE",
-                    "TAB_SIZE",
-                    "USE_TAB_CHARACTER",
-                    "SMART_TABS",
-                    "LABEL_INDENT_SIZE",
-                    "LABEL_INDENT_ABSOLUTE",
-                    "USE_RELATIVE_INDENTS",
-                    "KEEP_INDENTS_ON_EMPTY_LINES"
+                    "INDENT_SIZE"
+                    //"CONTINUATION_INDENT_SIZE",
+                    //"TAB_SIZE",
+                    //"USE_TAB_CHARACTER",
+                    //"SMART_TABS",
+                    //"LABEL_INDENT_SIZE",
+                    //"LABEL_INDENT_ABSOLUTE",
+                    //"USE_RELATIVE_INDENTS",
+                    //"KEEP_INDENTS_ON_EMPTY_LINES"
             );
             return;
         }
@@ -37,7 +37,21 @@ final class LanguageCodeStyleSettingsProviderJASS extends LanguageCodeStyleSetti
         if (settingsType == SettingsType.SPACING_SETTINGS) {
             consumer.showStandardOptions(
                     "SPACE_AROUND_ASSIGNMENT_OPERATORS",
-                    "SPACE_AROUND_LOGICAL_OPERATORS"
+                    //"SPACE_AROUND_LOGICAL_OPERATORS",
+                    /*
+                    SPACE_AROUND_EQUALITY_OPERATORS,
+                    SPACE_AROUND_RELATIONAL_OPERATORS,
+                    SPACE_AROUND_BITWISE_OPERATORS,
+                    SPACE_AROUND_ADDITIVE_OPERATORS,
+                    SPACE_AROUND_MULTIPLICATIVE_OPERATORS,
+                    SPACE_AROUND_SHIFT_OPERATORS,
+                    SPACE_AROUND_UNARY_OPERATOR,
+                    SPACE_AROUND_LAMBDA_ARROW,
+                    SPACE_AROUND_METHOD_REF_DBL_COLON,
+                     */
+                    //"SPACE_AFTER_COMMA",
+                    "SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS"
+                    //"SPACE_BEFORE_COMMA"
             );
             //consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "FuCK");
             return;
@@ -58,26 +72,27 @@ final class LanguageCodeStyleSettingsProviderJASS extends LanguageCodeStyleSetti
 
     @Override
     protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings, @NotNull CommonCodeStyleSettings.IndentOptions indentOptions) {
-        commonSettings.SPACE_BEFORE_COLON = false;
-        commonSettings.SPACE_AFTER_COLON = true;
-
-        indentOptions.USE_TAB_CHARACTER = false;
-        indentOptions.TAB_SIZE = 2;
-        indentOptions.INDENT_SIZE = 2;
-        indentOptions.CONTINUATION_INDENT_SIZE = 4;
+        commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
+        indentOptions.INDENT_SIZE = 4;
     }
 
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                type a extends b//comment
-                             type    a      extends     b    //comment
-                             type ab      extends     bc
-                             type abc    extends      abc
-                             type abcd  extends      abcd
-                       
-                constant native a takes nothing returns nothing
-                    constant      native  a      takes nothing returns nothing
+                type agent extends handle// all reference counted objects
+                     type event extends agent	// a reference to an event registration
+                        type player extends agent	// a single player reference
+                type widget extends agent	// an interactive game object with life
+                              
+                constant native ConvertRace takes integer i returns race
+                constant native ConvertAllianceType takes integer i returns alliancetype
+                constant native ConvertRacePref takes integer i returns racepreference
+                                
+                native GetTeams takes nothing returns integer
+                native GetPlayers takes nothing returns integer
+                                              
+                    native I2R takes integer i returns real
+                    native R2I takes real r returns integer
                 globals
                 real a = 12.
                     real b = .13
@@ -88,19 +103,7 @@ final class LanguageCodeStyleSettingsProviderJASS extends LanguageCodeStyleSetti
 }
 
 /*
-  enum SpacingOption {
-    SPACE_AROUND_EQUALITY_OPERATORS,
-    SPACE_AROUND_RELATIONAL_OPERATORS,
-    SPACE_AROUND_BITWISE_OPERATORS,
-    SPACE_AROUND_ADDITIVE_OPERATORS,
-    SPACE_AROUND_MULTIPLICATIVE_OPERATORS,
-    SPACE_AROUND_SHIFT_OPERATORS,
-    SPACE_AROUND_UNARY_OPERATOR,
-    SPACE_AROUND_LAMBDA_ARROW,
-    SPACE_AROUND_METHOD_REF_DBL_COLON,
-    SPACE_AFTER_COMMA,
-    SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS,
-    SPACE_BEFORE_COMMA,
+
     SPACE_AFTER_SEMICOLON,
     SPACE_BEFORE_SEMICOLON,
     SPACE_WITHIN_PARENTHESES,

@@ -5,13 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSFuncHead extends PsiElement {
-
-  @NotNull
-  JASSFuncDeclName getFuncDeclName();
-
-  @Nullable
-  JASSTypeVarList getTypeVarList();
+public interface JASSFuncReturns extends PsiElement {
 
   @Nullable
   PsiElement getId();

@@ -259,7 +259,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION FuncHead Stmt* ENDFUNCTION
+  // FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION
   public static boolean FuncDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncDecl")) return false;
     if (!nextTokenIs(b, FUNCTION)) return false;
@@ -267,20 +267,36 @@ public class JASSParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, FUNC_DECL, null);
     r = consumeToken(b, FUNCTION);
     p = r; // pin = 1
-    r = r && report_error_(b, FuncHead(b, l + 1));
+    r = r && report_error_(b, FuncDeclName(b, l + 1));
     r = p && report_error_(b, FuncDecl_2(b, l + 1)) && r;
+    r = p && report_error_(b, FuncDecl_3(b, l + 1)) && r;
+    r = p && report_error_(b, FuncDecl_4(b, l + 1)) && r;
     r = p && consumeToken(b, ENDFUNCTION) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // Stmt*
+  // FuncTakes?
   private static boolean FuncDecl_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncDecl_2")) return false;
+    FuncTakes(b, l + 1);
+    return true;
+  }
+
+  // FuncReturns?
+  private static boolean FuncDecl_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncDecl_3")) return false;
+    FuncReturns(b, l + 1);
+    return true;
+  }
+
+  // Stmt*
+  private static boolean FuncDecl_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncDecl_4")) return false;
     while (true) {
       int c = current_position_(b);
       if (!Stmt(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "FuncDecl_2", c)) break;
+      if (!empty_element_parsed_guard_(b, "FuncDecl_4", c)) break;
     }
     return true;
   }
@@ -298,37 +314,46 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FuncDeclName TAKES (NOTHING|TypeVarList) RETURNS (NOTHING|ID)
-  public static boolean FuncHead(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncHead")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FUNC_HEAD, null);
-    r = FuncDeclName(b, l + 1);
-    r = r && consumeToken(b, TAKES);
-    p = r; // pin = 2
-    r = r && report_error_(b, FuncHead_2(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, RETURNS)) && r;
-    r = p && FuncHead_4(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // NOTHING|TypeVarList
-  private static boolean FuncHead_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncHead_2")) return false;
+  // RETURNS (NOTHING|ID)
+  public static boolean FuncReturns(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncReturns")) return false;
+    if (!nextTokenIs(b, RETURNS)) return false;
     boolean r;
-    r = consumeToken(b, NOTHING);
-    if (!r) r = TypeVarList(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, RETURNS);
+    r = r && FuncReturns_1(b, l + 1);
+    exit_section_(b, m, FUNC_RETURNS, r);
     return r;
   }
 
   // NOTHING|ID
-  private static boolean FuncHead_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncHead_4")) return false;
+  private static boolean FuncReturns_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncReturns_1")) return false;
     boolean r;
     r = consumeToken(b, NOTHING);
     if (!r) r = consumeToken(b, ID);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // TAKES (NOTHING|TypeVarList)
+  public static boolean FuncTakes(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncTakes")) return false;
+    if (!nextTokenIs(b, TAKES)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, TAKES);
+    r = r && FuncTakes_1(b, l + 1);
+    exit_section_(b, m, FUNC_TAKES, r);
+    return r;
+  }
+
+  // NOTHING|TypeVarList
+  private static boolean FuncTakes_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncTakes_1")) return false;
+    boolean r;
+    r = consumeToken(b, NOTHING);
+    if (!r) r = TypeVarList(b, l + 1);
     return r;
   }
 
@@ -567,7 +592,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? NATIVE FuncHead
+  // CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns?
   public static boolean NativeDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NativeDecl")) return false;
     if (!nextTokenIs(b, "<native decl>", CONSTANT, NATIVE)) return false;
@@ -576,7 +601,9 @@ public class JASSParser implements PsiParser, LightPsiParser {
     r = NativeDecl_0(b, l + 1);
     r = r && consumeToken(b, NATIVE);
     p = r; // pin = 2
-    r = r && FuncHead(b, l + 1);
+    r = r && report_error_(b, FuncDeclName(b, l + 1));
+    r = p && report_error_(b, NativeDecl_3(b, l + 1)) && r;
+    r = p && NativeDecl_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -585,6 +612,20 @@ public class JASSParser implements PsiParser, LightPsiParser {
   private static boolean NativeDecl_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NativeDecl_0")) return false;
     consumeToken(b, CONSTANT);
+    return true;
+  }
+
+  // FuncTakes?
+  private static boolean NativeDecl_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NativeDecl_3")) return false;
+    FuncTakes(b, l + 1);
+    return true;
+  }
+
+  // FuncReturns?
+  private static boolean NativeDecl_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NativeDecl_4")) return false;
+    FuncReturns(b, l + 1);
     return true;
   }
 

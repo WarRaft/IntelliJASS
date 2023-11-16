@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSNativeDecl extends PsiElement {
+public interface JASSFuncTakes extends PsiElement {
 
   @Nullable
-  JASSFuncDeclName getFuncDeclName();
-
-  @Nullable
-  JASSFuncReturns getFuncReturns();
-
-  @Nullable
-  JASSFuncTakes getFuncTakes();
+  JASSTypeVarList getTypeVarList();
 
 }

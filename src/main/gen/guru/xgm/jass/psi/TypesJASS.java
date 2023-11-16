@@ -27,7 +27,8 @@ public interface TypesJASS {
   IElementType FUNC_CALL_NAME = new IElementTypeJASS_Element("FUNC_CALL_NAME");
   IElementType FUNC_DECL = new IElementTypeJASS_Element("FUNC_DECL");
   IElementType FUNC_DECL_NAME = new IElementTypeJASS_Element("FUNC_DECL_NAME");
-  IElementType FUNC_HEAD = new IElementTypeJASS_Element("FUNC_HEAD");
+  IElementType FUNC_RETURNS = new IElementTypeJASS_Element("FUNC_RETURNS");
+  IElementType FUNC_TAKES = new IElementTypeJASS_Element("FUNC_TAKES");
   IElementType GLOBALS_DECL = new IElementTypeJASS_Element("GLOBALS_DECL");
   IElementType GLOBAL_VAR_DECL = new IElementTypeJASS_Element("GLOBAL_VAR_DECL");
   IElementType GLOBAL_VAR_NAME = new IElementTypeJASS_Element("GLOBAL_VAR_NAME");
@@ -163,8 +164,11 @@ public interface TypesJASS {
       else if (type == FUNC_DECL_NAME) {
         return new JASSFuncDeclNameImpl(node);
       }
-      else if (type == FUNC_HEAD) {
-        return new JASSFuncHeadImpl(node);
+      else if (type == FUNC_RETURNS) {
+        return new JASSFuncReturnsImpl(node);
+      }
+      else if (type == FUNC_TAKES) {
+        return new JASSFuncTakesImpl(node);
       }
       else if (type == GLOBALS_DECL) {
         return new JASSGlobalsDeclImpl(node);

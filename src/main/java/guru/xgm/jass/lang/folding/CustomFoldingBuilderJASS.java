@@ -40,11 +40,12 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
         );
 
         for (PsiElement element : psiElements) {
-            if (element instanceof JASSFuncDecl) {
-                final JASSFuncHead head = ((JASSFuncDecl) element).getFuncHead();
-                if (head == null) continue;
+            if (element instanceof JASSFuncDecl func) {
+                final PsiElement start = (func.getFuncReturns() != null) ? func.getFuncReturns() : func.getFuncTakes();
 
-                final ASTNode s = head.getNode();
+                if (start == null) continue;
+
+                final ASTNode s = start.getNode();
                 final ASTNode e = element.getNode().findChildByType(TypesJASS.ENDFUNCTION, s);
                 if (s == null || e == null) continue;
 
@@ -52,8 +53,8 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
                 continue;
             }
 
-            if (element instanceof JASSIfStmt) {
-                final JASSExpr expr = ((JASSIfStmt) element).getExpr();
+            if (element instanceof JASSIfStmt ifStmt) {
+                final JASSExpr expr = ifStmt.getExpr();
                 if (expr == null) continue;
 
                 final ASTNode s = expr.getNode();

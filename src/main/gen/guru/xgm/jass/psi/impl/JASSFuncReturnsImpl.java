@@ -11,32 +11,20 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSFuncHeadImpl extends ASTWrapperPsiElement implements JASSFuncHead {
+public class JASSFuncReturnsImpl extends ASTWrapperPsiElement implements JASSFuncReturns {
 
-  public JASSFuncHeadImpl(@NotNull ASTNode node) {
+  public JASSFuncReturnsImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitFuncHead(this);
+    visitor.visitFuncReturns(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JASSVisitor) accept((JASSVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public JASSFuncDeclName getFuncDeclName() {
-    return findNotNullChildByClass(JASSFuncDeclName.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSTypeVarList getTypeVarList() {
-    return findChildByClass(JASSTypeVarList.class);
   }
 
   @Override

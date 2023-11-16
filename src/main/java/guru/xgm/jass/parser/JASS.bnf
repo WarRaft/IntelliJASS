@@ -100,8 +100,9 @@ ArgCode ::= FUNCTION FuncCallName {pin=1}
 FuncCall ::= FuncCallName LP ArgList? RP
 FuncCallName ::= ID
 FuncDeclName ::= ID
-FuncHead ::= FuncDeclName TAKES (NOTHING|TypeVarList) RETURNS (NOTHING|ID) {pin=2}
-NativeDecl ::= CONSTANT? NATIVE FuncHead {pin=2}
+FuncTakes ::= TAKES (NOTHING|TypeVarList)
+FuncReturns ::= RETURNS (NOTHING|ID)
+NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
 
 // ===
 GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
@@ -110,7 +111,7 @@ GlobalVarName ::= ID
 GlobalVarDecl ::= CONSTANT? GlobalVarName ARRAY? ID (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
 private GlobalVarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|ID ID|ID ARRAY|ID EQ)
 
-FuncDecl ::= FUNCTION FuncHead Stmt* ENDFUNCTION {pin=1}
+FuncDecl ::= FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=1}
 
 Stmt ::=
     SetStmt |

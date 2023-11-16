@@ -75,7 +75,11 @@ public class JASSVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncHead(@NotNull JASSFuncHead o) {
+  public void visitFuncReturns(@NotNull JASSFuncReturns o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFuncTakes(@NotNull JASSFuncTakes o) {
     visitPsiElement(o);
   }
 

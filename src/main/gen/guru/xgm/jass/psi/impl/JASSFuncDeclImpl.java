@@ -29,8 +29,20 @@ public class JASSFuncDeclImpl extends ASTWrapperPsiElement implements JASSFuncDe
 
   @Override
   @Nullable
-  public JASSFuncHead getFuncHead() {
-    return findChildByClass(JASSFuncHead.class);
+  public JASSFuncDeclName getFuncDeclName() {
+    return findChildByClass(JASSFuncDeclName.class);
+  }
+
+  @Override
+  @Nullable
+  public JASSFuncReturns getFuncReturns() {
+    return findChildByClass(JASSFuncReturns.class);
+  }
+
+  @Override
+  @Nullable
+  public JASSFuncTakes getFuncTakes() {
+    return findChildByClass(JASSFuncTakes.class);
   }
 
   @Override

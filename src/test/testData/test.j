@@ -1,40 +1,38 @@
-constant native CreateGroup      takes nothing returns group
+constant native CreateGroup takes nothing returns group
 
 constant native DestroyGroup takes group whichGroup returns nothing
 
+// 111
 native GroupAddUnit takes group whichGroup, unit whichUnit returns nothing
 
 native GroupRemoveUnit takes group whichGroup, unit whichUnit returns nothing
 native GroupClear takes group whichGroup returns nothing
 
 
-type a extends b     // comment
-type ab extends be       // comment
+type
+a extends b     // comment
+type
+ab extends be       // comment
 
-type d extends c // comment
-type d extends c // comment
+type
+d extends c // comment
+type
+d extends c // comment
 
-
-globals
-constant a b
+globals constant a b
 b c=1234
 constant e f=2344
 
-
 endglobals
 
-function
+function a takes b      c                  ,                 d e,
+                 r d
 
+returns d
 
-a
+if a > b and c < 2 or                 (1123) then
 
-
-
-
-takes b c returns
-d if a > b and c < 2 or (1123) then
-
-  endif
+endif
 
 local d e=f
 endfunction

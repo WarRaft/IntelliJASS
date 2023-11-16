@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSNativeDeclImpl extends ASTWrapperPsiElement implements JASSNativeDecl {
+public class JASSFuncTakesImpl extends ASTWrapperPsiElement implements JASSFuncTakes {
 
-  public JASSNativeDeclImpl(@NotNull ASTNode node) {
+  public JASSFuncTakesImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitNativeDecl(this);
+    visitor.visitFuncTakes(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class JASSNativeDeclImpl extends ASTWrapperPsiElement implements JASSNati
 
   @Override
   @Nullable
-  public JASSFuncDeclName getFuncDeclName() {
-    return findChildByClass(JASSFuncDeclName.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSFuncReturns getFuncReturns() {
-    return findChildByClass(JASSFuncReturns.class);
-  }
-
-  @Override
-  @Nullable
-  public JASSFuncTakes getFuncTakes() {
-    return findChildByClass(JASSFuncTakes.class);
+  public JASSTypeVarList getTypeVarList() {
+    return findChildByClass(JASSTypeVarList.class);
   }
 
 }
