@@ -9,23 +9,15 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="JASS file"
+        <fileType name="JASS File"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"
                   fieldName="INSTANCE"
                   language="JASS"
                   extensions="j"
         />
-        <lang.parserDefinition
-                language="JASS"
-                implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"
-        />
-        <lang.syntaxHighlighterFactory
-                language="JASS"
-                implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"
-        />
-        <colorSettingsPage
-                implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"
-        />
+        <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"/>
+        <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"/>
+        <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.CustomFoldingBuilderJASS"/>
@@ -34,6 +26,8 @@
 
         <!-- formatter -->
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.FormattingModelBuilderJASS"/>
+        <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.CodeStyleSettingsProviderJASS"/>
+        <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.LanguageCodeStyleSettingsProviderJASS"/>
 
     </extensions>
 
@@ -41,7 +35,7 @@
         <p>Just Another Scripting Syntax (JASS) for
             <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a>.</p>
         <hr>
-        Code folding, highlight and open binary ingame file.
+        Code folding, highlight and open binary ingame files.
         ]]></description>
 
     <change-notes><![CDATA[
