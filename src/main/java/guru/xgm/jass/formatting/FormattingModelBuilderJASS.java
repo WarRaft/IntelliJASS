@@ -19,23 +19,24 @@ final class FormattingModelBuilderJASS implements FormattingModelBuilder {
 
         // https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/formatter/GoFormattingModelBuilder.java
         return new SpacingBuilder(codeStyleSettings, LanguageJASS.INSTANCE)
+                // type
+                .after(TYPE).spacing(1, 1, 0, false, 0)
+                .around(EXTENDS).spacing(1, 1, 0, false, 0)
+
                 // constant
-                .after(CONSTANT).spacing(1, 1, 0, false, 0)
+                //.after(CONSTANT).spacing(1, 1, 0, false, 0)
                 // globals
                 //.after(GLOBALS).spacing(1, 1, 0, false, 0)
-                // type
-                .after(TYPE).spacing(0, 0, 1, false, 0)
-                .around(EXTENDS).spacing(1, 1, 0, false, 0)
                 // function
-                .after(NATIVE).spacing(1, 1, 0, false, 0)
-                .after(FUNC_DECL_NAME).spacing(1, 1, 0, false, 0)
-                .after(RETURNS).spacing(1, 1, 0, false, 0)
+                //.after(NATIVE).spacing(1, 1, 0, false, 0)
+                //.after(FUNC_DECL_NAME).spacing(1, 1, 0, false, 0)
+                //.after(RETURNS).spacing(1, 1, 0, false, 0)
                 // if
-                .after(IF).spacing(1, 1, 0, false, 0)
-                .after(ELSEIF).spacing(1, 1, 0, false, 0)
-                .after(ELSE).spacing(1, 1, 0, false, 0)
+                //.after(IF).spacing(1, 1, 0, false, 0)
+                //.after(ELSEIF).spacing(1, 1, 0, false, 0)
+                //.after(ELSE).spacing(1, 1, 0, false, 0)
                 // operator
-                .around(EQ).spaceIf(common.SPACE_AROUND_ASSIGNMENT_OPERATORS)
+                //.around(EQ).spaceIf(common.SPACE_AROUND_ASSIGNMENT_OPERATORS)
                 ;
     }
 

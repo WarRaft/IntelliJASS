@@ -20,6 +20,8 @@
 
         AND='and'
         ARRAY='array'
+        BOOLEAN='boolean'
+        CODE='code'
         CALL='call'
         CONSTANT='constant'
         DEBUG='debug'
@@ -34,7 +36,9 @@
         FALSE='false'
         FUNCTION='function'
         GLOBALS='globals'
+        HANDLE='handle'
         IF='if'
+        INTEGER='integer'
         LOCAL='local'
         LOOP='loop'
         NATIVE='native'
@@ -42,9 +46,11 @@
         NOTHING='nothing'
         NULL='null'
         OR='or'
+        REAL='real'
         RETURNS='returns'
         RETURN='return'
         SET='set'
+        STRING='string'
         TAKES='takes'
         THEN='then'
         TRUE='true'
@@ -88,10 +94,12 @@ Root ::= (
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
 // === TYPE
-TypeDecl ::= TYPE ID EXTENDS ID {pin=1}
+TypeDecl ::= TYPE TypeName EXTENDS TypeName {pin=1}
+TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
 
-TypeVar ::= ID ID
-TypeVarList ::= TypeVar  (COMMA TypeVar)*
+// === VARIABLE
+TypedVar ::= TypeName ID
+TypedVarList ::= TypedVar  (COMMA TypedVar)*
 
 // === FUNCTION
 Arg ::= Expr|ArgCode
@@ -100,15 +108,15 @@ ArgCode ::= FUNCTION FuncCallName {pin=1}
 FuncCall ::= FuncCallName LP ArgList? RP
 FuncCallName ::= ID
 FuncDeclName ::= ID
-FuncTakes ::= TAKES (NOTHING|TypeVarList)
-FuncReturns ::= RETURNS (NOTHING|ID)
+FuncTakes ::= TAKES (NOTHING|TypedVarList)
+FuncReturns ::= RETURNS (NOTHING|TypeName)
 NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
 
 // ===
 GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
 
 GlobalVarName ::= ID
-GlobalVarDecl ::= CONSTANT? GlobalVarName ARRAY? ID (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
+GlobalVarDecl ::= CONSTANT? TypeName ARRAY? GlobalVarName (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
 private GlobalVarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|ID ID|ID ARRAY|ID EQ)
 
 FuncDecl ::= FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=1}
@@ -123,9 +131,9 @@ Stmt ::=
     ExitWhenStmt
     {recoverWhile=StmtRecover}
 
-private StmtRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|ID ID|ID ARRAY)
+private StmtRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName ID|ID ARRAY)
 
-LocalVarStmt ::= LOCAL? ID ARRAY? ID (EQ Expr)? {pin=2}
+LocalVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
 
 SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 

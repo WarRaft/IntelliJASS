@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface JASSTypeDecl extends PsiElement {
 
+  @NotNull
+  List<JASSTypeName> getTypeNameList();
+
 }

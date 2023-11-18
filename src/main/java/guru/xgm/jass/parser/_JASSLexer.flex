@@ -40,6 +40,8 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
   "and"                       { return AND; }
   "array"                     { return ARRAY; }
+  "boolean"                   { return BOOLEAN; }
+  "code"                      { return CODE; }
   "call"                      { return CALL; }
   "constant"                  { return CONSTANT; }
   "debug"                     { return DEBUG; }
@@ -54,7 +56,9 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "false"                     { return FALSE; }
   "function"                  { return FUNCTION; }
   "globals"                   { return GLOBALS; }
+  "handle"                    { return HANDLE; }
   "if"                        { return IF; }
+  "integer"                   { return INTEGER; }
   "local"                     { return LOCAL; }
   "loop"                      { return LOOP; }
   "native"                    { return NATIVE; }
@@ -62,9 +66,11 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
   "or"                        { return OR; }
+  "real"                      { return REAL; }
   "returns"                   { return RETURNS; }
   "return"                    { return RETURN; }
   "set"                       { return SET; }
+  "string"                    { return STRING; }
   "takes"                     { return TAKES; }
   "then"                      { return THEN; }
   "true"                      { return TRUE; }

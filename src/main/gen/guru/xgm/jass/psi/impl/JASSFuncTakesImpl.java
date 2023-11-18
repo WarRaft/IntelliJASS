@@ -29,8 +29,8 @@ public class JASSFuncTakesImpl extends ASTWrapperPsiElement implements JASSFuncT
 
   @Override
   @Nullable
-  public JASSTypeVarList getTypeVarList() {
-    return findChildByClass(JASSTypeVarList.class);
+  public JASSTypedVarList getTypedVarList() {
+    return findChildByClass(JASSTypedVarList.class);
   }
 
 }

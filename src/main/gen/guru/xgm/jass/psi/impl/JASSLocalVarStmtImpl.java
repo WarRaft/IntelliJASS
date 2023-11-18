@@ -33,4 +33,16 @@ public class JASSLocalVarStmtImpl extends ASTWrapperPsiElement implements JASSLo
     return findChildByClass(JASSExpr.class);
   }
 
+  @Override
+  @NotNull
+  public JASSTypeName getTypeName() {
+    return findNotNullChildByClass(JASSTypeName.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
+  }
+
 }

@@ -17,10 +17,11 @@ import java.util.Map;
 final class ColorSettingsPageJASS implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Identifier", SyntaxHighlighterBaseJASS.JASS_ID),
-            new AttributesDescriptor("Keyword", SyntaxHighlighterBaseJASS.KEYWORD),
-            new AttributesDescriptor("Comment", SyntaxHighlighterBaseJASS.LINE_COMMENT),
-            new AttributesDescriptor("Bad character", SyntaxHighlighterBaseJASS.BAD_CHARACTER),
+            new AttributesDescriptor("Identifier", SyntaxHighlighterBaseJASS.ID_KEY),
+            new AttributesDescriptor("Type", SyntaxHighlighterBaseJASS.TYPE_NAME_KEY),
+            new AttributesDescriptor("Keyword", SyntaxHighlighterBaseJASS.KEYWORD_KEY),
+            new AttributesDescriptor("Comment", SyntaxHighlighterBaseJASS.LINE_COMMENT_KEY),
+            new AttributesDescriptor("Bad character", SyntaxHighlighterBaseJASS.BAD_CHARACTER_KEY),
     };
 
     @Override

@@ -11,20 +11,26 @@ import static guru.xgm.jass.psi.TypesJASS.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JASSTypeVarImpl extends ASTWrapperPsiElement implements JASSTypeVar {
+public class JASSTypedVarListImpl extends ASTWrapperPsiElement implements JASSTypedVarList {
 
-  public JASSTypeVarImpl(@NotNull ASTNode node) {
+  public JASSTypedVarListImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JASSVisitor visitor) {
-    visitor.visitTypeVar(this);
+    visitor.visitTypedVarList(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JASSVisitor) accept((JASSVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<JASSTypedVar> getTypedVarList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSTypedVar.class);
   }
 
 }

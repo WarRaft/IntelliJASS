@@ -54,13 +54,16 @@ public interface TypesJASS {
   IElementType RETURN_STMT = new IElementTypeJASS_Element("RETURN_STMT");
   IElementType SET_STMT = new IElementTypeJASS_Element("SET_STMT");
   IElementType STMT = new IElementTypeJASS_Element("STMT");
+  IElementType TYPED_VAR = new IElementTypeJASS_Element("TYPED_VAR");
+  IElementType TYPED_VAR_LIST = new IElementTypeJASS_Element("TYPED_VAR_LIST");
   IElementType TYPE_DECL = new IElementTypeJASS_Element("TYPE_DECL");
-  IElementType TYPE_VAR = new IElementTypeJASS_Element("TYPE_VAR");
-  IElementType TYPE_VAR_LIST = new IElementTypeJASS_Element("TYPE_VAR_LIST");
+  IElementType TYPE_NAME = new IElementTypeJASS_Element("TYPE_NAME");
 
   IElementType AND = new IElementTypeJASS_Token("and");
   IElementType ARRAY = new IElementTypeJASS_Token("array");
+  IElementType BOOLEAN = new IElementTypeJASS_Token("boolean");
   IElementType CALL = new IElementTypeJASS_Token("call");
+  IElementType CODE = new IElementTypeJASS_Token("code");
   IElementType COMMA = new IElementTypeJASS_Token(",");
   IElementType CONSTANT = new IElementTypeJASS_Token("constant");
   IElementType DEBUG = new IElementTypeJASS_Token("debug");
@@ -80,9 +83,11 @@ public interface TypesJASS {
   IElementType GLOBALS = new IElementTypeJASS_Token("globals");
   IElementType GT = new IElementTypeJASS_Token(">");
   IElementType GTEQ = new IElementTypeJASS_Token(">=");
+  IElementType HANDLE = new IElementTypeJASS_Token("handle");
   IElementType HEXVAL = new IElementTypeJASS_Token("HEXVAL");
   IElementType ID = new IElementTypeJASS_Token("ID");
   IElementType IF = new IElementTypeJASS_Token("if");
+  IElementType INTEGER = new IElementTypeJASS_Token("integer");
   IElementType INTVAL = new IElementTypeJASS_Token("INTVAL");
   IElementType LB = new IElementTypeJASS_Token("[");
   IElementType LOCAL = new IElementTypeJASS_Token("local");
@@ -101,12 +106,14 @@ public interface TypesJASS {
   IElementType PLUS = new IElementTypeJASS_Token("+");
   IElementType RAWVAL = new IElementTypeJASS_Token("RAWVAL");
   IElementType RB = new IElementTypeJASS_Token("]");
+  IElementType REAL = new IElementTypeJASS_Token("real");
   IElementType REALVAL = new IElementTypeJASS_Token("REALVAL");
   IElementType RETURN = new IElementTypeJASS_Token("return");
   IElementType RETURNS = new IElementTypeJASS_Token("returns");
   IElementType RP = new IElementTypeJASS_Token(")");
   IElementType SET = new IElementTypeJASS_Token("set");
   IElementType SINGLE_LINE_COMMENT = new IElementTypeJASS_Token("SINGLE_LINE_COMMENT");
+  IElementType STRING = new IElementTypeJASS_Token("string");
   IElementType STRVAL = new IElementTypeJASS_Token("STRVAL");
   IElementType TAKES = new IElementTypeJASS_Token("takes");
   IElementType THEN = new IElementTypeJASS_Token("then");
@@ -245,14 +252,17 @@ public interface TypesJASS {
       else if (type == STMT) {
         return new JASSStmtImpl(node);
       }
+      else if (type == TYPED_VAR) {
+        return new JASSTypedVarImpl(node);
+      }
+      else if (type == TYPED_VAR_LIST) {
+        return new JASSTypedVarListImpl(node);
+      }
       else if (type == TYPE_DECL) {
         return new JASSTypeDeclImpl(node);
       }
-      else if (type == TYPE_VAR) {
-        return new JASSTypeVarImpl(node);
-      }
-      else if (type == TYPE_VAR_LIST) {
-        return new JASSTypeVarListImpl(node);
+      else if (type == TYPE_NAME) {
+        return new JASSTypeNameImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

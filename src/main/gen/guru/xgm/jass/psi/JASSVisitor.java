@@ -187,11 +187,15 @@ public class JASSVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeVar(@NotNull JASSTypeVar o) {
+  public void visitTypeName(@NotNull JASSTypeName o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeVarList(@NotNull JASSTypeVarList o) {
+  public void visitTypedVar(@NotNull JASSTypedVar o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypedVarList(@NotNull JASSTypedVarList o) {
     visitPsiElement(o);
   }
 

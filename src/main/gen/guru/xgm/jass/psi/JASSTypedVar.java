@@ -5,15 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSLocalVarStmt extends PsiElement {
-
-  @Nullable
-  JASSExpr getExpr();
+public interface JASSTypedVar extends PsiElement {
 
   @NotNull
   JASSTypeName getTypeName();
 
-  @Nullable
+  @NotNull
   PsiElement getId();
 
 }

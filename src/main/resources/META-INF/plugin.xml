@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
     <vendor url="https://xgm.guru">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -17,7 +17,13 @@
         />
         <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"/>
         <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"/>
+
+        <!-- color -->
         <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/JASSDarcula.xml"/>
+
+        <!-- annotator -->
+        <annotator language="JASS" implementationClass="guru.xgm.jass.lang.annotation.AnnotatorJASS"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.CustomFoldingBuilderJASS"/>

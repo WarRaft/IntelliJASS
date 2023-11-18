@@ -27,4 +27,10 @@ public class JASSTypeDeclImpl extends ASTWrapperPsiElement implements JASSTypeDe
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<JASSTypeName> getTypeNameList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JASSTypeName.class);
+  }
+
 }

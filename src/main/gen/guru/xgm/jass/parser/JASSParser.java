@@ -314,7 +314,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // RETURNS (NOTHING|ID)
+  // RETURNS (NOTHING|TypeName)
   public static boolean FuncReturns(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncReturns")) return false;
     if (!nextTokenIs(b, RETURNS)) return false;
@@ -326,17 +326,17 @@ public class JASSParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // NOTHING|ID
+  // NOTHING|TypeName
   private static boolean FuncReturns_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncReturns_1")) return false;
     boolean r;
     r = consumeToken(b, NOTHING);
-    if (!r) r = consumeToken(b, ID);
+    if (!r) r = TypeName(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // TAKES (NOTHING|TypeVarList)
+  // TAKES (NOTHING|TypedVarList)
   public static boolean FuncTakes(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncTakes")) return false;
     if (!nextTokenIs(b, TAKES)) return false;
@@ -348,26 +348,26 @@ public class JASSParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // NOTHING|TypeVarList
+  // NOTHING|TypedVarList
   private static boolean FuncTakes_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncTakes_1")) return false;
     boolean r;
     r = consumeToken(b, NOTHING);
-    if (!r) r = TypeVarList(b, l + 1);
+    if (!r) r = TypedVarList(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // CONSTANT? GlobalVarName ARRAY? ID (EQ Expr)?
+  // CONSTANT? TypeName ARRAY? GlobalVarName (EQ Expr)?
   public static boolean GlobalVarDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalVarDecl")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, GLOBAL_VAR_DECL, "<global var decl>");
     r = GlobalVarDecl_0(b, l + 1);
-    r = r && GlobalVarName(b, l + 1);
+    r = r && TypeName(b, l + 1);
     p = r; // pin = 2
     r = r && report_error_(b, GlobalVarDecl_2(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, ID)) && r;
+    r = p && report_error_(b, GlobalVarName(b, l + 1)) && r;
     r = p && GlobalVarDecl_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, JASSParser::GlobalVarDeclRecover);
     return r || p;
@@ -517,14 +517,13 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LOCAL? ID ARRAY? ID (EQ Expr)?
+  // LOCAL? TypeName ARRAY? ID (EQ Expr)?
   public static boolean LocalVarStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LocalVarStmt")) return false;
-    if (!nextTokenIs(b, "<local var stmt>", ID, LOCAL)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, LOCAL_VAR_STMT, "<local var stmt>");
     r = LocalVarStmt_0(b, l + 1);
-    r = r && consumeToken(b, ID);
+    r = r && TypeName(b, l + 1);
     p = r; // pin = 2
     r = r && report_error_(b, LocalVarStmt_2(b, l + 1));
     r = p && report_error_(b, consumeToken(b, ID)) && r;
@@ -752,7 +751,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|ID ID|ID ARRAY)
+  // !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName ID|ID ARRAY)
   static boolean StmtRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover")) return false;
     boolean r;
@@ -762,7 +761,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|ID ID|ID ARRAY
+  // CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName ID|ID ARRAY
   private static boolean StmtRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
     boolean r;
@@ -784,68 +783,98 @@ public class JASSParser implements PsiParser, LightPsiParser {
     if (!r) r = parseTokens(b, 0, ID, EQ);
     if (!r) r = parseTokens(b, 0, ID, LP);
     if (!r) r = parseTokens(b, 0, ID, LB);
-    if (!r) r = parseTokens(b, 0, ID, ID);
+    if (!r) r = StmtRecover_0_17(b, l + 1);
     if (!r) r = parseTokens(b, 0, ID, ARRAY);
     exit_section_(b, m, null, r);
     return r;
   }
 
+  // TypeName ID
+  private static boolean StmtRecover_0_17(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StmtRecover_0_17")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = TypeName(b, l + 1);
+    r = r && consumeToken(b, ID);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
   /* ********************************************************** */
-  // TYPE ID EXTENDS ID
+  // TYPE TypeName EXTENDS TypeName
   public static boolean TypeDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeDecl")) return false;
     if (!nextTokenIs(b, TYPE)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TYPE_DECL, null);
-    r = consumeTokens(b, 1, TYPE, ID, EXTENDS, ID);
+    r = consumeToken(b, TYPE);
     p = r; // pin = 1
+    r = r && report_error_(b, TypeName(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, EXTENDS)) && r;
+    r = p && TypeName(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   /* ********************************************************** */
-  // ID ID
-  public static boolean TypeVar(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeVar")) return false;
-    if (!nextTokenIs(b, ID)) return false;
+  // ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
+  public static boolean TypeName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypeName")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, ID, ID);
-    exit_section_(b, m, TYPE_VAR, r);
+    Marker m = enter_section_(b, l, _NONE_, TYPE_NAME, "<type name>");
+    r = consumeToken(b, ID);
+    if (!r) r = consumeToken(b, HANDLE);
+    if (!r) r = consumeToken(b, INTEGER);
+    if (!r) r = consumeToken(b, REAL);
+    if (!r) r = consumeToken(b, BOOLEAN);
+    if (!r) r = consumeToken(b, STRING);
+    if (!r) r = consumeToken(b, CODE);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // TypeVar  (COMMA TypeVar)*
-  public static boolean TypeVarList(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeVarList")) return false;
-    if (!nextTokenIs(b, ID)) return false;
+  // TypeName ID
+  public static boolean TypedVar(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypedVar")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = TypeVar(b, l + 1);
-    r = r && TypeVarList_1(b, l + 1);
-    exit_section_(b, m, TYPE_VAR_LIST, r);
+    Marker m = enter_section_(b, l, _NONE_, TYPED_VAR, "<typed var>");
+    r = TypeName(b, l + 1);
+    r = r && consumeToken(b, ID);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (COMMA TypeVar)*
-  private static boolean TypeVarList_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeVarList_1")) return false;
+  /* ********************************************************** */
+  // TypedVar  (COMMA TypedVar)*
+  public static boolean TypedVarList(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypedVarList")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, TYPED_VAR_LIST, "<typed var list>");
+    r = TypedVar(b, l + 1);
+    r = r && TypedVarList_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (COMMA TypedVar)*
+  private static boolean TypedVarList_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypedVarList_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!TypeVarList_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "TypeVarList_1", c)) break;
+      if (!TypedVarList_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "TypedVarList_1", c)) break;
     }
     return true;
   }
 
-  // COMMA TypeVar
-  private static boolean TypeVarList_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeVarList_1_0")) return false;
+  // COMMA TypedVar
+  private static boolean TypedVarList_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypedVarList_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && TypeVar(b, l + 1);
+    r = r && TypedVar(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

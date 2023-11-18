@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JASSFuncTakes extends PsiElement {
 
   @Nullable
-  JASSTypeVarList getTypeVarList();
+  JASSTypedVarList getTypedVarList();
 
 }

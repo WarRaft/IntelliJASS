@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<!-- https://plugins.jetbrains.com/docs/intellij/color-scheme-management.html#scheme-designers -->
+<list>
+    <option name="JASS_TYPE_NAME">
+        <value>
+            <option name="FOREGROUND" value="008000"/>
+        </value>
+    </option>
+</list>

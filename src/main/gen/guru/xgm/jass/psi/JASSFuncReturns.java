@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JASSFuncReturns extends PsiElement {
 
   @Nullable
-  PsiElement getId();
+  JASSTypeName getTypeName();
 
 }

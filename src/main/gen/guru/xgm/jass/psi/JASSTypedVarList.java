@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JASSTypeVarList extends PsiElement {
+public interface JASSTypedVarList extends PsiElement {
 
   @NotNull
-  List<JASSTypeVar> getTypeVarList();
+  List<JASSTypedVar> getTypedVarList();
 
 }
