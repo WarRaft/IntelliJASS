@@ -97,5 +97,4 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
 
         return EMPTY_KEYS;
     }
-
 }

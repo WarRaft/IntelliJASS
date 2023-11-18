@@ -1,17 +1,17 @@
 package guru.xgm.jass.openapi.options.colors;
 
-import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBaseJASS;
-import guru.xgm.jass.icons.IconsJASS;
-
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import guru.xgm.jass.icons.IconsJASS;
+import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBaseJASS;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.HashMap;
 import java.util.Map;
 
 final class ColorSettingsPageJASS implements ColorSettingsPage {
@@ -39,15 +39,19 @@ final class ColorSettingsPageJASS implements ColorSettingsPage {
     @Override
     public String getDemoText() {
         return """
-                type anal extends sex // We will fuck you!
-                Кто подставил кролика Роджера?
+                $ // bad character
+                type <TYPE_NAME>agent</TYPE_NAME> extends <TYPE_NAME>handle</TYPE_NAME>
                 """;
     }
 
-    @Nullable
+    @NonNls
+    private static final Map<String, TextAttributesKey> ourTags = new HashMap<>() {{
+        put("TYPE_NAME", SyntaxHighlighterBaseJASS.TYPE_NAME_KEY);
+    }};
+
     @Override
-    public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-        return null;
+    public @NotNull Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
+        return ourTags;
     }
 
     @Override
