@@ -10,21 +10,21 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import guru.xgm.jass.extapi.psi.PsiFileBaseJASS;
-import guru.xgm.jass.lexer.FlexAdapterJASS;
+import guru.xgm.jass.extapi.psi.JassPsiFileBase;
+import guru.xgm.jass.lexer.JassFlexAdapter;
 import guru.xgm.jass.parser.JASSParser;
 import guru.xgm.jass.psi.TokenSetsJASS;
 import guru.xgm.jass.psi.TypesJASS;
 import org.jetbrains.annotations.NotNull;
 
-public final class ParserDefinitionJASS implements ParserDefinition {
+public final class JassParserDefinition implements ParserDefinition {
 
-    public static final IFileElementType JASS_FILE = new IFileElementType(LanguageJASS.INSTANCE);
+    public static final IFileElementType JASS_FILE = new IFileElementType(JassLanguage.INSTANCE);
 
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        return new FlexAdapterJASS();
+        return new JassFlexAdapter();
     }
 
     @NotNull
@@ -54,7 +54,7 @@ public final class ParserDefinitionJASS implements ParserDefinition {
     @NotNull
     @Override
     public PsiFile createFile(@NotNull FileViewProvider viewProvider) {
-        return new PsiFileBaseJASS(viewProvider);
+        return new JassPsiFileBase(viewProvider);
     }
 
     @NotNull

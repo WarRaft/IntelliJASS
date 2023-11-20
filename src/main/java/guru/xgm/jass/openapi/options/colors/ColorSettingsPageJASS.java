@@ -5,7 +5,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import guru.xgm.jass.icons.IconsJASS;
+import guru.xgm.jass.icons.JassIcons;
 import guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterBaseJASS;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ final class ColorSettingsPageJASS implements ColorSettingsPage {
 
     @Override
     public @NotNull Icon getIcon() {
-        return IconsJASS.FILE;
+        return JassIcons.FILE;
     }
 
     @NotNull

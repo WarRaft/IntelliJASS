@@ -358,7 +358,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? TypeName ARRAY? GlobalVarName (EQ Expr)?
+  // CONSTANT? TypeName ARRAY? ID (EQ Expr)?
   public static boolean GlobalVarDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalVarDecl")) return false;
     boolean r, p;
@@ -367,7 +367,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
     r = r && TypeName(b, l + 1);
     p = r; // pin = 2
     r = r && report_error_(b, GlobalVarDecl_2(b, l + 1));
-    r = p && report_error_(b, GlobalVarName(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, ID)) && r;
     r = p && GlobalVarDecl_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, JASSParser::GlobalVarDeclRecover);
     return r || p;
@@ -406,7 +406,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(CONSTANT|GLOBALS|ENDGLOBALS|ID ID|ID ARRAY|ID EQ)
+  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
   static boolean GlobalVarDeclRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalVarDeclRecover")) return false;
     boolean r;
@@ -416,30 +416,14 @@ public class JASSParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // CONSTANT|GLOBALS|ENDGLOBALS|ID ID|ID ARRAY|ID EQ
+  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
   private static boolean GlobalVarDeclRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalVarDeclRecover_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = consumeToken(b, CONSTANT);
     if (!r) r = consumeToken(b, GLOBALS);
     if (!r) r = consumeToken(b, ENDGLOBALS);
-    if (!r) r = parseTokens(b, 0, ID, ID);
-    if (!r) r = parseTokens(b, 0, ID, ARRAY);
-    if (!r) r = parseTokens(b, 0, ID, EQ);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // ID
-  public static boolean GlobalVarName(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarName")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ID);
-    exit_section_(b, m, GLOBAL_VAR_NAME, r);
+    if (!r) r = TypeName(b, l + 1);
     return r;
   }
 
@@ -751,7 +735,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName ID|ID ARRAY)
+  // !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName)
   static boolean StmtRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover")) return false;
     boolean r;
@@ -761,7 +745,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName ID|ID ARRAY
+  // CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName
   private static boolean StmtRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
     boolean r;
@@ -783,19 +767,7 @@ public class JASSParser implements PsiParser, LightPsiParser {
     if (!r) r = parseTokens(b, 0, ID, EQ);
     if (!r) r = parseTokens(b, 0, ID, LP);
     if (!r) r = parseTokens(b, 0, ID, LB);
-    if (!r) r = StmtRecover_0_17(b, l + 1);
-    if (!r) r = parseTokens(b, 0, ID, ARRAY);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // TypeName ID
-  private static boolean StmtRecover_0_17(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0_17")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = TypeName(b, l + 1);
-    r = r && consumeToken(b, ID);
+    if (!r) r = TypeName(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

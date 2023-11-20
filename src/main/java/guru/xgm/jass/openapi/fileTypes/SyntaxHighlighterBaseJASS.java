@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import guru.xgm.jass.lexer.FlexAdapterJASS;
+import guru.xgm.jass.lexer.JassFlexAdapter;
 import guru.xgm.jass.psi.TypesJASS;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,7 @@ public class SyntaxHighlighterBaseJASS extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
-        return new FlexAdapterJASS();
+        return new JassFlexAdapter();
     }
 
     @Override

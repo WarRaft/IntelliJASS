@@ -95,10 +95,6 @@ public class JASSVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGlobalVarName(@NotNull JASSGlobalVarName o) {
-    visitPsiElement(o);
-  }
-
   public void visitGlobalsDecl(@NotNull JASSGlobalsDecl o) {
     visitPsiElement(o);
   }

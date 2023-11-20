@@ -34,15 +34,15 @@ public class JASSGlobalVarDeclImpl extends ASTWrapperPsiElement implements JASSG
   }
 
   @Override
-  @Nullable
-  public JASSGlobalVarName getGlobalVarName() {
-    return findChildByClass(JASSGlobalVarName.class);
-  }
-
-  @Override
   @NotNull
   public JASSTypeName getTypeName() {
     return findNotNullChildByClass(JASSTypeName.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
 }

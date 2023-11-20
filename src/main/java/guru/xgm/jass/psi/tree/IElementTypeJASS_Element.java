@@ -1,6 +1,6 @@
 package guru.xgm.jass.psi.tree;
 
-import guru.xgm.jass.lang.LanguageJASS;
+import guru.xgm.jass.lang.JassLanguage;
 
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class IElementTypeJASS_Element extends IElementType {
 
     public IElementTypeJASS_Element(@NotNull @NonNls String debugName) {
-        super(debugName, LanguageJASS.INSTANCE);
+        super(debugName, JassLanguage.INSTANCE);
     }
 
     @Override

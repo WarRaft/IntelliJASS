@@ -31,7 +31,6 @@ public interface TypesJASS {
   IElementType FUNC_TAKES = new IElementTypeJASS_Element("FUNC_TAKES");
   IElementType GLOBALS_DECL = new IElementTypeJASS_Element("GLOBALS_DECL");
   IElementType GLOBAL_VAR_DECL = new IElementTypeJASS_Element("GLOBAL_VAR_DECL");
-  IElementType GLOBAL_VAR_NAME = new IElementTypeJASS_Element("GLOBAL_VAR_NAME");
   IElementType GT_EQ_EXPR = new IElementTypeJASS_Element("GT_EQ_EXPR");
   IElementType GT_EXPR = new IElementTypeJASS_Element("GT_EXPR");
   IElementType IF_STMT = new IElementTypeJASS_Element("IF_STMT");
@@ -182,9 +181,6 @@ public interface TypesJASS {
       }
       else if (type == GLOBAL_VAR_DECL) {
         return new JASSGlobalVarDeclImpl(node);
-      }
-      else if (type == GLOBAL_VAR_NAME) {
-        return new JASSGlobalVarNameImpl(node);
       }
       else if (type == GT_EQ_EXPR) {
         return new JASSGTEqExprImpl(node);

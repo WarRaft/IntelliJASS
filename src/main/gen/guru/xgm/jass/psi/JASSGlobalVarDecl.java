@@ -10,10 +10,10 @@ public interface JASSGlobalVarDecl extends PsiElement {
   @Nullable
   JASSExpr getExpr();
 
-  @Nullable
-  JASSGlobalVarName getGlobalVarName();
-
   @NotNull
   JASSTypeName getTypeName();
+
+  @Nullable
+  PsiElement getId();
 
 }

@@ -15,7 +15,7 @@
                   language="JASS"
                   extensions="j"
         />
-        <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.ParserDefinitionJASS"/>
+        <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.JassParserDefinition"/>
         <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"/>
 
         <!-- color -->
@@ -31,17 +31,28 @@
         <applicationService serviceImplementation="guru.xgm.jass.lang.folding.CodeFoldingSettingsJASS"/>
 
         <!-- formatter -->
-        <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.FormattingModelBuilderJASS"/>
+        <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
         <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.CodeStyleSettingsProviderJASS"/>
         <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.LanguageCodeStyleSettingsProviderJASS"/>
+
+        <!-- inspections -->
+        <localInspection language="JASS"
+                         bundle="messages.InspectionBundle"
+                         key="inspection.comparing.string.references.display.name"
+                         groupPath="JASS"
+                         groupBundle="messages.InspectionsBundle"
+                         groupKey="group.names.probable.bugs"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="guru.xgm.jass.codeInspection.ComparingStringReferencesInspection"
+        />
 
     </extensions>
 
     <description><![CDATA[
         <p>Just Another Scripting Syntax (JASS) for
             <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a>.</p>
-        <hr>
-        Code folding, highlight and open binary ingame files.
+        <p>Code folding, highlight and open binary ingame files.</p>
         ]]></description>
 
     <change-notes><![CDATA[

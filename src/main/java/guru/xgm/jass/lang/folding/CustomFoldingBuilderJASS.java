@@ -10,8 +10,8 @@ import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
-import guru.xgm.jass.extapi.psi.PsiFileBaseJASS;
-import guru.xgm.jass.lang.ParserDefinitionJASS;
+import guru.xgm.jass.extapi.psi.JassPsiFileBase;
+import guru.xgm.jass.lang.JassParserDefinition;
 import guru.xgm.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,12 +23,12 @@ final class CustomFoldingBuilderJASS extends CustomFoldingBuilder implements Dum
     @Override
     protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
         final IElementType type = node.getElementType();
-        return type == ParserDefinitionJASS.JASS_FILE || type == TypesJASS.GLOBALS_DECL || type == TypesJASS.FUNC_DECL;
+        return type == JassParserDefinition.JASS_FILE || type == TypesJASS.GLOBALS_DECL || type == TypesJASS.FUNC_DECL;
     }
 
     @Override
     protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> descriptors, @NotNull PsiElement root, @NotNull Document document, boolean quick) {
-        if (!(root instanceof PsiFileBaseJASS)) return;
+        if (!(root instanceof JassPsiFileBase)) return;
 
         final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
                 root,

@@ -1,6 +1,6 @@
 package guru.xgm.jass.formatting;
 
-import guru.xgm.jass.lang.LanguageJASS;
+import guru.xgm.jass.lang.JassLanguage;
 
 import static guru.xgm.jass.psi.TypesJASS.*;
 
@@ -11,14 +11,14 @@ import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 
-final class FormattingModelBuilderJASS implements FormattingModelBuilder {
+final class JassFormattingModelBuilder implements FormattingModelBuilder {
 
     @NotNull
     private static SpacingBuilder createSpacingBuilder(@NotNull CodeStyleSettings codeStyleSettings) {
-        final var common = codeStyleSettings.getCommonSettings(LanguageJASS.INSTANCE.getID());
+        final var common = codeStyleSettings.getCommonSettings(JassLanguage.INSTANCE.getID());
 
         // https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/formatter/GoFormattingModelBuilder.java
-        return new SpacingBuilder(codeStyleSettings, LanguageJASS.INSTANCE)
+        return new SpacingBuilder(codeStyleSettings, JassLanguage.INSTANCE)
                 // type
                 .after(TYPE).spacing(1, 1, 0, false, 0)
                 .around(EXTENDS).spacing(1, 1, 0, false, 0)
