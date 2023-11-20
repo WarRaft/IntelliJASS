@@ -10,30 +10,30 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="JASS File"
-                  implementationClass="guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS"
+                  implementationClass="guru.xgm.jass.openapi.fileTypes.JassLanguageFileType"
                   fieldName="INSTANCE"
                   language="JASS"
                   extensions="j"
         />
         <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.JassParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.SyntaxHighlighterFactoryJASS"/>
+        <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.ColorSettingsPageJASS"/>
+        <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.JassColorSettingsPage"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/JASSDarcula.xml"/>
 
         <!-- annotator -->
-        <annotator language="JASS" implementationClass="guru.xgm.jass.lang.annotation.AnnotatorJASS"/>
+        <annotator language="JASS" implementationClass="guru.xgm.jass.lang.annotation.JassAnnotator"/>
 
         <!-- folding -->
-        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.CustomFoldingBuilderJASS"/>
-        <codeFoldingOptionsProvider instance="guru.xgm.jass.lang.folding.CodeFoldingOptionsProviderJASS"/>
-        <applicationService serviceImplementation="guru.xgm.jass.lang.folding.CodeFoldingSettingsJASS"/>
+        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.JassCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.jass.lang.folding.JassCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="guru.xgm.jass.lang.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
-        <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.CodeStyleSettingsProviderJASS"/>
-        <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.LanguageCodeStyleSettingsProviderJASS"/>
+        <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
         <!-- inspections -->
         <localInspection language="JASS"

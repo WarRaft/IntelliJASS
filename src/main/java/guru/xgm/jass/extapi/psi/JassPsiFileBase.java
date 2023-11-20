@@ -1,7 +1,7 @@
 package guru.xgm.jass.extapi.psi;
 
 import guru.xgm.jass.lang.JassLanguage;
-import guru.xgm.jass.openapi.fileTypes.LanguageFileTypeJASS;
+import guru.xgm.jass.openapi.fileTypes.JassLanguageFileType;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
@@ -17,7 +17,7 @@ public class JassPsiFileBase extends PsiFileBase {
     @NotNull
     @Override
     public FileType getFileType() {
-        return LanguageFileTypeJASS.INSTANCE;
+        return JassLanguageFileType.INSTANCE;
     }
 
     @Override

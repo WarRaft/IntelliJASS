@@ -2,9 +2,9 @@ package guru.xgm.jass.formatting;
 
 import guru.xgm.jass.lang.JassLanguage;
 
-import static guru.xgm.jass.psi.TypesJASS.*;
+import static guru.xgm.jass.psi.JassTypes.*;
 
-import guru.xgm.jass.psi.formatter.common.AbstractBlockJASS;
+import guru.xgm.jass.psi.formatter.common.JassAbstractBlock;
 
 
 import com.intellij.formatting.*;
@@ -46,7 +46,7 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(
                         formattingContext.getContainingFile(),
-                        new AbstractBlockJASS(
+                        new JassAbstractBlock(
                                 formattingContext.getNode(),
                                 Wrap.createWrap(WrapType.NONE, true),
                                 Alignment.createAlignment(true, Alignment.Anchor.LEFT),

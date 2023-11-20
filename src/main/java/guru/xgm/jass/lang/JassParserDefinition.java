@@ -12,9 +12,9 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import guru.xgm.jass.extapi.psi.JassPsiFileBase;
 import guru.xgm.jass.lexer.JassFlexAdapter;
-import guru.xgm.jass.parser.JASSParser;
-import guru.xgm.jass.psi.TokenSetsJASS;
-import guru.xgm.jass.psi.TypesJASS;
+import guru.xgm.jass.parser.JassParser;
+import guru.xgm.jass.psi.JassTokenSets;
+import guru.xgm.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 
 public final class JassParserDefinition implements ParserDefinition {
@@ -30,7 +30,7 @@ public final class JassParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return TokenSetsJASS.COMMENTS;
+        return JassTokenSets.COMMENTS;
     }
 
     @NotNull
@@ -42,7 +42,7 @@ public final class JassParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public PsiParser createParser(final Project project) {
-        return new JASSParser();
+        return new JassParser();
     }
 
     @NotNull
@@ -60,7 +60,7 @@ public final class JassParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public PsiElement createElement(ASTNode node) {
-        return TypesJASS.Factory.createElement(node);
+        return JassTypes.Factory.createElement(node);
     }
 
 }

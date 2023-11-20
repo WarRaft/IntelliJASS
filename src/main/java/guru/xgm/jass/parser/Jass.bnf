@@ -1,0 +1,222 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Jass"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "guru.xgm.jass.parser.JassParser"
+
+    psiPackage=               "guru.xgm.jass.psi"
+    psiImplPackage=           "guru.xgm.jass.psi.impl"
+    elementTypeHolderClass=   "guru.xgm.jass.psi.JassTypes"
+    elementTypeClass=         "guru.xgm.jass.psi.tree.JassIElementType_Element"
+    tokenTypeClass=           "guru.xgm.jass.psi.tree.JassIElementType_Token"
+
+    extends(".*Expr")=Expr
+
+    tokens = [
+        WHITE_SPACE='regexp:\s+'
+        SINGLE_LINE_COMMENT="regexp://[^\n]*"
+
+        AND='and'
+        ARRAY='array'
+        BOOLEAN='boolean'
+        CODE='code'
+        CALL='call'
+        CONSTANT='constant'
+        DEBUG='debug'
+        ELSE='else'
+        ELSEIF='elseif'
+        ENDFUNCTION='endfunction'
+        ENDIF='endif'
+        ENDLOOP='endloop'
+        ENDGLOBALS='endglobals'
+        EXTENDS='extends'
+        EXITWHEN='exitwhen'
+        FALSE='false'
+        FUNCTION='function'
+        GLOBALS='globals'
+        HANDLE='handle'
+        IF='if'
+        INTEGER='integer'
+        LOCAL='local'
+        LOOP='loop'
+        NATIVE='native'
+        NOT='not'
+        NOTHING='nothing'
+        NULL='null'
+        OR='or'
+        REAL='real'
+        RETURNS='returns'
+        RETURN='return'
+        SET='set'
+        STRING='string'
+        TAKES='takes'
+        THEN='then'
+        TRUE='true'
+        TYPE='type'
+
+        COMMA=','
+        EQEQ='=='
+        EQ='='
+        NEQ='!='
+        LTEQ='<='
+        LT='<'
+        GTEQ='>='
+        GT='>'
+        PLUS='+'
+        MINUS='-'
+        MUL='*'
+        DIV='/'
+        LP='('
+        RP=')'
+        LB='['
+        RB=']'
+        LT='<'
+        GT='>'
+
+        REALVAl='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        RAWVAl="regexp:'[^']*'"
+        STRVAL="regexp:\"([^\"\\]|\\.)*\""
+
+        ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
+    ]
+}
+
+Root ::= (
+    TypeDecl |
+    NativeDecl |
+    GlobalsDecl |
+    FuncDecl
+    )* {recoverWhile=rootRecover}
+private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+
+// === TYPE
+TypeDecl ::= TYPE TypeName EXTENDS TypeName {pin=1}
+TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
+
+// === VARIABLE
+TypedVar ::= TypeName ID
+TypedVarList ::= TypedVar  (COMMA TypedVar)*
+
+// === FUNCTION
+Arg ::= Expr|ArgCode
+ArgList ::= Arg (COMMA Arg)*
+ArgCode ::= FUNCTION FuncCallName {pin=1}
+FuncCall ::= FuncCallName LP ArgList? RP
+FuncCallName ::= ID
+FuncDeclName ::= ID
+FuncTakes ::= TAKES (NOTHING|TypedVarList)
+FuncReturns ::= RETURNS (NOTHING|TypeName)
+NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
+
+FuncDecl ::= FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=1}
+
+// === GLOBALS
+GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
+GlobalVarDecl ::= CONSTANT? TypeName ARRAY? ID (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
+private GlobalVarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+
+// === STATEMENT
+
+Stmt ::=
+    SetStmt |
+    CallStmt |
+    LocalVarStmt |
+    ReturnStmt |
+    IfStmt |
+    LoopStmt |
+    ExitWhenStmt
+    {recoverWhile=StmtRecover}
+
+private StmtRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LP|ID LB|TypeName)
+
+LocalVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
+
+SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
+
+CallStmt ::= DEBUG? CALL? FuncCall
+
+ReturnStmt ::= RETURN Expr?
+
+IfStmt ::= IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF {pin=1}
+ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
+ElseStmt ::= ELSE Stmt* {pin=1}
+
+LoopStmt ::= LOOP Stmt* ENDLOOP {pin=1}
+ExitWhenStmt ::=EXITWHEN Expr {pin=1}
+
+// === EXPRESSION
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+// https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+// https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
+// https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+
+// integer, real, boolean, string, code, handle
+
+Expr ::=
+    AddGroup |
+    MulGroup |
+    UnaryGroup |
+    CmpGroup |
+    OrExpr |
+    AndExpr |
+    PrimaryExpr
+
+private AddGroup ::= PlusExpr | MinusExpr
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
+
+private MulGroup ::= MulExpr | DivExpr
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
+
+private UnaryGroup ::=
+    MulUnaryExpr |
+    DivUnaryExpr |
+    PlusUnaryExpr |
+    MinusUnaryExpr |
+    NotExpr
+
+MulUnaryExpr ::= MUL Expr
+DivUnaryExpr ::= DIV Expr
+PlusUnaryExpr ::= PLUS Expr
+MinusUnaryExpr ::= MINUS Expr
+NotExpr ::= NOT Expr
+
+private CmpGroup ::=
+    EqExpr |
+    NEqExpr |
+    LTExpr |
+    LTEqExpr |
+    GTExpr |
+    GTEqExpr
+
+EqExpr ::= Expr EQEQ Expr
+NEqExpr ::= Expr NEQ Expr
+LTExpr ::= Expr LT Expr
+LTEqExpr ::= Expr LTEQ Expr
+GTExpr ::= Expr GT Expr
+GTEqExpr ::= Expr GTEQ Expr
+
+OrExpr ::= Expr OR Expr
+AndExpr ::= Expr AND Expr
+ParenExpr ::= LP Expr RP
+
+PrimaryExpr ::=
+    FALSE |
+    NULL |
+    TRUE |
+    ParenExpr |
+    ArrayAccess |
+    FuncCall |
+    REALVAL |
+    HEXVAL |
+    INTVAL |
+    RAWVAL |
+    STRVAL |
+    ID
+
+ArrayAccess ::= ID LB Expr? RB

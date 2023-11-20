@@ -9,7 +9,7 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTypesUtil;
-import guru.xgm.jass.psi.JASSVisitor;
+import guru.xgm.jass.psi.JassVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -74,7 +74,7 @@ final class ComparingStringReferencesInspection extends LocalInspectionTool {
         };
     */
 
-        return new JASSVisitor();
+        return new JassVisitor();
     }
 
     /**
