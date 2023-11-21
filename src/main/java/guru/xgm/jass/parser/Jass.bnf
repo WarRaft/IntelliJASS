@@ -5,7 +5,6 @@
     psiImplClassSuffix="Impl"
 
     parserClass=              "guru.xgm.jass.parser.JassParser"
-
     psiPackage=               "guru.xgm.jass.psi"
     psiImplPackage=           "guru.xgm.jass.psi.impl"
     elementTypeHolderClass=   "guru.xgm.jass.psi.JassTypes"
@@ -99,7 +98,7 @@ TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
 
 // === VARIABLE
 TypedVar ::= TypeName ID
-TypedVarList ::= TypedVar  (COMMA TypedVar)*
+TypedVarList ::= TypedVar (COMMA TypedVar)*
 
 // === FUNCTION
 Arg ::= Expr|ArgCode
@@ -153,8 +152,6 @@ ExitWhenStmt ::=EXITWHEN Expr {pin=1}
 // https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
 // https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
-
-// integer, real, boolean, string, code, handle
 
 Expr ::=
     AddGroup |

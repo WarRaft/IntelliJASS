@@ -818,7 +818,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TypedVar  (COMMA TypedVar)*
+  // TypedVar (COMMA TypedVar)*
   public static boolean TypedVarList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypedVarList")) return false;
     boolean r;
