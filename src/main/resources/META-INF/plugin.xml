@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
     <idea-version since-build="2023.2.5" until-build="2025.*"/>
     <vendor url="https://xgm.guru">XGM</vendor>
 
@@ -57,6 +57,10 @@
         ]]></description>
 
     <change-notes><![CDATA[
+        <p><b>2.0.5</b>:</p>
+        <ul>
+            <li>Operator call inspection</li>
+        </ul>
         <p><b>2.0.4</b>:</p>
         <ul>
             <li>Folding globals and functions</li>
