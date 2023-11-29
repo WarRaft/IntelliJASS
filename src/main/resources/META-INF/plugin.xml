@@ -4,7 +4,7 @@
     <id>JASS</id>
     <name>JASS</name>
     <version>2.0.6</version>
-    <idea-version since-build="2023.2.5" until-build="2025.*"/>
+    <idea-version since-build="2023.2.6" until-build="2025.*"/>
     <vendor url="https://xgm.guru">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -49,6 +49,19 @@
         />
 
     </extensions>
+
+    <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
+    <actions>
+        <action
+                id="guru.xgm.jass.openapi.actionSystem.JassActionConvertToJass"
+                class="guru.xgm.jass.openapi.actionSystem.JassActionConvertToJass"
+                text="Convert to JASS"
+                description="Convert file to valid JASS"
+        >
+            <add-to-group group-id="EditorPopupMenu"/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+        </action>
+    </actions>
 
     <description><![CDATA[
         <p>Just Another Scripting Syntax (JASS) for
