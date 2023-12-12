@@ -11,6 +11,9 @@ public interface JassPrimaryExpr extends JassExpr {
   JassArrayAccess getArrayAccess();
 
   @Nullable
+  JassFuncAsCode getFuncAsCode();
+
+  @Nullable
   JassFuncCall getFuncCall();
 
   @Nullable

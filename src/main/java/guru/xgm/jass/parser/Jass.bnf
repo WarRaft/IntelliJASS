@@ -101,10 +101,9 @@ TypedVar ::= TypeName ID
 TypedVarList ::= TypedVar (COMMA TypedVar)*
 
 // === FUNCTION
-Arg ::= Expr|ArgCode
+Arg ::= Expr|FuncAsCode
 ArgList ::= Arg (COMMA Arg)*
-ArgCode ::= FUNCTION FuncCallName {pin=1}
-FuncCall ::= FuncCallName LP ArgList? RP
+FuncCall ::= FuncCallName LP ArgList? RP {pin=2}
 FuncCallName ::= ID
 FuncDeclName ::= ID
 FuncTakes ::= TAKES (NOTHING|TypedVarList)
@@ -209,6 +208,7 @@ PrimaryExpr ::=
     ParenExpr |
     ArrayAccess |
     FuncCall |
+    FuncAsCode |
     REALVAL |
     HEXVAL |
     INTVAL |
@@ -217,3 +217,4 @@ PrimaryExpr ::=
     ID
 
 ArrayAccess ::= ID LB Expr? RB
+FuncAsCode ::= FUNCTION FuncCallName {pin=1}

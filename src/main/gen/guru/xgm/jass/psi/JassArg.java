@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface JassArg extends PsiElement {
 
   @Nullable
-  JassArgCode getArgCode();
+  JassExpr getExpr();
 
   @Nullable
-  JassExpr getExpr();
+  JassFuncAsCode getFuncAsCode();
 
 }

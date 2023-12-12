@@ -10,6 +10,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -65,7 +67,17 @@ public class JassActionConvertToJass extends AnAction {
             return;
         }
 
-        String inputString = "function test endfunction";
+        String inputString;
+        PsiManager psiManager = PsiManager.getInstance(project);
+
+        PsiFile psiFile = psiManager.findFile(virtualFile);
+
+        if (psiFile != null) {
+            inputString = psiFile.getText();
+        } else {
+            inputString = "Error!";
+        }
+
         WriteCommandAction.runWriteCommandAction(project, () -> {
                     try {
                         newVirtualFile.setBinaryContent(inputString.getBytes());

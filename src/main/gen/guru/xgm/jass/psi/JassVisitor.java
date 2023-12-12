@@ -15,10 +15,6 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArgCode(@NotNull JassArgCode o) {
-    visitPsiElement(o);
-  }
-
   public void visitArgList(@NotNull JassArgList o) {
     visitPsiElement(o);
   }
@@ -56,6 +52,10 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitExpr(@NotNull JassExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
     visitPsiElement(o);
   }
 

@@ -35,6 +35,12 @@ public class JassPrimaryExprImpl extends JassExprImpl implements JassPrimaryExpr
 
   @Override
   @Nullable
+  public JassFuncAsCode getFuncAsCode() {
+    return findChildByClass(JassFuncAsCode.class);
+  }
+
+  @Override
+  @Nullable
   public JassFuncCall getFuncCall() {
     return findChildByClass(JassFuncCall.class);
   }

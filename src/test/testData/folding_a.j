@@ -1,0 +1,1 @@
+type ability extends agent

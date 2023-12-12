@@ -12,7 +12,6 @@ public interface JassTypes {
 
   IElementType AND_EXPR = new JassIElementType_Element("AND_EXPR");
   IElementType ARG = new JassIElementType_Element("ARG");
-  IElementType ARG_CODE = new JassIElementType_Element("ARG_CODE");
   IElementType ARG_LIST = new JassIElementType_Element("ARG_LIST");
   IElementType ARRAY_ACCESS = new JassIElementType_Element("ARRAY_ACCESS");
   IElementType CALL_STMT = new JassIElementType_Element("CALL_STMT");
@@ -23,6 +22,7 @@ public interface JassTypes {
   IElementType EQ_EXPR = new JassIElementType_Element("EQ_EXPR");
   IElementType EXIT_WHEN_STMT = new JassIElementType_Element("EXIT_WHEN_STMT");
   IElementType EXPR = new JassIElementType_Element("EXPR");
+  IElementType FUNC_AS_CODE = new JassIElementType_Element("FUNC_AS_CODE");
   IElementType FUNC_CALL = new JassIElementType_Element("FUNC_CALL");
   IElementType FUNC_CALL_NAME = new JassIElementType_Element("FUNC_CALL_NAME");
   IElementType FUNC_DECL = new JassIElementType_Element("FUNC_DECL");
@@ -128,9 +128,6 @@ public interface JassTypes {
       else if (type == ARG) {
         return new JassArgImpl(node);
       }
-      else if (type == ARG_CODE) {
-        return new JassArgCodeImpl(node);
-      }
       else if (type == ARG_LIST) {
         return new JassArgListImpl(node);
       }
@@ -157,6 +154,9 @@ public interface JassTypes {
       }
       else if (type == EXIT_WHEN_STMT) {
         return new JassExitWhenStmtImpl(node);
+      }
+      else if (type == FUNC_AS_CODE) {
+        return new JassFuncAsCodeImpl(node);
       }
       else if (type == FUNC_CALL) {
         return new JassFuncCallImpl(node);

@@ -29,14 +29,14 @@ public class JassArgImpl extends ASTWrapperPsiElement implements JassArg {
 
   @Override
   @Nullable
-  public JassArgCode getArgCode() {
-    return findChildByClass(JassArgCode.class);
+  public JassExpr getExpr() {
+    return findChildByClass(JassExpr.class);
   }
 
   @Override
   @Nullable
-  public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+  public JassFuncAsCode getFuncAsCode() {
+    return findChildByClass(JassFuncAsCode.class);
   }
 
 }

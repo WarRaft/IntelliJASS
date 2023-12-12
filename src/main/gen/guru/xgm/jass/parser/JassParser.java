@@ -44,29 +44,15 @@ public class JassParser implements PsiParser, LightPsiParser {
   };
 
   /* ********************************************************** */
-  // Expr|ArgCode
+  // Expr|FuncAsCode
   public static boolean Arg(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Arg")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ARG, "<arg>");
     r = Expr(b, l + 1, -1);
-    if (!r) r = ArgCode(b, l + 1);
+    if (!r) r = FuncAsCode(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  /* ********************************************************** */
-  // FUNCTION FuncCallName
-  public static boolean ArgCode(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArgCode")) return false;
-    if (!nextTokenIs(b, FUNCTION)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, ARG_CODE, null);
-    r = consumeToken(b, FUNCTION);
-    p = r; // pin = 1
-    r = r && FuncCallName(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
   }
 
   /* ********************************************************** */
@@ -225,18 +211,33 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // FUNCTION FuncCallName
+  public static boolean FuncAsCode(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FuncAsCode")) return false;
+    if (!nextTokenIs(b, FUNCTION)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNC_AS_CODE, null);
+    r = consumeToken(b, FUNCTION);
+    p = r; // pin = 1
+    r = r && FuncCallName(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  /* ********************************************************** */
   // FuncCallName LP ArgList? RP
   public static boolean FuncCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncCall")) return false;
     if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNC_CALL, null);
     r = FuncCallName(b, l + 1);
     r = r && consumeToken(b, LP);
-    r = r && FuncCall_2(b, l + 1);
-    r = r && consumeToken(b, RP);
-    exit_section_(b, m, FUNC_CALL, r);
-    return r;
+    p = r; // pin = 2
+    r = r && report_error_(b, FuncCall_2(b, l + 1));
+    r = p && consumeToken(b, RP) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // ArgList?
@@ -1030,6 +1031,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   //     ParenExpr |
   //     ArrayAccess |
   //     FuncCall |
+  //     FuncAsCode |
   //     REALVAL |
   //     HEXVAL |
   //     INTVAL |
@@ -1046,6 +1048,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = ParenExpr(b, l + 1);
     if (!r) r = ArrayAccess(b, l + 1);
     if (!r) r = FuncCall(b, l + 1);
+    if (!r) r = FuncAsCode(b, l + 1);
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);

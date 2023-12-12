@@ -6,6 +6,8 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
+import guru.xgm.jass.psi.JassTokenSets;
+import guru.xgm.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,6 +38,21 @@ public class JassAbstractBlock extends AbstractBlock {
 
         while (child != null) {
             final IElementType type = child.getElementType();
+
+            // type
+            if (type == JassTypes.TYPE_DECL) {
+                blocks.add(new JavaTypeBlock(
+                        child,
+                        Wrap.createWrap(WrapType.NONE, false),
+                        Alignment.createAlignment(),
+                        codeStyleSettings,
+                        spacingBuilder
+                ));
+                child = child.getTreeNext();
+                continue;
+            }
+
+            // all
             if (type != TokenType.WHITE_SPACE) {
                 blocks.add(
                         new JassAbstractBlock(

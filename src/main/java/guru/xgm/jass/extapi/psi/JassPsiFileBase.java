@@ -22,6 +22,6 @@ public class JassPsiFileBase extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "JASS File";
+        return "JASS";
     }
 }

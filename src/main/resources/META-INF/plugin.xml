@@ -3,14 +3,14 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.6</version>
-    <idea-version since-build="2023.2.6" until-build="2025.*"/>
+    <version>2.0.7</version>
+    <idea-version since-build="2023.3" />
     <vendor url="https://xgm.guru">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="JASS File"
+        <fileType name="JASS"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.JassLanguageFileType"
                   fieldName="INSTANCE"
                   language="JASS"
@@ -32,6 +32,7 @@
         <applicationService serviceImplementation="guru.xgm.jass.lang.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
+
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
         <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>

@@ -20,8 +20,8 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
         // https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/formatter/GoFormattingModelBuilder.java
         return new SpacingBuilder(codeStyleSettings, JassLanguage.INSTANCE)
                 // type
-                .after(TYPE).spacing(1, 1, 0, false, 0)
-                .around(EXTENDS).spacing(1, 1, 0, false, 0)
+                //.after(TYPE).spacing(1, 1, 0, false, 0)
+                //.around(EXTENDS).spacing(1, 1, 0, false, 0)
 
                 // constant
                 //.after(CONSTANT).spacing(1, 1, 0, false, 0)
@@ -49,7 +49,7 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
                         new JassAbstractBlock(
                                 formattingContext.getNode(),
                                 Wrap.createWrap(WrapType.NONE, true),
-                                Alignment.createAlignment(true, Alignment.Anchor.LEFT),
+                                Alignment.createAlignment(),
                                 codeStyleSettings,
                                 createSpacingBuilder(codeStyleSettings)
                         ),
