@@ -6,7 +6,6 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
-import guru.xgm.jass.psi.JassTokenSets;
 import guru.xgm.jass.psi.JassTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,8 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JassAbstractBlock extends AbstractBlock {
+    private int f1 = 1;
+    // break
 
+    private       String         field2 = "";
+    // non break
     private final SpacingBuilder spacingBuilder;
+
     private final CodeStyleSettings codeStyleSettings;
 
     public JassAbstractBlock(
@@ -39,31 +43,29 @@ public class JassAbstractBlock extends AbstractBlock {
         while (child != null) {
             final IElementType type = child.getElementType();
 
+            // ws
+            if (type == TokenType.WHITE_SPACE) {
+                child = child.getTreeNext();
+                continue;
+            }
+
             // type
             if (type == JassTypes.TYPE_DECL) {
-                blocks.add(new JavaTypeBlock(
-                        child,
-                        Wrap.createWrap(WrapType.NONE, false),
-                        Alignment.createAlignment(),
-                        codeStyleSettings,
-                        spacingBuilder
-                ));
+                blocks.add(new JassTypeBlock(child, null, null, codeStyleSettings));
                 child = child.getTreeNext();
                 continue;
             }
 
             // all
-            if (type != TokenType.WHITE_SPACE) {
-                blocks.add(
-                        new JassAbstractBlock(
-                                child,
-                                Wrap.createWrap(WrapType.NONE, false),
-                                Alignment.createAlignment(),
-                                codeStyleSettings,
-                                spacingBuilder
-                        )
-                );
-            }
+            blocks.add(
+                    new JassAbstractBlock(
+                            child,
+                            null,
+                            null,
+                            codeStyleSettings,
+                            spacingBuilder
+                    )
+            );
             child = child.getTreeNext();
         }
         return blocks;

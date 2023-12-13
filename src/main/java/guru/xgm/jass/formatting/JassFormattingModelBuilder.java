@@ -48,8 +48,8 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
                         formattingContext.getContainingFile(),
                         new JassAbstractBlock(
                                 formattingContext.getNode(),
-                                Wrap.createWrap(WrapType.NONE, true),
-                                Alignment.createAlignment(),
+                                null,
+                                null,
                                 codeStyleSettings,
                                 createSpacingBuilder(codeStyleSettings)
                         ),

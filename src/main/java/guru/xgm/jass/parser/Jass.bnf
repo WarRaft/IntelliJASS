@@ -110,7 +110,7 @@ FuncTakes ::= TAKES (NOTHING|TypedVarList)
 FuncReturns ::= RETURNS (NOTHING|TypeName)
 NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
 
-FuncDecl ::= FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=1}
+FuncDecl ::= CONSTANT? FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
 
 // === GLOBALS
 GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
