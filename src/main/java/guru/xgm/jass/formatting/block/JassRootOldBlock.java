@@ -13,10 +13,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JassRootBlock extends AbstractBlock {
+public class JassRootOldBlock extends AbstractBlock {
     private final CodeStyleSettings codeStyleSettings;
 
-    public JassRootBlock(
+    public JassRootOldBlock(
             @NotNull ASTNode node,
             CodeStyleSettings codeStyleSettings
     ) {
@@ -41,7 +41,7 @@ public class JassRootBlock extends AbstractBlock {
                 continue;
             }
 
-            blocks.add(new JassLeafBlock(cur, null, null, Indent.getNoneIndent()));
+            blocks.add(new JassLeafOldBlock(cur, null, null, Indent.getNoneIndent()));
         }
         return blocks;
     }

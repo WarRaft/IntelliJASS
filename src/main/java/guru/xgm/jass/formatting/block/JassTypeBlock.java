@@ -15,6 +15,7 @@ import java.util.List;
 import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassTypeBlock extends AbstractBlock {
+
     public JassTypeBlock(
             @NotNull ASTNode node,
             CodeStyleSettings codeStyleSettings
@@ -81,7 +82,9 @@ public class JassTypeBlock extends AbstractBlock {
         //final IElementType type2 = node2.getElementType();
 
         //if (type2 == EXTENDS) return null;
-        return Spacing.createSpacing(1, 1, 0, false, 0);
+        //return null;
+        return Spacing.createSafeSpacing(false, 0);
+        //return Spacing.createSpacing(1, 1, 0, false, 0);
     }
 
     @Override
