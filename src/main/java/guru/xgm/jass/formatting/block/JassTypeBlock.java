@@ -19,14 +19,18 @@ public class JassTypeBlock extends AbstractBlock {
             @NotNull ASTNode node,
             CodeStyleSettings codeStyleSettings
     ) {
-        super(node, null, null);
+        super(node, Wrap.createWrap(WrapType.NONE, false), blockAlignment);
         this.codeStyleSettings = codeStyleSettings;
     }
 
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private final CodeStyleSettings codeStyleSettings;
 
-    private static final Alignment typeAlignment = Alignment.createAlignment(false);
+    private static final Alignment blockAlignment = Alignment.createAlignment(true);
+
+    private static final Alignment typeAlignment = Alignment.createAlignment(true);
+    private static final Alignment typeNameAlignment = Alignment.createAlignment(true);
+    private static final Alignment typeNameBaseAlignment = Alignment.createAlignment(true);
     private static final Alignment extendsAlignment = Alignment.createAlignment(true);
 
     @Override
@@ -41,16 +45,24 @@ public class JassTypeBlock extends AbstractBlock {
 
             if (type == TokenType.WHITE_SPACE) continue;
             Alignment alignment = null;
+            Indent indent = Indent.getNoneIndent();
 
             if (type == TYPE) {
-                alignment = typeAlignment;
+                //alignment = typeAlignment;
             } else if (type == TYPE_NAME) {
+                final IElementType nxt = JassBlockUtil.getNextBlockType(cur);
+                if (nxt == EXTENDS) {
+                    //alignment = typeNameAlignment;
+                } else {
+                    //alignment = typeNameBaseAlignment;
+                }
+
                 cur = cur.getFirstChildNode();
             } else if (type == EXTENDS) {
                 alignment = extendsAlignment;
             }
 
-            blocks.add(new JassLeafBlock(cur, null, alignment, null));
+            blocks.add(new JassLeafBlock(cur, null, alignment, indent));
         }
         return blocks;
     }
