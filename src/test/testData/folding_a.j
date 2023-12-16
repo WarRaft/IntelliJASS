@@ -1,14 +1,18 @@
-type agent extends handle
-type ability extends            agent
+type jassthread     extends handle
+type handlelist     extends handle
+type textfilehandle extends handle
 
-type destructable                extends widget
-
-
-
-type event extends agent // a reference to an event registration
-
-
-// all reference counted objects
-
-
-// all reference counted objects
+		 native ConvertRace                   takes integer i                                                                                                                                                                                                                                           returns race
+		 native ConvertAllianceType           takes integer i                                                                                                                                                                                                                                           returns alliancetype
+		 native ConvertRacePref               takes integer i,real r                                                                                                                                                                                                                                    returns racepreference
+constant native ConvertIGameState             takes integer i                                                                                                                                                                                                                                           returns igamestate
+		 native SetUnitStunCounter            takes unit whichUnit, integer stunCounter                                                                                                                                                                                                                 returns nothing
+		 native SetUnitKiller                 takes unit whichUnit, unit killer                                                                                                                                                                                                                         returns nothing
+		 native KillUnitEx                    takes unit whichUnit, unit killer                                                                                                                                                                                                                         returns nothing
+		 native MorphUnitToTypeIdEx           takes unit whichUnit, integer uid, integer unitFlags, boolean updateHealthState, boolean updateManaState, integer healthStateId, integer manaStateId, boolean updateScale, boolean replaceAbilities, ability whichAbility, boolean resetBuildingAnimation returns nothing
+		 native MorphUnitToTypeId             takes unit whichUnit, integer uid                                                                                                                                                                                                                         returns nothing
+		 native GetUnitModelObjectPositionX   takes unit whichUnit, string whichObject                                                                                                                                                                                                                  returns real
+		 native GetUnitModelObjectPositionY   takes unit whichUnit, string whichObject                                                                                                                                                                                                                  returns real
+		 native GetUnitModelObjectPositionZ   takes unit whichUnit, string whichObject                                                                                                                                                                                                                  returns real
+		 native GetUnitModelObjectPositionLoc takes unit whichUnit, string whichObject                                                                                                                                                                                                                  returns location
+		 native GetUnitCurrentAnimationId     takes unit whichUnit                                                                                                                                                                                                                                      returns integer

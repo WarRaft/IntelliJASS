@@ -21,9 +21,8 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
         if (settingsType == SettingsType.INDENT_SETTINGS) {
             consumer.showStandardOptions(
-                    "INDENT_SIZE"
-                    //"CONTINUATION_INDENT_SIZE",
-                    //"TAB_SIZE",
+                    "INDENT_SIZE",
+                    "CONTINUATION_INDENT_SIZE"
                     //"USE_TAB_CHARACTER",
                     //"SMART_TABS",
                     //"LABEL_INDENT_SIZE",
@@ -61,9 +60,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
             consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE");
 
         }
-
         //consumer.showAllStandardOptions();
-
     }
 
     public @NotNull IndentOptionsEditor getIndentOptionsEditor() {
@@ -74,6 +71,9 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings, @NotNull CommonCodeStyleSettings.IndentOptions indentOptions) {
         commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
         indentOptions.INDENT_SIZE = 4;
+        indentOptions.CONTINUATION_INDENT_SIZE = 4;
+        indentOptions.TAB_SIZE = 4;
+        indentOptions.USE_TAB_CHARACTER = true;
     }
 
     @Override

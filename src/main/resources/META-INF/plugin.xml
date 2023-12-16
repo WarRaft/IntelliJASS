@@ -32,7 +32,6 @@
         <applicationService serviceImplementation="guru.xgm.jass.lang.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
-
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
         <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
@@ -71,13 +70,10 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p><b>2.0.5</b>:</p>
+        <p><b>2.0.7</b>:</p>
         <ul>
-            <li>Operator call inspection</li>
-        </ul>
-        <p><b>2.0.4</b>:</p>
-        <ul>
-            <li>Folding globals and functions</li>
+            <li>Change icon</li>
+            <li>Start reformat development</li>
         </ul>
         ]]></change-notes>
 
