@@ -2,94 +2,71 @@ package guru.xgm.jass.formatting.block;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static guru.xgm.jass.psi.JassTypes.*;
 
-public class JassTypeBlock extends AbstractBlock {
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-    public JassTypeBlock(
-            @NotNull ASTNode node,
-            CodeStyleSettings codeStyleSettings
-    ) {
-        super(node, Wrap.createWrap(WrapType.NONE, false), blockAlignment);
-        this.codeStyleSettings = codeStyleSettings;
+/**
+ * {@link com.intellij.psi.formatter.common.AbstractBlock}
+ */
+public class JassTypeBlock extends JassBlock {
+    public JassTypeBlock(ASTNode myNode, Wrap myWrap, Alignment myAlignment, CodeStyleSettings myCodeStyleSettings) {
+        super(myNode, myWrap, myAlignment, Indent.getNoneIndent(), myCodeStyleSettings);
     }
 
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
-    private final CodeStyleSettings codeStyleSettings;
-
-    private static final Alignment blockAlignment = Alignment.createAlignment(true);
-
-    private static final Alignment typeAlignment = Alignment.createAlignment(true);
-    private static final Alignment typeNameAlignment = Alignment.createAlignment(true);
-    private static final Alignment typeNameBaseAlignment = Alignment.createAlignment(true);
-    private static final Alignment extendsAlignment = Alignment.createAlignment(true);
+    private static final Alignment alignmentA = Alignment.createAlignment(true);
+    private static final Alignment alignmentB = Alignment.createAlignment(true);
 
     @Override
-    protected List<Block> buildChildren() {
-        List<Block> blocks = new ArrayList<>();
-        ASTNode child = myNode.getFirstChildNode();
+    public Block makeSubBlock(@NotNull ASTNode childNode) {
+        final IElementType type = childNode.getElementType();
 
-        while (child != null) {
-            ASTNode cur = child;
-            final IElementType type = cur.getElementType();
-            child = child.getTreeNext();
+        Alignment alignment = null;
+        Wrap wrap = null;
 
-            if (type == TokenType.WHITE_SPACE) continue;
-            Alignment alignment = null;
-            Indent indent = Indent.getNoneIndent();
-
-            if (type == TYPE) {
-                //alignment = typeAlignment;
-            } else if (type == TYPE_NAME) {
-                final IElementType nxt = JassBlockUtil.getNextBlockType(cur);
-                if (nxt == EXTENDS) {
-                    //alignment = typeNameAlignment;
-                } else {
-                    //alignment = typeNameBaseAlignment;
-                }
-
-                cur = cur.getFirstChildNode();
-            } else if (type == EXTENDS) {
-                alignment = extendsAlignment;
-            }
-
-            blocks.add(new JassLeafBlock(cur, null, alignment, indent));
+        if (type == TYPE) {
+            alignment = alignmentA;
+            wrap = Wrap.createWrap(WrapType.NONE, false);
         }
-        return blocks;
+
+        if (type == TYPE_NAME) {
+            alignment = alignmentB;
+            childNode = childNode.getFirstChildNode();
+        }
+
+        if (type == EXTENDS) {
+            alignment = alignmentA;
+            wrap = Wrap.createWrap(WrapType.NONE, false);
+        }
+
+        if (type == TYPE_NAME_BASE) {
+            childNode = childNode.getFirstChildNode().getFirstChildNode();
+        }
+
+        return new JassBlock(childNode, wrap, alignment, myIndent, myCodeStyleSettings);
     }
 
-    @Override
-    public Indent getIndent() {
-        return Indent.getNoneIndent();
-    }
-
-    @SuppressWarnings("CommentedOutCode")
     @Nullable
     @Override
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-        //final ASTNode node2 = ((ASTBlock) child2).getNode();
-        //assert node2 != null;
-        //final IElementType type2 = node2.getElementType();
+        //final ASTNode node1 = child1 != null ? ((ASTBlock) child1).getNode() : null;
+        final ASTNode node2 = ((ASTBlock) child2).getNode();
 
-        //if (type2 == EXTENDS) return null;
-        //return null;
+        //final IElementType type1 = node1 != null ? node1.getElementType() : null;
+        assert node2 != null;
+        final IElementType type2 = node2.getElementType();
+
+        if (type2 == TYPE) return Spacing.createKeepingFirstColumnSpacing(0, 0, false, 0);
         return Spacing.createSafeSpacing(false, 0);
-        //return Spacing.createSpacing(1, 1, 0, false, 0);
     }
 
     @Override
-    public boolean isLeaf() {
-        return myNode.getFirstChildNode() == null;
+    public boolean isIncomplete() {
+        final ASTNode lastChildNode = myNode.getLastChildNode();
+        return lastChildNode.getElementType() == TYPE_NAME_BASE;
     }
-
 }

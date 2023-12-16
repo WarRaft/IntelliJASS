@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassTypeDecl extends PsiElement {
+public interface JassTypeNameBase extends PsiElement {
 
-  @Nullable
+  @NotNull
   JassTypeName getTypeName();
-
-  @Nullable
-  JassTypeNameBase getTypeNameBase();
 
 }

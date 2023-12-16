@@ -93,8 +93,9 @@ Root ::= (
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
 // === TYPE
-TypeDecl ::= TYPE TypeName EXTENDS TypeName {pin=1}
+TypeDecl ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
 TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
+TypeNameBase ::= TypeName
 
 // === VARIABLE
 TypedVar ::= TypeName ID

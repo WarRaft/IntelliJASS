@@ -187,6 +187,10 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTypeNameBase(@NotNull JassTypeNameBase o) {
+    visitPsiElement(o);
+  }
+
   public void visitTypedVar(@NotNull JassTypedVar o) {
     visitPsiElement(o);
   }
