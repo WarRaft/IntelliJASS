@@ -19,7 +19,9 @@ public class JassRootBlock extends JassBlock {
         super(myNode, null, null, Indent.getNoneIndent(), myCodeStyleSettings);
         this.jassCodeStyleSettings = jassCodeStyleSettings;
         typeAlignments = Arrays.asList(
-                jassCodeStyleSettings.AT_TYPE_DECL_EXTENDS ? Alignment.createAlignment(true) : null
+                jassCodeStyleSettings.AT_TYPE_DECL_TYPE_RIGHT ? Alignment.createAlignment(true, Alignment.Anchor.RIGHT) : null,
+                jassCodeStyleSettings.AT_TYPE_DECL_EXTENDS ? Alignment.createAlignment(true) : null,
+                jassCodeStyleSettings.AT_TYPE_DECL_TYPE_BASE_RIGHT ? Alignment.createAlignment(true, Alignment.Anchor.RIGHT) : null
         );
     }
 

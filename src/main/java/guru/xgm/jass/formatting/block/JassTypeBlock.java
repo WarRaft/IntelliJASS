@@ -35,14 +35,16 @@ public class JassTypeBlock extends JassBlock {
         Alignment alignment = null;
 
         if (type == TYPE_NAME) {
+            alignment = aligments.get(0);
             childNode = childNode.getFirstChildNode();
         }
 
         if (type == EXTENDS) {
-            alignment = aligments.get(0);
+            alignment = aligments.get(1);
         }
 
         if (type == TYPE_NAME_BASE) {
+            alignment = aligments.get(2);
             childNode = childNode.getFirstChildNode().getFirstChildNode();
         }
 

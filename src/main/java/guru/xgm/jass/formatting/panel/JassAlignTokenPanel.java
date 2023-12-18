@@ -22,6 +22,10 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     @NlsContexts.Label
     public static String GROUP_TYPE_DECL = "Type declaration";
 
+    @NlsContexts.Label
+    public static String GROUP_NATIVE_DECL = "Native declaration";
+
+
     @Override
     protected void initTables() {
         initCustomOptions(GROUP_TYPE_DECL);

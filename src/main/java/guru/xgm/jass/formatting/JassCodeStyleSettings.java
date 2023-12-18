@@ -10,5 +10,7 @@ public class JassCodeStyleSettings extends CustomCodeStyleSettings {
     }
 
     public boolean AT_TYPE_DECL_EXTENDS = true;
+    public boolean AT_TYPE_DECL_TYPE_RIGHT = false;
+    public boolean AT_TYPE_DECL_TYPE_BASE_RIGHT = false;
 
 }
