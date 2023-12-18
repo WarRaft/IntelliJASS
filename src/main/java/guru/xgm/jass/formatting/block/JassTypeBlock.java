@@ -10,6 +10,8 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 /**
  * {@link com.intellij.psi.formatter.common.AbstractBlock}
  * <a href="https://plugins.jetbrains.com/docs/intellij/code-formatting.html">...</a>
@@ -18,13 +20,13 @@ public class JassTypeBlock extends JassBlock {
     public JassTypeBlock(
             ASTNode myNode,
             CodeStyleSettings myCodeStyleSettings,
-            Alignment extendsAlignment
+            List<Alignment> alignments
     ) {
         super(myNode, Wrap.createWrap(WrapType.NONE, false), null, Indent.getNoneIndent(), myCodeStyleSettings);
-        this.extendsAlignment = extendsAlignment;
+        this.aligments = alignments;
     }
 
-    private final Alignment extendsAlignment;
+    private final List<Alignment> aligments;
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
@@ -37,7 +39,7 @@ public class JassTypeBlock extends JassBlock {
         }
 
         if (type == EXTENDS) {
-            alignment = extendsAlignment;
+            alignment = aligments.get(0);
         }
 
         if (type == TYPE_NAME_BASE) {

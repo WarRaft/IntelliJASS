@@ -5,6 +5,7 @@ import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
+import com.intellij.openapi.util.NlsContexts;
 import com.intellij.psi.codeStyle.*;
 import guru.xgm.jass.formatting.JassCodeStyleSettings;
 import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
@@ -81,9 +82,9 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
 
             case LANGUAGE_SPECIFIC -> {
                 consumer.showCustomOption(JassCodeStyleSettings.class,
-                        "AT_EXTENDS",
+                        "AT_TYPE_DECL_EXTENDS",
                         "Extends",
-                        JassAlignTokenPanel.GROUP_TYPE
+                        JassAlignTokenPanel.GROUP_TYPE_DECL
                 );
             }
         }

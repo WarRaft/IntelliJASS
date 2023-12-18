@@ -13,13 +13,11 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
     @Override
     public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
         final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
-        // CodeStyleSettings settings = formattingContext.getCodeStyleSettings();
-        // JavaCodeStyleSettings customJavaSettings = settings.getCustomSettings(JavaCodeStyleSettings.class);
-
+        final JassCodeStyleSettings jassCodeStyleSettings = codeStyleSettings.getCustomSettings(JassCodeStyleSettings.class);
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(
                         formattingContext.getContainingFile(),
-                        new JassRootBlock(formattingContext.getNode(), codeStyleSettings),
+                        new JassRootBlock(formattingContext.getNode(), codeStyleSettings, jassCodeStyleSettings),
                         codeStyleSettings
                 );
     }

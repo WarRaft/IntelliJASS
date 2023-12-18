@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     public JassAlignTokenPanel(CodeStyleSettings settings) {
@@ -21,11 +20,11 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     }
 
     @NlsContexts.Label
-    public static String GROUP_TYPE = "Type declaration";
+    public static String GROUP_TYPE_DECL = "Type declaration";
 
     @Override
     protected void initTables() {
-        initCustomOptions(GROUP_TYPE);
+        initCustomOptions(GROUP_TYPE_DECL);
     }
 
     @Override

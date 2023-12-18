@@ -9,5 +9,6 @@ public class JassCodeStyleSettings extends CustomCodeStyleSettings {
         super("JassCodeStyleSettings", container);
     }
 
-    public boolean AT_EXTENDS = true;
+    public boolean AT_TYPE_DECL_EXTENDS = true;
+
 }

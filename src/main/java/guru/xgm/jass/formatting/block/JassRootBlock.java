@@ -4,6 +4,7 @@ import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
+import guru.xgm.jass.formatting.JassCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,11 +15,16 @@ import static guru.xgm.jass.psi.JassTypes.NATIVE_DECL;
 import static guru.xgm.jass.psi.JassTypes.TYPE_DECL;
 
 public class JassRootBlock extends JassBlock {
-    public JassRootBlock(ASTNode myNode, CodeStyleSettings myCodeStyleSettings) {
+    public JassRootBlock(ASTNode myNode, CodeStyleSettings myCodeStyleSettings, JassCodeStyleSettings jassCodeStyleSettings) {
         super(myNode, null, null, Indent.getNoneIndent(), myCodeStyleSettings);
+        this.jassCodeStyleSettings = jassCodeStyleSettings;
+        typeAlignments = Arrays.asList(
+                jassCodeStyleSettings.AT_TYPE_DECL_EXTENDS ? Alignment.createAlignment(true) : null
+        );
     }
 
-    final Alignment typeExtendsAlignment = Alignment.createAlignment(true);
+    private final JassCodeStyleSettings jassCodeStyleSettings;
+    final List<Alignment> typeAlignments;
 
     final List<Alignment> nativeAlignments = Arrays.asList(
             Alignment.createAlignment(true),
@@ -30,7 +36,7 @@ public class JassRootBlock extends JassBlock {
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         final IElementType type = childNode.getElementType();
 
-        if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeExtendsAlignment);
+        if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
         if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), nativeAlignments, Indent.getNoneIndent(), myCodeStyleSettings);
 
         return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
