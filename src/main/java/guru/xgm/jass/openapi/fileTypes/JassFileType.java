@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public final class JassLanguageFileType extends LanguageFileType {
+public final class JassFileType extends LanguageFileType {
 
-    public static final JassLanguageFileType INSTANCE = new JassLanguageFileType();
+    public static final JassFileType INSTANCE = new JassFileType();
 
-    private JassLanguageFileType() {
+    private JassFileType() {
         super(JassLanguage.INSTANCE);
     }
 

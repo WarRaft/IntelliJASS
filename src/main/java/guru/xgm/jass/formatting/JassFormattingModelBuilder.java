@@ -13,6 +13,9 @@ final class JassFormattingModelBuilder implements FormattingModelBuilder {
     @Override
     public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
         final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
+        // CodeStyleSettings settings = formattingContext.getCodeStyleSettings();
+        // JavaCodeStyleSettings customJavaSettings = settings.getCustomSettings(JavaCodeStyleSettings.class);
+
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(
                         formattingContext.getContainingFile(),

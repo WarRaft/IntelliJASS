@@ -268,7 +268,7 @@ globals
 
 constant boolean FALSE = false
 constant boolean TRUE = true
-constant integer JGAS_MAX_ARRAY_SIZE = 262144
+constant integer JASS_MAX_ARRAY_SIZE = 262144
 
 constant integer PLAYER_NEUTRAL_PASSIVE = 15
 constant integer PLAYER_NEUTRAL_AGGRESSIVE = 12
@@ -682,7 +682,7 @@ constant playerscore PLAYER_SCORE_TOTAL = ConvertPlayerScore(24)
 //about the event.
 //
 // Do NOT change the order or value of these constants
-// without insuring that the JGAS_GAME_EVENTS_WAR3 enum
+// without insuring that the JASS_GAME_EVENTS_WAR3 enum
 // is changed to match.
 //
 //===================================================

@@ -1,15 +1,40 @@
 package guru.xgm.jass.psi.codeStyle;
 
+import com.intellij.application.options.CodeStyleAbstractConfigurable;
+import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
-import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
-import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
-import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
+import com.intellij.psi.codeStyle.*;
+import guru.xgm.jass.formatting.JassCodeStyleSettings;
+import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
+import guru.xgm.jass.formatting.panel.JassAlignTokenPanel;
 import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
+// langCodeStyleSettingsProvider
 final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
+
+    @Override
+    public @NotNull CustomCodeStyleSettings createCustomSettings(@NotNull CodeStyleSettings settings) {
+        return new JassCodeStyleSettings(settings);
+    }
+
+    @NotNull
+    @Override
+    public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
+        return new CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.INSTANCE.getDisplayName()) {
+            @Override
+            protected @NotNull CodeStyleAbstractPanel createPanel(final @NotNull CodeStyleSettings settings) {
+                return new JassCodeStyleMainPanel(getCurrentSettings(), settings);
+            }
+
+            @Override
+            public String getHelpTopic() {
+                return "JASS Help Topic";
+            }
+        };
+    }
 
     @NotNull
     @Override
@@ -19,8 +44,9 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
 
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
-        if (settingsType == SettingsType.INDENT_SETTINGS) {
-            consumer.showStandardOptions(
+
+        switch (settingsType) {
+            case INDENT_SETTINGS -> consumer.showStandardOptions(
                     "INDENT_SIZE",
                     "CONTINUATION_INDENT_SIZE"
                     //"USE_TAB_CHARACTER",
@@ -30,37 +56,37 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                     //"USE_RELATIVE_INDENTS",
                     //"KEEP_INDENTS_ON_EMPTY_LINES"
             );
-            return;
-        }
 
-        if (settingsType == SettingsType.SPACING_SETTINGS) {
-            consumer.showStandardOptions(
-                    "SPACE_AROUND_ASSIGNMENT_OPERATORS",
-                    //"SPACE_AROUND_LOGICAL_OPERATORS",
-                    /*
-                    SPACE_AROUND_EQUALITY_OPERATORS,
-                    SPACE_AROUND_RELATIONAL_OPERATORS,
-                    SPACE_AROUND_BITWISE_OPERATORS,
-                    SPACE_AROUND_ADDITIVE_OPERATORS,
-                    SPACE_AROUND_MULTIPLICATIVE_OPERATORS,
-                    SPACE_AROUND_SHIFT_OPERATORS,
-                    SPACE_AROUND_UNARY_OPERATOR,
-                    SPACE_AROUND_LAMBDA_ARROW,
-                    SPACE_AROUND_METHOD_REF_DBL_COLON,
-                     */
-                    //"SPACE_AFTER_COMMA",
-                    "SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS"
-                    //"SPACE_BEFORE_COMMA"
-            );
-            //consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "FuCK");
-            return;
-        }
+            case SPACING_SETTINGS -> {
+                consumer.showStandardOptions(
+                        "SPACE_AROUND_ASSIGNMENT_OPERATORS",
+                        //"SPACE_AROUND_LOGICAL_OPERATORS",
+                /*
+                SPACE_AROUND_EQUALITY_OPERATORS,
+                SPACE_AROUND_RELATIONAL_OPERATORS,
+                SPACE_AROUND_BITWISE_OPERATORS,
+                SPACE_AROUND_ADDITIVE_OPERATORS,
+                SPACE_AROUND_MULTIPLICATIVE_OPERATORS,
+                SPACE_AROUND_SHIFT_OPERATORS,
+                SPACE_AROUND_UNARY_OPERATOR,
+                SPACE_AROUND_LAMBDA_ARROW,
+                SPACE_AROUND_METHOD_REF_DBL_COLON,
+                 */
+                        //"SPACE_AFTER_COMMA",
+                        "SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS"
+                        //"SPACE_BEFORE_COMMA"
+                );
+                //consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "FuCK");
+            }
 
-        if (settingsType == SettingsType.BLANK_LINES_SETTINGS) {
-            consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE");
-
+            case LANGUAGE_SPECIFIC -> {
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        "AT_EXTENDS",
+                        "Extends",
+                        JassAlignTokenPanel.GROUP_TYPE
+                );
+            }
         }
-        //consumer.showAllStandardOptions();
     }
 
     public @NotNull IndentOptionsEditor getIndentOptionsEditor() {
@@ -79,10 +105,11 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                type agent extends handle// all reference counted objects
-                     type event extends agent	// a reference to an event registration
-                        type player extends agent	// a single player reference
-                type widget extends agent	// an interactive game object with life
+                type agent extends handle
+                type abilityintegerlevelarrayfield extends handle
+                type buff extends ability
+                type conditionfunc extends boolexpr
+                type igamestate extends gamestate
                               
                 constant native ConvertRace takes integer i returns race
                 constant native ConvertAllianceType takes integer i returns alliancetype
@@ -91,8 +118,9 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                 native GetTeams takes nothing returns integer
                 native GetPlayers takes nothing returns integer
                                               
-                    native I2R takes integer i returns real
-                    native R2I takes real r returns integer
+                native I2R takes integer i returns real
+                native R2I takes real r returns integer
+                                
                 globals
                 real a = 12.
                     real b = .13

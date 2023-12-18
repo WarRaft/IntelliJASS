@@ -156,7 +156,7 @@ type jassthread                    extends handle
 type handlelist                    extends handle
 type textfilehandle                extends handle
 
-	constant native ConvertRace         takes integer i returns race
-	constant native ConvertAllianceType takes integer i returns alliancetype
-	constant native ConvertRacePref     takes integer i returns racepreference
-	constant native ConvertIGameState   takes integer i returns igamestate
+constant native ConvertRace         takes integer i returns race
+constant native ConvertAllianceType takes integer i returns alliancetype
+		 native ConvertRacePref     takes integer i returns racepreference
+constant native ConvertIGameState   takes integer i returns igamestate
