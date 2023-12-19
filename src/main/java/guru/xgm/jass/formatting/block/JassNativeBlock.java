@@ -36,9 +36,6 @@ public class JassNativeBlock extends JassBlock {
 
         Alignment alignment = null;
 
-        System.out.print("\n" + type);
-
-
         if (type == NATIVE) alignment = alignments.get(AT_NATIVE_DECL_NATIVE);
         if (type == FUNC_DECL_NAME) {
             childNode = childNode.getFirstChildNode();
