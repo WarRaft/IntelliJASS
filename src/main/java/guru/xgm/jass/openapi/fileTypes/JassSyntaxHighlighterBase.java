@@ -66,7 +66,6 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 LOCAL,
                 LOOP,
                 NATIVE,
-                NOTHING,
                 NULL,
                 OR,
                 RETURN,
@@ -89,7 +88,13 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
             return NUMBER_KEYS;
         }
 
-        if (tokenType == TYPE_NAME) return TYPE_NAME_KEYS;
+        if (Arrays.asList(
+                NOTHING,
+                TYPE_NAME
+        ).contains(tokenType)) {
+            return TYPE_NAME_KEYS;
+        }
+
         if (tokenType == SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == COMMA) return COMMA_KEYS;

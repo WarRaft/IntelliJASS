@@ -99,7 +99,8 @@ TypeNameBase ::= TypeName
 
 // === VARIABLE
 TypedVar ::= TypeName ID
-TypedVarList ::= TypedVar (COMMA TypedVar)*
+TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1 recoverWhile=TypedVarListRecover}
+private TypedVarListRecover ::= !(RETURNS)
 
 // === FUNCTION
 Arg ::= Expr|FuncAsCode

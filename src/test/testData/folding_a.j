@@ -1,20 +1,19 @@
-native ConvertRace takes integer i returns race
-constant native ConvertIGameState takes integer i returns igamestate
+type agent        extends handle // all reference counted objects
+type event        extends agent // a reference to an event registration
+type player       extends agent // a single player reference
+type widget       extends agent // an interactive game object with life
+type unit         extends widget // a single unit reference
+type destructable extends widget
 
-globals
-//-----------------------------------------------------------------------
-// Constants
-//
+// dvdv
+type item         extends widget // scss
+type ability      extends agent
+type buff         extends ability
+type force        extends agent
+// dvdv
 
-// Misc constants
-constant real      bj_PI                            = 3.14159
-constant real      bj_E                             = 2.71828
-constant real      bj_CELLWIDTH                     = 128.0
-real      bj_CLIFFHEIGHT                   = 128.0
-constant real      bj_UNIT_FACING                   = 270.0
-constant real      bj_RADTODEG                      = 180.0/bj_PI
-real      bj_DEGTORAD                      = bj_PI/180.0
-constant real      bj_TEXT_DELAY_QUEST              = 20.00
-constant real      bj_TEXT_DELAY_QUESTUPDATE        = 20.00
 
-endglobals
+constant native ConvertRace       takes integer i, real e returns race //ddf fd fd
+// csc
+native          ConvertIGameState takes integer i, real d returns igamestate
+constant native ConvertIGameState takes nothing returns nothing

@@ -5,8 +5,8 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import guru.xgm.jass.formatting.JassCodeStyleSettings;
+import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
@@ -14,8 +14,7 @@ import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 import static guru.xgm.jass.psi.JassTypes.*;
 
 /**
- * {@link com.intellij.psi.formatter.common.AbstractBlock}
- * <a href="https://plugins.jetbrains.com/docs/intellij/code-formatting.html">...</a>
+ * https://plugins.jetbrains.com/docs/intellij/code-formatting.html
  */
 public class JassTypeBlock extends JassBlock {
     public JassTypeBlock(
@@ -62,16 +61,12 @@ public class JassTypeBlock extends JassBlock {
         return new JassBlock(childNode, null, alignment, null, myCodeStyleSettings);
     }
 
-    @Nullable
     @Override
-    public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-        final ASTNode node2 = ((ASTBlock) child2).getNode();
-
-        assert node2 != null;
-        final IElementType type2 = node2.getElementType();
-
-        if (type2 == TYPE) return Spacing.createSpacing(0, 0, 0, false, 0);
-        return Spacing.createSafeSpacing(false, 0);
+    protected SpacingBuilder getSpacingBuilder() {
+        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
+                .after(TYPE).spacing(1, 1, 0, false, 0)
+                .around(EXTENDS).spacing(1, 1, 0, false, 0)
+                ;
     }
 
     @Override

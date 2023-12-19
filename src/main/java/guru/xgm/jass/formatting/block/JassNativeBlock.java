@@ -5,6 +5,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import guru.xgm.jass.formatting.JassCodeStyleSettings;
+import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,8 +15,8 @@ import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassNativeBlock extends JassBlock {
-    public JassNativeBlock(ASTNode myNode, Indent myIndent, CodeStyleSettings myCodeStyleSettings, HashMap<String, Alignment> alignments) {
-        super(myNode, Wrap.createWrap(WrapType.NONE, false), null, myIndent, myCodeStyleSettings);
+    public JassNativeBlock(ASTNode myNode, Wrap myWrap, Indent myIndent, CodeStyleSettings myCodeStyleSettings, HashMap<String, Alignment> alignments) {
+        super(myNode, myWrap, null, myIndent, myCodeStyleSettings);
         this.alignments = alignments;
     }
 
@@ -44,14 +45,8 @@ public class JassNativeBlock extends JassBlock {
         if (type == TAKES) alignment = alignments.get(AT_NATIVE_DECL_TAKES);
         if (type == RETURNS) alignment = alignments.get(AT_NATIVE_DECL_RETURNS);
 
-        if (type == FUNC_TAKES || type == FUNC_RETURNS) return new JassNativeBlock(childNode, null, myCodeStyleSettings, alignments);
+        if (type == FUNC_TAKES || type == FUNC_RETURNS) return new JassNativeBlock(childNode, null, null, myCodeStyleSettings, alignments);
 
         return new JassBlock(childNode, null, alignment, null, myCodeStyleSettings);
-    }
-
-    @Nullable
-    @Override
-    public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-        return Spacing.createSafeSpacing(false, 0);
     }
 }

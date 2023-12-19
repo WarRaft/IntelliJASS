@@ -44,12 +44,11 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
 
-        //consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "FuCK");
         switch (settingsType) {
             case INDENT_SETTINGS -> consumer.showStandardOptions();
 
             case SPACING_SETTINGS -> consumer.showStandardOptions(
-                    "SPACE_AROUND_ASSIGNMENT_OPERATORS",
+                    //"SPACE_AROUND_ASSIGNMENT_OPERATORS",
                     "SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS"
             );
             case BLANK_LINES_SETTINGS -> consumer.showStandardOptions(
@@ -109,6 +108,8 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @Override
     protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings, @NotNull CommonCodeStyleSettings.IndentOptions indentOptions) {
         commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
+        commonSettings.SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS = true;
+
         indentOptions.INDENT_SIZE = 4;
         indentOptions.CONTINUATION_INDENT_SIZE = 4;
         indentOptions.TAB_SIZE = 4;

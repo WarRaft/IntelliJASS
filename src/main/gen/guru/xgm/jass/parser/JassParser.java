@@ -361,8 +361,10 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean FuncTakes_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncTakes_1")) return false;
     boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, NOTHING);
     if (!r) r = TypedVarList(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -841,12 +843,13 @@ public class JassParser implements PsiParser, LightPsiParser {
   // TypedVar (COMMA TypedVar)*
   public static boolean TypedVarList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypedVarList")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TYPED_VAR_LIST, "<typed var list>");
     r = TypedVar(b, l + 1);
+    p = r; // pin = 1
     r = r && TypedVarList_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    exit_section_(b, l, m, r, p, JassParser::TypedVarListRecover);
+    return r || p;
   }
 
   // (COMMA TypedVar)*
@@ -868,6 +871,17 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, COMMA);
     r = r && TypedVar(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(RETURNS)
+  static boolean TypedVarListRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypedVarListRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, RETURNS);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
