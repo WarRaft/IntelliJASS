@@ -19,7 +19,14 @@ sourceSets {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.30")
+    testCompileOnly("org.projectlombok:lombok:1.18.30")
 }
+
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

@@ -4,13 +4,14 @@ import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
-
-import static guru.xgm.jass.psi.JassTypes.*;
-
+import guru.xgm.jass.formatting.JassCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.HashMap;
+
+import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
+import static guru.xgm.jass.psi.JassTypes.*;
 
 /**
  * {@link com.intellij.psi.formatter.common.AbstractBlock}
@@ -20,13 +21,23 @@ public class JassTypeBlock extends JassBlock {
     public JassTypeBlock(
             ASTNode myNode,
             CodeStyleSettings myCodeStyleSettings,
-            List<Alignment> alignments
+            HashMap<String, Alignment> alignments
     ) {
         super(myNode, Wrap.createWrap(WrapType.NONE, false), null, Indent.getNoneIndent(), myCodeStyleSettings);
         this.aligments = alignments;
     }
 
-    private final List<Alignment> aligments;
+    private final HashMap<String, Alignment> aligments;
+
+    static HashMap<String, Alignment> getAlignments(JassCodeStyleSettings jass) {
+        final HashMap<String, Alignment> map = new HashMap<>();
+
+        if (jass.AT_TYPE_DECL_TYPE_RIGHT) map.put(AT_TYPE_DECL_TYPE_RIGHT, Alignment.createAlignment(true, Alignment.Anchor.RIGHT));
+        if (jass.AT_TYPE_DECL_EXTENDS) map.put(AT_TYPE_DECL_EXTENDS, Alignment.createAlignment(true));
+        if (jass.AT_TYPE_DECL_TYPE_BASE_RIGHT) map.put(AT_TYPE_DECL_TYPE_BASE_RIGHT, Alignment.createAlignment(true, Alignment.Anchor.RIGHT));
+
+        return map;
+    }
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
@@ -35,16 +46,16 @@ public class JassTypeBlock extends JassBlock {
         Alignment alignment = null;
 
         if (type == TYPE_NAME) {
-            alignment = aligments.get(0);
+            alignment = aligments.get(AT_TYPE_DECL_TYPE_RIGHT);
             childNode = childNode.getFirstChildNode();
         }
 
         if (type == EXTENDS) {
-            alignment = aligments.get(1);
+            alignment = aligments.get(AT_TYPE_DECL_EXTENDS);
         }
 
         if (type == TYPE_NAME_BASE) {
-            alignment = aligments.get(2);
+            alignment = aligments.get(AT_TYPE_DECL_TYPE_BASE_RIGHT);
             childNode = childNode.getFirstChildNode().getFirstChildNode();
         }
 

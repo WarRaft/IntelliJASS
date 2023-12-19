@@ -2,8 +2,11 @@ package guru.xgm.jass.formatting;
 
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
+import lombok.experimental.FieldNameConstants;
 import org.jetbrains.annotations.NotNull;
 
+// https://projectlombok.org/features/experimental/FieldNameConstants
+@FieldNameConstants
 public class JassCodeStyleSettings extends CustomCodeStyleSettings {
     public JassCodeStyleSettings(@NotNull CodeStyleSettings container) {
         super("JassCodeStyleSettings", container);

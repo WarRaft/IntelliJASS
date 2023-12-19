@@ -29,6 +29,7 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     @Override
     protected void initTables() {
         initCustomOptions(GROUP_TYPE_DECL);
+        initCustomOptions(GROUP_NATIVE_DECL);
     }
 
     @Override

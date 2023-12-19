@@ -12,7 +12,6 @@ import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
 import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
-// langCodeStyleSettingsProvider
 final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
     @Override
@@ -57,20 +56,47 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                     "KEEP_BLANK_LINES_IN_DECLARATIONS"
             );
             case LANGUAGE_SPECIFIC -> {
+                // Type declaration
                 consumer.showCustomOption(JassCodeStyleSettings.class,
-                        "AT_TYPE_DECL_EXTENDS",
-                        "Extends",
+                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_EXTENDS,
+                        "'extends' keyword",
                         JassAlignTokenPanel.GROUP_TYPE_DECL
                 );
                 consumer.showCustomOption(JassCodeStyleSettings.class,
-                        "AT_TYPE_DECL_TYPE_RIGHT",
+                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_TYPE_RIGHT,
                         "Type right align",
                         JassAlignTokenPanel.GROUP_TYPE_DECL
                 );
                 consumer.showCustomOption(JassCodeStyleSettings.class,
-                        "AT_TYPE_DECL_TYPE_BASE_RIGHT",
+                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_TYPE_BASE_RIGHT,
                         "Base type right align",
                         JassAlignTokenPanel.GROUP_TYPE_DECL
+                );
+                // Native declaration
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NATIVE,
+                        "'native' keyword",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
+                );
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NAME,
+                        "Name",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
+                );
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NAME_RIGHT,
+                        "Name right align",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
+                );
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_TAKES,
+                        "'takes' keyword",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
+                );
+                consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_RETURNS,
+                        "'returns' keyword",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
                 );
             }
         }
@@ -92,21 +118,12 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                type agent extends handle
                 type abilityintegerlevelarrayfield extends handle
-                type buff extends ability
-                type conditionfunc extends boolexpr
-                type igamestate extends gamestate
-                              
-                constant native ConvertRace takes integer i returns race
-                constant native ConvertAllianceType takes integer i returns alliancetype
-                constant native ConvertRacePref takes integer i returns racepreference
-                                
-                native GetTeams takes nothing returns integer
-                native GetPlayers takes nothing returns integer
-                                              
-                native I2R takes integer i returns real
-                native R2I takes real r returns integer
+                type bonetype extends attachmenttype
+
+                constant native GetCameraBoundMinX takes nothing returns real
+                native SetDestructablePositionLocation takes destructable whichDestructable, location whichLocation returns nothing
+                               
                                 
                 globals
                 real a = 12.

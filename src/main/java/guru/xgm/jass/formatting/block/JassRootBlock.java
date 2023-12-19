@@ -8,38 +8,28 @@ import guru.xgm.jass.formatting.JassCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
-import static guru.xgm.jass.psi.JassTypes.NATIVE_DECL;
-import static guru.xgm.jass.psi.JassTypes.TYPE_DECL;
+import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassRootBlock extends JassBlock {
-    public JassRootBlock(ASTNode myNode, CodeStyleSettings myCodeStyleSettings, JassCodeStyleSettings jassCodeStyleSettings) {
-        super(myNode, null, null, Indent.getNoneIndent(), myCodeStyleSettings);
-        this.jassCodeStyleSettings = jassCodeStyleSettings;
-        typeAlignments = Arrays.asList(
-                jassCodeStyleSettings.AT_TYPE_DECL_TYPE_RIGHT ? Alignment.createAlignment(true, Alignment.Anchor.RIGHT) : null,
-                jassCodeStyleSettings.AT_TYPE_DECL_EXTENDS ? Alignment.createAlignment(true) : null,
-                jassCodeStyleSettings.AT_TYPE_DECL_TYPE_BASE_RIGHT ? Alignment.createAlignment(true, Alignment.Anchor.RIGHT) : null
-        );
+    public JassRootBlock(ASTNode myNode, CodeStyleSettings code, JassCodeStyleSettings jass) {
+        super(myNode, null, null, Indent.getNoneIndent(), code);
+        //this.jassCodeStyleSettings = jass;
+        typeAlignments = JassTypeBlock.getAlignments(jass);
+        nativeAlignments = JassNativeBlock.getAlignments(jass);
     }
 
-    private final JassCodeStyleSettings jassCodeStyleSettings;
-    final List<Alignment> typeAlignments;
-
-    final List<Alignment> nativeAlignments = Arrays.asList(
-            Alignment.createAlignment(true),
-            Alignment.createAlignment(true),
-            Alignment.createAlignment(true)
-    );
+    //private final JassCodeStyleSettings jassCodeStyleSettings;
+    final HashMap<String, Alignment> typeAlignments;
+    final HashMap<String, Alignment> nativeAlignments;
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         final IElementType type = childNode.getElementType();
 
         if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), nativeAlignments, Indent.getNoneIndent(), myCodeStyleSettings);
+        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAlignments);
 
         return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
     }
