@@ -36,7 +36,7 @@ public class JassBlock implements ASTBlock {
 
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         //final IElementType type = childNode.getElementType();
-        return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
+        return new JassBlock(childNode, myWrap, null, myIndent, myCodeStyleSettings);
     }
 
     @Override

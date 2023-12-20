@@ -17,19 +17,19 @@ public class JassRootBlock extends JassBlock {
         super(myNode, null, null, Indent.getNoneIndent(), code);
         //this.jassCodeStyleSettings = jass;
         typeAlignments = JassTypeBlock.getAlignments(jass);
-        nativeAlignments = JassNativeBlock.getAlignments(jass);
+        nativeAligner = new JassNativeBlockAligner(jass);
     }
 
     //private final JassCodeStyleSettings jassCodeStyleSettings;
     final HashMap<String, Alignment> typeAlignments;
-    final HashMap<String, Alignment> nativeAlignments;
+    final JassNativeBlockAligner nativeAligner;
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         final IElementType type = childNode.getElementType();
 
         if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), Indent.getNoneIndent(), myCodeStyleSettings, nativeAlignments);
+        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
 
         return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
     }

@@ -2,11 +2,11 @@
 // Native types. All native functions take extended handle types when
 // possible to help prevent passing bad values to native functions
 //
-type agent                         extends handle// all reference counted objects
+type agent                         extends handle // all reference counted objects
 type event                         extends agent // a reference to an event registration
 type player                        extends agent // a single player reference
 type widget                        extends agent // an interactive game object with life
-type unit                          extends widget// a single unit reference
+type unit                          extends widget // a single unit reference
 type destructable                  extends widget
 type item                          extends widget
 type ability                       extends agent
@@ -3181,13 +3181,13 @@ native          GetHeroInt                                  takes unit whichHero
 native          UnitStripHeroLevel                          takes unit whichHero, integer howManyLevels returns boolean
 
 native          GetHeroXP                                   takes unit whichHero returns integer
-native          SetHeroXP                                   takes unit whichHero, integer newXpVal,boolean showEyeCandy returns nothing
+native          SetHeroXP                                   takes unit whichHero, integer newXpVal, boolean showEyeCandy returns nothing
 
 native          GetHeroSkillPoints                          takes unit whichHero returns integer
 native          UnitModifySkillPoints                       takes unit whichHero, integer skillPointDelta returns boolean
 
 native          AddHeroXP                                   takes unit whichHero, integer xpToAdd, boolean showEyeCandy returns nothing
-native          SetHeroLevel                                takes unit whichHero, integer level,boolean showEyeCandy returns nothing
+native          SetHeroLevel                                takes unit whichHero, integer level, boolean showEyeCandy returns nothing
 constant native GetHeroLevel                                takes unit whichHero returns integer
 constant native GetUnitLevel                                takes unit whichUnit returns integer
 native          GetHeroProperName                           takes unit whichHero returns string
@@ -3999,9 +3999,9 @@ native          AddSpecialEffectTarget                      takes string modelNa
 native          DestroyEffect                               takes effect whichEffect returns nothing
 
 native          AddSpellEffect                              takes string abilityString, effecttype t, real x, real y returns effect
-native          AddSpellEffectLoc                           takes string abilityString, effecttype t,location where returns effect
-native          AddSpellEffectById                          takes integer abilityId, effecttype t,real x, real y returns effect
-native          AddSpellEffectByIdLoc                       takes integer abilityId, effecttype t,location where returns effect
+native          AddSpellEffectLoc                           takes string abilityString, effecttype t, location where returns effect
+native          AddSpellEffectById                          takes integer abilityId, effecttype t, real x, real y returns effect
+native          AddSpellEffectByIdLoc                       takes integer abilityId, effecttype t, location where returns effect
 native          AddSpellEffectTarget                        takes string modelName, effecttype t, widget targetWidget, string attachPoint returns effect
 native          AddSpellEffectTargetById                    takes integer abilityId, effecttype t, widget targetWidget, string attachPoint returns effect
 
@@ -6186,9 +6186,9 @@ native          BlzQueueTargetOrderById                     takes unit whichUnit
 native          BlzQueueInstantPointOrderById               takes unit whichUnit, integer order, real x, real y, widget instantTargetWidget returns boolean
 native          BlzQueueInstantTargetOrderById              takes unit whichUnit, integer order, widget targetWidget, widget instantTargetWidget returns boolean
 native          BlzQueueBuildOrderById                      takes unit whichPeon, integer unitId, real x, real y returns boolean
-native          BlzQueueNeutralImmediateOrderById           takes player forWhichPlayer,unit neutralStructure, integer unitId returns boolean
-native          BlzQueueNeutralPointOrderById               takes player forWhichPlayer,unit neutralStructure, integer unitId, real x, real y returns boolean
-native          BlzQueueNeutralTargetOrderById              takes player forWhichPlayer,unit neutralStructure, integer unitId, widget target returns boolean
+native          BlzQueueNeutralImmediateOrderById           takes player forWhichPlayer, unit neutralStructure, integer unitId returns boolean
+native          BlzQueueNeutralPointOrderById               takes player forWhichPlayer, unit neutralStructure, integer unitId, real x, real y returns boolean
+native          BlzQueueNeutralTargetOrderById              takes player forWhichPlayer, unit neutralStructure, integer unitId, widget target returns boolean
 
 // returns the number of orders the unit currently has queued up
 native          BlzGetUnitOrderCount                        takes unit whichUnit returns integer

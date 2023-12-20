@@ -1,35 +1,25 @@
 package guru.xgm.jass.formatting.block;
 
-import com.intellij.formatting.*;
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Indent;
+import com.intellij.formatting.Wrap;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
+import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.tree.IElementType;
-import guru.xgm.jass.formatting.JassCodeStyleSettings;
-import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
 
 import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassNativeBlock extends JassBlock {
-    public JassNativeBlock(ASTNode myNode, Wrap myWrap, Indent myIndent, CodeStyleSettings myCodeStyleSettings, HashMap<String, Alignment> alignments) {
+    public JassNativeBlock(ASTNode myNode, Wrap myWrap, Indent myIndent, CodeStyleSettings myCodeStyleSettings, JassNativeBlockAligner aligner) {
         super(myNode, myWrap, null, myIndent, myCodeStyleSettings);
-        this.alignments = alignments;
+        this.aligner = aligner;
     }
 
-    private final HashMap<String, Alignment> alignments;
-
-    static HashMap<String, Alignment> getAlignments(JassCodeStyleSettings jass) {
-        final HashMap<String, Alignment> map = new HashMap<>();
-        if (jass.AT_NATIVE_DECL_NATIVE) map.put(AT_NATIVE_DECL_NATIVE, Alignment.createAlignment(true));
-        if (jass.AT_NATIVE_DECL_NAME || jass.AT_NATIVE_DECL_NAME_RIGHT) map.put(AT_NATIVE_DECL_NAME, Alignment.createAlignment(true, jass.AT_NATIVE_DECL_NAME_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
-        if (jass.AT_NATIVE_DECL_TAKES) map.put(AT_NATIVE_DECL_TAKES, Alignment.createAlignment(true));
-        if (jass.AT_NATIVE_DECL_RETURNS) map.put(AT_NATIVE_DECL_RETURNS, Alignment.createAlignment(true));
-        return map;
-    }
+    private final JassNativeBlockAligner aligner;
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
@@ -37,15 +27,30 @@ public class JassNativeBlock extends JassBlock {
 
         Alignment alignment = null;
 
-        if (type == NATIVE) alignment = alignments.get(AT_NATIVE_DECL_NATIVE);
+        if (type == NATIVE) alignment = aligner.named(AT_NATIVE_DECL_NATIVE);
         if (type == FUNC_DECL_NAME) {
             childNode = childNode.getFirstChildNode();
-            alignment = alignments.get(AT_NATIVE_DECL_NAME);
+            alignment = aligner.named(AT_NATIVE_DECL_NAME);
         }
-        if (type == TAKES) alignment = alignments.get(AT_NATIVE_DECL_TAKES);
-        if (type == RETURNS) alignment = alignments.get(AT_NATIVE_DECL_RETURNS);
+        if (type == TAKES) alignment = aligner.named(AT_NATIVE_DECL_TAKES);
+        if (type == RETURNS) alignment = aligner.named(AT_NATIVE_DECL_RETURNS);
 
-        if (type == FUNC_TAKES || type == FUNC_RETURNS) return new JassNativeBlock(childNode, null, null, myCodeStyleSettings, alignments);
+        if (type == TYPED_VAR) {
+            ASTNode[] children = childNode.getTreeParent().getChildren(null);
+
+            int index = -1;
+            for (ASTNode child : children) {
+                if (FormatterUtil.isWhitespaceOrEmpty(child)) continue;
+                final IElementType ctype = child.getElementType();
+                if (type != ctype) continue;
+                index++;
+                if (childNode != child) continue;
+                alignment = aligner.argument(index);
+                break;
+            }
+        }
+
+        if (type == FUNC_TAKES || type == FUNC_RETURNS || type == TYPED_VAR_LIST) return new JassNativeBlock(childNode, null, null, myCodeStyleSettings, aligner);
 
         return new JassBlock(childNode, null, alignment, null, myCodeStyleSettings);
     }

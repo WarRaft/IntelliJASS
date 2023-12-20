@@ -93,6 +93,11 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                         JassAlignTokenPanel.GROUP_NATIVE_DECL
                 );
                 consumer.showCustomOption(JassCodeStyleSettings.class,
+                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_ARGUMENT,
+                        "Arguments",
+                        JassAlignTokenPanel.GROUP_NATIVE_DECL
+                );
+                consumer.showCustomOption(JassCodeStyleSettings.class,
                         JassCodeStyleSettings.Fields.AT_NATIVE_DECL_RETURNS,
                         "'returns' keyword",
                         JassAlignTokenPanel.GROUP_NATIVE_DECL
@@ -123,6 +128,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                 type bonetype extends attachmenttype
 
                 constant native GetCameraBoundMinX takes nothing returns real
+                native CameraSetTargetNoiseEx takes real mag, real velocity, boolean vertOnly returns nothing
                 native SetDestructablePositionLocation takes destructable whichDestructable, location whichLocation returns nothing
                                
                                 

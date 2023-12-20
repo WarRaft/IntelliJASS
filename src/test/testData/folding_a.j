@@ -1,19 +1,48 @@
-type agent        extends handle // all reference counted objects
-type event        extends agent // a reference to an event registration
-type player       extends agent // a single player reference
-type widget       extends agent // an interactive game object with life
-type unit         extends widget // a single unit reference
-type destructable extends widget
-
-// dvdv
-type item         extends widget // scss
-type ability      extends agent
-type buff         extends ability
-type force        extends agent
-// dvdv
 
 
-constant native ConvertRace       takes integer i, real e returns race //ddf fd fd
-// csc
-native          ConvertIGameState takes integer i, real d returns igamestate
-constant native ConvertIGameState takes nothing returns nothing
+globals
+
+
+//===================================================
+// Game Constants
+//===================================================
+
+constant boolean FALSE = false
+constant boolean TRUE = true
+constant integer JASS_MAX_ARRAY_SIZE = 262144
+
+constant integer PLAYER_NEUTRAL_PASSIVE = 15
+constant integer PLAYER_NEUTRAL_AGGRESSIVE = 12
+
+constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0)
+constant playercolor PLAYER_COLOR_BLUE = ConvertPlayerColor(1)
+constant playercolor PLAYER_COLOR_CYAN = ConvertPlayerColor(2)
+
+
+
+//-----------------------------------------------------------------------
+// Variables
+//
+
+// Force predefs
+force              bj_FORCE_ALL_PLAYERS        = null
+force array        bj_FORCE_PLAYER
+
+integer            bj_MELEE_MAX_TWINKED_HEROES = 0
+
+// Map area rects
+rect               bj_mapInitialPlayableArea   = null
+rect               bj_mapInitialCameraBounds   = null
+
+// Utility function vars
+integer            bj_forLoopAIndex            = 0
+integer            bj_forLoopBIndex            = 0
+integer            bj_forLoopAIndexEnd         = 0
+integer            bj_forLoopBIndexEnd         = 0
+
+boolean            bj_slotControlReady         = false
+boolean array      bj_slotControlUsed
+mapcontrol array   bj_slotControl
+
+
+endglobals
