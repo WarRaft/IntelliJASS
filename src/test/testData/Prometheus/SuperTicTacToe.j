@@ -275,11 +275,11 @@ set We[Bo]=-1
 set Te[Bo]=-1
 return Bo
 endfunction
-function Fo takes integer i,unit a1 returns nothing
+function Fo takes integer i, unit a1 returns nothing
 set qx=a1
 call TriggerExecute(px[i])
 endfunction
-function go takes integer i,integer a1,integer a2,integer a3,real a4,real a5 returns nothing
+function go takes integer i, integer a1, integer a2, integer a3, real a4, real a5 returns nothing
 set Qx=a1
 set sx=a2
 set Sx=a3
@@ -326,10 +326,10 @@ set o[88]="X"
 set o[89]="Y"
 set o[90]="Z"
 endfunction
-function ho takes string s,real Ho returns nothing
-call DisplayTimedTextToPlayer(R,.0,.0,Ho,s)
+function ho takes string s, real Ho returns nothing
+call DisplayTimedTextToPlayer(R, .0, .0, Ho, s)
 endfunction
-function Jo takes integer a,integer n returns boolean
+function Jo takes integer a, integer n returns boolean
 return a/ n*n==a
 endfunction
 function ko takes real r returns integer
@@ -349,11 +349,11 @@ function lo takes player p returns boolean
 return GetPlayerController(p)==MAP_CONTROL_USER and GetPlayerSlotState(p)==PLAYER_SLOT_STATE_PLAYING
 endfunction
 function Lo takes nothing returns nothing
-call PauseUnit(GetFilterUnit(),bj_pauseAllUnitsFlag)
+call PauseUnit(GetFilterUnit(), bj_pauseAllUnitsFlag)
 endfunction
-function mo takes string Mo,real po,real x,real y,integer Po returns image
-set bj_lastCreatedImage=CreateImage(Mo,po,po,.0,x,y,.0,po/ 2.,po/ 2.,.0,Po)
-call SetImageRenderAlways(bj_lastCreatedImage,true)
+function mo takes string Mo, real po, real x, real y, integer Po returns image
+set bj_lastCreatedImage=CreateImage(Mo, po, po, .0, x, y, .0, po/ 2., po/ 2., .0, Po)
+call SetImageRenderAlways(bj_lastCreatedImage, true)
 return bj_lastCreatedImage
 endfunction
 function EndThread takes nothing returns nothing
@@ -363,39 +363,39 @@ function qo takes nothing returns nothing
 set R=GetLocalPlayer()
 endfunction
 function GetCustomTimer takes nothing returns integer
-return LoadInteger(C,I,GetHandleId(GetExpiredTimer()))
+return LoadInteger(C, I, GetHandleId(GetExpiredTimer()))
 endfunction
 function GetCustomDialog takes nothing returns integer
-return LoadInteger(C,j,GetHandleId(GetClickedDialog()))
+return LoadInteger(C, j, GetHandleId(GetClickedDialog()))
 endfunction
 function GetCustomButton takes nothing returns integer
-return LoadInteger(C,J,GetHandleId(GetClickedButton()))
+return LoadInteger(C, J, GetHandleId(GetClickedButton()))
 endfunction
-function Qo takes integer Bo,string t returns nothing
+function Qo takes integer Bo, string t returns nothing
 if me[Bo]then
-set Qe[Bo]=DialogAddQuitButton(ue[Le[Bo]],false,t,Me[Bo])
+set Qe[Bo]=DialogAddQuitButton(ue[Le[Bo]], false, t, Me[Bo])
 else
-set Qe[Bo]=DialogAddButton(ue[Le[Bo]],t,Me[Bo])
+set Qe[Bo]=DialogAddButton(ue[Le[Bo]], t, Me[Bo])
 endif
 set se[Bo]=GetHandleId(Qe[Bo])
-call SaveInteger(C,J,se[Bo],Bo)
+call SaveInteger(C, J, se[Bo], Bo)
 endfunction
 function so takes integer Bo returns nothing
 if H then
 if Pe[Bo]then
-call Qo(Bo,pe[Bo]+("     |cffffff66("+I2S((ze[Le[Bo]]))+")"))
+call Qo(Bo, pe[Bo]+("     |cffffff66("+I2S((ze[Le[Bo]]))+")"))
 else
-call Qo(Bo,pe[Bo]+"         ")
+call Qo(Bo, pe[Bo]+"         ")
 endif
 else
-call Qo(Bo,pe[Bo])
+call Qo(Bo, pe[Bo])
 endif
 endfunction
-function So takes integer Bo,boolean To returns nothing
+function So takes integer Bo, boolean To returns nothing
 set Pe[Bo]=To
 call so(Bo)
 endfunction
-function uo takes integer d,boolean Uo,string t,boolean To returns integer
+function uo takes integer d, boolean Uo, string t, boolean To returns integer
 local integer Bo=bo()
 set Le[Bo]=d
 set me[Bo]=Uo
@@ -407,38 +407,38 @@ return Bo
 endfunction
 function wo takes integer Bo returns nothing
 if Qe[Bo]!=null then
-call RemoveSavedInteger(C,J,se[Bo])
+call RemoveSavedInteger(C, J, se[Bo])
 call so(Bo)
 endif
 endfunction
 function Wo takes integer Bo returns nothing
 if Qe[Bo]!=null then
-call RemoveSavedInteger(C,j,se[Bo])
+call RemoveSavedInteger(C, j, se[Bo])
 set Qe[Bo]=null
 endif
 endfunction
 function yo takes integer Bo returns nothing
 set vx[Bo]=CreateTimer()
-call SaveInteger(C,I,GetHandleId(vx[Bo]),Bo)
+call SaveInteger(C, I, GetHandleId(vx[Bo]), Bo)
 endfunction
-function Yo takes string zo,code Zo returns integer
+function Yo takes string zo, code Zo returns integer
 local integer Bo=fo()
 call yo(Bo)
-call TriggerAddCondition(we[Bo],Filter(Zo))
-call TriggerRegisterDialogEvent(we[Bo],ue[Bo])
-call SaveInteger(C,j,GetHandleId(ue[Bo]),Bo)
+call TriggerAddCondition(we[Bo], Filter(Zo))
+call TriggerRegisterDialogEvent(we[Bo], ue[Bo])
+call SaveInteger(C, j, GetHandleId(ue[Bo]), Bo)
 set Ze[Bo]=zo
 set m=m+1
 set L[m]=Bo
 return Bo
 endfunction
-function vr takes integer Bo,boolean Uo,string zo,boolean er returns integer
+function vr takes integer Bo, boolean Uo, string zo, boolean er returns integer
 set We[Bo]=We[Bo]+1
-set ye[Ye[Bo]+We[Bo]]=uo(Bo,Uo,zo,er)
+set ye[Ye[Bo]+We[Bo]]=uo(Bo, Uo, zo, er)
 return ye[Ye[Bo]+We[Bo]]
 endfunction
 function xr takes integer Bo returns nothing
-call DialogSetMessage(ue[Bo],Ze[Bo])
+call DialogSetMessage(ue[Bo], Ze[Bo])
 set ze[Bo]=k
 endfunction
 function rr takes integer Bo returns nothing
@@ -450,26 +450,26 @@ set a=a+1
 exitwhen a>We[Bo]
 endloop
 endfunction
-function ar takes integer Bo,player p,boolean nr returns nothing
-call DialogDisplay(p,ue[Bo],nr)
+function ar takes integer Bo, player p, boolean nr returns nothing
+call DialogDisplay(p, ue[Bo], nr)
 if nr then
-call ForceAddPlayer(Ue[Bo],p)
+call ForceAddPlayer(Ue[Bo], p)
 else
-call ForceRemovePlayer(Ue[Bo],p)
+call ForceRemovePlayer(Ue[Bo], p)
 if p==R then
 call EnableUserControl(true)
 endif
 endif
 endfunction
-function Vr takes integer Bo,boolean nr returns nothing
-if IsPlayerInForce(R,Ue[Bo])then
-call DialogDisplay(R,ue[Bo],nr)
+function Vr takes integer Bo, boolean nr returns nothing
+if IsPlayerInForce(R, Ue[Bo])then
+call DialogDisplay(R, ue[Bo], nr)
 endif
 endfunction
 function Er takes integer Bo returns nothing
 local integer a=0
 call PauseTimer(vx[Bo])
-if IsPlayerInForce(R,Ue[Bo])then
+if IsPlayerInForce(R, Ue[Bo])then
 call EnableUserControl(true)
 endif
 call ForceClear(Ue[Bo])
@@ -481,7 +481,7 @@ exitwhen a>We[Bo]
 endloop
 endfunction
 function Xr takes nothing returns boolean
-local integer Bo=(LoadInteger(C,I,GetHandleId(GetExpiredTimer())))
+local integer Bo=(LoadInteger(C, I, GetHandleId(GetExpiredTimer())))
 local integer a
 set ze[Bo]=ze[Bo]-1
 if ze[Bo]==0 then
@@ -489,14 +489,14 @@ call Er(Bo)
 return true
 endif
 call DialogClear(ue[Bo])
-call DialogSetMessage(ue[Bo],Ze[Bo])
+call DialogSetMessage(ue[Bo], Ze[Bo])
 set a=0
 loop
 exitwhen a>We[Bo]
 call wo(ye[Ye[Bo]+a])
 set a=a+1
 endloop
-call Vr(Bo,true)
+call Vr(Bo, true)
 return false
 endfunction
 function Rr takes nothing returns nothing
@@ -506,7 +506,7 @@ set l[2]=69
 set l[3]=82
 set l[4]=84
 endfunction
-function Ir takes integer Ar,integer Nr returns integer
+function Ir takes integer Ar, integer Nr returns integer
 local integer Bo=do()
 local integer mod
 set rx[Bo]=Ar
@@ -518,14 +518,14 @@ set ix[Bo]=N
 set ax[Bo]=Ar+(N-1)*N
 elseif Nr==2 then
 set ix[Bo]=N+1
-if Jo(Ar,N)then
+if Jo(Ar, N)then
 set ax[Bo]=U-1-Ar/ N
 else
 set ax[Bo]=U-1-Ar*N
 endif
 else
 set ix[Bo]=N-1
-if Jo(Ar+1,N)then
+if Jo(Ar+1, N)then
 set ax[Bo]=U-N+Ar/ N
 else
 set ax[Bo]=Ar*N
@@ -538,7 +538,7 @@ set Ar=Ar+ix[Bo]
 endloop
 return Bo
 endfunction
-function br takes integer Bo,integer Br returns boolean
+function br takes integer Bo, integer Br returns boolean
 local integer a=1
 local integer Ar=Ix[Br]
 local integer to=Ix[Br]
@@ -555,7 +555,7 @@ set a=a+1
 endloop
 set to=to-ix[Bo]
 if a>=K then
-call go(1,Ar,to,ix[Bo],(Ax[T[Ar]]+Ax[T[to]])/ 2.,(Nx[T[Ar]]+Nx[T[to]])/ 2.)
+call go(1, Ar, to, ix[Bo], (Ax[T[Ar]]+Ax[T[to]])/ 2., (Nx[T[Ar]]+Nx[T[to]])/ 2.)
 return true
 endif
 return false
@@ -597,32 +597,32 @@ return true
 endif
 return false
 endfunction
-function dr takes integer Bo,integer Br returns boolean
-return Bo!=0 and nx[Bo]and br(Bo,Br)
+function dr takes integer Bo, integer Br returns boolean
+return Bo!=0 and nx[Bo]and br(Bo, Br)
 endfunction
 function Dr takes integer Bo returns boolean
 return Bo!=0 and nx[Bo]and cr(Bo)
 endfunction
-function fr takes real x,real y,integer i returns integer
+function fr takes real x, real y, integer i returns integer
 local integer Bo=Co()
-set Ox[Bo]=mo("Textures\\Pavement.blp",256.,x,y,4)
-set Rx[Bo]=CreateUnit(gx[F],'t000',x,y,270.)
+set Ox[Bo]=mo("Textures\\Pavement.blp", 256., x, y, 4)
+set Rx[Bo]=CreateUnit(gx[F], 't000', x, y, 270.)
 set Ix[Bo]=i
 set Ax[Bo]=x
 set Nx[Bo]=y
 return Bo
 endfunction
-function Fr takes integer Bo,boolean gr returns boolean
+function Fr takes integer Bo, boolean gr returns boolean
 local integer a=0
 if gr then
 set Cx[Bo]=1
-set cx[Bo]=mo("Textures\\X.blp",128.,Ax[Bo],Nx[Bo],1)
+set cx[Bo]=mo("Textures\\X.blp", 128., Ax[Bo], Nx[Bo], 1)
 else
 set Cx[Bo]=2
-set cx[Bo]=mo("Textures\\O.blp",128.,Ax[Bo],Nx[Bo],1)
+set cx[Bo]=mo("Textures\\O.blp", 128., Ax[Bo], Nx[Bo], 1)
 endif
 loop
-if dr(bx[Bx[Bo]+a],Bo)then
+if dr(bx[Bx[Bo]+a], Bo)then
 return true
 endif
 set a=a+1
@@ -668,14 +668,14 @@ local integer a=0
 local integer i=0
 local integer Jr
 loop
-set W[a]=Ir(i,0)
+set W[a]=Ir(i, 0)
 set a=a+1
 set i=i+N
 exitwhen i==U
 endloop
 set i=0
 loop
-set W[a]=Ir(i,1)
+set W[a]=Ir(i, 1)
 set a=a+1
 set i=i+1
 exitwhen i==N
@@ -683,7 +683,7 @@ endloop
 set i=0
 set Jr=jr*N
 loop
-set W[a]=Ir(i,2)
+set W[a]=Ir(i, 2)
 set a=a+1
 set i=i+N
 exitwhen i==Jr
@@ -691,14 +691,14 @@ endloop
 set i=1
 loop
 exitwhen i==jr
-set W[a]=Ir(i,2)
+set W[a]=Ir(i, 2)
 set a=a+1
 set i=i+1
 endloop
 set i=N-1
 set Jr=jr*N+N-1
 loop
-set W[a]=Ir(i,3)
+set W[a]=Ir(i, 3)
 set a=a+1
 set i=i+N
 exitwhen i==Jr
@@ -707,7 +707,7 @@ set i=K-1
 set Jr=N-1
 loop
 exitwhen i==Jr
-set W[a]=Ir(i,3)
+set W[a]=Ir(i, 3)
 set a=a+1
 set i=i+1
 endloop
@@ -722,12 +722,12 @@ set q=x
 set S=x
 set P=y
 set Q=y
-set M=Rect(x-256.,x-256.,y+256.,y+256.)
-set bj_lastCreatedFogModifier=CreateFogModifierRect(gx[D],FOG_OF_WAR_VISIBLE,M,true,false)
+set M=Rect(x-256., x-256., y+256., y+256.)
+set bj_lastCreatedFogModifier=CreateFogModifierRect(gx[D], FOG_OF_WAR_VISIBLE, M, true, false)
 call FogModifierStart(bj_lastCreatedFogModifier)
 set U=N*N
 loop
-set T[a]=fr(x,y,a)
+set T[a]=fr(x, y, a)
 set x=x+128.
 if x>P then
 set y=y-128.
@@ -740,7 +740,7 @@ call ExecuteFunc("Hr")
 endfunction
 function Kr takes nothing returns nothing
 call DestroyFogModifier(bj_lastCreatedFogModifier)
-call SetFogStateRect(gx[D],FOG_OF_WAR_MASKED,M,true)
+call SetFogStateRect(gx[D], FOG_OF_WAR_MASKED, M, true)
 call RemoveRect(M)
 loop
 set U=U-1
@@ -753,21 +753,21 @@ call Do(W[Y])
 exitwhen Y==0
 endloop
 endfunction
-function lr takes boolean gr,real x,real y returns boolean
+function lr takes boolean gr, real x, real y returns boolean
 local integer i=ko(((Q-y)*N+x-q)/ 128.)
-call SetImageColor(bj_lastCreatedImage,$FF,$FF,$FF,$FF)
-if Fr(T[i],gr)then
+call SetImageColor(bj_lastCreatedImage, $FF, $FF, $FF, $FF)
+if Fr(T[i], gr)then
 return false
 endif
-call SetImageColor(bj_lastCreatedImage,51,$CC,51,$FF)
+call SetImageColor(bj_lastCreatedImage, 51, $CC, 51, $FF)
 return true
 endfunction
 function Lr takes nothing returns nothing
-call SetUnitOwner(GetFilterUnit(),ev,true)
+call SetUnitOwner(GetFilterUnit(), ev, true)
 endfunction
 function mr takes nothing returns nothing
 set ev=gx[Nv]
-call GroupEnumUnitsOfPlayer(bj_lastCreatedGroup,gx[Av],vv)
+call GroupEnumUnitsOfPlayer(bj_lastCreatedGroup, gx[Av], vv)
 endfunction
 function Mr takes nothing returns nothing
 set vv=Filter(function Lr)
@@ -782,15 +782,15 @@ You have |cffffff66"+I2S(Pr)+"|r seconds for this."
 endfunction
 function qr takes integer Bo returns nothing
 set Lx[Bo]=CreateTimer()
-call SaveInteger(C,I,GetHandleId(Lx[Bo]),Bo)
+call SaveInteger(C, I, GetHandleId(Lx[Bo]), Bo)
 endfunction
 function Qr takes player p returns nothing
 local integer Bo=co()
 set gx[Bo]=p
 set Gx[Bo]=p==R
 call qr(Bo)
-call TriggerRegisterPlayerUnitEvent(Ge,p,EVENT_PLAYER_UNIT_UPGRADE_START,null)
-call TriggerRegisterPlayerChatEvent(Je,p,"",false)
+call TriggerRegisterPlayerUnitEvent(Ge, p, EVENT_PLAYER_UNIT_UPGRADE_START, null)
+call TriggerRegisterPlayerChatEvent(Je, p, "", false)
 set h=h+1
 if h==1 then
 set D=Bo
@@ -802,31 +802,31 @@ set ov[1]=Bo
 set hx[Bo]="|cff0000ff"+GetPlayerName(p)+"|r"
 endif
 endfunction
-function sr takes integer Bo,boolean Sr returns nothing
+function sr takes integer Bo, boolean Sr returns nothing
 set lx[Bo]=Sr
 if Sr then
 set F=Bo
-call SetPlayerTechMaxAllowed(gx[Bo],'x000',1)
-call SetPlayerTechMaxAllowed(gx[Bo],'o000',0)
+call SetPlayerTechMaxAllowed(gx[Bo], 'x000', 1)
+call SetPlayerTechMaxAllowed(gx[Bo], 'o000', 0)
 else
 set G=Bo
-call SetPlayerTechMaxAllowed(gx[Bo],'o000',1)
-call SetPlayerTechMaxAllowed(gx[Bo],'x000',0)
+call SetPlayerTechMaxAllowed(gx[Bo], 'o000', 1)
+call SetPlayerTechMaxAllowed(gx[Bo], 'x000', 0)
 endif
 endfunction
-function tr takes integer Bo,real x,real y returns boolean
-if lr(lx[Bo],x,y)then
+function tr takes integer Bo, real x, real y returns boolean
+if lr(lx[Bo], x, y)then
 if N>=8 and not Gx[Bo]then
-call PingMinimapEx(x,y,3.,51,$CC,51,true)
-call SetCameraQuickPosition(x,y)
+call PingMinimapEx(x, y, 3., 51, $CC, 51, true)
+call SetCameraQuickPosition(x, y)
 endif
 return true
 endif
 return false
 endfunction
 function Tr takes integer Bo returns nothing
-call SetPlayerTechMaxAllowed(gx[Bo],'x000',Ko(not lx[Bo]))
-call SetPlayerTechMaxAllowed(gx[Bo],'o000',Ko(lx[Bo]))
+call SetPlayerTechMaxAllowed(gx[Bo], 'x000', Ko(not lx[Bo]))
+call SetPlayerTechMaxAllowed(gx[Bo], 'o000', Ko(lx[Bo]))
 set lx[Bo]=not lx[Bo]
 endfunction
 function ur takes integer Bo returns nothing
@@ -837,7 +837,7 @@ call ClearTextMessages()
 endif
 endfunction
 function Ur takes nothing returns boolean
-local integer Bo=(LoadInteger(C,I,GetHandleId(GetExpiredTimer())))
+local integer Bo=(LoadInteger(C, I, GetHandleId(GetExpiredTimer())))
 local integer a
 set kx[Bo]=kx[Bo]-1
 if kx[Bo]==0 then
@@ -847,19 +847,19 @@ endif
 if Gx[Bo]then
 call ClearTextMessages()
 endif
-call DisplayTimedTextToPlayer(gx[(Bo)],.0,.0,10.,(Kx[Bo]+pr(kx[Bo])))
+call DisplayTimedTextToPlayer(gx[(Bo)], .0, .0, 10., (Kx[Bo]+pr(kx[Bo])))
 return false
 endfunction
-function wr takes integer Bo,integer e,string s,code Wr returns nothing
+function wr takes integer Bo, integer e, string s, code Wr returns nothing
 set Jx[Bo]=e
-call DisplayTimedTextToPlayer(gx[(Bo)],.0,.0,10.,(s+pr(xv)))
+call DisplayTimedTextToPlayer(gx[(Bo)], .0, .0, 10., (s+pr(xv)))
 set Kx[Bo]=s
 set kx[Bo]=xv
-call TimerStart(Lx[Bo],1.,true,Wr)
+call TimerStart(Lx[Bo], 1., true, Wr)
 endfunction
 function yr takes integer Bo returns nothing
 set Hx[Bo]=Hx[Bo]+1
-call MultiboardSetItemValue(jx[Bo],I2S(Hx[Bo]))
+call MultiboardSetItemValue(jx[Bo], I2S(Hx[Bo]))
 endfunction
 function Yr takes integer Bo returns nothing
 call MultiboardReleaseItem(jx[Bo])
@@ -869,7 +869,7 @@ endfunction
 function InitGlobals takes nothing returns nothing
 endfunction
 function No takes nothing returns nothing
-call ho(Xv,10.)
+call ho(Xv, 10.)
 call StartSound(ae)
 set Ev=true
 endfunction
@@ -889,7 +889,7 @@ if bv<$A then
 set Pr=Pr+"0"
 endif
 set Pr=Pr+I2S(bv)
-call MultiboardSetItemValue(Fe,Pr)
+call MultiboardSetItemValue(Fe, Pr)
 endfunction
 function Zr takes nothing returns nothing
 set Gv=GetFilterUnit()
@@ -898,8 +898,8 @@ function vi takes nothing returns nothing
 local string ei
 set cv=cv-1
 if cv==0 then
-call GroupEnumUnitsOfPlayer(bj_lastCreatedGroup,gx[Av],gv)
-call Fo(1,Gv)
+call GroupEnumUnitsOfPlayer(bj_lastCreatedGroup, gx[Av], gv)
+call Fo(1, Gv)
 else
 set ei="Turn ends in "
 if cv<6 and Gx[Av]then
@@ -912,7 +912,7 @@ set ei=ei+I2S(cv)+"|r second"
 if cv!=1 then
 set ei=ei+"s"
 endif
-call MultiboardSetTitleText(Oe,ei)
+call MultiboardSetTitleText(Oe, ei)
 endif
 endfunction
 function xi takes nothing returns nothing
@@ -924,15 +924,15 @@ else
 set Xv="|cff33cc33HINT|r|cff80cccc - Press|r |cffffcc00F8|r|cff80cccc to select one of places for token."
 endif
 set Ev=false
-call TimerStart(nv,2.,false,function No)
+call TimerStart(nv, 2., false, function No)
 endif
 if Gx[Av]then
-call StopSound(xe,false,false)
+call StopSound(xe, false, false)
 call StartSound(xe)
 endif
 set cv=Iv
 call vi()
-call TimerStart(av,1.,true,function vi)
+call TimerStart(av, 1., true, function vi)
 endfunction
 function oi takes nothing returns nothing
 if H then
@@ -946,7 +946,7 @@ call Tr(Av)
 endif
 endfunction
 function ri takes unit ii returns nothing
-if tr(Av,GetUnitX(ii),GetUnitY(ii))then
+if tr(Av, GetUnitX(ii), GetUnitY(ii))then
 call oi()
 endif
 call RemoveUnit(ii)
@@ -954,16 +954,16 @@ endfunction
 function ai takes nothing returns nothing
 call EnableUserControl(true)
 call ho("
-Let's start!",10.)
+Let's start!", 10.)
 set Rv=0
 call xi()
 endfunction
 function ni takes nothing returns nothing
 call DisableTrigger(Je)
-call MultiboardSetItemValue(Ce,"|cffcc80cc"+I2S(N)+"x"+I2S(N)+"|r field")
-call MultiboardSetItemValue(de,"|cffcc80cc"+I2S(K)+"|r tokens to win")
+call MultiboardSetItemValue(Ce, "|cffcc80cc"+I2S(N)+"x"+I2S(N)+"|r field")
+call MultiboardSetItemValue(de, "|cffcc80cc"+I2S(K)+"|r tokens to win")
 call kr()
-call MultiboardDisplay(Oe,true)
+call MultiboardDisplay(Oe, true)
 endfunction
 function Vi takes integer p returns nothing
 if H then
@@ -972,39 +972,39 @@ if zv==2 then
 call ClearTextMessages()
 set Av=F
 set Nv=G
-call MultiboardSetTitleText(Oe,"Game is starting...")
+call MultiboardSetTitleText(Oe, "Game is starting...")
 call ni()
 call StartSound(oe)
 call EnableUserControl(false)
 call ho("Current game rules:
 Field size is |cffcc80cc"+I2S(N)+"x"+I2S(N)+"|r.
-Put |cffcc80cc"+I2S(K)+"|r tokens in a straight line to win.",10.)
-call TimerStart(av,1.5,false,function ai)
+Put |cffcc80cc"+I2S(K)+"|r tokens in a straight line to win.", 10.)
+call TimerStart(av, 1.5, false, function ai)
 else
-call DisplayTimedTextToPlayer(gx[(p)],.0,.0,10.,("Wait until your opponent completes selecting his or her options."))
+call DisplayTimedTextToPlayer(gx[(p)], .0, .0, 10., ("Wait until your opponent completes selecting his or her options."))
 endif
 else
-call sr(D,true)
+call sr(D, true)
 set Av=F
 call ni()
 endif
 endfunction
-function Ei takes string Xi,real Oi returns nothing
+function Ei takes string Xi, real Oi returns nothing
 call PauseTimer(nv)
 set Ev=true
-call MultiboardDisplay(Oe,false)
+call MultiboardDisplay(Oe, false)
 call ClearSelection()
 call EnableUserControl(false)
 set Ze[(hv)]=(Xi)
-call TimerStart(av,Oi,false,wv)
+call TimerStart(av, Oi, false, wv)
 endfunction
 function Draw takes nothing returns nothing
 if H then
 call StartSound(ie)
 endif
 set Cv=Cv+1
-call MultiboardSetItemValue(De,I2S(Cv))
-call Ei("|cffffffffDraw!",.5)
+call MultiboardSetItemValue(De, I2S(Cv))
+call Ei("|cffffffffDraw!", .5)
 endfunction
 function Ri takes nothing returns nothing
 set Iv=Fv
@@ -1025,13 +1025,13 @@ function Ni takes integer n returns nothing
 if Ov<=n and n<=90 then
 set Iv=n
 call ur(yv)
-call DisplayTimedTextToPlayer(gx[(yv)],.0,.0,10.,("The duration of player's turn is set to |cffcc80cc"+I2S(n)+"|r seconds."))
-call TimerStart(Lx[yv],3.,false,function Ai)
+call DisplayTimedTextToPlayer(gx[(yv)], .0, .0, 10., ("The duration of player's turn is set to |cffcc80cc"+I2S(n)+"|r seconds."))
+call TimerStart(Lx[yv], 3., false, function Ai)
 endif
 endfunction
 function bi takes nothing returns nothing
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
-call Er((LoadInteger(C,j,GetHandleId(GetClickedDialog()))))
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
+call Er((LoadInteger(C, j, GetHandleId(GetClickedDialog()))))
 if b==Sv then
 set Iv=16
 elseif b==tv then
@@ -1039,7 +1039,7 @@ set Iv=31
 elseif b==Tv then
 set Iv=61
 else
-call wr(yv,3,ve,function Ii)
+call wr(yv, 3, ve, function Ii)
 return
 endif
 call Vi(yv)
@@ -1051,27 +1051,27 @@ endif
 endfunction
 function ci takes nothing returns nothing
 call rr(kv)
-call ar(kv,gx[yv],true)
-call TimerStart(vx[(kv)],1.,true,(function Bi))
+call ar(kv, gx[yv], true)
+call TimerStart(vx[(kv)], 1., true, (function Bi))
 endfunction
 function Ci takes nothing returns nothing
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
-call Er((LoadInteger(C,j,GetHandleId(GetClickedDialog()))))
-call sr(Wv,b!=sv)
-call sr(yv,b==sv)
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
+call Er((LoadInteger(C, j, GetHandleId(GetClickedDialog()))))
+call sr(Wv, b!=sv)
+call sr(yv, b==sv)
 call ci()
 endfunction
 function di takes nothing returns nothing
 if Xr()then
-call sr(Wv,false)
-call sr(yv,true)
+call sr(Wv, false)
+call sr(yv, true)
 call ci()
 endif
 endfunction
 function Di takes nothing returns nothing
 call rr(Jv)
-call ar(Jv,gx[yv],true)
-call TimerStart(vx[(Jv)],1.,true,(function di))
+call ar(Jv, gx[yv], true)
+call TimerStart(vx[(Jv)], 1., true, (function di))
 endfunction
 function fi takes nothing returns nothing
 if N>=5 then
@@ -1096,13 +1096,13 @@ function Gi takes integer n returns nothing
 if 3<=n and n<=N then
 set K=n
 call ur(Wv)
-call DisplayTimedTextToPlayer(gx[(Wv)],.0,.0,10.,("The amount of tokens for victory is set to |cffcc80cc"+I2S(n)+"|r."))
-call TimerStart(Lx[Wv],3.,false,function gi)
+call DisplayTimedTextToPlayer(gx[(Wv)], .0, .0, 10., ("The amount of tokens for victory is set to |cffcc80cc"+I2S(n)+"|r."))
+call TimerStart(Lx[Wv], 3., false, function gi)
 endif
 endfunction
 function hi takes nothing returns nothing
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
-call Er((LoadInteger(C,j,GetHandleId(GetClickedDialog()))))
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
+call Er((LoadInteger(C, j, GetHandleId(GetClickedDialog()))))
 if b==pv then
 set K=3
 elseif b==Pv then
@@ -1110,7 +1110,7 @@ set K=4
 elseif b==qv then
 set K=5
 else
-call wr(Wv,2,("Please, enter any integer between |cffcc80cc"+I2S((3))+"|r and |cffcc80cc"+I2S((N))+"|r (including specified bounds)."),function Fi)
+call wr(Wv, 2, ("Please, enter any integer between |cffcc80cc"+I2S((3))+"|r and |cffcc80cc"+I2S((N))+"|r (including specified bounds)."), function Fi)
 return
 endif
 call Vi(Wv)
@@ -1127,7 +1127,7 @@ call Vi(Wv)
 return
 endif
 call xr(jv)
-call So(pv,N<5)
+call So(pv, N<5)
 call so(Pv)
 if N>4 then
 call so(qv)
@@ -1135,9 +1135,9 @@ if N>5 then
 call so(Qv)
 endif
 endif
-call ar(jv,gx[Wv],true)
+call ar(jv, gx[Wv], true)
 if H then
-call TimerStart(vx[(jv)],1.,true,(function Hi))
+call TimerStart(vx[(jv)], 1., true, (function Hi))
 endif
 endfunction
 function Ji takes nothing returns nothing
@@ -1159,13 +1159,13 @@ function li takes integer n returns nothing
 if 3<=n and n<=27 then
 set N=n
 call ur(Wv)
-call DisplayTimedTextToPlayer(gx[(Wv)],.0,.0,10.,("The field size is set to |cffcc80cc"+I2S(n)+"x"+I2S(n)+"|r."))
-call TimerStart(Lx[Wv],3.,false,function Ki)
+call DisplayTimedTextToPlayer(gx[(Wv)], .0, .0, 10., ("The field size is set to |cffcc80cc"+I2S(n)+"x"+I2S(n)+"|r."))
+call TimerStart(Lx[Wv], 3., false, function Ki)
 endif
 endfunction
 function Li takes nothing returns nothing
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
-call Er((LoadInteger(C,j,GetHandleId(GetClickedDialog()))))
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
+call Er((LoadInteger(C, j, GetHandleId(GetClickedDialog()))))
 if b==lv then
 set N=3
 elseif b==Lv then
@@ -1175,7 +1175,7 @@ set N=$F
 elseif b==Mv then
 set N=19
 else
-call wr(Wv,1,Zv,function ki)
+call wr(Wv, 1, Zv, function ki)
 return
 endif
 call ji()
@@ -1187,17 +1187,17 @@ endif
 endfunction
 function Mi takes nothing returns nothing
 call rr(Hv)
-call ar(Hv,gx[Wv],true)
+call ar(Hv, gx[Wv], true)
 if H then
-call TimerStart(vx[(Hv)],1.,true,(function mi))
+call TimerStart(vx[(Hv)], 1., true, (function mi))
 endif
 endfunction
 function pi takes nothing returns nothing
-call PanCameraToTimed(.0,.0,.0)
+call PanCameraToTimed(.0, .0, .0)
 call EnableTrigger(Je)
 if H then
 call ClearTextMessages()
-call SetCameraQuickPosition(.0,.0)
+call SetCameraQuickPosition(.0, .0)
 set bj_randDistCount=Wv
 set Wv=yv
 set yv=bj_randDistCount
@@ -1212,17 +1212,17 @@ endif
 endfunction
 function qi takes nothing returns nothing
 local integer p=(ov[GetPlayerId((GetTriggerPlayer()))])
-local integer d=(LoadInteger(C,j,GetHandleId(GetClickedDialog())))
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
+local integer d=(LoadInteger(C, j, GetHandleId(GetClickedDialog())))
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
 if H then
-call ar(d,gx[p],false)
+call ar(d, gx[p], false)
 if b==Kv then
 set Yv=Yv+1
 if Yv==2 then
 call Er(d)
 call pi()
 else
-call DisplayTimedTextToPlayer(gx[(p)],.0,.0,10.,("Wait until your opponent completes selecting his or her options."))
+call DisplayTimedTextToPlayer(gx[(p)], .0, .0, 10., ("Wait until your opponent completes selecting his or her options."))
 endif
 endif
 else
@@ -1236,100 +1236,100 @@ function Qi takes nothing returns nothing
 call EnableUserControl(true)
 call Kr()
 call rr(hv)
-call ar(hv,R,true)
+call ar(hv, R, true)
 if H then
 set Yv=0
 set zv=0
-call TimerStart(vx[(hv)],1.,true,(function Pi))
+call TimerStart(vx[(hv)], 1., true, (function Pi))
 endif
 endfunction
 function Si takes nothing returns integer
 set Re=Re+1
-call MultiboardSetRowCount(Oe,Re)
+call MultiboardSetRowCount(Oe, Re)
 return Re-1
 endfunction
 function ti takes nothing returns nothing
 local multiboarditem Ti
 local integer x
 set Oe=CreateMultiboard()
-call MultiboardSetTitleTextColor(Oe,$FF,$FF,$FF,$FF)
-call MultiboardSetColumnCount(Oe,3)
-call MultiboardSetItemsStyle(Oe,true,false)
-call MultiboardSetItemsWidth(Oe,Ie)
-set Ce=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(Ce,Ae)
-set de=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(de,Ae)
-set Ti=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(Ti,ce)
-call MultiboardSetItemValue(Ti,"----------------------------------------")
+call MultiboardSetTitleTextColor(Oe, $FF, $FF, $FF, $FF)
+call MultiboardSetColumnCount(Oe, 3)
+call MultiboardSetItemsStyle(Oe, true, false)
+call MultiboardSetItemsWidth(Oe, Ie)
+set Ce=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(Ce, Ae)
+set de=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(de, Ae)
+set Ti=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(Ti, ce)
+call MultiboardSetItemValue(Ti, "----------------------------------------")
 call MultiboardReleaseItem(Ti)
 set x=Si()
-set Ti=MultiboardGetItem(Oe,x,0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,$99,$99,$99,$FF)
-call MultiboardSetItemValue(Ti,"Draws|cffffffff: ")
+set Ti=MultiboardGetItem(Oe, x, 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, $99, $99, $99, $FF)
+call MultiboardSetItemValue(Ti, "Draws|cffffffff: ")
 call MultiboardReleaseItem(Ti)
-set De=MultiboardGetItem(Oe,x,2)
-call MultiboardSetItemWidth(Ti,be)
-call MultiboardSetItemValueColor(De,$CC,$80,$CC,$FF)
-call MultiboardSetItemValue(De,"0")
-set Ti=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,51,$CC,51,$FF)
-call MultiboardSetItemValue(Ti,"Wins")
+set De=MultiboardGetItem(Oe, x, 2)
+call MultiboardSetItemWidth(Ti, be)
+call MultiboardSetItemValueColor(De, $CC, $80, $CC, $FF)
+call MultiboardSetItemValue(De, "0")
+set Ti=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, 51, $CC, 51, $FF)
+call MultiboardSetItemValue(Ti, "Wins")
 call MultiboardReleaseItem(Ti)
 if H then
 set x=Si()
-set Ti=MultiboardGetItem(Oe,x,0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,$FF,$FF,$FF,$FF)
-call MultiboardSetItemValue(Ti,hx[D]+": ")
+set Ti=MultiboardGetItem(Oe, x, 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, $FF, $FF, $FF, $FF)
+call MultiboardSetItemValue(Ti, hx[D]+": ")
 call MultiboardReleaseItem(Ti)
-set jx[D]=MultiboardGetItem(Oe,x,2)
-call MultiboardSetItemWidth(Ti,be)
-call MultiboardSetItemValueColor(jx[D],$CC,$80,$CC,$FF)
-call MultiboardSetItemValue(jx[D],"0")
+set jx[D]=MultiboardGetItem(Oe, x, 2)
+call MultiboardSetItemWidth(Ti, be)
+call MultiboardSetItemValueColor(jx[D], $CC, $80, $CC, $FF)
+call MultiboardSetItemValue(jx[D], "0")
 set x=Si()
-set Ti=MultiboardGetItem(Oe,x,0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,$FF,$FF,$FF,$FF)
-call MultiboardSetItemValue(Ti,hx[f]+": ")
+set Ti=MultiboardGetItem(Oe, x, 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, $FF, $FF, $FF, $FF)
+call MultiboardSetItemValue(Ti, hx[f]+": ")
 call MultiboardReleaseItem(Ti)
-set jx[f]=MultiboardGetItem(Oe,x,2)
-call MultiboardSetItemWidth(Ti,be)
-call MultiboardSetItemValueColor(jx[f],$CC,$80,$CC,$FF)
-call MultiboardSetItemValue(jx[f],"0")
-set Ti=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(Ti,ce)
-call MultiboardSetItemValue(Ti,"----------------------------------------")
+set jx[f]=MultiboardGetItem(Oe, x, 2)
+call MultiboardSetItemWidth(Ti, be)
+call MultiboardSetItemValueColor(jx[f], $CC, $80, $CC, $FF)
+call MultiboardSetItemValue(jx[f], "0")
+set Ti=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(Ti, ce)
+call MultiboardSetItemValue(Ti, "----------------------------------------")
 call MultiboardReleaseItem(Ti)
-set Fe=MultiboardGetItem(Oe,Si(),0)
-call MultiboardSetItemWidth(Fe,Be)
+set Fe=MultiboardGetItem(Oe, Si(), 0)
+call MultiboardSetItemWidth(Fe, Be)
 else
 set x=Si()
-set Ti=MultiboardGetItem(Oe,x,0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,$FF,$FF,$FF,$FF)
-call MultiboardSetItemValue(Ti,"Crosses: ")
+set Ti=MultiboardGetItem(Oe, x, 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, $FF, $FF, $FF, $FF)
+call MultiboardSetItemValue(Ti, "Crosses: ")
 call MultiboardReleaseItem(Ti)
-set fe[1]=MultiboardGetItem(Oe,x,2)
-call MultiboardSetItemWidth(Ti,be)
-call MultiboardSetItemValueColor(fe[1],$CC,$80,$CC,$FF)
-call MultiboardSetItemValue(fe[1],"0")
+set fe[1]=MultiboardGetItem(Oe, x, 2)
+call MultiboardSetItemWidth(Ti, be)
+call MultiboardSetItemValueColor(fe[1], $CC, $80, $CC, $FF)
+call MultiboardSetItemValue(fe[1], "0")
 set x=Si()
-set Ti=MultiboardGetItem(Oe,x,0)
-call MultiboardSetItemWidth(Ti,Ne)
-call MultiboardSetItemValueColor(Ti,$FF,$FF,$FF,$FF)
-call MultiboardSetItemValue(Ti,"Zeros: ")
+set Ti=MultiboardGetItem(Oe, x, 0)
+call MultiboardSetItemWidth(Ti, Ne)
+call MultiboardSetItemValueColor(Ti, $FF, $FF, $FF, $FF)
+call MultiboardSetItemValue(Ti, "Zeros: ")
 call MultiboardReleaseItem(Ti)
-set fe[0]=MultiboardGetItem(Oe,x,2)
-call MultiboardSetItemWidth(Ti,be)
-call MultiboardSetItemValueColor(fe[0],$CC,$80,$CC,$FF)
-call MultiboardSetItemValue(fe[0],"0")
-call MultiboardSetTitleText(Oe,"Singleplayer game")
+set fe[0]=MultiboardGetItem(Oe, x, 2)
+call MultiboardSetItemWidth(Ti, be)
+call MultiboardSetItemValueColor(fe[0], $CC, $80, $CC, $FF)
+call MultiboardSetItemValue(fe[0], "0")
+call MultiboardSetTitleText(Oe, "Singleplayer game")
 endif
-call MultiboardMinimize(Oe,false)
+call MultiboardMinimize(Oe, false)
 set Ti=null
 endfunction
 function ui takes nothing returns nothing
@@ -1341,30 +1341,30 @@ function Ui takes nothing returns nothing
 call Mi()
 if H then
 call Di()
-call TimerStart(CreateTimer(),k,false,function ui)
+call TimerStart(CreateTimer(), k, false, function ui)
 else
 set Ze[(Hv)]=("Choose the field size")
 endif
 call ti()
 call zr()
-call TimerStart(iv,1.,true,function zr)
+call TimerStart(iv, 1., true, function zr)
 endfunction
 function Wi takes nothing returns nothing
 call ri(GetTriggerUnit())
 endfunction
 function InitTrig_UpgradeStart takes nothing returns nothing
-call TriggerAddAction(Ge,function Wi)
+call TriggerAddAction(Ge, function Wi)
 endfunction
 function yi takes nothing returns nothing
-local integer b=(LoadInteger(C,J,GetHandleId(GetClickedButton())))
-call Er((LoadInteger(C,j,GetHandleId(GetClickedDialog()))))
+local integer b=(LoadInteger(C, J, GetHandleId(GetClickedButton())))
+call Er((LoadInteger(C, j, GetHandleId(GetClickedDialog()))))
 if b==je then
 if U>0 then
 call Kr()
 endif
 call EnableTrigger(Je)
 set Cv=0
-call PanCameraToTimed(.0,.0,.0)
+call PanCameraToTimed(.0, .0, .0)
 call DestroyMultiboard(Oe)
 set Re=0
 call ti()
@@ -1375,7 +1375,7 @@ function Yi takes nothing returns nothing
 local integer a=0
 set h=1
 set H=false
-call MultiboardDisplay(Oe,false)
+call MultiboardDisplay(Oe, false)
 call MultiboardReleaseItem(Fe)
 set Fe=null
 call Yr(D)
@@ -1394,15 +1394,15 @@ endif
 set Wv=D
 set He=Yo("|cffffffffYour opponent has left the game!|r
 
-   Would you like to play alone?",function yi)
-set je=vr(He,false,"Keep playing",false)
-call vr(He,true,"Leave",false)
+   Would you like to play alone?", function yi)
+set je=vr(He, false, "Keep playing", false)
+call vr(He, true, "Leave", false)
 call rr(He)
-call ar(He,gx[D],true)
+call ar(He, gx[D], true)
 call DisableTrigger(GetTriggeringTrigger())
 endfunction
 function InitTrig_PlayerLeft takes nothing returns nothing
-call TriggerAddAction(he,function Yi)
+call TriggerAddAction(he, function Yi)
 endfunction
 function zi takes nothing returns nothing
 local integer e=Jx[(ov[GetPlayerId((GetTriggerPlayer()))])]
@@ -1419,37 +1419,37 @@ function va takes nothing returns boolean
 return Jx[(ov[GetPlayerId((GetTriggerPlayer()))])]!=0
 endfunction
 function InitCustomPlayerSlots takes nothing returns nothing
-call SetPlayerStartLocation(Player(0),0)
-call ForcePlayerStartLocation(Player(0),0)
-call SetPlayerColor(Player(0),ConvertPlayerColor(0))
-call SetPlayerRacePreference(Player(0),RACE_PREF_HUMAN)
-call SetPlayerRaceSelectable(Player(0),false)
-call SetPlayerController(Player(0),MAP_CONTROL_USER)
-call SetPlayerStartLocation(Player(1),1)
-call ForcePlayerStartLocation(Player(1),1)
-call SetPlayerColor(Player(1),ConvertPlayerColor(1))
-call SetPlayerRacePreference(Player(1),RACE_PREF_ORC)
-call SetPlayerRaceSelectable(Player(1),false)
-call SetPlayerController(Player(1),MAP_CONTROL_USER)
+call SetPlayerStartLocation(Player(0), 0)
+call ForcePlayerStartLocation(Player(0), 0)
+call SetPlayerColor(Player(0), ConvertPlayerColor(0))
+call SetPlayerRacePreference(Player(0), RACE_PREF_HUMAN)
+call SetPlayerRaceSelectable(Player(0), false)
+call SetPlayerController(Player(0), MAP_CONTROL_USER)
+call SetPlayerStartLocation(Player(1), 1)
+call ForcePlayerStartLocation(Player(1), 1)
+call SetPlayerColor(Player(1), ConvertPlayerColor(1))
+call SetPlayerRacePreference(Player(1), RACE_PREF_ORC)
+call SetPlayerRaceSelectable(Player(1), false)
+call SetPlayerController(Player(1), MAP_CONTROL_USER)
 endfunction
 function InitCustomTeams takes nothing returns nothing
-call SetPlayerTeam(Player(0),0)
-call SetPlayerTeam(Player(1),1)
+call SetPlayerTeam(Player(0), 0)
+call SetPlayerTeam(Player(1), 1)
 endfunction
 function InitAllyPriorities takes nothing returns nothing
-call SetStartLocPrioCount(0,1)
-call SetStartLocPrio(0,0,1,MAP_LOC_PRIO_HIGH)
-call SetStartLocPrioCount(1,1)
-call SetStartLocPrio(1,0,0,MAP_LOC_PRIO_HIGH)
+call SetStartLocPrioCount(0, 1)
+call SetStartLocPrio(0, 0, 1, MAP_LOC_PRIO_HIGH)
+call SetStartLocPrioCount(1, 1)
+call SetStartLocPrio(1, 0, 0, MAP_LOC_PRIO_HIGH)
 endfunction
 function main takes nothing returns nothing
-call SetCameraBounds(ne+V,Ve+X,2048.-E,2048.-O,ne+V,2048.-O,2048.-E,Ve+X)
-call TriggerRegisterTimerEvent(ge,1./ 64.,false)
-call TriggerAddAction(ge,function Ui)
-call TriggerAddAction(Ge,function Wi)
-call TriggerAddAction(he,function Yi)
-call TriggerAddCondition(Je,Filter(function va))
-call TriggerAddAction(Je,function zi)
+call SetCameraBounds(ne+V, Ve+X, 2048.-E, 2048.-O, ne+V, 2048.-O, 2048.-E, Ve+X)
+call TriggerRegisterTimerEvent(ge, 1./ 64., false)
+call TriggerAddAction(ge, function Ui)
+call TriggerAddAction(Ge, function Wi)
+call TriggerAddAction(he, function Yi)
+call TriggerAddCondition(Je, Filter(function va))
+call TriggerAddAction(Je, function zi)
 call ExecuteFunc("xa")
 call ExecuteFunc("Go")
 call ExecuteFunc("qo")
@@ -1458,37 +1458,37 @@ call ExecuteFunc("Mr")
 set gv=Filter(function Zr)
 set Dv[0]="|cffffffffZeros win!"
 set Dv[1]="|cffffffffCrosses win!"
-set ee=CreateSound("Sound\\Interface\\BattleNetTick.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(ee,"ChatroomTimerTick")
-call SetSoundDuration(ee,476)
-call SetSoundVolume(ee,$7F)
-set oe=CreateSound("Sound\\Interface\\ArrangedTeamInvitation.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(oe,"ArrangedTeamInvitation")
-call SetSoundDuration(oe,$B62)
-call SetSoundVolume(oe,$7F)
-set xe=CreateSound("Sound\\Interface\\GoodJob.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(xe,"GoodJob")
-call SetSoundDuration(xe,$9F4)
-call SetSoundVolume(xe,$7F)
-set re=CreateSound("Sound\\Interface\\ClanInvitation.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(re,"ClanInvitation")
-call SetSoundDuration(re,4296)
-call SetSoundVolume(re,$7F)
-set ie=CreateSound("Sound\\Interface\\Rescue.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(ie,"Rescue")
-call SetSoundDuration(ie,$ED4)
-call SetSoundVolume(ie,$7F)
-set ae=CreateSound("Sound\\Interface\\Hint.wav",false,false,false,$A,$A,"DefaultEAXON")
-call SetSoundParamsFromLabel(ae,"No")
-call SetSoundDuration(ae,$7D6)
-call SetSoundVolume(ae,$7F)
+set ee=CreateSound("Sound\\Interface\\BattleNetTick.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(ee, "ChatroomTimerTick")
+call SetSoundDuration(ee, 476)
+call SetSoundVolume(ee, $7F)
+set oe=CreateSound("Sound\\Interface\\ArrangedTeamInvitation.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(oe, "ArrangedTeamInvitation")
+call SetSoundDuration(oe, $B62)
+call SetSoundVolume(oe, $7F)
+set xe=CreateSound("Sound\\Interface\\GoodJob.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(xe, "GoodJob")
+call SetSoundDuration(xe, $9F4)
+call SetSoundVolume(xe, $7F)
+set re=CreateSound("Sound\\Interface\\ClanInvitation.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(re, "ClanInvitation")
+call SetSoundDuration(re, 4296)
+call SetSoundVolume(re, $7F)
+set ie=CreateSound("Sound\\Interface\\Rescue.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(ie, "Rescue")
+call SetSoundDuration(ie, $ED4)
+call SetSoundVolume(ie, $7F)
+set ae=CreateSound("Sound\\Interface\\Hint.wav", false, false, false, $A, $A, "DefaultEAXON")
+call SetSoundParamsFromLabel(ae, "No")
+call SetSoundDuration(ae, $7D6)
+call SetSoundVolume(ae, $7F)
 call SetGameSpeed(MAP_SPEED_FASTEST)
-call SetMapFlag(MAP_LOCK_SPEED,true)
-call SetMapFlag(MAP_USE_HANDICAPS,false)
+call SetMapFlag(MAP_LOCK_SPEED, true)
+call SetMapFlag(MAP_USE_HANDICAPS, false)
 call SetAllyColorFilterState(0)
 call SetCreepCampFilterState(false)
-call EnableMinimapFilterButtons(false,false)
-call SetFloatGameState(GAME_STATE_TIME_OF_DAY,12.)
+call EnableMinimapFilterButtons(false, false)
+call SetFloatGameState(GAME_STATE_TIME_OF_DAY, 12.)
 call SuspendTimeOfDay(true)
 call ClearMapMusic()
 if lo(A)then
@@ -1499,37 +1499,37 @@ call Qr(B)
 endif
 set H=h==2
 if H then
-call TriggerRegisterPlayerEvent(he,A,EVENT_PLAYER_LEAVE)
-call TriggerRegisterPlayerEvent(he,B,EVENT_PLAYER_LEAVE)
-call SetPlayerAlliance(A,B,ALLIANCE_SHARED_VISION,true)
-call SetPlayerAlliance(B,A,ALLIANCE_SHARED_VISION,true)
+call TriggerRegisterPlayerEvent(he, A, EVENT_PLAYER_LEAVE)
+call TriggerRegisterPlayerEvent(he, B, EVENT_PLAYER_LEAVE)
+call SetPlayerAlliance(A, B, ALLIANCE_SHARED_VISION, true)
+call SetPlayerAlliance(B, A, ALLIANCE_SHARED_VISION, true)
 endif
 set wv=function Qi
-set hv=Yo(null,function qi)
-set Kv=vr(hv,false,"Restart",true)
-call vr(hv,true,"Leave",false)
+set hv=Yo(null, function qi)
+set Kv=vr(hv, false, "Restart", true)
+call vr(hv, true, "Leave", false)
 set Zv=("Please, enter any integer between |cffcc80cc"+I2S((3))+"|r and |cffcc80cc"+I2S((27))+"|r (including specified bounds).")
-set Hv=Yo(uv,function Li)
-set lv=vr(Hv,false,"3x3",false)
-set Lv=vr(Hv,false,"5x5",false)
-set mv=vr(Hv,false,"15x15",true)
-set Mv=vr(Hv,false,"19x19",false)
-call vr(Hv,false,"Custom",false)
-set jv=Yo("Choose the amount of tokens for victory",function hi)
-set pv=vr(jv,false,"3",false)
-set Pv=vr(jv,false,"4",false)
-set qv=vr(jv,false,"5",true)
-set Qv=vr(jv,false,"Custom",false)
+set Hv=Yo(uv, function Li)
+set lv=vr(Hv, false, "3x3", false)
+set Lv=vr(Hv, false, "5x5", false)
+set mv=vr(Hv, false, "15x15", true)
+set Mv=vr(Hv, false, "19x19", false)
+call vr(Hv, false, "Custom", false)
+set jv=Yo("Choose the amount of tokens for victory", function hi)
+set pv=vr(jv, false, "3", false)
+set Pv=vr(jv, false, "4", false)
+set qv=vr(jv, false, "5", true)
+set Qv=vr(jv, false, "Custom", false)
 if H then
-set Jv=Yo(Uv,function Ci)
-set sv=vr(Jv,false,"Select 'X'",true)
-call vr(Jv,false,"Select 'O'",false)
+set Jv=Yo(Uv, function Ci)
+set sv=vr(Jv, false, "Select 'X'", true)
+call vr(Jv, false, "Select 'O'", false)
 set ve=("Please, enter any integer between |cffcc80cc"+I2S((Ov))+"|r and |cffcc80cc"+I2S((90))+"|r (including specified bounds).")
-set kv=Yo("Choose the duration of player's turn",function bi)
-set Sv=vr(kv,false,"15 seconds",true)
-set tv=vr(kv,false,"30 seconds",false)
-set Tv=vr(kv,false,"1 minute",false)
-call vr(kv,false,"Custom",false)
+set kv=Yo("Choose the duration of player's turn", function bi)
+set Sv=vr(kv, false, "15 seconds", true)
+set tv=vr(kv, false, "30 seconds", false)
+set Tv=vr(kv, false, "1 minute", false)
+call vr(kv, false, "Custom", false)
 set yv=f
 endif
 set Wv=D
@@ -1541,21 +1541,21 @@ call SetMapDescription("TRIGSTR_029")
 call SetPlayers(2)
 call SetTeams(2)
 set p=Player(0)
-call DefineStartLocation(0,Ee,Xe)
-call SetPlayerStartLocation(p,0)
-call SetPlayerColor(p,ConvertPlayerColor(0))
-call SetPlayerRacePreference(p,RACE_PREF_RANDOM)
-call SetPlayerRaceSelectable(p,true)
-call SetPlayerController(p,MAP_CONTROL_USER)
-call SetPlayerTeam(p,0)
+call DefineStartLocation(0, Ee, Xe)
+call SetPlayerStartLocation(p, 0)
+call SetPlayerColor(p, ConvertPlayerColor(0))
+call SetPlayerRacePreference(p, RACE_PREF_RANDOM)
+call SetPlayerRaceSelectable(p, true)
+call SetPlayerController(p, MAP_CONTROL_USER)
+call SetPlayerTeam(p, 0)
 set p=Player(1)
-call DefineStartLocation(1,Ee,Xe)
-call SetPlayerStartLocation(p,1)
-call SetPlayerColor(p,ConvertPlayerColor(1))
-call SetPlayerRacePreference(p,RACE_PREF_RANDOM)
-call SetPlayerRaceSelectable(p,true)
-call SetPlayerController(p,MAP_CONTROL_USER)
-call SetPlayerTeam(p,1)
+call DefineStartLocation(1, Ee, Xe)
+call SetPlayerStartLocation(p, 1)
+call SetPlayerColor(p, ConvertPlayerColor(1))
+call SetPlayerRacePreference(p, RACE_PREF_RANDOM)
+call SetPlayerRaceSelectable(p, true)
+call SetPlayerController(p, MAP_CONTROL_USER)
+call SetPlayerTeam(p, 1)
 set p=null
 endfunction
 function oa takes nothing returns boolean
@@ -1587,16 +1587,16 @@ local real y=Tx
 local integer t=Ko(lx[Av])
 if H then
 call StartSound(re)
-call PanCameraToTimed(x,y,1.25)
+call PanCameraToTimed(x, y, 1.25)
 call yr(Av)
-call Ei(Dv[t],rv)
+call Ei(Dv[t], rv)
 else
 set dv[t]=dv[t]+1
-call MultiboardSetItemValue(fe[t],I2S(dv[t]))
-call Ei(Dv[t],.5)
+call MultiboardSetItemValue(fe[t], I2S(dv[t]))
+call Ei(Dv[t], .5)
 endif
 loop
-call SetImageColor(cx[T[Ar]],$CC,51,51,$FF)
+call SetImageColor(cx[T[Ar]], $CC, 51, 51, $FF)
 exitwhen Ar==to
 set Ar=Ar+aa
 endloop
@@ -1607,20 +1607,20 @@ if H then
 call StartSound(ie)
 endif
 set Cv=Cv+1
-call MultiboardSetItemValue(De,I2S(Cv))
-call Ei("|cffffffffDraw!",.5)
+call MultiboardSetItemValue(De, I2S(Cv))
+call Ei("|cffffffffDraw!", .5)
 return true
 endfunction
 function xa takes nothing returns nothing
 set mx=CreateTrigger()
-call TriggerAddCondition(mx,Condition(function oa))
+call TriggerAddCondition(mx, Condition(function oa))
 set px[1]=CreateTrigger()
-call TriggerAddAction(px[1],function ra)
-call TriggerAddCondition(px[1],Condition(function ra))
+call TriggerAddAction(px[1], function ra)
+call TriggerAddCondition(px[1], Condition(function ra))
 set Px[1]=CreateTrigger()
-call TriggerAddAction(Px[1],function ia)
-call TriggerAddCondition(Px[1],Condition(function ia))
+call TriggerAddAction(Px[1], function ia)
+call TriggerAddCondition(Px[1], Condition(function ia))
 set Mx[1]=CreateTrigger()
-call TriggerAddAction(Mx[1],function na)
-call TriggerAddCondition(Mx[1],Condition(function na))
+call TriggerAddAction(Mx[1], function na)
+call TriggerAddCondition(Mx[1], Condition(function na))
 endfunction

@@ -3,13 +3,13 @@ package guru.xgm.jass.formatting.block;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.tree.IElementType;
 import guru.xgm.jass.formatting.JassCodeStyleSettings;
 import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
 import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 import static guru.xgm.jass.psi.JassTypes.*;
 
@@ -40,20 +40,18 @@ public class JassTypeBlock extends JassBlock {
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
-        final IElementType type = childNode.getElementType();
-
         Alignment alignment = null;
 
-        if (type == TYPE_NAME) {
+        if (isOneOf(childNode, TYPE_NAME)) {
             alignment = aligments.get(AT_TYPE_DECL_TYPE_RIGHT);
             childNode = childNode.getFirstChildNode();
         }
 
-        if (type == EXTENDS) {
+        if (isOneOf(childNode, EXTENDS)) {
             alignment = aligments.get(AT_TYPE_DECL_EXTENDS);
         }
 
-        if (type == TYPE_NAME_BASE) {
+        if (isOneOf(childNode, TYPE_NAME_BASE)) {
             alignment = aligments.get(AT_TYPE_DECL_TYPE_BASE_RIGHT);
             childNode = childNode.getFirstChildNode().getFirstChildNode();
         }
@@ -71,7 +69,6 @@ public class JassTypeBlock extends JassBlock {
 
     @Override
     public boolean isIncomplete() {
-        final ASTNode lastChildNode = myNode.getLastChildNode();
-        return lastChildNode.getElementType() == TYPE_NAME_BASE;
+        return !isOneOf(myNode.getLastChildNode(), TYPE_NAME_BASE);
     }
 }

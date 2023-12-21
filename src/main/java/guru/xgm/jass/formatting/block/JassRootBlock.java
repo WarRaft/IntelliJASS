@@ -30,6 +30,7 @@ public class JassRootBlock extends JassBlock {
 
         if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
         if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
+        if (type == GLOBALS_DECL) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
 
         return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
     }
