@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassGlobalVarDecl extends PsiElement {
+public interface JassGvarDecl extends PsiElement {
 
   @Nullable
   JassExpr getExpr();
 
+  @Nullable
+  JassGvarName getGvarName();
+
   @NotNull
   JassTypeName getTypeName();
-
-  @Nullable
-  PsiElement getId();
 
 }

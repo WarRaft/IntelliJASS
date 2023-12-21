@@ -91,11 +91,15 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitGlobalVarDecl(@NotNull JassGlobalVarDecl o) {
+  public void visitGlobalsDecl(@NotNull JassGlobalsDecl o) {
     visitPsiElement(o);
   }
 
-  public void visitGlobalsDecl(@NotNull JassGlobalsDecl o) {
+  public void visitGvarDecl(@NotNull JassGvarDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitGvarName(@NotNull JassGvarName o) {
     visitPsiElement(o);
   }
 

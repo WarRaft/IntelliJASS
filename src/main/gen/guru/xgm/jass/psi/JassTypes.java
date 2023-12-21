@@ -30,9 +30,10 @@ public interface JassTypes {
   IElementType FUNC_RETURNS = new JassIElementType_Element("FUNC_RETURNS");
   IElementType FUNC_TAKES = new JassIElementType_Element("FUNC_TAKES");
   IElementType GLOBALS_DECL = new JassIElementType_Element("GLOBALS_DECL");
-  IElementType GLOBAL_VAR_DECL = new JassIElementType_Element("GLOBAL_VAR_DECL");
   IElementType GT_EQ_EXPR = new JassIElementType_Element("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassIElementType_Element("GT_EXPR");
+  IElementType GVAR_DECL = new JassIElementType_Element("GVAR_DECL");
+  IElementType GVAR_NAME = new JassIElementType_Element("GVAR_NAME");
   IElementType IF_STMT = new JassIElementType_Element("IF_STMT");
   IElementType LOCAL_VAR_STMT = new JassIElementType_Element("LOCAL_VAR_STMT");
   IElementType LOOP_STMT = new JassIElementType_Element("LOOP_STMT");
@@ -180,14 +181,17 @@ public interface JassTypes {
       else if (type == GLOBALS_DECL) {
         return new JassGlobalsDeclImpl(node);
       }
-      else if (type == GLOBAL_VAR_DECL) {
-        return new JassGlobalVarDeclImpl(node);
-      }
       else if (type == GT_EQ_EXPR) {
         return new JassGTEqExprImpl(node);
       }
       else if (type == GT_EXPR) {
         return new JassGTExprImpl(node);
+      }
+      else if (type == GVAR_DECL) {
+        return new JassGvarDeclImpl(node);
+      }
+      else if (type == GVAR_NAME) {
+        return new JassGvarNameImpl(node);
       }
       else if (type == IF_STMT) {
         return new JassIfStmtImpl(node);

@@ -12,6 +12,13 @@ import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
 import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.*;
+import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
+import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
+
 final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
     @Override
@@ -41,6 +48,12 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
         return JassLanguage.INSTANCE;
     }
 
+    private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Map<String, String> map, String group) {
+        for (var entry : map.entrySet()) {
+            consumer.showCustomOption(JassCodeStyleSettings.class, entry.getKey(), entry.getValue(), group);
+        }
+    }
+
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
 
@@ -48,60 +61,34 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
             case INDENT_SETTINGS -> consumer.showStandardOptions();
 
             case SPACING_SETTINGS -> consumer.showStandardOptions(
-                    //"SPACE_AROUND_ASSIGNMENT_OPERATORS",
-                    "SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS"
+                    SPACE_AFTER_COMMA.name(),
+                    SPACE_BEFORE_COMMA.name(),
+                    SPACE_AROUND_ASSIGNMENT_OPERATORS.name()
             );
             case BLANK_LINES_SETTINGS -> consumer.showStandardOptions(
-                    "KEEP_BLANK_LINES_IN_DECLARATIONS"
+                    KEEP_BLANK_LINES_IN_DECLARATIONS.name()
             );
             case LANGUAGE_SPECIFIC -> {
-                // Type declaration
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_EXTENDS,
-                        "'extends' keyword",
-                        JassAlignTokenPanel.GROUP_TYPE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_TYPE_RIGHT,
-                        "Type right align",
-                        JassAlignTokenPanel.GROUP_TYPE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_TYPE_DECL_TYPE_BASE_RIGHT,
-                        "Base type right align",
-                        JassAlignTokenPanel.GROUP_TYPE_DECL
-                );
-                // Native declaration
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NATIVE,
-                        "'native' keyword",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NAME,
-                        "Name",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_NAME_RIGHT,
-                        "Name right align",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_TAKES,
-                        "'takes' keyword",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_ARGUMENT,
-                        "Arguments",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
-                consumer.showCustomOption(JassCodeStyleSettings.class,
-                        JassCodeStyleSettings.Fields.AT_NATIVE_DECL_RETURNS,
-                        "'returns' keyword",
-                        JassAlignTokenPanel.GROUP_NATIVE_DECL
-                );
+                addToGroup(consumer, new HashMap<>() {{
+                    put(AT_TYPE_DECL_EXTENDS, "'extends' keyword");
+                    put(AT_TYPE_DECL_TYPE_RIGHT, "Type right align");
+                    put(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align");
+                }}, JassAlignTokenPanel.GROUP_TYPE_DECL);
+
+                addToGroup(consumer, new HashMap<>() {{
+                    put(AT_NATIVE_DECL_NATIVE, "'native' keyword");
+                    put(AT_NATIVE_DECL_NAME, "Name");
+                    put(AT_NATIVE_DECL_NAME_RIGHT, "Name right align");
+                    put(AT_NATIVE_DECL_TAKES, "'takes' keyword");
+                    put(AT_NATIVE_DECL_ARGUMENT, "Arguments");
+                    put(AT_NATIVE_DECL_RETURNS, "'returns' keyword");
+                }}, JassAlignTokenPanel.GROUP_NATIVE_DECL);
+
+                addToGroup(consumer, new HashMap<>() {{
+                    put(AT_GVAR_TYPE, "Type");
+                    put(AT_GVAR_NAME, "Name");
+                    put(AT_GVAR_ASSIGN, "'=' token");
+                }}, JassAlignTokenPanel.GROUP_GVAR);
             }
         }
     }
@@ -133,10 +120,12 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                                
                                 
                 globals
-                real a = 12.
-                    real b = .13
-                    
-                    constant  real  c =  .14
-                endglobals""";
+                constant boolean TRUE = true
+                constant integer JASS_MAX_ARRAY_SIZE = 262144
+                constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0)
+                force array bj_FORCE_PLAYER
+                mapcontrol array bj_slotControl
+                endglobals
+                """;
     }
 }

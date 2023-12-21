@@ -261,7 +261,7 @@ constant native AbilityId2String                            takes integer abilit
 // Looks up the "name" field for any object (unit, item, ability)
 constant native GetObjectName                               takes integer objectId returns string
 
-	globals
+globals
 
 	//===================================================
 	// Game Constants
@@ -2476,7 +2476,7 @@ constant native GetObjectName                               takes integer object
 	constant variabletype VARIABLE_TYPE_STRING_ARRAY = ConvertVariableType(11)
 	constant variabletype VARIABLE_TYPE_HANDLE_ARRAY = ConvertVariableType(12)
 	constant variabletype VARIABLE_TYPE_BOOLEAN_ARRAY = ConvertVariableType(13)
-	endglobals
+endglobals
 
 //============================================================================
 // MathAPI

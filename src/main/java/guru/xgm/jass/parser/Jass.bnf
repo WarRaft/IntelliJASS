@@ -115,9 +115,10 @@ NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
 FuncDecl ::= CONSTANT? FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
 
 // === GLOBALS
-GlobalsDecl ::= GLOBALS GlobalVarDecl* ENDGLOBALS {pin=1}
-GlobalVarDecl ::= CONSTANT? TypeName ARRAY? ID (EQ Expr)? {pin=2 recoverWhile=GlobalVarDeclRecover}
-private GlobalVarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+GlobalsDecl ::= GLOBALS GvarDecl* ENDGLOBALS {pin=1}
+GvarName ::= ID
+GvarDecl ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarDeclRecover}
+private GvarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === STATEMENT
 

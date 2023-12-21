@@ -14,25 +14,23 @@ import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassRootBlock extends JassBlock {
     public JassRootBlock(ASTNode myNode, CodeStyleSettings code, JassCodeStyleSettings jass) {
-        super(myNode, null, null, Indent.getNoneIndent(), code);
-        //this.jassCodeStyleSettings = jass;
+        super(myNode, null, Indent.getNoneIndent(), code);
         typeAlignments = JassTypeBlock.getAlignments(jass);
         nativeAligner = new JassNativeBlockAligner(jass);
     }
 
-    //private final JassCodeStyleSettings jassCodeStyleSettings;
-    final HashMap<String, Alignment> typeAlignments;
-    final JassNativeBlockAligner nativeAligner;
+    private final HashMap<String, Alignment> typeAlignments;
+    private final JassNativeBlockAligner nativeAligner;
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         final IElementType type = childNode.getElementType();
 
         if (type == TYPE_DECL) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Wrap.createWrap(WrapType.NONE, false), Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
+        if (type == NATIVE_DECL) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
         if (type == GLOBALS_DECL) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
 
-        return new JassBlock(childNode, myWrap, myAlignment, myIndent, myCodeStyleSettings);
+        return new JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
     }
 
     @Override

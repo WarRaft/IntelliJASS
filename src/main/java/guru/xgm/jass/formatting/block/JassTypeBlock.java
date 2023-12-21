@@ -22,7 +22,7 @@ public class JassTypeBlock extends JassBlock {
             CodeStyleSettings myCodeStyleSettings,
             HashMap<String, Alignment> alignments
     ) {
-        super(myNode, Wrap.createWrap(WrapType.NONE, false), null, Indent.getNoneIndent(), myCodeStyleSettings);
+        super(myNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
         this.aligments = alignments;
     }
 
@@ -56,7 +56,7 @@ public class JassTypeBlock extends JassBlock {
             childNode = childNode.getFirstChildNode().getFirstChildNode();
         }
 
-        return new JassBlock(childNode, null, alignment, null, myCodeStyleSettings);
+        return new JassBlock(childNode, alignment, null, myCodeStyleSettings);
     }
 
     @Override

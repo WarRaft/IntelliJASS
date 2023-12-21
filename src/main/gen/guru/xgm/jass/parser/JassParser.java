@@ -369,77 +369,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? TypeName ARRAY? ID (EQ Expr)?
-  public static boolean GlobalVarDecl(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDecl")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, GLOBAL_VAR_DECL, "<global var decl>");
-    r = GlobalVarDecl_0(b, l + 1);
-    r = r && TypeName(b, l + 1);
-    p = r; // pin = 2
-    r = r && report_error_(b, GlobalVarDecl_2(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, ID)) && r;
-    r = p && GlobalVarDecl_4(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, JassParser::GlobalVarDeclRecover);
-    return r || p;
-  }
-
-  // CONSTANT?
-  private static boolean GlobalVarDecl_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDecl_0")) return false;
-    consumeToken(b, CONSTANT);
-    return true;
-  }
-
-  // ARRAY?
-  private static boolean GlobalVarDecl_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDecl_2")) return false;
-    consumeToken(b, ARRAY);
-    return true;
-  }
-
-  // (EQ Expr)?
-  private static boolean GlobalVarDecl_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDecl_4")) return false;
-    GlobalVarDecl_4_0(b, l + 1);
-    return true;
-  }
-
-  // EQ Expr
-  private static boolean GlobalVarDecl_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDecl_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, EQ);
-    r = r && Expr(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
-  static boolean GlobalVarDeclRecover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDeclRecover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !GlobalVarDeclRecover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
-  private static boolean GlobalVarDeclRecover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalVarDeclRecover_0")) return false;
-    boolean r;
-    r = consumeToken(b, CONSTANT);
-    if (!r) r = consumeToken(b, GLOBALS);
-    if (!r) r = consumeToken(b, ENDGLOBALS);
-    if (!r) r = TypeName(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // GLOBALS GlobalVarDecl* ENDGLOBALS
+  // GLOBALS GvarDecl* ENDGLOBALS
   public static boolean GlobalsDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalsDecl")) return false;
     if (!nextTokenIs(b, GLOBALS)) return false;
@@ -453,15 +383,97 @@ public class JassParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // GlobalVarDecl*
+  // GvarDecl*
   private static boolean GlobalsDecl_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GlobalsDecl_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!GlobalVarDecl(b, l + 1)) break;
+      if (!GvarDecl(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "GlobalsDecl_1", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // CONSTANT? TypeName ARRAY? GvarName (EQ Expr)?
+  public static boolean GvarDecl(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDecl")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, GVAR_DECL, "<gvar decl>");
+    r = GvarDecl_0(b, l + 1);
+    r = r && TypeName(b, l + 1);
+    p = r; // pin = 2
+    r = r && report_error_(b, GvarDecl_2(b, l + 1));
+    r = p && report_error_(b, GvarName(b, l + 1)) && r;
+    r = p && GvarDecl_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, JassParser::GvarDeclRecover);
+    return r || p;
+  }
+
+  // CONSTANT?
+  private static boolean GvarDecl_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDecl_0")) return false;
+    consumeToken(b, CONSTANT);
+    return true;
+  }
+
+  // ARRAY?
+  private static boolean GvarDecl_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDecl_2")) return false;
+    consumeToken(b, ARRAY);
+    return true;
+  }
+
+  // (EQ Expr)?
+  private static boolean GvarDecl_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDecl_4")) return false;
+    GvarDecl_4_0(b, l + 1);
+    return true;
+  }
+
+  // EQ Expr
+  private static boolean GvarDecl_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDecl_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EQ);
+    r = r && Expr(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+  static boolean GvarDeclRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDeclRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !GvarDeclRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
+  private static boolean GvarDeclRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDeclRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, CONSTANT);
+    if (!r) r = consumeToken(b, GLOBALS);
+    if (!r) r = consumeToken(b, ENDGLOBALS);
+    if (!r) r = TypeName(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // ID
+  public static boolean GvarName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarName")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    exit_section_(b, m, GVAR_NAME, r);
+    return r;
   }
 
   /* ********************************************************** */

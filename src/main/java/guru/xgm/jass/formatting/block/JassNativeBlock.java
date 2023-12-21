@@ -3,7 +3,6 @@ package guru.xgm.jass.formatting.block;
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;
-import com.intellij.formatting.Wrap;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
@@ -14,8 +13,8 @@ import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 import static guru.xgm.jass.psi.JassTypes.*;
 
 public class JassNativeBlock extends JassBlock {
-    public JassNativeBlock(ASTNode myNode, Wrap myWrap, Indent myIndent, CodeStyleSettings myCodeStyleSettings, JassNativeBlockAligner aligner) {
-        super(myNode, myWrap, null, myIndent, myCodeStyleSettings);
+    public JassNativeBlock(ASTNode myNode, Indent myIndent, CodeStyleSettings myCodeStyleSettings, JassNativeBlockAligner aligner) {
+        super(myNode, null, myIndent, myCodeStyleSettings);
         this.aligner = aligner;
     }
 
@@ -47,8 +46,8 @@ public class JassNativeBlock extends JassBlock {
             }
         }
 
-        if (isOneOf(childNode, FUNC_TAKES, FUNC_RETURNS, TYPED_VAR_LIST)) return new JassNativeBlock(childNode, null, null, myCodeStyleSettings, aligner);
+        if (isOneOf(childNode, FUNC_TAKES, FUNC_RETURNS, TYPED_VAR_LIST)) return new JassNativeBlock(childNode, null, myCodeStyleSettings, aligner);
 
-        return new JassBlock(childNode, null, alignment, null, myCodeStyleSettings);
+        return new JassBlock(childNode, alignment, null, myCodeStyleSettings);
     }
 }

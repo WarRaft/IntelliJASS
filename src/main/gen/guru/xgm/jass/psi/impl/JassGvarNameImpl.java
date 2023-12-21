@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassGlobalsDeclImpl extends ASTWrapperPsiElement implements JassGlobalsDecl {
+public class JassGvarNameImpl extends ASTWrapperPsiElement implements JassGvarName {
 
-  public JassGlobalsDeclImpl(@NotNull ASTNode node) {
+  public JassGvarNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitGlobalsDecl(this);
+    visitor.visitGvarName(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class JassGlobalsDeclImpl extends ASTWrapperPsiElement implements JassGlo
 
   @Override
   @NotNull
-  public List<JassGvarDecl> getGvarDeclList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassGvarDecl.class);
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

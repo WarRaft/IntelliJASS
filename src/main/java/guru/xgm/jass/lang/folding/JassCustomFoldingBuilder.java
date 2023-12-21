@@ -83,7 +83,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
 
         if (type == JassTypes.GLOBALS_DECL) {
             final var psi = node.getPsi(JassGlobalsDecl.class);
-            final int size = psi.getGlobalVarDeclList().size();
+            final int size = psi.getGvarDeclList().size();
             return size == 0 ? " ... " : " (" + size + ") ";
         }
 

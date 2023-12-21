@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JassBlock implements ASTBlock {
-
-    public JassBlock(ASTNode myNode, Wrap myWrap, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
+    
+    public JassBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
         this.myNode = myNode;
-        this.myWrap = myWrap;
+        this.myWrap = null;
         this.myAlignment = myAlignment;
         this.myIndent = myIndent;
         this.myCodeStyleSettings = codeStyleSettings;
@@ -36,7 +36,7 @@ public class JassBlock implements ASTBlock {
 
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         //final IElementType type = childNode.getElementType();
-        return new JassBlock(childNode, null, null, null, myCodeStyleSettings);
+        return new JassBlock(childNode, null, null, myCodeStyleSettings);
     }
 
     @Override
@@ -80,10 +80,14 @@ public class JassBlock implements ASTBlock {
     protected SpacingBuilder getSpacingBuilder() {
         final CommonCodeStyleSettings code = myCodeStyleSettings.getCommonSettings(JassLanguage.INSTANCE.getID());
 
-        final int sacita = code.SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS ? 1 : 0;
+        final int sac = code.SPACE_AFTER_COMMA ? 1 : 0;
+        final int sbc = code.SPACE_BEFORE_COMMA ? 1 : 0;
+        final int saao = code.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0;
 
         return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
-                .after(COMMA).spacing(sacita, sacita, 0, false, 0)
+                .after(COMMA).spacing(sac, sac, 0, false, 0)
+                .before(COMMA).spacing(sbc, sbc, 0, false, 0)
+                .around(EQ).spacing(saao, saao, 0, false, 0)
                 .between(TYPE_NAME, ID).spacing(1, 1, 0, false, 0)
                 .around(NATIVE).spacing(1, 1, 0, false, 0)
                 .around(FUNC_TAKES).spacing(1, 1, 0, false, 0)

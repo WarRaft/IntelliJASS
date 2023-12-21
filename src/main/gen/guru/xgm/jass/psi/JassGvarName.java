@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassGlobalsDecl extends PsiElement {
+public interface JassGvarName extends PsiElement {
 
   @NotNull
-  List<JassGvarDecl> getGvarDeclList();
+  PsiElement getId();
 
 }
