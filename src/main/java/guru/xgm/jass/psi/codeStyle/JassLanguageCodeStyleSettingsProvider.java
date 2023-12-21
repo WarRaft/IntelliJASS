@@ -1,5 +1,6 @@
 package guru.xgm.jass.psi.codeStyle;
 
+import com.ibm.icu.impl.Pair;
 import com.intellij.application.options.CodeStyleAbstractConfigurable;
 import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.IndentOptionsEditor;
@@ -12,10 +13,7 @@ import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
 import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.*;
+import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
 import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
 
@@ -48,12 +46,13 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
         return JassLanguage.INSTANCE;
     }
 
-    private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Map<String, String> map, String group) {
-        for (var entry : map.entrySet()) {
-            consumer.showCustomOption(JassCodeStyleSettings.class, entry.getKey(), entry.getValue(), group);
+    private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {
+        for (var pair : list) {
+            consumer.showCustomOption(JassCodeStyleSettings.class, pair.first, pair.second, group);
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
 
@@ -69,26 +68,29 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                     KEEP_BLANK_LINES_IN_DECLARATIONS.name()
             );
             case LANGUAGE_SPECIFIC -> {
-                addToGroup(consumer, new HashMap<>() {{
-                    put(AT_TYPE_DECL_EXTENDS, "'extends' keyword");
-                    put(AT_TYPE_DECL_TYPE_RIGHT, "Type right align");
-                    put(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align");
-                }}, JassAlignTokenPanel.GROUP_TYPE_DECL);
+                addToGroup(consumer, new Pair[]{
+                        Pair.of(AT_TYPE_DECL_EXTENDS, "'extends' keyword"),
+                        Pair.of(AT_TYPE_DECL_TYPE_RIGHT, "Type right align"),
+                        Pair.of(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align")
+                }, JassAlignTokenPanel.GROUP_TYPE_DECL);
 
-                addToGroup(consumer, new HashMap<>() {{
-                    put(AT_NATIVE_DECL_NATIVE, "'native' keyword");
-                    put(AT_NATIVE_DECL_NAME, "Name");
-                    put(AT_NATIVE_DECL_NAME_RIGHT, "Name right align");
-                    put(AT_NATIVE_DECL_TAKES, "'takes' keyword");
-                    put(AT_NATIVE_DECL_ARGUMENT, "Arguments");
-                    put(AT_NATIVE_DECL_RETURNS, "'returns' keyword");
-                }}, JassAlignTokenPanel.GROUP_NATIVE_DECL);
+                addToGroup(consumer, new Pair[]{
+                        Pair.of(AT_NATIVE_DECL_NATIVE, "'native' keyword"),
+                        Pair.of(AT_NATIVE_DECL_NAME, "Name"),
+                        Pair.of(AT_NATIVE_DECL_NAME_RIGHT, "Name right align"),
+                        Pair.of(AT_NATIVE_DECL_TAKES, "'takes' keyword"),
+                        Pair.of(AT_NATIVE_DECL_ARGUMENT, "Arguments"),
+                        Pair.of(AT_NATIVE_DECL_RETURNS, "'returns' keyword"),
+                }, JassAlignTokenPanel.GROUP_NATIVE_DECL);
 
-                addToGroup(consumer, new HashMap<>() {{
-                    put(AT_GVAR_TYPE, "Type");
-                    put(AT_GVAR_NAME, "Name");
-                    put(AT_GVAR_ASSIGN, "'=' token");
-                }}, JassAlignTokenPanel.GROUP_GVAR);
+                addToGroup(consumer, new Pair[]{
+                        Pair.of(AT_GVAR_TYPE, "Type"),
+                        Pair.of(AT_GVAR_TYPE_RIGHT, "Type right align"),
+                        Pair.of(AT_GVAR_ARRAY, "'array' keyword"),
+                        Pair.of(AT_GVAR_NAME, "Name"),
+                        Pair.of(AT_GVAR_NAME_RIGHT, "Name right align"),
+                        Pair.of(AT_GVAR_ASSIGN, "'=' token"),
+                }, JassAlignTokenPanel.GROUP_GVAR);
             }
         }
     }

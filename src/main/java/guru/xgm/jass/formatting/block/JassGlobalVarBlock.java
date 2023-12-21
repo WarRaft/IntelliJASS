@@ -23,8 +23,9 @@ public class JassGlobalVarBlock extends JassBlock {
     static HashMap<String, Alignment> getAlignments(JassCodeStyleSettings jass) {
         final HashMap<String, Alignment> map = new HashMap<>();
 
-        if (jass.AT_GVAR_TYPE) map.put(AT_GVAR_TYPE, Alignment.createAlignment(true));
-        if (jass.AT_GVAR_NAME) map.put(AT_GVAR_NAME, Alignment.createAlignment(true));
+        if (jass.AT_GVAR_TYPE || jass.AT_GVAR_TYPE_RIGHT) map.put(AT_GVAR_TYPE, Alignment.createAlignment(true, jass.AT_GVAR_TYPE_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
+        if (jass.AT_GVAR_ARRAY) map.put(AT_GVAR_ARRAY, Alignment.createAlignment(true));
+        if (jass.AT_GVAR_NAME || jass.AT_GVAR_NAME_RIGHT) map.put(AT_GVAR_NAME, Alignment.createAlignment(true, jass.AT_GVAR_NAME_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
         if (jass.AT_GVAR_ASSIGN) map.put(AT_GVAR_ASSIGN, Alignment.createAlignment(true));
 
         return map;
@@ -37,6 +38,10 @@ public class JassGlobalVarBlock extends JassBlock {
         if (isOneOf(childNode, TYPE_NAME)) {
             childNode = childNode.getFirstChildNode();
             alignment = alignments.get(AT_GVAR_TYPE);
+        }
+
+        if (isOneOf(childNode, ARRAY)) {
+            alignment = alignments.get(AT_GVAR_ARRAY);
         }
 
         if (isOneOf(childNode, GVAR_NAME)) {

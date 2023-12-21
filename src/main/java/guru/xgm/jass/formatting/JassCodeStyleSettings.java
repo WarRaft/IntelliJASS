@@ -22,7 +22,10 @@ public class JassCodeStyleSettings extends CustomCodeStyleSettings {
     public boolean AT_NATIVE_DECL_ARGUMENT = false;
     public boolean AT_NATIVE_DECL_RETURNS = false;
     public boolean AT_GVAR_TYPE = false;
+    public boolean AT_GVAR_TYPE_RIGHT = false;
+    public boolean AT_GVAR_ARRAY = false;
     public boolean AT_GVAR_NAME = true;
+    public boolean AT_GVAR_NAME_RIGHT = false;
     public boolean AT_GVAR_ASSIGN = true;
 
 }
