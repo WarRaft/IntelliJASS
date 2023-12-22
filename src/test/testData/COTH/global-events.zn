@@ -1,0 +1,266 @@
+
+
+
+//! zinc
+
+  library GlobalEvents requires CothUtilities {
+
+    timer tempTimer[8000];
+    trigger tempTrigger[8000];
+    integer tempInteger[8000];
+    unit tempUnit[8000];
+
+    hashtable data = InitHashtable();
+
+    integer desperationLevel;
+    integer desperationAttackSpeedBonusAbilityLevel;
+    integer desperationBonusLevel;
+    timer desperationAttackSpeedBonusTimer;
+    timer desperationMovementSpeedBonusTimer;
+    key galenKey;
+    key isDataSavedKey;
+    integer desperationMovementSpeedBonusCount;
+    integer desperationMovementSpeedBonus;
+    unit galen;
+
+    lightning stormShieldLightning;
+    timer deleteLightning;
+
+    real reduceDamagePercent;
+    real hp;
+
+    function desperationHandler(unit damager, unit damaged, real damage)  -> nothing {
+      
+    }
+
+    function furyHandler(unit damager, unit damaged, real damage)  -> nothing {
+      
+    }
+
+    function rejuventationHandler(unit damager, unit damaged, real damage)  -> nothing {
+      
+    }
+
+    function stormShieldHandler(unit damager, unit damaged, real damage)  -> nothing {
+      
+    }
+
+    function reduceDamageAfterTakingDamageAvatar()  -> boolean {
+      real damage = LoadReal(abilityData, GetHandleId(GetTriggeringTrigger()), 'udmg');
+      unit damager = LoadUnitHandle(abilityData, GetHandleId(GetTriggeringTrigger()), 'dmgr');
+      real reducePercent = GetUnitAbilityLevel(GetTriggerUnit(), avatarId) / 10.0;
+      real damageAfterReduce = damage * (1.0 - reducePercent );
+      TriggerClearConditions(GetTriggeringTrigger());
+      SetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE, GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) + damage - damageAfterReduce);
+      DestroyTrigger(GetTriggeringTrigger());
+      damager = null;
+      return false;
+    }
+
+    function avatarHandler(unit damager, unit damaged, real damage)  -> nothing {
+      real hpAfterDamage = GetUnitState(damaged, UNIT_STATE_LIFE) - damage;
+      trigger reduceDamageAfterTakingDamageTrg = CreateTrigger();
+      TriggerRegisterUnitStateEvent(reduceDamageAfterTakingDamageTrg, damaged, UNIT_STATE_LIFE, LESS_THAN_OR_EQUAL, hpAfterDamage);
+      TriggerAddCondition(reduceDamageAfterTakingDamageTrg, Filter(function reduceDamageAfterTakingDamageAvatar));
+      SaveReal(abilityData, GetHandleId(reduceDamageAfterTakingDamageTrg), 'udmg', damage);
+      SaveUnitHandle(abilityData, GetHandleId(reduceDamageAfterTakingDamageTrg), 'dmgr', damager);
+      reduceDamageAfterTakingDamageTrg = null;
+    }
+
+    function manaSwordHandler(unit damager, unit damaged, real damage)  -> nothing {
+      
+    }
+
+
+    function eventDamagedHandler()  -> boolean {
+      unit damager = GetEventDamageSource();
+      unit damaged = GetTriggerUnit();
+
+      //Desperation handling
+      desperationLevel = GetUnitAbilityLevel(damager, desperation);
+      if (desperationLevel > 0 && IsUnitEnemy(damaged, GetOwningPlayer(damager))) {
+        galen = damager;
+        desperationAttackSpeedBonusAbilityLevel = GetUnitAbilityLevel(galen, desperationAttackSpeedBonusAbility);
+        if (desperationAttackSpeedBonusAbilityLevel < desperationMaxAttackSpeedBonusAbilityLevel) {
+          desperationBonusLevel = desperationLevel;
+          if (desperationAttackSpeedBonusAbilityLevel + desperationBonusLevel > desperationMaxAttackSpeedBonusAbilityLevel) {
+            desperationBonusLevel = desperationMaxAttackSpeedBonusAbilityLevel - desperationAttackSpeedBonusAbilityLevel;
+          }
+          desperationAttackSpeedBonusTimer = CreateTimer();
+          SaveUnitHandle(abilityData, GetHandleId(desperationAttackSpeedBonusTimer), galenKey, galen);
+          SaveInteger(abilityData, GetHandleId(desperationAttackSpeedBonusTimer), 'dbns', desperationBonusLevel); //desperation bonus
+          SetUnitAbilityLevel(galen, desperationAttackSpeedBonusAbility, desperationAttackSpeedBonusAbilityLevel + desperationBonusLevel);
+          TimerStart(desperationAttackSpeedBonusTimer, desperationDuration, false, function(){
+            galen = LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), galenKey);
+            desperationBonusLevel = LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), 'dbns');
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            SetUnitAbilityLevel(galen, desperationAttackSpeedBonusAbility, GetUnitAbilityLevel(galen, desperationAttackSpeedBonusAbility) - desperationBonusLevel);
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+        desperationMovementSpeedBonusCount = LoadInteger(abilityData, GetHandleId(galen), 'dmsb');
+        if (desperationMovementSpeedBonusCount < desperationMaxMovementSpeedBonus) {
+          desperationBonusLevel = desperationLevel;
+          if (desperationBonusLevel + desperationMovementSpeedBonusCount > desperationMaxMovementSpeedBonus) {
+            desperationBonusLevel = desperationMaxMovementSpeedBonus - desperationMovementSpeedBonusCount;
+          }
+          SetUnitMoveSpeed(galen, 320 + (320 * desperationMovementSpeedBonusCount * desperationMovementSpeedBonusPerStack) + (320 * (desperationMovementSpeedBonusPerStack * desperationBonusLevel)));
+          desperationMovementSpeedBonusTimer = CreateTimer();
+          SaveReal(abilityData, GetHandleId(desperationMovementSpeedBonusTimer), 'dmsb', 320 * (desperationMovementSpeedBonusPerStack * desperationBonusLevel));
+          SaveUnitHandle(abilityData, GetHandleId(desperationMovementSpeedBonusTimer), galenKey, galen);
+          SaveInteger(abilityData, GetHandleId(galen), 'dmsb', desperationMovementSpeedBonusCount + desperationBonusLevel);
+          SaveInteger(abilityData, GetHandleId(desperationMovementSpeedBonusTimer), 'msbc', desperationBonusLevel);
+          TimerStart(desperationMovementSpeedBonusTimer, desperationDuration, false, function(){
+            real additonalMS = LoadReal(abilityData, GetHandleId(GetExpiredTimer()), 'dmsb');
+            integer bonusMs = 0;
+            galen = LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), galenKey);
+            SetUnitMoveSpeed(galen, 320 + 320 * (desperationMovementSpeedBonusPerStack * (LoadInteger(abilityData, GetHandleId(galen), 'dmsb') - LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), 'msbc'))) - 320 * (LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), 'msbc') * desperationMovementSpeedBonusPerStack));
+            SaveInteger(abilityData, GetHandleId(galen), 'dmsb', LoadInteger(abilityData, GetHandleId(galen), 'dmsb') - LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), 'msbc'));
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+      }
+      //Fury handling
+      if (GetUnitAbilityLevel(damager, furyBuff) > 0 && IsUnitEnemy(damaged, GetOwningPlayer(damager))) {
+        tempInteger[0] = LoadInteger(data, GetHandleId(damager), StringHash("AdditionalAgility"));
+        if (tempInteger[0] < (20 + 10 * GetUnitAbilityLevel(damager, fury))) {
+          tempInteger[1] = GetUnitAbilityLevel(damager, fury) + 2;
+          if (tempInteger[1] + tempInteger[0] > (20 + 10 * GetUnitAbilityLevel(damager, fury))) {
+            tempInteger[1] = (20 + 10 * GetUnitAbilityLevel(damager, fury)) - tempInteger[0];
+          }
+          tempInteger[0] += tempInteger[1];
+          SaveInteger(data, GetHandleId(damager), StringHash("AdditionalAgility"), tempInteger[0]);
+          tempTimer[0] = CreateTimer();
+          SaveUnitHandle(data, GetHandleId(tempTimer[0]), StringHash("GalenUnit"), damager);
+          SaveInteger(data, GetHandleId(tempTimer[0]), StringHash("AdditionalAgility"), tempInteger[1]);
+          SetHeroAgi(damager, GetHeroAgi(damager, false) + tempInteger[1], true);
+          TimerStart(tempTimer[0], 5, false, function(){
+            SetHeroAgi(LoadUnitHandle(data, GetHandleId(GetExpiredTimer()), StringHash("GalenUnit")), 
+            GetHeroAgi(LoadUnitHandle(data, GetHandleId(GetExpiredTimer()), StringHash("GalenUnit")), false) -
+            LoadInteger(data, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAgility")), true);
+            SaveInteger(data, GetHandleId(LoadUnitHandle(data, GetHandleId(GetExpiredTimer()), StringHash("GalenUnit"))), StringHash("AdditionalAgility"),
+            LoadInteger(data, GetHandleId(LoadUnitHandle(data, GetHandleId(GetExpiredTimer()), StringHash("GalenUnit"))), StringHash("AdditionalAgility"))
+            - LoadInteger(data, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAgility")));
+            FlushChildHashtable(data, GetHandleId(GetExpiredTimer()));
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+      }
+
+      tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(damaged), StringHash("RejuvEffectYellow"));
+      if (tempEffect[0] != null) {
+        SaveBoolean(abilityData, GetHandleId(damaged), StringHash("IsUnitRejuvEffect"), false);
+        IssueImmediateOrder(damaged, "stop");
+      }
+      tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(damaged), StringHash("RejuvEffectGreen"));
+      if (tempEffect[0] != null) {
+        SaveBoolean(abilityData, GetHandleId(damaged), StringHash("IsUnitRejuvEffect"), false);
+        DestroyEffect(tempEffect[0]);
+        RemoveSavedHandle(abilityData, GetHandleId(damaged), StringHash("RejuvEffectGreen"));
+        tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(damaged), StringHash("RejuvTimer"));
+        FlushChildHashtable(abilityData, GetHandleId(tempTimer[0]));
+        DestroyTimer(tempTimer[0]);
+        RemoveSavedHandle(abilityData, GetHandleId(damaged), StringHash("RejuvTimer"));
+      }
+
+      if ((GetUnitAbilityLevel(damaged, stormShield) > 0) &&
+        ( !IsUnitType(damager, UNIT_TYPE_MAGIC_IMMUNE) && !IsUnitType(damager, UNIT_TYPE_MECHANICAL) ) &&
+        IsUnitEnemy(damager, GetOwningPlayer(damaged)) && GetRandomInt(0, 4) <= 4 * GetUnitAbilityLevel(damaged, stormShield) ) {
+        tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(damaged), StringHash("StormShieldCooldownTimer"));
+        if (TimerGetRemaining(tempTimer[0]) <= 0.1) {
+          DestroyTimer(tempTimer[0]);
+          tempTimer[0] = CreateTimer();
+          TimerStart(tempTimer[0], 30 - GetUnitAbilityLevel(damaged, stormShield) * 6, false, null);
+          SaveTimerHandle(abilityData, GetHandleId(damaged), StringHash("StormShieldCooldownTimer"), tempTimer[0]);
+          UnitDamageTarget(damaged, damager, 150, true, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS);
+          stormShieldLightning = AddLightning("CLSB", true, GetUnitX(damaged), GetUnitY(damaged), GetUnitX(damager), GetUnitY(damager));
+
+          deleteLightning = CreateTimer();
+          SaveLightningHandle(abilityData, GetHandleId(deleteLightning), 'lght', stormShieldLightning);
+          TimerStart(deleteLightning, .5, false, function(){
+            stormShieldLightning = LoadLightningHandle(abilityData, GetHandleId(GetExpiredTimer()), 'lght');
+            DestroyLightning(stormShieldLightning);
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+      }
+
+      if (GetUnitTypeId(damaged) == MuradinMorph) {
+        avatarHandler(damager, damaged, GetEventDamage());
+      }
+
+      if (GetUnitAbilityLevel(damager, manaSwordId) > 0 && IsHeroUnitId(GetUnitTypeId(damaged))) {
+        SetUnitState(damaged, UNIT_STATE_MANA, GetUnitState(damaged, UNIT_STATE_MANA) - GetHeroInt(damaged, true) / 2);
+        DisableTrigger(GetTriggeringTrigger());
+        UnitDamageTarget(damager, damaged, GetHeroInt(damaged, true) / 2, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
+        EnableTrigger(GetTriggeringTrigger());
+      }
+
+      damager = null;
+
+      damaged = null;
+      return false;
+    }
+
+    function addGlobalEvents()  -> nothing {
+      unit toWhichUnit = GetTriggerUnit();
+      trigger onUnitDamaged;
+      if ( GetUnitAbilityLevel(toWhichUnit, 'Aloc') == 0 && GetUnitAbilityLevel(toWhichUnit, 'Avul') == 0 ) {
+        onUnitDamaged = CreateTrigger();
+        SaveTriggerHandle(onDamagedTriggers, GetHandleId(toWhichUnit), StringHash("EventUnitDamaged"), onUnitDamaged);
+        TriggerRegisterUnitEvent(onUnitDamaged, toWhichUnit, EVENT_UNIT_DAMAGED);
+        TriggerAddCondition(onUnitDamaged, Filter(function eventDamagedHandler));
+      }
+      toWhichUnit = null;
+      onUnitDamaged = null;
+    }
+
+    function removeGlobalEvents()  -> nothing {
+      unit toWhichUnit = GetTriggerUnit();
+      trigger onUnitDamaged = LoadTriggerHandle(onDamagedTriggers, GetHandleId(toWhichUnit), StringHash("EventUnitDamaged"));
+      FlushChildHashtable(onDamagedTriggers, GetHandleId(onUnitDamaged));
+      TriggerClearConditions(onUnitDamaged);
+      DestroyTrigger(onUnitDamaged);
+      onUnitDamaged = null;
+      toWhichUnit = null;
+    }
+
+    function onInit()  -> nothing {
+      trigger onUnitSpawn = CreateTrigger();
+      trigger onUnitDeath = CreateTrigger();
+      region map = CreateRegion();
+      group allUnits = CreateGroup();
+      unit tempUnit;
+      trigger tempTrigger;
+      
+      RegionAddRect(map, GetPlayableMapRect());
+      TriggerRegisterEnterRegion(onUnitSpawn, map, null);
+      TriggerAddAction(onUnitSpawn, function addGlobalEvents);
+      TriggerRegisterLeaveRegion(onUnitDeath, map, null);
+      TriggerAddAction(onUnitDeath, function removeGlobalEvents);
+      GroupEnumUnitsInRect(allUnits, GetPlayableMapRect(), null);
+      while (FirstOfGroup(allUnits) != null) {
+        tempUnit = FirstOfGroup(allUnits);
+        GroupRemoveUnit(allUnits, tempUnit);
+
+        
+        if ( GetUnitAbilityLevel(tempUnit, 'Aloc') == 0 && GetUnitAbilityLevel(tempUnit, 'Avul') == 0 ) {
+          tempTrigger = CreateTrigger();
+          SaveTriggerHandle(onDamagedTriggers, GetHandleId(tempUnit), StringHash("EventUnitDamaged"), tempTrigger);
+          TriggerRegisterUnitEvent(tempTrigger, tempUnit, EVENT_UNIT_DAMAGED);
+          TriggerAddCondition(tempTrigger, Filter(function eventDamagedHandler));
+        }
+      }
+      DestroyGroup(allUnits);
+      allUnits = null;
+      tempUnit = null;
+      map = null;
+      tempTrigger = null;
+      
+    }
+  }
+
+
+//! endzinc

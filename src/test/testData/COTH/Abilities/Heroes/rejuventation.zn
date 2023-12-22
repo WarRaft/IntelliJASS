@@ -1,0 +1,80 @@
+//! zinc
+  library RejuventationSpell requires CothUtilities {
+    function onInit()  -> nothing {
+      trigger onRejuvCast = CreateTrigger();
+      trigger onRejuvEffect = CreateTrigger();
+      trigger onRejuvInterrupt = CreateTrigger();
+      TriggerRegisterAnyUnitEventBJ(onRejuvCast, EVENT_PLAYER_UNIT_SPELL_EFFECT);
+      TriggerAddCondition(onRejuvCast, Filter(function() -> boolean {
+        return GetSpellAbilityId() == 'AEsf';
+      }));
+      TriggerAddAction(onRejuvCast, function(){
+        SaveBoolean(abilityData, GetHandleId(GetTriggerUnit()), StringHash("IsUnitRejuvEffect"), false);
+        tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectGreen"));
+        DestroyEffect(tempEffect[0]);
+        tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"));
+        DestroyEffect(tempEffect[0]);
+        tempEffect[0] = AddSpecialEffectTarget("RejuvTarget.mdx", GetTriggerUnit(), "overhead");
+        SaveEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"), tempEffect[0]);
+        tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvTimer"));
+        FlushChildHashtable(abilityData, GetHandleId(tempTimer[0]));
+        DestroyTimer(tempTimer[0]);
+      });
+      TriggerRegisterAnyUnitEventBJ(onRejuvEffect, EVENT_PLAYER_UNIT_SPELL_FINISH);
+      TriggerAddCondition(onRejuvEffect, Filter(function() -> boolean {
+        return GetSpellAbilityId() == 'AEsf';
+      }));
+      TriggerAddAction(onRejuvEffect, function(){
+        SaveBoolean(abilityData, GetHandleId(GetTriggerUnit()), StringHash("IsUnitRejuvEffect"), true);
+        tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"));
+        RemoveSavedHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"));
+        DestroyEffect(tempEffect[0]);
+        tempEffect[0] = AddSpecialEffectTarget("Abilities\\Spells\\NightElf\\Tranquility\\TranquilityTarget.mdl", GetTriggerUnit(), "overhead");
+        SaveEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectGreen"), tempEffect[0]);
+        SetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE, 
+        GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) + GetUnitState(GetTriggerUnit(), UNIT_STATE_MAX_LIFE) * .04);
+        tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvTimer"));
+        FlushChildHashtable(abilityData, GetHandleId(tempTimer[0]));
+        DestroyTimer(tempTimer[0]);
+        tempTimer[0] = CreateTimer();
+        SaveUnitHandle(abilityData, GetHandleId(tempTimer[0]), StringHash("Caster"), GetTriggerUnit());
+        SaveReal(abilityData, GetHandleId(tempTimer[0]), StringHash("HealCount"), .01);
+        SaveTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvTimer"), tempTimer[0]);
+        TimerStart(tempTimer[0], 2, true, function(){
+          real heal = LoadReal(abilityData, GetHandleId(GetExpiredTimer()), StringHash("HealCount"));
+          heal += .01;
+          tempUnit[0] = LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Caster"));
+          SaveBoolean(abilityData, GetHandleId(tempUnit[0]), StringHash("IsUnitRejuvEffect"), false);
+          if (heal > .1) {
+            tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(tempUnit[0]), StringHash("RejuvEffectGreen"));
+            DestroyEffect(tempEffect[0]);
+            RemoveSavedHandle(abilityData, GetHandleId(tempUnit[0]), StringHash("RejuvTimer"));
+            RemoveSavedHandle(abilityData, GetHandleId(tempUnit[0]), StringHash("RejuvEffectGreen"));
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            DestroyTimer(GetExpiredTimer());
+            return;
+          }
+          SaveReal(abilityData, GetHandleId(GetExpiredTimer()), StringHash("HealCount"), heal);
+          SetUnitState(tempUnit[0], UNIT_STATE_LIFE,
+          GetUnitState(tempUnit[0], UNIT_STATE_LIFE) + GetUnitState(tempUnit[0], UNIT_STATE_MAX_LIFE) * (.04 + heal));
+        });
+      });
+      TriggerRegisterAnyUnitEventBJ(onRejuvInterrupt, EVENT_PLAYER_UNIT_SPELL_ENDCAST);
+      TriggerAddCondition(onRejuvInterrupt, Filter(function() -> boolean {
+        return GetSpellAbilityId() == 'AEsf' && !LoadBoolean(abilityData, GetHandleId(GetTriggerUnit()), StringHash("IsUnitRejuvEffect"));
+      }));
+      TriggerAddAction(onRejuvInterrupt, function(){
+        tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"));
+        DestroyEffect(tempEffect[0]);
+        RemoveSavedHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectYellow"));
+        tempEffect[0] = LoadEffectHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectGreen"));
+        DestroyEffect(tempEffect[0]);
+        RemoveSavedHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvEffectGreen"));
+        tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvTimer"));
+        FlushChildHashtable(abilityData, GetHandleId(tempTimer[0]));
+        DestroyTimer(tempTimer[0]);
+        RemoveSavedHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("RejuvTimer"));
+      });
+    }
+  }
+//! endzinc

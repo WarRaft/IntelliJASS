@@ -1,0 +1,49 @@
+//! zinc
+library TeronAura {
+
+  trigger TrigAura = CreateTrigger();
+  triggeraction AuraAction;
+
+  function AuraConditions ()  -> boolean {
+    return 
+    (
+      IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(TeronUnit)) &&
+      GetUnitTypeId(GetFilterUnit()) != 'o008' && //Выбранный юнит не пустышка
+      !IsUnitType(GetFilterUnit(), UNIT_TYPE_MECHANICAL) &&
+      !UnitHasBuffBJ(GetFilterUnit(), 'BHds') &&
+      !UnitHasBuffBJ(GetFilterUnit(), 'B03N') &&
+      !UnitHasBuffBJ(GetFilterUnit(), 'Bams') &&
+      !UnitHasBuffBJ(GetFilterUnit(), 'Bam2') &&
+      IsUnitAliveBJ(TeronUnit)
+    );
+  }
+
+  function AuraDamage ()  -> nothing {
+    UnitDamageTarget(TeronUnit, GetEnumUnit(), GetUnitAbilityLevel(TeronUnit, 'A02N') * 0.5, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS);
+  }
+
+  function TeronEnumUnits ()  -> nothing {
+    location TeronLoc = GetUnitLoc(TeronUnit);
+    group g = CreateGroup();
+    GroupEnumUnitsInRangeOfLoc(g, TeronLoc, 685, Condition(function AuraConditions));
+    ForGroup(g, function AuraDamage);
+    debug BJDebugMsg("Teron aura triggered");
+
+    DestroyGroup(g);
+    g = null;
+    RemoveLocation(TeronLoc);
+    TeronLoc = null;
+  }
+
+  public function TeronAuraTrigger ()  -> nothing {
+    debug BJDebugMsg("Teron aura Trigger called");
+    //TriggerRemoveAction(TrigAura, AuraAction);
+    DestroyTrigger(TrigAura);
+    TrigAura = null;
+    debug BJDebugMsg("Teron aura re-create");
+    TrigAura = CreateTrigger();
+    TriggerRegisterTimerEvent(TrigAura, 0.1, true);
+    AuraAction = TriggerAddAction(TrigAura, function TeronEnumUnits);
+  }
+}
+//! endzinc

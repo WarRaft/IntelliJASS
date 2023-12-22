@@ -1,2 +1,3 @@
 # https://github.com/github-linguist/linguist/blob/master/docs/overrides.md
 *.j linguist-language=linguist-vendored
+*.zn linguist-language=linguist-vendored

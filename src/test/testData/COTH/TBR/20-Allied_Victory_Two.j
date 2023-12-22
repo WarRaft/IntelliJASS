@@ -1,0 +1,27 @@
+function Trig_Allied_Victory_Two_Actions takes nothing returns nothing
+    call PlaySoundBJ(gg_snd_NewTournament)
+    call DisplayTextToPlayer(GetLocalPlayer(), 0, 0, "|c000042FFПобеда за Альянсом!")
+    call DisplayTextToPlayer(GetLocalPlayer(), 0, 0, " ")
+    call DisplayTextToPlayer(GetLocalPlayer(), 0, 0, " ")
+    call DisplayTextToPlayer(GetLocalPlayer(), 0, 0, "Спасибо за игру, надеюсь Вы насладились Приходом Орды!")
+    call DisableTrigger(gg_trg_Horde_Victory)
+    call TriggerSleepAction(10.00)
+    call DisableTrigger(GetTriggeringTrigger())
+    call CustomVictoryBJ(Player(0),true,true)
+    call CustomVictoryBJ(Player(1),true,true)
+    call CustomVictoryBJ(Player(2),true,true)
+    call CustomVictoryBJ(Player(3),true,true)
+    call CustomVictoryBJ(Player(5),true,true)
+    call CustomVictoryBJ(Player(6),true,true)
+    call CustomVictoryBJ(Player(7),true,true)
+    call CustomVictoryBJ(Player(8),true,true)
+    call CustomDefeatBJ(Player(4),"Поражение!")
+    call CustomDefeatBJ(Player(9),"Поражение!")
+    call CustomDefeatBJ(Player(10),"Поражение!")
+    call CustomDefeatBJ(Player(11),"Поражение!")
+    endfunction
+    function InitTrig_Allied_Victory_Two takes nothing returns nothing
+    set gg_trg_Allied_Victory_Two=CreateTrigger()
+    call TriggerRegisterUnitEvent(gg_trg_Allied_Victory_Two,gg_unit_ndmg_0236,EVENT_UNIT_DEATH)
+    call TriggerAddAction(gg_trg_Allied_Victory_Two,function Trig_Allied_Victory_Two_Actions)
+    endfunction

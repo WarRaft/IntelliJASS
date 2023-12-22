@@ -1,0 +1,88 @@
+//! zinc
+  library ThorasAbils requires CothUtilities {
+
+    function onInit()  -> nothing {
+      trigger onSpellCast = CreateTrigger();
+      TriggerRegisterAnyUnitEventBJ(onSpellCast, EVENT_PLAYER_UNIT_SPELL_EFFECT);
+      TriggerAddAction(onSpellCast, function(){
+        if (GetSpellAbilityId() == heroicStrike) {
+          tempGroup[0] = CreateGroup();
+          GroupEnumUnitsInRange(tempGroup[0], GetSpellTargetX(), GetSpellTargetY(), 500, null );
+          while (FirstOfGroup(tempGroup[0]) != null) {
+            tempUnit[0] = FirstOfGroup(tempGroup[0]);
+            GroupRemoveUnit(tempGroup[0], tempUnit[0]);
+            if ( !IsUnitType(tempUnit[0], UNIT_TYPE_MAGIC_IMMUNE) &&
+              IsUnitEnemy(tempUnit[0], GetOwningPlayer(GetTriggerUnit())) &&
+              IsUnitType(tempUnit[0], UNIT_TYPE_GROUND) &&
+              IsUnitInRange(tempUnit[0], GetSpellTargetUnit(), 350)) {
+                UnitDamageTarget(GetTriggerUnit(), tempUnit[0], 75 + 50 * GetUnitAbilityLevel(GetTriggerUnit(), heroicStrike), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS);
+            }
+          }
+        }
+        if (GetSpellAbilityId() == godlyStrength) {
+          tempTimer[0] = CreateTimer();
+          if (GetSpellTargetUnit() == GetTriggerUnit()) {
+            tempInteger[0] = R2I(GetHeroStr(GetTriggerUnit(), false) * .75);
+            SetHeroStr(GetSpellTargetUnit(), GetHeroStr(GetSpellTargetUnit(), false) + tempInteger[0], true);
+          } else {
+            if (CheckHeroMainAttribute(GetSpellTargetUnit()) == bj_HEROSTAT_AGI) {
+              tempInteger[0] = R2I(GetHeroAgi(GetSpellTargetUnit(), false) *.4 );
+              SetHeroAgi(GetSpellTargetUnit(), GetHeroAgi(GetSpellTargetUnit(), false) + tempInteger[0], true);
+            } else if (CheckHeroMainAttribute(GetSpellTargetUnit()) == bj_HEROSTAT_INT) {
+              tempInteger[0] = R2I(GetHeroInt(GetSpellTargetUnit(), false) *.4 );
+              SetHeroInt(GetSpellTargetUnit(), GetHeroInt(GetSpellTargetUnit(), false) + tempInteger[0], true);
+            } else if (CheckHeroMainAttribute(GetSpellTargetUnit()) == bj_HEROSTAT_STR) {
+              tempInteger[0] = R2I(GetHeroStr(GetSpellTargetUnit(), false) *.4 );
+              SetHeroStr(GetSpellTargetUnit(), GetHeroStr(GetSpellTargetUnit(), false) + tempInteger[0], true);
+            } else {
+              debug BJDebugMsg("Hero " + GetUnitName(GetSpellTargetUnit()) + " don't has saved attribute type!");
+            }
+          }
+          SaveInteger(abilityData, GetHandleId(tempTimer[0]), StringHash("AdditionalAttributeNumber"), tempInteger[0]);
+          SaveInteger(abilityData, GetHandleId(tempTimer[0]), StringHash("AdditionalAttributeType"), CheckHeroMainAttribute(GetSpellTargetUnit()));
+          
+          SaveUnitHandle(abilityData, GetHandleId(tempTimer[0]), StringHash("Target"), GetSpellTargetUnit());
+          TimerStart(tempTimer[0], 15, false, function(){
+            tempInteger[0] = LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAttributeType"));
+            if (tempInteger[0] == bj_HEROSTAT_INT) {
+              SetHeroInt(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), 
+              GetHeroInt(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), false) -
+              LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAttributeNumber")), true);
+            } else if (tempInteger[0] == bj_HEROSTAT_AGI) {
+              SetHeroAgi(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), 
+              GetHeroAgi(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), false) -
+              LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAttributeNumber")), true);
+            } else {
+              SetHeroStr(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), 
+              GetHeroStr(LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Target")), false) -
+              LoadInteger(abilityData, GetHandleId(GetExpiredTimer()), StringHash("AdditionalAttributeNumber")), true);
+            }
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+        if (GetSpellAbilityId() == strengthOfGods) {
+          UnitRemoveAbility(GetTriggerUnit(), 'A0C7');
+          UnitAddAbility(GetTriggerUnit(), 'A0C7');
+          UnitRemoveAbility(GetTriggerUnit(), 'A08A');
+          UnitAddAbility(GetTriggerUnit(), 'A08A');
+          SetUnitAbilityLevel(GetTriggerUnit(), 'A08A', GetUnitAbilityLevel(GetTriggerUnit(), strengthOfGods));
+          tempTimer[0] = LoadTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("StrengthOfGodsTimer"));
+          FlushChildHashtable(abilityData, GetHandleId(tempTimer[0]));
+          DestroyTimer(tempTimer[0]);
+          tempTimer[0] = CreateTimer();
+          SaveTimerHandle(abilityData, GetHandleId(GetTriggerUnit()), StringHash("StrengthOfGodsTimer"), tempTimer[0]);
+          SaveUnitHandle(abilityData, GetHandleId(tempTimer[0]), StringHash("Thoras"), GetTriggerUnit());
+          TimerStart(tempTimer[0], 30, false, function(){
+            tempUnit[0] = LoadUnitHandle(abilityData, GetHandleId(GetExpiredTimer()), StringHash("Thoras"));
+            UnitRemoveAbility(tempUnit[0], 'A0C7');
+            UnitRemoveAbility(tempUnit[0], 'A08A');
+            FlushChildHashtable(abilityData, GetHandleId(GetExpiredTimer()));
+            RemoveSavedHandle(abilityData, GetHandleId(tempUnit[0]), StringHash("StrengthOfGodsTimer"));
+            DestroyTimer(GetExpiredTimer());
+          });
+        }
+      });
+    }
+  }
+//! endzinc

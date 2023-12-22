@@ -1,0 +1,17 @@
+function Trig_Hero_Experience_Func001002002 takes nothing returns boolean
+return(IsUnitType(GetFilterUnit(),UNIT_TYPE_HERO)==true)
+endfunction
+function Trig_Hero_Experience_Func002A takes nothing returns nothing
+call AddHeroXPSwapped(50,GetEnumUnit(),true)
+endfunction
+function Trig_Hero_Experience_Actions takes nothing returns nothing
+set udg_Heroes=GetUnitsInRectMatching(GetPlayableMapRect(),Condition(function Trig_Hero_Experience_Func001002002))
+call ForGroupBJ(udg_Heroes,function Trig_Hero_Experience_Func002A)
+call DestroyGroup(udg_Heroes)
+endfunction
+function InitTrig_Hero_Experience takes nothing returns nothing
+set gg_trg_Hero_Experience=CreateTrigger()
+call DisableTrigger(gg_trg_Hero_Experience)
+call TriggerRegisterTimerEventPeriodic(gg_trg_Hero_Experience,60.00)
+call TriggerAddAction(gg_trg_Hero_Experience,function Trig_Hero_Experience_Actions)
+endfunction

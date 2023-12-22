@@ -8,8 +8,8 @@
     psiPackage=               "guru.xgm.jass.psi"
     psiImplPackage=           "guru.xgm.jass.psi.impl"
     elementTypeHolderClass=   "guru.xgm.jass.psi.JassTypes"
-    elementTypeClass=         "guru.xgm.jass.psi.tree.JassIElementType_Element"
-    tokenTypeClass=           "guru.xgm.jass.psi.tree.JassIElementType_Token"
+    elementTypeClass=         "guru.xgm.jass.psi.tree.JassIElement"
+    tokenTypeClass=           "guru.xgm.jass.psi.tree.JassIToken"
 
     extends(".*Expr")=Expr
 

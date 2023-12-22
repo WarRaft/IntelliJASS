@@ -1,0 +1,48 @@
+//! zinc
+library AllianceHeroSelection requires CothUtilities {
+  function onInit()  -> nothing {
+    trigger onHeroSelection = CreateTrigger();
+    trigger onHeroCancelSelection = CreateTrigger();
+    TriggerRegisterAnyUnitEventBJ(onHeroSelection, EVENT_PLAYER_UNIT_TRAIN_START);
+    TriggerAddCondition(onHeroSelection, Filter( function() -> boolean {
+      return IsUnitIdType(GetTrainedUnitType(), UNIT_TYPE_HERO);
+    }));
+    TriggerAddAction(onHeroSelection, function(){
+      integer trainedUnitType = GetTrainedUnitType();
+      unit trainingUnit = GetTriggerUnit();
+      if(
+        trainedUnitType == Curdran ||
+        trainedUnitType == Galen ||
+        trainedUnitType == Thoras || 
+        trainedUnitType == Danath
+       ) {
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Curdran, 0);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Galen, 0);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Thoras, 0);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Danath, 0);
+       }
+       trainingUnit = null;
+    });
+    TriggerRegisterAnyUnitEventBJ(onHeroCancelSelection, EVENT_PLAYER_UNIT_TRAIN_CANCEL);
+    TriggerAddCondition(onHeroCancelSelection, Filter(function() -> boolean {
+      return IsUnitIdType(GetTrainedUnitType(), UNIT_TYPE_HERO);
+    }));
+    TriggerAddAction(onHeroCancelSelection, function(){
+      integer trainedUnitType = GetTrainedUnitType();
+      unit trainingUnit = GetTriggerUnit();
+      if(
+        trainedUnitType == Curdran ||
+        trainedUnitType == Galen ||
+        trainedUnitType == Thoras || 
+        trainedUnitType == Danath
+       ) {
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Curdran, 1);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Galen, 1);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Thoras, 1);
+        SetPlayerTechMaxAllowed(GetOwningPlayer(trainingUnit), Danath, 1);
+       }
+       trainingUnit = null;
+    });
+  }
+}
+//! endzinc

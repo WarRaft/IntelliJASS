@@ -1,0 +1,625 @@
+Event
+Condition
+Action
+    KillUnit
+        Var   : gg_unit_Utic_0512
+    KillUnit
+        Var   : gg_unit_otto_0421
+    KillUnit
+        Var   : gg_unit_N007_0522
+    KillUnit
+        Var   : gg_unit_Hpal_0463
+    KillUnit
+        Var   : gg_unit_Hmbr_0462
+    KillUnit
+        Var   : gg_unit_Nklj_0461
+    KillUnit
+        Var   : gg_unit_Uwar_0460
+    KillUnit
+        Var   : gg_unit_Hjai_0459
+    KillUnit
+        Var   : gg_unit_o002_0600
+    KillUnit
+        Var   : gg_unit_Edem_0550
+    KillUnit
+        Var   : gg_unit_Hdgo_0520
+    KillUnit
+        Var   : gg_unit_Nbst_0519
+    KillUnit
+        Var   : gg_unit_Ofar_0481
+    KillUnit
+        Var   : gg_unit_Orex_0465
+    KillUnit
+        Var   : gg_unit_Nbbc_0485
+    KillUnit
+        Var   : gg_unit_Hhkl_0486
+    KillUnit
+        Var   : gg_unit_H01Q_0521
+    KillUnit
+        Var   : gg_unit_Hlgr_0523
+    KillUnit
+        Var   : gg_unit_Hgam_0513
+    KillUnit
+        Var   : gg_unit_Nplh_0487
+    KillUnit
+        Var   : gg_unit_Opgh_0483
+    KillUnit
+        Var   : gg_unit_Emoo_0488
+    KillUnit
+        Var   : gg_unit_Hvsh_0480
+    KillUnit
+        Var   : gg_unit_Npld_0527
+    KillUnit
+        Var   : gg_unit_Opgh_0483
+    KillUnit
+        Var   : gg_unit_Othr_0515
+    KillUnit
+        Var   : gg_unit_H01I_0514
+    KillUnit
+        Var   : gg_unit_Hant_0475
+    KillUnit
+        Var   : gg_unit_Nalc_0495
+    KillUnit
+        Var   : gg_unit_Hmkg_0476
+    KillUnit
+        Var   : gg_unit_Ntin_0477
+    KillUnit
+        Var   : gg_unit_Huth_0479
+    KillUnit
+        Var   : gg_unit_Ewar_0489
+    KillUnit
+        Var   : gg_unit_Utic_0512
+    KillUnit
+        Var   : gg_unit_Ocbh_0511
+    KillUnit
+        Var   : gg_unit_H005_0502
+    KillUnit
+        Var   : gg_unit_Odrt_0524
+    KillUnit
+        Var   : gg_unit_Obla_0496
+    KillUnit
+        Var   : gg_unit_Nsjs_0498
+    KillUnit
+        Var   : gg_unit_Ucrl_0500
+    KillUnit
+        Var   : gg_unit_Hamg_0499
+    KillUnit
+        Var   : gg_unit_Hmgd_0509
+    KillUnit
+        Var   : gg_unit_Harf_0501
+    KillUnit
+        Var   : gg_unit_Ekee_0528
+    KillUnit
+        Var   : gg_unit_H01S_0510
+    KillUnit
+        Var   : gg_unit_Hblm_0508
+    KillUnit
+        Var   : gg_unit_H01B_0507
+    KillUnit
+        Var   : gg_unit_H018_0506
+    KillUnit
+        Var   : gg_unit_Hart_0504
+    KillUnit
+        Var   : gg_unit_Hapm_0503
+    KillUnit
+        Var   : gg_unit_Hvwd_0525
+    KillUnit
+        Var   : gg_unit_O00M_0518
+    KillUnit
+        Var   : gg_unit_Orkn_0516
+    KillUnit
+        Var   : gg_unit_Hpb1_0517
+    KillUnit
+        Var   : gg_unit_Ogrh_0532
+    KillUnit
+        Var   : gg_unit_Otch_0529
+    KillUnit
+        Var   : gg_unit_Osam_0526
+    KillUnit
+        Var   : gg_unit_Ogld_0530
+    KillUnit
+        Var   : gg_unit_Hkal_0491
+    KillUnit
+        Var   : gg_unit_hbar_0139
+    KillUnit
+        Var   : gg_unit_harm_0268
+    KillUnit
+        Var   : gg_unit_hbla_0269
+    KillUnit
+        Var   : gg_unit_hshy_0141
+    KillUnit
+        Var   : gg_unit_ushp_0267
+    KillUnit
+        Var   : gg_unit_h004_0142
+    KillUnit
+        Var   : gg_unit_n00R_0492
+    KillUnit
+        Var   : gg_unit_n00P_0270
+    KillUnit
+        Var   : gg_unit_n00B_0345
+    KillUnit
+        Var   : gg_unit_h01X_0238
+    KillUnit
+        Var   : gg_unit_n00B_0345
+    KillUnit
+        Var   : gg_unit_nef7_0204
+    KillUnit
+        Var   : gg_unit_h00J_0163
+    KillUnit
+        Var   : gg_unit_h00D_0265
+    KillUnit
+        Var   : gg_unit_hcas_0019
+    KillUnit
+        Var   : gg_unit_nef2_0283
+    KillUnit
+        Var   : gg_unit_h015_0288
+    KillUnit
+        Var   : gg_unit_htow_0155
+    KillUnit
+        Var   : gg_unit_h01W_0537
+    KillUnit
+        Var   : gg_unit_h01W_0538
+    KillUnit
+        Var   : gg_unit_ndt2_0200
+    KillUnit
+        Var   : gg_unit_hvlt_0070
+    KillUnit
+        Var   : gg_unit_hhou_0291
+    KillUnit
+        Var   : gg_unit_hhou_0047
+    KillUnit
+        Var   : gg_unit_nefm_0276
+    KillUnit
+        Var   : gg_unit_hhou_0259
+    KillUnit
+        Var   : gg_unit_hhou_0073
+    KillUnit
+        Var   : gg_unit_hhou_0171
+    KillUnit
+        Var   : gg_unit_hhou_0336
+    KillUnit
+        Var   : gg_unit_h00V_0535
+    KillUnit
+        Var   : gg_unit_n00O_0016
+    KillUnit
+        Var   : gg_unit_halt_0257
+    KillUnit
+        Var   : gg_unit_negm_0075
+    KillUnit
+        Var   : gg_unit_n00A_0168
+    KillUnit
+        Var   : gg_unit_n00S_0289
+    KillUnit
+        Var   : gg_unit_n00V_0272
+    KillUnit
+        Var   : gg_unit_nmgv_0202
+    KillUnit
+        Var   : gg_unit_n00T_0340
+    KillUnit
+        Var   : gg_unit_u001_0237
+    KillUnit
+        Var   : gg_unit_o005_0397
+    KillUnit
+        Var   : gg_unit_o005_0418
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_hgra_0341
+    KillUnit
+        Var   : gg_unit_hgra_0297
+    KillUnit
+        Var   : gg_unit_hgra_0076
+    KillUnit
+        Var   : gg_unit_hctw_0344
+    KillUnit
+        Var   : gg_unit_hctw_0343
+    KillUnit
+        Var   : gg_unit_h01X_0534
+    KillUnit
+        Var   : gg_unit_oeye_0239
+    KillUnit
+        Var   : gg_unit_oeye_0245
+    KillUnit
+        Var   : gg_unit_oeye_0244
+    KillUnit
+        Var   : gg_unit_oeye_0243
+    KillUnit
+        Var   : gg_unit_oeye_0246
+    KillUnit
+        Var   : gg_unit_oeye_0242
+    KillUnit
+        Var   : gg_unit_oeye_0240
+    KillUnit
+        Var   : gg_unit_oeye_0241
+    KillUnit
+        Var   : gg_unit_h01J_0457
+    KillUnit
+        Var   : gg_unit_ngwr_0458
+    KillUnit
+        Var   : gg_unit_oalt_0386
+    KillUnit
+        Var   : gg_unit_oalt_0420
+    KillUnit
+        Var   : gg_unit_oalt_0399
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o008_0533
+    KillUnit
+        Var   : gg_unit_o00J_0444
+    KillUnit
+        Var   : gg_unit_o00Z_0249
+    KillUnit
+        Var   : gg_unit_o00I_0153
+    KillUnit
+        Var   : gg_unit_otbk_0389
+    KillUnit
+        Var   : gg_unit_o003_0442
+    KillUnit
+        Var   : gg_unit_o00H_0443
+    KillUnit
+        Var   : gg_unit_osw3_0435
+    KillUnit
+        Var   : gg_unit_o010_0250
+    KillUnit
+        Var   : gg_unit_o015_0212
+    KillUnit
+        Var   : gg_unit_o013_0286
+    KillUnit
+        Var   : gg_unit_njks_0271
+    KillUnit
+        Var   : gg_unit_o00Q_0445
+    KillUnit
+        Var   : gg_unit_o00R_0334
+    KillUnit
+        Var   : gg_unit_o00S_0248
+    KillUnit
+        Var   : gg_unit_ospm_0254
+    KillUnit
+        Var   : gg_unit_o011_0198
+    KillUnit
+        Var   : gg_unit_o008_0505
+    KillUnit
+        Var   : gg_unit_o008_0490
+    KillUnit
+        Var   : gg_unit_o008_0156
+    KillUnit
+        Var   : gg_unit_harm_0256
+    KillUnit
+        Var   : gg_unit_nggr_0540
+    KillUnit
+        Var   : gg_unit_nggr_0539
+    KillUnit
+        Var   : gg_unit_ndmg_0236
+    KillUnit
+        Var   : gg_unit_otto_0421
+    KillUnit
+        Var   : gg_unit_h01X_0534
+    KillUnit
+        Var   : gg_unit_hkee_0203
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o00P_0387
+    KillUnit
+        Var   : gg_unit_o00O_0388
+    KillUnit
+        Var   : gg_unit_o00P_0430
+    KillUnit
+        Var   : gg_unit_o005_0418
+    KillUnit
+        Var   : gg_unit_o00O_0419
+    KillUnit
+        Var   : gg_unit_o00P_0411
+    KillUnit
+        Var   : gg_unit_o005_0397
+    KillUnit
+        Var   : gg_unit_o00O_0398
+    KillUnit
+        Var   : gg_unit_nmer_0447
+    KillUnit
+        Var   : gg_unit_n000_0456
+    KillUnit
+        Var   : gg_unit_nmer_0448
+    KillUnit
+        Var   : gg_unit_nomg_0493
+    KillUnit
+        Var   : gg_unit_nomg_0531
+    KillUnit
+        Var   : gg_unit_nomg_0497
+    KillUnit
+        Var   : gg_unit_nogm_0494
+    KillUnit
+        Var   : gg_unit_nogm_0468
+    KillUnit
+        Var   : gg_unit_nogm_0464
+    KillUnit
+        Var   : gg_unit_ovln_0455
+    KillUnit
+        Var   : gg_unit_nftb_0466
+    KillUnit
+        Var   : gg_unit_nftb_0471
+    KillUnit
+        Var   : gg_unit_nftb_0472
+    KillUnit
+        Var   : gg_unit_nftb_0470
+    KillUnit
+        Var   : gg_unit_ovln_0453
+    KillUnit
+        Var   : gg_unit_nftb_0467
+    KillUnit
+        Var   : gg_unit_nftt_0478
+    KillUnit
+        Var   : gg_unit_ovln_0454
+    KillUnit
+        Var   : gg_unit_nbt1_0452
+    KillUnit
+        Var   : gg_unit_hgtw_0066
+    KillUnit
+        Var   : gg_unit_h00M_0484
+    KillUnit
+        Var   : gg_unit_ngad_0449
+    KillUnit
+        Var   : gg_unit_ngsp_0473
+    KillUnit
+        Var   : gg_unit_ngad_0450
+    KillUnit
+        Var   : gg_unit_ngsp_0474
+    KillUnit
+        Var   : gg_unit_ngad_0451
+    KillUnit
+        Var   : gg_unit_h001_0122
+    KillUnit
+        Var   : gg_unit_nwe2_0144
+    KillUnit
+        Var   : gg_unit_h001_0061
+    KillUnit
+        Var   : gg_unit_h001_0062
+    KillUnit
+        Var   : gg_unit_h001_0063
+    KillUnit
+        Var   : gg_unit_h001_0064
+    KillUnit
+        Var   : gg_unit_h00E_0018
+    KillUnit
+        Var   : gg_unit_hvlt_0014
+    KillUnit
+        Var   : gg_unit_hgra_0015
+    KillUnit
+        Var   : gg_unit_hhou_0047
+    KillUnit
+        Var   : gg_unit_h00C_0013
+    KillUnit
+        Var   : gg_unit_o008_0150
+    KillUnit
+        Var   : gg_unit_hbar_0139
+    KillUnit
+        Var   : gg_unit_n00R_0492
+    KillUnit
+        Var   : gg_unit_o008_0148
+    KillUnit
+        Var   : gg_unit_o008_0140
+    KillUnit
+        Var   : gg_unit_o008_0152
+    KillUnit
+        Var   : gg_unit_o008_0145
+    KillUnit
+        Var   : gg_unit_o008_0146
+    KillUnit
+        Var   : gg_unit_hshy_0141
+    KillUnit
+        Var   : gg_unit_o008_0391
+    KillUnit
+        Var   : gg_unit_o008_0390
+    KillUnit
+        Var   : gg_unit_o008_0247
+    KillUnit
+        Var   : gg_unit_o008_0392
+    KillUnit
+        Var   : gg_unit_o008_0393
+    KillUnit
+        Var   : gg_unit_o008_0395
+    KillUnit
+        Var   : gg_unit_o008_0394
+    KillUnit
+        Var   : gg_unit_o008_0396
+    KillUnit
+        Var   : gg_unit_o008_0253
+    KillUnit
+        Var   : gg_unit_o008_0252
+    KillUnit
+        Var   : gg_unit_o008_0247
+    KillUnit
+        Var   : gg_unit_o008_0414
+    KillUnit
+        Var   : gg_unit_o008_0417
+    KillUnit
+        Var   : gg_unit_o008_0415
+    KillUnit
+        Var   : gg_unit_o008_0416
+    KillUnit
+        Var   : gg_unit_o008_0413
+    KillUnit
+        Var   : gg_unit_o008_0412
+    KillUnit
+        Var   : gg_unit_o008_0436
+    KillUnit
+        Var   : gg_unit_o008_0437
+    KillUnit
+        Var   : gg_unit_o008_0439
+    KillUnit
+        Var   : gg_unit_o008_0438
+    KillUnit
+        Var   : gg_unit_o008_0440
+    KillUnit
+        Var   : gg_unit_o008_0441
+    KillUnit
+        Var   : gg_unit_hhou_0068
+    KillUnit
+        Var   : gg_unit_ushp_0267
+    KillUnit
+        Var   : gg_unit_h00N_0346
+    KillUnit
+        Var   : gg_unit_hshy_0141
+    KillUnit
+        Var   : gg_unit_h00N_0294
+    KillUnit
+        Var   : gg_unit_hlum_0170
+    KillUnit
+        Var   : gg_unit_h00N_0023
+    KillUnit
+        Var   : gg_unit_e000_0282
+    KillUnit
+        Var   : gg_unit_hhou_0073
+    KillUnit
+        Var   : gg_unit_h00K_0597
+    KillUnit
+        Var   : gg_unit_hgtw_0067
+    KillUnit
+        Var   : gg_unit_h007_0536
+    KillUnit
+        Var   : gg_unit_hbla_0269
+    KillUnit
+        Var   : gg_unit_harm_0268
+    KillUnit
+        Var   : gg_unit_ugho_0548
+    KillUnit
+        Var   : gg_unit_ugho_0549
+    KillUnit
+        Var   : gg_unit_ugho_0546
+    KillUnit
+        Var   : gg_unit_ugho_0547
+    KillUnit
+        Var   : gg_unit_ugho_0545
+    KillUnit
+        Var   : gg_unit_h00W_0541
+    KillUnit
+        Var   : gg_unit_h00W_0543
+    KillUnit
+        Var   : gg_unit_h00W_0544
+    KillUnit
+        Var   : gg_unit_h00D_0265
+    KillUnit
+        Var   : gg_unit_n00P_0266
+    KillUnit
+        Var   : gg_unit_h00J_0163
+    KillUnit
+        Var   : gg_unit_h001_0193
+    KillUnit
+        Var   : gg_unit_hvlt_0165
+    KillUnit
+        Var   : gg_unit_hgra_0166
+    KillUnit
+        Var   : gg_unit_h006_0167
+    KillUnit
+        Var   : gg_unit_hhou_0171
+    KillUnit
+        Var   : gg_unit_nvlw_0542
+    KillUnit
+        Var   : gg_unit_hhou_0000
+    KillUnit
+        Var   : gg_unit_hhou_0047
+    KillUnit
+        Var   : gg_unit_h00C_0013
+    KillUnit
+        Var   : gg_unit_hvlt_0014
+    KillUnit
+        Var   : gg_unit_h00E_0018
+    KillUnit
+        Var   : gg_unit_hgtw_0021
+    KillUnit
+        Var   : gg_unit_hgtw_0022
+    KillUnit
+        Var   : gg_unit_h015_0288
+    KillUnit
+        Var   : gg_unit_h013_0296
+    KillUnit
+        Var   : gg_unit_h001_0151
+    KillUnit
+        Var   : gg_unit_hvlt_0290
+    KillUnit
+        Var   : gg_unit_hhou_0291
+    KillUnit
+        Var   : gg_unit_h001_0143
+    KillUnit
+        Var   : gg_unit_h001_0149
+    KillUnit
+        Var   : gg_unit_hgtw_0293
+    KillUnit
+        Var   : gg_unit_hgtw_0292
+    KillUnit
+        Var   : gg_unit_hhou_0295
+    KillUnit
+        Var   : gg_unit_nef2_0283
+    KillUnit
+        Var   : gg_unit_h008_0278
+    KillUnit
+        Var   : gg_unit_hars_0273
+    KillUnit
+        Var   : gg_unit_nheb_0274
+    KillUnit
+        Var   : gg_unit_nefm_0276
+    KillUnit
+        Var   : gg_unit_h001_0285
+    KillUnit
+        Var   : gg_unit_nefm_0275
+    KillUnit
+        Var   : gg_unit_n00P_0210
+    KillUnit
+        Var   : gg_unit_h00B_0338
+    KillUnit
+        Var   : gg_unit_hvlt_0342
+    KillUnit
+        Var   : gg_unit_hhou_0336
+    KillUnit
+        Var   : gg_unit_h001_0349
+    KillUnit
+        Var   : gg_unit_h001_0350
+    KillUnit
+        Var   : gg_unit_h001_0351
+    KillUnit
+        Var   : gg_unit_hhou_0335
+    KillUnit
+        Var   : gg_unit_hgtw_0347
+    KillUnit
+        Var   : gg_unit_hgtw_0348
+    KillUnit
+        Var   : gg_unit_o00G_0251
+    KillUnit
+        Var   : gg_unit_h01Y_0213
+    KillUnit
+        Var   : gg_unit_h001_0211
+    KillUnit
+        Var   : gg_unit_n004_0206
+    KillUnit
+        Var   : gg_unit_n004_0207
+    KillUnit
+        Var   : gg_unit_ndt2_0201
+    KillUnit
+        Var   : gg_unit_ndt2_0200
+    KillUnit
+        Var   : gg_unit_n004_0208
+    KillUnit
+        Var   : gg_unit_n004_0209
+    KillUnit
+        Var   : gg_unit_n012_0049
+    KillUnit
+        Var   : gg_unit_n013_0255
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
+    KillUnit
+        Var   : gg_unit_o005_0381
