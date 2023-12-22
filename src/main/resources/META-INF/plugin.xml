@@ -3,13 +3,14 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.11</version>
-    <idea-version since-build="2023.3" />
-    <vendor url="https://xgm.guru">XGM</vendor>
+    <version>2.0.12</version>
+    <idea-version since-build="2023.3"/>
+    <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!-- JASS -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.JassFileType"
                   fieldName="INSTANCE"
@@ -33,7 +34,6 @@
 
         <!-- formatter -->
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
-        <!-- <codeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassCodeStyleSettingsProvider"/> -->
         <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
         <!-- inspections -->
@@ -47,6 +47,15 @@
                          level="WARNING"
                          implementationClass="guru.xgm.jass.codeInspection.JassOperatorCallBehaviorInspection"
         />
+
+        <!-- ZINC -->
+        <fileType name="ZINC"
+                  implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincFileType"
+                  fieldName="INSTANCE"
+                  language="ZINC"
+                  extensions="zn"
+        />
+        <lang.syntaxHighlighterFactory language="ZINC" implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
     </extensions>
 
@@ -70,7 +79,7 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p><b>2.0.8</b> - Add code style options.</p>
+        <p>Base code reformat.</p>
         ]]></change-notes>
 
 </idea-plugin>
