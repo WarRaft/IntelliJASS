@@ -107,7 +107,8 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
         indentOptions.INDENT_SIZE = 4;
         indentOptions.CONTINUATION_INDENT_SIZE = 4;
         indentOptions.TAB_SIZE = 4;
-        indentOptions.USE_TAB_CHARACTER = true;
+        indentOptions.USE_TAB_CHARACTER = false;
+        indentOptions.SMART_TABS = false;
     }
 
     @Override
