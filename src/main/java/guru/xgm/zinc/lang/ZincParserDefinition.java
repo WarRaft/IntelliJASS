@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import guru.xgm.jass.psi.JassTokenSets;
+import guru.xgm.zinc.psi.ZincTokenSets;
 import guru.xgm.zinc.extapi.psi.ZincPsiFileBase;
 import guru.xgm.zinc.lexer.ZincFlexAdapter;
 import guru.xgm.zinc.parser.ZincParser;
@@ -30,7 +30,7 @@ public final class ZincParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return JassTokenSets.COMMENTS;
+        return ZincTokenSets.COMMENTS;
     }
 
     @NotNull

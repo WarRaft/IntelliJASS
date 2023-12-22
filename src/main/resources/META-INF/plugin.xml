@@ -18,6 +18,8 @@
                   extensions="j"
         />
         <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.JassParserDefinition"/>
+
+        <!-- highlight -->
         <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
@@ -55,6 +57,9 @@
                   language="ZINC"
                   extensions="zn"
         />
+        <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.zinc.lang.ZincParserDefinition"/>
+
+        <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC" implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
     </extensions>

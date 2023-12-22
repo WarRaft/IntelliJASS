@@ -13,6 +13,6 @@ public class ZincIToken extends IElementType {
 
     @Override
     public String toString() {
-        return "ZincIElement." + super.toString();
+        return "ZincIToken." + super.toString();
     }
 }
