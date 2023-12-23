@@ -87,10 +87,10 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "-"                         { return MINUS; }
   "*"                         { return MUL; }
   "/"                         { return DIV; }
-  "("                         { return LP; }
-  ")"                         { return RP; }
-  "["                         { return LB; }
-  "]"                         { return RB; }
+  "("                         { return LPAREN; }
+  ")"                         { return RPAREN; }
+  "["                         { return LBRACK; }
+  "]"                         { return RBRACK; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }

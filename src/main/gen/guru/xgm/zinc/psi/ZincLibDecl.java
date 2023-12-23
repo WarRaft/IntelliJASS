@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ZincLibDecl extends PsiElement {
 
   @Nullable
-  PsiElement getId();
+  ZincLibBody getLibBody();
+
+  @Nullable
+  ZincLibName getLibName();
 
 }

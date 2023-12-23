@@ -2,6 +2,8 @@ package guru.xgm.zinc.psi;
 
 import com.intellij.psi.tree.TokenSet;
 
+import static guru.xgm.zinc.psi.ZincTypes.*;
+
 public interface ZincTokenSets {
-    TokenSet COMMENTS = TokenSet.create(ZincTypes.SINGLE_LINE_COMMENT);
+    TokenSet COMMENTS = TokenSet.create(SINGLE_LINE_COMMENT, BLOCK_COMMENT);
 }

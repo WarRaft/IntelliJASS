@@ -13,22 +13,206 @@
 
     extends(".*Expr")=Expr
 
+    // if we regenerate the .flex lexer, change block comment to this:
+    // BLOCK_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
+
     tokens=[
         WHITE_SPACE='regexp:\s+'
         SINGLE_LINE_COMMENT="regexp://[^\n]*"
+        BLOCK_COMMENT='regexp:/\*(?:(?!\*/)[\s\S])*\*/'
 
-        LIBRARY="library"
+        CODE='code'
+        CONSTANT='constant'
+        FOR='for'
+        FUNCTION='function'
+        LIBRARY='library'
+        BOOLEAN='boolean'
+        HANDLE='handle'
+        IF='if'
+        ELSE='else'
+        INTEGER='integer'
+        STRING='string'
+        REAL='real'
+        PRIVATE='private'
+        PUBLIC='public'
+        NOTHING='nothing'
+        RETURN='return'
 
         COMMA=','
+        EQ_EQ='=='
+        EQ='='
+        NEQ='!='
+        SEMI = ';'
+        MINUS_GT = '->'
+        AND_AND = '&&'
+        OR_OR = '||'
+        PLUS='+'
+        MINUS='-'
+        MUL='*'
+        DIV='/'
+        LT_EQ='<='
+        LT='<'
+        GT_EQ='>='
+        GT='>'
+        LBRACE = '{'
+        RBRACE = '}'
+        LPAREN = '('
+        RPAREN = ')'
+        LBRACK = '['
+        RBRACK = ']'
+
+        REALVAl='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        RAWVAl="regexp:'[^']*'"
+        STRVAL="regexp:\"([^\"\\]|\\.)*\""
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
+
     ]
 
 }
 
 // https://www.osti.gov/servlets/purl/1644738
 
-Root ::= (LibDecl)*
+Root ::= (LibDecl)* {recoverWhile=RootRecover}
+private RootRecover ::= !(RBRACE)
 
+// ACCESS
+VisibilityDef ::= (PUBLIC|PRIVATE)
 
-LibDecl ::= LIBRARY ID {pin=1}
+// LIBRARY
+LibDecl ::= LIBRARY LibName LibBody  {pin=1}
+LibName ::= ID
+LibBody ::= LBRACE (GvarDecl|FuncDecl)* RBRACE {pin=1}
+
+// GLOBALS
+GvarName ::= ID
+GvarBody ::= GvarName (EQ Expr)?
+GvarDecl ::= CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=2}
+
+// === VARIABLE
+TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY
+TypedVar ::= TypeName ID
+TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1}
+
+// === FUNCTION
+Arg ::= Expr|FuncAsCode|FuncAnon
+ArgList ::= Arg (COMMA Arg)*
+FuncCallName ::= ID
+
+FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
+FuncAnon ::= FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=2}
+FuncDecl ::= VisibilityDef? CONSTANT? FUNCTION FuncDeclName LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
+FuncDeclName ::= ID
+FuncReturns ::= MINUSGT (NOTHING|TypeName) {pin=1}
+FuncBody ::= LBRACE Stmt* RBRACE {pin=1}
+
+// === STATEMENT
+
+Stmt ::=
+    SetStmt
+    | ForStmt
+    | CallStmt
+    | IfStmt
+    | ReturnStmt
+    | LvarStmt
+{recoverWhile=StmtRecover}
+private StmtRecover ::= !(LBRACE|RBRACE|FOR|IF|ELSE|ID LPAREN|ID EQ)
+
+BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
+
+// -- set
+SetStmt ::= (ArrayAccess|ID) EQ Expr SEMI? {pin=2}
+
+// -- local var
+LvarBody ::= ID (EQ Expr)?
+LvarStmt ::= TypeName LvarBody (COMMA LvarBody)* SEMI? {pin=1}
+
+// -- for
+ForOp ::= (LT|LT_EQ|GT|GT_EQ)
+ForStmt ::= FOR ForHead (Stmt|BracedStmt) {pin=1}
+ForExpr ::= PrimaryExpr
+ForHead ::= LPAREN ForExpr ForOp ID ForOp ForExpr RPAREN {pin=1 }
+CallStmt ::= DEBUG? FuncCall SEMI?
+
+// -- return
+ReturnStmt ::= RETURN Expr? SEMI? {pin=1}
+
+// -- if
+IfStmt ::= IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?  {pin=1}
+ElseStmt ::= ELSE (Stmt|BracedStmt) {pin=1}
+
+// === EXPRESSION
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+// https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+// https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
+// https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+
+Expr ::=
+    AddGroup |
+    MulGroup |
+    UnaryGroup |
+    CmpGroup |
+    OrExpr |
+    AndExpr |
+    PrimaryExpr
+
+private AddGroup ::= PlusExpr | MinusExpr
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
+
+private MulGroup ::= MulExpr | DivExpr
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
+
+private UnaryGroup ::=
+    MulUnaryExpr |
+    DivUnaryExpr |
+    PlusUnaryExpr |
+    MinusUnaryExpr |
+    NotExpr
+
+MulUnaryExpr ::= MUL Expr
+DivUnaryExpr ::= DIV Expr
+PlusUnaryExpr ::= PLUS Expr
+MinusUnaryExpr ::= MINUS Expr
+NotExpr ::= NOT Expr
+
+private CmpGroup ::=
+    EqExpr |
+    NEqExpr |
+    LTExpr |
+    LTEqExpr |
+    GTExpr |
+    GTEqExpr
+
+EqExpr ::= Expr EQ_EQ Expr
+NEqExpr ::= Expr NEQ Expr
+LTExpr ::= Expr LT Expr
+LTEqExpr ::= Expr LT_EQ Expr
+GTExpr ::= Expr GT Expr
+GTEqExpr ::= Expr GT_EQ Expr
+
+OrExpr ::= Expr OR_OR Expr
+AndExpr ::= Expr AND_AND Expr
+ParenExpr ::= LPAREN Expr RPAREN
+
+PrimaryExpr ::=
+    FALSE |
+    NULL |
+    TRUE |
+    ParenExpr |
+    ArrayAccess |
+    FuncCall |
+    FuncAsCode |
+    REALVAL |
+    HEXVAL |
+    INTVAL |
+    RAWVAL |
+    STRVAL |
+    ID
+
+ArrayAccess ::= ID LBRACK Expr? RBRACK
+FuncAsCode ::= FUNCTION FuncCallName {pin=2}
+

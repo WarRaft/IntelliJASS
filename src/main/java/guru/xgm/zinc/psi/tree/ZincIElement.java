@@ -1,14 +1,14 @@
 package guru.xgm.zinc.psi.tree;
 
 import com.intellij.psi.tree.IElementType;
-import guru.xgm.jass.lang.JassLanguage;
+import guru.xgm.zinc.lang.ZincLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 public class ZincIElement extends IElementType {
 
     public ZincIElement(@NotNull @NonNls String debugName) {
-        super(debugName, JassLanguage.INSTANCE);
+        super(debugName, ZincLanguage.INSTANCE);
     }
 
     @Override

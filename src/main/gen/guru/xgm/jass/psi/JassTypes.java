@@ -90,10 +90,10 @@ public interface JassTypes {
   IElementType IF = new JassIToken("if");
   IElementType INTEGER = new JassIToken("integer");
   IElementType INTVAL = new JassIToken("INTVAL");
-  IElementType LB = new JassIToken("[");
+  IElementType LBRACK = new JassIToken("[");
   IElementType LOCAL = new JassIToken("local");
   IElementType LOOP = new JassIToken("loop");
-  IElementType LP = new JassIToken("(");
+  IElementType LPAREN = new JassIToken("(");
   IElementType LT = new JassIToken("<");
   IElementType LTEQ = new JassIToken("<=");
   IElementType MINUS = new JassIToken("-");
@@ -106,12 +106,12 @@ public interface JassTypes {
   IElementType OR = new JassIToken("or");
   IElementType PLUS = new JassIToken("+");
   IElementType RAWVAL = new JassIToken("RAWVAL");
-  IElementType RB = new JassIToken("]");
+  IElementType RBRACK = new JassIToken("]");
   IElementType REAL = new JassIToken("real");
   IElementType REALVAL = new JassIToken("REALVAL");
   IElementType RETURN = new JassIToken("return");
   IElementType RETURNS = new JassIToken("returns");
-  IElementType RP = new JassIToken(")");
+  IElementType RPAREN = new JassIToken(")");
   IElementType SET = new JassIToken("set");
   IElementType SINGLE_LINE_COMMENT = new JassIToken("SINGLE_LINE_COMMENT");
   IElementType STRING = new JassIToken("string");

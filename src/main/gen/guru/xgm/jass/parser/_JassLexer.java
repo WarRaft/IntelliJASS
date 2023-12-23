@@ -702,12 +702,12 @@ public class _JassLexer implements FlexLexer {
           // fall through
           case 64: break;
           case 3:
-            { return LP;
+            { return LPAREN;
             }
           // fall through
           case 65: break;
           case 4:
-            { return RP;
+            { return RPAREN;
             }
           // fall through
           case 66: break;
@@ -762,12 +762,12 @@ public class _JassLexer implements FlexLexer {
           // fall through
           case 76: break;
           case 15:
-            { return LB;
+            { return LBRACK;
             }
           // fall through
           case 77: break;
           case 16:
-            { return RB;
+            { return RBRACK;
             }
           // fall through
           case 78: break;

@@ -29,8 +29,14 @@ public class ZincLibDeclImpl extends ASTWrapperPsiElement implements ZincLibDecl
 
   @Override
   @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  public ZincLibBody getLibBody() {
+    return findChildByClass(ZincLibBody.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincLibName getLibName() {
+    return findChildByClass(ZincLibName.class);
   }
 
 }
