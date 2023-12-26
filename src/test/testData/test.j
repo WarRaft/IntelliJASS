@@ -1,53 +1,27 @@
-type a      extends b // comment
+function a
+    local unit caster = GetSpellAbilityUnit()
+    local location cas = GetUnitLoc(caster)
+    local location tar = GetSpellTargetLoc()
+    local real d = bj_RADTODEG * (Atan2(GetLocationY(cas) - GetLocationY(tar), GetLocationX(cas) - GetLocationX(tar)))
 
-// comment
+    local real x = (GetLocationX(tar) + 150 * Cos((d+90) * bj_DEGTORAD)) - 300 * Cos((d+180) * bj_DEGTORAD)
+    local real y = (GetLocationY(tar) + 150 * Sin((d+90) * bj_DEGTORAD)) - 300 * Sin((d+180) * bj_DEGTORAD)
 
-type ab     extends be // comment
+    local real x2 = (GetLocationX(tar) + 150 * Cos((d-90) * bj_DEGTORAD)) - 300 * Cos((d-180) * bj_DEGTORAD)
+    local real y2 = (GetLocationY(tar) + 150 * Sin((d-90) * bj_DEGTORAD)) - 300 * Sin((d-180) * bj_DEGTORAD)
 
-// comment
+    local unit Unit = CreateUnitAtLoc(GetOwningPlayer(caster), Unit2Id, Location(x, y), d + 90)
 
-type d      extends c // comment
-type ass    extends c // comment
-type assads extends c // comment
-type dd     extends c // comment
+    local unit Unit2 = CreateUnitAtLoc(GetOwningPlayer(caster), Unit2Id, Location(x2, y2), d - 90)
 
-// comment
-
-globals
-    a b = 1 != 2 != false
-
-endglobals
-
-
-constant native CreateGroup     takes nothing returns group
-
-constant native DestroyGroup    takes group whichGroup returns nothing
-
-// 111
-native          GroupAddUnit    takes group whichGroup, unit whichUnit returns nothing
-
-native          GroupRemoveUnit takes group whichGroup, unit whichUnit returns nothing
-native          GroupClear      takes group whichGroup returns nothing
-
-globals constant a b
-    b              c = 1234
-    constant e     f = 2344
-
-endglobals
-
-function a takes b c, d e, r d returns d
-
-    if a > b and c < 2 or (1123) then
-    endif
-
-    local d e = f
-endfunction
-
-
-function MyFunc
-
-    real a = 22 real b = 33 integer c call Somefunc()
-
-    real d
-
+    set caster = null
+    set Unit = null
+    set Unit2 = null
+    set d = 0
+    set x = 0
+    set y = 0
+    set x2 = 0
+    set y2 = 0
+    call RemoveLocation (cas)
+    call RemoveLocation (tar)
 endfunction

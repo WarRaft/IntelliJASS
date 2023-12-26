@@ -34,4 +34,7 @@ public interface ZincStmt extends PsiElement {
   @Nullable
   ZincStructStmt getStructStmt();
 
+  @Nullable
+  ZincWhileStmt getWhileStmt();
+
 }

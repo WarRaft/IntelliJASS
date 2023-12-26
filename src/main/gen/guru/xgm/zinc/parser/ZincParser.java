@@ -11,7 +11,7 @@ import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
-@SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
+@SuppressWarnings({"SimplifiableIfStatement"})
 public class ZincParser implements PsiParser, LightPsiParser {
 
   public ASTNode parse(IElementType t, PsiBuilder b) {
@@ -1037,6 +1037,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
   //     | LvarStmt
   //     | SetStmt
   //     | DoStmt
+  //     | WhileStmt
   //     | BreakStmt
   //     | StructStmt
   public static boolean Stmt(PsiBuilder b, int l) {
@@ -1050,6 +1051,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     if (!r) r = LvarStmt(b, l + 1);
     if (!r) r = SetStmt(b, l + 1);
     if (!r) r = DoStmt(b, l + 1);
+    if (!r) r = WhileStmt(b, l + 1);
     if (!r) r = BreakStmt(b, l + 1);
     if (!r) r = StructStmt(b, l + 1);
     exit_section_(b, l, m, r, false, ZincParser::StmtRecover);
@@ -1057,7 +1059,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(LBRACE|RBRACE|FOR|IF|DO|ELSE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
+  // !(LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
   static boolean StmtRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover")) return false;
     boolean r;
@@ -1067,7 +1069,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LBRACE|RBRACE|FOR|IF|DO|ELSE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT
+  // LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT
   private static boolean StmtRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
     boolean r;
@@ -1076,22 +1078,23 @@ public class ZincParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, RBRACE);
     if (!r) r = consumeToken(b, FOR);
     if (!r) r = consumeToken(b, IF);
-    if (!r) r = consumeToken(b, DO);
     if (!r) r = consumeToken(b, ELSE);
+    if (!r) r = consumeToken(b, DO);
+    if (!r) r = consumeToken(b, WHILE);
     if (!r) r = consumeToken(b, RETURN);
     if (!r) r = consumeToken(b, DEBUG);
-    if (!r) r = StmtRecover_0_8(b, l + 1);
+    if (!r) r = StmtRecover_0_9(b, l + 1);
     if (!r) r = parseTokens(b, 0, ID, LPAREN);
     if (!r) r = parseTokens(b, 0, ID, LBRACK);
-    if (!r) r = StmtRecover_0_11(b, l + 1);
+    if (!r) r = StmtRecover_0_12(b, l + 1);
     if (!r) r = parseTokens(b, 0, ID, DOT);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // TypeName ID
-  private static boolean StmtRecover_0_8(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0_8")) return false;
+  private static boolean StmtRecover_0_9(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StmtRecover_0_9")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = TypeName(b, l + 1);
@@ -1101,8 +1104,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   // ID SetOp
-  private static boolean StmtRecover_0_11(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0_11")) return false;
+  private static boolean StmtRecover_0_12(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StmtRecover_0_12")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ID);
@@ -1112,7 +1115,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DOT (FuncCall|ArrayAccessItem|ID)
+  // DOT (FuncCall|ArrayAccess|ID)
   public static boolean StructAccess(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructAccess")) return false;
     if (!nextTokenIs(b, DOT)) return false;
@@ -1125,12 +1128,12 @@ public class ZincParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // FuncCall|ArrayAccessItem|ID
+  // FuncCall|ArrayAccess|ID
   private static boolean StructAccess_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructAccess_1")) return false;
     boolean r;
     r = FuncCall(b, l + 1);
-    if (!r) r = ArrayAccessItem(b, l + 1);
+    if (!r) r = ArrayAccess(b, l + 1);
     if (!r) r = consumeToken(b, ID);
     return r;
   }
@@ -1344,6 +1347,33 @@ public class ZincParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, PUBLIC);
     if (!r) r = consumeToken(b, PRIVATE);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // WHILE LPAREN Expr RPAREN (Stmt|BracedStmt)
+  public static boolean WhileStmt(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "WhileStmt")) return false;
+    if (!nextTokenIs(b, WHILE)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, WHILE_STMT, null);
+    r = consumeTokens(b, 1, WHILE, LPAREN);
+    p = r; // pin = 1
+    r = r && report_error_(b, Expr(b, l + 1, -1));
+    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
+    r = p && WhileStmt_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // Stmt|BracedStmt
+  private static boolean WhileStmt_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "WhileStmt_4")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Stmt(b, l + 1);
+    if (!r) r = BracedStmt(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

@@ -149,10 +149,11 @@ Stmt ::=
     | LvarStmt
     | SetStmt
     | DoStmt
+    | WhileStmt
     | BreakStmt
     | StructStmt
 {recoverWhile=StmtRecover}
-private StmtRecover ::= !(LBRACE|RBRACE|FOR|IF|DO|ELSE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
+private StmtRecover ::= !(LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
 
 BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
 
@@ -177,7 +178,7 @@ DoStmt ::= DO (Stmt|BracedStmt) WHILE LPAREN Expr RPAREN SEMI? {pin=1}
 BreakStmt ::= BREAK SEMI? {pin=1}
 
 // -- while
-
+WhileStmt ::= WHILE LPAREN Expr RPAREN (Stmt|BracedStmt) {pin=1}
 
 // -- return
 ReturnStmt ::= RETURN Expr? SEMI? {pin=1}

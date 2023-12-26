@@ -1,5 +1,5 @@
 //! zinc
-library Sandbox requires CothUtilities, PlayerLeaves {
+library Sandbox requires CothUtilities, optional PlayerLeaves {
   integer CountofLeavedPlayers = 0;
   string tempString[];
   dialog SelectHeroDialog = DialogCreate();

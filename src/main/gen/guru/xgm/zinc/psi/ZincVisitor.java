@@ -279,6 +279,10 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitWhileStmt(@NotNull ZincWhileStmt o) {
+    visitPsiElement(o);
+  }
+
   public void visitPsiElement(@NotNull PsiElement o) {
     visitElement(o);
   }

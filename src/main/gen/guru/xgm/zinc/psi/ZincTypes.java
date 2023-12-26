@@ -78,6 +78,7 @@ public interface ZincTypes {
   IElementType TYPED_VAR_LIST = new ZincIElement("TYPED_VAR_LIST");
   IElementType TYPE_NAME = new ZincIElement("TYPE_NAME");
   IElementType VISIBILITY_DEF = new ZincIElement("VISIBILITY_DEF");
+  IElementType WHILE_STMT = new ZincIElement("WHILE_STMT");
 
   IElementType AND_AND = new ZincIToken("&&");
   IElementType BLOCK_COMMENT = new ZincIToken("BLOCK_COMMENT");
@@ -345,6 +346,9 @@ public interface ZincTypes {
       }
       else if (type == VISIBILITY_DEF) {
         return new ZincVisibilityDefImpl(node);
+      }
+      else if (type == WHILE_STMT) {
+        return new ZincWhileStmtImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
