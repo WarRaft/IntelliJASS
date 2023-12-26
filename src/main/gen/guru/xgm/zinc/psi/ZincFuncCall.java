@@ -13,4 +13,7 @@ public interface ZincFuncCall extends PsiElement {
   @NotNull
   ZincFuncCallName getFuncCallName();
 
+  @NotNull
+  List<ZincStructAccess> getStructAccessList();
+
 }

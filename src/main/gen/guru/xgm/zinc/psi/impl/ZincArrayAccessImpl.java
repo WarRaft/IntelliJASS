@@ -28,9 +28,9 @@ public class ZincArrayAccessImpl extends ASTWrapperPsiElement implements ZincArr
   }
 
   @Override
-  @Nullable
-  public ZincExpr getExpr() {
-    return findChildByClass(ZincExpr.class);
+  @NotNull
+  public List<ZincArrayAccessItem> getArrayAccessItemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincArrayAccessItem.class);
   }
 
   @Override

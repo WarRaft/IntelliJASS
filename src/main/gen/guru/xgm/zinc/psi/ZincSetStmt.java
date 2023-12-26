@@ -13,6 +13,12 @@ public interface ZincSetStmt extends PsiElement {
   @Nullable
   ZincExpr getExpr();
 
+  @NotNull
+  ZincSetOp getSetOp();
+
+  @NotNull
+  List<ZincStructAccess> getStructAccessList();
+
   @Nullable
   PsiElement getId();
 

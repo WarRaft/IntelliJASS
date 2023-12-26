@@ -29,14 +29,20 @@ public class ZincGvarBodyImpl extends ASTWrapperPsiElement implements ZincGvarBo
 
   @Override
   @Nullable
+  public ZincArrayAccess getArrayAccess() {
+    return findChildByClass(ZincArrayAccess.class);
+  }
+
+  @Override
+  @Nullable
   public ZincExpr getExpr() {
     return findChildByClass(ZincExpr.class);
   }
 
   @Override
-  @NotNull
-  public ZincGvarName getGvarName() {
-    return findNotNullChildByClass(ZincGvarName.class);
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
 }

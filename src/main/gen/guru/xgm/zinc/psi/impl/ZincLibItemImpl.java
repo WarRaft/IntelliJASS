@@ -11,14 +11,14 @@ import static guru.xgm.zinc.psi.ZincTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.zinc.psi.*;
 
-public class ZincGvarNameImpl extends ASTWrapperPsiElement implements ZincGvarName {
+public class ZincLibItemImpl extends ASTWrapperPsiElement implements ZincLibItem {
 
-  public ZincGvarNameImpl(@NotNull ASTNode node) {
+  public ZincLibItemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitGvarName(this);
+    visitor.visitLibItem(this);
   }
 
   @Override
@@ -28,9 +28,27 @@ public class ZincGvarNameImpl extends ASTWrapperPsiElement implements ZincGvarNa
   }
 
   @Override
-  @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
+  @Nullable
+  public ZincFuncDecl getFuncDecl() {
+    return findChildByClass(ZincFuncDecl.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincGvarDecl getGvarDecl() {
+    return findChildByClass(ZincGvarDecl.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincLibVisDecl getLibVisDecl() {
+    return findChildByClass(ZincLibVisDecl.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincStructDecl getStructDecl() {
+    return findChildByClass(ZincStructDecl.class);
   }
 
 }

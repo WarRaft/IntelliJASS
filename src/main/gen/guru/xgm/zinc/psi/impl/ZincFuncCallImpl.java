@@ -39,4 +39,10 @@ public class ZincFuncCallImpl extends ASTWrapperPsiElement implements ZincFuncCa
     return findNotNullChildByClass(ZincFuncCallName.class);
   }
 
+  @Override
+  @NotNull
+  public List<ZincStructAccess> getStructAccessList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructAccess.class);
+  }
+
 }

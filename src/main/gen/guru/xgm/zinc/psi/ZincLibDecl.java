@@ -11,6 +11,9 @@ public interface ZincLibDecl extends PsiElement {
   ZincLibBody getLibBody();
 
   @Nullable
-  ZincLibName getLibName();
+  ZincLibReq getLibReq();
+
+  @Nullable
+  PsiElement getId();
 
 }

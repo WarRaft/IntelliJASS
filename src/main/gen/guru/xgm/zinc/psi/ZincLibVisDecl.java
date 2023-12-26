@@ -5,9 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZincLibName extends PsiElement {
+public interface ZincLibVisDecl extends PsiElement {
+
+  @Nullable
+  ZincLibBody getLibBody();
+
+  @Nullable
+  ZincLibItem getLibItem();
 
   @NotNull
-  PsiElement getId();
+  ZincVisibilityDef getVisibilityDef();
 
 }

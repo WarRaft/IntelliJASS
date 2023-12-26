@@ -10,7 +10,7 @@ public interface ZincFuncDecl extends PsiElement {
   @Nullable
   ZincFuncBody getFuncBody();
 
-  @Nullable
+  @NotNull
   ZincFuncDeclName getFuncDeclName();
 
   @Nullable
@@ -18,8 +18,5 @@ public interface ZincFuncDecl extends PsiElement {
 
   @Nullable
   ZincTypedVarList getTypedVarList();
-
-  @Nullable
-  ZincVisibilityDef getVisibilityDef();
 
 }

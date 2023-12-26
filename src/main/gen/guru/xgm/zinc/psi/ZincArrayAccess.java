@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface ZincArrayAccess extends PsiElement {
 
-  @Nullable
-  ZincExpr getExpr();
+  @NotNull
+  List<ZincArrayAccessItem> getArrayAccessItemList();
 
   @NotNull
   PsiElement getId();

@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ZincLibBody extends PsiElement {
 
   @NotNull
-  List<ZincFuncDecl> getFuncDeclList();
-
-  @NotNull
-  List<ZincGvarDecl> getGvarDeclList();
+  List<ZincLibItem> getLibItemList();
 
 }

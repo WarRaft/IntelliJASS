@@ -23,7 +23,15 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitArrayAccessItem(@NotNull ZincArrayAccessItem o) {
+    visitPsiElement(o);
+  }
+
   public void visitBracedStmt(@NotNull ZincBracedStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBreakStmt(@NotNull ZincBreakStmt o) {
     visitPsiElement(o);
   }
 
@@ -36,6 +44,14 @@ public class ZincVisitor extends PsiElementVisitor {
   }
 
   public void visitDivUnaryExpr(@NotNull ZincDivUnaryExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitDoStmt(@NotNull ZincDoStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDotExpr(@NotNull ZincDotExpr o) {
     visitExpr(o);
   }
 
@@ -115,10 +131,6 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGvarName(@NotNull ZincGvarName o) {
-    visitPsiElement(o);
-  }
-
   public void visitIfStmt(@NotNull ZincIfStmt o) {
     visitPsiElement(o);
   }
@@ -139,7 +151,19 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLibName(@NotNull ZincLibName o) {
+  public void visitLibItem(@NotNull ZincLibItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLibReq(@NotNull ZincLibReq o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLibReqItem(@NotNull ZincLibReqItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLibVisDecl(@NotNull ZincLibVisDecl o) {
     visitPsiElement(o);
   }
 
@@ -199,11 +223,43 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSetOp(@NotNull ZincSetOp o) {
+    visitPsiElement(o);
+  }
+
   public void visitSetStmt(@NotNull ZincSetStmt o) {
     visitPsiElement(o);
   }
 
   public void visitStmt(@NotNull ZincStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructAccess(@NotNull ZincStructAccess o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructBody(@NotNull ZincStructBody o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructDecl(@NotNull ZincStructDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructItem(@NotNull ZincStructItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructMethod(@NotNull ZincStructMethod o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructStmt(@NotNull ZincStructStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructVisDecl(@NotNull ZincStructVisDecl o) {
     visitPsiElement(o);
   }
 

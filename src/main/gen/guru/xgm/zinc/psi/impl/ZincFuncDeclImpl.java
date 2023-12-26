@@ -34,9 +34,9 @@ public class ZincFuncDeclImpl extends ASTWrapperPsiElement implements ZincFuncDe
   }
 
   @Override
-  @Nullable
+  @NotNull
   public ZincFuncDeclName getFuncDeclName() {
-    return findChildByClass(ZincFuncDeclName.class);
+    return findNotNullChildByClass(ZincFuncDeclName.class);
   }
 
   @Override
@@ -49,12 +49,6 @@ public class ZincFuncDeclImpl extends ASTWrapperPsiElement implements ZincFuncDe
   @Nullable
   public ZincTypedVarList getTypedVarList() {
     return findChildByClass(ZincTypedVarList.class);
-  }
-
-  @Override
-  @Nullable
-  public ZincVisibilityDef getVisibilityDef() {
-    return findChildByClass(ZincVisibilityDef.class);
   }
 
 }

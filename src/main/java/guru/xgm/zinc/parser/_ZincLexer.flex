@@ -39,22 +39,36 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 <YYINITIAL> {
   {WHITE_SPACE}               { return WHITE_SPACE; }
 
+  "boolean"                   { return BOOLEAN; }
+  "break"                     { return BREAK; }
   "code"                      { return CODE; }
   "constant"                  { return CONSTANT; }
+  "debug"                     { return DEBUG; }
+  "do"                        { return DO; }
+  "else"                      { return ELSE; }
+  "false"                     { return FALSE; }
   "for"                       { return FOR; }
   "function"                  { return FUNCTION; }
-  "library"                   { return LIBRARY; }
-  "boolean"                   { return BOOLEAN; }
   "handle"                    { return HANDLE; }
   "if"                        { return IF; }
-  "else"                      { return ELSE; }
   "integer"                   { return INTEGER; }
-  "string"                    { return STRING; }
-  "real"                      { return REAL; }
+  "key"                       { return KEY; }
+  "library"                   { return LIBRARY; }
+  "method"                    { return METHOD; }
+  "nothing"                   { return NOTHING; }
+  "null"                      { return NULL; }
+  "optional"                  { return OPTIONAL; }
   "private"                   { return PRIVATE; }
   "public"                    { return PUBLIC; }
-  "nothing"                   { return NOTHING; }
+  "real"                      { return REAL; }
+  "requires"                  { return REQUIRES; }
   "return"                    { return RETURN; }
+  "static"                    { return STATIC; }
+  "string"                    { return STRING; }
+  "struct"                    { return STRUCT; }
+  "true"                      { return TRUE; }
+  "while"                     { return WHILE; }
+  "."                         { return DOT; }
   ","                         { return COMMA; }
   "=="                        { return EQ_EQ; }
   "="                         { return EQ; }
@@ -63,10 +77,15 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "->"                        { return MINUS_GT; }
   "&&"                        { return AND_AND; }
   "||"                        { return OR_OR; }
+  "!"                         { return NOT; }
   "+"                         { return PLUS; }
+  "+="                        { return PLUS_EQ; }
   "-"                         { return MINUS; }
+  "-="                        { return MINUS_EQ; }
   "*"                         { return MUL; }
+  "*="                        { return MUL_EQ; }
   "/"                         { return DIV; }
+  "/="                        { return DIV_EQ; }
   "<="                        { return LT_EQ; }
   "<"                         { return LT; }
   ">="                        { return GT_EQ; }
@@ -77,13 +96,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
-  "KEY"                       { return KEY; }
-  "MINUSGT"                   { return MINUSGT; }
-  "DEBUG"                     { return DEBUG; }
-  "NOT"                       { return NOT; }
-  "FALSE"                     { return FALSE; }
-  "NULL"                      { return NULL; }
-  "TRUE"                      { return TRUE; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }

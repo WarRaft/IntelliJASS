@@ -8,7 +8,13 @@ import com.intellij.psi.PsiElement;
 public interface ZincStmt extends PsiElement {
 
   @Nullable
+  ZincBreakStmt getBreakStmt();
+
+  @Nullable
   ZincCallStmt getCallStmt();
+
+  @Nullable
+  ZincDoStmt getDoStmt();
 
   @Nullable
   ZincForStmt getForStmt();
@@ -24,5 +30,8 @@ public interface ZincStmt extends PsiElement {
 
   @Nullable
   ZincSetStmt getSetStmt();
+
+  @Nullable
+  ZincStructStmt getStructStmt();
 
 }

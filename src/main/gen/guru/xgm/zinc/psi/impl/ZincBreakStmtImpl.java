@@ -11,26 +11,20 @@ import static guru.xgm.zinc.psi.ZincTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.zinc.psi.*;
 
-public class ZincLibBodyImpl extends ASTWrapperPsiElement implements ZincLibBody {
+public class ZincBreakStmtImpl extends ASTWrapperPsiElement implements ZincBreakStmt {
 
-  public ZincLibBodyImpl(@NotNull ASTNode node) {
+  public ZincBreakStmtImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitLibBody(this);
+    visitor.visitBreakStmt(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ZincVisitor) accept((ZincVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<ZincLibItem> getLibItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincLibItem.class);
   }
 
 }

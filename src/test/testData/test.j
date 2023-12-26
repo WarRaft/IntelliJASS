@@ -46,7 +46,7 @@ endfunction
 
 function MyFunc
 
-    real a = 22 real b = 33 integer c Somefunc()
+    real a = 22 real b = 33 integer c call Somefunc()
 
     real d
 

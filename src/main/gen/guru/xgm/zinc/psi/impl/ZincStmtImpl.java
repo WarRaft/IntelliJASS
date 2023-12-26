@@ -29,8 +29,20 @@ public class ZincStmtImpl extends ASTWrapperPsiElement implements ZincStmt {
 
   @Override
   @Nullable
+  public ZincBreakStmt getBreakStmt() {
+    return findChildByClass(ZincBreakStmt.class);
+  }
+
+  @Override
+  @Nullable
   public ZincCallStmt getCallStmt() {
     return findChildByClass(ZincCallStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincDoStmt getDoStmt() {
+    return findChildByClass(ZincDoStmt.class);
   }
 
   @Override
@@ -61,6 +73,12 @@ public class ZincStmtImpl extends ASTWrapperPsiElement implements ZincStmt {
   @Nullable
   public ZincSetStmt getSetStmt() {
     return findChildByClass(ZincSetStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincStructStmt getStructStmt() {
+    return findChildByClass(ZincStructStmt.class);
   }
 
 }

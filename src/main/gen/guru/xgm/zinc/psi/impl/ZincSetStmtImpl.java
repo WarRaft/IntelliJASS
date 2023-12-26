@@ -40,6 +40,18 @@ public class ZincSetStmtImpl extends ASTWrapperPsiElement implements ZincSetStmt
   }
 
   @Override
+  @NotNull
+  public ZincSetOp getSetOp() {
+    return findNotNullChildByClass(ZincSetOp.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincStructAccess> getStructAccessList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructAccess.class);
+  }
+
+  @Override
   @Nullable
   public PsiElement getId() {
     return findChildByType(ID);

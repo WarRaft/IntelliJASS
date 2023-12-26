@@ -119,7 +119,6 @@ GvarDecl ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=G
 private GvarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === STATEMENT
-
 Stmt ::=
     SetStmt |
     CallStmt |

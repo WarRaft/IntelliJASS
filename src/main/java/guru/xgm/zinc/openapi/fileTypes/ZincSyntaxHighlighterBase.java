@@ -42,17 +42,50 @@ public class ZincSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        //if (tokenType == ZincTypes.ID) return ID_KEYS;
+        if (tokenType == ID) return ID_KEYS;
 
         if (Arrays.asList(
-                LIBRARY
-
+                LIBRARY,
+                CONSTANT,
+                REQUIRES,
+                OPTIONAL,
+                FUNCTION,
+                IF,
+                ELSE,
+                DO,
+                WHILE,
+                FOR,
+                TRUE,
+                FALSE,
+                PRIVATE,
+                PUBLIC
         ).contains(tokenType)) {
             return KEYWORD_KEYS;
         }
 
+        if (Arrays.asList(
+                INTVAL,
+                REALVAL,
+                RAWVAL,
+                HEXVAL
+        ).contains(tokenType)) {
+            return NUMBER_KEYS;
+        }
 
-        if (tokenType == SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
+        if (Arrays.asList(
+                SINGLE_LINE_COMMENT,
+                BLOCK_COMMENT
+        ).contains(tokenType)) {
+            return LINE_COMMENT_KEYS;
+        }
+
+        if (Arrays.asList(
+                NOTHING,
+                TYPE_NAME
+        ).contains(tokenType)) {
+            return TYPE_NAME_KEYS;
+        }
+
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == COMMA) return COMMA_KEYS;
         if (tokenType == STRVAL) return STRING_KEYS;

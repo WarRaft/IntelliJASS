@@ -5,15 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZincGvarBody extends PsiElement {
+public interface ZincLibItem extends PsiElement {
 
   @Nullable
-  ZincArrayAccess getArrayAccess();
+  ZincFuncDecl getFuncDecl();
 
   @Nullable
-  ZincExpr getExpr();
+  ZincGvarDecl getGvarDecl();
 
   @Nullable
-  PsiElement getId();
+  ZincLibVisDecl getLibVisDecl();
+
+  @Nullable
+  ZincStructDecl getStructDecl();
 
 }
