@@ -84,7 +84,7 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p>Base code reformat.</p>
+        <p>Add base ZINC parser for *.zn files</p>
         ]]></change-notes>
 
 </idea-plugin>

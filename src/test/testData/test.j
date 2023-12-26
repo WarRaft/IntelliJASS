@@ -1,27 +1,47 @@
-function a
-    local unit caster = GetSpellAbilityUnit()
-    local location cas = GetUnitLoc(caster)
-    local location tar = GetSpellTargetLoc()
-    local real d = bj_RADTODEG * (Atan2(GetLocationY(cas) - GetLocationY(tar), GetLocationX(cas) - GetLocationX(tar)))
+//! zinc
+library Aura {
+integer indexOfAuraUpgrade = 0;
 
-    local real x = (GetLocationX(tar) + 150 * Cos((d+90) * bj_DEGTORAD)) - 300 * Cos((d+180) * bj_DEGTORAD)
-    local real y = (GetLocationY(tar) + 150 * Sin((d+90) * bj_DEGTORAD)) - 300 * Sin((d+180) * bj_DEGTORAD)
+function AuraUpgrade ()  -> nothing {
+    unit AuraAlliance = gg_unit_n012_0049;
+    unit AuraHorde = gg_unit_n013_0255;
+    indexOfAuraUpgrade += 1;
+    if (indexOfAuraUpgrade == 1) {
+    UnitRemoveAbility(AuraAlliance, 'Apiv');
+    UnitRemoveAbility(AuraHorde,    'Apiv');
+    PauseTimer(GetExpiredTimer());
+    DestroyTimer(GetExpiredTimer());
+        }
 
-    local real x2 = (GetLocationX(tar) + 150 * Cos((d-90) * bj_DEGTORAD)) - 300 * Cos((d-180) * bj_DEGTORAD)
-    local real y2 = (GetLocationY(tar) + 150 * Sin((d-90) * bj_DEGTORAD)) - 300 * Sin((d-180) * bj_DEGTORAD)
+        if (indexOfAuraUpgrade == 2) {
+    SetUnitAbilityLevel(AuraAlliance, 'A0C8', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraAlliance, 'A0C9', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CA', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CB', indexOfAuraUpgrade);
+    }
 
-    local unit Unit = CreateUnitAtLoc(GetOwningPlayer(caster), Unit2Id, Location(x, y), d + 90)
+    if (indexOfAuraUpgrade == 3) {
+    SetUnitAbilityLevel(AuraAlliance, 'A0C8', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraAlliance, 'A0C9', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CA', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CB', indexOfAuraUpgrade);
+    }
 
-    local unit Unit2 = CreateUnitAtLoc(GetOwningPlayer(caster), Unit2Id, Location(x2, y2), d - 90)
+    if (indexOfAuraUpgrade == 4) {
+    SetUnitAbilityLevel(AuraAlliance, 'A0C8', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraAlliance, 'A0C9', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CA', indexOfAuraUpgrade);
+    SetUnitAbilityLevel(AuraHorde,    'A0CB', indexOfAuraUpgrade);
+        return;
+    }
+    TimerStart(CreateTimer(), 600, false, function AuraUpgrade);
+    AuraHorde = null;
+AuraAlliance = null;
+    }
 
-    set caster = null
-    set Unit = null
-    set Unit2 = null
-    set d = 0
-    set x = 0
-    set y = 0
-    set x2 = 0
-    set y2 = 0
-    call RemoveLocation (cas)
-    call RemoveLocation (tar)
-endfunction
+    function onInit ()  -> nothing {
+    timer t = CreateTimer();
+TimerStart(t, 900, false, function AuraUpgrade);
+}
+}
+//! endzinc
