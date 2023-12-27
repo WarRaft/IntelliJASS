@@ -6,6 +6,12 @@
 
 Just Another Scripting Syntax for [Warcraft III](https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos).
 
+# Preprocessors
+
+Due to lack of documentation and non-obvious behavior, VJASS syntax is not supported.
+
+ZINC has a completely different syntax and its own file resolution. Therefore, its support does not interfere with JASS in any way.
+
 # Useful links
 
 - https://github.com/inwc3/wc3libs
