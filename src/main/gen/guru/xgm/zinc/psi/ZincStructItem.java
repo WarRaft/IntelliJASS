@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface ZincStructItem extends PsiElement {
 
   @Nullable
-  ZincGvarDecl getGvarDecl();
+  ZincGvarDef getGvarDef();
 
   @Nullable
   ZincStructMethod getStructMethod();
 
   @Nullable
-  ZincStructVisDecl getStructVisDecl();
+  ZincStructVisDef getStructVisDef();
 
 }

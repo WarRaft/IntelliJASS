@@ -56,12 +56,12 @@
         TYPE='type'
 
         COMMA=','
-        EQEQ='=='
+        EQ_EQ='=='
         EQ='='
         NEQ='!='
-        LTEQ='<='
+        LT_EQ='<='
         LT='<'
-        GTEQ='>='
+        GT_EQ='>='
         GT='>'
         PLUS='+'
         MINUS='-'
@@ -83,15 +83,15 @@
 }
 
 Root ::= (
-    TypeDecl |
-    NativeDecl |
-    GlobalsDecl |
-    FuncDecl
+    TypeDef |
+    NativeDef |
+    GlobalsDef |
+    FuncDef
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
 // === TYPE
-TypeDecl ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
+TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
 TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
 TypeNameBase ::= TypeName
 
@@ -105,18 +105,18 @@ Arg ::= Expr|FuncAsCode
 ArgList ::= Arg (COMMA Arg)*
 FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
 FuncCallName ::= ID
-FuncDeclName ::= ID
+FuncDefName ::= ID
 FuncTakes ::= TAKES (NOTHING|TypedVarList)
 FuncReturns ::= RETURNS (NOTHING|TypeName)
-NativeDecl ::= CONSTANT? NATIVE FuncDeclName FuncTakes? FuncReturns? {pin=2}
+NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
 
-FuncDecl ::= CONSTANT? FUNCTION FuncDeclName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
+FuncDef ::= CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
 
 // === GLOBALS
-GlobalsDecl ::= GLOBALS GvarDecl* ENDGLOBALS {pin=1}
+GlobalsDef ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
 GvarName ::= ID
-GvarDecl ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarDeclRecover}
-private GvarDeclRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+GvarDef ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarDefRecover}
+private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === STATEMENT
 Stmt ::=
@@ -184,18 +184,18 @@ NotExpr ::= NOT Expr
 
 private CmpGroup ::=
     EqExpr |
-    NEqExpr |
-    LTExpr |
-    LTEqExpr |
-    GTExpr |
-    GTEqExpr
+    NeqExpr |
+    LtExpr |
+    LtEqExpr |
+    GtExpr |
+    GtEqExpr
 
-EqExpr ::= Expr EQEQ Expr
-NEqExpr ::= Expr NEQ Expr
-LTExpr ::= Expr LT Expr
-LTEqExpr ::= Expr LTEQ Expr
-GTExpr ::= Expr GT Expr
-GTEqExpr ::= Expr GTEQ Expr
+EqExpr ::= Expr EQ_EQ Expr
+NeqExpr ::= Expr NEQ Expr
+LtExpr ::= Expr LT Expr
+LtEqExpr ::= Expr LT_EQ Expr
+GtExpr ::= Expr GT Expr
+GtEqExpr ::= Expr GT_EQ Expr
 
 OrExpr ::= Expr OR Expr
 AndExpr ::= Expr AND Expr

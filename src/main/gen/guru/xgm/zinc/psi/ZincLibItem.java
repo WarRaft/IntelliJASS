@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface ZincLibItem extends PsiElement {
 
   @Nullable
-  ZincFuncDecl getFuncDecl();
+  ZincFuncDef getFuncDef();
 
   @Nullable
-  ZincGvarDecl getGvarDecl();
+  ZincGvarDef getGvarDef();
 
   @Nullable
-  ZincLibVisDecl getLibVisDecl();
+  ZincLibVisDef getLibVisDef();
 
   @Nullable
-  ZincStructDecl getStructDecl();
+  ZincStructDef getStructDef();
 
 }

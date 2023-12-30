@@ -24,7 +24,7 @@ public class JassGlobalsBlock extends JassBlock {
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         Indent indent = Indent.getNormalIndent();
 
-        if (isOneOf(childNode, GVAR_DECL)) return new JassGlobalVarBlock(childNode, null, Indent.getNormalIndent(), myCodeStyleSettings, gvarAlignments);
+        if (isOneOf(childNode, GVAR_DEF)) return new JassGlobalVarBlock(childNode, null, Indent.getNormalIndent(), myCodeStyleSettings, gvarAlignments);
         if (isOneOf(childNode, GLOBALS, ENDGLOBALS)) indent = Indent.getNoneIndent();
 
         return new JassBlock(childNode, null, indent, myCodeStyleSettings);

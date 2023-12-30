@@ -439,7 +439,7 @@ globals
     trigger gg_trg_LibHC                                 = null
 endglobals
 //! import jass "./TBR/2-Create units.j"
-//! import jass "./TBR/1-APITypecast.j"
+//! import jass "./TBR/1-APITypecast.vj"
 //! import jass "./TBR/01-Garona_Attack_Start.j"
 //! import jass "./TBR/01-Horde_Victory.j"
 //! import jass "./TBR/01-Item_Activate.j"

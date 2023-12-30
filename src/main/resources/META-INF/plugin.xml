@@ -10,7 +10,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- JASS -->
+        <!-- === JASS === -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.JassFileType"
                   fieldName="INSTANCE"
@@ -50,7 +50,7 @@
                          implementationClass="guru.xgm.jass.codeInspection.JassOperatorCallBehaviorInspection"
         />
 
-        <!-- ZINC -->
+        <!-- === ZINC === -->
         <fileType name="ZINC"
                   implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincFileType"
                   fieldName="INSTANCE"
@@ -61,6 +61,18 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC" implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
+
+        <!-- === VJASS === -->
+        <fileType name="VJASS"
+                  implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassFileType"
+                  fieldName="INSTANCE"
+                  language="VJASS"
+                  extensions="vj"
+        />
+        <lang.parserDefinition language="VJASS" implementationClass="guru.xgm.vjass.lang.VjassParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="VJASS" implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
 
     </extensions>
 

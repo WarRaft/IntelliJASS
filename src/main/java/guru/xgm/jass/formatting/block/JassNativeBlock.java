@@ -25,7 +25,7 @@ public class JassNativeBlock extends JassBlock {
         Alignment alignment = null;
 
         if (isOneOf(childNode, NATIVE)) alignment = aligner.named(AT_NATIVE_DECL_NATIVE);
-        if (isOneOf(childNode, FUNC_DECL_NAME)) {
+        if (isOneOf(childNode, FUNC_DEF_NAME)) {
             childNode = childNode.getFirstChildNode();
             alignment = aligner.named(AT_NATIVE_DECL_NAME);
         }

@@ -25,14 +25,14 @@ public interface JassTypes {
   IElementType FUNC_AS_CODE = new JassIElement("FUNC_AS_CODE");
   IElementType FUNC_CALL = new JassIElement("FUNC_CALL");
   IElementType FUNC_CALL_NAME = new JassIElement("FUNC_CALL_NAME");
-  IElementType FUNC_DECL = new JassIElement("FUNC_DECL");
-  IElementType FUNC_DECL_NAME = new JassIElement("FUNC_DECL_NAME");
+  IElementType FUNC_DEF = new JassIElement("FUNC_DEF");
+  IElementType FUNC_DEF_NAME = new JassIElement("FUNC_DEF_NAME");
   IElementType FUNC_RETURNS = new JassIElement("FUNC_RETURNS");
   IElementType FUNC_TAKES = new JassIElement("FUNC_TAKES");
-  IElementType GLOBALS_DECL = new JassIElement("GLOBALS_DECL");
+  IElementType GLOBALS_DEF = new JassIElement("GLOBALS_DEF");
   IElementType GT_EQ_EXPR = new JassIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassIElement("GT_EXPR");
-  IElementType GVAR_DECL = new JassIElement("GVAR_DECL");
+  IElementType GVAR_DEF = new JassIElement("GVAR_DEF");
   IElementType GVAR_NAME = new JassIElement("GVAR_NAME");
   IElementType IF_STMT = new JassIElement("IF_STMT");
   IElementType LOCAL_VAR_STMT = new JassIElement("LOCAL_VAR_STMT");
@@ -43,9 +43,9 @@ public interface JassTypes {
   IElementType MINUS_UNARY_EXPR = new JassIElement("MINUS_UNARY_EXPR");
   IElementType MUL_EXPR = new JassIElement("MUL_EXPR");
   IElementType MUL_UNARY_EXPR = new JassIElement("MUL_UNARY_EXPR");
-  IElementType NATIVE_DECL = new JassIElement("NATIVE_DECL");
+  IElementType NATIVE_DEF = new JassIElement("NATIVE_DEF");
+  IElementType NEQ_EXPR = new JassIElement("NEQ_EXPR");
   IElementType NOT_EXPR = new JassIElement("NOT_EXPR");
-  IElementType N_EQ_EXPR = new JassIElement("N_EQ_EXPR");
   IElementType OR_EXPR = new JassIElement("OR_EXPR");
   IElementType PAREN_EXPR = new JassIElement("PAREN_EXPR");
   IElementType PLUS_EXPR = new JassIElement("PLUS_EXPR");
@@ -56,7 +56,7 @@ public interface JassTypes {
   IElementType STMT = new JassIElement("STMT");
   IElementType TYPED_VAR = new JassIElement("TYPED_VAR");
   IElementType TYPED_VAR_LIST = new JassIElement("TYPED_VAR_LIST");
-  IElementType TYPE_DECL = new JassIElement("TYPE_DECL");
+  IElementType TYPE_DEF = new JassIElement("TYPE_DEF");
   IElementType TYPE_NAME = new JassIElement("TYPE_NAME");
   IElementType TYPE_NAME_BASE = new JassIElement("TYPE_NAME_BASE");
 
@@ -76,14 +76,14 @@ public interface JassTypes {
   IElementType ENDIF = new JassIToken("endif");
   IElementType ENDLOOP = new JassIToken("endloop");
   IElementType EQ = new JassIToken("=");
-  IElementType EQEQ = new JassIToken("==");
+  IElementType EQ_EQ = new JassIToken("==");
   IElementType EXITWHEN = new JassIToken("exitwhen");
   IElementType EXTENDS = new JassIToken("extends");
   IElementType FALSE = new JassIToken("false");
   IElementType FUNCTION = new JassIToken("function");
   IElementType GLOBALS = new JassIToken("globals");
   IElementType GT = new JassIToken(">");
-  IElementType GTEQ = new JassIToken(">=");
+  IElementType GT_EQ = new JassIToken(">=");
   IElementType HANDLE = new JassIToken("handle");
   IElementType HEXVAL = new JassIToken("HEXVAL");
   IElementType ID = new JassIToken("ID");
@@ -95,7 +95,7 @@ public interface JassTypes {
   IElementType LOOP = new JassIToken("loop");
   IElementType LPAREN = new JassIToken("(");
   IElementType LT = new JassIToken("<");
-  IElementType LTEQ = new JassIToken("<=");
+  IElementType LT_EQ = new JassIToken("<=");
   IElementType MINUS = new JassIToken("-");
   IElementType MUL = new JassIToken("*");
   IElementType NATIVE = new JassIToken("native");
@@ -166,11 +166,11 @@ public interface JassTypes {
       else if (type == FUNC_CALL_NAME) {
         return new JassFuncCallNameImpl(node);
       }
-      else if (type == FUNC_DECL) {
-        return new JassFuncDeclImpl(node);
+      else if (type == FUNC_DEF) {
+        return new JassFuncDefImpl(node);
       }
-      else if (type == FUNC_DECL_NAME) {
-        return new JassFuncDeclNameImpl(node);
+      else if (type == FUNC_DEF_NAME) {
+        return new JassFuncDefNameImpl(node);
       }
       else if (type == FUNC_RETURNS) {
         return new JassFuncReturnsImpl(node);
@@ -178,17 +178,17 @@ public interface JassTypes {
       else if (type == FUNC_TAKES) {
         return new JassFuncTakesImpl(node);
       }
-      else if (type == GLOBALS_DECL) {
-        return new JassGlobalsDeclImpl(node);
+      else if (type == GLOBALS_DEF) {
+        return new JassGlobalsDefImpl(node);
       }
       else if (type == GT_EQ_EXPR) {
-        return new JassGTEqExprImpl(node);
+        return new JassGtEqExprImpl(node);
       }
       else if (type == GT_EXPR) {
-        return new JassGTExprImpl(node);
+        return new JassGtExprImpl(node);
       }
-      else if (type == GVAR_DECL) {
-        return new JassGvarDeclImpl(node);
+      else if (type == GVAR_DEF) {
+        return new JassGvarDefImpl(node);
       }
       else if (type == GVAR_NAME) {
         return new JassGvarNameImpl(node);
@@ -203,10 +203,10 @@ public interface JassTypes {
         return new JassLoopStmtImpl(node);
       }
       else if (type == LT_EQ_EXPR) {
-        return new JassLTEqExprImpl(node);
+        return new JassLtEqExprImpl(node);
       }
       else if (type == LT_EXPR) {
-        return new JassLTExprImpl(node);
+        return new JassLtExprImpl(node);
       }
       else if (type == MINUS_EXPR) {
         return new JassMinusExprImpl(node);
@@ -220,14 +220,14 @@ public interface JassTypes {
       else if (type == MUL_UNARY_EXPR) {
         return new JassMulUnaryExprImpl(node);
       }
-      else if (type == NATIVE_DECL) {
-        return new JassNativeDeclImpl(node);
+      else if (type == NATIVE_DEF) {
+        return new JassNativeDefImpl(node);
+      }
+      else if (type == NEQ_EXPR) {
+        return new JassNeqExprImpl(node);
       }
       else if (type == NOT_EXPR) {
         return new JassNotExprImpl(node);
-      }
-      else if (type == N_EQ_EXPR) {
-        return new JassNEqExprImpl(node);
       }
       else if (type == OR_EXPR) {
         return new JassOrExprImpl(node);
@@ -259,8 +259,8 @@ public interface JassTypes {
       else if (type == TYPED_VAR_LIST) {
         return new JassTypedVarListImpl(node);
       }
-      else if (type == TYPE_DECL) {
-        return new JassTypeDeclImpl(node);
+      else if (type == TYPE_DEF) {
+        return new JassTypeDefImpl(node);
       }
       else if (type == TYPE_NAME) {
         return new JassTypeNameImpl(node);

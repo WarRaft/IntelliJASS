@@ -103,11 +103,11 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncDecl(@NotNull ZincFuncDecl o) {
+  public void visitFuncDef(@NotNull ZincFuncDef o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncDeclName(@NotNull ZincFuncDeclName o) {
+  public void visitFuncDefName(@NotNull ZincFuncDefName o) {
     visitPsiElement(o);
   }
 
@@ -127,7 +127,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGvarDecl(@NotNull ZincGvarDecl o) {
+  public void visitGvarDef(@NotNull ZincGvarDef o) {
     visitPsiElement(o);
   }
 
@@ -147,7 +147,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLibDecl(@NotNull ZincLibDecl o) {
+  public void visitLibDef(@NotNull ZincLibDef o) {
     visitPsiElement(o);
   }
 
@@ -163,7 +163,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLibVisDecl(@NotNull ZincLibVisDecl o) {
+  public void visitLibVisDef(@NotNull ZincLibVisDef o) {
     visitPsiElement(o);
   }
 
@@ -243,7 +243,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStructDecl(@NotNull ZincStructDecl o) {
+  public void visitStructDef(@NotNull ZincStructDef o) {
     visitPsiElement(o);
   }
 
@@ -255,11 +255,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStructStmt(@NotNull ZincStructStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStructVisDecl(@NotNull ZincStructVisDecl o) {
+  public void visitStructVisDef(@NotNull ZincStructVisDef o) {
     visitPsiElement(o);
   }
 

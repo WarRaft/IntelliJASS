@@ -23,7 +23,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
     @Override
     protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
         final IElementType type = node.getElementType();
-        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOBALS_DECL || type == JassTypes.FUNC_DECL;
+        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOBALS_DEF || type == JassTypes.FUNC_DEF;
     }
 
     @Override
@@ -33,14 +33,14 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
         final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
                 root,
                 PsiComment.class,
-                JassGlobalsDecl.class,
-                JassFuncDecl.class,
+                JassGlobalsDef.class,
+                JassFuncDef.class,
                 JassIfStmt.class,
                 JassLoopStmt.class
         );
 
         for (PsiElement element : psiElements) {
-            if (element instanceof JassFuncDecl func) {
+            if (element instanceof JassFuncDef func) {
                 final PsiElement start = (func.getFuncReturns() != null) ? func.getFuncReturns() : func.getFuncTakes();
 
                 if (start == null) continue;
@@ -70,7 +70,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
                 continue;
             }
 
-            if (element instanceof JassGlobalsDecl) {
+            if (element instanceof JassGlobalsDef) {
                 foldSimple(element, JassTypes.GLOBALS, JassTypes.ENDGLOBALS, descriptors);
             }
 
@@ -81,13 +81,13 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
     protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
         final IElementType type = node.getElementType();
 
-        if (type == JassTypes.GLOBALS_DECL) {
-            final var psi = node.getPsi(JassGlobalsDecl.class);
-            final int size = psi.getGvarDeclList().size();
+        if (type == JassTypes.GLOBALS_DEF) {
+            final var psi = node.getPsi(JassGlobalsDef.class);
+            final int size = psi.getGvarDefList().size();
             return size == 0 ? " ... " : " (" + size + ") ";
         }
 
-        if (type == JassTypes.FUNC_DECL ||
+        if (type == JassTypes.FUNC_DEF ||
                 type == JassTypes.IF_STMT ||
                 type == JassTypes.LOOP_STMT
         ) return " ... ";
@@ -101,8 +101,8 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
         //final CodeFoldingSettings settings = CodeFoldingSettings.getInstance();
         final JassCodeFoldingSettings jass = JassCodeFoldingSettings.getInstance();
 
-        if (type == JassTypes.GLOBALS_DECL) return jass.isFoldGlobals();
-        if (type == JassTypes.FUNC_DECL) return jass.isFoldFunction();
+        if (type == JassTypes.GLOBALS_DEF) return jass.isFoldGlobals();
+        if (type == JassTypes.FUNC_DEF) return jass.isFoldFunction();
         if (type == JassTypes.IF_STMT) return jass.isFoldIf();
         if (type == JassTypes.LOOP_STMT) return jass.isFoldLoop();
 

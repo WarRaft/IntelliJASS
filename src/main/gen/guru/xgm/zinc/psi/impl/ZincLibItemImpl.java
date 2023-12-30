@@ -29,26 +29,26 @@ public class ZincLibItemImpl extends ASTWrapperPsiElement implements ZincLibItem
 
   @Override
   @Nullable
-  public ZincFuncDecl getFuncDecl() {
-    return findChildByClass(ZincFuncDecl.class);
+  public ZincFuncDef getFuncDef() {
+    return findChildByClass(ZincFuncDef.class);
   }
 
   @Override
   @Nullable
-  public ZincGvarDecl getGvarDecl() {
-    return findChildByClass(ZincGvarDecl.class);
+  public ZincGvarDef getGvarDef() {
+    return findChildByClass(ZincGvarDef.class);
   }
 
   @Override
   @Nullable
-  public ZincLibVisDecl getLibVisDecl() {
-    return findChildByClass(ZincLibVisDecl.class);
+  public ZincLibVisDef getLibVisDef() {
+    return findChildByClass(ZincLibVisDef.class);
   }
 
   @Override
   @Nullable
-  public ZincStructDecl getStructDecl() {
-    return findChildByClass(ZincStructDecl.class);
+  public ZincStructDef getStructDef() {
+    return findChildByClass(ZincStructDef.class);
   }
 
 }

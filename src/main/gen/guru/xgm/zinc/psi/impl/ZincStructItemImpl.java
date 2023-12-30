@@ -29,8 +29,8 @@ public class ZincStructItemImpl extends ASTWrapperPsiElement implements ZincStru
 
   @Override
   @Nullable
-  public ZincGvarDecl getGvarDecl() {
-    return findChildByClass(ZincGvarDecl.class);
+  public ZincGvarDef getGvarDef() {
+    return findChildByClass(ZincGvarDef.class);
   }
 
   @Override
@@ -41,8 +41,8 @@ public class ZincStructItemImpl extends ASTWrapperPsiElement implements ZincStru
 
   @Override
   @Nullable
-  public ZincStructVisDecl getStructVisDecl() {
-    return findChildByClass(ZincStructVisDecl.class);
+  public ZincStructVisDef getStructVisDef() {
+    return findChildByClass(ZincStructVisDef.class);
   }
 
 }

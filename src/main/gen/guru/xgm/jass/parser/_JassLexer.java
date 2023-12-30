@@ -802,17 +802,17 @@ public class _JassLexer implements FlexLexer {
           // fall through
           case 84: break;
           case 23:
-            { return LTEQ;
+            { return LT_EQ;
             }
           // fall through
           case 85: break;
           case 24:
-            { return EQEQ;
+            { return EQ_EQ;
             }
           // fall through
           case 86: break;
           case 25:
-            { return GTEQ;
+            { return GT_EQ;
             }
           // fall through
           case 87: break;

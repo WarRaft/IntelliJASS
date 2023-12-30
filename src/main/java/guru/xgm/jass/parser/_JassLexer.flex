@@ -76,12 +76,12 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "true"                      { return TRUE; }
   "type"                      { return TYPE; }
   ","                         { return COMMA; }
-  "=="                        { return EQEQ; }
+  "=="                        { return EQ_EQ; }
   "="                         { return EQ; }
   "!="                        { return NEQ; }
-  "<="                        { return LTEQ; }
+  "<="                        { return LT_EQ; }
   "<"                         { return LT; }
-  ">="                        { return GTEQ; }
+  ">="                        { return GT_EQ; }
   ">"                         { return GT; }
   "+"                         { return PLUS; }
   "-"                         { return MINUS; }

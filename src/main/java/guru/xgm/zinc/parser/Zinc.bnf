@@ -94,25 +94,25 @@
 
 // https://www.osti.gov/servlets/purl/1644738
 
-Root ::= (LibDecl)* {recoverWhile=RootRecover}
+Root ::= (LibDef)* {recoverWhile=RootRecover}
 private RootRecover ::= !(LIBRARY)
 
-// === ACCESS
-VisibilityDef ::= (PUBLIC|PRIVATE)
+// === VISIBILITY
+Visibility ::= (PUBLIC|PRIVATE)
 
 // === LIBRARY
-LibDecl ::= LIBRARY ID LibReq? LibBody {pin=1}
+LibDef ::= LIBRARY ID LibReq? LibBody {pin=1}
 LibBody ::= LBRACE LibItem* RBRACE {pin=1}
-LibItem ::= LibVisDecl|GvarDecl|FuncDecl|StructDecl
+LibItem ::= LibVisDef|GvarDef|FuncDef|StructDef
 LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 
 // -- Lib Visible
-LibVisDecl ::= VisibilityDef (LibItem|LibBody)
+LibVisDef ::= Visibility (LibItem|LibBody)
 
 // === GLOBALS
 GvarBody ::= (ArrayAccess|ID) (EQ Expr)?
-GvarDecl ::= CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=2}
+GvarDef ::= CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=2}
 
 // === VARIABLE
 TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY
@@ -122,23 +122,22 @@ TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1}
 // === FUNCTION
 Arg ::= Expr|FuncAsCode|FuncAnon
 ArgList ::= Arg (COMMA Arg)*
-FuncCallName ::= ID StructAccess*
+FuncCallName ::= ID
 
-FuncCall ::= FuncCallName LPAREN ArgList? RPAREN StructAccess* {pin=2}
+FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
 FuncAnon ::= FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=2}
-FuncDecl ::= CONSTANT? FUNCTION FuncDeclName LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
-FuncDeclName ::= ID
+FuncDef ::= CONSTANT? FUNCTION FuncDefName LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
+FuncDefName ::= ID
 FuncReturns ::= MINUS_GT (NOTHING|TypeName) {pin=1}
 FuncBody ::= LBRACE Stmt* RBRACE {pin=1}
 
 // === STRUCT
-StructDecl ::= STRUCT ID StructBody {pin=1}
+StructDef ::= STRUCT ID StructBody {pin=1}
 StructBody ::= LBRACE StructItem* RBRACE {pin=1}
-StructItem ::= StructVisDecl|GvarDecl|StructMethod
-StructVisDecl ::= VisibilityDef (StructItem|StructBody)
+StructItem ::= StructVisDef|GvarDef|StructMethod
+StructVisDef ::= Visibility (StructItem|StructBody)
 StructMethod ::= STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
 StructAccess ::= DOT (FuncCall|ArrayAccess|ID) {pin = 1}
-StructStmt ::= ID StructAccess  SEMI?
 
 // === STATEMENT
 Stmt ::=
@@ -151,12 +150,10 @@ Stmt ::=
     | DoStmt
     | WhileStmt
     | BreakStmt
-    | StructStmt
 {recoverWhile=StmtRecover}
 private StmtRecover ::= !(LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
 
 BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
-
 
 // -- set
 SetOp ::= EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
@@ -171,7 +168,7 @@ ForOp ::= (LT|LT_EQ|GT|GT_EQ)
 ForStmt ::= FOR ForHead (Stmt|BracedStmt) {pin=1}
 ForExpr ::= PrimaryExpr
 ForHead ::= LPAREN ForExpr ForOp ID ForOp ForExpr RPAREN {pin=1}
-CallStmt ::= DEBUG? FuncCall SEMI?
+CallStmt ::= DEBUG? (FuncCall StructAccess*|ID StructAccess+) SEMI?
 
 // -- do
 DoStmt ::= DO (Stmt|BracedStmt) WHILE LPAREN Expr RPAREN SEMI? {pin=1}

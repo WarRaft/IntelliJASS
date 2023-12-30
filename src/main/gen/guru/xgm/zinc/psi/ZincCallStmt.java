@@ -7,7 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface ZincCallStmt extends PsiElement {
 
-  @NotNull
+  @Nullable
   ZincFuncCall getFuncCall();
+
+  @NotNull
+  List<ZincStructAccess> getStructAccessList();
+
+  @Nullable
+  PsiElement getId();
 
 }

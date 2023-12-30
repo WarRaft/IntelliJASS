@@ -67,11 +67,11 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncDecl(@NotNull JassFuncDecl o) {
+  public void visitFuncDef(@NotNull JassFuncDef o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncDeclName(@NotNull JassFuncDeclName o) {
+  public void visitFuncDefName(@NotNull JassFuncDefName o) {
     visitPsiElement(o);
   }
 
@@ -83,19 +83,19 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGTEqExpr(@NotNull JassGTEqExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitGTExpr(@NotNull JassGTExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitGlobalsDecl(@NotNull JassGlobalsDecl o) {
+  public void visitGlobalsDef(@NotNull JassGlobalsDef o) {
     visitPsiElement(o);
   }
 
-  public void visitGvarDecl(@NotNull JassGvarDecl o) {
+  public void visitGtEqExpr(@NotNull JassGtEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGtExpr(@NotNull JassGtExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGvarDef(@NotNull JassGvarDef o) {
     visitPsiElement(o);
   }
 
@@ -107,20 +107,20 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLTEqExpr(@NotNull JassLTEqExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitLTExpr(@NotNull JassLTExpr o) {
-    visitExpr(o);
-  }
-
   public void visitLocalVarStmt(@NotNull JassLocalVarStmt o) {
     visitPsiElement(o);
   }
 
   public void visitLoopStmt(@NotNull JassLoopStmt o) {
     visitPsiElement(o);
+  }
+
+  public void visitLtEqExpr(@NotNull JassLtEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitLtExpr(@NotNull JassLtExpr o) {
+    visitExpr(o);
   }
 
   public void visitMinusExpr(@NotNull JassMinusExpr o) {
@@ -139,12 +139,12 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitNEqExpr(@NotNull JassNEqExpr o) {
-    visitExpr(o);
+  public void visitNativeDef(@NotNull JassNativeDef o) {
+    visitPsiElement(o);
   }
 
-  public void visitNativeDecl(@NotNull JassNativeDecl o) {
-    visitPsiElement(o);
+  public void visitNeqExpr(@NotNull JassNeqExpr o) {
+    visitExpr(o);
   }
 
   public void visitNotExpr(@NotNull JassNotExpr o) {
@@ -183,7 +183,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeDecl(@NotNull JassTypeDecl o) {
+  public void visitTypeDef(@NotNull JassTypeDef o) {
     visitPsiElement(o);
   }
 

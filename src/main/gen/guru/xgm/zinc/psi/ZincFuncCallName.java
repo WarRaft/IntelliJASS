@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ZincFuncCallName extends PsiElement {
 
   @NotNull
-  List<ZincStructAccess> getStructAccessList();
-
-  @NotNull
   PsiElement getId();
 
 }

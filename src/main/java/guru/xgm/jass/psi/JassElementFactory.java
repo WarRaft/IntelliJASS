@@ -19,7 +19,7 @@ public class JassElementFactory {
 
     public static JassCallStmt recreateCallStmt(Project project, JassCallStmt callStmt) {
         final JassPsiFileBase file = createFile(project, "function fuckingCrutch " + callStmt.getText() + " endfunction");
-        final JassFuncDecl funcDecl = (JassFuncDecl) file.getFirstChild();
+        final JassFuncDef funcDecl = (JassFuncDef) file.getFirstChild();
         final JassStmt stmtNew = funcDecl.getStmtList().get(0);
         return stmtNew.getCallStmt();
     }
