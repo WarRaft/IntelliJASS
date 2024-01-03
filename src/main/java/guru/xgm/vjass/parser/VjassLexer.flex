@@ -6,14 +6,13 @@ import com.intellij.psi.tree.IElementType;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static guru.xgm.vjass.psi.VjassTypes.*;
-
 %%
 
 %{
   public _VjassLexer() {
     this((java.io.Reader)null);
   }
-    int commentCount = 0;
+        int commentDepth = 0;
 %}
 
 %public
@@ -32,7 +31,7 @@ INTVAL=[0-9]+
 RAWVAL='[^']*'
 STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*
-//SINGLE_LINE_COMMENT="//"[^\n]*
+SINGLE_LINE_COMMENT="//"[^\n]*
 
 %state COMMENT
 
@@ -112,7 +111,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
   "KEY"                       { return KEY; }
-  {WHITE_SPACE}               { return WHITE_SPACE; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
@@ -120,26 +118,35 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
-  //{SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
 
-   "/*" {
+   "/*"  {
           yybegin(COMMENT);
-          commentCount = 1;
-      }
-
+          commentDepth = 1;
+          return MULTI_LINE_COMMENT;
+        }
 }
 
-<COMMENT>  {
+<COMMENT> {
+    "/*"  {
+            commentDepth++;
+            return MULTI_LINE_COMMENT;
+        }
+
     "*/"    {
-          commentCount--;
-          if (commentCount == 0){
+          commentDepth--;
+          if(commentDepth == 0) {
               yybegin(YYINITIAL);
           }
+          return MULTI_LINE_COMMENT;
       }
-    "/*"    {
-          commentCount++;
-      }
-    [^] {/*ignore*/}
+
+    [\s\S] {/*ignore*/}
+
+    <<EOF>> {
+        yybegin(YYINITIAL);
+        return MULTI_LINE_COMMENT;
+    }
 }
 
 [^] { return BAD_CHARACTER; }

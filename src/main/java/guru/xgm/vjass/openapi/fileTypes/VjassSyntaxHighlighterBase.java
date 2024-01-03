@@ -76,8 +76,8 @@ public class VjassSyntaxHighlighterBase extends SyntaxHighlighterBase {
         }
 
         if (Arrays.asList(
-                SINGLE_LINE_COMMENT
-                // COMMENT
+                SINGLE_LINE_COMMENT,
+                MULTI_LINE_COMMENT
         ).contains(tokenType)) {
             return LINE_COMMENT_KEYS;
         }

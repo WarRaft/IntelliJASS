@@ -121,6 +121,7 @@ public interface VjassTypes {
   IElementType MINUS = new VjassIToken("-");
   IElementType MODULE = new VjassIToken("module");
   IElementType MUL = new VjassIToken("*");
+  IElementType MULTI_LINE_COMMENT = new VjassIToken("MULTI_LINE_COMMENT");
   IElementType NATIVE = new VjassIToken("native");
   IElementType NEQ = new VjassIToken("!=");
   IElementType NOT = new VjassIToken("not");
