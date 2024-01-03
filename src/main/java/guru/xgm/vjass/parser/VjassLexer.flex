@@ -13,6 +13,7 @@ import static guru.xgm.vjass.psi.VjassTypes.*;
   public _VjassLexer() {
     this((java.io.Reader)null);
   }
+    int commentCount = 0;
 %}
 
 %public
@@ -24,7 +25,6 @@ import static guru.xgm.vjass.psi.VjassTypes.*;
 
 //EOL=\R
 //WHITE_SPACE=\s+
-
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
@@ -32,17 +32,9 @@ INTVAL=[0-9]+
 RAWVAL='[^']*'
 STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*
+//SINGLE_LINE_COMMENT="//"[^\n]*
 
-// Comment
-// https://jflex.de/manual.html#Example
-LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r\n]
-Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
-
-TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
-DocumentationComment = "/**" {CommentContent} "*"+ "/"
-CommentContent       = ( [^*] | \*+ [^/*] )*
+%state COMMENT
 
 %%
 
@@ -120,7 +112,6 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
   "KEY"                       { return KEY; }
-
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
@@ -129,7 +120,26 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
   {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
-    {Comment}                      {}
+  //{SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+
+   "/*" {
+          yybegin(COMMENT);
+          commentCount = 1;
+      }
+
+}
+
+<COMMENT>  {
+    "*/"    {
+          commentCount--;
+          if (commentCount == 0){
+              yybegin(YYINITIAL);
+          }
+      }
+    "/*"    {
+          commentCount++;
+      }
+    [^] {/*ignore*/}
 }
 
 [^] { return BAD_CHARACTER; }
