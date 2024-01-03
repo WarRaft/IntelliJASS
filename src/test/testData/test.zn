@@ -1,3 +1,11 @@
+/*
+
+/*
+ЕБИСЬ ОНО КОНЁМ!!!
+*/
+
+*/
+
 //! zinc
 library Sandbox requires CothUtilities, optional PlayerLeaves {
   integer CountofLeavedPlayers = 0;

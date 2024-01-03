@@ -13,9 +13,8 @@ import static guru.xgm.zinc.psi.ZincTypes.*;
   public _ZincLexer() {
     this((java.io.Reader)null);
   }
+  int commentDepth = 0;
 %}
-
-// https://www.osti.gov/servlets/purl/1644738/
 
 %public
 %class _ZincLexer
@@ -24,12 +23,13 @@ import static guru.xgm.zinc.psi.ZincTypes.*;
 %type IElementType
 %unicode
 
+%state COMMENT
+
 EOL=\R
 WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-BLOCK_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -101,7 +101,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
-  {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
@@ -109,6 +108,34 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
+   "/*"  {
+          yybegin(COMMENT);
+          commentDepth = 1;
+          return MULTI_LINE_COMMENT;
+        }
 }
+
+<COMMENT> {
+    "/*"  {
+            commentDepth++;
+            return MULTI_LINE_COMMENT;
+        }
+
+    "*/"    {
+          commentDepth--;
+          if(commentDepth == 0) {
+              yybegin(YYINITIAL);
+          }
+          return MULTI_LINE_COMMENT;
+      }
+
+    [\s\S] {/*ignore*/}
+
+    <<EOF>> {
+        yybegin(YYINITIAL);
+        return MULTI_LINE_COMMENT;
+    }
+}
+
 
 [^] { return BAD_CHARACTER; }

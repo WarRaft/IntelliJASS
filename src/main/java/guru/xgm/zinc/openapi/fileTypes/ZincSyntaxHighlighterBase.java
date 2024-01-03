@@ -77,7 +77,7 @@ public class ZincSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 SINGLE_LINE_COMMENT,
-                BLOCK_COMMENT
+                MULTI_LINE_COMMENT
         ).contains(tokenType)) {
             return LINE_COMMENT_KEYS;
         }

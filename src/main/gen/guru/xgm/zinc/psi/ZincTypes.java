@@ -77,7 +77,6 @@ public interface ZincTypes {
   IElementType WHILE_STMT = new ZincIElement("WHILE_STMT");
 
   IElementType AND_AND = new ZincIToken("&&");
-  IElementType BLOCK_COMMENT = new ZincIToken("BLOCK_COMMENT");
   IElementType BOOLEAN = new ZincIToken("boolean");
   IElementType BREAK = new ZincIToken("break");
   IElementType CALL = new ZincIToken("CALL");
@@ -115,6 +114,7 @@ public interface ZincTypes {
   IElementType MINUS_EQ = new ZincIToken("-=");
   IElementType MINUS_GT = new ZincIToken("->");
   IElementType MUL = new ZincIToken("*");
+  IElementType MULTI_LINE_COMMENT = new ZincIToken("MULTI_LINE_COMMENT");
   IElementType MUL_EQ = new ZincIToken("*=");
   IElementType NEQ = new ZincIToken("!=");
   IElementType NOT = new ZincIToken("!");
