@@ -23,7 +23,11 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallStmt(@NotNull VjassCallStmt o) {
+  public void visitCallSetId(@NotNull VjassCallSetId o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCallSetStmt(@NotNull VjassCallSetStmt o) {
     visitPsiElement(o);
   }
 
@@ -32,6 +36,10 @@ public class VjassVisitor extends PsiElementVisitor {
   }
 
   public void visitDivUnaryExpr(@NotNull VjassDivUnaryExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitDotExpr(@NotNull VjassDotExpr o) {
     visitExpr(o);
   }
 
@@ -67,11 +75,11 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncDecl(@NotNull VjassFuncDecl o) {
+  public void visitFuncDef(@NotNull VjassFuncDef o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncDeclName(@NotNull VjassFuncDeclName o) {
+  public void visitFuncDefName(@NotNull VjassFuncDefName o) {
     visitPsiElement(o);
   }
 
@@ -83,19 +91,19 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGTEqExpr(@NotNull VjassGTEqExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitGTExpr(@NotNull VjassGTExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitGlobalsDecl(@NotNull VjassGlobalsDecl o) {
+  public void visitGlobalsDef(@NotNull VjassGlobalsDef o) {
     visitPsiElement(o);
   }
 
-  public void visitGvarDecl(@NotNull VjassGvarDecl o) {
+  public void visitGtEqExpr(@NotNull VjassGtEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGtExpr(@NotNull VjassGtExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitGvarDef(@NotNull VjassGvarDef o) {
     visitPsiElement(o);
   }
 
@@ -103,23 +111,51 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitHookDef(@NotNull VjassHookDef o) {
+    visitPsiElement(o);
+  }
+
+  public void visitIdDot(@NotNull VjassIdDot o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfStmt(@NotNull VjassIfStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitLTEqExpr(@NotNull VjassLTEqExpr o) {
-    visitExpr(o);
+  public void visitImplementDef(@NotNull VjassImplementDef o) {
+    visitPsiElement(o);
   }
 
-  public void visitLTExpr(@NotNull VjassLTExpr o) {
-    visitExpr(o);
+  public void visitLVarStmt(@NotNull VjassLVarStmt o) {
+    visitPsiElement(o);
   }
 
-  public void visitLocalVarStmt(@NotNull VjassLocalVarStmt o) {
+  public void visitLibDef(@NotNull VjassLibDef o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLibReq(@NotNull VjassLibReq o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLibReqItem(@NotNull VjassLibReqItem o) {
     visitPsiElement(o);
   }
 
   public void visitLoopStmt(@NotNull VjassLoopStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLtEqExpr(@NotNull VjassLtEqExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitLtExpr(@NotNull VjassLtExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitMethodDef(@NotNull VjassMethodDef o) {
     visitPsiElement(o);
   }
 
@@ -131,6 +167,10 @@ public class VjassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitModuleDef(@NotNull VjassModuleDef o) {
+    visitPsiElement(o);
+  }
+
   public void visitMulExpr(@NotNull VjassMulExpr o) {
     visitExpr(o);
   }
@@ -139,12 +179,12 @@ public class VjassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitNEqExpr(@NotNull VjassNEqExpr o) {
-    visitExpr(o);
+  public void visitNativeDef(@NotNull VjassNativeDef o) {
+    visitPsiElement(o);
   }
 
-  public void visitNativeDecl(@NotNull VjassNativeDecl o) {
-    visitPsiElement(o);
+  public void visitNeqExpr(@NotNull VjassNeqExpr o) {
+    visitExpr(o);
   }
 
   public void visitNotExpr(@NotNull VjassNotExpr o) {
@@ -175,15 +215,19 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSetStmt(@NotNull VjassSetStmt o) {
-    visitPsiElement(o);
-  }
-
   public void visitStmt(@NotNull VjassStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeDecl(@NotNull VjassTypeDecl o) {
+  public void visitStructDef(@NotNull VjassStructDef o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStructName(@NotNull VjassStructName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeDef(@NotNull VjassTypeDef o) {
     visitPsiElement(o);
   }
 
@@ -200,6 +244,10 @@ public class VjassVisitor extends PsiElementVisitor {
   }
 
   public void visitTypedVarList(@NotNull VjassTypedVarList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVis(@NotNull VjassVis o) {
     visitPsiElement(o);
   }
 

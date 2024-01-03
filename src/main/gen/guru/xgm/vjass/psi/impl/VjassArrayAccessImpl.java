@@ -35,8 +35,8 @@ public class VjassArrayAccessImpl extends ASTWrapperPsiElement implements VjassA
 
   @Override
   @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
+  public VjassIdDot getIdDot() {
+    return findNotNullChildByClass(VjassIdDot.class);
   }
 
 }

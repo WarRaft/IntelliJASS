@@ -41,8 +41,8 @@ public class ZincLibVisDefImpl extends ASTWrapperPsiElement implements ZincLibVi
 
   @Override
   @NotNull
-  public ZincVisibilityDef getVisibilityDef() {
-    return findNotNullChildByClass(ZincVisibilityDef.class);
+  public ZincVis getVis() {
+    return findNotNullChildByClass(ZincVis.class);
   }
 
 }

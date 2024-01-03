@@ -515,11 +515,9 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean IfStmt_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStmt_3_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = ElseIfStmt(b, l + 1);
     if (!r) r = ElseStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -754,45 +752,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = IfStmt(b, l + 1);
     if (!r) r = LoopStmt(b, l + 1);
     if (!r) r = ExitWhenStmt(b, l + 1);
-    exit_section_(b, l, m, r, false, JassParser::StmtRecover);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LPAREN|ID LBRACK|TypeName)
-  static boolean StmtRecover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !StmtRecover_0(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|ID EQ|ID LPAREN|ID LBRACK|TypeName
-  private static boolean StmtRecover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, CALL);
-    if (!r) r = consumeToken(b, DEBUG);
-    if (!r) r = consumeToken(b, ELSE);
-    if (!r) r = consumeToken(b, ELSEIF);
-    if (!r) r = consumeToken(b, ENDFUNCTION);
-    if (!r) r = consumeToken(b, ENDLOOP);
-    if (!r) r = consumeToken(b, ENDIF);
-    if (!r) r = consumeToken(b, EXITWHEN);
-    if (!r) r = consumeToken(b, FUNCTION);
-    if (!r) r = consumeToken(b, IF);
-    if (!r) r = consumeToken(b, LOCAL);
-    if (!r) r = consumeToken(b, LOOP);
-    if (!r) r = consumeToken(b, RETURN);
-    if (!r) r = consumeToken(b, SET);
-    if (!r) r = parseTokens(b, 0, ID, EQ);
-    if (!r) r = parseTokens(b, 0, ID, LPAREN);
-    if (!r) r = parseTokens(b, 0, ID, LBRACK);
-    if (!r) r = TypeName(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 

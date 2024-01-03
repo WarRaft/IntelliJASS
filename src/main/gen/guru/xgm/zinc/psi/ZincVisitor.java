@@ -35,7 +35,11 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallStmt(@NotNull ZincCallStmt o) {
+  public void visitCallSetId(@NotNull ZincCallSetId o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCallSetStmt(@NotNull ZincCallSetStmt o) {
     visitPsiElement(o);
   }
 
@@ -175,6 +179,10 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMethodDef(@NotNull ZincMethodDef o) {
+    visitPsiElement(o);
+  }
+
   public void visitMinusExpr(@NotNull ZincMinusExpr o) {
     visitExpr(o);
   }
@@ -227,35 +235,15 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSetStmt(@NotNull ZincSetStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStmt(@NotNull ZincStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStructAccess(@NotNull ZincStructAccess o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStructBody(@NotNull ZincStructBody o) {
-    visitPsiElement(o);
-  }
-
   public void visitStructDef(@NotNull ZincStructDef o) {
     visitPsiElement(o);
   }
 
-  public void visitStructItem(@NotNull ZincStructItem o) {
+  public void visitStructStat(@NotNull ZincStructStat o) {
     visitPsiElement(o);
   }
 
-  public void visitStructMethod(@NotNull ZincStructMethod o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStructVisDef(@NotNull ZincStructVisDef o) {
+  public void visitStructVis(@NotNull ZincStructVis o) {
     visitPsiElement(o);
   }
 
@@ -271,7 +259,7 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitVisibilityDef(@NotNull ZincVisibilityDef o) {
+  public void visitVis(@NotNull ZincVis o) {
     visitPsiElement(o);
   }
 

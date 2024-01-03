@@ -13,4 +13,7 @@ public interface ZincGvarDef extends PsiElement {
   @NotNull
   ZincTypeName getTypeName();
 
+  @Nullable
+  ZincVis getVis();
+
 }

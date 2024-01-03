@@ -27,6 +27,7 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
+BLOCK_COMMENT="/"\*(.|\n)*?\*"/"
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -51,37 +52,53 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "endif"                     { return ENDIF; }
   "endloop"                   { return ENDLOOP; }
   "endglobals"                { return ENDGLOBALS; }
+  "endmodule"                 { return ENDMODULE; }
+  "endstruct"                 { return ENDSTRUCT; }
+  "endlibrary"                { return ENDLIBRARY; }
   "extends"                   { return EXTENDS; }
+  "endmethod"                 { return ENDMETHOD; }
   "exitwhen"                  { return EXITWHEN; }
   "false"                     { return FALSE; }
   "function"                  { return FUNCTION; }
   "globals"                   { return GLOBALS; }
   "handle"                    { return HANDLE; }
+  "hook"                      { return HOOK; }
   "if"                        { return IF; }
+  "implement"                 { return IMPLEMENT; }
   "integer"                   { return INTEGER; }
+  "library"                   { return LIBRARY; }
   "local"                     { return LOCAL; }
   "loop"                      { return LOOP; }
+  "method"                    { return METHOD; }
+  "module"                    { return MODULE; }
   "native"                    { return NATIVE; }
   "not"                       { return NOT; }
   "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
   "or"                        { return OR; }
+  "optional"                  { return OPTIONAL; }
+  "private"                   { return PRIVATE; }
+  "public"                    { return PUBLIC; }
   "real"                      { return REAL; }
   "returns"                   { return RETURNS; }
   "return"                    { return RETURN; }
+  "requires"                  { return REQUIRES; }
+  "static"                    { return STATIC; }
   "set"                       { return SET; }
   "string"                    { return STRING; }
+  "struct"                    { return STRUCT; }
   "takes"                     { return TAKES; }
   "then"                      { return THEN; }
   "true"                      { return TRUE; }
   "type"                      { return TYPE; }
+  "."                         { return DOT; }
   ","                         { return COMMA; }
-  "=="                        { return EQEQ; }
+  "=="                        { return EQ_EQ; }
   "="                         { return EQ; }
   "!="                        { return NEQ; }
-  "<="                        { return LTEQ; }
+  "<="                        { return LT_EQ; }
   "<"                         { return LT; }
-  ">="                        { return GTEQ; }
+  ">="                        { return GT_EQ; }
   ">"                         { return GT; }
   "+"                         { return PLUS; }
   "-"                         { return MINUS; }
@@ -91,9 +108,11 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
+  "KEY"                       { return KEY; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }

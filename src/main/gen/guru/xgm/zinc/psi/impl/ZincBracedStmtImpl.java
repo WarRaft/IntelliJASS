@@ -29,8 +29,50 @@ public class ZincBracedStmtImpl extends ASTWrapperPsiElement implements ZincBrac
 
   @Override
   @NotNull
-  public List<ZincStmt> getStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStmt.class);
+  public List<ZincBreakStmt> getBreakStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincBreakStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincCallSetStmt> getCallSetStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincCallSetStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincDoStmt> getDoStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincDoStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincForStmt> getForStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincForStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincIfStmt> getIfStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincIfStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincLvarStmt> getLvarStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincLvarStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincReturnStmt> getReturnStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincReturnStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincWhileStmt> getWhileStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincWhileStmt.class);
   }
 
 }

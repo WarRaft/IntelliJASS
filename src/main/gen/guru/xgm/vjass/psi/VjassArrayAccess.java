@@ -11,6 +11,6 @@ public interface VjassArrayAccess extends PsiElement {
   VjassExpr getExpr();
 
   @NotNull
-  PsiElement getId();
+  VjassIdDot getIdDot();
 
 }

@@ -39,4 +39,10 @@ public class ZincGvarDefImpl extends ASTWrapperPsiElement implements ZincGvarDef
     return findNotNullChildByClass(ZincTypeName.class);
   }
 
+  @Override
+  @Nullable
+  public ZincVis getVis() {
+    return findChildByClass(ZincVis.class);
+  }
+
 }

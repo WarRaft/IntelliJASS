@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface VjassStmt extends PsiElement {
 
   @Nullable
-  VjassCallStmt getCallStmt();
+  VjassCallSetStmt getCallSetStmt();
 
   @Nullable
   VjassExitWhenStmt getExitWhenStmt();
@@ -17,15 +17,12 @@ public interface VjassStmt extends PsiElement {
   VjassIfStmt getIfStmt();
 
   @Nullable
-  VjassLocalVarStmt getLocalVarStmt();
+  VjassLVarStmt getLVarStmt();
 
   @Nullable
   VjassLoopStmt getLoopStmt();
 
   @Nullable
   VjassReturnStmt getReturnStmt();
-
-  @Nullable
-  VjassSetStmt getSetStmt();
 
 }

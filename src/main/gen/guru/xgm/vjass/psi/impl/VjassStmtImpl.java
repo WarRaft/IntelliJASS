@@ -29,8 +29,8 @@ public class VjassStmtImpl extends ASTWrapperPsiElement implements VjassStmt {
 
   @Override
   @Nullable
-  public VjassCallStmt getCallStmt() {
-    return findChildByClass(VjassCallStmt.class);
+  public VjassCallSetStmt getCallSetStmt() {
+    return findChildByClass(VjassCallSetStmt.class);
   }
 
   @Override
@@ -47,8 +47,8 @@ public class VjassStmtImpl extends ASTWrapperPsiElement implements VjassStmt {
 
   @Override
   @Nullable
-  public VjassLocalVarStmt getLocalVarStmt() {
-    return findChildByClass(VjassLocalVarStmt.class);
+  public VjassLVarStmt getLVarStmt() {
+    return findChildByClass(VjassLVarStmt.class);
   }
 
   @Override
@@ -61,12 +61,6 @@ public class VjassStmtImpl extends ASTWrapperPsiElement implements VjassStmt {
   @Nullable
   public VjassReturnStmt getReturnStmt() {
     return findChildByClass(VjassReturnStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public VjassSetStmt getSetStmt() {
-    return findChildByClass(VjassSetStmt.class);
   }
 
 }

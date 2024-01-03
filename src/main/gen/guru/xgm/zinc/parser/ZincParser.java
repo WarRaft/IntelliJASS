@@ -186,88 +186,93 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DEBUG? (FuncCall StructAccess*|ID StructAccess+) SEMI?
-  public static boolean CallStmt(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt")) return false;
-    if (!nextTokenIs(b, "<call stmt>", DEBUG, ID)) return false;
+  // FuncCall|ArrayAccess|ID
+  public static boolean CallSetId(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetId")) return false;
+    if (!nextTokenIs(b, ID)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CALL_STMT, "<call stmt>");
-    r = CallStmt_0(b, l + 1);
-    r = r && CallStmt_1(b, l + 1);
-    r = r && CallStmt_2(b, l + 1);
+    Marker m = enter_section_(b);
+    r = FuncCall(b, l + 1);
+    if (!r) r = ArrayAccess(b, l + 1);
+    if (!r) r = consumeToken(b, ID);
+    exit_section_(b, m, CALL_SET_ID, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (CALL|SET)? CallSetId (DOT CallSetId)* (SetOp Expr)? SEMI?
+  public static boolean CallSetStmt(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CALL_SET_STMT, "<call set stmt>");
+    r = CallSetStmt_0(b, l + 1);
+    r = r && CallSetId(b, l + 1);
+    r = r && CallSetStmt_2(b, l + 1);
+    r = r && CallSetStmt_3(b, l + 1);
+    r = r && CallSetStmt_4(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // DEBUG?
-  private static boolean CallStmt_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_0")) return false;
-    consumeToken(b, DEBUG);
+  // (CALL|SET)?
+  private static boolean CallSetStmt_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_0")) return false;
+    CallSetStmt_0_0(b, l + 1);
     return true;
   }
 
-  // FuncCall StructAccess*|ID StructAccess+
-  private static boolean CallStmt_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_1")) return false;
+  // CALL|SET
+  private static boolean CallSetStmt_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_0_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = CallStmt_1_0(b, l + 1);
-    if (!r) r = CallStmt_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = consumeToken(b, CALL);
+    if (!r) r = consumeToken(b, SET);
     return r;
   }
 
-  // FuncCall StructAccess*
-  private static boolean CallStmt_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = FuncCall(b, l + 1);
-    r = r && CallStmt_1_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // StructAccess*
-  private static boolean CallStmt_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_1_0_1")) return false;
+  // (DOT CallSetId)*
+  private static boolean CallSetStmt_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!StructAccess(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "CallStmt_1_0_1", c)) break;
+      if (!CallSetStmt_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "CallSetStmt_2", c)) break;
     }
     return true;
   }
 
-  // ID StructAccess+
-  private static boolean CallStmt_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_1_1")) return false;
+  // DOT CallSetId
+  private static boolean CallSetStmt_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ID);
-    r = r && CallStmt_1_1_1(b, l + 1);
+    r = consumeToken(b, DOT);
+    r = r && CallSetId(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // StructAccess+
-  private static boolean CallStmt_1_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_1_1_1")) return false;
+  // (SetOp Expr)?
+  private static boolean CallSetStmt_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_3")) return false;
+    CallSetStmt_3_0(b, l + 1);
+    return true;
+  }
+
+  // SetOp Expr
+  private static boolean CallSetStmt_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = StructAccess(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!StructAccess(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "CallStmt_1_1_1", c)) break;
-    }
+    r = SetOp(b, l + 1);
+    r = r && Expr(b, l + 1, -1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // SEMI?
-  private static boolean CallStmt_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallStmt_2")) return false;
+  private static boolean CallSetStmt_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallSetStmt_4")) return false;
     consumeToken(b, SEMI);
     return true;
   }
@@ -294,10 +299,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean DoStmt_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DoStmt_1")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -326,10 +329,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean ElseStmt_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ElseStmt_1")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -396,10 +397,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean ForStmt_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ForStmt_2")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -625,42 +624,50 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI?
+  // Vis? CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI?
   public static boolean GvarDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GvarDef")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, GVAR_DEF, "<gvar def>");
     r = GvarDef_0(b, l + 1);
+    r = r && GvarDef_1(b, l + 1);
     r = r && TypeName(b, l + 1);
-    p = r; // pin = 2
+    p = r; // pin = 3
     r = r && report_error_(b, GvarBody(b, l + 1));
-    r = p && report_error_(b, GvarDef_3(b, l + 1)) && r;
-    r = p && GvarDef_4(b, l + 1) && r;
+    r = p && report_error_(b, GvarDef_4(b, l + 1)) && r;
+    r = p && GvarDef_5(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // CONSTANT?
+  // Vis?
   private static boolean GvarDef_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GvarDef_0")) return false;
+    Vis(b, l + 1);
+    return true;
+  }
+
+  // CONSTANT?
+  private static boolean GvarDef_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDef_1")) return false;
     consumeToken(b, CONSTANT);
     return true;
   }
 
   // (COMMA GvarBody)*
-  private static boolean GvarDef_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_3")) return false;
+  private static boolean GvarDef_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDef_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!GvarDef_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "GvarDef_3", c)) break;
+      if (!GvarDef_4_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "GvarDef_4", c)) break;
     }
     return true;
   }
 
   // COMMA GvarBody
-  private static boolean GvarDef_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_3_0")) return false;
+  private static boolean GvarDef_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDef_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
@@ -670,8 +677,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   // SEMI?
-  private static boolean GvarDef_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_4")) return false;
+  private static boolean GvarDef_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarDef_5")) return false;
     consumeToken(b, SEMI);
     return true;
   }
@@ -697,10 +704,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean IfStmt_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStmt_4")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -831,13 +836,13 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // VisibilityDef (LibItem|LibBody)
+  // Vis (LibItem|LibBody)
   public static boolean LibVisDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LibVisDef")) return false;
     if (!nextTokenIs(b, "<lib vis def>", PRIVATE, PUBLIC)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, LIB_VIS_DEF, "<lib vis def>");
-    r = VisibilityDef(b, l + 1);
+    r = Vis(b, l + 1);
     r = r && LibVisDef_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -924,6 +929,52 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean LvarStmt_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LvarStmt_3")) return false;
     consumeToken(b, SEMI);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // Vis? STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
+  public static boolean MethodDef(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MethodDef")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, METHOD_DEF, "<method def>");
+    r = MethodDef_0(b, l + 1);
+    r = r && MethodDef_1(b, l + 1);
+    r = r && consumeTokens(b, 1, METHOD, ID, LPAREN);
+    p = r; // pin = 3
+    r = r && report_error_(b, MethodDef_5(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
+    r = p && report_error_(b, MethodDef_7(b, l + 1)) && r;
+    r = p && FuncBody(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // Vis?
+  private static boolean MethodDef_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MethodDef_0")) return false;
+    Vis(b, l + 1);
+    return true;
+  }
+
+  // STATIC?
+  private static boolean MethodDef_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MethodDef_1")) return false;
+    consumeToken(b, STATIC);
+    return true;
+  }
+
+  // TypedVarList?
+  private static boolean MethodDef_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MethodDef_5")) return false;
+    TypedVarList(b, l + 1);
+    return true;
+  }
+
+  // FuncReturns?
+  private static boolean MethodDef_7(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MethodDef_7")) return false;
+    FuncReturns(b, l + 1);
     return true;
   }
 
@@ -1021,163 +1072,35 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (ArrayAccess|ID) StructAccess* SetOp Expr SEMI?
-  public static boolean SetStmt(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "SetStmt")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, SET_STMT, null);
-    r = SetStmt_0(b, l + 1);
-    r = r && SetStmt_1(b, l + 1);
-    r = r && SetOp(b, l + 1);
-    p = r; // pin = 3
-    r = r && report_error_(b, Expr(b, l + 1, -1));
-    r = p && SetStmt_4(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // ArrayAccess|ID
-  private static boolean SetStmt_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "SetStmt_0")) return false;
-    boolean r;
-    r = ArrayAccess(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    return r;
-  }
-
-  // StructAccess*
-  private static boolean SetStmt_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "SetStmt_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!StructAccess(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "SetStmt_1", c)) break;
-    }
-    return true;
-  }
-
-  // SEMI?
-  private static boolean SetStmt_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "SetStmt_4")) return false;
-    consumeToken(b, SEMI);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // ForStmt
-  //     | CallStmt
+  // ForStmt|
+  //     CallSetStmt
   //     | IfStmt
   //     | ReturnStmt
   //     | LvarStmt
-  //     | SetStmt
   //     | DoStmt
   //     | WhileStmt
   //     | BreakStmt
-  public static boolean Stmt(PsiBuilder b, int l) {
+  static boolean Stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Stmt")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STMT, "<stmt>");
     r = ForStmt(b, l + 1);
-    if (!r) r = CallStmt(b, l + 1);
+    if (!r) r = CallSetStmt(b, l + 1);
     if (!r) r = IfStmt(b, l + 1);
     if (!r) r = ReturnStmt(b, l + 1);
     if (!r) r = LvarStmt(b, l + 1);
-    if (!r) r = SetStmt(b, l + 1);
     if (!r) r = DoStmt(b, l + 1);
     if (!r) r = WhileStmt(b, l + 1);
     if (!r) r = BreakStmt(b, l + 1);
-    exit_section_(b, l, m, r, false, ZincParser::StmtRecover);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
-  static boolean StmtRecover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !StmtRecover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT
-  private static boolean StmtRecover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LBRACE);
-    if (!r) r = consumeToken(b, RBRACE);
-    if (!r) r = consumeToken(b, FOR);
-    if (!r) r = consumeToken(b, IF);
-    if (!r) r = consumeToken(b, ELSE);
-    if (!r) r = consumeToken(b, DO);
-    if (!r) r = consumeToken(b, WHILE);
-    if (!r) r = consumeToken(b, RETURN);
-    if (!r) r = consumeToken(b, DEBUG);
-    if (!r) r = StmtRecover_0_9(b, l + 1);
-    if (!r) r = parseTokens(b, 0, ID, LPAREN);
-    if (!r) r = parseTokens(b, 0, ID, LBRACK);
-    if (!r) r = StmtRecover_0_12(b, l + 1);
-    if (!r) r = parseTokens(b, 0, ID, DOT);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // TypeName ID
-  private static boolean StmtRecover_0_9(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0_9")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = TypeName(b, l + 1);
-    r = r && consumeToken(b, ID);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ID SetOp
-  private static boolean StmtRecover_0_12(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StmtRecover_0_12")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ID);
-    r = r && SetOp(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // DOT (FuncCall|ArrayAccess|ID)
-  public static boolean StructAccess(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructAccess")) return false;
-    if (!nextTokenIs(b, DOT)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_ACCESS, null);
-    r = consumeToken(b, DOT);
-    p = r; // pin = 1
-    r = r && StructAccess_1(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // FuncCall|ArrayAccess|ID
-  private static boolean StructAccess_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructAccess_1")) return false;
-    boolean r;
-    r = FuncCall(b, l + 1);
-    if (!r) r = ArrayAccess(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
     return r;
   }
 
   /* ********************************************************** */
   // LBRACE StructItem* RBRACE
-  public static boolean StructBody(PsiBuilder b, int l) {
+  static boolean StructBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructBody")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_BODY, null);
+    Marker m = enter_section_(b, l, _NONE_);
     r = consumeToken(b, LBRACE);
     p = r; // pin = 1
     r = r && report_error_(b, StructBody_1(b, l + 1));
@@ -1212,92 +1135,58 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // StructVisDef|GvarDef|StructMethod
-  public static boolean StructItem(PsiBuilder b, int l) {
+  // GvarDef|MethodDef|StructVis|StructStat
+  static boolean StructItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructItem")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_ITEM, "<struct item>");
-    r = StructVisDef(b, l + 1);
-    if (!r) r = GvarDef(b, l + 1);
-    if (!r) r = StructMethod(b, l + 1);
+    r = GvarDef(b, l + 1);
+    if (!r) r = MethodDef(b, l + 1);
+    if (!r) r = StructVis(b, l + 1);
+    if (!r) r = StructStat(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // STATIC StructBody
+  public static boolean StructStat(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StructStat")) return false;
+    if (!nextTokenIs(b, STATIC)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, STATIC);
+    r = r && StructBody(b, l + 1);
+    exit_section_(b, m, STRUCT_STAT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // Vis StructBody
+  public static boolean StructVis(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StructVis")) return false;
+    if (!nextTokenIs(b, "<struct vis>", PRIVATE, PUBLIC)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, STRUCT_VIS, "<struct vis>");
+    r = Vis(b, l + 1);
+    r = r && StructBody(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
-  public static boolean StructMethod(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructMethod")) return false;
-    if (!nextTokenIs(b, "<struct method>", METHOD, STATIC)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_METHOD, "<struct method>");
-    r = StructMethod_0(b, l + 1);
-    r = r && consumeTokens(b, 0, METHOD, ID, LPAREN);
-    r = r && StructMethod_4(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    r = r && StructMethod_6(b, l + 1);
-    r = r && FuncBody(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // STATIC?
-  private static boolean StructMethod_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructMethod_0")) return false;
-    consumeToken(b, STATIC);
-    return true;
-  }
-
-  // TypedVarList?
-  private static boolean StructMethod_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructMethod_4")) return false;
-    TypedVarList(b, l + 1);
-    return true;
-  }
-
-  // FuncReturns?
-  private static boolean StructMethod_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructMethod_6")) return false;
-    FuncReturns(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // VisibilityDef (StructItem|StructBody)
-  public static boolean StructVisDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructVisDef")) return false;
-    if (!nextTokenIs(b, "<struct vis def>", PRIVATE, PUBLIC)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_VIS_DEF, "<struct vis def>");
-    r = VisibilityDef(b, l + 1);
-    r = r && StructVisDef_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // StructItem|StructBody
-  private static boolean StructVisDef_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StructVisDef_1")) return false;
-    boolean r;
-    r = StructItem(b, l + 1);
-    if (!r) r = StructBody(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY
+  // HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY|THISTYPE|ID
   public static boolean TypeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeName")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_NAME, "<type name>");
-    r = consumeToken(b, ID);
-    if (!r) r = consumeToken(b, HANDLE);
+    r = consumeToken(b, HANDLE);
     if (!r) r = consumeToken(b, INTEGER);
     if (!r) r = consumeToken(b, REAL);
     if (!r) r = consumeToken(b, BOOLEAN);
     if (!r) r = consumeToken(b, STRING);
     if (!r) r = consumeToken(b, CODE);
     if (!r) r = consumeToken(b, KEY);
+    if (!r) r = consumeToken(b, THISTYPE);
+    if (!r) r = consumeToken(b, ID);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1351,11 +1240,11 @@ public class ZincParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // PUBLIC|PRIVATE
-  public static boolean VisibilityDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "VisibilityDef")) return false;
-    if (!nextTokenIs(b, "<visibility def>", PRIVATE, PUBLIC)) return false;
+  public static boolean Vis(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Vis")) return false;
+    if (!nextTokenIs(b, "<vis>", PRIVATE, PUBLIC)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VISIBILITY_DEF, "<visibility def>");
+    Marker m = enter_section_(b, l, _NONE_, VIS, "<vis>");
     r = consumeToken(b, PUBLIC);
     if (!r) r = consumeToken(b, PRIVATE);
     exit_section_(b, l, m, r, false, null);
@@ -1382,10 +1271,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   private static boolean WhileStmt_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "WhileStmt_4")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 

@@ -14,6 +14,6 @@ public interface ZincLibVisDef extends PsiElement {
   ZincLibItem getLibItem();
 
   @NotNull
-  ZincVisibilityDef getVisibilityDef();
+  ZincVis getVis();
 
 }

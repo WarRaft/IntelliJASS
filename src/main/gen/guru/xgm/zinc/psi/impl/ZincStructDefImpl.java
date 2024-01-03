@@ -28,9 +28,27 @@ public class ZincStructDefImpl extends ASTWrapperPsiElement implements ZincStruc
   }
 
   @Override
-  @Nullable
-  public ZincStructBody getStructBody() {
-    return findChildByClass(ZincStructBody.class);
+  @NotNull
+  public List<ZincGvarDef> getGvarDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincGvarDef.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincMethodDef> getMethodDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincMethodDef.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincStructStat> getStructStatList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructStat.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincStructVis> getStructVisList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructVis.class);
   }
 
   @Override

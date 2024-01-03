@@ -11,12 +11,33 @@ public interface ZincIfStmt extends PsiElement {
   ZincBracedStmt getBracedStmt();
 
   @Nullable
+  ZincBreakStmt getBreakStmt();
+
+  @Nullable
+  ZincCallSetStmt getCallSetStmt();
+
+  @Nullable
+  ZincDoStmt getDoStmt();
+
+  @Nullable
   ZincElseStmt getElseStmt();
 
   @Nullable
   ZincExpr getExpr();
 
   @Nullable
-  ZincStmt getStmt();
+  ZincForStmt getForStmt();
+
+  @Nullable
+  ZincIfStmt getIfStmt();
+
+  @Nullable
+  ZincLvarStmt getLvarStmt();
+
+  @Nullable
+  ZincReturnStmt getReturnStmt();
+
+  @Nullable
+  ZincWhileStmt getWhileStmt();
 
 }

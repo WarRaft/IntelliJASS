@@ -16,7 +16,6 @@
     tokens = [
         WHITE_SPACE='regexp:\s+'
         SINGLE_LINE_COMMENT="regexp://[^\n]*"
-        BLOCK_COMMENT='regexp:/\*(.|\n)*?\*/'
 
         AND='and'
         ARRAY='array'
@@ -113,7 +112,8 @@ Root ::= (
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
 // === VISIBILITY
-Visibility ::= (PUBLIC|PRIVATE)
+Vis ::= (PUBLIC|PRIVATE)
+IdDot ::= ID (DOT ID)*
 
 // === LIBRARY
 LibDef ::= LIBRARY ID LibReq? (StructDef|ModuleDef|FuncDef|GlobalsDef|HookDef)* ENDLIBRARY {pin=1}
@@ -139,7 +139,8 @@ FuncDefName ::= ID
 FuncTakes ::= TAKES (NOTHING|TypedVarList)
 FuncReturns ::= RETURNS (NOTHING|TypeName)
 NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
-FuncDef ::= Visibility? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=3}
+FuncDef ::= Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION {pin=3}
+private FuncBody ::= Stmt
 
 // === HOOK
 HookDef ::= HOOK ID ID {pin=1}
@@ -147,41 +148,36 @@ HookDef ::= HOOK ID ID {pin=1}
 // === GLOBALS
 GlobalsDef ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
 GvarName ::= ID
-GvarDef ::= Visibility? CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=3 recoverWhile=GvarDefRecover}
-private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName|Visibility)
+GvarDef ::= Vis? CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=3 recoverWhile=GvarDefRecover}
+private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName|Vis)
 
 // === STRUCT
-StructDef ::= Visibility? STRUCT StructName (EXTENDS (ID|ARRAY))? (MethodDef|ImplementDef)* ENDSTRUCT {pin=2}
+StructDef ::= Vis? STRUCT StructName (EXTENDS (ID|ARRAY))? (MethodDef|ImplementDef)* ENDSTRUCT {pin=2}
 StructName ::= ID
-MethodDef ::= Visibility? STATIC? METHOD ID FuncTakes? FuncReturns? Stmt* ENDMETHOD {pin=3}
-DotTail ::= DOT (FuncCall|ArrayAccess|ID) {pin = 1}
+MethodDef ::= Vis? STATIC? METHOD ID FuncTakes? FuncReturns? Stmt* ENDMETHOD {pin=3}
 ImplementDef ::= IMPLEMENT ID
 
 // === MODULE
-ModuleDef ::= Visibility? MODULE ID MethodDef* ENDMODULE {pin=2}
+ModuleDef ::= Vis? MODULE ID MethodDef* ENDMODULE {pin=2}
 
 // === STATEMENT
 Stmt ::=
-    CallStmt |
-    SetStmt |
-    LocalVarStmt |
+    CallSetStmt |
+    LVarStmt |
     ReturnStmt |
     IfStmt |
     LoopStmt |
     ExitWhenStmt
-    {recoverWhile=StmtRecover}
 
-private StmtRecover ::= !(CALL|DEBUG|ELSE|ELSEIF|ENDFUNCTION|ENDLOOP|ENDIF|EXITWHEN|FUNCTION|IF|LOCAL|LOOP|RETURN|SET|STATIC|ENDMETHOD|ID EQ|ID LPAREN|ID LBRACK|ID DOT|TypeName|Visibility)
+CallSetId ::= FuncCall|ArrayAccess|ID
+CallSetStmt ::= (CALL|SET)? CallSetId (DOT CallSetId)* (EQ Expr)?
 
-LocalVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
-
-SetStmt ::= SET? (ArrayAccess|ID) DotTail* EQ Expr {pin=4}
-
-CallStmt ::= DEBUG? CALL? (FuncCall DotTail*|ID DotTail+)
+LVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=4}
 
 ReturnStmt ::= RETURN Expr? {pin=1}
 
-IfStmt ::= STATIC? IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF {pin=2}
+IfStmt ::= STATIC? IF Expr THEN? (FuncBody|ElseIfStmt|ElseStmt)* ENDIF {pin=2}
+
 ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
 ElseStmt ::= ELSE Stmt* {pin=1}
 
@@ -195,6 +191,7 @@ ExitWhenStmt ::= EXITWHEN Expr {pin=1}
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
+    DotExpr |
     AddGroup |
     MulGroup |
     UnaryGroup |
@@ -202,6 +199,8 @@ Expr ::=
     OrExpr |
     AndExpr |
     PrimaryExpr
+
+DotExpr ::= Expr DOT Expr
 
 private AddGroup ::= PlusExpr | MinusExpr
 PlusExpr ::= Expr PLUS Expr
@@ -247,16 +246,16 @@ PrimaryExpr ::=
     FALSE |
     NULL |
     TRUE |
-    ParenExpr |
-    ArrayAccess |
-    FuncCall |
-    FuncAsCode |
     REALVAL |
     HEXVAL |
     INTVAL |
     RAWVAL |
     STRVAL |
+    ParenExpr |
+    FuncCall |
+    ArrayAccess |
+    FuncAsCode |
     ID
 
-ArrayAccess ::= ID LBRACK Expr? RBRACK
+ArrayAccess ::= IdDot LBRACK Expr? RBRACK {pin=2}
 FuncAsCode ::= FUNCTION FuncCallName {pin=1}

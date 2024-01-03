@@ -49,6 +49,7 @@
         STRING='string'
         STRUCT='struct'
         TRUE='true'
+        THISTYPE='thistype'
         WHILE='while'
 
         DOT='.'
@@ -92,13 +93,13 @@
 
 }
 
-// https://www.osti.gov/servlets/purl/1644738
+// https://www.osti.gov/servlets/purl/1644738/
 
 Root ::= (LibDef)* {recoverWhile=RootRecover}
 private RootRecover ::= !(LIBRARY)
 
 // === VISIBILITY
-Visibility ::= (PUBLIC|PRIVATE)
+Vis ::= (PUBLIC|PRIVATE)
 
 // === LIBRARY
 LibDef ::= LIBRARY ID LibReq? LibBody {pin=1}
@@ -108,14 +109,14 @@ LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 
 // -- Lib Visible
-LibVisDef ::= Visibility (LibItem|LibBody)
+LibVisDef ::= Vis (LibItem|LibBody)
 
 // === GLOBALS
+GvarDef ::= Vis? CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=3}
 GvarBody ::= (ArrayAccess|ID) (EQ Expr)?
-GvarDef ::= CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=2}
 
 // === VARIABLE
-TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY
+TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY|THISTYPE|ID
 TypedVar ::= TypeName ID
 TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1}
 
@@ -133,31 +134,29 @@ FuncBody ::= LBRACE Stmt* RBRACE {pin=1}
 
 // === STRUCT
 StructDef ::= STRUCT ID StructBody {pin=1}
-StructBody ::= LBRACE StructItem* RBRACE {pin=1}
-StructItem ::= StructVisDef|GvarDef|StructMethod
-StructVisDef ::= Visibility (StructItem|StructBody)
-StructMethod ::= STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
-StructAccess ::= DOT (FuncCall|ArrayAccess|ID) {pin = 1}
+private StructBody ::= LBRACE StructItem* RBRACE {pin=1}
+private StructItem ::= GvarDef|MethodDef|StructVis|StructStat
+MethodDef ::= Vis? STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
+StructVis ::= Vis StructBody {pin=2}
+StructStat ::= STATIC StructBody {pin=2}
 
 // === STATEMENT
-Stmt ::=
-     ForStmt
-    | CallStmt
+private Stmt ::=
+     ForStmt|
+    CallSetStmt
     | IfStmt
     | ReturnStmt
     | LvarStmt
-    | SetStmt
     | DoStmt
     | WhileStmt
     | BreakStmt
-{recoverWhile=StmtRecover}
-private StmtRecover ::= !(LBRACE|RBRACE|FOR|IF|ELSE|DO|WHILE|RETURN|DEBUG|TypeName ID|ID LPAREN|ID LBRACK|ID SetOp|ID DOT)
 
 BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
 
-// -- set
+// -- call|set
 SetOp ::= EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
-SetStmt ::= (ArrayAccess|ID) StructAccess* SetOp Expr SEMI? {pin=3}
+CallSetId ::= FuncCall|ArrayAccess|ID
+CallSetStmt ::= (CALL|SET)? CallSetId (DOT CallSetId)* (SetOp Expr)? SEMI?
 
 // -- local var
 LvarStmt ::= TypeName LvarBody (COMMA LvarBody)* SEMI? {pin=2}
@@ -168,7 +167,6 @@ ForOp ::= (LT|LT_EQ|GT|GT_EQ)
 ForStmt ::= FOR ForHead (Stmt|BracedStmt) {pin=1}
 ForExpr ::= PrimaryExpr
 ForHead ::= LPAREN ForExpr ForOp ID ForOp ForExpr RPAREN {pin=1}
-CallStmt ::= DEBUG? (FuncCall StructAccess*|ID StructAccess+) SEMI?
 
 // -- do
 DoStmt ::= DO (Stmt|BracedStmt) WHILE LPAREN Expr RPAREN SEMI? {pin=1}

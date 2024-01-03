@@ -35,8 +35,50 @@ public class ZincElseStmtImpl extends ASTWrapperPsiElement implements ZincElseSt
 
   @Override
   @Nullable
-  public ZincStmt getStmt() {
-    return findChildByClass(ZincStmt.class);
+  public ZincBreakStmt getBreakStmt() {
+    return findChildByClass(ZincBreakStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincCallSetStmt getCallSetStmt() {
+    return findChildByClass(ZincCallSetStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincDoStmt getDoStmt() {
+    return findChildByClass(ZincDoStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincForStmt getForStmt() {
+    return findChildByClass(ZincForStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincIfStmt getIfStmt() {
+    return findChildByClass(ZincIfStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincLvarStmt getLvarStmt() {
+    return findChildByClass(ZincLvarStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincReturnStmt getReturnStmt() {
+    return findChildByClass(ZincReturnStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public ZincWhileStmt getWhileStmt() {
+    return findChildByClass(ZincWhileStmt.class);
   }
 
 }

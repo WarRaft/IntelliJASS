@@ -45,23 +45,23 @@ public class VjassSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (tokenType == ID) return ID_KEYS;
 
         if (Arrays.asList(
-                //LIBRARY,
                 CONSTANT,
-                //REQUIRES,
-                //STATIC,
-                //STRUCT,
-                //METHOD,
-                //OPTIONAL,
+                ELSE,
+                FALSE,
                 FUNCTION,
                 IF,
-                ELSE,
-                //DO,
-                //WHILE,
-                //FOR,
-                TRUE,
-                FALSE
-                //PRIVATE,
-                //PUBLIC
+                LIBRARY,
+                METHOD,
+                NATIVE,
+                OPTIONAL,
+                PRIVATE,
+                PUBLIC,
+                RETURNS,
+                REQUIRES,
+                STATIC,
+                STRUCT,
+                TAKES,
+                TRUE
         ).contains(tokenType)) {
             return KEYWORD_KEYS;
         }
@@ -77,7 +77,7 @@ public class VjassSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 SINGLE_LINE_COMMENT
-                //BLOCK_COMMENT
+                // COMMENT
         ).contains(tokenType)) {
             return LINE_COMMENT_KEYS;
         }
