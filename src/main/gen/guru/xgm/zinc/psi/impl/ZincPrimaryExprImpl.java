@@ -41,12 +41,6 @@ public class ZincPrimaryExprImpl extends ZincExprImpl implements ZincPrimaryExpr
 
   @Override
   @Nullable
-  public ZincFuncCall getFuncCall() {
-    return findChildByClass(ZincFuncCall.class);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getHexval() {
     return findChildByType(HEXVAL);
   }

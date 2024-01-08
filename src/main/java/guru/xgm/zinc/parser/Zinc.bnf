@@ -100,30 +100,30 @@ Vis ::= (PUBLIC|PRIVATE)
 
 // === LIBRARY
 LibDef ::= LIBRARY ID LibReq? LibBody {pin=1}
-LibBody ::= LBRACE LibItem* RBRACE {pin=1}
-LibItem ::= LibVisDef|GvarDef|FuncDef|StructDef
+private LibBody ::= LBRACE LibItem* RBRACE {pin=1}
+private LibItem ::= LibVisDef|VarDef|FuncDef|StructDef
 LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 
 // -- Lib Visible
 LibVisDef ::= Vis (LibItem|LibBody)
 
-// === GLOBALS
-GvarDef ::= Vis? CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI? {pin=3}
-GvarBody ::= (ArrayAccess|ID) (EQ Expr)?
-
 // === VARIABLE
+VarDef ::= Vis? CONSTANT? TypeName VarBody (COMMA VarBody)* SEMI?
+VarBody ::= (ArrayAccess|ID) (EQ Expr)?
+
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY|THISTYPE|ID
 TypedVar ::= TypeName ID
 TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1}
 
 // === FUNCTION
-Arg ::= Expr|FuncAsCode|FuncAnon
+Arg ::= Expr|FuncAsCode|Lambda
 ArgList ::= Arg (COMMA Arg)*
+Args ::= LPAREN ArgList? RPAREN {pin=1}
 FuncCallName ::= ID
 
-FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
-FuncAnon ::= FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=2}
+Lambda ::= FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=2}
+
 FuncDef ::= CONSTANT? FUNCTION FuncDefName LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
 FuncDefName ::= ID
 FuncReturns ::= MINUS_GT (NOTHING|TypeName) {pin=1}
@@ -132,32 +132,25 @@ FuncBody ::= LBRACE Stmt* RBRACE {pin=1}
 // === STRUCT
 StructDef ::= STRUCT ID StructBody {pin=1}
 private StructBody ::= LBRACE StructItem* RBRACE {pin=1}
-private StructItem ::= GvarDef|MethodDef|StructVis|StructStat
+private StructItem ::= VarDef|MethodDef|StructVis|StructStat
 MethodDef ::= Vis? STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
 StructVis ::= Vis StructBody {pin=2}
 StructStat ::= STATIC StructBody {pin=2}
 
-// === STATEMENT
-private Stmt ::=
-     ForStmt|
-    CallSetStmt
-    | IfStmt
-    | ReturnStmt
-    | LvarStmt
-    | DoStmt
-    | WhileStmt
-    | BreakStmt
-
 BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
 
-// -- call|set
-SetOp ::= EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
-CallSetId ::= FuncCall|ArrayAccess|ID
-CallSetStmt ::= (CALL|SET)? CallSetId (DOT CallSetId)* (SetOp Expr)? SEMI?
+// === STATEMENT
+private Stmt ::=
+        ForStmt |
+        IfStmt |
+        ReturnStmt |
+        DoStmt |
+        WhileStmt |
+        BreakStmt |
+        VarDef |
+        ExprStmt
 
-// -- local var
-LvarStmt ::= TypeName LvarBody (COMMA LvarBody)* SEMI? {pin=2}
-LvarBody ::= ID (EQ Expr)?
+ExprStmt ::= AssignExpr SEMI?
 
 // -- for
 ForOp ::= (LT|LT_EQ|GT|GT_EQ)
@@ -186,16 +179,18 @@ ElseStmt ::= ELSE (Stmt|BracedStmt) {pin=1}
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
+    AssignExpr |
+    RefExpr |
     AddGroup |
     MulGroup |
     UnaryGroup |
     CmpGroup |
     OrExpr |
     AndExpr |
-    PrimaryExpr |
-    DotExpr
+    PrimaryExpr
 
-DotExpr ::= Expr DOT Expr
+RefExpr ::= Expr DOT Expr
+AssignExpr ::= Expr (EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ) Expr
 
 private AddGroup ::= PlusExpr | MinusExpr
 PlusExpr ::= Expr PLUS Expr
@@ -237,13 +232,15 @@ OrExpr ::= Expr OR_OR Expr
 AndExpr ::= Expr AND_AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
+CallExpr ::= ID Args
+
 PrimaryExpr ::=
     FALSE |
     NULL |
     TRUE |
     ParenExpr |
     ArrayAccess |
-    FuncCall |
+    CallExpr |
     FuncAsCode |
     REALVAL |
     HEXVAL |

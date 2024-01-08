@@ -9,16 +9,16 @@ library CursedResurrection {
     integer level, tickerId, casterId, count;
     timer ticker;
 
- //   constant string spellEffect = "HolyLight.mdx"; //ИЗМЕНИТЬ!!!
- //   constant string spellEffectAttach = "origin";  //ИЗМЕНИТЬ!!!
+//   constant string spellEffect = "HolyLight.mdx"; //ИЗМЕНИТЬ!!!
+//   constant string spellEffectAttach = "origin";  //ИЗМЕНИТЬ!!!
 
-    /* === Реализация заклинания  === */
+/* === Реализация заклинания  === */
 
     function onInit() {
         trigger t = CreateTrigger();
         integer i;
 
-        // Слушаем событие каста для всех игроков, экономя лишний вызов функции
+    // Слушаем событие каста для всех игроков, экономя лишний вызов функции
         for (0 <= i < bj_MAX_PLAYER_SLOTS) TriggerRegisterPlayerUnitEvent(t, Player(i), EVENT_PLAYER_UNIT_SPELL_EFFECT, null);
         TriggerAddAction(t, function() {
             if (abilityId != GetSpellAbilityId()) return; // Используем return чтоб не использовать Condition
@@ -38,32 +38,32 @@ library CursedResurrection {
                 if (GetUnitTypeId(target) == 'dumR' && IsUnitInRangeXY(target, x, y, range)) {  /*Берем первого попавшигося РАНДОМНОГО юнита(дамика) с РАВ:'dumR'*/
                 ///////////////////////////////////////////////////////////////////////////////////////////////////
                 /* создали ГЛАВНЫЙ таймер */
-                ticker = CreateTimer();
-                tickerId = GetHandleId(ticker);
-                SaveUnitHandle(ht, tickerId, 'cstr', caster);
-                SaveUnitHandle(ht, tickerId, 'dumy', dummy);
-                SaveReal(ht, tickerId, 'tim1', 0.0);
+                    ticker = CreateTimer();
+                    tickerId = GetHandleId(ticker);
+                    SaveUnitHandle(ht, tickerId, 'cstr', caster);
+                    SaveUnitHandle(ht, tickerId, 'dumy', dummy);
+                    SaveReal(ht, tickerId, 'tim1', 0.0);
 
                 /* запустили ГЛАВНЫЙ таймер */
-                TimerStart(ticker, period, true, function(){
-                    ticker = GetExpiredTimer();
-                    tickerId = GetHandleId(ticker);
-                    caster = LoadUnitHandle(ht, tickerId, 'cstr');
-                    dummy = LoadUnitHandle(ht, tickerId, 'dumy');
-                    time = LoadReal(ht, tickerId, 'tim1') + period;
-                    SaveReal(ht, tickerId, 'tim1' , time);
-                    if (time == 1.) {
-                        DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", spellX, spellY));
-                    }
-                    if (time == 38.) {    /*время через которое сработает анимация воскрешения "Dissipate"*/
-                        SetUnitAnimation(dummy, "Dissipate");
-                        SetUnitTimeScale(dummy, 0.5);
-                    }
-                }); // конец Функции Таймера
+                    TimerStart(ticker, period, true, function(){
+                        ticker = GetExpiredTimer();
+                        tickerId = GetHandleId(ticker);
+                        caster = LoadUnitHandle(ht, tickerId, 'cstr');
+                        dummy = LoadUnitHandle(ht, tickerId, 'dumy');
+                        time = LoadReal(ht, tickerId, 'tim1') + period;
+                        SaveReal(ht, tickerId, 'tim1', time);
+                        if (time == 1.) {
+                            DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", spellX, spellY));
+                        }
+                        if (time == 38.) {    /*время через которое сработает анимация воскрешения "Dissipate"*/
+                            SetUnitAnimation(dummy, "Dissipate");
+                            SetUnitTimeScale(dummy, 0.5);
+                        }
+                    }); // конец Функции Таймера
 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////
-                break; // выходим из цикла
-            }
-        });
-    t = null;
-}
+                    break; // выходим из цикла
+                }
+            });
+        t = null;
+    }

@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.zinc.psi.ZincTypes.*;
 import guru.xgm.zinc.psi.*;
 
-public class ZincDotExprImpl extends ZincExprImpl implements ZincDotExpr {
+public class ZincAssignExprImpl extends ZincExprImpl implements ZincAssignExpr {
 
-  public ZincDotExprImpl(@NotNull ASTNode node) {
+  public ZincAssignExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitDotExpr(this);
+    visitor.visitAssignExpr(this);
   }
 
   @Override

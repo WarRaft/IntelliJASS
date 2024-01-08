@@ -14,10 +14,10 @@ public interface ZincForStmt extends PsiElement {
   ZincBreakStmt getBreakStmt();
 
   @Nullable
-  ZincCallSetStmt getCallSetStmt();
+  ZincDoStmt getDoStmt();
 
   @Nullable
-  ZincDoStmt getDoStmt();
+  ZincExprStmt getExprStmt();
 
   @Nullable
   ZincForHead getForHead();
@@ -29,10 +29,10 @@ public interface ZincForStmt extends PsiElement {
   ZincIfStmt getIfStmt();
 
   @Nullable
-  ZincLvarStmt getLvarStmt();
+  ZincReturnStmt getReturnStmt();
 
   @Nullable
-  ZincReturnStmt getReturnStmt();
+  ZincVarDef getVarDef();
 
   @Nullable
   ZincWhileStmt getWhileStmt();

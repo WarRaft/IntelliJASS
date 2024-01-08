@@ -35,14 +35,14 @@ public class ZincArgImpl extends ASTWrapperPsiElement implements ZincArg {
 
   @Override
   @Nullable
-  public ZincFuncAnon getFuncAnon() {
-    return findChildByClass(ZincFuncAnon.class);
+  public ZincFuncAsCode getFuncAsCode() {
+    return findChildByClass(ZincFuncAsCode.class);
   }
 
   @Override
   @Nullable
-  public ZincFuncAsCode getFuncAsCode() {
-    return findChildByClass(ZincFuncAsCode.class);
+  public ZincLambda getLambda() {
+    return findChildByClass(ZincLambda.class);
   }
 
 }

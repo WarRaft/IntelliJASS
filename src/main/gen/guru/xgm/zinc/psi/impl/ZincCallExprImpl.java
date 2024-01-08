@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.zinc.psi.ZincTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.zinc.psi.*;
 
-public class ZincFuncAnonImpl extends ASTWrapperPsiElement implements ZincFuncAnon {
+public class ZincCallExprImpl extends ZincExprImpl implements ZincCallExpr {
 
-  public ZincFuncAnonImpl(@NotNull ASTNode node) {
+  public ZincCallExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitFuncAnon(this);
+    visitor.visitCallExpr(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class ZincFuncAnonImpl extends ASTWrapperPsiElement implements ZincFuncAn
   }
 
   @Override
-  @Nullable
-  public ZincFuncBody getFuncBody() {
-    return findChildByClass(ZincFuncBody.class);
+  @NotNull
+  public ZincArgs getArgs() {
+    return findNotNullChildByClass(ZincArgs.class);
   }
 
   @Override
-  @Nullable
-  public ZincFuncReturns getFuncReturns() {
-    return findChildByClass(ZincFuncReturns.class);
-  }
-
-  @Override
-  @Nullable
-  public ZincTypedVarList getTypedVarList() {
-    return findChildByClass(ZincTypedVarList.class);
+  @NotNull
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

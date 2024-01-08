@@ -36,23 +36,23 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(AND_EXPR, DIV_EXPR, DIV_UNARY_EXPR, DOT_EXPR,
-      EQ_EXPR, EXPR, FOR_EXPR, GT_EQ_EXPR,
-      GT_EXPR, LT_EQ_EXPR, LT_EXPR, MINUS_EXPR,
-      MINUS_UNARY_EXPR, MUL_EXPR, MUL_UNARY_EXPR, NOT_EXPR,
-      N_EQ_EXPR, OR_EXPR, PAREN_EXPR, PLUS_EXPR,
-      PLUS_UNARY_EXPR, PRIMARY_EXPR),
+    create_token_set_(AND_EXPR, ASSIGN_EXPR, CALL_EXPR, DIV_EXPR,
+      DIV_UNARY_EXPR, EQ_EXPR, EXPR, FOR_EXPR,
+      GT_EQ_EXPR, GT_EXPR, LT_EQ_EXPR, LT_EXPR,
+      MINUS_EXPR, MINUS_UNARY_EXPR, MUL_EXPR, MUL_UNARY_EXPR,
+      NOT_EXPR, N_EQ_EXPR, OR_EXPR, PAREN_EXPR,
+      PLUS_EXPR, PLUS_UNARY_EXPR, PRIMARY_EXPR, REF_EXPR),
   };
 
   /* ********************************************************** */
-  // Expr|FuncAsCode|FuncAnon
+  // Expr|FuncAsCode|Lambda
   public static boolean Arg(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Arg")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ARG, "<arg>");
     r = Expr(b, l + 1, -1);
     if (!r) r = FuncAsCode(b, l + 1);
-    if (!r) r = FuncAnon(b, l + 1);
+    if (!r) r = Lambda(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -89,6 +89,28 @@ public class ZincParser implements PsiParser, LightPsiParser {
     r = r && Arg(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // LPAREN ArgList? RPAREN
+  public static boolean Args(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Args")) return false;
+    if (!nextTokenIs(b, LPAREN)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, ARGS, null);
+    r = consumeToken(b, LPAREN);
+    p = r; // pin = 1
+    r = r && report_error_(b, Args_1(b, l + 1));
+    r = p && consumeToken(b, RPAREN) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // ArgList?
+  private static boolean Args_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Args_1")) return false;
+    ArgList(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -186,95 +208,16 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FuncCall|ArrayAccess|ID
-  public static boolean CallSetId(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetId")) return false;
+  // ID Args
+  public static boolean CallExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallExpr")) return false;
     if (!nextTokenIs(b, ID)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = FuncCall(b, l + 1);
-    if (!r) r = ArrayAccess(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    exit_section_(b, m, CALL_SET_ID, r);
+    r = consumeToken(b, ID);
+    r = r && Args(b, l + 1);
+    exit_section_(b, m, CALL_EXPR, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  // (CALL|SET)? CallSetId (DOT CallSetId)* (SetOp Expr)? SEMI?
-  public static boolean CallSetStmt(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CALL_SET_STMT, "<call set stmt>");
-    r = CallSetStmt_0(b, l + 1);
-    r = r && CallSetId(b, l + 1);
-    r = r && CallSetStmt_2(b, l + 1);
-    r = r && CallSetStmt_3(b, l + 1);
-    r = r && CallSetStmt_4(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (CALL|SET)?
-  private static boolean CallSetStmt_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_0")) return false;
-    CallSetStmt_0_0(b, l + 1);
-    return true;
-  }
-
-  // CALL|SET
-  private static boolean CallSetStmt_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_0_0")) return false;
-    boolean r;
-    r = consumeToken(b, CALL);
-    if (!r) r = consumeToken(b, SET);
-    return r;
-  }
-
-  // (DOT CallSetId)*
-  private static boolean CallSetStmt_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!CallSetStmt_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "CallSetStmt_2", c)) break;
-    }
-    return true;
-  }
-
-  // DOT CallSetId
-  private static boolean CallSetStmt_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, DOT);
-    r = r && CallSetId(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (SetOp Expr)?
-  private static boolean CallSetStmt_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_3")) return false;
-    CallSetStmt_3_0(b, l + 1);
-    return true;
-  }
-
-  // SetOp Expr
-  private static boolean CallSetStmt_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = SetOp(b, l + 1);
-    r = r && Expr(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // SEMI?
-  private static boolean CallSetStmt_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "CallSetStmt_4")) return false;
-    consumeToken(b, SEMI);
-    return true;
   }
 
   /* ********************************************************** */
@@ -332,6 +275,25 @@ public class ZincParser implements PsiParser, LightPsiParser {
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
     return r;
+  }
+
+  /* ********************************************************** */
+  // AssignExpr SEMI?
+  public static boolean ExprStmt(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ExprStmt")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXPR_STMT, "<expr stmt>");
+    r = Expr(b, l + 1, -1);
+    r = r && ExprStmt_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // SEMI?
+  private static boolean ExprStmt_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ExprStmt_1")) return false;
+    consumeToken(b, SEMI);
+    return true;
   }
 
   /* ********************************************************** */
@@ -403,37 +365,6 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
-  public static boolean FuncAnon(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncAnon")) return false;
-    if (!nextTokenIs(b, FUNCTION)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FUNC_ANON, null);
-    r = consumeTokens(b, 2, FUNCTION, LPAREN);
-    p = r; // pin = 2
-    r = r && report_error_(b, FuncAnon_2(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
-    r = p && report_error_(b, FuncAnon_4(b, l + 1)) && r;
-    r = p && FuncBody(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // TypedVarList?
-  private static boolean FuncAnon_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncAnon_2")) return false;
-    TypedVarList(b, l + 1);
-    return true;
-  }
-
-  // FuncReturns?
-  private static boolean FuncAnon_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncAnon_4")) return false;
-    FuncReturns(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // FUNCTION FuncCallName
   public static boolean FuncAsCode(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncAsCode")) return false;
@@ -469,29 +400,6 @@ public class ZincParser implements PsiParser, LightPsiParser {
       if (!Stmt(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "FuncBody_1", c)) break;
     }
-    return true;
-  }
-
-  /* ********************************************************** */
-  // FuncCallName LPAREN ArgList? RPAREN
-  public static boolean FuncCall(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncCall")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FUNC_CALL, null);
-    r = FuncCallName(b, l + 1);
-    r = r && consumeToken(b, LPAREN);
-    p = r; // pin = 2
-    r = r && report_error_(b, FuncCall_2(b, l + 1));
-    r = p && consumeToken(b, RPAREN) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // ArgList?
-  private static boolean FuncCall_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncCall_2")) return false;
-    ArgList(b, l + 1);
     return true;
   }
 
@@ -584,106 +492,6 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (ArrayAccess|ID) (EQ Expr)?
-  public static boolean GvarBody(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarBody")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = GvarBody_0(b, l + 1);
-    r = r && GvarBody_1(b, l + 1);
-    exit_section_(b, m, GVAR_BODY, r);
-    return r;
-  }
-
-  // ArrayAccess|ID
-  private static boolean GvarBody_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarBody_0")) return false;
-    boolean r;
-    r = ArrayAccess(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    return r;
-  }
-
-  // (EQ Expr)?
-  private static boolean GvarBody_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarBody_1")) return false;
-    GvarBody_1_0(b, l + 1);
-    return true;
-  }
-
-  // EQ Expr
-  private static boolean GvarBody_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarBody_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, EQ);
-    r = r && Expr(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // Vis? CONSTANT? TypeName GvarBody (COMMA GvarBody)* SEMI?
-  public static boolean GvarDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, GVAR_DEF, "<gvar def>");
-    r = GvarDef_0(b, l + 1);
-    r = r && GvarDef_1(b, l + 1);
-    r = r && TypeName(b, l + 1);
-    p = r; // pin = 3
-    r = r && report_error_(b, GvarBody(b, l + 1));
-    r = p && report_error_(b, GvarDef_4(b, l + 1)) && r;
-    r = p && GvarDef_5(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // Vis?
-  private static boolean GvarDef_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_0")) return false;
-    Vis(b, l + 1);
-    return true;
-  }
-
-  // CONSTANT?
-  private static boolean GvarDef_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_1")) return false;
-    consumeToken(b, CONSTANT);
-    return true;
-  }
-
-  // (COMMA GvarBody)*
-  private static boolean GvarDef_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!GvarDef_4_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "GvarDef_4", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA GvarBody
-  private static boolean GvarDef_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && GvarBody(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // SEMI?
-  private static boolean GvarDef_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_5")) return false;
-    consumeToken(b, SEMI);
-    return true;
-  }
-
-  /* ********************************************************** */
   // IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?
   public static boolean IfStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStmt")) return false;
@@ -717,12 +525,43 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody
+  public static boolean Lambda(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Lambda")) return false;
+    if (!nextTokenIs(b, FUNCTION)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, LAMBDA, null);
+    r = consumeTokens(b, 2, FUNCTION, LPAREN);
+    p = r; // pin = 2
+    r = r && report_error_(b, Lambda_2(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
+    r = p && report_error_(b, Lambda_4(b, l + 1)) && r;
+    r = p && FuncBody(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // TypedVarList?
+  private static boolean Lambda_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Lambda_2")) return false;
+    TypedVarList(b, l + 1);
+    return true;
+  }
+
+  // FuncReturns?
+  private static boolean Lambda_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Lambda_4")) return false;
+    FuncReturns(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // LBRACE LibItem* RBRACE
-  public static boolean LibBody(PsiBuilder b, int l) {
+  static boolean LibBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LibBody")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, LIB_BODY, null);
+    Marker m = enter_section_(b, l, _NONE_);
     r = consumeToken(b, LBRACE);
     p = r; // pin = 1
     r = r && report_error_(b, LibBody_1(b, l + 1));
@@ -765,16 +604,14 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LibVisDef|GvarDef|FuncDef|StructDef
-  public static boolean LibItem(PsiBuilder b, int l) {
+  // LibVisDef|VarDef|FuncDef|StructDef
+  static boolean LibItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LibItem")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, LIB_ITEM, "<lib item>");
     r = LibVisDef(b, l + 1);
-    if (!r) r = GvarDef(b, l + 1);
+    if (!r) r = VarDef(b, l + 1);
     if (!r) r = FuncDef(b, l + 1);
     if (!r) r = StructDef(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -855,81 +692,6 @@ public class ZincParser implements PsiParser, LightPsiParser {
     r = LibItem(b, l + 1);
     if (!r) r = LibBody(b, l + 1);
     return r;
-  }
-
-  /* ********************************************************** */
-  // ID (EQ Expr)?
-  public static boolean LvarBody(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarBody")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ID);
-    r = r && LvarBody_1(b, l + 1);
-    exit_section_(b, m, LVAR_BODY, r);
-    return r;
-  }
-
-  // (EQ Expr)?
-  private static boolean LvarBody_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarBody_1")) return false;
-    LvarBody_1_0(b, l + 1);
-    return true;
-  }
-
-  // EQ Expr
-  private static boolean LvarBody_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarBody_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, EQ);
-    r = r && Expr(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // TypeName LvarBody (COMMA LvarBody)* SEMI?
-  public static boolean LvarStmt(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarStmt")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, LVAR_STMT, "<lvar stmt>");
-    r = TypeName(b, l + 1);
-    r = r && LvarBody(b, l + 1);
-    p = r; // pin = 2
-    r = r && report_error_(b, LvarStmt_2(b, l + 1));
-    r = p && LvarStmt_3(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // (COMMA LvarBody)*
-  private static boolean LvarStmt_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarStmt_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!LvarStmt_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "LvarStmt_2", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA LvarBody
-  private static boolean LvarStmt_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarStmt_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && LvarBody(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // SEMI?
-  private static boolean LvarStmt_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LvarStmt_3")) return false;
-    consumeToken(b, SEMI);
-    return true;
   }
 
   /* ********************************************************** */
@@ -1057,40 +819,25 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
-  public static boolean SetOp(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "SetOp")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SET_OP, "<set op>");
-    r = consumeToken(b, EQ);
-    if (!r) r = consumeToken(b, PLUS_EQ);
-    if (!r) r = consumeToken(b, MINUS_EQ);
-    if (!r) r = consumeToken(b, MUL_EQ);
-    if (!r) r = consumeToken(b, DIV_EQ);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // ForStmt|
-  //     CallSetStmt
-  //     | IfStmt
-  //     | ReturnStmt
-  //     | LvarStmt
-  //     | DoStmt
-  //     | WhileStmt
-  //     | BreakStmt
+  // ForStmt |
+  //         IfStmt |
+  //         ReturnStmt |
+  //         DoStmt |
+  //         WhileStmt |
+  //         BreakStmt |
+  //         VarDef |
+  //         ExprStmt
   static boolean Stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Stmt")) return false;
     boolean r;
     r = ForStmt(b, l + 1);
-    if (!r) r = CallSetStmt(b, l + 1);
     if (!r) r = IfStmt(b, l + 1);
     if (!r) r = ReturnStmt(b, l + 1);
-    if (!r) r = LvarStmt(b, l + 1);
     if (!r) r = DoStmt(b, l + 1);
     if (!r) r = WhileStmt(b, l + 1);
     if (!r) r = BreakStmt(b, l + 1);
+    if (!r) r = VarDef(b, l + 1);
+    if (!r) r = ExprStmt(b, l + 1);
     return r;
   }
 
@@ -1135,11 +882,11 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // GvarDef|MethodDef|StructVis|StructStat
+  // VarDef|MethodDef|StructVis|StructStat
   static boolean StructItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructItem")) return false;
     boolean r;
-    r = GvarDef(b, l + 1);
+    r = VarDef(b, l + 1);
     if (!r) r = MethodDef(b, l + 1);
     if (!r) r = StructVis(b, l + 1);
     if (!r) r = StructStat(b, l + 1);
@@ -1239,6 +986,105 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (ArrayAccess|ID) (EQ Expr)?
+  public static boolean VarBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarBody")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = VarBody_0(b, l + 1);
+    r = r && VarBody_1(b, l + 1);
+    exit_section_(b, m, VAR_BODY, r);
+    return r;
+  }
+
+  // ArrayAccess|ID
+  private static boolean VarBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarBody_0")) return false;
+    boolean r;
+    r = ArrayAccess(b, l + 1);
+    if (!r) r = consumeToken(b, ID);
+    return r;
+  }
+
+  // (EQ Expr)?
+  private static boolean VarBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarBody_1")) return false;
+    VarBody_1_0(b, l + 1);
+    return true;
+  }
+
+  // EQ Expr
+  private static boolean VarBody_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarBody_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EQ);
+    r = r && Expr(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // Vis? CONSTANT? TypeName VarBody (COMMA VarBody)* SEMI?
+  public static boolean VarDef(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, VAR_DEF, "<var def>");
+    r = VarDef_0(b, l + 1);
+    r = r && VarDef_1(b, l + 1);
+    r = r && TypeName(b, l + 1);
+    r = r && VarBody(b, l + 1);
+    r = r && VarDef_4(b, l + 1);
+    r = r && VarDef_5(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // Vis?
+  private static boolean VarDef_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef_0")) return false;
+    Vis(b, l + 1);
+    return true;
+  }
+
+  // CONSTANT?
+  private static boolean VarDef_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef_1")) return false;
+    consumeToken(b, CONSTANT);
+    return true;
+  }
+
+  // (COMMA VarBody)*
+  private static boolean VarDef_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef_4")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!VarDef_4_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "VarDef_4", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA VarBody
+  private static boolean VarDef_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && VarBody(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // SEMI?
+  private static boolean VarDef_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VarDef_5")) return false;
+    consumeToken(b, SEMI);
+    return true;
+  }
+
+  /* ********************************************************** */
   // PUBLIC|PRIVATE
   public static boolean Vis(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Vis")) return false;
@@ -1279,16 +1125,17 @@ public class ZincParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // Expression root: Expr
   // Operator priority table:
-  // 0: BINARY(PlusExpr) BINARY(MinusExpr)
-  // 1: BINARY(MulExpr) BINARY(DivExpr)
-  // 2: PREFIX(MulUnaryExpr) PREFIX(DivUnaryExpr) PREFIX(PlusUnaryExpr) PREFIX(MinusUnaryExpr)
+  // 0: BINARY(AssignExpr)
+  // 1: BINARY(RefExpr)
+  // 2: BINARY(PlusExpr) BINARY(MinusExpr)
+  // 3: BINARY(MulExpr) BINARY(DivExpr)
+  // 4: PREFIX(MulUnaryExpr) PREFIX(DivUnaryExpr) PREFIX(PlusUnaryExpr) PREFIX(MinusUnaryExpr)
   //    PREFIX(NotExpr)
-  // 3: BINARY(EqExpr) BINARY(NEqExpr) BINARY(LTExpr) BINARY(LTEqExpr)
+  // 5: BINARY(EqExpr) BINARY(NEqExpr) BINARY(LTExpr) BINARY(LTEqExpr)
   //    BINARY(GTExpr) BINARY(GTEqExpr)
-  // 4: BINARY(OrExpr)
-  // 5: BINARY(AndExpr)
-  // 6: ATOM(PrimaryExpr)
-  // 7: BINARY(DotExpr)
+  // 6: BINARY(OrExpr)
+  // 7: BINARY(AndExpr)
+  // 8: ATOM(PrimaryExpr)
   public static boolean Expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "Expr")) return false;
     addVariant(b, "<expr>");
@@ -1311,63 +1158,79 @@ public class ZincParser implements PsiParser, LightPsiParser {
     boolean r = true;
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
-      if (g < 0 && consumeTokenSmart(b, PLUS)) {
+      if (g < 0 && AssignExpr_0(b, l + 1)) {
         r = Expr(b, l, 0);
+        exit_section_(b, l, m, ASSIGN_EXPR, r, true, null);
+      }
+      else if (g < 1 && consumeTokenSmart(b, DOT)) {
+        r = Expr(b, l, 1);
+        exit_section_(b, l, m, REF_EXPR, r, true, null);
+      }
+      else if (g < 2 && consumeTokenSmart(b, PLUS)) {
+        r = Expr(b, l, 2);
         exit_section_(b, l, m, PLUS_EXPR, r, true, null);
       }
-      else if (g < 0 && consumeTokenSmart(b, MINUS)) {
-        r = Expr(b, l, 0);
+      else if (g < 2 && consumeTokenSmart(b, MINUS)) {
+        r = Expr(b, l, 2);
         exit_section_(b, l, m, MINUS_EXPR, r, true, null);
       }
-      else if (g < 1 && consumeTokenSmart(b, MUL)) {
-        r = Expr(b, l, 1);
+      else if (g < 3 && consumeTokenSmart(b, MUL)) {
+        r = Expr(b, l, 3);
         exit_section_(b, l, m, MUL_EXPR, r, true, null);
       }
-      else if (g < 1 && consumeTokenSmart(b, DIV)) {
-        r = Expr(b, l, 1);
+      else if (g < 3 && consumeTokenSmart(b, DIV)) {
+        r = Expr(b, l, 3);
         exit_section_(b, l, m, DIV_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, EQ_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, EQ_EQ)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, EQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, NEQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, NEQ)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, N_EQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, LT)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, LT)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, LT_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, LT_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, LT_EQ)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, LT_EQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, GT)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, GT)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, GT_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, GT_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, GT_EQ)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, GT_EQ_EXPR, r, true, null);
       }
-      else if (g < 4 && consumeTokenSmart(b, OR_OR)) {
-        r = Expr(b, l, 4);
+      else if (g < 6 && consumeTokenSmart(b, OR_OR)) {
+        r = Expr(b, l, 6);
         exit_section_(b, l, m, OR_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, AND_AND)) {
-        r = Expr(b, l, 5);
-        exit_section_(b, l, m, AND_EXPR, r, true, null);
-      }
-      else if (g < 7 && consumeTokenSmart(b, DOT)) {
+      else if (g < 7 && consumeTokenSmart(b, AND_AND)) {
         r = Expr(b, l, 7);
-        exit_section_(b, l, m, DOT_EXPR, r, true, null);
+        exit_section_(b, l, m, AND_EXPR, r, true, null);
       }
       else {
         exit_section_(b, l, m, null, false, false, null);
         break;
       }
     }
+    return r;
+  }
+
+  // EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
+  private static boolean AssignExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AssignExpr_0")) return false;
+    boolean r;
+    r = consumeTokenSmart(b, EQ);
+    if (!r) r = consumeTokenSmart(b, PLUS_EQ);
+    if (!r) r = consumeTokenSmart(b, MINUS_EQ);
+    if (!r) r = consumeTokenSmart(b, MUL_EQ);
+    if (!r) r = consumeTokenSmart(b, DIV_EQ);
     return r;
   }
 
@@ -1378,7 +1241,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, PLUS_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1390,7 +1253,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, MINUS_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1402,7 +1265,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MUL);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, MUL_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1414,7 +1277,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, DIV);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, DIV_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1426,7 +1289,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, NOT);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, NOT_EXPR, r, p, null);
     return r || p;
   }
@@ -1436,7 +1299,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
   //     TRUE |
   //     ParenExpr |
   //     ArrayAccess |
-  //     FuncCall |
+  //     CallExpr |
   //     FuncAsCode |
   //     REALVAL |
   //     HEXVAL |
@@ -1453,7 +1316,7 @@ public class ZincParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, TRUE);
     if (!r) r = ParenExpr(b, l + 1);
     if (!r) r = ArrayAccess(b, l + 1);
-    if (!r) r = FuncCall(b, l + 1);
+    if (!r) r = CallExpr(b, l + 1);
     if (!r) r = FuncAsCode(b, l + 1);
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, HEXVAL);

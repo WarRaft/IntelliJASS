@@ -19,12 +19,20 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitArgs(@NotNull ZincArgs o) {
+    visitPsiElement(o);
+  }
+
   public void visitArrayAccess(@NotNull ZincArrayAccess o) {
     visitPsiElement(o);
   }
 
   public void visitArrayAccessItem(@NotNull ZincArrayAccessItem o) {
     visitPsiElement(o);
+  }
+
+  public void visitAssignExpr(@NotNull ZincAssignExpr o) {
+    visitExpr(o);
   }
 
   public void visitBracedStmt(@NotNull ZincBracedStmt o) {
@@ -35,12 +43,8 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallSetId(@NotNull ZincCallSetId o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCallSetStmt(@NotNull ZincCallSetStmt o) {
-    visitPsiElement(o);
+  public void visitCallExpr(@NotNull ZincCallExpr o) {
+    visitExpr(o);
   }
 
   public void visitDivExpr(@NotNull ZincDivExpr o) {
@@ -55,10 +59,6 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDotExpr(@NotNull ZincDotExpr o) {
-    visitExpr(o);
-  }
-
   public void visitElseStmt(@NotNull ZincElseStmt o) {
     visitPsiElement(o);
   }
@@ -68,6 +68,10 @@ public class ZincVisitor extends PsiElementVisitor {
   }
 
   public void visitExpr(@NotNull ZincExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExprStmt(@NotNull ZincExprStmt o) {
     visitPsiElement(o);
   }
 
@@ -87,19 +91,11 @@ public class ZincVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncAnon(@NotNull ZincFuncAnon o) {
-    visitPsiElement(o);
-  }
-
   public void visitFuncAsCode(@NotNull ZincFuncAsCode o) {
     visitPsiElement(o);
   }
 
   public void visitFuncBody(@NotNull ZincFuncBody o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncCall(@NotNull ZincFuncCall o) {
     visitPsiElement(o);
   }
 
@@ -127,14 +123,6 @@ public class ZincVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitGvarBody(@NotNull ZincGvarBody o) {
-    visitPsiElement(o);
-  }
-
-  public void visitGvarDef(@NotNull ZincGvarDef o) {
-    visitPsiElement(o);
-  }
-
   public void visitIfStmt(@NotNull ZincIfStmt o) {
     visitPsiElement(o);
   }
@@ -147,15 +135,11 @@ public class ZincVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitLibBody(@NotNull ZincLibBody o) {
+  public void visitLambda(@NotNull ZincLambda o) {
     visitPsiElement(o);
   }
 
   public void visitLibDef(@NotNull ZincLibDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLibItem(@NotNull ZincLibItem o) {
     visitPsiElement(o);
   }
 
@@ -168,14 +152,6 @@ public class ZincVisitor extends PsiElementVisitor {
   }
 
   public void visitLibVisDef(@NotNull ZincLibVisDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLvarBody(@NotNull ZincLvarBody o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLvarStmt(@NotNull ZincLvarStmt o) {
     visitPsiElement(o);
   }
 
@@ -227,11 +203,11 @@ public class ZincVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitReturnStmt(@NotNull ZincReturnStmt o) {
-    visitPsiElement(o);
+  public void visitRefExpr(@NotNull ZincRefExpr o) {
+    visitExpr(o);
   }
 
-  public void visitSetOp(@NotNull ZincSetOp o) {
+  public void visitReturnStmt(@NotNull ZincReturnStmt o) {
     visitPsiElement(o);
   }
 
@@ -256,6 +232,14 @@ public class ZincVisitor extends PsiElementVisitor {
   }
 
   public void visitTypedVarList(@NotNull ZincTypedVarList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVarBody(@NotNull ZincVarBody o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVarDef(@NotNull ZincVarDef o) {
     visitPsiElement(o);
   }
 

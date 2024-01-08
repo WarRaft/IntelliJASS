@@ -29,12 +29,6 @@ public class ZincStructStatImpl extends ASTWrapperPsiElement implements ZincStru
 
   @Override
   @NotNull
-  public List<ZincGvarDef> getGvarDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincGvarDef.class);
-  }
-
-  @Override
-  @NotNull
   public List<ZincMethodDef> getMethodDefList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincMethodDef.class);
   }
@@ -49,6 +43,12 @@ public class ZincStructStatImpl extends ASTWrapperPsiElement implements ZincStru
   @NotNull
   public List<ZincStructVis> getStructVisList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructVis.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincVarDef> getVarDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincVarDef.class);
   }
 
 }

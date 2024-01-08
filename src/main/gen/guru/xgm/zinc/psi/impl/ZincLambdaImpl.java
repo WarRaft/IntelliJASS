@@ -11,14 +11,14 @@ import static guru.xgm.zinc.psi.ZincTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.zinc.psi.*;
 
-public class ZincLibItemImpl extends ASTWrapperPsiElement implements ZincLibItem {
+public class ZincLambdaImpl extends ASTWrapperPsiElement implements ZincLambda {
 
-  public ZincLibItemImpl(@NotNull ASTNode node) {
+  public ZincLambdaImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitLibItem(this);
+    visitor.visitLambda(this);
   }
 
   @Override
@@ -29,26 +29,20 @@ public class ZincLibItemImpl extends ASTWrapperPsiElement implements ZincLibItem
 
   @Override
   @Nullable
-  public ZincFuncDef getFuncDef() {
-    return findChildByClass(ZincFuncDef.class);
+  public ZincFuncBody getFuncBody() {
+    return findChildByClass(ZincFuncBody.class);
   }
 
   @Override
   @Nullable
-  public ZincGvarDef getGvarDef() {
-    return findChildByClass(ZincGvarDef.class);
+  public ZincFuncReturns getFuncReturns() {
+    return findChildByClass(ZincFuncReturns.class);
   }
 
   @Override
   @Nullable
-  public ZincLibVisDef getLibVisDef() {
-    return findChildByClass(ZincLibVisDef.class);
-  }
-
-  @Override
-  @Nullable
-  public ZincStructDef getStructDef() {
-    return findChildByClass(ZincStructDef.class);
+  public ZincTypedVarList getTypedVarList() {
+    return findChildByClass(ZincTypedVarList.class);
   }
 
 }

@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.zinc.psi.ZincTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.zinc.psi.*;
 
-public class ZincLibBodyImpl extends ASTWrapperPsiElement implements ZincLibBody {
+public class ZincRefExprImpl extends ZincExprImpl implements ZincRefExpr {
 
-  public ZincLibBodyImpl(@NotNull ASTNode node) {
+  public ZincRefExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull ZincVisitor visitor) {
-    visitor.visitLibBody(this);
+    visitor.visitRefExpr(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class ZincLibBodyImpl extends ASTWrapperPsiElement implements ZincLibBody
 
   @Override
   @NotNull
-  public List<ZincLibItem> getLibItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincLibItem.class);
+  public List<ZincExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincExpr.class);
   }
 
 }

@@ -1,7 +1,14 @@
 <?xml version='1.0'?>
 <!-- https://plugins.jetbrains.com/docs/intellij/color-scheme-management.html#scheme-designers -->
 <list>
+    <!-- JASS -->
     <option name="JASS_TYPE_NAME">
+        <value>
+            <option name="FOREGROUND" value="008000"/>
+        </value>
+    </option>
+    <!-- ZINC -->
+    <option name="ZINC_TYPE_NAME">
         <value>
             <option name="FOREGROUND" value="008000"/>
         </value>

@@ -35,14 +35,14 @@ public class ZincFuncBodyImpl extends ASTWrapperPsiElement implements ZincFuncBo
 
   @Override
   @NotNull
-  public List<ZincCallSetStmt> getCallSetStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincCallSetStmt.class);
+  public List<ZincDoStmt> getDoStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincDoStmt.class);
   }
 
   @Override
   @NotNull
-  public List<ZincDoStmt> getDoStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincDoStmt.class);
+  public List<ZincExprStmt> getExprStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincExprStmt.class);
   }
 
   @Override
@@ -59,14 +59,14 @@ public class ZincFuncBodyImpl extends ASTWrapperPsiElement implements ZincFuncBo
 
   @Override
   @NotNull
-  public List<ZincLvarStmt> getLvarStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincLvarStmt.class);
+  public List<ZincReturnStmt> getReturnStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincReturnStmt.class);
   }
 
   @Override
   @NotNull
-  public List<ZincReturnStmt> getReturnStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincReturnStmt.class);
+  public List<ZincVarDef> getVarDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincVarDef.class);
   }
 
   @Override

@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZincFuncCall extends PsiElement {
-
-  @Nullable
-  ZincArgList getArgList();
+public interface ZincAssignExpr extends ZincExpr {
 
   @NotNull
-  ZincFuncCallName getFuncCallName();
+  List<ZincExpr> getExprList();
 
 }

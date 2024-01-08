@@ -12,47 +12,41 @@ public interface ZincTypes {
 
   IElementType AND_EXPR = new ZincIElement("AND_EXPR");
   IElementType ARG = new ZincIElement("ARG");
+  IElementType ARGS = new ZincIElement("ARGS");
   IElementType ARG_LIST = new ZincIElement("ARG_LIST");
   IElementType ARRAY_ACCESS = new ZincIElement("ARRAY_ACCESS");
   IElementType ARRAY_ACCESS_ITEM = new ZincIElement("ARRAY_ACCESS_ITEM");
+  IElementType ASSIGN_EXPR = new ZincIElement("ASSIGN_EXPR");
   IElementType BRACED_STMT = new ZincIElement("BRACED_STMT");
   IElementType BREAK_STMT = new ZincIElement("BREAK_STMT");
-  IElementType CALL_SET_ID = new ZincIElement("CALL_SET_ID");
-  IElementType CALL_SET_STMT = new ZincIElement("CALL_SET_STMT");
+  IElementType CALL_EXPR = new ZincIElement("CALL_EXPR");
   IElementType DIV_EXPR = new ZincIElement("DIV_EXPR");
   IElementType DIV_UNARY_EXPR = new ZincIElement("DIV_UNARY_EXPR");
-  IElementType DOT_EXPR = new ZincIElement("DOT_EXPR");
   IElementType DO_STMT = new ZincIElement("DO_STMT");
   IElementType ELSE_STMT = new ZincIElement("ELSE_STMT");
   IElementType EQ_EXPR = new ZincIElement("EQ_EXPR");
   IElementType EXPR = new ZincIElement("EXPR");
+  IElementType EXPR_STMT = new ZincIElement("EXPR_STMT");
   IElementType FOR_EXPR = new ZincIElement("FOR_EXPR");
   IElementType FOR_HEAD = new ZincIElement("FOR_HEAD");
   IElementType FOR_OP = new ZincIElement("FOR_OP");
   IElementType FOR_STMT = new ZincIElement("FOR_STMT");
-  IElementType FUNC_ANON = new ZincIElement("FUNC_ANON");
   IElementType FUNC_AS_CODE = new ZincIElement("FUNC_AS_CODE");
   IElementType FUNC_BODY = new ZincIElement("FUNC_BODY");
-  IElementType FUNC_CALL = new ZincIElement("FUNC_CALL");
   IElementType FUNC_CALL_NAME = new ZincIElement("FUNC_CALL_NAME");
   IElementType FUNC_DEF = new ZincIElement("FUNC_DEF");
   IElementType FUNC_DEF_NAME = new ZincIElement("FUNC_DEF_NAME");
   IElementType FUNC_RETURNS = new ZincIElement("FUNC_RETURNS");
   IElementType GT_EQ_EXPR = new ZincIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new ZincIElement("GT_EXPR");
-  IElementType GVAR_BODY = new ZincIElement("GVAR_BODY");
-  IElementType GVAR_DEF = new ZincIElement("GVAR_DEF");
   IElementType IF_STMT = new ZincIElement("IF_STMT");
-  IElementType LIB_BODY = new ZincIElement("LIB_BODY");
+  IElementType LAMBDA = new ZincIElement("LAMBDA");
   IElementType LIB_DEF = new ZincIElement("LIB_DEF");
-  IElementType LIB_ITEM = new ZincIElement("LIB_ITEM");
   IElementType LIB_REQ = new ZincIElement("LIB_REQ");
   IElementType LIB_REQ_ITEM = new ZincIElement("LIB_REQ_ITEM");
   IElementType LIB_VIS_DEF = new ZincIElement("LIB_VIS_DEF");
   IElementType LT_EQ_EXPR = new ZincIElement("LT_EQ_EXPR");
   IElementType LT_EXPR = new ZincIElement("LT_EXPR");
-  IElementType LVAR_BODY = new ZincIElement("LVAR_BODY");
-  IElementType LVAR_STMT = new ZincIElement("LVAR_STMT");
   IElementType METHOD_DEF = new ZincIElement("METHOD_DEF");
   IElementType MINUS_EXPR = new ZincIElement("MINUS_EXPR");
   IElementType MINUS_UNARY_EXPR = new ZincIElement("MINUS_UNARY_EXPR");
@@ -65,21 +59,22 @@ public interface ZincTypes {
   IElementType PLUS_EXPR = new ZincIElement("PLUS_EXPR");
   IElementType PLUS_UNARY_EXPR = new ZincIElement("PLUS_UNARY_EXPR");
   IElementType PRIMARY_EXPR = new ZincIElement("PRIMARY_EXPR");
+  IElementType REF_EXPR = new ZincIElement("REF_EXPR");
   IElementType RETURN_STMT = new ZincIElement("RETURN_STMT");
-  IElementType SET_OP = new ZincIElement("SET_OP");
   IElementType STRUCT_DEF = new ZincIElement("STRUCT_DEF");
   IElementType STRUCT_STAT = new ZincIElement("STRUCT_STAT");
   IElementType STRUCT_VIS = new ZincIElement("STRUCT_VIS");
   IElementType TYPED_VAR = new ZincIElement("TYPED_VAR");
   IElementType TYPED_VAR_LIST = new ZincIElement("TYPED_VAR_LIST");
   IElementType TYPE_NAME = new ZincIElement("TYPE_NAME");
+  IElementType VAR_BODY = new ZincIElement("VAR_BODY");
+  IElementType VAR_DEF = new ZincIElement("VAR_DEF");
   IElementType VIS = new ZincIElement("VIS");
   IElementType WHILE_STMT = new ZincIElement("WHILE_STMT");
 
   IElementType AND_AND = new ZincIToken("&&");
   IElementType BOOLEAN = new ZincIToken("boolean");
   IElementType BREAK = new ZincIToken("break");
-  IElementType CALL = new ZincIToken("CALL");
   IElementType CODE = new ZincIToken("code");
   IElementType COMMA = new ZincIToken(",");
   IElementType CONSTANT = new ZincIToken("constant");
@@ -135,7 +130,6 @@ public interface ZincTypes {
   IElementType RETURN = new ZincIToken("return");
   IElementType RPAREN = new ZincIToken(")");
   IElementType SEMI = new ZincIToken(";");
-  IElementType SET = new ZincIToken("SET");
   IElementType SINGLE_LINE_COMMENT = new ZincIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new ZincIToken("static");
   IElementType STRING = new ZincIToken("string");
@@ -154,6 +148,9 @@ public interface ZincTypes {
       else if (type == ARG) {
         return new ZincArgImpl(node);
       }
+      else if (type == ARGS) {
+        return new ZincArgsImpl(node);
+      }
       else if (type == ARG_LIST) {
         return new ZincArgListImpl(node);
       }
@@ -163,26 +160,23 @@ public interface ZincTypes {
       else if (type == ARRAY_ACCESS_ITEM) {
         return new ZincArrayAccessItemImpl(node);
       }
+      else if (type == ASSIGN_EXPR) {
+        return new ZincAssignExprImpl(node);
+      }
       else if (type == BRACED_STMT) {
         return new ZincBracedStmtImpl(node);
       }
       else if (type == BREAK_STMT) {
         return new ZincBreakStmtImpl(node);
       }
-      else if (type == CALL_SET_ID) {
-        return new ZincCallSetIdImpl(node);
-      }
-      else if (type == CALL_SET_STMT) {
-        return new ZincCallSetStmtImpl(node);
+      else if (type == CALL_EXPR) {
+        return new ZincCallExprImpl(node);
       }
       else if (type == DIV_EXPR) {
         return new ZincDivExprImpl(node);
       }
       else if (type == DIV_UNARY_EXPR) {
         return new ZincDivUnaryExprImpl(node);
-      }
-      else if (type == DOT_EXPR) {
-        return new ZincDotExprImpl(node);
       }
       else if (type == DO_STMT) {
         return new ZincDoStmtImpl(node);
@@ -193,6 +187,9 @@ public interface ZincTypes {
       else if (type == EQ_EXPR) {
         return new ZincEqExprImpl(node);
       }
+      else if (type == EXPR_STMT) {
+        return new ZincExprStmtImpl(node);
+      }
       else if (type == FOR_HEAD) {
         return new ZincForHeadImpl(node);
       }
@@ -202,17 +199,11 @@ public interface ZincTypes {
       else if (type == FOR_STMT) {
         return new ZincForStmtImpl(node);
       }
-      else if (type == FUNC_ANON) {
-        return new ZincFuncAnonImpl(node);
-      }
       else if (type == FUNC_AS_CODE) {
         return new ZincFuncAsCodeImpl(node);
       }
       else if (type == FUNC_BODY) {
         return new ZincFuncBodyImpl(node);
-      }
-      else if (type == FUNC_CALL) {
-        return new ZincFuncCallImpl(node);
       }
       else if (type == FUNC_CALL_NAME) {
         return new ZincFuncCallNameImpl(node);
@@ -232,23 +223,14 @@ public interface ZincTypes {
       else if (type == GT_EXPR) {
         return new ZincGTExprImpl(node);
       }
-      else if (type == GVAR_BODY) {
-        return new ZincGvarBodyImpl(node);
-      }
-      else if (type == GVAR_DEF) {
-        return new ZincGvarDefImpl(node);
-      }
       else if (type == IF_STMT) {
         return new ZincIfStmtImpl(node);
       }
-      else if (type == LIB_BODY) {
-        return new ZincLibBodyImpl(node);
+      else if (type == LAMBDA) {
+        return new ZincLambdaImpl(node);
       }
       else if (type == LIB_DEF) {
         return new ZincLibDefImpl(node);
-      }
-      else if (type == LIB_ITEM) {
-        return new ZincLibItemImpl(node);
       }
       else if (type == LIB_REQ) {
         return new ZincLibReqImpl(node);
@@ -264,12 +246,6 @@ public interface ZincTypes {
       }
       else if (type == LT_EXPR) {
         return new ZincLTExprImpl(node);
-      }
-      else if (type == LVAR_BODY) {
-        return new ZincLvarBodyImpl(node);
-      }
-      else if (type == LVAR_STMT) {
-        return new ZincLvarStmtImpl(node);
       }
       else if (type == METHOD_DEF) {
         return new ZincMethodDefImpl(node);
@@ -307,11 +283,11 @@ public interface ZincTypes {
       else if (type == PRIMARY_EXPR) {
         return new ZincPrimaryExprImpl(node);
       }
+      else if (type == REF_EXPR) {
+        return new ZincRefExprImpl(node);
+      }
       else if (type == RETURN_STMT) {
         return new ZincReturnStmtImpl(node);
-      }
-      else if (type == SET_OP) {
-        return new ZincSetOpImpl(node);
       }
       else if (type == STRUCT_DEF) {
         return new ZincStructDefImpl(node);
@@ -330,6 +306,12 @@ public interface ZincTypes {
       }
       else if (type == TYPE_NAME) {
         return new ZincTypeNameImpl(node);
+      }
+      else if (type == VAR_BODY) {
+        return new ZincVarBodyImpl(node);
+      }
+      else if (type == VAR_DEF) {
+        return new ZincVarDefImpl(node);
       }
       else if (type == VIS) {
         return new ZincVisImpl(node);

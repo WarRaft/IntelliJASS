@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZincDotExpr extends ZincExpr {
+public interface ZincArgs extends PsiElement {
 
-  @NotNull
-  List<ZincExpr> getExprList();
+  @Nullable
+  ZincArgList getArgList();
 
 }

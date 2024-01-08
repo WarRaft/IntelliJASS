@@ -41,12 +41,6 @@ public class ZincIfStmtImpl extends ASTWrapperPsiElement implements ZincIfStmt {
 
   @Override
   @Nullable
-  public ZincCallSetStmt getCallSetStmt() {
-    return findChildByClass(ZincCallSetStmt.class);
-  }
-
-  @Override
-  @Nullable
   public ZincDoStmt getDoStmt() {
     return findChildByClass(ZincDoStmt.class);
   }
@@ -65,6 +59,12 @@ public class ZincIfStmtImpl extends ASTWrapperPsiElement implements ZincIfStmt {
 
   @Override
   @Nullable
+  public ZincExprStmt getExprStmt() {
+    return findChildByClass(ZincExprStmt.class);
+  }
+
+  @Override
+  @Nullable
   public ZincForStmt getForStmt() {
     return findChildByClass(ZincForStmt.class);
   }
@@ -77,14 +77,14 @@ public class ZincIfStmtImpl extends ASTWrapperPsiElement implements ZincIfStmt {
 
   @Override
   @Nullable
-  public ZincLvarStmt getLvarStmt() {
-    return findChildByClass(ZincLvarStmt.class);
+  public ZincReturnStmt getReturnStmt() {
+    return findChildByClass(ZincReturnStmt.class);
   }
 
   @Override
   @Nullable
-  public ZincReturnStmt getReturnStmt() {
-    return findChildByClass(ZincReturnStmt.class);
+  public ZincVarDef getVarDef() {
+    return findChildByClass(ZincVarDef.class);
   }
 
   @Override

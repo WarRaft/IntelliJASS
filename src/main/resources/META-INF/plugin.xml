@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.13</version>
+    <version>2.0.14</version>
     <idea-version since-build="2023.3"/>
     <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
@@ -62,6 +62,13 @@
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC" implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
+        <!-- formatter -->
+        <lang.formatter language="ZINC" implementationClass="guru.xgm.zinc.formatting.ZincFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider implementation="guru.xgm.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
+
+        <!-- annotator -->
+        <annotator language="ZINC" implementationClass="guru.xgm.zinc.lang.annotation.ZincAnnotator"/>
+
         <!-- === VJASS === -->
         <fileType name="VJASS"
                   implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassFileType"
@@ -96,7 +103,7 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p>Add base ZINC parser for *.zn files</p>
+        <p>Add base VJASS parser for *.vj files.</p>
         ]]></change-notes>
 
 </idea-plugin>

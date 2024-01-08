@@ -7,11 +7,20 @@ import com.intellij.psi.PsiElement;
 
 public interface ZincLibDef extends PsiElement {
 
-  @Nullable
-  ZincLibBody getLibBody();
+  @NotNull
+  List<ZincFuncDef> getFuncDefList();
 
   @Nullable
   ZincLibReq getLibReq();
+
+  @NotNull
+  List<ZincLibVisDef> getLibVisDefList();
+
+  @NotNull
+  List<ZincStructDef> getStructDefList();
+
+  @NotNull
+  List<ZincVarDef> getVarDefList();
 
   @Nullable
   PsiElement getId();

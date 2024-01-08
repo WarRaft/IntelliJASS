@@ -1,46 +1,46 @@
 //! zinc
 library MassThunderbolt  {
 
-  private unit TempUnit;
-  private location MoveLoc;
+private unit TempUnit;
+private location MoveLoc;
 
-  function Thunderbolts_Cond ()  -> boolean {
-      return (IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(TempUnit)) && !IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE));
-  }
+    function Thunderbolts_Cond () -> boolean {
+        return (IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(TempUnit)) && !IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE));
+    }
 
-  function Thunderbolt ()  -> nothing {
-      unit u = CreateUnitAtLoc(GetOwningPlayer(TempUnit), 'o008', GetUnitLoc(GetEnumUnit()), 0);
-      UnitAddAbility(u, 'A0GL');
-      SetUnitAbilityLevel(u, 'A0GL', GetUnitAbilityLevel(TempUnit, 'A03Q'));
-      IssueTargetOrder(u, "thunderbolt", GetEnumUnit());
-      UnitApplyTimedLife(u, 'BTLF', 1);
-      u = null;
-  }
+    function Thunderbolt () -> nothing {
+        unit u = CreateUnitAtLoc(GetOwningPlayer(TempUnit), 'o008', GetUnitLoc(GetEnumUnit()), 0);
+        UnitAddAbility(u, 'A0GL');
+        SetUnitAbilityLevel(u, 'A0GL', GetUnitAbilityLevel(TempUnit, 'A03Q'));
+        IssueTargetOrder(u, "thunderbolt", GetEnumUnit());
+        UnitApplyTimedLife(u, 'BTLF', 1);
+        u = null;
+    }
 
-  function MovingUnit ()  -> nothing {
-      unit u;
-      group g = CreateGroup();
-      if (GetSpellAbilityId() != 'A03Q') return;
-      TempUnit = GetTriggerUnit();
-      MoveLoc = GetSpellTargetLoc();
-      u = CreateUnit(GetOwningPlayer(GetTriggerUnit()), 'h01G', GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), AngleBetweenPoints(GetUnitLoc(GetTriggerUnit()), MoveLoc));
-      IssuePointOrder(u, "move", GetLocationX(MoveLoc), GetLocationY(MoveLoc));
-      PolledWait(DistanceBetweenPoints(GetUnitLoc(u), MoveLoc) / 522 - 0.2);
-      GroupEnumUnitsInRangeOfLoc(g, MoveLoc, 175, Condition(function Thunderbolts_Cond));
-      ForGroup(g, function Thunderbolt);
-      KillUnit(u);
-      TriggerSleepAction(1);
-      RemoveUnit(u);
-      u = null;
-      DestroyGroup(g);
-      g = null;
-  }
+    function MovingUnit () -> nothing {
+        unit u;
+        group g = CreateGroup();
+        if (GetSpellAbilityId() != 'A03Q') return;
+        TempUnit = GetTriggerUnit();
+        MoveLoc = GetSpellTargetLoc();
+        u = CreateUnit(GetOwningPlayer(GetTriggerUnit()), 'h01G', GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), AngleBetweenPoints(GetUnitLoc(GetTriggerUnit()), MoveLoc));
+        IssuePointOrder(u, "move", GetLocationX(MoveLoc), GetLocationY(MoveLoc));
+        PolledWait(DistanceBetweenPoints(GetUnitLoc(u), MoveLoc) / 522 - 0.2);
+        GroupEnumUnitsInRangeOfLoc(g, MoveLoc, 175, Condition(function Thunderbolts_Cond));
+        ForGroup(g, function Thunderbolt);
+        KillUnit(u);
+        TriggerSleepAction(1);
+        RemoveUnit(u);
+        u = null;
+        DestroyGroup(g);
+        g = null;
+    }
 
-  function onInit ()  -> nothing {
-      trigger t = CreateTrigger();
-      TriggerSleepAction(1);
-      TriggerRegisterUnitEvent(t, gg_unit_Hmkg_0476, EVENT_UNIT_SPELL_EFFECT);
-      TriggerAddAction(t, function MovingUnit);
-  }
+    function onInit () -> nothing {
+        trigger t = CreateTrigger();
+        TriggerSleepAction(1);
+        TriggerRegisterUnitEvent(t, gg_unit_Hmkg_0476, EVENT_UNIT_SPELL_EFFECT);
+        TriggerAddAction(t, function MovingUnit);
+    }
 }
 //! endzinc

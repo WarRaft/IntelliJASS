@@ -28,15 +28,27 @@ public class ZincLibVisDefImpl extends ASTWrapperPsiElement implements ZincLibVi
   }
 
   @Override
-  @Nullable
-  public ZincLibBody getLibBody() {
-    return findChildByClass(ZincLibBody.class);
+  @NotNull
+  public List<ZincFuncDef> getFuncDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincFuncDef.class);
   }
 
   @Override
-  @Nullable
-  public ZincLibItem getLibItem() {
-    return findChildByClass(ZincLibItem.class);
+  @NotNull
+  public List<ZincLibVisDef> getLibVisDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincLibVisDef.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincStructDef> getStructDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincStructDef.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ZincVarDef> getVarDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZincVarDef.class);
   }
 
   @Override

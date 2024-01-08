@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ZincStructStat extends PsiElement {
 
   @NotNull
-  List<ZincGvarDef> getGvarDefList();
-
-  @NotNull
   List<ZincMethodDef> getMethodDefList();
 
   @NotNull
@@ -18,5 +15,8 @@ public interface ZincStructStat extends PsiElement {
 
   @NotNull
   List<ZincStructVis> getStructVisList();
+
+  @NotNull
+  List<ZincVarDef> getVarDefList();
 
 }

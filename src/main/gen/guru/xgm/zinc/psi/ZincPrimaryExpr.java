@@ -14,9 +14,6 @@ public interface ZincPrimaryExpr extends ZincExpr {
   ZincFuncAsCode getFuncAsCode();
 
   @Nullable
-  ZincFuncCall getFuncCall();
-
-  @Nullable
   PsiElement getHexval();
 
   @Nullable

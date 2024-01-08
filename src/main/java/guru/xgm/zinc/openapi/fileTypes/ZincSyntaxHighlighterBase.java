@@ -45,23 +45,26 @@ public class ZincSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (tokenType == ID) return ID_KEYS;
 
         if (Arrays.asList(
-                LIBRARY,
+                BREAK,
                 CONSTANT,
+                DO,
+                ELSE,
+                FALSE,
+                FOR,
+                FUNCTION,
+                IF,
+                LIBRARY,
+                METHOD,
+                NULL,
+                OPTIONAL,
+                PRIVATE,
+                PUBLIC,
+                RETURN,
                 REQUIRES,
                 STATIC,
                 STRUCT,
-                METHOD,
-                OPTIONAL,
-                FUNCTION,
-                IF,
-                ELSE,
-                DO,
-                WHILE,
-                FOR,
                 TRUE,
-                FALSE,
-                PRIVATE,
-                PUBLIC
+                WHILE
         ).contains(tokenType)) {
             return KEYWORD_KEYS;
         }

@@ -11,10 +11,10 @@ public interface ZincFuncBody extends PsiElement {
   List<ZincBreakStmt> getBreakStmtList();
 
   @NotNull
-  List<ZincCallSetStmt> getCallSetStmtList();
+  List<ZincDoStmt> getDoStmtList();
 
   @NotNull
-  List<ZincDoStmt> getDoStmtList();
+  List<ZincExprStmt> getExprStmtList();
 
   @NotNull
   List<ZincForStmt> getForStmtList();
@@ -23,10 +23,10 @@ public interface ZincFuncBody extends PsiElement {
   List<ZincIfStmt> getIfStmtList();
 
   @NotNull
-  List<ZincLvarStmt> getLvarStmtList();
+  List<ZincReturnStmt> getReturnStmtList();
 
   @NotNull
-  List<ZincReturnStmt> getReturnStmtList();
+  List<ZincVarDef> getVarDefList();
 
   @NotNull
   List<ZincWhileStmt> getWhileStmtList();

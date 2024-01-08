@@ -1,11 +1,3 @@
-/*
-
-/*
-ЕБИСЬ ОНО КОНЁМ!!!
-*/
-
-*/
-
 native UnitAlive takes unit id returns boolean
 
 library ArmorUtils requires Logarithm

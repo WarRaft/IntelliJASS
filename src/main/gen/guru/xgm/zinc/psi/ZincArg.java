@@ -11,9 +11,9 @@ public interface ZincArg extends PsiElement {
   ZincExpr getExpr();
 
   @Nullable
-  ZincFuncAnon getFuncAnon();
+  ZincFuncAsCode getFuncAsCode();
 
   @Nullable
-  ZincFuncAsCode getFuncAsCode();
+  ZincLambda getLambda();
 
 }

@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZincLvarBody extends PsiElement {
+public interface ZincCallExpr extends ZincExpr {
 
-  @Nullable
-  ZincExpr getExpr();
+  @NotNull
+  ZincArgs getArgs();
 
   @NotNull
   PsiElement getId();

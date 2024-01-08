@@ -5,7 +5,8 @@ library Camera requires CothUtilities {
         boolean ZoomMax = S2I(SubString(GetEventPlayerChatString(), 6, 10)) <= 4000;
         boolean ExactOnly = SubString(GetEventPlayerChatString(), 0, 6) == "-zoom " && SubString(GetEventPlayerChatString(), 10, StringLength(GetEventPlayerChatString())) == "";
         if (GetEventPlayerChatString() == "-far") {
-            SetCameraFieldForPlayer(GetTriggerPlayer(), CAMERA_FIELD_TARGET_DISTANCE, 2975, 0.5);
+        expr().dfdfdf.ffff.fffdf
+            SetCameraFieldForPlayer(GetTriggerPlayer(), CAMERA_FIELD_TARGET_DISTANCE, 2975, 0.5)
             return;
         }
         if (GetEventPlayerChatString() == "-medium") {
