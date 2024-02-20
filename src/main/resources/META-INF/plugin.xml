@@ -20,7 +20,8 @@
         <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.JassParserDefinition"/>
 
         <!-- highlight -->
-        <lang.syntaxHighlighterFactory language="JASS" implementationClass="guru.xgm.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="JASS"
+                                       implementationClass="guru.xgm.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
         <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.JassColorSettingsPage"/>
@@ -36,7 +37,11 @@
 
         <!-- formatter -->
         <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
-        <langCodeStyleSettingsProvider implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
+
+        <!-- sdk -->
+        <sdkType implementation="guru.xgm.jass.openapi.projectRoots.JassSdkType"/>
 
         <!-- inspections -->
         <localInspection language="JASS"
@@ -60,11 +65,13 @@
         <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.zinc.lang.ZincParserDefinition"/>
 
         <!-- highlight -->
-        <lang.syntaxHighlighterFactory language="ZINC" implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="ZINC"
+                                       implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
         <!-- formatter -->
         <lang.formatter language="ZINC" implementationClass="guru.xgm.zinc.formatting.ZincFormattingModelBuilder"/>
-        <langCodeStyleSettingsProvider implementation="guru.xgm.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
 
         <!-- annotator -->
         <annotator language="ZINC" implementationClass="guru.xgm.zinc.lang.annotation.ZincAnnotator"/>
@@ -79,7 +86,8 @@
         <lang.parserDefinition language="VJASS" implementationClass="guru.xgm.vjass.lang.VjassParserDefinition"/>
 
         <!-- highlight -->
-        <lang.syntaxHighlighterFactory language="VJASS" implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="VJASS"
+                                       implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
 
     </extensions>
 

@@ -1,69 +1,55 @@
-library CursedResurrection {
+library SpellHolyBoltAOE {
+   /* === Настройки заклинания === */
 
-    constant integer abilityIconId = 'S003';
+   constant integer abilityIconId = 'SHhb'; // Видимая способность для изучения героем
+   constant integer abilityCastId = 'CHhb'; // Способность, которая будет кастована на юнита
 
+   /* === Реализация заклинания === */
 
     group g = CreateGroup(); // Используем одну группу для всех перебров, что не заморачиваться с удалением
-    unit caster, target, dummy;
-    real time, x, y, period = .1, range = 200.;
-    integer level, tickerId, casterId, count;
-    timer ticker;
-
-//   constant string spellEffect = "HolyLight.mdx"; //ИЗМЕНИТЬ!!!
-//   constant string spellEffectAttach = "origin";  //ИЗМЕНИТЬ!!!
-
-/* === Реализация заклинания  === */
+    unit caster, target;
+    real x, y, range, damage, hp;
+    integer level, count, i;
+    ability abilityIcon, abilityCast;
+    boolean hasCast;
 
     function onInit() {
         trigger t = CreateTrigger();
-        integer i;
 
-    // Слушаем событие каста для всех игроков, экономя лишний вызов функции
+        // Слушаем событие каста для всех игроков, экономя лишний вызов функции
         for (0 <= i < bj_MAX_PLAYER_SLOTS) TriggerRegisterPlayerUnitEvent(t, Player(i), EVENT_PLAYER_UNIT_SPELL_EFFECT, null);
         TriggerAddAction(t, function() {
-            if (abilityId != GetSpellAbilityId()) return; // Используем return чтоб не использовать Condition
+            if (abilityIconId != GetSpellAbilityId()) return; // Используем return чтоб не использовать Condition
             caster = GetTriggerUnit();
-            level = GetUnitAbilityLevel(caster, abilityId);
+            level = GetUnitAbilityLevel(caster, abilityIconId);
             x = GetSpellTargetX();
             y = GetSpellTargetY();
+            abilityIcon = GetUnitAbility(caster, abilityIconId);
+
+            range = GetAbilityRealLevelField(abilityIcon, ABILITY_RLF_AREA_OF_EFFECT, level - 1);
 
             GroupClear(g); // Не забываем очистить группу, чтоб не зацепить прошлых юнитов
-            GroupEnumUnitsInRange(g, x, y, range, null); // Делаем радиус немного больше, ибо функция не учитывает радиус юнита
+            GroupEnumUnitsInRange(g, x, y, range + 200, null); // Делаем радиус немного больше, ибо функция не учитывает радиус юнита
 
             count = GroupGetCount(g);
             if (count == 0) return; // Выходим из функции при пустой группе.
 
+            // Добавляем скрытую абилку, которая будет прокастована на каждого юнита
+            if (GetUnitAbilityLevel(caster, abilityCastId) == 0) UnitAddAbility(caster, abilityCastId);
+            SetUnitAbilityLevel(caster, abilityCastId, level);
+            abilityCast = GetUnitAbility(caster, abilityCastId);
+            ShowAbility(abilityCast, false);
+
+            // Кастуем абилку на каждого юнита в группе
             for(0 <= i < count){
                 target = GroupGetUnitByIndex(g, i);
-                if (GetUnitTypeId(target) == 'dumR' && IsUnitInRangeXY(target, x, y, range)) {  /*Берем первого попавшигося РАНДОМНОГО юнита(дамика) с РАВ:'dumR'*/
-                ///////////////////////////////////////////////////////////////////////////////////////////////////
-                /* создали ГЛАВНЫЙ таймер */
-                    ticker = CreateTimer();
-                    tickerId = GetHandleId(ticker);
-                    SaveUnitHandle(ht, tickerId, 'cstr', caster);
-                    SaveUnitHandle(ht, tickerId, 'dumy', dummy);
-                    SaveReal(ht, tickerId, 'tim1', 0.0);
-
-                /* запустили ГЛАВНЫЙ таймер */
-                    TimerStart(ticker, period, true, function(){
-                        ticker = GetExpiredTimer();
-                        tickerId = GetHandleId(ticker);
-                        caster = LoadUnitHandle(ht, tickerId, 'cstr');
-                        dummy = LoadUnitHandle(ht, tickerId, 'dumy');
-                        time = LoadReal(ht, tickerId, 'tim1') + period;
-                        SaveReal(ht, tickerId, 'tim1', time);
-                        if (time == 1.) {
-                            DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", spellX, spellY));
-                        }
-                        if (time == 38.) {    /*время через которое сработает анимация воскрешения "Dissipate"*/
-                            SetUnitAnimation(dummy, "Dissipate");
-                            SetUnitTimeScale(dummy, 0.5);
-                        }
-                    }); // конец Функции Таймера
-
-                ///////////////////////////////////////////////////////////////////////////////////////////////////
-                    break; // выходим из цикла
+                // Проверяем юнитов в зоне действия
+                if (UnitAlive(target) && IsUnitInRangeXY(target, x, y, range) && IsAbilityTargetAllowed(abilityCast, target)) {
+                    CastAbilityTarget(abilityCast, target);
                 }
-            });
+            }
+        });
+
         t = null;
     }
+}
