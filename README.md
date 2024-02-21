@@ -17,6 +17,7 @@ ZINC has a completely different syntax and its own file resolution. Therefore, i
 - https://github.com/inwc3/wc3libs
 - https://github.com/inwc3/JMPQ3
 - https://github.com/jhonnold/mpq
+- https://github.com/hmatt1/angelscript-intellij
 
 ## Support
 <a href="https://www.buymeacoffee.com/nazarpunk"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=nazarpunk&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
