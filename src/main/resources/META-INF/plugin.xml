@@ -88,7 +88,6 @@
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
                                        implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
-
     </extensions>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
