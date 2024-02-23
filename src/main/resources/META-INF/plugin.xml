@@ -88,6 +88,31 @@
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
                                        implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+
+        <!-- === AngelScript === -->
+        <fileType name="AngelScript"
+                  implementationClass="guru.xgm.angelscript.openapi.fileTypes.AngelScriptFileType"
+                  fieldName="INSTANCE"
+                  language="AngelScript"
+                  extensions="as"
+        />
+        <lang.parserDefinition language="AngelScript"
+                               implementationClass="guru.xgm.angelscript.lang.AngelScriptParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="AngelScript"
+                                       implementationClass="guru.xgm.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterFactory"/>
+
+        <!-- formatter -->
+        <lang.formatter language="AngelScript"
+                        implementationClass="guru.xgm.angelscript.formatting.AngelScriptFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.angelscript.psi.codeStyle.AngelScriptLanguageCodeStyleSettingsProvider"/>
+
+        <!-- annotator -->
+        <annotator language="AngelScript"
+                   implementationClass="guru.xgm.angelscript.lang.annotation.AngelScriptAnnotator"/>
+
     </extensions>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
