@@ -46,7 +46,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 BREAK,
-                CONSTANT,
+                CONST,
                 DO,
                 ELSE,
                 FALSE,
@@ -58,7 +58,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 NULL,
                 OPTIONAL,
                 PRIVATE,
-                PUBLIC,
+                PROTECTED,
                 RETURN,
                 REQUIRES,
                 STATIC,
@@ -72,7 +72,6 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (Arrays.asList(
                 INTVAL,
                 REALVAL,
-                RAWVAL,
                 HEXVAL
         ).contains(tokenType)) {
             return NUMBER_KEYS;
@@ -87,7 +86,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 NOTHING,
-                TYPE_NAME
+                TYPE
         ).contains(tokenType)) {
             return TYPE_NAME_KEYS;
         }

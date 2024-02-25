@@ -29,8 +29,8 @@ public class AngelScriptArgListImpl extends ASTWrapperPsiElement implements Ange
 
   @Override
   @NotNull
-  public List<AngelScriptArg> getArgList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptArg.class);
+  public List<AngelScriptAssign> getAssignList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptAssign.class);
   }
 
 }

@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptReturnStmt extends PsiElement {
 
   @Nullable
-  AngelScriptExpr getExpr();
+  AngelScriptAssign getAssign();
 
 }

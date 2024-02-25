@@ -37,20 +37,10 @@ public class AngelScriptBlock implements ASTBlock {
         Indent indent = Indent.getNoneIndent();
 
         if (isOneOf(childNode,
-                EXPR_STMT,
                 FOR_STMT,
                 IF_STMT,
                 RETURN_STMT,
-                VAR_DEF,
-                DO_STMT,
-                WHILE_STMT,
-                BREAK_STMT,
-                // def
-                LIB_VIS_DEF,
-                VAR_DEF,
-                STRUCT_DEF,
-                METHOD_DEF,
-                FUNC_DEF
+                VAR
         )) indent = Indent.getNormalIndent();
 
         return new AngelScriptBlock(childNode, null, indent, myCodeStyleSettings);
@@ -100,7 +90,7 @@ public class AngelScriptBlock implements ASTBlock {
                 // paren
                 .after(LPAREN).spacing(0, 1, 0, true, 0)
                 .before(RPAREN).spacing(0, 1, 0, true, 0)
-                .before(ARGS).spacing(0, 1, 0, true, 0)
+                .before(ARG_LIST).spacing(0, 1, 0, true, 0)
                 // comma
                 .after(COMMA).spacing(1, 1, 0, false, 0)
                 .before(COMMA).spacing(0, 0, 0, false, 0)
@@ -109,8 +99,6 @@ public class AngelScriptBlock implements ASTBlock {
                 .around(DOT).spacing(0, 0, 0, false, 0)
                 .around(EQ).spacing(1, 1, 0, false, 0)
                 .around(MINUS_GT).spacing(1, 1, 0, false, 0)
-                .around(FUNC_RETURNS).spacing(1, 1, 0, false, 0)
-                .between(TYPE_NAME, ID).spacing(1, 1, 0, false, 0)
                 ;
     }
 

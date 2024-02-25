@@ -5,14 +5,14 @@ import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import guru.xgm.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase;
-import guru.xgm.angelscript.psi.AngelScriptTypeName;
+import guru.xgm.angelscript.psi.AngelScriptType;
 import org.jetbrains.annotations.NotNull;
 
 final class AngelScriptAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
 
-        if (element instanceof AngelScriptTypeName type) {
+        if (element instanceof AngelScriptType type) {
             holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(type.getTextRange())

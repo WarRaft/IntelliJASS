@@ -11,15 +11,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitArg(@NotNull AngelScriptArg o) {
-    visitPsiElement(o);
-  }
-
   public void visitArgList(@NotNull AngelScriptArgList o) {
-    visitPsiElement(o);
-  }
-
-  public void visitArgs(@NotNull AngelScriptArgs o) {
     visitPsiElement(o);
   }
 
@@ -31,11 +23,15 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAssign(@NotNull AngelScriptAssign o) {
+    visitPsiElement(o);
+  }
+
   public void visitAssignExpr(@NotNull AngelScriptAssignExpr o) {
     visitExpr(o);
   }
 
-  public void visitBracedStmt(@NotNull AngelScriptBracedStmt o) {
+  public void visitAssignOp(@NotNull AngelScriptAssignOp o) {
     visitPsiElement(o);
   }
 
@@ -43,8 +39,16 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallExpr(@NotNull AngelScriptCallExpr o) {
-    visitExpr(o);
+  public void visitCaseStmt(@NotNull AngelScriptCaseStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCondition(@NotNull AngelScriptCondition o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDataType(@NotNull AngelScriptDataType o) {
+    visitPsiElement(o);
   }
 
   public void visitDivExpr(@NotNull AngelScriptDivExpr o) {
@@ -55,11 +59,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitDoStmt(@NotNull AngelScriptDoStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitElseStmt(@NotNull AngelScriptElseStmt o) {
+  public void visitDoWhileStmt(@NotNull AngelScriptDoWhileStmt o) {
     visitPsiElement(o);
   }
 
@@ -71,19 +71,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExprStmt(@NotNull AngelScriptExprStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitForExpr(@NotNull AngelScriptForExpr o) {
-    visitExpr(o);
-  }
-
-  public void visitForHead(@NotNull AngelScriptForHead o) {
-    visitPsiElement(o);
-  }
-
-  public void visitForOp(@NotNull AngelScriptForOp o) {
+  public void visitExprStat(@NotNull AngelScriptExprStat o) {
     visitPsiElement(o);
   }
 
@@ -91,27 +79,15 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFuncAsCode(@NotNull AngelScriptFuncAsCode o) {
+  public void visitFunc(@NotNull AngelScriptFunc o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncBody(@NotNull AngelScriptFuncBody o) {
+  public void visitFuncAttr(@NotNull AngelScriptFuncAttr o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncCallName(@NotNull AngelScriptFuncCallName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncDef(@NotNull AngelScriptFuncDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncDefName(@NotNull AngelScriptFuncDefName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncReturns(@NotNull AngelScriptFuncReturns o) {
+  public void visitFuncCall(@NotNull AngelScriptFuncCall o) {
     visitPsiElement(o);
   }
 
@@ -123,7 +99,15 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitGenericType(@NotNull AngelScriptGenericType o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfStmt(@NotNull AngelScriptIfStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitInitList(@NotNull AngelScriptInitList o) {
     visitPsiElement(o);
   }
 
@@ -133,30 +117,6 @@ public class AngelScriptVisitor extends PsiElementVisitor {
 
   public void visitLTExpr(@NotNull AngelScriptLTExpr o) {
     visitExpr(o);
-  }
-
-  public void visitLambda(@NotNull AngelScriptLambda o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLibDef(@NotNull AngelScriptLibDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLibReq(@NotNull AngelScriptLibReq o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLibReqItem(@NotNull AngelScriptLibReqItem o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLibVisDef(@NotNull AngelScriptLibVisDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitMethodDef(@NotNull AngelScriptMethodDef o) {
-    visitPsiElement(o);
   }
 
   public void visitMinusExpr(@NotNull AngelScriptMinusExpr o) {
@@ -187,6 +147,14 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitParam(@NotNull AngelScriptParam o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParamList(@NotNull AngelScriptParamList o) {
+    visitPsiElement(o);
+  }
+
   public void visitParenExpr(@NotNull AngelScriptParenExpr o) {
     visitExpr(o);
   }
@@ -197,6 +165,26 @@ public class AngelScriptVisitor extends PsiElementVisitor {
 
   public void visitPlusUnaryExpr(@NotNull AngelScriptPlusUnaryExpr o) {
     visitExpr(o);
+  }
+
+  public void visitPostDecExpr(@NotNull AngelScriptPostDecExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitPostIncExpr(@NotNull AngelScriptPostIncExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitPreDecExpr(@NotNull AngelScriptPreDecExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitPreIncExpr(@NotNull AngelScriptPreIncExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitPrimType(@NotNull AngelScriptPrimType o) {
+    visitPsiElement(o);
   }
 
   public void visitPrimaryExpr(@NotNull AngelScriptPrimaryExpr o) {
@@ -211,43 +199,35 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStructDef(@NotNull AngelScriptStructDef o) {
+  public void visitScope(@NotNull AngelScriptScope o) {
     visitPsiElement(o);
   }
 
-  public void visitStructStat(@NotNull AngelScriptStructStat o) {
+  public void visitStatBlock(@NotNull AngelScriptStatBlock o) {
     visitPsiElement(o);
   }
 
-  public void visitStructVis(@NotNull AngelScriptStructVis o) {
+  public void visitStmt(@NotNull AngelScriptStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeName(@NotNull AngelScriptTypeName o) {
+  public void visitSwitchStmt(@NotNull AngelScriptSwitchStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitTypedVar(@NotNull AngelScriptTypedVar o) {
+  public void visitType(@NotNull AngelScriptType o) {
     visitPsiElement(o);
   }
 
-  public void visitTypedVarList(@NotNull AngelScriptTypedVarList o) {
+  public void visitTypeMod(@NotNull AngelScriptTypeMod o) {
     visitPsiElement(o);
   }
 
-  public void visitVarBody(@NotNull AngelScriptVarBody o) {
+  public void visitVar(@NotNull AngelScriptVar o) {
     visitPsiElement(o);
   }
 
-  public void visitVarDef(@NotNull AngelScriptVarDef o) {
-    visitPsiElement(o);
-  }
-
-  public void visitVis(@NotNull AngelScriptVis o) {
-    visitPsiElement(o);
-  }
-
-  public void visitWhileStmt(@NotNull AngelScriptWhileStmt o) {
+  public void visitWhileStnt(@NotNull AngelScriptWhileStnt o) {
     visitPsiElement(o);
   }
 

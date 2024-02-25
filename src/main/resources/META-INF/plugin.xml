@@ -94,7 +94,7 @@
                   implementationClass="guru.xgm.angelscript.openapi.fileTypes.AngelScriptFileType"
                   fieldName="INSTANCE"
                   language="AngelScript"
-                  extensions="as"
+                  extensions="ass"
         />
         <lang.parserDefinition language="AngelScript"
                                implementationClass="guru.xgm.angelscript.lang.AngelScriptParserDefinition"/>

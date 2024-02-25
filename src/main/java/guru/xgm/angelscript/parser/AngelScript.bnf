@@ -16,51 +16,83 @@
     tokens=[
         WHITE_SPACE='regexp:\s+'
         SINGLE_LINE_COMMENT="regexp://[^\n]*"
-        MULTI_LINE_COMMENT="regexp:FUCK"
-        BOOLEAN='boolean'
+        MULTI_LINE_COMMENT="regexp:/\*([^\n])*\*/"
+        ARRAY='array'
+        AUTO='auto'
+        BOOL='bool'
         BREAK='break'
+        CASE='case'
         CODE='code'
-        CONSTANT='constant'
+        CONST='const'
+        DOUBLE='double'
         DEBUG='debug'
+        DEFAULT='default'
         DO='do'
         ELSE='else'
+        EXTERNAL='external'
+        EXPLICIT='explicit'
         FALSE='false'
+        FINAL='final'
+        FLOAT='float'
         FOR='for'
         FUNCTION='function'
         HANDLE='handle'
         IF='if'
+        IN = 'in'
+        INOUT='inout'
+        INT = 'int'
+        INT8 = 'int8'
+        INT16 = 'int16'
+        INT32 = 'int32'
+        INT64 = 'int64'
         INTEGER='integer'
-        KEY='key'
         LIBRARY='library'
         METHOD='method'
         NOTHING='nothing'
         NULL='null'
         OPTIONAL='optional'
+        OVERRIDE='override'
+        OUT='out'
         PRIVATE='private'
-        PUBLIC='public'
+        PROPERTY='property'
+        PROTECTED='protected'
         REAL='real'
         REQUIRES='requires'
         RETURN='return'
+        SHARED='shared'
         STATIC='static'
         STRING='string'
         STRUCT='struct'
+        SWITCH='switch'
         TRUE='true'
         THISTYPE='thistype'
+        UINT = 'uint'
+        UINT8 = 'uint8'
+        UINT16 = 'uint16'
+        UINT32 = 'uint32'
+        UINT64 = 'uint64'
+        VOID = 'void'
         WHILE='while'
 
+        AT='@'
+        TILDE='~'
         DOT='.'
         COMMA=','
         EQ_EQ='=='
         EQ='='
         NEQ='!='
+        COLON_COLON='::'
+        COLON=':'
         SEMI = ';'
         MINUS_GT = '->'
         AND_AND = '&&'
         OR_OR = '||'
         NOT='!'
+        PLUS_PLUS='++'
         PLUS='+'
         PLUS_EQ='+='
         MINUS='-'
+        MINUS_MINUS='--'
         MINUS_EQ='-='
         MUL='*'
         MUL_EQ='*='
@@ -70,6 +102,7 @@
         LT='<'
         GT_EQ='>='
         GT='>'
+        QUEST='?'
         LBRACE = '{'
         RBRACE = '}'
         LPAREN = '('
@@ -77,101 +110,123 @@
         LBRACK = '['
         RBRACK = ']'
 
-        REALVAl='regexp:\d+\.\d*|\.\d+'
+        REALVAl='regexp:(\d+\.\d*|\.\d+)([fd])?'
         HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
         INTVAL='regexp:\d+'
-        RAWVAl="regexp:'[^']*'"
-        STRVAL="regexp:\"([^\"\\]|\\.)*\""
+
+        STRVAL="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\'|\\)*\")"
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
-
     ]
 
 }
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
+Root ::= (Var|Func)* {recoverWhile=RootRecover}
+private RootRecover ::= !(SEMI)
 
-// https://www.osti.gov/servlets/purl/1644738/
-
-Root ::= (LibDef)* {recoverWhile=RootRecover}
-private RootRecover ::= !(LIBRARY)
-
-// === VISIBILITY
-Vis ::= (PUBLIC|PRIVATE)
-
-// === LIBRARY
-LibDef ::= LIBRARY ID LibReq? LibBody {pin=1}
-private LibBody ::= LBRACE LibItem* RBRACE {pin=1}
-private LibItem ::= LibVisDef|VarDef|FuncDef|StructDef
-LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
-LibReqItem ::= OPTIONAL? ID {pin=2}
-
-// -- Lib Visible
-LibVisDef ::= Vis (LibItem|LibBody)
-
-// === VARIABLE
-VarDef ::= Vis? CONSTANT? TypeName VarBody (COMMA VarBody)* SEMI?
-VarBody ::= (ArrayAccess|ID) (EQ Expr)?
-
-TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY|THISTYPE|ID
-TypedVar ::= TypeName ID
-TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1}
-
-// === FUNCTION
-Arg ::= Expr|FuncAsCode|Lambda
-ArgList ::= Arg (COMMA Arg)*
-Args ::= LPAREN ArgList? RPAREN {pin=1}
-FuncCallName ::= ID
-
-Lambda ::= FUNCTION LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=2}
-
-FuncDef ::= CONSTANT? FUNCTION FuncDefName LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
-FuncDefName ::= ID
-FuncReturns ::= MINUS_GT (NOTHING|TypeName) {pin=1}
-FuncBody ::= LBRACE Stmt* RBRACE {pin=1}
-
-// === STRUCT
-StructDef ::= STRUCT ID StructBody {pin=1}
-private StructBody ::= LBRACE StructItem* RBRACE {pin=1}
-private StructItem ::= VarDef|MethodDef|StructVis|StructStat
-MethodDef ::= Vis? STATIC? METHOD ID LPAREN TypedVarList? RPAREN FuncReturns? FuncBody {pin=3}
-StructVis ::= Vis StructBody {pin=2}
-StructStat ::= STATIC StructBody {pin=2}
-
-BracedStmt ::= LBRACE Stmt* RBRACE {pin=1}
-
-// === STATEMENT
-private Stmt ::=
-        ForStmt |
-        IfStmt |
-        ReturnStmt |
-        DoStmt |
-        WhileStmt |
-        BreakStmt |
-        VarDef |
-        ExprStmt
-
-ExprStmt ::= AssignExpr SEMI?
-
-// -- for
-ForOp ::= (LT|LT_EQ|GT|GT_EQ)
-ForStmt ::= FOR ForHead (Stmt|BracedStmt) {pin=1}
-ForExpr ::= PrimaryExpr
-ForHead ::= LPAREN ForExpr ForOp ID ForOp ForExpr RPAREN {pin=1}
-
-// -- do
-DoStmt ::= DO (Stmt|BracedStmt) WHILE LPAREN Expr RPAREN SEMI? {pin=1}
-BreakStmt ::= BREAK SEMI? {pin=1}
-
-// -- while
-WhileStmt ::= WHILE LPAREN Expr RPAREN (Stmt|BracedStmt) {pin=1}
-
-// -- return
-ReturnStmt ::= RETURN Expr? SEMI? {pin=1}
-
-// -- if
-IfStmt ::= IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?  {pin=1}
-ElseStmt ::= ELSE (Stmt|BracedStmt) {pin=1}
+// VAR ::= ['private'|'protected'] TYPE IDENTIFIER  [
+//                                                      ( '=' (INITLIST | EXPR)) | ARGLIST
+//                                                  ]
+//                                                  {
+//                                                      ',' IDENTIFIER  [
+//                                                                          ( '=' (INITLIST | EXPR)) | ARGLIST
+//                                                                      ]
+//                                                  }
+//                                                  ';'
+Var ::= (PRIVATE|PROTECTED)? Type ID ( (EQ (InitList | Expr)) | ArgList )? ( COMMA ID ( EQ (InitList | Expr)|ArgList )? )* SEMI SEMI*
+// TYPE          ::= ['const'] SCOPE DATATYPE   [
+//                                                  '<' TYPE {',' TYPE} '>'
+//                                              ]
+//                                              {
+//                                                  ('[' ']') | ('@' ['const'])
+//                                              }
+Type ::= CONST? Scope DataType GenericType? ((LBRACK RBRACK)|(AT CONST?))*
+GenericType ::= LT Type (COMMA Type)* GT
+// SCOPE         ::= ['::'] {IDENTIFIER '::'}   [
+//                                                  IDENTIFIER
+//                                                  [
+//                                                      '<' TYPE {',' TYPE} '>'
+//                                                  ]
+//                                                  '::'
+//                                              ]
+Scope ::= COLON_COLON? (ID COLON_COLON)* (ID GenericType? COLON_COLON)?
+// DATATYPE      ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
+DataType ::= ID|PrimType|QUEST|AUTO
+// PRIMTYPE      ::= 'void' | 'int' | 'int8' | 'int16' | 'int32' | 'int64' | 'uint' | 'uint8' | 'uint16' | 'uint32' | 'uint64' | 'float' | 'double' | 'bool'
+PrimType ::= ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|REAL|STRING|UINT|UINT16|UINT32|UINT64|VOID|ID
+// INITLIST      ::=    '{'
+//                      [ASSIGN | INITLIST]
+//                      {
+//                          ','
+//                          [ASSIGN | INITLIST]
+//                      }
+//                      '}'
+InitList ::= LBRACE (Assign|InitList)? ( COMMA (Assign|InitList)? )* RBRACE
+// ASSIGN        ::= CONDITION [ ASSIGNOP ASSIGN ]
+Assign ::= Condition  (AssignOp Assign)?
+// CONDITION     ::= EXPR ['?' ASSIGN ':' ASSIGN]
+Condition ::= Expr (QUEST Assign COLON Assign)?
+// ASSIGNOP      ::= '=' | '+=' | '-=' | '*=' | '/=' | '|=' | '&=' | '^=' | '%=' | '**=' | '<<=' | '>>=' | '>>>='
+AssignOp ::= EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
+// ARGLIST       ::=    '('
+//                      [IDENTIFIER ':']
+//                      ASSIGN
+//                      {
+//                          ',' [IDENTIFIER ':'] ASSIGN
+//                      }
+//                      ')'
+ArgList ::= LPAREN (ID COLON)? Assign (COMMA (ID COLON)? Assign)* RPAREN
+// FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
+FuncCall ::= Scope ID (ArgList | (LPAREN RPAREN))
+// FUNC          ::= {'shared' | 'external'} ['private' | 'protected']  [
+//                                                                          ( (TYPE ['&']) | '~' )
+//                                                                      ]
+//                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
+Func ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr ((SEMI SEMI*) | StatBlock) {pin=StatBlock}
+// PARAMLIST     ::=    '('
+//                      [
+//                          'void'
+//                          |
+//                          (
+//                              TYPE TYPEMOD [IDENTIFIER] ['=' EXPR]    {
+//                                                                          ',' TYPE TYPEMOD [IDENTIFIER] ['=' EXPR]
+//                                                                      }
+//                          )
+//                      ]
+//                      ')'
+ParamList ::= LPAREN (VOID | (Param (COMMA Param)*) )? RPAREN
+Param ::= Type TypeMod ID? (EQ Expr)?
+// TYPEMOD       ::= ['&' ['in' | 'out' | 'inout']]
+TypeMod ::= (AND (IN|OUT|INOUT)?)?
+// FUNCATTR      ::= {'override' | 'final' | 'explicit' | 'property'}
+FuncAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
+// STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
+StatBlock ::= LBRACE (Var | Stmt)* RBRACE
+// STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
+Stmt ::= (StatBlock|ExprStat|IfStmt|ForStmt|WhileStnt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt)
+// EXPRSTAT      ::= [ASSIGN] ';'
+ExprStat ::= Assign? SEMI
+// IF            ::= 'if' '(' ASSIGN ')' STATEMENT ['else' STATEMENT]
+IfStmt ::= IF LPAREN Assign RPAREN Stmt (ELSE Stmt)?
+// FOR           ::= 'for' '(' (VAR | EXPRSTAT) EXPRSTAT    [
+//                                                              ASSIGN {',' ASSIGN}
+//                                                          ]
+//                                                          ')'
+//                                                          STATEMENT
+ForStmt ::=  FOR LPAREN (Var | ExprStat) ExprStat (Assign (COMMA Assign)*)? RPAREN Stmt
+// WHILE         ::= 'while' '(' ASSIGN ')' STATEMENT
+WhileStnt ::= WHILE LPAREN Assign RPAREN Stmt
+// DOWHILE       ::= 'do' STATEMENT 'while' '(' ASSIGN ')' ';'
+DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI
+// RETURN        ::= 'return' [ASSIGN] ';'
+ReturnStmt ::= RETURN Assign? SEMI*
+// SWITCH        ::= 'switch' '(' ASSIGN ')' '{' {CASE} '}'
+SwitchStmt ::= SWITCH LPAREN Assign RPAREN LBRACE (CaseStmt)* RBRACE
+// CASE          ::= (('case' EXPR) | 'default') ':' {STATEMENT}
+CaseStmt ::= ((CASE Expr) | DEFAULT) COLON (Stmt)*
+// BREAK         ::= 'break' ';'
+BreakStmt ::= BREAK SEMI
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
@@ -206,13 +261,21 @@ private UnaryGroup ::=
     DivUnaryExpr |
     PlusUnaryExpr |
     MinusUnaryExpr |
-    NotExpr
+    NotExpr |
+    PreIncExpr |
+    PostIncExpr |
+    PreDecExpr |
+    PostDecExpr
 
 MulUnaryExpr ::= MUL Expr
 DivUnaryExpr ::= DIV Expr
 PlusUnaryExpr ::= PLUS Expr
 MinusUnaryExpr ::= MINUS Expr
 NotExpr ::= NOT Expr
+PreIncExpr ::= PLUS_PLUS Expr
+PostIncExpr ::= Expr PLUS_PLUS
+PreDecExpr ::= MINUS_MINUS Expr
+PostDecExpr ::= Expr MINUS_MINUS
 
 private CmpGroup ::=
     EqExpr |
@@ -233,24 +296,18 @@ OrExpr ::= Expr OR_OR Expr
 AndExpr ::= Expr AND_AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
-CallExpr ::= ID Args
-
 PrimaryExpr ::=
     FALSE |
     NULL |
     TRUE |
     ParenExpr |
     ArrayAccess |
-    CallExpr |
-    FuncAsCode |
+    FuncCall |
     REALVAL |
     HEXVAL |
     INTVAL |
-    RAWVAL |
     STRVAL |
-    ID
+    (AT? ID)
 
 ArrayAccess ::= ID ArrayAccessItem ArrayAccessItem*
 ArrayAccessItem ::= LBRACK Expr? RBRACK {pin=1}
-FuncAsCode ::= FUNCTION FuncCallName {pin=2}
-

@@ -29,8 +29,8 @@ public class AngelScriptReturnStmtImpl extends ASTWrapperPsiElement implements A
 
   @Override
   @Nullable
-  public AngelScriptExpr getExpr() {
-    return findChildByClass(AngelScriptExpr.class);
+  public AngelScriptAssign getAssign() {
+    return findChildByClass(AngelScriptAssign.class);
   }
 
 }

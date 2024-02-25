@@ -35,8 +35,8 @@ public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements A
 
   @Override
   @Nullable
-  public AngelScriptFuncAsCode getFuncAsCode() {
-    return findChildByClass(AngelScriptFuncAsCode.class);
+  public AngelScriptFuncCall getFuncCall() {
+    return findChildByClass(AngelScriptFuncCall.class);
   }
 
   @Override

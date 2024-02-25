@@ -7,34 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptForStmt extends PsiElement {
 
-  @Nullable
-  AngelScriptBracedStmt getBracedStmt();
+  @NotNull
+  List<AngelScriptAssign> getAssignList();
+
+  @NotNull
+  List<AngelScriptExprStat> getExprStatList();
+
+  @NotNull
+  AngelScriptStmt getStmt();
 
   @Nullable
-  AngelScriptBreakStmt getBreakStmt();
-
-  @Nullable
-  AngelScriptDoStmt getDoStmt();
-
-  @Nullable
-  AngelScriptExprStmt getExprStmt();
-
-  @Nullable
-  AngelScriptForHead getForHead();
-
-  @Nullable
-  AngelScriptForStmt getForStmt();
-
-  @Nullable
-  AngelScriptIfStmt getIfStmt();
-
-  @Nullable
-  AngelScriptReturnStmt getReturnStmt();
-
-  @Nullable
-  AngelScriptVarDef getVarDef();
-
-  @Nullable
-  AngelScriptWhileStmt getWhileStmt();
+  AngelScriptVar getVar();
 
 }

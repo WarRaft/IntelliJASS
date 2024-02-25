@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptArgList extends PsiElement {
 
   @NotNull
-  List<AngelScriptArg> getArgList();
+  List<AngelScriptAssign> getAssignList();
 
 }
