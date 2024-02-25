@@ -43,6 +43,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClazz(@NotNull AngelScriptClazz o) {
+    visitPsiElement(o);
+  }
+
   public void visitCondition(@NotNull AngelScriptCondition o) {
     visitPsiElement(o);
   }
@@ -91,6 +95,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFuncDef(@NotNull AngelScriptFuncDef o) {
+    visitPsiElement(o);
+  }
+
   public void visitGTEqExpr(@NotNull AngelScriptGTEqExpr o) {
     visitExpr(o);
   }
@@ -107,6 +115,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitIncludeStmt(@NotNull AngelScriptIncludeStmt o) {
+    visitPsiElement(o);
+  }
+
   public void visitInitList(@NotNull AngelScriptInitList o) {
     visitPsiElement(o);
   }
@@ -117,6 +129,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
 
   public void visitLTExpr(@NotNull AngelScriptLTExpr o) {
     visitExpr(o);
+  }
+
+  public void visitLambda(@NotNull AngelScriptLambda o) {
+    visitPsiElement(o);
   }
 
   public void visitMinusExpr(@NotNull AngelScriptMinusExpr o) {
@@ -141,6 +157,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
 
   public void visitNotExpr(@NotNull AngelScriptNotExpr o) {
     visitExpr(o);
+  }
+
+  public void visitNspace(@NotNull AngelScriptNspace o) {
+    visitPsiElement(o);
   }
 
   public void visitOrExpr(@NotNull AngelScriptOrExpr o) {
@@ -199,6 +219,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitRootItem(@NotNull AngelScriptRootItem o) {
+    visitPsiElement(o);
+  }
+
   public void visitScope(@NotNull AngelScriptScope o) {
     visitPsiElement(o);
   }
@@ -224,6 +248,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
   }
 
   public void visitVar(@NotNull AngelScriptVar o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVirtProp(@NotNull AngelScriptVirtProp o) {
     visitPsiElement(o);
   }
 

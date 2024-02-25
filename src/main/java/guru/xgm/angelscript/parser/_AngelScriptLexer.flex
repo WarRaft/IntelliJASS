@@ -38,6 +38,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 <YYINITIAL> {
   {WHITE_SPACE}               { return WHITE_SPACE; }
 
+  "abstract"                  { return ABSTRACT; }
   "array"                     { return ARRAY; }
   "auto"                      { return AUTO; }
   "bool"                      { return BOOL; }
@@ -45,8 +46,8 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "case"                      { return CASE; }
   "code"                      { return CODE; }
   "const"                     { return CONST; }
+  "class"                     { return CLASS; }
   "double"                    { return DOUBLE; }
-  "debug"                     { return DEBUG; }
   "default"                   { return DEFAULT; }
   "do"                        { return DO; }
   "else"                      { return ELSE; }
@@ -56,9 +57,12 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "final"                     { return FINAL; }
   "float"                     { return FLOAT; }
   "for"                       { return FOR; }
+  "funcdef"                   { return FUNCDEF; }
   "function"                  { return FUNCTION; }
+  "get"                       { return GET; }
   "handle"                    { return HANDLE; }
   "if"                        { return IF; }
+  "include"                   { return INCLUDE; }
   "in"                        { return IN; }
   "inout"                     { return INOUT; }
   "int"                       { return INT; }
@@ -67,26 +71,20 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "int32"                     { return INT32; }
   "int64"                     { return INT64; }
   "integer"                   { return INTEGER; }
-  "library"                   { return LIBRARY; }
-  "method"                    { return METHOD; }
-  "nothing"                   { return NOTHING; }
+  "namespace"                 { return NAMESPACE; }
   "null"                      { return NULL; }
-  "optional"                  { return OPTIONAL; }
   "override"                  { return OVERRIDE; }
   "out"                       { return OUT; }
   "private"                   { return PRIVATE; }
   "property"                  { return PROPERTY; }
   "protected"                 { return PROTECTED; }
-  "real"                      { return REAL; }
-  "requires"                  { return REQUIRES; }
   "return"                    { return RETURN; }
+  "set"                       { return SET; }
   "shared"                    { return SHARED; }
   "static"                    { return STATIC; }
   "string"                    { return STRING; }
-  "struct"                    { return STRUCT; }
   "switch"                    { return SWITCH; }
   "true"                      { return TRUE; }
-  "thistype"                  { return THISTYPE; }
   "uint"                      { return UINT; }
   "uint8"                     { return UINT8; }
   "uint16"                    { return UINT16; }
@@ -95,6 +93,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "void"                      { return VOID; }
   "while"                     { return WHILE; }
   "@"                         { return AT; }
+  "#"                         { return HASH; }
   "~"                         { return TILDE; }
   "."                         { return DOT; }
   ","                         { return COMMA; }

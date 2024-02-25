@@ -11,6 +11,7 @@ import guru.xgm.angelscript.lexer.AngelScriptFlexAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
@@ -45,26 +46,42 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (tokenType == ID) return ID_KEYS;
 
         if (Arrays.asList(
+                ABSTRACT,
+                AUTO,
                 BREAK,
+                CASE,
                 CONST,
+                CLASS,
+                DEFAULT,
                 DO,
                 ELSE,
-                FALSE,
+                EXTERNAL,
+                EXPLICIT,
+                FINAL,
                 FOR,
+                FUNCDEF,
                 FUNCTION,
+                GET,
                 IF,
-                LIBRARY,
-                METHOD,
+                INCLUDE,
+                IN,
+                INOUT,
+                NAMESPACE,
                 NULL,
-                OPTIONAL,
+                OVERRIDE,
+                OUT,
                 PRIVATE,
+                PROPERTY,
                 PROTECTED,
                 RETURN,
-                REQUIRES,
+                SET,
+                SHARED,
                 STATIC,
-                STRUCT,
+                SWITCH,
+                VOID,
+                WHILE,
                 TRUE,
-                WHILE
+                FALSE
         ).contains(tokenType)) {
             return KEYWORD_KEYS;
         }
@@ -84,10 +101,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
             return LINE_COMMENT_KEYS;
         }
 
-        if (Arrays.asList(
-                NOTHING,
-                TYPE
-        ).contains(tokenType)) {
+        if (Objects.equals(TYPE, tokenType)) {
             return TYPE_NAME_KEYS;
         }
 

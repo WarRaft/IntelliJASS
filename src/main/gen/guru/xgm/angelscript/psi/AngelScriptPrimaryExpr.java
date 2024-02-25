@@ -14,6 +14,9 @@ public interface AngelScriptPrimaryExpr extends AngelScriptExpr {
   AngelScriptFuncCall getFuncCall();
 
   @Nullable
+  AngelScriptLambda getLambda();
+
+  @Nullable
   PsiElement getHexval();
 
   @Nullable

@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.angelscript.psi.*;
 
-public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements AngelScriptPrimaryExpr {
+public class AngelScriptRootItemImpl extends ASTWrapperPsiElement implements AngelScriptRootItem {
 
-  public AngelScriptPrimaryExprImpl(@NotNull ASTNode node) {
+  public AngelScriptRootItemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitPrimaryExpr(this);
+    visitor.visitRootItem(this);
   }
 
   @Override
@@ -29,44 +29,38 @@ public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements A
 
   @Override
   @Nullable
-  public AngelScriptArrayAccess getArrayAccess() {
-    return findChildByClass(AngelScriptArrayAccess.class);
+  public AngelScriptClazz getClazz() {
+    return findChildByClass(AngelScriptClazz.class);
   }
 
   @Override
   @Nullable
-  public AngelScriptFuncCall getFuncCall() {
-    return findChildByClass(AngelScriptFuncCall.class);
+  public AngelScriptFunc getFunc() {
+    return findChildByClass(AngelScriptFunc.class);
   }
 
   @Override
   @Nullable
-  public AngelScriptLambda getLambda() {
-    return findChildByClass(AngelScriptLambda.class);
+  public AngelScriptFuncDef getFuncDef() {
+    return findChildByClass(AngelScriptFuncDef.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getHexval() {
-    return findChildByType(HEXVAL);
+  public AngelScriptIncludeStmt getIncludeStmt() {
+    return findChildByClass(AngelScriptIncludeStmt.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  public AngelScriptNspace getNspace() {
+    return findChildByClass(AngelScriptNspace.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getIntval() {
-    return findChildByType(INTVAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getStrval() {
-    return findChildByType(STRVAL);
+  public AngelScriptVar getVar() {
+    return findChildByClass(AngelScriptVar.class);
   }
 
 }
