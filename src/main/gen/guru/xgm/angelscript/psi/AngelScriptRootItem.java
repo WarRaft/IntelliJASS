@@ -11,10 +11,10 @@ public interface AngelScriptRootItem extends PsiElement {
   AngelScriptClazz getClazz();
 
   @Nullable
-  AngelScriptFunc getFunc();
+  AngelScriptFun getFun();
 
   @Nullable
-  AngelScriptFuncDef getFuncDef();
+  AngelScriptFunDef getFunDef();
 
   @Nullable
   AngelScriptIncludeStmt getIncludeStmt();

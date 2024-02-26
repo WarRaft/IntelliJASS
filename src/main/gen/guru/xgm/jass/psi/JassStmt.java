@@ -17,10 +17,10 @@ public interface JassStmt extends PsiElement {
   JassIfStmt getIfStmt();
 
   @Nullable
-  JassLocalVarStmt getLocalVarStmt();
+  JassLoopStmt getLoopStmt();
 
   @Nullable
-  JassLoopStmt getLoopStmt();
+  JassLvarStmt getLvarStmt();
 
   @Nullable
   JassReturnStmt getReturnStmt();

@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
+public class JassLvarStmtImpl extends ASTWrapperPsiElement implements JassLvarStmt {
 
-  public JassStmtImpl(@NotNull ASTNode node) {
+  public JassLvarStmtImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitStmt(this);
+    visitor.visitLvarStmt(this);
   }
 
   @Override
@@ -29,44 +29,38 @@ public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
 
   @Override
   @Nullable
-  public JassCallStmt getCallStmt() {
-    return findChildByClass(JassCallStmt.class);
+  public JassExpr getExpr() {
+    return findChildByClass(JassExpr.class);
+  }
+
+  @Override
+  @NotNull
+  public JassTypeName getTypeName() {
+    return findNotNullChildByClass(JassTypeName.class);
   }
 
   @Override
   @Nullable
-  public JassExitWhenStmt getExitWhenStmt() {
-    return findChildByClass(JassExitWhenStmt.class);
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
   }
 
   @Override
   @Nullable
-  public JassIfStmt getIfStmt() {
-    return findChildByClass(JassIfStmt.class);
+  public PsiElement getEq() {
+    return findChildByType(EQ);
   }
 
   @Override
   @Nullable
-  public JassLoopStmt getLoopStmt() {
-    return findChildByClass(JassLoopStmt.class);
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
   @Override
   @Nullable
-  public JassLvarStmt getLvarStmt() {
-    return findChildByClass(JassLvarStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public JassReturnStmt getReturnStmt() {
-    return findChildByClass(JassReturnStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public JassSetStmt getSetStmt() {
-    return findChildByClass(JassSetStmt.class);
+  public PsiElement getLocal() {
+    return findChildByType(LOCAL);
   }
 
 }

@@ -47,8 +47,8 @@ final class JassOperatorCallBehaviorInspection extends LocalInspectionTool imple
             public void visitCallStmt(@NotNull JassCallStmt callStmt) {
                 super.visitPsiElement(callStmt);
 
-                final JassFuncCall funcCall = callStmt.getFuncCall();
-                final JassFuncCallName funcCallName = funcCall.getFuncCallName();
+                final JassFunCall funcCall = callStmt.getFunCall();
+                final PsiElement funcCallName = funcCall.getId();
 
                 final ASTNode callToken = callStmt.getNode().findChildByType(JassTypes.CALL);
                 if (callToken == null) {
@@ -85,12 +85,12 @@ final class JassOperatorCallBehaviorInspection extends LocalInspectionTool imple
         }
 
         public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
-            final JassFuncCallName funcCallName = (JassFuncCallName) descriptor.getPsiElement();
-            final JassFuncCall funcCall = (JassFuncCall) funcCallName.getParent();
+            final PsiElement funcCallName = descriptor.getPsiElement();
+            final JassFunCall funcCall = (JassFunCall) funcCallName.getParent();
             final JassCallStmt callStmt = (JassCallStmt) funcCall.getParent();
 
             final JassCallStmt callStmtClone = (JassCallStmt) callStmt.copy();
-            final JassFuncCall funcCallCopy = callStmtClone.getFuncCall();
+            final JassFunCall funcCallCopy = callStmtClone.getFunCall();
 
             callStmtClone.addBefore(JassElementFactory.createToken(project, "call"), funcCallCopy);
             callStmtClone.addBefore(PsiParserFacade.getInstance(project).createWhiteSpaceFromText(" "), funcCallCopy);
@@ -114,8 +114,8 @@ final class JassOperatorCallBehaviorInspection extends LocalInspectionTool imple
         }
 
         public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
-            final JassFuncCallName funcCallName = (JassFuncCallName) descriptor.getPsiElement();
-            final JassFuncCall funcCall = (JassFuncCall) funcCallName.getParent();
+            final PsiElement funcCallName = descriptor.getPsiElement();
+            final JassFunCall funcCall = (JassFunCall) funcCallName.getParent();
             final PsiElement ws = funcCall.getPrevSibling();
             final PsiElement call = ws.getPrevSibling();
             if (!(ws instanceof PsiWhiteSpace) || call.getNode().getElementType() != JassTypes.CALL) {

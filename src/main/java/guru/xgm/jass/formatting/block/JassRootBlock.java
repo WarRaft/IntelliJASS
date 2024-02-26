@@ -28,10 +28,10 @@ public class JassRootBlock extends JassBlock {
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         if (isOneOf(childNode, TYPE_DEF)) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (isOneOf(childNode, NATIVE_DEF))
+        if (isOneOf(childNode, NATIV))
             return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
         if (isOneOf(childNode, GLOB)) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
-        if (isOneOf(childNode, FUNC_DEF))
+        if (isOneOf(childNode, FUN))
             return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
 
         return new JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
@@ -42,8 +42,8 @@ public class JassRootBlock extends JassBlock {
         return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
                 .between(TYPE_DEF, TYPE_DEF).spacing(0, 0, 1, true, 2)
                 .between(TYPE_DEF, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
-                .between(NATIVE_DEF, NATIVE_DEF).spacing(0, 0, 1, true, 2)
-                .between(NATIVE_DEF, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
+                .between(NATIV, NATIV).spacing(0, 0, 1, true, 2)
+                .between(NATIV, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
                 ;
     }
 }

@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
+public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
 
-  public JassStmtImpl(@NotNull ASTNode node) {
+  public JassFunImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitStmt(this);
+    visitor.visitFun(this);
   }
 
   @Override
@@ -29,44 +29,44 @@ public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
 
   @Override
   @Nullable
-  public JassCallStmt getCallStmt() {
-    return findChildByClass(JassCallStmt.class);
+  public JassFunRet getFunRet() {
+    return findChildByClass(JassFunRet.class);
   }
 
   @Override
   @Nullable
-  public JassExitWhenStmt getExitWhenStmt() {
-    return findChildByClass(JassExitWhenStmt.class);
+  public JassFunTake getFunTake() {
+    return findChildByClass(JassFunTake.class);
+  }
+
+  @Override
+  @NotNull
+  public List<JassStmt> getStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassStmt.class);
   }
 
   @Override
   @Nullable
-  public JassIfStmt getIfStmt() {
-    return findChildByClass(JassIfStmt.class);
+  public PsiElement getConstant() {
+    return findChildByType(CONSTANT);
   }
 
   @Override
   @Nullable
-  public JassLoopStmt getLoopStmt() {
-    return findChildByClass(JassLoopStmt.class);
+  public PsiElement getEndfunction() {
+    return findChildByType(ENDFUNCTION);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getFunction() {
+    return findNotNullChildByType(FUNCTION);
   }
 
   @Override
   @Nullable
-  public JassLvarStmt getLvarStmt() {
-    return findChildByClass(JassLvarStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public JassReturnStmt getReturnStmt() {
-    return findChildByClass(JassReturnStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public JassSetStmt getSetStmt() {
-    return findChildByClass(JassSetStmt.class);
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
 }

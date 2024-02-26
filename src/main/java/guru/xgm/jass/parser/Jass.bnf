@@ -86,11 +86,16 @@
 
 Root ::= (
     TypeDef |
-    NativeDef |
+    Nativ |
     Glob |
-    FuncDef
+    Fun
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+
+// === TYPE
+TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
+TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
+TypeNameBase ::= TypeName
 
 // === globals
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
@@ -98,43 +103,34 @@ GvarName ::= ID
 Gvar ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarRecover}
 private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
-// === TYPE
-TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
-TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
-TypeNameBase ::= TypeName
-
 // === VARIABLE
-TypedVar ::= TypeName ID
-TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1 recoverWhile=TypedVarListRecover}
-private TypedVarListRecover ::= !(RETURNS)
+Param ::= TypeName ID
+ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
+private ParamListRecover ::= !(RETURNS)
 
 // === FUNCTION
-Arg ::= Expr|FuncAsCode
-ArgList ::= Arg (COMMA Arg)*
-FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
-FuncCallName ::= ID
-FuncDefName ::= ID
-FuncTakes ::= TAKES (NOTHING|TypedVarList)
-FuncReturns ::= RETURNS (NOTHING|TypeName)
-NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
-
-FuncDef ::= CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
+ArgList ::= Expr (COMMA Expr)*
+FunCall ::= ID LPAREN ArgList? RPAREN {pin=2}
+FunTake ::= TAKES (NOTHING|ParamList)
+FunRet ::= RETURNS (NOTHING|TypeName)
+Fun ::= CONSTANT? FUNCTION ID FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
+Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
 
 // === STATEMENT
 Stmt ::=
     SetStmt |
     CallStmt |
-    LocalVarStmt |
+    LvarStmt |
     ReturnStmt |
     IfStmt |
     LoopStmt |
     ExitWhenStmt
 
-LocalVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
+LvarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
 
 SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 
-CallStmt ::= DEBUG? CALL? FuncCall
+CallStmt ::= DEBUG? CALL? FunCall
 
 ReturnStmt ::= RETURN Expr? {pin=1}
 
@@ -203,7 +199,7 @@ ParenExpr ::= LPAREN Expr RPAREN
 PrimExpr ::=
     ParenExpr |
     ArrayAccess |
-    FuncCall |
+    FunCall |
     FuncAsCode |
     FALSE|
     NULL|
@@ -216,4 +212,4 @@ PrimExpr ::=
     ID
 
 ArrayAccess ::= ID LBRACK Expr? RBRACK
-FuncAsCode ::= FUNCTION FuncCallName {pin=1}
+FuncAsCode ::= FUNCTION ID {pin=2}

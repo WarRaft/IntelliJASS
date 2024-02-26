@@ -25,14 +25,14 @@ public class JassNativeBlock extends JassBlock {
         Alignment alignment = null;
 
         if (isOneOf(childNode, NATIVE)) alignment = aligner.named(AT_NATIVE_DECL_NATIVE);
-        if (isOneOf(childNode, FUNC_DEF_NAME)) {
+        if (isOneOf(childNode, ID)) {
             childNode = childNode.getFirstChildNode();
             alignment = aligner.named(AT_NATIVE_DECL_NAME);
         }
         if (isOneOf(childNode, TAKES)) alignment = aligner.named(AT_NATIVE_DECL_TAKES);
         if (isOneOf(childNode, RETURNS)) alignment = aligner.named(AT_NATIVE_DECL_RETURNS);
 
-        if (isOneOf(childNode, TYPED_VAR)) {
+        if (isOneOf(childNode, PARAM)) {
             ASTNode[] children = childNode.getTreeParent().getChildren(null);
 
             int index = -1;
@@ -46,7 +46,8 @@ public class JassNativeBlock extends JassBlock {
             }
         }
 
-        if (isOneOf(childNode, FUNC_TAKES, FUNC_RETURNS, TYPED_VAR_LIST)) return new JassNativeBlock(childNode, null, myCodeStyleSettings, aligner);
+        if (isOneOf(childNode, FUN_TAKE, FUN_RET, PARAM_LIST))
+            return new JassNativeBlock(childNode, null, myCodeStyleSettings, aligner);
 
         return new JassBlock(childNode, alignment, null, myCodeStyleSettings);
     }

@@ -23,7 +23,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
     @Override
     protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
         final IElementType type = node.getElementType();
-        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOB || type == JassTypes.FUNC_DEF;
+        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOB || type == JassTypes.FUN;
     }
 
     @Override
@@ -34,14 +34,14 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
                 root,
                 PsiComment.class,
                 JassGlob.class,
-                JassFuncDef.class,
+                JassFun.class,
                 JassIfStmt.class,
                 JassLoopStmt.class
         );
 
         for (PsiElement element : psiElements) {
-            if (element instanceof JassFuncDef func) {
-                final PsiElement start = (func.getFuncReturns() != null) ? func.getFuncReturns() : func.getFuncTakes();
+            if (element instanceof JassFun func) {
+                final PsiElement start = (func.getFunRet() != null) ? func.getFunRet() : func.getFunTake();
 
                 if (start == null) continue;
 
@@ -87,7 +87,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
             return size == 0 ? " ... " : " (" + size + ") ";
         }
 
-        if (type == JassTypes.FUNC_DEF ||
+        if (type == JassTypes.FUN ||
                 type == JassTypes.IF_STMT ||
                 type == JassTypes.LOOP_STMT
         ) return " ... ";
@@ -102,7 +102,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
         final JassCodeFoldingSettings jass = JassCodeFoldingSettings.getInstance();
 
         if (type == JassTypes.GLOB) return jass.isFoldGlobals();
-        if (type == JassTypes.FUNC_DEF) return jass.isFoldFunction();
+        if (type == JassTypes.FUN) return jass.isFoldFunction();
         if (type == JassTypes.IF_STMT) return jass.isFoldIf();
         if (type == JassTypes.LOOP_STMT) return jass.isFoldLoop();
 

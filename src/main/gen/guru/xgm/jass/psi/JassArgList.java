@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JassArgList extends PsiElement {
 
   @NotNull
-  List<JassArg> getArgList();
+  List<JassExpr> getExprList();
 
 }

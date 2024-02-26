@@ -11,14 +11,14 @@ import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.angelscript.psi.*;
 
-public class AngelScriptClazzImpl extends ASTWrapperPsiElement implements AngelScriptClazz {
+public class AngelScriptFunImpl extends ASTWrapperPsiElement implements AngelScriptFun {
 
-  public AngelScriptClazzImpl(@NotNull ASTNode node) {
+  public AngelScriptFunImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitClazz(this);
+    visitor.visitFun(this);
   }
 
   @Override
@@ -29,26 +29,32 @@ public class AngelScriptClazzImpl extends ASTWrapperPsiElement implements AngelS
 
   @Override
   @NotNull
-  public List<AngelScriptFun> getFunList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFun.class);
+  public AngelScriptFuncAttr getFuncAttr() {
+    return findNotNullChildByClass(AngelScriptFuncAttr.class);
   }
 
   @Override
   @NotNull
-  public List<AngelScriptFunDef> getFunDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFunDef.class);
+  public AngelScriptParamList getParamList() {
+    return findNotNullChildByClass(AngelScriptParamList.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptStatBlock getStatBlock() {
+    return findChildByClass(AngelScriptStatBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptType getType() {
+    return findChildByClass(AngelScriptType.class);
   }
 
   @Override
   @NotNull
-  public List<AngelScriptVar> getVarList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVar.class);
-  }
-
-  @Override
-  @NotNull
-  public List<AngelScriptVirtProp> getVirtPropList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVirtProp.class);
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

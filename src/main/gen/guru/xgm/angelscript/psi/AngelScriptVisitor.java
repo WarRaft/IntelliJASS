@@ -83,7 +83,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFunc(@NotNull AngelScriptFunc o) {
+  public void visitFun(@NotNull AngelScriptFun o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunDef(@NotNull AngelScriptFunDef o) {
     visitPsiElement(o);
   }
 
@@ -92,10 +96,6 @@ public class AngelScriptVisitor extends PsiElementVisitor {
   }
 
   public void visitFuncCall(@NotNull AngelScriptFuncCall o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncDef(@NotNull AngelScriptFuncDef o) {
     visitPsiElement(o);
   }
 

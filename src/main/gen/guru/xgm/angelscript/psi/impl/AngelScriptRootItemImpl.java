@@ -35,14 +35,14 @@ public class AngelScriptRootItemImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @Nullable
-  public AngelScriptFunc getFunc() {
-    return findChildByClass(AngelScriptFunc.class);
+  public AngelScriptFun getFun() {
+    return findChildByClass(AngelScriptFun.class);
   }
 
   @Override
   @Nullable
-  public AngelScriptFuncDef getFuncDef() {
-    return findChildByClass(AngelScriptFuncDef.class);
+  public AngelScriptFunDef getFunDef() {
+    return findChildByClass(AngelScriptFunDef.class);
   }
 
   @Override

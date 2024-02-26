@@ -29,8 +29,8 @@ public class JassArgListImpl extends ASTWrapperPsiElement implements JassArgList
 
   @Override
   @NotNull
-  public List<JassArg> getArgList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassArg.class);
+  public List<JassExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
 }

@@ -121,7 +121,7 @@
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
 Root ::= RootItem*
-RootItem ::= IncludeStmt|Var|Func|FuncDef|Clazz|Nspace|SEMI
+RootItem ::= IncludeStmt|Var|Fun|FunDef|Clazz|Nspace|SEMI
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
 Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE
@@ -137,14 +137,14 @@ IncludeStmt ::= HASH INCLUDE STRVAL
 //                                                                                              '}'
 //                                                                                          )
 //                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Func|Var|FuncDef)* RBRACE))
+Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE))
 // VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'
 //                                                                      {
 //                                                                          ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';')
 //                                                                      }
 //                                                                      '}'
 VirtProp ::= (PRIVATE|PROTECTED)? Type AND? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
-FuncDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI
+FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI
 // VAR ::=  ['private'|'protected']
 //          TYPE
 //          IDENTIFIER
@@ -237,7 +237,7 @@ FuncCall ::= Scope ID (ArgList | (LPAREN RPAREN))
 //                                                                          ( (TYPE ['&']) | '~' )
 //                                                                      ]
 //                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
-Func ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock}
+Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock}
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'

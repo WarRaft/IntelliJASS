@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JassBlock implements ASTBlock {
-    
+
     public JassBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
         this.myNode = myNode;
         this.myWrap = null;
@@ -90,7 +90,7 @@ public class JassBlock implements ASTBlock {
                 .around(EQ).spacing(saao, saao, 0, false, 0)
                 .between(TYPE_NAME, ID).spacing(1, 1, 0, false, 0)
                 .around(NATIVE).spacing(1, 1, 0, false, 0)
-                .around(FUNC_TAKES).spacing(1, 1, 0, false, 0)
+                .around(FUN_TAKE).spacing(1, 1, 0, false, 0)
                 .around(TAKES).spacing(1, 1, 0, false, 0)
                 .after(RETURNS).spacing(1, 1, 0, false, 0)
                 ;

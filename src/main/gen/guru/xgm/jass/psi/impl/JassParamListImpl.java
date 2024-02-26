@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallStmt {
+public class JassParamListImpl extends ASTWrapperPsiElement implements JassParamList {
 
-  public JassCallStmtImpl(@NotNull ASTNode node) {
+  public JassParamListImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitCallStmt(this);
+    visitor.visitParamList(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallSt
 
   @Override
   @NotNull
-  public JassFunCall getFunCall() {
-    return findNotNullChildByClass(JassFunCall.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getCall() {
-    return findChildByType(CALL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDebug() {
-    return findChildByType(DEBUG);
+  public List<JassParam> getParamList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassParam.class);
   }
 
 }

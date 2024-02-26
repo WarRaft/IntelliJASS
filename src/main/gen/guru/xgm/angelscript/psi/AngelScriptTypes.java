@@ -29,10 +29,10 @@ public interface AngelScriptTypes {
   IElementType EXPR = new AngelScriptIElement("EXPR");
   IElementType EXPR_STAT = new AngelScriptIElement("EXPR_STAT");
   IElementType FOR_STMT = new AngelScriptIElement("FOR_STMT");
-  IElementType FUNC = new AngelScriptIElement("FUNC");
+  IElementType FUN = new AngelScriptIElement("FUN");
   IElementType FUNC_ATTR = new AngelScriptIElement("FUNC_ATTR");
   IElementType FUNC_CALL = new AngelScriptIElement("FUNC_CALL");
-  IElementType FUNC_DEF = new AngelScriptIElement("FUNC_DEF");
+  IElementType FUN_DEF = new AngelScriptIElement("FUN_DEF");
   IElementType GENERIC_TYPE = new AngelScriptIElement("GENERIC_TYPE");
   IElementType GT_EQ_EXPR = new AngelScriptIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new AngelScriptIElement("GT_EXPR");
@@ -229,8 +229,8 @@ public interface AngelScriptTypes {
       else if (type == FOR_STMT) {
         return new AngelScriptForStmtImpl(node);
       }
-      else if (type == FUNC) {
-        return new AngelScriptFuncImpl(node);
+      else if (type == FUN) {
+        return new AngelScriptFunImpl(node);
       }
       else if (type == FUNC_ATTR) {
         return new AngelScriptFuncAttrImpl(node);
@@ -238,8 +238,8 @@ public interface AngelScriptTypes {
       else if (type == FUNC_CALL) {
         return new AngelScriptFuncCallImpl(node);
       }
-      else if (type == FUNC_DEF) {
-        return new AngelScriptFuncDefImpl(node);
+      else if (type == FUN_DEF) {
+        return new AngelScriptFunDefImpl(node);
       }
       else if (type == GENERIC_TYPE) {
         return new AngelScriptGenericTypeImpl(node);

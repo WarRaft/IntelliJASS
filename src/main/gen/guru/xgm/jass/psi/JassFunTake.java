@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassCallStmt extends PsiElement {
+public interface JassFunTake extends PsiElement {
+
+  @Nullable
+  JassParamList getParamList();
+
+  @Nullable
+  PsiElement getNothing();
 
   @NotNull
-  JassFunCall getFunCall();
-
-  @Nullable
-  PsiElement getCall();
-
-  @Nullable
-  PsiElement getDebug();
+  PsiElement getTakes();
 
 }

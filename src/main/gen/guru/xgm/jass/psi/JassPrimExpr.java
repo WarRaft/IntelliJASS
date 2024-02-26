@@ -11,10 +11,10 @@ public interface JassPrimExpr extends JassExpr {
   JassArrayAccess getArrayAccess();
 
   @Nullable
-  JassFuncAsCode getFuncAsCode();
+  JassFunCall getFunCall();
 
   @Nullable
-  JassFuncCall getFuncCall();
+  JassFuncAsCode getFuncAsCode();
 
   @Nullable
   PsiElement getFalse();

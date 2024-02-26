@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallStmt {
+public class JassNativImpl extends ASTWrapperPsiElement implements JassNativ {
 
-  public JassCallStmtImpl(@NotNull ASTNode node) {
+  public JassNativImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitCallStmt(this);
+    visitor.visitNativ(this);
   }
 
   @Override
@@ -28,21 +28,33 @@ public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallSt
   }
 
   @Override
+  @Nullable
+  public JassFunRet getFunRet() {
+    return findChildByClass(JassFunRet.class);
+  }
+
+  @Override
+  @Nullable
+  public JassFunTake getFunTake() {
+    return findChildByClass(JassFunTake.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getConstant() {
+    return findChildByType(CONSTANT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
+  }
+
+  @Override
   @NotNull
-  public JassFunCall getFunCall() {
-    return findNotNullChildByClass(JassFunCall.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getCall() {
-    return findChildByType(CALL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDebug() {
-    return findChildByType(DEBUG);
+  public PsiElement getNative() {
+    return findNotNullChildByType(NATIVE);
   }
 
 }

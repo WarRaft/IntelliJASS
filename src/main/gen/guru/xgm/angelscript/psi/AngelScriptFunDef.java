@@ -5,18 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptClazz extends PsiElement {
+public interface AngelScriptFunDef extends PsiElement {
 
   @NotNull
-  List<AngelScriptFun> getFunList();
+  AngelScriptParamList getParamList();
 
   @NotNull
-  List<AngelScriptFunDef> getFunDefList();
+  AngelScriptType getType();
 
   @NotNull
-  List<AngelScriptVar> getVarList();
-
-  @NotNull
-  List<AngelScriptVirtProp> getVirtPropList();
+  PsiElement getId();
 
 }

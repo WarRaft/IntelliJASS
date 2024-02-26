@@ -35,8 +35,6 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
 
     private boolean text(@Nullable PsiElement pe) {
         if (pe == null) return false;
-        System.out.print("\ntext:" + pe.getText());
-
         stringBuffer.append(pe.getText());
         return true;
     }
@@ -68,26 +66,103 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
     }
 
     @Override
-    public void visitFuncCall(@NotNull JassFuncCall o) {
-        System.out.print("\nFuncCall:" + o.getText());
-        super.visitFuncCall(o);
+    public void visitIfStmt(@NotNull JassIfStmt o) {
+        System.out.print("\nIfStmt:" + o.getText());
+        super.visitIfStmt(o);
+    }
+
+    @Override
+    public void visitStmt(@NotNull JassStmt o) {
+        o.acceptChildren(this);
+    }
+
+    @Override
+    public void visitParamList(@NotNull JassParamList o) {
+        final var list = o.getParamList();
+        for (int i = 0; i < list.size(); i++) {
+            final var param = list.get(i);
+            final var type = param.getTypeName();
+            if (type.getCode() != null) {
+                stringBuffer.append("BoolexprFunc@");
+            } else {
+                stringBuffer.append(typename(type.getText()));
+            }
+            stringBuffer.append(' ').append(param.getId().getText());
+            if (i < list.size() - 1) stringBuffer.append(", ");
+        }
+        super.visitParamList(o);
+    }
+
+    @Override
+    public void visitFunTake(@NotNull JassFunTake o) {
+        if (o.getNothing() != null) return;
+        final var list = o.getParamList();
+        if (list != null) list.accept(this);
+    }
+
+    @Override
+    public void visitFun(@NotNull JassFun o) {
+        final JassFunRet ret = o.getFunRet();
+        if (ret != null) {
+            if (ret.getNothing() != null) {
+                stringBuffer.append("void");
+            } else {
+                final var tn = ret.getTypeName();
+                if (tn != null) {
+                    if (tn.getCode() != null) {
+                        stringBuffer.append("BoolexprFunc@");
+                    } else {
+                        stringBuffer.append(typename(tn.getText()));
+                    }
+                }
+            }
+            stringBuffer.append(' ');
+        }
+
+        final var name = o.getId();
+        if (name != null) stringBuffer.append(o.getId().getText());
+
+        stringBuffer.append("(");
+        final JassFunTake take = o.getFunTake();
+        if (take != null) take.accept(this);
+        stringBuffer.append("){\n");
+        for (JassStmt stmt : o.getStmtList()) {
+            stmt.accept(this);
+        }
+        stringBuffer.append("}\n");
+    }
+
+    @Override
+    public void visitArgList(@NotNull JassArgList o) {
+        final var list = o.getExprList();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).accept(this);
+            if (i < list.size() - 1) stringBuffer.append(", ");
+        }
+    }
+
+    @Override
+    public void visitFunCall(@NotNull JassFunCall o) {
+        stringBuffer.append(o.getId().getText()).append("(");
+
+        final var list = o.getArgList();
+        if (list != null) list.accept(this);
+
+        stringBuffer.append(")");
     }
 
     @Override
     public void visitArrayAccess(@NotNull JassArrayAccess o) {
         System.out.print("\nArrayAccess:" + o.getText());
-        super.visitArrayAccess(o);
     }
 
     @Override
     public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
-        System.out.print("\nFuncAsCode:" + o.getText());
-        super.visitFuncAsCode(o);
+        stringBuffer.append("@").append(o.getId().getText());
     }
 
     @Override
     public void visitPrimExpr(@NotNull JassPrimExpr o) {
-        System.out.print("\nPrimExpr:" + o.getText());
         if (text(o.getTrue())) return;
         if (text(o.getFalse())) return;
         if (text(o.getNull())) return;

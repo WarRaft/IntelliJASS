@@ -46,6 +46,7 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (tokenType == JassTypes.ID) return ID_KEYS;
 
         if (Arrays.asList(
+                NOT,
                 AND,
                 ARRAY,
                 CALL,
@@ -53,14 +54,12 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 DEBUG,
                 ELSE,
                 ELSEIF,
-                ENDFUNCTION,
                 ENDGLOBALS,
                 ENDLOOP,
                 ENDIF,
                 EXTENDS,
                 EXITWHEN,
                 FALSE,
-                FUNCTION,
                 GLOBALS,
                 IF,
                 LOCAL,
@@ -74,7 +73,10 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 TAKES,
                 THEN,
                 TRUE,
-                TYPE
+                TYPE,
+                // function
+                FUNCTION,
+                ENDFUNCTION
         ).contains(tokenType)) {
             return KEYWORD_KEYS;
         }
