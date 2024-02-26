@@ -12,7 +12,6 @@
     tokenTypeClass=           "guru.xgm.jass.psi.tree.JassIToken"
 
     generateTokenAccessors=true
-    generateTokens=true
 
     extends(".*Expr")=Expr
 
@@ -201,15 +200,14 @@ OrExpr ::= Expr OR Expr
 AndExpr ::= Expr AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
-
-PrimVal ::= FALSE|NULL|TRUE
-
 PrimExpr ::=
-    PrimVal |
     ParenExpr |
     ArrayAccess |
     FuncCall |
     FuncAsCode |
+    FALSE|
+    NULL|
+    TRUE|
     HEXVAL |
     REALVAL |
     INTVAL |

@@ -60,13 +60,6 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
     }
 
     @Override
-    public void visitPrimVal(@NotNull JassPrimVal o) {
-        System.out.print("\nPrimVal:"+o.getText());
-        s(o.getText());
-        super.visitPrimVal(o);
-    }
-
-    @Override
     public void visitPrimExpr(@NotNull JassPrimExpr o) {
         System.out.print("\nPrimExpr:"+o.getText());
         //s(o.getText());

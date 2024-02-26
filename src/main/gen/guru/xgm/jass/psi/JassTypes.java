@@ -51,7 +51,6 @@ public interface JassTypes {
   IElementType PLUS_EXPR = new JassIElement("PLUS_EXPR");
   IElementType PLUS_UNARY_EXPR = new JassIElement("PLUS_UNARY_EXPR");
   IElementType PRIM_EXPR = new JassIElement("PRIM_EXPR");
-  IElementType PRIM_VAL = new JassIElement("PRIM_VAL");
   IElementType RETURN_STMT = new JassIElement("RETURN_STMT");
   IElementType SET_STMT = new JassIElement("SET_STMT");
   IElementType STMT = new JassIElement("STMT");
@@ -244,9 +243,6 @@ public interface JassTypes {
       }
       else if (type == PRIM_EXPR) {
         return new JassPrimExprImpl(node);
-      }
-      else if (type == PRIM_VAL) {
-        return new JassPrimValImpl(node);
       }
       else if (type == RETURN_STMT) {
         return new JassReturnStmtImpl(node);

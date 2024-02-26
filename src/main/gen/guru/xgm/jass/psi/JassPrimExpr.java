@@ -17,7 +17,7 @@ public interface JassPrimExpr extends JassExpr {
   JassFuncCall getFuncCall();
 
   @Nullable
-  JassPrimVal getPrimVal();
+  PsiElement getFalse();
 
   @Nullable
   PsiElement getHexval();
@@ -29,6 +29,9 @@ public interface JassPrimExpr extends JassExpr {
   PsiElement getIntval();
 
   @Nullable
+  PsiElement getNull();
+
+  @Nullable
   PsiElement getRawval();
 
   @Nullable
@@ -36,5 +39,8 @@ public interface JassPrimExpr extends JassExpr {
 
   @Nullable
   PsiElement getStrval();
+
+  @Nullable
+  PsiElement getTrue();
 
 }

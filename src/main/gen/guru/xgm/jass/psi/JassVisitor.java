@@ -171,10 +171,6 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitPrimVal(@NotNull JassPrimVal o) {
-    visitPsiElement(o);
-  }
-
   public void visitReturnStmt(@NotNull JassReturnStmt o) {
     visitPsiElement(o);
   }

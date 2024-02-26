@@ -648,19 +648,6 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FALSE|NULL|TRUE
-  public static boolean PrimVal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimVal")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PRIM_VAL, "<prim val>");
-    r = consumeToken(b, FALSE);
-    if (!r) r = consumeToken(b, NULL);
-    if (!r) r = consumeToken(b, TRUE);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
   // RETURN Expr?
   public static boolean ReturnStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ReturnStmt")) return false;
@@ -1053,11 +1040,13 @@ public class JassParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // PrimVal |
-  //     ParenExpr |
+  // ParenExpr |
   //     ArrayAccess |
   //     FuncCall |
   //     FuncAsCode |
+  //     FALSE|
+  //     NULL|
+  //     TRUE|
   //     HEXVAL |
   //     REALVAL |
   //     INTVAL |
@@ -1068,11 +1057,13 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "PrimExpr")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _COLLAPSE_, PRIM_EXPR, "<prim expr>");
-    r = PrimVal(b, l + 1);
-    if (!r) r = ParenExpr(b, l + 1);
+    r = ParenExpr(b, l + 1);
     if (!r) r = ArrayAccess(b, l + 1);
     if (!r) r = FuncCall(b, l + 1);
     if (!r) r = FuncAsCode(b, l + 1);
+    if (!r) r = consumeTokenSmart(b, FALSE);
+    if (!r) r = consumeTokenSmart(b, NULL);
+    if (!r) r = consumeTokenSmart(b, TRUE);
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
