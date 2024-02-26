@@ -10,4 +10,7 @@ public interface JassExitWhenStmt extends PsiElement {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getExitwhen();
+
 }

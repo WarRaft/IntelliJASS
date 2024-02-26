@@ -39,4 +39,16 @@ public class JassArrayAccessImpl extends ASTWrapperPsiElement implements JassArr
     return findNotNullChildByType(ID);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrack() {
+    return findNotNullChildByType(LBRACK);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrack() {
+    return findNotNullChildByType(RBRACK);
+  }
+
 }

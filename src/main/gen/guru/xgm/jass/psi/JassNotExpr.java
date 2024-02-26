@@ -10,4 +10,7 @@ public interface JassNotExpr extends JassExpr {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getNot();
+
 }

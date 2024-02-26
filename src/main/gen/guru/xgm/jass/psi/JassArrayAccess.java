@@ -13,4 +13,10 @@ public interface JassArrayAccess extends PsiElement {
   @NotNull
   PsiElement getId();
 
+  @NotNull
+  PsiElement getLbrack();
+
+  @NotNull
+  PsiElement getRbrack();
+
 }

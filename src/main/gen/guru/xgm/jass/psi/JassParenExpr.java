@@ -10,4 +10,10 @@ public interface JassParenExpr extends JassExpr {
   @NotNull
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
 }

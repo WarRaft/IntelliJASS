@@ -10,4 +10,7 @@ public interface JassDivUnaryExpr extends JassExpr {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getDiv();
+
 }

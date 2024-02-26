@@ -10,4 +10,7 @@ public interface JassFuncAsCode extends PsiElement {
   @Nullable
   JassFuncCallName getFuncCallName();
 
+  @NotNull
+  PsiElement getFunction();
+
 }

@@ -51,4 +51,22 @@ public class JassFuncDefImpl extends ASTWrapperPsiElement implements JassFuncDef
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassStmt.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getConstant() {
+    return findChildByType(CONSTANT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEndfunction() {
+    return findChildByType(ENDFUNCTION);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getFunction() {
+    return findNotNullChildByType(FUNCTION);
+  }
+
 }

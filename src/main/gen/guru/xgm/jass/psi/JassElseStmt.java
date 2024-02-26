@@ -10,4 +10,7 @@ public interface JassElseStmt extends PsiElement {
   @NotNull
   List<JassStmt> getStmtList();
 
+  @NotNull
+  PsiElement getElse();
+
 }

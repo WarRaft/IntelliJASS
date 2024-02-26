@@ -14,6 +14,15 @@ public interface JassLocalVarStmt extends PsiElement {
   JassTypeName getTypeName();
 
   @Nullable
+  PsiElement getArray();
+
+  @Nullable
+  PsiElement getEq();
+
+  @Nullable
   PsiElement getId();
+
+  @Nullable
+  PsiElement getLocal();
 
 }

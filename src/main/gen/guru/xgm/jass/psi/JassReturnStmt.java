@@ -10,4 +10,7 @@ public interface JassReturnStmt extends PsiElement {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getReturn();
+
 }

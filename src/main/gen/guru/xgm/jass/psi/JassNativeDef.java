@@ -16,4 +16,10 @@ public interface JassNativeDef extends PsiElement {
   @Nullable
   JassFuncTakes getFuncTakes();
 
+  @Nullable
+  PsiElement getConstant();
+
+  @NotNull
+  PsiElement getNative();
+
 }

@@ -10,4 +10,10 @@ public interface JassLoopStmt extends PsiElement {
   @NotNull
   List<JassStmt> getStmtList();
 
+  @Nullable
+  PsiElement getEndloop();
+
+  @NotNull
+  PsiElement getLoop();
+
 }

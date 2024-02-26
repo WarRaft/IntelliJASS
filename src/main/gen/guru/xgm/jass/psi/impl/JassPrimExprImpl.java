@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.JassTypes.*;
 import guru.xgm.jass.psi.*;
 
-public class JassPrimaryExprImpl extends JassExprImpl implements JassPrimaryExpr {
+public class JassPrimExprImpl extends JassExprImpl implements JassPrimExpr {
 
-  public JassPrimaryExprImpl(@NotNull ASTNode node) {
+  public JassPrimExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitPrimaryExpr(this);
+    visitor.visitPrimExpr(this);
   }
 
   @Override
@@ -47,6 +47,12 @@ public class JassPrimaryExprImpl extends JassExprImpl implements JassPrimaryExpr
 
   @Override
   @Nullable
+  public JassPrimVal getPrimVal() {
+    return findChildByClass(JassPrimVal.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getHexval() {
     return findChildByType(HEXVAL);
   }
@@ -61,6 +67,18 @@ public class JassPrimaryExprImpl extends JassExprImpl implements JassPrimaryExpr
   @Nullable
   public PsiElement getIntval() {
     return findChildByType(INTVAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRawval() {
+    return findChildByType(RAWVAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRealval() {
+    return findChildByType(REALVAL);
   }
 
   @Override

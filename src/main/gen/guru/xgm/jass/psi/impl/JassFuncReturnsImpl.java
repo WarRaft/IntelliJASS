@@ -33,4 +33,16 @@ public class JassFuncReturnsImpl extends ASTWrapperPsiElement implements JassFun
     return findChildByClass(JassTypeName.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getNothing() {
+    return findChildByType(NOTHING);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getReturns() {
+    return findNotNullChildByType(RETURNS);
+  }
+
 }

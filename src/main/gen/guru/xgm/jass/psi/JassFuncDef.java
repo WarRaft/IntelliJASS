@@ -19,4 +19,13 @@ public interface JassFuncDef extends PsiElement {
   @NotNull
   List<JassStmt> getStmtList();
 
+  @Nullable
+  PsiElement getConstant();
+
+  @Nullable
+  PsiElement getEndfunction();
+
+  @NotNull
+  PsiElement getFunction();
+
 }

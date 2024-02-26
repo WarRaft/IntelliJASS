@@ -33,4 +33,16 @@ public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallSt
     return findNotNullChildByClass(JassFuncCall.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getCall() {
+    return findChildByType(CALL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDebug() {
+    return findChildByType(DEBUG);
+  }
+
 }

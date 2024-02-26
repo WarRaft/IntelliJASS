@@ -10,4 +10,7 @@ public interface JassMinusExpr extends JassExpr {
   @NotNull
   List<JassExpr> getExprList();
 
+  @NotNull
+  PsiElement getMinus();
+
 }

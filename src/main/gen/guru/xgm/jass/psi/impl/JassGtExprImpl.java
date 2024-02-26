@@ -33,4 +33,10 @@ public class JassGtExprImpl extends JassExprImpl implements JassGtExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getGt() {
+    return findNotNullChildByType(GT);
+  }
+
 }

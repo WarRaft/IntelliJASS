@@ -33,4 +33,16 @@ public class JassLoopStmtImpl extends ASTWrapperPsiElement implements JassLoopSt
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassStmt.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getEndloop() {
+    return findChildByType(ENDLOOP);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLoop() {
+    return findNotNullChildByType(LOOP);
+  }
+
 }

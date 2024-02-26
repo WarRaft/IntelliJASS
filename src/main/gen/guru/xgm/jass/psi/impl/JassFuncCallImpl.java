@@ -39,4 +39,16 @@ public class JassFuncCallImpl extends ASTWrapperPsiElement implements JassFuncCa
     return findNotNullChildByClass(JassFuncCallName.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRparen() {
+    return findChildByType(RPAREN);
+  }
+
 }

@@ -39,4 +39,16 @@ public class JassElseIfStmtImpl extends ASTWrapperPsiElement implements JassElse
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getElseif() {
+    return findNotNullChildByType(ELSEIF);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getThen() {
+    return findChildByType(THEN);
+  }
+
 }

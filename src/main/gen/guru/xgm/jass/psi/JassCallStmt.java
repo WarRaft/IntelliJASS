@@ -10,4 +10,10 @@ public interface JassCallStmt extends PsiElement {
   @NotNull
   JassFuncCall getFuncCall();
 
+  @Nullable
+  PsiElement getCall();
+
+  @Nullable
+  PsiElement getDebug();
+
 }

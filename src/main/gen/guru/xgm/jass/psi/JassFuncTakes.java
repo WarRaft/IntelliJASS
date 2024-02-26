@@ -10,4 +10,10 @@ public interface JassFuncTakes extends PsiElement {
   @Nullable
   JassTypedVarList getTypedVarList();
 
+  @Nullable
+  PsiElement getNothing();
+
+  @NotNull
+  PsiElement getTakes();
+
 }

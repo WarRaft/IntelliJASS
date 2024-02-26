@@ -13,4 +13,10 @@ public interface JassFuncCall extends PsiElement {
   @NotNull
   JassFuncCallName getFuncCallName();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @Nullable
+  PsiElement getRparen();
+
 }

@@ -10,4 +10,7 @@ public interface JassMulUnaryExpr extends JassExpr {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getMul();
+
 }

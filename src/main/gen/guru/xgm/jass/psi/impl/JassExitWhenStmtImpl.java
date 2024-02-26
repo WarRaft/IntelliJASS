@@ -33,4 +33,10 @@ public class JassExitWhenStmtImpl extends ASTWrapperPsiElement implements JassEx
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getExitwhen() {
+    return findNotNullChildByType(EXITWHEN);
+  }
+
 }

@@ -45,4 +45,16 @@ public class JassNativeDefImpl extends ASTWrapperPsiElement implements JassNativ
     return findChildByClass(JassFuncTakes.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getConstant() {
+    return findChildByType(CONSTANT);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getNative() {
+    return findNotNullChildByType(NATIVE);
+  }
+
 }

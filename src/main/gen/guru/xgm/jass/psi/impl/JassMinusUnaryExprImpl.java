@@ -33,4 +33,10 @@ public class JassMinusUnaryExprImpl extends JassExprImpl implements JassMinusUna
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMinus() {
+    return findNotNullChildByType(MINUS);
+  }
+
 }

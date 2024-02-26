@@ -33,4 +33,10 @@ public class JassLtEqExprImpl extends JassExprImpl implements JassLtEqExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLtEq() {
+    return findNotNullChildByType(LT_EQ);
+  }
+
 }

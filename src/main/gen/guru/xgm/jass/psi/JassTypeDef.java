@@ -13,4 +13,10 @@ public interface JassTypeDef extends PsiElement {
   @Nullable
   JassTypeNameBase getTypeNameBase();
 
+  @Nullable
+  PsiElement getExtends();
+
+  @NotNull
+  PsiElement getType();
+
 }

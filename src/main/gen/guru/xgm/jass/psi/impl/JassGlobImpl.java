@@ -33,4 +33,16 @@ public class JassGlobImpl extends ASTWrapperPsiElement implements JassGlob {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassGvar.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getEndglobals() {
+    return findChildByType(ENDGLOBALS);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getGlobals() {
+    return findNotNullChildByType(GLOBALS);
+  }
+
 }

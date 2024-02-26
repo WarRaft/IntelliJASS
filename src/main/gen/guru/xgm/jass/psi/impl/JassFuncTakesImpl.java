@@ -33,4 +33,16 @@ public class JassFuncTakesImpl extends ASTWrapperPsiElement implements JassFuncT
     return findChildByClass(JassTypedVarList.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getNothing() {
+    return findChildByType(NOTHING);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getTakes() {
+    return findNotNullChildByType(TAKES);
+  }
+
 }

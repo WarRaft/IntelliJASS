@@ -10,4 +10,10 @@ public interface JassFuncReturns extends PsiElement {
   @Nullable
   JassTypeName getTypeName();
 
+  @Nullable
+  PsiElement getNothing();
+
+  @NotNull
+  PsiElement getReturns();
+
 }

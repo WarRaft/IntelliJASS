@@ -39,8 +39,8 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         final var type = typename(o.getTypeName().getText());
         final var name = Objects.requireNonNull(o.getGvarName()).getText();
 
-        if (o.getConst() != null) s("const ");
-        if (o.getArr() == null) {
+        if (o.getConstant() != null) s("const ");
+        if (o.getArray() == null) {
             s(type + " " + name);
             final var expr = o.getExpr();
             if (expr != null) {
@@ -54,8 +54,24 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
     }
 
     @Override
-    public void visitPrimaryExpr(@NotNull JassPrimaryExpr o) {
+    public void visitFuncCall(@NotNull JassFuncCall o) {
+        System.out.print("\nFuncCall:"+o.getText());
+        super.visitFuncCall(o);
+    }
+
+    @Override
+    public void visitPrimVal(@NotNull JassPrimVal o) {
+        System.out.print("\nPrimVal:"+o.getText());
         s(o.getText());
+        super.visitPrimVal(o);
+    }
+
+    @Override
+    public void visitPrimExpr(@NotNull JassPrimExpr o) {
+        System.out.print("\nPrimExpr:"+o.getText());
+        //s(o.getText());
+        //super.visitPrimExpr(o);
+        o.acceptChildren(this);
     }
 
     @Override
@@ -64,11 +80,5 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         expr.get(0).accept(this);
         s(" / ");
         expr.get(1).accept(this);
-    }
-
-    @Override
-    public void visitExpr(@NotNull JassExpr o) {
-        s("[Expr]");
-        super.visitExpr(o);
     }
 }

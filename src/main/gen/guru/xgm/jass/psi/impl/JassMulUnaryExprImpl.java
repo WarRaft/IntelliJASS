@@ -33,4 +33,10 @@ public class JassMulUnaryExprImpl extends JassExprImpl implements JassMulUnaryEx
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMul() {
+    return findNotNullChildByType(MUL);
+  }
+
 }

@@ -5,6 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassArr extends PsiElement {
+public interface JassPrimVal extends PsiElement {
+
+  @Nullable
+  PsiElement getFalse();
+
+  @Nullable
+  PsiElement getNull();
+
+  @Nullable
+  PsiElement getTrue();
 
 }

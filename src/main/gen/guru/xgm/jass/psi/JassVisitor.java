@@ -19,19 +19,11 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArr(@NotNull JassArr o) {
-    visitPsiElement(o);
-  }
-
   public void visitArrayAccess(@NotNull JassArrayAccess o) {
     visitPsiElement(o);
   }
 
   public void visitCallStmt(@NotNull JassCallStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitConst(@NotNull JassConst o) {
     visitPsiElement(o);
   }
 
@@ -175,8 +167,12 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitPrimaryExpr(@NotNull JassPrimaryExpr o) {
+  public void visitPrimExpr(@NotNull JassPrimExpr o) {
     visitExpr(o);
+  }
+
+  public void visitPrimVal(@NotNull JassPrimVal o) {
+    visitPsiElement(o);
   }
 
   public void visitReturnStmt(@NotNull JassReturnStmt o) {

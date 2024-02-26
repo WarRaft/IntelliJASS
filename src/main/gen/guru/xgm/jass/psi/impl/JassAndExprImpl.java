@@ -33,4 +33,10 @@ public class JassAndExprImpl extends JassExprImpl implements JassAndExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getAnd() {
+    return findNotNullChildByType(AND);
+  }
+
 }

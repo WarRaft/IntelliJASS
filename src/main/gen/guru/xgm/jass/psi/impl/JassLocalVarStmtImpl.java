@@ -41,8 +41,26 @@ public class JassLocalVarStmtImpl extends ASTWrapperPsiElement implements JassLo
 
   @Override
   @Nullable
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLocal() {
+    return findChildByType(LOCAL);
   }
 
 }

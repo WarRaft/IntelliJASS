@@ -10,4 +10,10 @@ public interface JassGlob extends PsiElement {
   @NotNull
   List<JassGvar> getGvarList();
 
+  @Nullable
+  PsiElement getEndglobals();
+
+  @NotNull
+  PsiElement getGlobals();
+
 }

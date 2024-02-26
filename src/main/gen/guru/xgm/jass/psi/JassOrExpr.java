@@ -10,4 +10,7 @@ public interface JassOrExpr extends JassExpr {
   @NotNull
   List<JassExpr> getExprList();
 
+  @NotNull
+  PsiElement getOr();
+
 }

@@ -33,4 +33,10 @@ public class JassMinusExprImpl extends JassExprImpl implements JassMinusExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMinus() {
+    return findNotNullChildByType(MINUS);
+  }
+
 }

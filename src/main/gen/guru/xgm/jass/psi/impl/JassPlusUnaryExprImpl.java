@@ -33,4 +33,10 @@ public class JassPlusUnaryExprImpl extends JassExprImpl implements JassPlusUnary
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getPlus() {
+    return findNotNullChildByType(PLUS);
+  }
+
 }

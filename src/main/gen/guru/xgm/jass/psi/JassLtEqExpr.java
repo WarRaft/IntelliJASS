@@ -10,4 +10,7 @@ public interface JassLtEqExpr extends JassExpr {
   @NotNull
   List<JassExpr> getExprList();
 
+  @NotNull
+  PsiElement getLtEq();
+
 }

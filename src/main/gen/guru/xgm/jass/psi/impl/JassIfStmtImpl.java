@@ -51,4 +51,22 @@ public class JassIfStmtImpl extends ASTWrapperPsiElement implements JassIfStmt {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassStmt.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getEndif() {
+    return findChildByType(ENDIF);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getIf() {
+    return findNotNullChildByType(IF);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getThen() {
+    return findChildByType(THEN);
+  }
+
 }

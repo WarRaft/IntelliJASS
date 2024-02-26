@@ -33,4 +33,10 @@ public class JassNotExprImpl extends JassExprImpl implements JassNotExpr {
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getNot() {
+    return findNotNullChildByType(NOT);
+  }
+
 }

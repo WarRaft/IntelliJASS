@@ -13,10 +13,8 @@ public interface JassTypes {
   IElementType AND_EXPR = new JassIElement("AND_EXPR");
   IElementType ARG = new JassIElement("ARG");
   IElementType ARG_LIST = new JassIElement("ARG_LIST");
-  IElementType ARR = new JassIElement("ARR");
   IElementType ARRAY_ACCESS = new JassIElement("ARRAY_ACCESS");
   IElementType CALL_STMT = new JassIElement("CALL_STMT");
-  IElementType CONST = new JassIElement("CONST");
   IElementType DIV_EXPR = new JassIElement("DIV_EXPR");
   IElementType DIV_UNARY_EXPR = new JassIElement("DIV_UNARY_EXPR");
   IElementType ELSE_IF_STMT = new JassIElement("ELSE_IF_STMT");
@@ -52,7 +50,8 @@ public interface JassTypes {
   IElementType PAREN_EXPR = new JassIElement("PAREN_EXPR");
   IElementType PLUS_EXPR = new JassIElement("PLUS_EXPR");
   IElementType PLUS_UNARY_EXPR = new JassIElement("PLUS_UNARY_EXPR");
-  IElementType PRIMARY_EXPR = new JassIElement("PRIMARY_EXPR");
+  IElementType PRIM_EXPR = new JassIElement("PRIM_EXPR");
+  IElementType PRIM_VAL = new JassIElement("PRIM_VAL");
   IElementType RETURN_STMT = new JassIElement("RETURN_STMT");
   IElementType SET_STMT = new JassIElement("SET_STMT");
   IElementType STMT = new JassIElement("STMT");
@@ -135,17 +134,11 @@ public interface JassTypes {
       else if (type == ARG_LIST) {
         return new JassArgListImpl(node);
       }
-      else if (type == ARR) {
-        return new JassArrImpl(node);
-      }
       else if (type == ARRAY_ACCESS) {
         return new JassArrayAccessImpl(node);
       }
       else if (type == CALL_STMT) {
         return new JassCallStmtImpl(node);
-      }
-      else if (type == CONST) {
-        return new JassConstImpl(node);
       }
       else if (type == DIV_EXPR) {
         return new JassDivExprImpl(node);
@@ -249,8 +242,11 @@ public interface JassTypes {
       else if (type == PLUS_UNARY_EXPR) {
         return new JassPlusUnaryExprImpl(node);
       }
-      else if (type == PRIMARY_EXPR) {
-        return new JassPrimaryExprImpl(node);
+      else if (type == PRIM_EXPR) {
+        return new JassPrimExprImpl(node);
+      }
+      else if (type == PRIM_VAL) {
+        return new JassPrimValImpl(node);
       }
       else if (type == RETURN_STMT) {
         return new JassReturnStmtImpl(node);

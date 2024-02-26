@@ -10,4 +10,7 @@ public interface JassNeqExpr extends JassExpr {
   @NotNull
   List<JassExpr> getExprList();
 
+  @NotNull
+  PsiElement getNeq();
+
 }

@@ -13,4 +13,10 @@ public interface JassElseIfStmt extends PsiElement {
   @NotNull
   List<JassStmt> getStmtList();
 
+  @NotNull
+  PsiElement getElseif();
+
+  @Nullable
+  PsiElement getThen();
+
 }

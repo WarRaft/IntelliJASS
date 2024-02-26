@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassPrimaryExpr extends JassExpr {
+public interface JassPrimExpr extends JassExpr {
 
   @Nullable
   JassArrayAccess getArrayAccess();
@@ -17,6 +17,9 @@ public interface JassPrimaryExpr extends JassExpr {
   JassFuncCall getFuncCall();
 
   @Nullable
+  JassPrimVal getPrimVal();
+
+  @Nullable
   PsiElement getHexval();
 
   @Nullable
@@ -24,6 +27,12 @@ public interface JassPrimaryExpr extends JassExpr {
 
   @Nullable
   PsiElement getIntval();
+
+  @Nullable
+  PsiElement getRawval();
+
+  @Nullable
+  PsiElement getRealval();
 
   @Nullable
   PsiElement getStrval();

@@ -11,6 +11,9 @@
     elementTypeClass=         "guru.xgm.jass.psi.tree.JassIElement"
     tokenTypeClass=           "guru.xgm.jass.psi.tree.JassIToken"
 
+    generateTokenAccessors=true
+    generateTokens=true
+
     extends(".*Expr")=Expr
 
     tokens = [
@@ -90,13 +93,10 @@ Root ::= (
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
-Const ::= CONSTANT
-Arr ::= ARRAY
-
 // === globals
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
 GvarName ::= ID
-Gvar ::= Const? TypeName Arr? GvarName [EQ Expr] {pin=2 recoverWhile=GvarRecover}
+Gvar ::= CONSTANT? TypeName ARRAY? GvarName [EQ Expr] {pin=2 recoverWhile=GvarRecover}
 private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === TYPE
@@ -176,7 +176,7 @@ Expr ::=
     OrExpr |
     AndExpr |
     // primary
-    PrimaryExpr
+    PrimExpr
 
 PlusExpr ::= Expr PLUS Expr
 MinusExpr ::= Expr MINUS Expr
@@ -201,16 +201,17 @@ OrExpr ::= Expr OR Expr
 AndExpr ::= Expr AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
-PrimaryExpr ::=
-    FALSE |
-    NULL |
-    TRUE |
+
+PrimVal ::= FALSE|NULL|TRUE
+
+PrimExpr ::=
+    PrimVal |
     ParenExpr |
     ArrayAccess |
     FuncCall |
     FuncAsCode |
-    REALVAL |
     HEXVAL |
+    REALVAL |
     INTVAL |
     RAWVAL |
     STRVAL |

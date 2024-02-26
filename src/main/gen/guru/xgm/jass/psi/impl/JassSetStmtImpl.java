@@ -40,9 +40,21 @@ public class JassSetStmtImpl extends ASTWrapperPsiElement implements JassSetStmt
   }
 
   @Override
+  @NotNull
+  public PsiElement getEq() {
+    return findNotNullChildByType(EQ);
+  }
+
+  @Override
   @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSet() {
+    return findChildByType(SET);
   }
 
 }

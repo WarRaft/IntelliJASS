@@ -33,4 +33,10 @@ public class JassDivUnaryExprImpl extends JassExprImpl implements JassDivUnaryEx
     return findChildByClass(JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getDiv() {
+    return findNotNullChildByType(DIV);
+  }
+
 }

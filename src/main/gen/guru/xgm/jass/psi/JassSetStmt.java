@@ -13,7 +13,13 @@ public interface JassSetStmt extends PsiElement {
   @Nullable
   JassExpr getExpr();
 
+  @NotNull
+  PsiElement getEq();
+
   @Nullable
   PsiElement getId();
+
+  @Nullable
+  PsiElement getSet();
 
 }

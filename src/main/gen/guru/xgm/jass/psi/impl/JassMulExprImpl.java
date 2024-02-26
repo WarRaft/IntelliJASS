@@ -33,4 +33,10 @@ public class JassMulExprImpl extends JassExprImpl implements JassMulExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JassExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMul() {
+    return findNotNullChildByType(MUL);
+  }
+
 }
