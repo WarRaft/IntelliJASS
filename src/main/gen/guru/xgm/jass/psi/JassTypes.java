@@ -13,8 +13,10 @@ public interface JassTypes {
   IElementType AND_EXPR = new JassIElement("AND_EXPR");
   IElementType ARG = new JassIElement("ARG");
   IElementType ARG_LIST = new JassIElement("ARG_LIST");
+  IElementType ARR = new JassIElement("ARR");
   IElementType ARRAY_ACCESS = new JassIElement("ARRAY_ACCESS");
   IElementType CALL_STMT = new JassIElement("CALL_STMT");
+  IElementType CONST = new JassIElement("CONST");
   IElementType DIV_EXPR = new JassIElement("DIV_EXPR");
   IElementType DIV_UNARY_EXPR = new JassIElement("DIV_UNARY_EXPR");
   IElementType ELSE_IF_STMT = new JassIElement("ELSE_IF_STMT");
@@ -29,10 +31,10 @@ public interface JassTypes {
   IElementType FUNC_DEF_NAME = new JassIElement("FUNC_DEF_NAME");
   IElementType FUNC_RETURNS = new JassIElement("FUNC_RETURNS");
   IElementType FUNC_TAKES = new JassIElement("FUNC_TAKES");
-  IElementType GLOBALS_DEF = new JassIElement("GLOBALS_DEF");
+  IElementType GLOB = new JassIElement("GLOB");
   IElementType GT_EQ_EXPR = new JassIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassIElement("GT_EXPR");
-  IElementType GVAR_DEF = new JassIElement("GVAR_DEF");
+  IElementType GVAR = new JassIElement("GVAR");
   IElementType GVAR_NAME = new JassIElement("GVAR_NAME");
   IElementType IF_STMT = new JassIElement("IF_STMT");
   IElementType LOCAL_VAR_STMT = new JassIElement("LOCAL_VAR_STMT");
@@ -133,11 +135,17 @@ public interface JassTypes {
       else if (type == ARG_LIST) {
         return new JassArgListImpl(node);
       }
+      else if (type == ARR) {
+        return new JassArrImpl(node);
+      }
       else if (type == ARRAY_ACCESS) {
         return new JassArrayAccessImpl(node);
       }
       else if (type == CALL_STMT) {
         return new JassCallStmtImpl(node);
+      }
+      else if (type == CONST) {
+        return new JassConstImpl(node);
       }
       else if (type == DIV_EXPR) {
         return new JassDivExprImpl(node);
@@ -178,8 +186,8 @@ public interface JassTypes {
       else if (type == FUNC_TAKES) {
         return new JassFuncTakesImpl(node);
       }
-      else if (type == GLOBALS_DEF) {
-        return new JassGlobalsDefImpl(node);
+      else if (type == GLOB) {
+        return new JassGlobImpl(node);
       }
       else if (type == GT_EQ_EXPR) {
         return new JassGtEqExprImpl(node);
@@ -187,8 +195,8 @@ public interface JassTypes {
       else if (type == GT_EXPR) {
         return new JassGtExprImpl(node);
       }
-      else if (type == GVAR_DEF) {
-        return new JassGvarDefImpl(node);
+      else if (type == GVAR) {
+        return new JassGvarImpl(node);
       }
       else if (type == GVAR_NAME) {
         return new JassGvarNameImpl(node);

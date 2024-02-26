@@ -118,10 +118,10 @@
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
     <actions>
         <action
-                id="guru.xgm.jass.openapi.actionSystem.JassActionConvertToJass"
-                class="guru.xgm.jass.openapi.actionSystem.JassActionConvertToJass"
-                text="Convert to JASS"
-                description="Convert file to valid JASS"
+                id="guru.xgm.jass.openapi.actionSystem.jass2angelscript.JassActionConvertToAngelScript"
+                class="guru.xgm.jass.openapi.actionSystem.jass2angelscript.JassActionConvertToAngelScript"
+                text="Convert to AngelScript"
+                description="Convert file to valid AngelScript"
         >
             <add-to-group group-id="EditorPopupMenu"/>
             <add-to-group group-id="ProjectViewPopupMenu"/>

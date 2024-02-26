@@ -11,38 +11,20 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassGvarDefImpl extends ASTWrapperPsiElement implements JassGvarDef {
+public class JassConstImpl extends ASTWrapperPsiElement implements JassConst {
 
-  public JassGvarDefImpl(@NotNull ASTNode node) {
+  public JassConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitGvarDef(this);
+    visitor.visitConst(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JassVisitor) accept((JassVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public JassGvarName getGvarName() {
-    return findChildByClass(JassGvarName.class);
-  }
-
-  @Override
-  @NotNull
-  public JassTypeName getTypeName() {
-    return findNotNullChildByClass(JassTypeName.class);
   }
 
 }

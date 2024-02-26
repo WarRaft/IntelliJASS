@@ -23,7 +23,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
     @Override
     protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
         final IElementType type = node.getElementType();
-        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOBALS_DEF || type == JassTypes.FUNC_DEF;
+        return type == JassParserDefinition.JASS_FILE || type == JassTypes.GLOB || type == JassTypes.FUNC_DEF;
     }
 
     @Override
@@ -33,7 +33,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
         final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
                 root,
                 PsiComment.class,
-                JassGlobalsDef.class,
+                JassGlob.class,
                 JassFuncDef.class,
                 JassIfStmt.class,
                 JassLoopStmt.class
@@ -70,7 +70,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
                 continue;
             }
 
-            if (element instanceof JassGlobalsDef) {
+            if (element instanceof JassGlob) {
                 foldSimple(element, JassTypes.GLOBALS, JassTypes.ENDGLOBALS, descriptors);
             }
 
@@ -81,9 +81,9 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
     protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
         final IElementType type = node.getElementType();
 
-        if (type == JassTypes.GLOBALS_DEF) {
-            final var psi = node.getPsi(JassGlobalsDef.class);
-            final int size = psi.getGvarDefList().size();
+        if (type == JassTypes.GLOB) {
+            final var psi = node.getPsi(JassGlob.class);
+            final int size = psi.getGvarList().size();
             return size == 0 ? " ... " : " (" + size + ") ";
         }
 
@@ -101,7 +101,7 @@ final class JassCustomFoldingBuilder extends CustomFoldingBuilder implements Dum
         //final CodeFoldingSettings settings = CodeFoldingSettings.getInstance();
         final JassCodeFoldingSettings jass = JassCodeFoldingSettings.getInstance();
 
-        if (type == JassTypes.GLOBALS_DEF) return jass.isFoldGlobals();
+        if (type == JassTypes.GLOB) return jass.isFoldGlobals();
         if (type == JassTypes.FUNC_DEF) return jass.isFoldFunction();
         if (type == JassTypes.IF_STMT) return jass.isFoldIf();
         if (type == JassTypes.LOOP_STMT) return jass.isFoldLoop();

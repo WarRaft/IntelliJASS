@@ -11,14 +11,14 @@ import static guru.xgm.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassGlobalsDefImpl extends ASTWrapperPsiElement implements JassGlobalsDef {
+public class JassGvarImpl extends ASTWrapperPsiElement implements JassGvar {
 
-  public JassGlobalsDefImpl(@NotNull ASTNode node) {
+  public JassGvarImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitGlobalsDef(this);
+    visitor.visitGvar(this);
   }
 
   @Override
@@ -28,9 +28,33 @@ public class JassGlobalsDefImpl extends ASTWrapperPsiElement implements JassGlob
   }
 
   @Override
+  @Nullable
+  public JassArr getArr() {
+    return findChildByClass(JassArr.class);
+  }
+
+  @Override
+  @Nullable
+  public JassConst getConst() {
+    return findChildByClass(JassConst.class);
+  }
+
+  @Override
+  @Nullable
+  public JassExpr getExpr() {
+    return findChildByClass(JassExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public JassGvarName getGvarName() {
+    return findChildByClass(JassGvarName.class);
+  }
+
+  @Override
   @NotNull
-  public List<JassGvarDef> getGvarDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassGvarDef.class);
+  public JassTypeName getTypeName() {
+    return findNotNullChildByClass(JassTypeName.class);
   }
 
 }

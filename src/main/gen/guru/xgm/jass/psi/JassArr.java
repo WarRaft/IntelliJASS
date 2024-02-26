@@ -5,15 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassGvarDef extends PsiElement {
-
-  @Nullable
-  JassExpr getExpr();
-
-  @Nullable
-  JassGvarName getGvarName();
-
-  @NotNull
-  JassTypeName getTypeName();
+public interface JassArr extends PsiElement {
 
 }

@@ -90,6 +90,18 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ARRAY
+  public static boolean Arr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Arr")) return false;
+    if (!nextTokenIs(b, ARRAY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ARRAY);
+    exit_section_(b, m, ARR, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // ID LBRACK Expr? RBRACK
   public static boolean ArrayAccess(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ArrayAccess")) return false;
@@ -135,6 +147,18 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "CallStmt_1")) return false;
     consumeToken(b, CALL);
     return true;
+  }
+
+  /* ********************************************************** */
+  // CONSTANT
+  public static boolean Const(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Const")) return false;
+    if (!nextTokenIs(b, CONSTANT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CONSTANT);
+    exit_section_(b, m, CONST, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -369,98 +393,76 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // GLOBALS GvarDef* ENDGLOBALS
-  public static boolean GlobalsDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalsDef")) return false;
+  // GLOBALS Gvar* ENDGLOBALS
+  public static boolean Glob(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Glob")) return false;
     if (!nextTokenIs(b, GLOBALS)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, GLOBALS_DEF, null);
+    Marker m = enter_section_(b, l, _NONE_, GLOB, null);
     r = consumeToken(b, GLOBALS);
     p = r; // pin = 1
-    r = r && report_error_(b, GlobalsDef_1(b, l + 1));
+    r = r && report_error_(b, Glob_1(b, l + 1));
     r = p && consumeToken(b, ENDGLOBALS) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // GvarDef*
-  private static boolean GlobalsDef_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GlobalsDef_1")) return false;
+  // Gvar*
+  private static boolean Glob_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Glob_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!GvarDef(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "GlobalsDef_1", c)) break;
+      if (!Gvar(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "Glob_1", c)) break;
     }
     return true;
   }
 
   /* ********************************************************** */
-  // CONSTANT? TypeName ARRAY? GvarName (EQ Expr)?
-  public static boolean GvarDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef")) return false;
+  // Const? TypeName Arr? GvarName [EQ Expr]
+  public static boolean Gvar(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Gvar")) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, GVAR_DEF, "<gvar def>");
-    r = GvarDef_0(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, GVAR, "<gvar>");
+    r = Gvar_0(b, l + 1);
     r = r && TypeName(b, l + 1);
     p = r; // pin = 2
-    r = r && report_error_(b, GvarDef_2(b, l + 1));
+    r = r && report_error_(b, Gvar_2(b, l + 1));
     r = p && report_error_(b, GvarName(b, l + 1)) && r;
-    r = p && GvarDef_4(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, JassParser::GvarDefRecover);
+    r = p && Gvar_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, JassParser::GvarRecover);
     return r || p;
   }
 
-  // CONSTANT?
-  private static boolean GvarDef_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_0")) return false;
-    consumeToken(b, CONSTANT);
+  // Const?
+  private static boolean Gvar_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Gvar_0")) return false;
+    Const(b, l + 1);
     return true;
   }
 
-  // ARRAY?
-  private static boolean GvarDef_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_2")) return false;
-    consumeToken(b, ARRAY);
+  // Arr?
+  private static boolean Gvar_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Gvar_2")) return false;
+    Arr(b, l + 1);
     return true;
   }
 
-  // (EQ Expr)?
-  private static boolean GvarDef_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_4")) return false;
-    GvarDef_4_0(b, l + 1);
+  // [EQ Expr]
+  private static boolean Gvar_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Gvar_4")) return false;
+    Gvar_4_0(b, l + 1);
     return true;
   }
 
   // EQ Expr
-  private static boolean GvarDef_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDef_4_0")) return false;
+  private static boolean Gvar_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Gvar_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, EQ);
     r = r && Expr(b, l + 1, -1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
-  static boolean GvarDefRecover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDefRecover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !GvarDefRecover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
-  private static boolean GvarDefRecover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "GvarDefRecover_0")) return false;
-    boolean r;
-    r = consumeToken(b, CONSTANT);
-    if (!r) r = consumeToken(b, GLOBALS);
-    if (!r) r = consumeToken(b, ENDGLOBALS);
-    if (!r) r = TypeName(b, l + 1);
     return r;
   }
 
@@ -473,6 +475,28 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, ID);
     exit_section_(b, m, GVAR_NAME, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+  static boolean GvarRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !GvarRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
+  private static boolean GvarRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GvarRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, CONSTANT);
+    if (!r) r = consumeToken(b, GLOBALS);
+    if (!r) r = consumeToken(b, ENDGLOBALS);
+    if (!r) r = TypeName(b, l + 1);
     return r;
   }
 
@@ -672,7 +696,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   // (
   //     TypeDef |
   //     NativeDef |
-  //     GlobalsDef |
+  //     Glob |
   //     FuncDef
   //     )*
   static boolean Root(PsiBuilder b, int l) {
@@ -689,14 +713,14 @@ public class JassParser implements PsiParser, LightPsiParser {
 
   // TypeDef |
   //     NativeDef |
-  //     GlobalsDef |
+  //     Glob |
   //     FuncDef
   private static boolean Root_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Root_0")) return false;
     boolean r;
     r = TypeDef(b, l + 1);
     if (!r) r = NativeDef(b, l + 1);
-    if (!r) r = GlobalsDef(b, l + 1);
+    if (!r) r = Glob(b, l + 1);
     if (!r) r = FuncDef(b, l + 1);
     return r;
   }
@@ -884,15 +908,24 @@ public class JassParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // Expression root: Expr
   // Operator priority table:
-  // 0: BINARY(PlusExpr) BINARY(MinusExpr)
-  // 1: BINARY(MulExpr) BINARY(DivExpr)
-  // 2: PREFIX(MulUnaryExpr) PREFIX(DivUnaryExpr) PREFIX(PlusUnaryExpr) PREFIX(MinusUnaryExpr)
-  //    PREFIX(NotExpr)
-  // 3: BINARY(EqExpr) BINARY(NeqExpr) BINARY(LtExpr) BINARY(LtEqExpr)
-  //    BINARY(GtExpr) BINARY(GtEqExpr)
-  // 4: BINARY(OrExpr)
-  // 5: BINARY(AndExpr)
-  // 6: ATOM(PrimaryExpr)
+  // 0: BINARY(PlusExpr)
+  // 1: BINARY(MinusExpr)
+  // 2: BINARY(MulExpr)
+  // 3: BINARY(DivExpr)
+  // 4: PREFIX(MulUnaryExpr)
+  // 5: PREFIX(DivUnaryExpr)
+  // 6: PREFIX(PlusUnaryExpr)
+  // 7: PREFIX(MinusUnaryExpr)
+  // 8: PREFIX(NotExpr)
+  // 9: BINARY(EqExpr)
+  // 10: BINARY(NeqExpr)
+  // 11: BINARY(LtExpr)
+  // 12: BINARY(LtEqExpr)
+  // 13: BINARY(GtExpr)
+  // 14: BINARY(GtEqExpr)
+  // 15: BINARY(OrExpr)
+  // 16: BINARY(AndExpr)
+  // 17: ATOM(PrimaryExpr)
   public static boolean Expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "Expr")) return false;
     addVariant(b, "<expr>");
@@ -919,48 +952,48 @@ public class JassParser implements PsiParser, LightPsiParser {
         r = Expr(b, l, 0);
         exit_section_(b, l, m, PLUS_EXPR, r, true, null);
       }
-      else if (g < 0 && consumeTokenSmart(b, MINUS)) {
-        r = Expr(b, l, 0);
+      else if (g < 1 && consumeTokenSmart(b, MINUS)) {
+        r = Expr(b, l, 1);
         exit_section_(b, l, m, MINUS_EXPR, r, true, null);
       }
-      else if (g < 1 && consumeTokenSmart(b, MUL)) {
-        r = Expr(b, l, 1);
+      else if (g < 2 && consumeTokenSmart(b, MUL)) {
+        r = Expr(b, l, 2);
         exit_section_(b, l, m, MUL_EXPR, r, true, null);
       }
-      else if (g < 1 && consumeTokenSmart(b, DIV)) {
-        r = Expr(b, l, 1);
+      else if (g < 3 && consumeTokenSmart(b, DIV)) {
+        r = Expr(b, l, 3);
         exit_section_(b, l, m, DIV_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, EQ_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 9 && consumeTokenSmart(b, EQ_EQ)) {
+        r = Expr(b, l, 9);
         exit_section_(b, l, m, EQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, NEQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 10 && consumeTokenSmart(b, NEQ)) {
+        r = Expr(b, l, 10);
         exit_section_(b, l, m, NEQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, LT)) {
-        r = Expr(b, l, 3);
+      else if (g < 11 && consumeTokenSmart(b, LT)) {
+        r = Expr(b, l, 11);
         exit_section_(b, l, m, LT_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, LT_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 12 && consumeTokenSmart(b, LT_EQ)) {
+        r = Expr(b, l, 12);
         exit_section_(b, l, m, LT_EQ_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, GT)) {
-        r = Expr(b, l, 3);
+      else if (g < 13 && consumeTokenSmart(b, GT)) {
+        r = Expr(b, l, 13);
         exit_section_(b, l, m, GT_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, GT_EQ)) {
-        r = Expr(b, l, 3);
+      else if (g < 14 && consumeTokenSmart(b, GT_EQ)) {
+        r = Expr(b, l, 14);
         exit_section_(b, l, m, GT_EQ_EXPR, r, true, null);
       }
-      else if (g < 4 && consumeTokenSmart(b, OR)) {
-        r = Expr(b, l, 4);
+      else if (g < 15 && consumeTokenSmart(b, OR)) {
+        r = Expr(b, l, 15);
         exit_section_(b, l, m, OR_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, AND)) {
-        r = Expr(b, l, 5);
+      else if (g < 16 && consumeTokenSmart(b, AND)) {
+        r = Expr(b, l, 16);
         exit_section_(b, l, m, AND_EXPR, r, true, null);
       }
       else {
@@ -978,7 +1011,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 6);
     exit_section_(b, l, m, PLUS_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -990,7 +1023,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 7);
     exit_section_(b, l, m, MINUS_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1002,7 +1035,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MUL);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 4);
     exit_section_(b, l, m, MUL_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1014,7 +1047,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, DIV);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 5);
     exit_section_(b, l, m, DIV_UNARY_EXPR, r, p, null);
     return r || p;
   }
@@ -1026,7 +1059,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, NOT);
     p = r;
-    r = p && Expr(b, l, 2);
+    r = p && Expr(b, l, 8);
     exit_section_(b, l, m, NOT_EXPR, r, p, null);
     return r || p;
   }

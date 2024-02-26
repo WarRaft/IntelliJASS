@@ -1,4 +1,4 @@
-package guru.xgm.jass.openapi.actionSystem;
+package guru.xgm.jass.openapi.actionSystem.jass2angelscript;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -12,14 +12,15 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import guru.xgm.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 
-public class JassActionConvertToJass extends AnAction {
+public class JassActionConvertToAngelScript extends AnAction {
 
-    public JassActionConvertToJass() {
+    public JassActionConvertToAngelScript() {
         super();
     }
 
@@ -42,7 +43,7 @@ public class JassActionConvertToJass extends AnAction {
             return;
         }
 
-        String filePath = virtualFile.getPath() + ".j";
+        String filePath = virtualFile.getPath() + ".ass";
         File file = new File(filePath);
 
         boolean success = true;
@@ -73,7 +74,13 @@ public class JassActionConvertToJass extends AnAction {
         PsiFile psiFile = psiManager.findFile(virtualFile);
 
         if (psiFile != null) {
-            inputString = psiFile.getText();
+            if (!(psiFile.getLanguage() instanceof JassLanguage)) {
+                Messages.showMessageDialog(project, "No JASS language found!", "Error", Messages.getErrorIcon());
+                return;
+            }
+            Jass2AngelScriptVisitor visitor = new Jass2AngelScriptVisitor();
+            psiFile.acceptChildren(visitor);
+            inputString = visitor.stringBuffer.toString();
         } else {
             inputString = "Error!";
         }

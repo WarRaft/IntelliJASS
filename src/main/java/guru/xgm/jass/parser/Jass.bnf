@@ -85,10 +85,19 @@
 Root ::= (
     TypeDef |
     NativeDef |
-    GlobalsDef |
+    Glob |
     FuncDef
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+
+Const ::= CONSTANT
+Arr ::= ARRAY
+
+// === globals
+Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
+GvarName ::= ID
+Gvar ::= Const? TypeName Arr? GvarName [EQ Expr] {pin=2 recoverWhile=GvarRecover}
+private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === TYPE
 TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
@@ -111,12 +120,6 @@ FuncReturns ::= RETURNS (NOTHING|TypeName)
 NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
 
 FuncDef ::= CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? Stmt* ENDFUNCTION {pin=2}
-
-// === GLOBALS
-GlobalsDef ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
-GvarName ::= ID
-GvarDef ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarDefRecover}
-private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === STATEMENT
 Stmt ::=
@@ -150,42 +153,42 @@ ExitWhenStmt ::=EXITWHEN Expr {pin=1}
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
-    AddGroup |
-    MulGroup |
-    UnaryGroup |
-    CmpGroup |
-    OrExpr |
-    AndExpr |
-    PrimaryExpr
-
-private AddGroup ::= PlusExpr | MinusExpr
-PlusExpr ::= Expr PLUS Expr
-MinusExpr ::= Expr MINUS Expr
-
-private MulGroup ::= MulExpr | DivExpr
-MulExpr ::= Expr MUL Expr
-DivExpr ::= Expr DIV Expr
-
-private UnaryGroup ::=
+    // plus
+    PlusExpr |
+    MinusExpr |
+    // mul
+    MulExpr |
+    DivExpr |
+    // unary
     MulUnaryExpr |
     DivUnaryExpr |
     PlusUnaryExpr |
     MinusUnaryExpr |
-    NotExpr
+    NotExpr |
+    // compare
+    EqExpr |
+    NeqExpr |
+    LtExpr |
+    LtEqExpr |
+    GtExpr |
+    GtEqExpr |
+    // bool
+    OrExpr |
+    AndExpr |
+    // primary
+    PrimaryExpr
+
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
+
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
 
 MulUnaryExpr ::= MUL Expr
 DivUnaryExpr ::= DIV Expr
 PlusUnaryExpr ::= PLUS Expr
 MinusUnaryExpr ::= MINUS Expr
 NotExpr ::= NOT Expr
-
-private CmpGroup ::=
-    EqExpr |
-    NeqExpr |
-    LtExpr |
-    LtEqExpr |
-    GtExpr |
-    GtEqExpr
 
 EqExpr ::= Expr EQ_EQ Expr
 NeqExpr ::= Expr NEQ Expr
