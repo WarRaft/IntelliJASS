@@ -27,7 +27,7 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-MULTI_LINE_COMMENT="/"\*([^\n])*\*"/"
+MULTI_LINE_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
 REALVAL=([0-9]+\.[0-9]*|\.[0-9]+)([fd])?
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -70,7 +70,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "int16"                     { return INT16; }
   "int32"                     { return INT32; }
   "int64"                     { return INT64; }
-  "integer"                   { return INTEGER; }
   "namespace"                 { return NAMESPACE; }
   "null"                      { return NULL; }
   "override"                  { return OVERRIDE; }
@@ -110,8 +109,8 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "++"                        { return PLUS_PLUS; }
   "+"                         { return PLUS; }
   "+="                        { return PLUS_EQ; }
-  "-"                         { return MINUS; }
   "--"                        { return MINUS_MINUS; }
+  "-"                         { return MINUS; }
   "-="                        { return MINUS_EQ; }
   "*"                         { return MUL; }
   "*="                        { return MUL_EQ; }

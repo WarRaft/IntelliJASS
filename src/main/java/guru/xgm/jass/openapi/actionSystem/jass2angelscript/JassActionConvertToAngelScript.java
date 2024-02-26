@@ -43,6 +43,21 @@ public class JassActionConvertToAngelScript extends AnAction {
             return;
         }
 
+        PsiManager psiManager = PsiManager.getInstance(project);
+
+        PsiFile psiFile = psiManager.findFile(virtualFile);
+        Jass2AngelScriptVisitor visitor = new Jass2AngelScriptVisitor();
+
+        if (psiFile != null) {
+            if (!(psiFile.getLanguage() instanceof JassLanguage)) {
+                Messages.showMessageDialog(project, "The file is not recognized as JASS. This happens most often when the IDE limits the file size.", "Error", Messages.getErrorIcon());
+                return;
+            }
+            psiFile.acceptChildren(visitor);
+
+        }
+
+        // create file
         String filePath = virtualFile.getPath() + ".ass";
         File file = new File(filePath);
 
@@ -60,34 +75,16 @@ public class JassActionConvertToAngelScript extends AnAction {
             Messages.showMessageDialog(project, "Create file error!", "Error", Messages.getErrorIcon());
             return;
         }
-
         VirtualFile newVirtualFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file);
-
         if (newVirtualFile == null) {
             Messages.showMessageDialog(project, "Create virtual file error!", "Error", Messages.getErrorIcon());
             return;
         }
 
-        String inputString;
-        PsiManager psiManager = PsiManager.getInstance(project);
-
-        PsiFile psiFile = psiManager.findFile(virtualFile);
-
-        if (psiFile != null) {
-            if (!(psiFile.getLanguage() instanceof JassLanguage)) {
-                Messages.showMessageDialog(project, "No JASS language found!", "Error", Messages.getErrorIcon());
-                return;
-            }
-            Jass2AngelScriptVisitor visitor = new Jass2AngelScriptVisitor();
-            psiFile.acceptChildren(visitor);
-            inputString = visitor.stringBuffer.toString();
-        } else {
-            inputString = "Error!";
-        }
-
+        // write file
         WriteCommandAction.runWriteCommandAction(project, () -> {
                     try {
-                        newVirtualFile.setBinaryContent(inputString.getBytes());
+                        newVirtualFile.setBinaryContent(visitor.stringBuffer.toString().getBytes());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }

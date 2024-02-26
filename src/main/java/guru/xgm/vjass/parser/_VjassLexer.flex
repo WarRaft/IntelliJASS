@@ -27,7 +27,7 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-BLOCK_COMMENT="/"\*(.|\n)*?\*"/"
+MULTI_LINE_COMMENT=FUCK_GEN
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -66,6 +66,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "if"                        { return IF; }
   "implement"                 { return IMPLEMENT; }
   "integer"                   { return INTEGER; }
+  "initializer"               { return INITIALIZER; }
   "library"                   { return LIBRARY; }
   "local"                     { return LOCAL; }
   "loop"                      { return LOOP; }
@@ -112,7 +113,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
-  {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
+  {MULTI_LINE_COMMENT}        { return MULTI_LINE_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }

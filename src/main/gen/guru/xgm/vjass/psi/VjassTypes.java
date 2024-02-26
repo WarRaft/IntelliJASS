@@ -31,7 +31,7 @@ public interface VjassTypes {
   IElementType FUNC_DEF_NAME = new VjassIElement("FUNC_DEF_NAME");
   IElementType FUNC_RETURNS = new VjassIElement("FUNC_RETURNS");
   IElementType FUNC_TAKES = new VjassIElement("FUNC_TAKES");
-  IElementType GLOBALS_DEF = new VjassIElement("GLOBALS_DEF");
+  IElementType GLOB = new VjassIElement("GLOB");
   IElementType GT_EQ_EXPR = new VjassIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new VjassIElement("GT_EXPR");
   IElementType GVAR_DEF = new VjassIElement("GVAR_DEF");
@@ -40,7 +40,7 @@ public interface VjassTypes {
   IElementType ID_DOT = new VjassIElement("ID_DOT");
   IElementType IF_STMT = new VjassIElement("IF_STMT");
   IElementType IMPLEMENT_DEF = new VjassIElement("IMPLEMENT_DEF");
-  IElementType LIB_DEF = new VjassIElement("LIB_DEF");
+  IElementType LIB = new VjassIElement("LIB");
   IElementType LIB_REQ = new VjassIElement("LIB_REQ");
   IElementType LIB_REQ_ITEM = new VjassIElement("LIB_REQ_ITEM");
   IElementType LOOP_STMT = new VjassIElement("LOOP_STMT");
@@ -107,6 +107,7 @@ public interface VjassTypes {
   IElementType ID = new VjassIToken("ID");
   IElementType IF = new VjassIToken("if");
   IElementType IMPLEMENT = new VjassIToken("implement");
+  IElementType INITIALIZER = new VjassIToken("initializer");
   IElementType INTEGER = new VjassIToken("integer");
   IElementType INTVAL = new VjassIToken("INTVAL");
   IElementType KEY = new VjassIToken("KEY");
@@ -214,8 +215,8 @@ public interface VjassTypes {
       else if (type == FUNC_TAKES) {
         return new VjassFuncTakesImpl(node);
       }
-      else if (type == GLOBALS_DEF) {
-        return new VjassGlobalsDefImpl(node);
+      else if (type == GLOB) {
+        return new VjassGlobImpl(node);
       }
       else if (type == GT_EQ_EXPR) {
         return new VjassGtEqExprImpl(node);
@@ -241,8 +242,8 @@ public interface VjassTypes {
       else if (type == IMPLEMENT_DEF) {
         return new VjassImplementDefImpl(node);
       }
-      else if (type == LIB_DEF) {
-        return new VjassLibDefImpl(node);
+      else if (type == LIB) {
+        return new VjassLibImpl(node);
       }
       else if (type == LIB_REQ) {
         return new VjassLibReqImpl(node);

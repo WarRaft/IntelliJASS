@@ -395,7 +395,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? TypeName ARRAY? GvarName [EQ Expr]
+  // CONSTANT? TypeName ARRAY? GvarName (EQ Expr)?
   public static boolean Gvar(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Gvar")) return false;
     boolean r, p;
@@ -424,7 +424,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [EQ Expr]
+  // (EQ Expr)?
   private static boolean Gvar_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Gvar_4")) return false;
     Gvar_4_0(b, l + 1);

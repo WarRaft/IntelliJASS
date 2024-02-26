@@ -11,14 +11,14 @@ import static guru.xgm.vjass.psi.VjassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.vjass.psi.*;
 
-public class VjassLibDefImpl extends ASTWrapperPsiElement implements VjassLibDef {
+public class VjassLibImpl extends ASTWrapperPsiElement implements VjassLib {
 
-  public VjassLibDefImpl(@NotNull ASTNode node) {
+  public VjassLibImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull VjassVisitor visitor) {
-    visitor.visitLibDef(this);
+    visitor.visitLib(this);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class VjassLibDefImpl extends ASTWrapperPsiElement implements VjassLibDef
 
   @Override
   @NotNull
-  public List<VjassGlobalsDef> getGlobalsDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, VjassGlobalsDef.class);
+  public List<VjassGlob> getGlobList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, VjassGlob.class);
   }
 
   @Override
@@ -61,12 +61,6 @@ public class VjassLibDefImpl extends ASTWrapperPsiElement implements VjassLibDef
   @NotNull
   public List<VjassStructDef> getStructDefList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, VjassStructDef.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
   }
 
 }

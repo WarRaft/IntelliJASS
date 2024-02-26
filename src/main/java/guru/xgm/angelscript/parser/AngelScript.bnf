@@ -89,8 +89,8 @@
         PLUS_PLUS='++'
         PLUS='+'
         PLUS_EQ='+='
-        MINUS='-'
         MINUS_MINUS='--'
+        MINUS='-'
         MINUS_EQ='-='
         MUL='*'
         MUL_EQ='*='
@@ -145,23 +145,51 @@ Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA I
 //                                                                      '}'
 VirtProp ::= (PRIVATE|PROTECTED)? Type AND? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
 FuncDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI
-// VAR ::= ['private'|'protected'] TYPE IDENTIFIER  [
-//                                                      ( '=' (INITLIST | EXPR)) | ARGLIST
-//                                                  ]
-//                                                  {
-//                                                      ',' IDENTIFIER  [
-//                                                                          ( '=' (INITLIST | EXPR)) | ARGLIST
-//                                                                      ]
-//                                                  }
-//                                                  ';'
-Var ::= (PRIVATE|PROTECTED)? Type ID ( (EQ (InitList | Expr)) | ArgList )? ( COMMA ID ( EQ (InitList | Expr)|ArgList )? )* SEMI
-// TYPE          ::= ['const'] SCOPE DATATYPE   [
-//                                                  '<' TYPE {',' TYPE} '>'
-//                                              ]
-//                                              {
-//                                                  ('[' ']') | ('@' ['const'])
-//                                              }
-Type ::= CONST? Scope DataType GenericType? ((LBRACK RBRACK)|(AT CONST?))*
+// VAR ::=  ['private'|'protected']
+//          TYPE
+//          IDENTIFIER
+//          [
+//              ('=' (INITLIST | EXPR)) | ARGLIST
+//          ]
+//          {
+//              ','
+//              IDENTIFIER
+//              [
+//                  ('=' (INITLIST | EXPR)) | ARGLIST
+//              ]
+//          }
+//          ';'
+Var ::= (PRIVATE|PROTECTED)?
+        Type
+        ID
+        (
+            (EQ (InitList | Expr)) | ArgList
+        )?
+        (
+            COMMA
+            ID
+            (
+                (EQ (InitList|Expr)) | ArgList
+            )?
+        )*
+        SEMI
+// TYPE ::=
+//          ['const']
+//          SCOPE
+//          DATATYPE
+//          [
+//              '<' TYPE {',' TYPE} '>'
+//          ]
+//          {
+//              ('[' ']') | ('@' ['const'])
+//          }
+Type ::=    CONST?
+            Scope
+            DataType
+            GenericType?
+            (
+                (LBRACK RBRACK)|(AT CONST?)
+            )*
 GenericType ::= LT Type (COMMA Type)* GT
 // SCOPE         ::= ['::'] {IDENTIFIER '::'}   [
 //                                                  IDENTIFIER
@@ -182,9 +210,15 @@ PrimType ::= ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRI
 //                          [ASSIGN | INITLIST]
 //                      }
 //                      '}'
-InitList ::= LBRACE (Assign|InitList)? ( COMMA (Assign|InitList)? )* RBRACE
+InitList ::=    LBRACE
+                (Assign|InitList)?
+                (
+                    COMMA
+                    (Assign|InitList)?
+                )*
+                RBRACE
 // ASSIGN        ::= CONDITION [ ASSIGNOP ASSIGN ]
-Assign ::= Condition  (AssignOp Assign)?
+Assign ::= Condition (AssignOp Assign)?
 // CONDITION     ::= EXPR ['?' ASSIGN ':' ASSIGN]
 Condition ::= Expr (QUEST Assign COLON Assign)?
 // ASSIGNOP      ::= '=' | '+=' | '-=' | '*=' | '/=' | '|=' | '&=' | '^=' | '%=' | '**=' | '<<=' | '>>=' | '>>>='

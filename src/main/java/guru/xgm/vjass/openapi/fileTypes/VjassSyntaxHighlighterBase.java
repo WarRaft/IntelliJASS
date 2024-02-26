@@ -46,18 +46,34 @@ public class VjassSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 CONSTANT,
-                ELSE,
                 FALSE,
+                // function
                 FUNCTION,
+                ENDFUNCTION,
+                // if
                 IF,
+                THEN,
+                ELSE,
+                ENDIF,
+                // loop
+                LOOP,
+                EXITWHEN,
+                ENDLOOP,
+                // globals
+                GLOBALS,
+                ENDGLOBALS,
+                // library
                 LIBRARY,
+                INITIALIZER,
+                REQUIRES,
                 METHOD,
+                ENDLIBRARY,
+                //
                 NATIVE,
                 OPTIONAL,
                 PRIVATE,
                 PUBLIC,
                 RETURNS,
-                REQUIRES,
                 STATIC,
                 STRUCT,
                 TAKES,

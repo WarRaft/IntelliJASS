@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface VjassGlobalsDef extends PsiElement {
+public interface VjassGlob extends PsiElement {
 
   @NotNull
   List<VjassGvarDef> getGvarDefList();

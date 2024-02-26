@@ -5,13 +5,13 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface VjassLibDef extends PsiElement {
+public interface VjassLib extends PsiElement {
 
   @NotNull
   List<VjassFuncDef> getFuncDefList();
 
   @NotNull
-  List<VjassGlobalsDef> getGlobalsDefList();
+  List<VjassGlob> getGlobList();
 
   @NotNull
   List<VjassHookDef> getHookDefList();
@@ -24,8 +24,5 @@ public interface VjassLibDef extends PsiElement {
 
   @NotNull
   List<VjassStructDef> getStructDefList();
-
-  @Nullable
-  PsiElement getId();
 
 }

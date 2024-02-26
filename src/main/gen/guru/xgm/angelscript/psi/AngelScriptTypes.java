@@ -122,7 +122,6 @@ public interface AngelScriptTypes {
   IElementType INT32 = new AngelScriptIToken("int32");
   IElementType INT64 = new AngelScriptIToken("int64");
   IElementType INT8 = new AngelScriptIToken("int8");
-  IElementType INTEGER = new AngelScriptIToken("integer");
   IElementType INTVAL = new AngelScriptIToken("INTVAL");
   IElementType LBRACE = new AngelScriptIToken("{");
   IElementType LBRACK = new AngelScriptIToken("[");

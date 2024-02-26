@@ -166,7 +166,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Condition  (AssignOp Assign)?
+  // Condition (AssignOp Assign)?
   public static boolean Assign(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Assign")) return false;
     boolean r;
@@ -840,7 +840,13 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE (Assign|InitList)? ( COMMA (Assign|InitList)? )* RBRACE
+  // LBRACE
+  //                 (Assign|InitList)?
+  //                 (
+  //                     COMMA
+  //                     (Assign|InitList)?
+  //                 )*
+  //                 RBRACE
   public static boolean InitList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InitList")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
@@ -870,7 +876,10 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ( COMMA (Assign|InitList)? )*
+  // (
+  //                     COMMA
+  //                     (Assign|InitList)?
+  //                 )*
   private static boolean InitList_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InitList_2")) return false;
     while (true) {
@@ -881,7 +890,8 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA (Assign|InitList)?
+  // COMMA
+  //                     (Assign|InitList)?
   private static boolean InitList_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InitList_2_0")) return false;
     boolean r;
@@ -1417,7 +1427,13 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONST? Scope DataType GenericType? ((LBRACK RBRACK)|(AT CONST?))*
+  // CONST?
+  //             Scope
+  //             DataType
+  //             GenericType?
+  //             (
+  //                 (LBRACK RBRACK)|(AT CONST?)
+  //             )*
   public static boolean Type(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Type")) return false;
     boolean r;
@@ -1445,7 +1461,9 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ((LBRACK RBRACK)|(AT CONST?))*
+  // (
+  //                 (LBRACK RBRACK)|(AT CONST?)
+  //             )*
   private static boolean Type_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Type_4")) return false;
     while (true) {
@@ -1534,7 +1552,20 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (PRIVATE|PROTECTED)? Type ID ( (EQ (InitList | Expr)) | ArgList )? ( COMMA ID ( EQ (InitList | Expr)|ArgList )? )* SEMI
+  // (PRIVATE|PROTECTED)?
+  //         Type
+  //         ID
+  //         (
+  //             (EQ (InitList | Expr)) | ArgList
+  //         )?
+  //         (
+  //             COMMA
+  //             ID
+  //             (
+  //                 (EQ (InitList|Expr)) | ArgList
+  //             )?
+  //         )*
+  //         SEMI
   public static boolean Var(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var")) return false;
     boolean r;
@@ -1565,7 +1596,9 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ( (EQ (InitList | Expr)) | ArgList )?
+  // (
+  //             (EQ (InitList | Expr)) | ArgList
+  //         )?
   private static boolean Var_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_3")) return false;
     Var_3_0(b, l + 1);
@@ -1603,7 +1636,13 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ( COMMA ID ( EQ (InitList | Expr)|ArgList )? )*
+  // (
+  //             COMMA
+  //             ID
+  //             (
+  //                 (EQ (InitList|Expr)) | ArgList
+  //             )?
+  //         )*
   private static boolean Var_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4")) return false;
     while (true) {
@@ -1614,7 +1653,11 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA ID ( EQ (InitList | Expr)|ArgList )?
+  // COMMA
+  //             ID
+  //             (
+  //                 (EQ (InitList|Expr)) | ArgList
+  //             )?
   private static boolean Var_4_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4_0")) return false;
     boolean r;
@@ -1625,14 +1668,16 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ( EQ (InitList | Expr)|ArgList )?
+  // (
+  //                 (EQ (InitList|Expr)) | ArgList
+  //             )?
   private static boolean Var_4_0_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4_0_2")) return false;
     Var_4_0_2_0(b, l + 1);
     return true;
   }
 
-  // EQ (InitList | Expr)|ArgList
+  // (EQ (InitList|Expr)) | ArgList
   private static boolean Var_4_0_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4_0_2_0")) return false;
     boolean r;
@@ -1643,7 +1688,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // EQ (InitList | Expr)
+  // EQ (InitList|Expr)
   private static boolean Var_4_0_2_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4_0_2_0_0")) return false;
     boolean r;
@@ -1654,7 +1699,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // InitList | Expr
+  // InitList|Expr
   private static boolean Var_4_0_2_0_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Var_4_0_2_0_0_1")) return false;
     boolean r;

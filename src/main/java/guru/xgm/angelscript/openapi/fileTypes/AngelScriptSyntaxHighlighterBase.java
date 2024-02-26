@@ -47,6 +47,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
         if (Arrays.asList(
                 ABSTRACT,
+                ARRAY,
                 AUTO,
                 BREAK,
                 CASE,

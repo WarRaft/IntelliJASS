@@ -91,7 +91,7 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGlobalsDef(@NotNull VjassGlobalsDef o) {
+  public void visitGlob(@NotNull VjassGlob o) {
     visitPsiElement(o);
   }
 
@@ -131,7 +131,7 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLibDef(@NotNull VjassLibDef o) {
+  public void visitLib(@NotNull VjassLib o) {
     visitPsiElement(o);
   }
 

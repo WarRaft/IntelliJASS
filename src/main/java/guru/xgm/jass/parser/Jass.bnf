@@ -95,7 +95,7 @@ private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 // === globals
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
 GvarName ::= ID
-Gvar ::= CONSTANT? TypeName ARRAY? GvarName [EQ Expr] {pin=2 recoverWhile=GvarRecover}
+Gvar ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarRecover}
 private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
 // === TYPE

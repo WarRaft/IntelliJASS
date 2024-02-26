@@ -46,6 +46,7 @@
         IF='if'
         IMPLEMENT='implement'
         INTEGER='integer'
+        INITIALIZER='initializer'
         LIBRARY='library'
         LOCAL='local'
         LOOP='loop'
@@ -103,9 +104,9 @@
 Root ::= (
     TypeDef |
     NativeDef |
-    GlobalsDef |
+    Glob |
     FuncDef |
-    LibDef |
+    Lib |
     HookDef |
     StructDef |
     ModuleDef
@@ -117,7 +118,7 @@ Vis ::= (PUBLIC|PRIVATE)
 IdDot ::= ID (DOT ID)*
 
 // === LIBRARY
-LibDef ::= LIBRARY ID LibReq? (StructDef|ModuleDef|FuncDef|GlobalsDef|HookDef)* ENDLIBRARY {pin=1}
+Lib ::= LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|FuncDef|Glob|HookDef)* ENDLIBRARY {pin=1}
 LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 
@@ -147,7 +148,7 @@ private FuncBody ::= Stmt
 HookDef ::= HOOK ID ID {pin=1}
 
 // === GLOBALS
-GlobalsDef ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
+Glob ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
 GvarName ::= ID
 GvarDef ::= Vis? CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=3 recoverWhile=GvarDefRecover}
 private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName|Vis)

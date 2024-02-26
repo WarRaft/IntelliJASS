@@ -68,6 +68,7 @@ SINGLE_LINE_COMMENT="//"[^\n]*
   "if"                        { return IF; }
   "implement"                 { return IMPLEMENT; }
   "integer"                   { return INTEGER; }
+  "initializer"               { return INITIALIZER; }
   "library"                   { return LIBRARY; }
   "local"                     { return LOCAL; }
   "loop"                      { return LOOP; }
