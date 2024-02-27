@@ -5,12 +5,21 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassMulUnaryExpr extends JassExpr {
+public interface JassVar extends PsiElement {
 
   @Nullable
   JassExpr getExpr();
 
   @NotNull
-  PsiElement getMul();
+  JassTypeName getTypeName();
+
+  @Nullable
+  PsiElement getArray();
+
+  @Nullable
+  PsiElement getEq();
+
+  @NotNull
+  PsiElement getId();
 
 }

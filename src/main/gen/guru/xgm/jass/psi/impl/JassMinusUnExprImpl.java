@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.JassTypes.*;
 import guru.xgm.jass.psi.*;
 
-public class JassMulUnaryExprImpl extends JassExprImpl implements JassMulUnaryExpr {
+public class JassMinusUnExprImpl extends JassExprImpl implements JassMinusUnExpr {
 
-  public JassMulUnaryExprImpl(@NotNull ASTNode node) {
+  public JassMinusUnExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitMulUnaryExpr(this);
+    visitor.visitMinusUnExpr(this);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class JassMulUnaryExprImpl extends JassExprImpl implements JassMulUnaryEx
 
   @Override
   @NotNull
-  public PsiElement getMul() {
-    return findNotNullChildByType(MUL);
+  public PsiElement getMinus() {
+    return findNotNullChildByType(MINUS);
   }
 
 }

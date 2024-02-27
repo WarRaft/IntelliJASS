@@ -15,7 +15,7 @@ public interface JassTypes {
   IElementType ARRAY_ACCESS = new JassIElement("ARRAY_ACCESS");
   IElementType CALL_STMT = new JassIElement("CALL_STMT");
   IElementType DIV_EXPR = new JassIElement("DIV_EXPR");
-  IElementType DIV_UNARY_EXPR = new JassIElement("DIV_UNARY_EXPR");
+  IElementType DIV_UN_EXPR = new JassIElement("DIV_UN_EXPR");
   IElementType ELSE_IF_STMT = new JassIElement("ELSE_IF_STMT");
   IElementType ELSE_STMT = new JassIElement("ELSE_STMT");
   IElementType EQ_EXPR = new JassIElement("EQ_EXPR");
@@ -30,16 +30,15 @@ public interface JassTypes {
   IElementType GT_EQ_EXPR = new JassIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassIElement("GT_EXPR");
   IElementType GVAR = new JassIElement("GVAR");
-  IElementType GVAR_NAME = new JassIElement("GVAR_NAME");
   IElementType IF_STMT = new JassIElement("IF_STMT");
   IElementType LOOP_STMT = new JassIElement("LOOP_STMT");
   IElementType LT_EQ_EXPR = new JassIElement("LT_EQ_EXPR");
   IElementType LT_EXPR = new JassIElement("LT_EXPR");
   IElementType LVAR_STMT = new JassIElement("LVAR_STMT");
   IElementType MINUS_EXPR = new JassIElement("MINUS_EXPR");
-  IElementType MINUS_UNARY_EXPR = new JassIElement("MINUS_UNARY_EXPR");
+  IElementType MINUS_UN_EXPR = new JassIElement("MINUS_UN_EXPR");
   IElementType MUL_EXPR = new JassIElement("MUL_EXPR");
-  IElementType MUL_UNARY_EXPR = new JassIElement("MUL_UNARY_EXPR");
+  IElementType MUL_UN_EXPR = new JassIElement("MUL_UN_EXPR");
   IElementType NATIV = new JassIElement("NATIV");
   IElementType NEQ_EXPR = new JassIElement("NEQ_EXPR");
   IElementType NOT_EXPR = new JassIElement("NOT_EXPR");
@@ -48,7 +47,7 @@ public interface JassTypes {
   IElementType PARAM_LIST = new JassIElement("PARAM_LIST");
   IElementType PAREN_EXPR = new JassIElement("PAREN_EXPR");
   IElementType PLUS_EXPR = new JassIElement("PLUS_EXPR");
-  IElementType PLUS_UNARY_EXPR = new JassIElement("PLUS_UNARY_EXPR");
+  IElementType PLUS_UN_EXPR = new JassIElement("PLUS_UN_EXPR");
   IElementType PRIM_EXPR = new JassIElement("PRIM_EXPR");
   IElementType RETURN_STMT = new JassIElement("RETURN_STMT");
   IElementType SET_STMT = new JassIElement("SET_STMT");
@@ -56,6 +55,7 @@ public interface JassTypes {
   IElementType TYPE_DEF = new JassIElement("TYPE_DEF");
   IElementType TYPE_NAME = new JassIElement("TYPE_NAME");
   IElementType TYPE_NAME_BASE = new JassIElement("TYPE_NAME_BASE");
+  IElementType VAR = new JassIElement("VAR");
 
   IElementType AND = new JassIToken("and");
   IElementType ARRAY = new JassIToken("array");
@@ -136,8 +136,8 @@ public interface JassTypes {
       else if (type == DIV_EXPR) {
         return new JassDivExprImpl(node);
       }
-      else if (type == DIV_UNARY_EXPR) {
-        return new JassDivUnaryExprImpl(node);
+      else if (type == DIV_UN_EXPR) {
+        return new JassDivUnExprImpl(node);
       }
       else if (type == ELSE_IF_STMT) {
         return new JassElseIfStmtImpl(node);
@@ -178,9 +178,6 @@ public interface JassTypes {
       else if (type == GVAR) {
         return new JassGvarImpl(node);
       }
-      else if (type == GVAR_NAME) {
-        return new JassGvarNameImpl(node);
-      }
       else if (type == IF_STMT) {
         return new JassIfStmtImpl(node);
       }
@@ -199,14 +196,14 @@ public interface JassTypes {
       else if (type == MINUS_EXPR) {
         return new JassMinusExprImpl(node);
       }
-      else if (type == MINUS_UNARY_EXPR) {
-        return new JassMinusUnaryExprImpl(node);
+      else if (type == MINUS_UN_EXPR) {
+        return new JassMinusUnExprImpl(node);
       }
       else if (type == MUL_EXPR) {
         return new JassMulExprImpl(node);
       }
-      else if (type == MUL_UNARY_EXPR) {
-        return new JassMulUnaryExprImpl(node);
+      else if (type == MUL_UN_EXPR) {
+        return new JassMulUnExprImpl(node);
       }
       else if (type == NATIV) {
         return new JassNativImpl(node);
@@ -232,8 +229,8 @@ public interface JassTypes {
       else if (type == PLUS_EXPR) {
         return new JassPlusExprImpl(node);
       }
-      else if (type == PLUS_UNARY_EXPR) {
-        return new JassPlusUnaryExprImpl(node);
+      else if (type == PLUS_UN_EXPR) {
+        return new JassPlusUnExprImpl(node);
       }
       else if (type == PRIM_EXPR) {
         return new JassPrimExprImpl(node);
@@ -255,6 +252,9 @@ public interface JassTypes {
       }
       else if (type == TYPE_NAME_BASE) {
         return new JassTypeNameBaseImpl(node);
+      }
+      else if (type == VAR) {
+        return new JassVarImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JassMinusUnaryExpr extends JassExpr {
+public interface JassPlusUnExpr extends JassExpr {
 
   @Nullable
   JassExpr getExpr();
 
   @NotNull
-  PsiElement getMinus();
+  PsiElement getPlus();
 
 }

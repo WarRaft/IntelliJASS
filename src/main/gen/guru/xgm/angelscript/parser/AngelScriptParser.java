@@ -36,11 +36,11 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(AND_EXPR, ASSIGN_EXPR, DIV_EXPR, DIV_UNARY_EXPR,
+    create_token_set_(AND_EXPR, ASSIGN_EXPR, DIV_EXPR, DIV_UN_EXPR,
       EQ_EXPR, EXPR, GT_EQ_EXPR, GT_EXPR,
-      LT_EQ_EXPR, LT_EXPR, MINUS_EXPR, MINUS_UNARY_EXPR,
-      MUL_EXPR, MUL_UNARY_EXPR, NOT_EXPR, N_EQ_EXPR,
-      OR_EXPR, PAREN_EXPR, PLUS_EXPR, PLUS_UNARY_EXPR,
+      LT_EQ_EXPR, LT_EXPR, MINUS_EXPR, MINUS_UN_EXPR,
+      MUL_EXPR, MUL_UN_EXPR, NOT_EXPR, N_EQ_EXPR,
+      OR_EXPR, PAREN_EXPR, PLUS_EXPR, PLUS_UN_EXPR,
       POST_DEC_EXPR, POST_INC_EXPR, PRE_DEC_EXPR, PRE_INC_EXPR,
       PRIMARY_EXPR, REF_EXPR),
   };
@@ -1815,25 +1815,37 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   // Operator priority table:
   // 0: BINARY(AssignExpr)
   // 1: BINARY(RefExpr)
-  // 2: BINARY(PlusExpr) BINARY(MinusExpr)
-  // 3: BINARY(MulExpr) BINARY(DivExpr)
-  // 4: PREFIX(MulUnaryExpr) PREFIX(DivUnaryExpr) PREFIX(PlusUnaryExpr) PREFIX(MinusUnaryExpr)
-  //    PREFIX(NotExpr) PREFIX(PreIncExpr) POSTFIX(PostIncExpr) PREFIX(PreDecExpr)
-  //    POSTFIX(PostDecExpr)
-  // 5: BINARY(EqExpr) BINARY(NEqExpr) BINARY(LTExpr) BINARY(LTEqExpr)
-  //    BINARY(GTExpr) BINARY(GTEqExpr)
-  // 6: BINARY(OrExpr)
-  // 7: BINARY(AndExpr)
-  // 8: ATOM(PrimaryExpr)
+  // 2: BINARY(PlusExpr)
+  // 3: BINARY(MinusExpr)
+  // 4: BINARY(MulExpr)
+  // 5: BINARY(DivExpr)
+  // 6: PREFIX(MulUnExpr)
+  // 7: PREFIX(DivUnExpr)
+  // 8: PREFIX(PlusUnExpr)
+  // 9: PREFIX(MinusUnExpr)
+  // 10: PREFIX(NotExpr)
+  // 11: PREFIX(PreIncExpr)
+  // 12: POSTFIX(PostIncExpr)
+  // 13: PREFIX(PreDecExpr)
+  // 14: POSTFIX(PostDecExpr)
+  // 15: BINARY(EqExpr)
+  // 16: BINARY(NEqExpr)
+  // 17: BINARY(LTExpr)
+  // 18: BINARY(LTEqExpr)
+  // 19: BINARY(GTExpr)
+  // 20: BINARY(GTEqExpr)
+  // 21: BINARY(OrExpr)
+  // 22: BINARY(AndExpr)
+  // 23: ATOM(PrimaryExpr)
   public static boolean Expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "Expr")) return false;
     addVariant(b, "<expr>");
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, "<expr>");
-    r = PlusUnaryExpr(b, l + 1);
-    if (!r) r = MinusUnaryExpr(b, l + 1);
-    if (!r) r = MulUnaryExpr(b, l + 1);
-    if (!r) r = DivUnaryExpr(b, l + 1);
+    r = PlusUnExpr(b, l + 1);
+    if (!r) r = MinusUnExpr(b, l + 1);
+    if (!r) r = MulUnExpr(b, l + 1);
+    if (!r) r = DivUnExpr(b, l + 1);
     if (!r) r = NotExpr(b, l + 1);
     if (!r) r = PreIncExpr(b, l + 1);
     if (!r) r = PreDecExpr(b, l + 1);
@@ -1861,56 +1873,56 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
         r = Expr(b, l, 2);
         exit_section_(b, l, m, PLUS_EXPR, r, true, null);
       }
-      else if (g < 2 && consumeTokenSmart(b, MINUS)) {
-        r = Expr(b, l, 2);
+      else if (g < 3 && consumeTokenSmart(b, MINUS)) {
+        r = Expr(b, l, 3);
         exit_section_(b, l, m, MINUS_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, MUL)) {
-        r = Expr(b, l, 3);
+      else if (g < 4 && consumeTokenSmart(b, MUL)) {
+        r = Expr(b, l, 4);
         exit_section_(b, l, m, MUL_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, DIV)) {
-        r = Expr(b, l, 3);
+      else if (g < 5 && consumeTokenSmart(b, DIV)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, DIV_EXPR, r, true, null);
       }
-      else if (g < 4 && consumeTokenSmart(b, PLUS_PLUS)) {
+      else if (g < 12 && consumeTokenSmart(b, PLUS_PLUS)) {
         r = true;
         exit_section_(b, l, m, POST_INC_EXPR, r, true, null);
       }
-      else if (g < 4 && consumeTokenSmart(b, MINUS_MINUS)) {
+      else if (g < 14 && consumeTokenSmart(b, MINUS_MINUS)) {
         r = true;
         exit_section_(b, l, m, POST_DEC_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, EQ_EQ)) {
-        r = Expr(b, l, 5);
+      else if (g < 15 && consumeTokenSmart(b, EQ_EQ)) {
+        r = Expr(b, l, 15);
         exit_section_(b, l, m, EQ_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, NEQ)) {
-        r = Expr(b, l, 5);
+      else if (g < 16 && consumeTokenSmart(b, NEQ)) {
+        r = Expr(b, l, 16);
         exit_section_(b, l, m, N_EQ_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, LT)) {
-        r = Expr(b, l, 5);
+      else if (g < 17 && consumeTokenSmart(b, LT)) {
+        r = Expr(b, l, 17);
         exit_section_(b, l, m, LT_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, LT_EQ)) {
-        r = Expr(b, l, 5);
+      else if (g < 18 && consumeTokenSmart(b, LT_EQ)) {
+        r = Expr(b, l, 18);
         exit_section_(b, l, m, LT_EQ_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, GT)) {
-        r = Expr(b, l, 5);
+      else if (g < 19 && consumeTokenSmart(b, GT)) {
+        r = Expr(b, l, 19);
         exit_section_(b, l, m, GT_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, GT_EQ)) {
-        r = Expr(b, l, 5);
+      else if (g < 20 && consumeTokenSmart(b, GT_EQ)) {
+        r = Expr(b, l, 20);
         exit_section_(b, l, m, GT_EQ_EXPR, r, true, null);
       }
-      else if (g < 6 && consumeTokenSmart(b, OR_OR)) {
-        r = Expr(b, l, 6);
+      else if (g < 21 && OrExpr_0(b, l + 1)) {
+        r = Expr(b, l, 21);
         exit_section_(b, l, m, OR_EXPR, r, true, null);
       }
-      else if (g < 7 && consumeTokenSmart(b, AND_AND)) {
-        r = Expr(b, l, 7);
+      else if (g < 22 && AndExpr_0(b, l + 1)) {
+        r = Expr(b, l, 22);
         exit_section_(b, l, m, AND_EXPR, r, true, null);
       }
       else {
@@ -1933,64 +1945,73 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  public static boolean PlusUnaryExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PlusUnaryExpr")) return false;
+  public static boolean PlusUnExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PlusUnExpr")) return false;
     if (!nextTokenIsSmart(b, PLUS)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS);
     p = r;
-    r = p && Expr(b, l, 4);
-    exit_section_(b, l, m, PLUS_UNARY_EXPR, r, p, null);
+    r = p && Expr(b, l, 8);
+    exit_section_(b, l, m, PLUS_UN_EXPR, r, p, null);
     return r || p;
   }
 
-  public static boolean MinusUnaryExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "MinusUnaryExpr")) return false;
+  public static boolean MinusUnExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MinusUnExpr")) return false;
     if (!nextTokenIsSmart(b, MINUS)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS);
     p = r;
-    r = p && Expr(b, l, 4);
-    exit_section_(b, l, m, MINUS_UNARY_EXPR, r, p, null);
+    r = p && Expr(b, l, 9);
+    exit_section_(b, l, m, MINUS_UN_EXPR, r, p, null);
     return r || p;
   }
 
-  public static boolean MulUnaryExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "MulUnaryExpr")) return false;
+  public static boolean MulUnExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MulUnExpr")) return false;
     if (!nextTokenIsSmart(b, MUL)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MUL);
     p = r;
-    r = p && Expr(b, l, 4);
-    exit_section_(b, l, m, MUL_UNARY_EXPR, r, p, null);
+    r = p && Expr(b, l, 6);
+    exit_section_(b, l, m, MUL_UN_EXPR, r, p, null);
     return r || p;
   }
 
-  public static boolean DivUnaryExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "DivUnaryExpr")) return false;
+  public static boolean DivUnExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "DivUnExpr")) return false;
     if (!nextTokenIsSmart(b, DIV)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, DIV);
     p = r;
-    r = p && Expr(b, l, 4);
-    exit_section_(b, l, m, DIV_UNARY_EXPR, r, p, null);
+    r = p && Expr(b, l, 7);
+    exit_section_(b, l, m, DIV_UN_EXPR, r, p, null);
     return r || p;
   }
 
   public static boolean NotExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NotExpr")) return false;
-    if (!nextTokenIsSmart(b, NOT)) return false;
+    if (!nextTokenIsSmart(b, EXCL, NOT)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, null);
-    r = consumeTokenSmart(b, NOT);
+    r = NotExpr_0(b, l + 1);
     p = r;
-    r = p && Expr(b, l, 4);
+    r = p && Expr(b, l, 10);
     exit_section_(b, l, m, NOT_EXPR, r, p, null);
     return r || p;
+  }
+
+  // NOT|EXCL
+  private static boolean NotExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NotExpr_0")) return false;
+    boolean r;
+    r = consumeTokenSmart(b, NOT);
+    if (!r) r = consumeTokenSmart(b, EXCL);
+    return r;
   }
 
   public static boolean PreIncExpr(PsiBuilder b, int l) {
@@ -2000,7 +2021,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS_PLUS);
     p = r;
-    r = p && Expr(b, l, 4);
+    r = p && Expr(b, l, 11);
     exit_section_(b, l, m, PRE_INC_EXPR, r, p, null);
     return r || p;
   }
@@ -2012,9 +2033,27 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS_MINUS);
     p = r;
-    r = p && Expr(b, l, 4);
+    r = p && Expr(b, l, 13);
     exit_section_(b, l, m, PRE_DEC_EXPR, r, p, null);
     return r || p;
+  }
+
+  // OR|VBAR_VBAR
+  private static boolean OrExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "OrExpr_0")) return false;
+    boolean r;
+    r = consumeTokenSmart(b, OR);
+    if (!r) r = consumeTokenSmart(b, VBAR_VBAR);
+    return r;
+  }
+
+  // AND|AMP_AMP
+  private static boolean AndExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AndExpr_0")) return false;
+    boolean r;
+    r = consumeTokenSmart(b, AND);
+    if (!r) r = consumeTokenSmart(b, AMP_AMP);
+    return r;
   }
 
   // FALSE |

@@ -44,7 +44,7 @@ public class JassGlobalVarBlock extends JassBlock {
             alignment = alignments.get(AT_GVAR_ARRAY);
         }
 
-        if (isOneOf(childNode, GVAR_NAME)) {
+        if (isOneOf(childNode, ID)) {
             childNode = childNode.getFirstChildNode();
             alignment = alignments.get(AT_GVAR_NAME);
         }

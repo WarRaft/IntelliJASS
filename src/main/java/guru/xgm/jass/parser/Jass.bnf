@@ -92,25 +92,26 @@ Root ::= (
     )* {recoverWhile=rootRecover}
 private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
-// === TYPE
+// === type
 TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
 TypeNameBase ::= TypeName
 
 // === globals
+Var ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
+
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
-GvarName ::= ID
-Gvar ::= CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=2 recoverWhile=GvarRecover}
+Gvar ::= CONSTANT? Var {pin=2 recoverWhile=GvarRecover}
 private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
 
-// === VARIABLE
+// === function
+ArgList ::= Expr (COMMA Expr)*
+FunCall ::= ID LPAREN ArgList? RPAREN {pin=2}
+
 Param ::= TypeName ID
 ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
 private ParamListRecover ::= !(RETURNS)
 
-// === FUNCTION
-ArgList ::= Expr (COMMA Expr)*
-FunCall ::= ID LPAREN ArgList? RPAREN {pin=2}
 FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
 Fun ::= CONSTANT? FUNCTION ID FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
@@ -126,7 +127,7 @@ Stmt ::=
     LoopStmt |
     ExitWhenStmt
 
-LvarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=2}
+LvarStmt ::= LOCAL? Var {pin=2}
 
 SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 
@@ -148,29 +149,12 @@ ExitWhenStmt ::=EXITWHEN Expr {pin=1}
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
-    // plus
-    PlusExpr |
-    MinusExpr |
-    // mul
-    MulExpr |
-    DivExpr |
-    // unary
-    MulUnaryExpr |
-    DivUnaryExpr |
-    PlusUnaryExpr |
-    MinusUnaryExpr |
+    PlusExpr|MinusExpr|
+    MulExpr|DivExpr|
+    MulUnExpr|DivUnExpr|PlusUnExpr|MinusUnExpr|
     NotExpr |
-    // compare
-    EqExpr |
-    NeqExpr |
-    LtExpr |
-    LtEqExpr |
-    GtExpr |
-    GtEqExpr |
-    // bool
-    OrExpr |
-    AndExpr |
-    // primary
+    EqExpr|NeqExpr|LtExpr|LtEqExpr|GtExpr|GtEqExpr|
+    OrExpr|AndExpr|
     PrimExpr
 
 PlusExpr ::= Expr PLUS Expr
@@ -179,10 +163,10 @@ MinusExpr ::= Expr MINUS Expr
 MulExpr ::= Expr MUL Expr
 DivExpr ::= Expr DIV Expr
 
-MulUnaryExpr ::= MUL Expr
-DivUnaryExpr ::= DIV Expr
-PlusUnaryExpr ::= PLUS Expr
-MinusUnaryExpr ::= MINUS Expr
+MulUnExpr ::= MUL Expr
+DivUnExpr ::= DIV Expr
+PlusUnExpr ::= PLUS Expr
+MinusUnExpr ::= MINUS Expr
 NotExpr ::= NOT Expr
 
 EqExpr ::= Expr EQ_EQ Expr

@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.jass.psi.JassTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.jass.psi.*;
 
-public class JassDivUnaryExprImpl extends JassExprImpl implements JassDivUnaryExpr {
+public class JassVarImpl extends ASTWrapperPsiElement implements JassVar {
 
-  public JassDivUnaryExprImpl(@NotNull ASTNode node) {
+  public JassVarImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitDivUnaryExpr(this);
+    visitor.visitVar(this);
   }
 
   @Override
@@ -35,8 +35,26 @@ public class JassDivUnaryExprImpl extends JassExprImpl implements JassDivUnaryEx
 
   @Override
   @NotNull
-  public PsiElement getDiv() {
-    return findNotNullChildByType(DIV);
+  public JassTypeName getTypeName() {
+    return findNotNullChildByClass(JassTypeName.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

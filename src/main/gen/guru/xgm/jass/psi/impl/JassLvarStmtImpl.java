@@ -28,33 +28,9 @@ public class JassLvarStmtImpl extends ASTWrapperPsiElement implements JassLvarSt
   }
 
   @Override
-  @Nullable
-  public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
-  }
-
-  @Override
   @NotNull
-  public JassTypeName getTypeName() {
-    return findNotNullChildByClass(JassTypeName.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getArray() {
-    return findChildByType(ARRAY);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEq() {
-    return findChildByType(EQ);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  public JassVar getVar() {
+    return findNotNullChildByClass(JassVar.class);
   }
 
   @Override

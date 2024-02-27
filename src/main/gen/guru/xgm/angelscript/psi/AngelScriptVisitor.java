@@ -59,7 +59,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitDivUnaryExpr(@NotNull AngelScriptDivUnaryExpr o) {
+  public void visitDivUnExpr(@NotNull AngelScriptDivUnExpr o) {
     visitExpr(o);
   }
 
@@ -139,7 +139,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitMinusUnaryExpr(@NotNull AngelScriptMinusUnaryExpr o) {
+  public void visitMinusUnExpr(@NotNull AngelScriptMinusUnExpr o) {
     visitExpr(o);
   }
 
@@ -147,7 +147,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitMulUnaryExpr(@NotNull AngelScriptMulUnaryExpr o) {
+  public void visitMulUnExpr(@NotNull AngelScriptMulUnExpr o) {
     visitExpr(o);
   }
 
@@ -183,7 +183,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitPlusUnaryExpr(@NotNull AngelScriptPlusUnaryExpr o) {
+  public void visitPlusUnExpr(@NotNull AngelScriptPlusUnExpr o) {
     visitExpr(o);
   }
 

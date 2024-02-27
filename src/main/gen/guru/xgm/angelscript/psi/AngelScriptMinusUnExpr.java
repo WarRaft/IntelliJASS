@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptMinusUnaryExpr extends AngelScriptExpr {
+public interface AngelScriptMinusUnExpr extends AngelScriptExpr {
 
   @Nullable
   AngelScriptExpr getExpr();

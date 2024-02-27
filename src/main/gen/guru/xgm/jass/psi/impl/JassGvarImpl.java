@@ -28,39 +28,15 @@ public class JassGvarImpl extends ASTWrapperPsiElement implements JassGvar {
   }
 
   @Override
-  @Nullable
-  public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public JassGvarName getGvarName() {
-    return findChildByClass(JassGvarName.class);
-  }
-
-  @Override
   @NotNull
-  public JassTypeName getTypeName() {
-    return findNotNullChildByClass(JassTypeName.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getArray() {
-    return findChildByType(ARRAY);
+  public JassVar getVar() {
+    return findNotNullChildByClass(JassVar.class);
   }
 
   @Override
   @Nullable
   public PsiElement getConstant() {
     return findChildByType(CONSTANT);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEq() {
-    return findChildByType(EQ);
   }
 
 }

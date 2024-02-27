@@ -40,6 +40,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
   "abstract"                  { return ABSTRACT; }
   "array"                     { return ARRAY; }
+  "and"                       { return AND; }
   "auto"                      { return AUTO; }
   "bool"                      { return BOOL; }
   "break"                     { return BREAK; }
@@ -71,7 +72,9 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "int32"                     { return INT32; }
   "int64"                     { return INT64; }
   "namespace"                 { return NAMESPACE; }
+  "not"                       { return NOT; }
   "null"                      { return NULL; }
+  "or"                        { return OR; }
   "override"                  { return OVERRIDE; }
   "out"                       { return OUT; }
   "private"                   { return PRIVATE; }
@@ -103,9 +106,11 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ":"                         { return COLON; }
   ";"                         { return SEMI; }
   "->"                        { return MINUS_GT; }
-  "&&"                        { return AND_AND; }
-  "||"                        { return OR_OR; }
-  "!"                         { return NOT; }
+  "&&"                        { return AMP_AMP; }
+  "&"                         { return AMP; }
+  "||"                        { return VBAR_VBAR; }
+  "|"                         { return VBAR; }
+  "!"                         { return EXCL; }
   "++"                        { return PLUS_PLUS; }
   "+"                         { return PLUS; }
   "+="                        { return PLUS_EQ; }
@@ -127,7 +132,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
-  "AND"                       { return AND; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }

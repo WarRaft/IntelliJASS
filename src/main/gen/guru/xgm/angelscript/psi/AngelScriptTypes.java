@@ -23,7 +23,7 @@ public interface AngelScriptTypes {
   IElementType CONDITION = new AngelScriptIElement("CONDITION");
   IElementType DATA_TYPE = new AngelScriptIElement("DATA_TYPE");
   IElementType DIV_EXPR = new AngelScriptIElement("DIV_EXPR");
-  IElementType DIV_UNARY_EXPR = new AngelScriptIElement("DIV_UNARY_EXPR");
+  IElementType DIV_UN_EXPR = new AngelScriptIElement("DIV_UN_EXPR");
   IElementType DO_WHILE_STMT = new AngelScriptIElement("DO_WHILE_STMT");
   IElementType EQ_EXPR = new AngelScriptIElement("EQ_EXPR");
   IElementType EXPR = new AngelScriptIElement("EXPR");
@@ -43,9 +43,9 @@ public interface AngelScriptTypes {
   IElementType LT_EQ_EXPR = new AngelScriptIElement("LT_EQ_EXPR");
   IElementType LT_EXPR = new AngelScriptIElement("LT_EXPR");
   IElementType MINUS_EXPR = new AngelScriptIElement("MINUS_EXPR");
-  IElementType MINUS_UNARY_EXPR = new AngelScriptIElement("MINUS_UNARY_EXPR");
+  IElementType MINUS_UN_EXPR = new AngelScriptIElement("MINUS_UN_EXPR");
   IElementType MUL_EXPR = new AngelScriptIElement("MUL_EXPR");
-  IElementType MUL_UNARY_EXPR = new AngelScriptIElement("MUL_UNARY_EXPR");
+  IElementType MUL_UN_EXPR = new AngelScriptIElement("MUL_UN_EXPR");
   IElementType NOT_EXPR = new AngelScriptIElement("NOT_EXPR");
   IElementType NSPACE = new AngelScriptIElement("NSPACE");
   IElementType N_EQ_EXPR = new AngelScriptIElement("N_EQ_EXPR");
@@ -54,7 +54,7 @@ public interface AngelScriptTypes {
   IElementType PARAM_LIST = new AngelScriptIElement("PARAM_LIST");
   IElementType PAREN_EXPR = new AngelScriptIElement("PAREN_EXPR");
   IElementType PLUS_EXPR = new AngelScriptIElement("PLUS_EXPR");
-  IElementType PLUS_UNARY_EXPR = new AngelScriptIElement("PLUS_UNARY_EXPR");
+  IElementType PLUS_UN_EXPR = new AngelScriptIElement("PLUS_UN_EXPR");
   IElementType POST_DEC_EXPR = new AngelScriptIElement("POST_DEC_EXPR");
   IElementType POST_INC_EXPR = new AngelScriptIElement("POST_INC_EXPR");
   IElementType PRE_DEC_EXPR = new AngelScriptIElement("PRE_DEC_EXPR");
@@ -75,8 +75,9 @@ public interface AngelScriptTypes {
   IElementType WHILE_STNT = new AngelScriptIElement("WHILE_STNT");
 
   IElementType ABSTRACT = new AngelScriptIToken("abstract");
-  IElementType AND = new AngelScriptIToken("AND");
-  IElementType AND_AND = new AngelScriptIToken("&&");
+  IElementType AMP = new AngelScriptIToken("&");
+  IElementType AMP_AMP = new AngelScriptIToken("&&");
+  IElementType AND = new AngelScriptIToken("and");
   IElementType ARRAY = new AngelScriptIToken("array");
   IElementType AT = new AngelScriptIToken("@");
   IElementType AUTO = new AngelScriptIToken("auto");
@@ -98,6 +99,7 @@ public interface AngelScriptTypes {
   IElementType ELSE = new AngelScriptIToken("else");
   IElementType EQ = new AngelScriptIToken("=");
   IElementType EQ_EQ = new AngelScriptIToken("==");
+  IElementType EXCL = new AngelScriptIToken("!");
   IElementType EXPLICIT = new AngelScriptIToken("explicit");
   IElementType EXTERNAL = new AngelScriptIToken("external");
   IElementType FALSE = new AngelScriptIToken("false");
@@ -137,9 +139,9 @@ public interface AngelScriptTypes {
   IElementType MUL_EQ = new AngelScriptIToken("*=");
   IElementType NAMESPACE = new AngelScriptIToken("namespace");
   IElementType NEQ = new AngelScriptIToken("!=");
-  IElementType NOT = new AngelScriptIToken("!");
+  IElementType NOT = new AngelScriptIToken("not");
   IElementType NULL = new AngelScriptIToken("null");
-  IElementType OR_OR = new AngelScriptIToken("||");
+  IElementType OR = new AngelScriptIToken("or");
   IElementType OUT = new AngelScriptIToken("out");
   IElementType OVERRIDE = new AngelScriptIToken("override");
   IElementType PLUS = new AngelScriptIToken("+");
@@ -169,6 +171,8 @@ public interface AngelScriptTypes {
   IElementType UINT32 = new AngelScriptIToken("uint32");
   IElementType UINT64 = new AngelScriptIToken("uint64");
   IElementType UINT8 = new AngelScriptIToken("uint8");
+  IElementType VBAR = new AngelScriptIToken("|");
+  IElementType VBAR_VBAR = new AngelScriptIToken("||");
   IElementType VOID = new AngelScriptIToken("void");
   IElementType WHILE = new AngelScriptIToken("while");
 
@@ -214,8 +218,8 @@ public interface AngelScriptTypes {
       else if (type == DIV_EXPR) {
         return new AngelScriptDivExprImpl(node);
       }
-      else if (type == DIV_UNARY_EXPR) {
-        return new AngelScriptDivUnaryExprImpl(node);
+      else if (type == DIV_UN_EXPR) {
+        return new AngelScriptDivUnExprImpl(node);
       }
       else if (type == DO_WHILE_STMT) {
         return new AngelScriptDoWhileStmtImpl(node);
@@ -271,14 +275,14 @@ public interface AngelScriptTypes {
       else if (type == MINUS_EXPR) {
         return new AngelScriptMinusExprImpl(node);
       }
-      else if (type == MINUS_UNARY_EXPR) {
-        return new AngelScriptMinusUnaryExprImpl(node);
+      else if (type == MINUS_UN_EXPR) {
+        return new AngelScriptMinusUnExprImpl(node);
       }
       else if (type == MUL_EXPR) {
         return new AngelScriptMulExprImpl(node);
       }
-      else if (type == MUL_UNARY_EXPR) {
-        return new AngelScriptMulUnaryExprImpl(node);
+      else if (type == MUL_UN_EXPR) {
+        return new AngelScriptMulUnExprImpl(node);
       }
       else if (type == NOT_EXPR) {
         return new AngelScriptNotExprImpl(node);
@@ -304,8 +308,8 @@ public interface AngelScriptTypes {
       else if (type == PLUS_EXPR) {
         return new AngelScriptPlusExprImpl(node);
       }
-      else if (type == PLUS_UNARY_EXPR) {
-        return new AngelScriptPlusUnaryExprImpl(node);
+      else if (type == PLUS_UN_EXPR) {
+        return new AngelScriptPlusUnExprImpl(node);
       }
       else if (type == POST_DEC_EXPR) {
         return new AngelScriptPostDecExprImpl(node);

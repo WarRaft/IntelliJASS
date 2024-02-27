@@ -7,20 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface JassLvarStmt extends PsiElement {
 
-  @Nullable
-  JassExpr getExpr();
-
   @NotNull
-  JassTypeName getTypeName();
-
-  @Nullable
-  PsiElement getArray();
-
-  @Nullable
-  PsiElement getEq();
-
-  @Nullable
-  PsiElement getId();
+  JassVar getVar();
 
   @Nullable
   PsiElement getLocal();

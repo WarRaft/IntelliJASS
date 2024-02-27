@@ -27,7 +27,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitDivUnaryExpr(@NotNull JassDivUnaryExpr o) {
+  public void visitDivUnExpr(@NotNull JassDivUnExpr o) {
     visitExpr(o);
   }
 
@@ -87,10 +87,6 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGvarName(@NotNull JassGvarName o) {
-    visitPsiElement(o);
-  }
-
   public void visitIfStmt(@NotNull JassIfStmt o) {
     visitPsiElement(o);
   }
@@ -115,7 +111,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitMinusUnaryExpr(@NotNull JassMinusUnaryExpr o) {
+  public void visitMinusUnExpr(@NotNull JassMinusUnExpr o) {
     visitExpr(o);
   }
 
@@ -123,7 +119,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitMulUnaryExpr(@NotNull JassMulUnaryExpr o) {
+  public void visitMulUnExpr(@NotNull JassMulUnExpr o) {
     visitExpr(o);
   }
 
@@ -159,7 +155,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitPlusUnaryExpr(@NotNull JassPlusUnaryExpr o) {
+  public void visitPlusUnExpr(@NotNull JassPlusUnExpr o) {
     visitExpr(o);
   }
 
@@ -188,6 +184,10 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeNameBase(@NotNull JassTypeNameBase o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVar(@NotNull JassVar o) {
     visitPsiElement(o);
   }
 

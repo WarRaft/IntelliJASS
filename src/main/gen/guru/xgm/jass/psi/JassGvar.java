@@ -7,22 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface JassGvar extends PsiElement {
 
-  @Nullable
-  JassExpr getExpr();
-
-  @Nullable
-  JassGvarName getGvarName();
-
   @NotNull
-  JassTypeName getTypeName();
-
-  @Nullable
-  PsiElement getArray();
+  JassVar getVar();
 
   @Nullable
   PsiElement getConstant();
-
-  @Nullable
-  PsiElement getEq();
 
 }
