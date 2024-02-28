@@ -29,8 +29,8 @@ public class VjassLibImpl extends ASTWrapperPsiElement implements VjassLib {
 
   @Override
   @NotNull
-  public List<VjassFuncDef> getFuncDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, VjassFuncDef.class);
+  public List<VjassFun> getFunList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, VjassFun.class);
   }
 
   @Override

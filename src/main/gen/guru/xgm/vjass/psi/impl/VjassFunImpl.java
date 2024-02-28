@@ -11,14 +11,14 @@ import static guru.xgm.vjass.psi.VjassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.vjass.psi.*;
 
-public class VjassFuncDefImpl extends ASTWrapperPsiElement implements VjassFuncDef {
+public class VjassFunImpl extends ASTWrapperPsiElement implements VjassFun {
 
-  public VjassFuncDefImpl(@NotNull ASTNode node) {
+  public VjassFunImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull VjassVisitor visitor) {
-    visitor.visitFuncDef(this);
+    visitor.visitFun(this);
   }
 
   @Override

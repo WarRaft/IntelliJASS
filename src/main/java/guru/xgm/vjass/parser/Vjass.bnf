@@ -53,6 +53,7 @@
         METHOD='method'
         MODULE='module'
         NATIVE='native'
+        NEEDS='needs'
         NOT='not'
         NOTHING='nothing'
         NULL='null'
@@ -68,6 +69,7 @@
         SET='set'
         STRING='string'
         STRUCT='struct'
+        USES='uses'
         TAKES='takes'
         THEN='then'
         TRUE='true'
@@ -105,7 +107,7 @@ Root ::= (
     TypeDef |
     NativeDef |
     Glob |
-    FuncDef |
+    Fun |
     Lib |
     HookDef |
     StructDef |
@@ -118,8 +120,8 @@ Vis ::= (PUBLIC|PRIVATE)
 IdDot ::= ID (DOT ID)*
 
 // === LIBRARY
-Lib ::= LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|FuncDef|Glob|HookDef)* ENDLIBRARY {pin=1}
-LibReq ::= REQUIRES LibReqItem (COMMA LibReqItem)* {pin=1}
+Lib ::= LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)* ENDLIBRARY {pin=1}
+LibReq ::= (REQUIRES|NEEDS|USES) LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 
 // === TYPE
@@ -141,7 +143,7 @@ FuncDefName ::= ID
 FuncTakes ::= TAKES (NOTHING|TypedVarList)
 FuncReturns ::= RETURNS (NOTHING|TypeName)
 NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
-FuncDef ::= Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION {pin=3}
+Fun ::= Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION {pin=3}
 private FuncBody ::= Stmt
 
 // === HOOK

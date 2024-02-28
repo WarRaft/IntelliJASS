@@ -41,6 +41,7 @@ SINGLE_LINE_COMMENT="//"[^\n]*
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
 
+
   "and"                       { return AND; }
   "array"                     { return ARRAY; }
   "boolean"                   { return BOOLEAN; }
@@ -75,6 +76,7 @@ SINGLE_LINE_COMMENT="//"[^\n]*
   "method"                    { return METHOD; }
   "module"                    { return MODULE; }
   "native"                    { return NATIVE; }
+  "needs"                     { return NEEDS; }
   "not"                       { return NOT; }
   "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
@@ -90,6 +92,7 @@ SINGLE_LINE_COMMENT="//"[^\n]*
   "set"                       { return SET; }
   "string"                    { return STRING; }
   "struct"                    { return STRUCT; }
+  "uses"                      { return USES; }
   "takes"                     { return TAKES; }
   "then"                      { return THEN; }
   "true"                      { return TRUE; }

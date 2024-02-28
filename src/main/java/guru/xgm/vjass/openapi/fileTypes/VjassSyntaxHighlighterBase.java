@@ -66,6 +66,8 @@ public class VjassSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 LIBRARY,
                 INITIALIZER,
                 REQUIRES,
+                NEEDS,
+                USES,
                 METHOD,
                 ENDLIBRARY,
                 //

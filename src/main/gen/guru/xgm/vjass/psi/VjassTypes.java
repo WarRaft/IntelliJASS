@@ -24,10 +24,10 @@ public interface VjassTypes {
   IElementType EQ_EXPR = new VjassIElement("EQ_EXPR");
   IElementType EXIT_WHEN_STMT = new VjassIElement("EXIT_WHEN_STMT");
   IElementType EXPR = new VjassIElement("EXPR");
+  IElementType FUN = new VjassIElement("FUN");
   IElementType FUNC_AS_CODE = new VjassIElement("FUNC_AS_CODE");
   IElementType FUNC_CALL = new VjassIElement("FUNC_CALL");
   IElementType FUNC_CALL_NAME = new VjassIElement("FUNC_CALL_NAME");
-  IElementType FUNC_DEF = new VjassIElement("FUNC_DEF");
   IElementType FUNC_DEF_NAME = new VjassIElement("FUNC_DEF_NAME");
   IElementType FUNC_RETURNS = new VjassIElement("FUNC_RETURNS");
   IElementType FUNC_TAKES = new VjassIElement("FUNC_TAKES");
@@ -124,6 +124,7 @@ public interface VjassTypes {
   IElementType MUL = new VjassIToken("*");
   IElementType MULTI_LINE_COMMENT = new VjassIToken("MULTI_LINE_COMMENT");
   IElementType NATIVE = new VjassIToken("native");
+  IElementType NEEDS = new VjassIToken("needs");
   IElementType NEQ = new VjassIToken("!=");
   IElementType NOT = new VjassIToken("not");
   IElementType NOTHING = new VjassIToken("nothing");
@@ -151,6 +152,7 @@ public interface VjassTypes {
   IElementType THEN = new VjassIToken("then");
   IElementType TRUE = new VjassIToken("true");
   IElementType TYPE = new VjassIToken("type");
+  IElementType USES = new VjassIToken("uses");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -194,6 +196,9 @@ public interface VjassTypes {
       else if (type == EXIT_WHEN_STMT) {
         return new VjassExitWhenStmtImpl(node);
       }
+      else if (type == FUN) {
+        return new VjassFunImpl(node);
+      }
       else if (type == FUNC_AS_CODE) {
         return new VjassFuncAsCodeImpl(node);
       }
@@ -202,9 +207,6 @@ public interface VjassTypes {
       }
       else if (type == FUNC_CALL_NAME) {
         return new VjassFuncCallNameImpl(node);
-      }
-      else if (type == FUNC_DEF) {
-        return new VjassFuncDefImpl(node);
       }
       else if (type == FUNC_DEF_NAME) {
         return new VjassFuncDefNameImpl(node);

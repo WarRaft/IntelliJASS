@@ -63,6 +63,10 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFun(@NotNull VjassFun o) {
+    visitPsiElement(o);
+  }
+
   public void visitFuncAsCode(@NotNull VjassFuncAsCode o) {
     visitPsiElement(o);
   }
@@ -72,10 +76,6 @@ public class VjassVisitor extends PsiElementVisitor {
   }
 
   public void visitFuncCallName(@NotNull VjassFuncCallName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFuncDef(@NotNull VjassFuncDef o) {
     visitPsiElement(o);
   }
 

@@ -73,6 +73,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "method"                    { return METHOD; }
   "module"                    { return MODULE; }
   "native"                    { return NATIVE; }
+  "needs"                     { return NEEDS; }
   "not"                       { return NOT; }
   "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
@@ -88,6 +89,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "set"                       { return SET; }
   "string"                    { return STRING; }
   "struct"                    { return STRUCT; }
+  "uses"                      { return USES; }
   "takes"                     { return TAKES; }
   "then"                      { return THEN; }
   "true"                      { return TRUE; }

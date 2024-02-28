@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface VjassLib extends PsiElement {
 
   @NotNull
-  List<VjassFuncDef> getFuncDefList();
+  List<VjassFun> getFunList();
 
   @NotNull
   List<VjassGlob> getGlobList();

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface VjassFuncDef extends PsiElement {
+public interface VjassFun extends PsiElement {
 
   @Nullable
   VjassFuncDefName getFuncDefName();

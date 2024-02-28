@@ -271,6 +271,64 @@ public class VjassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION
+  public static boolean Fun(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUN, "<fun>");
+    r = Fun_0(b, l + 1);
+    r = r && Fun_1(b, l + 1);
+    r = r && consumeToken(b, FUNCTION);
+    p = r; // pin = 3
+    r = r && report_error_(b, FuncDefName(b, l + 1));
+    r = p && report_error_(b, Fun_4(b, l + 1)) && r;
+    r = p && report_error_(b, Fun_5(b, l + 1)) && r;
+    r = p && report_error_(b, Fun_6(b, l + 1)) && r;
+    r = p && consumeToken(b, ENDFUNCTION) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // Vis?
+  private static boolean Fun_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun_0")) return false;
+    Vis(b, l + 1);
+    return true;
+  }
+
+  // CONSTANT?
+  private static boolean Fun_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun_1")) return false;
+    consumeToken(b, CONSTANT);
+    return true;
+  }
+
+  // FuncTakes?
+  private static boolean Fun_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun_4")) return false;
+    FuncTakes(b, l + 1);
+    return true;
+  }
+
+  // FuncReturns?
+  private static boolean Fun_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun_5")) return false;
+    FuncReturns(b, l + 1);
+    return true;
+  }
+
+  // FuncBody*
+  private static boolean Fun_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Fun_6")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!FuncBody(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "Fun_6", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
   // FUNCTION FuncCallName
   public static boolean FuncAsCode(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncAsCode")) return false;
@@ -323,64 +381,6 @@ public class VjassParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, ID);
     exit_section_(b, m, FUNC_CALL_NAME, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  // Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION
-  public static boolean FuncDef(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FUNC_DEF, "<func def>");
-    r = FuncDef_0(b, l + 1);
-    r = r && FuncDef_1(b, l + 1);
-    r = r && consumeToken(b, FUNCTION);
-    p = r; // pin = 3
-    r = r && report_error_(b, FuncDefName(b, l + 1));
-    r = p && report_error_(b, FuncDef_4(b, l + 1)) && r;
-    r = p && report_error_(b, FuncDef_5(b, l + 1)) && r;
-    r = p && report_error_(b, FuncDef_6(b, l + 1)) && r;
-    r = p && consumeToken(b, ENDFUNCTION) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // Vis?
-  private static boolean FuncDef_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef_0")) return false;
-    Vis(b, l + 1);
-    return true;
-  }
-
-  // CONSTANT?
-  private static boolean FuncDef_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef_1")) return false;
-    consumeToken(b, CONSTANT);
-    return true;
-  }
-
-  // FuncTakes?
-  private static boolean FuncDef_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef_4")) return false;
-    FuncTakes(b, l + 1);
-    return true;
-  }
-
-  // FuncReturns?
-  private static boolean FuncDef_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef_5")) return false;
-    FuncReturns(b, l + 1);
-    return true;
-  }
-
-  // FuncBody*
-  private static boolean FuncDef_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncDef_6")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!FuncBody(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "FuncDef_6", c)) break;
-    }
-    return true;
   }
 
   /* ********************************************************** */
@@ -719,7 +719,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|FuncDef|Glob|HookDef)* ENDLIBRARY
+  // LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)* ENDLIBRARY
   public static boolean Lib(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Lib")) return false;
     if (!nextTokenIs(b, LIBRARY)) return false;
@@ -759,7 +759,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (StructDef|ModuleDef|FuncDef|Glob|HookDef)*
+  // (StructDef|ModuleDef|Fun|Glob|HookDef)*
   private static boolean Lib_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Lib_4")) return false;
     while (true) {
@@ -770,31 +770,40 @@ public class VjassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // StructDef|ModuleDef|FuncDef|Glob|HookDef
+  // StructDef|ModuleDef|Fun|Glob|HookDef
   private static boolean Lib_4_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Lib_4_0")) return false;
     boolean r;
     r = StructDef(b, l + 1);
     if (!r) r = ModuleDef(b, l + 1);
-    if (!r) r = FuncDef(b, l + 1);
+    if (!r) r = Fun(b, l + 1);
     if (!r) r = Glob(b, l + 1);
     if (!r) r = HookDef(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // REQUIRES LibReqItem (COMMA LibReqItem)*
+  // (REQUIRES|NEEDS|USES) LibReqItem (COMMA LibReqItem)*
   public static boolean LibReq(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LibReq")) return false;
-    if (!nextTokenIs(b, REQUIRES)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, LIB_REQ, null);
-    r = consumeToken(b, REQUIRES);
+    Marker m = enter_section_(b, l, _NONE_, LIB_REQ, "<lib req>");
+    r = LibReq_0(b, l + 1);
     p = r; // pin = 1
     r = r && report_error_(b, LibReqItem(b, l + 1));
     r = p && LibReq_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  // REQUIRES|NEEDS|USES
+  private static boolean LibReq_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibReq_0")) return false;
+    boolean r;
+    r = consumeToken(b, REQUIRES);
+    if (!r) r = consumeToken(b, NEEDS);
+    if (!r) r = consumeToken(b, USES);
+    return r;
   }
 
   // (COMMA LibReqItem)*
@@ -1033,7 +1042,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
   //     TypeDef |
   //     NativeDef |
   //     Glob |
-  //     FuncDef |
+  //     Fun |
   //     Lib |
   //     HookDef |
   //     StructDef |
@@ -1054,7 +1063,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
   // TypeDef |
   //     NativeDef |
   //     Glob |
-  //     FuncDef |
+  //     Fun |
   //     Lib |
   //     HookDef |
   //     StructDef |
@@ -1065,7 +1074,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
     r = TypeDef(b, l + 1);
     if (!r) r = NativeDef(b, l + 1);
     if (!r) r = Glob(b, l + 1);
-    if (!r) r = FuncDef(b, l + 1);
+    if (!r) r = Fun(b, l + 1);
     if (!r) r = Lib(b, l + 1);
     if (!r) r = HookDef(b, l + 1);
     if (!r) r = StructDef(b, l + 1);
