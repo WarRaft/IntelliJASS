@@ -117,7 +117,14 @@
         HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
         INTVAL='regexp:\d+'
 
-        STRVAL="regexp:(\"([^\"\\]|\\.)*\")|('([^'\\]|\\.)*')"
+        // STRVAL="regexp:(\"{3}(^(\"{3}))*\"{3})|(\"([^\"\\]|\\.)*\")|('([^'\\]|\\.)*')"
+        // https://stackoverflow.com/questions/46133654/antlr-grammar-for-triple-quoted-string
+        // https://github.com/JetBrains/intellij-community/blob/master/python/python-parser/src/com/jetbrains/python/lexer/Python.flex
+
+        STRING_SINGLE="regexp:'([^'\\]|\\.)*'"
+        STRING_DOUBLE='regexp:"([^"\\]|\\.)*"'
+        STRING_BLOCK='regexp:\"\"\"(.*?)\"\"\"'
+        // https://github.com/hmatt1/angelscript-intellij/blob/main/src/main/java/org/intellij/sdk/language/angelscript.bnf
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
     ]
@@ -358,8 +365,10 @@ PrimaryExpr ::=
     REALVAL |
     HEXVAL |
     INTVAL |
-    STRVAL |
+    Str |
     (AT? ID)
 
+
+Str ::= (STRING_BLOCK|STRING_SINGLE|STRING_DOUBLE)+
 ArrayAccess ::= ID ArrayAccessItem ArrayAccessItem*
 ArrayAccessItem ::= LBRACK Expr? RBRACK {pin=1}

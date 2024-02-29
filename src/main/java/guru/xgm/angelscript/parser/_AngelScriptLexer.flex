@@ -27,11 +27,13 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-MULTI_LINE_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
+MULTI_LINE_COMMENT="/"\*([^\n])*\*"/"
 REALVAL=([0-9]+\.[0-9]*|\.[0-9]+)([fd])?
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
-STRVAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\'|\\)*\")
+STRING_SINGLE='([^'\\]|\\.)*'
+STRING_DOUBLE=\"([^\"\\]|\\.)*\"
+STRING_BLOCK=\\"\\"\\"(.*?)\\"\\"\\"
 ID=[A-Za-z_][_0-9A-Za-z]*
 
 %%
@@ -132,6 +134,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
+  "STRVAL"                    { return STRVAL; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
@@ -139,7 +142,9 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
-  {STRVAL}                    { return STRVAL; }
+  {STRING_SINGLE}             { return STRING_SINGLE; }
+  {STRING_DOUBLE}             { return STRING_DOUBLE; }
+  {STRING_BLOCK}              { return STRING_BLOCK; }
   {ID}                        { return ID; }
 
 }

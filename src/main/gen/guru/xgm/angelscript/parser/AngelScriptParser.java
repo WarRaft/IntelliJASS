@@ -1390,6 +1390,32 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (STRING_BLOCK|STRING_SINGLE|STRING_DOUBLE)+
+  public static boolean Str(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Str")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, STR, "<str>");
+    r = Str_0(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!Str_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "Str", c)) break;
+    }
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // STRING_BLOCK|STRING_SINGLE|STRING_DOUBLE
+  private static boolean Str_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Str_0")) return false;
+    boolean r;
+    r = consumeToken(b, STRING_BLOCK);
+    if (!r) r = consumeToken(b, STRING_SINGLE);
+    if (!r) r = consumeToken(b, STRING_DOUBLE);
+    return r;
+  }
+
+  /* ********************************************************** */
   // SWITCH LPAREN Assign RPAREN LBRACE (CaseStmt)* RBRACE
   public static boolean SwitchStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "SwitchStmt")) return false;
@@ -2066,7 +2092,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   //     REALVAL |
   //     HEXVAL |
   //     INTVAL |
-  //     STRVAL |
+  //     Str |
   //     (AT? ID)
   public static boolean PrimaryExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PrimaryExpr")) return false;
@@ -2082,7 +2108,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
-    if (!r) r = consumeTokenSmart(b, STRVAL);
+    if (!r) r = Str(b, l + 1);
     if (!r) r = PrimaryExpr_11(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;

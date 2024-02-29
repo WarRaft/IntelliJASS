@@ -36,12 +36,7 @@ public class AngelScriptBlock implements ASTBlock {
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         Indent indent = Indent.getNoneIndent();
 
-        if (isOneOf(childNode,
-                FOR_STMT,
-                IF_STMT,
-                RETURN_STMT,
-                VAR
-        )) indent = Indent.getNormalIndent();
+        if (isOneOf(childNode, STMT)) indent = Indent.getNormalIndent();
 
         return new AngelScriptBlock(childNode, null, indent, myCodeStyleSettings);
     }

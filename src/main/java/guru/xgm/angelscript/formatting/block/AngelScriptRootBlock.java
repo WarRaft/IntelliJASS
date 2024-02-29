@@ -9,6 +9,9 @@ import guru.xgm.angelscript.formatting.AngelScriptCodeStyleSettings;
 import guru.xgm.angelscript.lang.AngelScriptLanguage;
 import org.jetbrains.annotations.NotNull;
 
+import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
+import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
+
 @SuppressWarnings("CommentedOutCode")
 public class AngelScriptRootBlock extends AngelScriptBlock {
     public AngelScriptRootBlock(ASTNode myNode, CodeStyleSettings code, AngelScriptCodeStyleSettings settings) {
@@ -22,11 +25,10 @@ public class AngelScriptRootBlock extends AngelScriptBlock {
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
+        //if (isOneOf(childNode, Var)) return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
         //if (isOneOf(childNode, TYPE_DEF)) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
         //if (isOneOf(childNode, NATIVE_DEF)) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
         //if (isOneOf(childNode, GLOBALS_DEF)) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
-        //if (isOneOf(childNode, FUNC_DEF)) return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
-
         return new AngelScriptBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
     }
 

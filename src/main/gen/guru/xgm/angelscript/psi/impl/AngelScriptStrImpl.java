@@ -11,14 +11,14 @@ import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.angelscript.psi.*;
 
-public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements AngelScriptIncludeStmt {
+public class AngelScriptStrImpl extends ASTWrapperPsiElement implements AngelScriptStr {
 
-  public AngelScriptIncludeStmtImpl(@NotNull ASTNode node) {
+  public AngelScriptStrImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitIncludeStmt(this);
+    visitor.visitStr(this);
   }
 
   @Override

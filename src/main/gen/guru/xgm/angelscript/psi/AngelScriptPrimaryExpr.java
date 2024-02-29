@@ -17,6 +17,9 @@ public interface AngelScriptPrimaryExpr extends AngelScriptExpr {
   AngelScriptLambda getLambda();
 
   @Nullable
+  AngelScriptStr getStr();
+
+  @Nullable
   PsiElement getHexval();
 
   @Nullable
@@ -24,8 +27,5 @@ public interface AngelScriptPrimaryExpr extends AngelScriptExpr {
 
   @Nullable
   PsiElement getIntval();
-
-  @Nullable
-  PsiElement getStrval();
 
 }

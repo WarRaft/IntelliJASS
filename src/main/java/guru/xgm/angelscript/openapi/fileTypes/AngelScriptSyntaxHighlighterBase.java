@@ -102,13 +102,20 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
             return LINE_COMMENT_KEYS;
         }
 
+        if (Arrays.asList(
+                STRING_BLOCK,
+                STRING_DOUBLE,
+                STRING_SINGLE
+        ).contains(tokenType)) {
+            return STRING_KEYS;
+        }
+
         if (Objects.equals(TYPE, tokenType)) {
             return TYPE_NAME_KEYS;
         }
 
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == COMMA) return COMMA_KEYS;
-        if (tokenType == STRVAL) return STRING_KEYS;
 
         return EMPTY_KEYS;
     }

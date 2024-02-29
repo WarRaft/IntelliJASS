@@ -67,6 +67,7 @@ public interface AngelScriptTypes {
   IElementType SCOPE = new AngelScriptIElement("SCOPE");
   IElementType STAT_BLOCK = new AngelScriptIElement("STAT_BLOCK");
   IElementType STMT = new AngelScriptIElement("STMT");
+  IElementType STR = new AngelScriptIElement("STR");
   IElementType SWITCH_STMT = new AngelScriptIElement("SWITCH_STMT");
   IElementType TYPE = new AngelScriptIElement("TYPE");
   IElementType TYPE_MOD = new AngelScriptIElement("TYPE_MOD");
@@ -162,6 +163,9 @@ public interface AngelScriptTypes {
   IElementType SINGLE_LINE_COMMENT = new AngelScriptIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new AngelScriptIToken("static");
   IElementType STRING = new AngelScriptIToken("string");
+  IElementType STRING_BLOCK = new AngelScriptIToken("STRING_BLOCK");
+  IElementType STRING_DOUBLE = new AngelScriptIToken("STRING_DOUBLE");
+  IElementType STRING_SINGLE = new AngelScriptIToken("STRING_SINGLE");
   IElementType STRVAL = new AngelScriptIToken("STRVAL");
   IElementType SWITCH = new AngelScriptIToken("switch");
   IElementType TILDE = new AngelScriptIToken("~");
@@ -346,6 +350,9 @@ public interface AngelScriptTypes {
       }
       else if (type == STMT) {
         return new AngelScriptStmtImpl(node);
+      }
+      else if (type == STR) {
+        return new AngelScriptStrImpl(node);
       }
       else if (type == SWITCH_STMT) {
         return new AngelScriptSwitchStmtImpl(node);

@@ -48,20 +48,22 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         stringBuffer.append("// endglobals\n");
     }
 
+    private void varexpr(@Nullable JassExpr expr) {
+        if (expr == null) return;
+        if (Objects.equals(expr.getText(), "null")) return;
+        stringBuffer.append(" = ");
+        expr.accept(this);
+    }
+
     @Override
     public void visitVar(@NotNull JassVar o) {
         super.visitVar(o);
         final var type = typename(o.getTypeName().getText());
         final var name = Objects.requireNonNull(o.getId()).getText();
 
-
         if (o.getArray() == null) {
             stringBuffer.append(type).append(" ").append(name);
-            final var expr = o.getExpr();
-            if (expr != null) {
-                stringBuffer.append(" = ");
-                expr.accept(this);
-            }
+            varexpr(o.getExpr());
         } else {
             stringBuffer.append("array<").append(type).append("> ").append(name);
         }
@@ -72,6 +74,14 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
     public void visitGvar(@NotNull JassGvar o) {
         if (o.getConstant() != null) stringBuffer.append("const ");
         o.getVar().accept(this);
+    }
+
+    @Override
+    public void visitReturnStmt(@NotNull JassReturnStmt o) {
+        stringBuffer.append("return ");
+        final var expr = o.getExpr();
+        if (expr != null) expr.accept(this);
+        stringBuffer.append(";\n");
     }
 
     @Override
@@ -244,7 +254,11 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         if (text(o.getNull())) return;
         if (text(o.getId())) return;
         if (text(o.getIntval())) return;
-        if (text(o.getStrval())) return;
+        final var str = o.getStrval();
+        if (str != null) {
+            stringBuffer.append("\"\"").append(str.getText()).append("\"\"");
+            return;
+        }
         final var raw = o.getRawval();
         if (raw != null) {
             stringBuffer.append("FourCC(\"").append(raw.getText().replace("'", "")).append("\")");
