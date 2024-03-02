@@ -2082,9 +2082,10 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // FALSE |
+  // TRUE |
+  //     FALSE |
   //     NULL |
-  //     TRUE |
+  //     NIL |
   //     ParenExpr |
   //     ArrayAccess |
   //     FuncCall |
@@ -2098,9 +2099,10 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "PrimaryExpr")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _COLLAPSE_, PRIMARY_EXPR, "<primary expr>");
-    r = consumeTokenSmart(b, FALSE);
+    r = consumeTokenSmart(b, TRUE);
+    if (!r) r = consumeTokenSmart(b, FALSE);
     if (!r) r = consumeTokenSmart(b, NULL);
-    if (!r) r = consumeTokenSmart(b, TRUE);
+    if (!r) r = consumeTokenSmart(b, NIL);
     if (!r) r = ParenExpr(b, l + 1);
     if (!r) r = ArrayAccess(b, l + 1);
     if (!r) r = FuncCall(b, l + 1);
@@ -2109,25 +2111,25 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
     if (!r) r = Str(b, l + 1);
-    if (!r) r = PrimaryExpr_11(b, l + 1);
+    if (!r) r = PrimaryExpr_12(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // AT? ID
-  private static boolean PrimaryExpr_11(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_11")) return false;
+  private static boolean PrimaryExpr_12(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimaryExpr_12")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = PrimaryExpr_11_0(b, l + 1);
+    r = PrimaryExpr_12_0(b, l + 1);
     r = r && consumeToken(b, ID);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // AT?
-  private static boolean PrimaryExpr_11_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_11_0")) return false;
+  private static boolean PrimaryExpr_12_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimaryExpr_12_0")) return false;
     consumeTokenSmart(b, AT);
     return true;
   }

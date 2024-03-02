@@ -1,4 +1,4 @@
-package guru.xgm.jass.openapi.actionSystem.jass2angelscript;
+package guru.xgm.jass.openapi.actionSystem.convert;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -18,11 +18,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-public class JassActionConvertToAngelScript extends AnAction {
+public abstract class Jass2AnyAction extends AnAction {
 
-    public JassActionConvertToAngelScript() {
-        super();
-    }
+    public abstract @NotNull Jass2AnyVisitor getVisitor();
+
+
+    public abstract @NotNull String getTargetExtension();
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
@@ -46,7 +47,7 @@ public class JassActionConvertToAngelScript extends AnAction {
         PsiManager psiManager = PsiManager.getInstance(project);
 
         PsiFile psiFile = psiManager.findFile(virtualFile);
-        Jass2AngelScriptVisitor visitor = new Jass2AngelScriptVisitor();
+        Jass2AnyVisitor visitor = getVisitor();
 
         if (psiFile != null) {
             if (!(psiFile.getLanguage() instanceof JassLanguage)) {
@@ -58,7 +59,7 @@ public class JassActionConvertToAngelScript extends AnAction {
         }
 
         // create file
-        String filePath = virtualFile.getPath() + ".ass";
+        String filePath = virtualFile.getPath() + getTargetExtension();
         File file = new File(filePath);
 
         boolean success = true;
@@ -93,4 +94,6 @@ public class JassActionConvertToAngelScript extends AnAction {
 
         FileEditorManager.getInstance(project).openFile(newVirtualFile, true);
     }
+
+
 }

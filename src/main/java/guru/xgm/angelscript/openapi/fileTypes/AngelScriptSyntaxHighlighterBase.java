@@ -69,6 +69,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 INOUT,
                 NAMESPACE,
                 NULL,
+                NIL,
                 OVERRIDE,
                 OUT,
                 PRIVATE,

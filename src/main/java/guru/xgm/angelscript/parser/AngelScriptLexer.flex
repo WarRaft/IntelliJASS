@@ -33,7 +33,7 @@ HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
 STRING_SINGLE='([^'\\]|\\.)*'
 STRING_DOUBLE=\"([^\"\\]|\\.)*\"
-STRING_BLOCK=\"{3}!(\"{3})*\"{3}
+STRING_BLOCK=\\"\\"\\"(.*?)\\"\\"\\"
 ID=[A-Za-z_][_0-9A-Za-z]*
 
 %%
@@ -76,6 +76,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "namespace"                 { return NAMESPACE; }
   "not"                       { return NOT; }
   "null"                      { return NULL; }
+  "nil"                       { return NIL; }
   "or"                        { return OR; }
   "override"                  { return OVERRIDE; }
   "out"                       { return OUT; }

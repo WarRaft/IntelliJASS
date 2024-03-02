@@ -27,7 +27,7 @@ WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
-MULTI_LINE_COMMENT="/"\*([^\n])*\*"/"
+MULTI_LINE_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
 REALVAL=([0-9]+\.[0-9]*|\.[0-9]+)([fd])?
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -76,6 +76,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "namespace"                 { return NAMESPACE; }
   "not"                       { return NOT; }
   "null"                      { return NULL; }
+  "nil"                       { return NIL; }
   "or"                        { return OR; }
   "override"                  { return OVERRIDE; }
   "out"                       { return OUT; }

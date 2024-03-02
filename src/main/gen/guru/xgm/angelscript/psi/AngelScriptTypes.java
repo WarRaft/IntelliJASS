@@ -140,6 +140,7 @@ public interface AngelScriptTypes {
   IElementType MUL_EQ = new AngelScriptIToken("*=");
   IElementType NAMESPACE = new AngelScriptIToken("namespace");
   IElementType NEQ = new AngelScriptIToken("!=");
+  IElementType NIL = new AngelScriptIToken("nil");
   IElementType NOT = new AngelScriptIToken("not");
   IElementType NULL = new AngelScriptIToken("null");
   IElementType OR = new AngelScriptIToken("or");

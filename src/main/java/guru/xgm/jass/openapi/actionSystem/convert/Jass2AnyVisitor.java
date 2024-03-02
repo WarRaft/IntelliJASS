@@ -1,6 +1,4 @@
-package guru.xgm.jass.openapi.actionSystem.jass2angelscript;
-
-// BoolexprFunc@ c
+package guru.xgm.jass.openapi.actionSystem.convert;
 
 import com.intellij.psi.PsiElement;
 import guru.xgm.jass.psi.*;
@@ -10,9 +8,41 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class Jass2AngelScriptVisitor extends JassVisitor {
+public abstract class Jass2AnyVisitor extends JassVisitor {
 
-    StringBuffer stringBuffer = new StringBuffer();
+    public StringBuffer stringBuffer = new StringBuffer();
+
+    public void appendSingleLineComment(String comment) {
+        stringBuffer.append("//").append(comment).append("\n");
+    }
+
+    // --- globals
+    @Override
+    public void visitGlob(@NotNull JassGlob o) {
+        appendSingleLineComment("globals");
+        o.acceptChildren(this);
+        appendSingleLineComment("endglobals");
+    }
+
+    // --- variables
+    public abstract void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr);
+
+    private void appendVarPrepare(boolean constant, boolean global, @NotNull JassVar var) {
+        final var id = var.getId();
+        appendVar(constant, global, var.getArray() != null, var.getTypeName().getText(), var.getId().getText(), var.getExpr());
+    }
+
+    @Override
+    public void visitGvar(@NotNull JassGvar o) {
+        appendVarPrepare(o.getConstant() != null, true, o.getVar());
+    }
+
+    @Override
+    public void visitLvarStmt(@NotNull JassLvarStmt o) {
+        appendVarPrepare(false, false, o.getVar());
+    }
+
+    // ===============
 
     private String typename(String type) {
         return switch (type) {
@@ -39,41 +69,6 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         if (pe == null) return false;
         stringBuffer.append(pe.getText());
         return true;
-    }
-
-    @Override
-    public void visitGlob(@NotNull JassGlob o) {
-        stringBuffer.append("// globals\n");
-        o.acceptChildren(this);
-        stringBuffer.append("// endglobals\n");
-    }
-
-    private void varexpr(@Nullable JassExpr expr) {
-        if (expr == null) return;
-        if (Objects.equals(expr.getText(), "null")) return;
-        stringBuffer.append(" = ");
-        expr.accept(this);
-    }
-
-    @Override
-    public void visitVar(@NotNull JassVar o) {
-        super.visitVar(o);
-        final var type = typename(o.getTypeName().getText());
-        final var name = Objects.requireNonNull(o.getId()).getText();
-
-        if (o.getArray() == null) {
-            stringBuffer.append(type).append(" ").append(name);
-            varexpr(o.getExpr());
-        } else {
-            stringBuffer.append("array<").append(type).append("> ").append(name);
-        }
-        stringBuffer.append(";\n");
-    }
-
-    @Override
-    public void visitGvar(@NotNull JassGvar o) {
-        if (o.getConstant() != null) stringBuffer.append("const ");
-        o.getVar().accept(this);
     }
 
     @Override
@@ -109,14 +104,14 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
         final var expr = o.getExpr();
         if (expr != null) {
             stringBuffer.append(" = ");
-            expr.accept(this);
+            final String s = expr.getText();
+            if (Objects.equals(s, "null")) {
+                stringBuffer.append("nil");
+            } else {
+                expr.accept(this);
+            }
         }
         stringBuffer.append(";\n");
-    }
-
-    @Override
-    public void visitLvarStmt(@NotNull JassLvarStmt o) {
-        o.getVar().accept(this);
     }
 
     @Override
@@ -368,5 +363,6 @@ public class Jass2AngelScriptVisitor extends JassVisitor {
     public void visitDivExpr(@NotNull JassDivExpr o) {
         exprSexpr(o.getExprList(), "/");
     }
+
 
 }

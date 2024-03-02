@@ -53,6 +53,7 @@
         NAMESPACE='namespace'
         NOT='not'
         NULL='null'
+        NIL='nil'
         OR='or'
         OVERRIDE='override'
         OUT='out'
@@ -355,9 +356,10 @@ AndExpr ::= Expr (AND|AMP_AMP) Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
 PrimaryExpr ::=
+    TRUE |
     FALSE |
     NULL |
-    TRUE |
+    NIL |
     ParenExpr |
     ArrayAccess |
     FuncCall |
