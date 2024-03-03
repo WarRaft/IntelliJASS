@@ -5,8 +5,8 @@ import guru.xgm.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Jass2AnyVisitor extends JassVisitor {
 
@@ -14,6 +14,30 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     public void appendSingleLineComment(String comment) {
         stringBuffer.append("//").append(comment).append("\n");
+    }
+
+    public void appendStatementLineEnd() {
+        stringBuffer.append(";\n");
+    }
+
+    public void appendString(@NotNull String str) {
+        stringBuffer.append(str);
+    }
+
+    public void appendReal(@NotNull String real) {
+        stringBuffer.append(real);
+    }
+
+    public void appendNull() {
+        stringBuffer.append("null");
+    }
+
+    public void appendFunctionAsCode(@NotNull String name) {
+        stringBuffer.append(name);
+    }
+
+    public @NotNull String getConvertedTypeName(@NotNull String type) {
+        return type;
     }
 
     // --- globals
@@ -24,12 +48,11 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendSingleLineComment("endglobals");
     }
 
-    // --- variables
+    // --- variable
     public abstract void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr);
 
     private void appendVarPrepare(boolean constant, boolean global, @NotNull JassVar var) {
-        final var id = var.getId();
-        appendVar(constant, global, var.getArray() != null, var.getTypeName().getText(), var.getId().getText(), var.getExpr());
+        appendVar(constant, global, var.getArray() != null, getConvertedTypeName(var.getTypeName().getText()), var.getId().getText(), var.getExpr());
     }
 
     @Override
@@ -42,22 +65,60 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendVarPrepare(false, false, o.getVar());
     }
 
+    // --- function
+    public abstract void appendFunction(@Nullable String returns, String name, @NotNull List<JassParam> params, @NotNull List<JassStmt> statements);
+
+    @Override
+    public void visitFun(@NotNull JassFun o) {
+        final JassFunRet ret = o.getFunRet();
+        final @Nullable var rettype = ret != null ? ret.getTypeName() : null;
+
+        final var name = o.getId();
+
+        final var take = o.getFunTake();
+        List<JassParam> params = new ArrayList<>();
+        if (take != null) {
+            final var list = take.getParamList();
+            if (list != null) params = list.getParamList();
+        }
+
+        appendFunction(
+                ret == null || rettype == null || ret.getNothing() != null ? null : getConvertedTypeName(rettype.getText()),
+                name == null ? "" : name.getText(),
+                params,
+                o.getStmtList()
+        );
+    }
+
+    // --- statement
+
+    // return
+    @Override
+    public void visitReturnStmt(@NotNull JassReturnStmt o) {
+        stringBuffer.append("return ");
+        final var expr = o.getExpr();
+        if (expr != null) expr.accept(this);
+        appendStatementLineEnd();
+    }
+
+    // set
+    @Override
+    public void visitSetStmt(@NotNull JassSetStmt o) {
+        System.out.print("lua\n" + o.getText());
+
+        final var id = o.getId();
+        if (id != null) stringBuffer.append(id.getText());
+        final var arr = o.getArrayAccess();
+        if (arr != null) arr.accept(this);
+        final var expr = o.getExpr();
+        if (expr != null) {
+            stringBuffer.append(" = ");
+            expr.accept(this);
+        }
+        appendStatementLineEnd();
+    }
+
     // ===============
-
-    private String typename(String type) {
-        return switch (type) {
-            case "integer" -> "int";
-            case "real" -> "float";
-            case "boolean" -> "bool";
-            default -> type;
-        };
-    }
-
-    private void exprSexpr(List<JassExpr> list, String op) {
-        list.get(0).accept(this);
-        stringBuffer.append(" ").append(op).append(" ");
-        list.get(1).accept(this);
-    }
 
     private void unexpr(@Nullable JassExpr expr, String op) {
         if (expr == null) return;
@@ -69,14 +130,6 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         if (pe == null) return false;
         stringBuffer.append(pe.getText());
         return true;
-    }
-
-    @Override
-    public void visitReturnStmt(@NotNull JassReturnStmt o) {
-        stringBuffer.append("return ");
-        final var expr = o.getExpr();
-        if (expr != null) expr.accept(this);
-        stringBuffer.append(";\n");
     }
 
     @Override
@@ -96,118 +149,15 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     }
 
     @Override
-    public void visitSetStmt(@NotNull JassSetStmt o) {
-        final var id = o.getId();
-        if (id != null) stringBuffer.append(id.getText());
-        final var arr = o.getArrayAccess();
-        if (arr != null) arr.accept(this);
-        final var expr = o.getExpr();
-        if (expr != null) {
-            stringBuffer.append(" = ");
-            final String s = expr.getText();
-            if (Objects.equals(s, "null")) {
-                stringBuffer.append("nil");
-            } else {
-                expr.accept(this);
-            }
-        }
-        stringBuffer.append(";\n");
-    }
-
-    @Override
-    public void visitElseStmt(@NotNull JassElseStmt o) {
-        stringBuffer.append(" else {\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
-    }
-
-    @Override
-    public void visitElseIfStmt(@NotNull JassElseIfStmt o) {
-        stringBuffer.append(" else if (");
-        final var expr = o.getExpr();
-        if (expr != null) expr.accept(this);
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
-    }
-
-    @Override
-    public void visitIfStmt(@NotNull JassIfStmt o) {
-        stringBuffer.append("if (");
-        final var expr = o.getExpr();
-        if (expr != null) expr.accept(this);
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}");
-        for (JassElseIfStmt stmt : o.getElseIfStmtList()) stmt.accept(this);
-        for (JassElseStmt stmt : o.getElseStmtList()) stmt.accept(this);
-        stringBuffer.append("\n");
-    }
-
-    @Override
     public void visitCallStmt(@NotNull JassCallStmt o) {
         if (o.getDebug() != null) stringBuffer.append("/*debug*/");
         o.getFunCall().accept(this);
-        stringBuffer.append(";\n");
+        appendStatementLineEnd();
     }
 
     @Override
     public void visitStmt(@NotNull JassStmt o) {
         o.acceptChildren(this);
-    }
-
-    @Override
-    public void visitParamList(@NotNull JassParamList o) {
-        final var list = o.getParamList();
-        for (int i = 0; i < list.size(); i++) {
-            final var param = list.get(i);
-            final var type = param.getTypeName();
-            if (type.getCode() != null) {
-                stringBuffer.append("BoolexprFunc@");
-            } else {
-                stringBuffer.append(typename(type.getText()));
-            }
-            stringBuffer.append(' ').append(param.getId().getText());
-            if (i < list.size() - 1) stringBuffer.append(", ");
-        }
-        super.visitParamList(o);
-    }
-
-    @Override
-    public void visitFunTake(@NotNull JassFunTake o) {
-        if (o.getNothing() != null) return;
-        final var list = o.getParamList();
-        if (list != null) list.accept(this);
-    }
-
-    @Override
-    public void visitFun(@NotNull JassFun o) {
-        final JassFunRet ret = o.getFunRet();
-        if (ret != null) {
-            if (ret.getNothing() != null) {
-                stringBuffer.append("void");
-            } else {
-                final var tn = ret.getTypeName();
-                if (tn != null) {
-                    if (tn.getCode() != null) {
-                        stringBuffer.append("BoolexprFunc@");
-                    } else {
-                        stringBuffer.append(typename(tn.getText()));
-                    }
-                }
-            }
-            stringBuffer.append(' ');
-        }
-
-        final var name = o.getId();
-        if (name != null) stringBuffer.append(o.getId().getText());
-
-        stringBuffer.append("(");
-        final JassFunTake take = o.getFunTake();
-        if (take != null) take.accept(this);
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
     }
 
     @Override
@@ -239,19 +189,23 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     @Override
     public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
-        stringBuffer.append("@").append(o.getId().getText());
+        appendFunctionAsCode(o.getId().getText());
     }
 
     @Override
     public void visitPrimExpr(@NotNull JassPrimExpr o) {
         if (text(o.getTrue())) return;
         if (text(o.getFalse())) return;
-        if (text(o.getNull())) return;
+        final var tnull = o.getNull();
+        if (tnull != null) {
+            appendNull();
+            return;
+        }
         if (text(o.getId())) return;
         if (text(o.getIntval())) return;
         final var str = o.getStrval();
         if (str != null) {
-            stringBuffer.append("\"\"").append(str.getText()).append("\"\"");
+            appendString(str.getText());
             return;
         }
         final var raw = o.getRawval();
@@ -266,10 +220,22 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         }
         final var real = o.getRealval();
         if (real != null) {
-            stringBuffer.append(real.getText()).append("f");
+            appendReal(real.getText());
             return;
         }
         o.acceptChildren(this);
+    }
+
+    // --- expression
+    public void acceptExpr(@Nullable JassExpr expr) {
+        if (expr == null) return;
+        expr.accept(this);
+    }
+
+    public void exprListConcatByOperator(List<JassExpr> list, String op) {
+        list.get(0).accept(this);
+        stringBuffer.append(" ").append(op).append(" ");
+        list.get(1).accept(this);
     }
 
     @Override
@@ -299,69 +265,69 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     @Override
     public void visitEqExpr(@NotNull JassEqExpr o) {
-        exprSexpr(o.getExprList(), "==");
+        exprListConcatByOperator(o.getExprList(), "==");
     }
 
     @Override
     public void visitNeqExpr(@NotNull JassNeqExpr o) {
-        exprSexpr(o.getExprList(), "!=");
+        exprListConcatByOperator(o.getExprList(), "!=");
     }
 
     @Override
     public void visitLtExpr(@NotNull JassLtExpr o) {
-        exprSexpr(o.getExprList(), "<");
+        exprListConcatByOperator(o.getExprList(), "<");
     }
 
     @Override
     public void visitLtEqExpr(@NotNull JassLtEqExpr o) {
-        exprSexpr(o.getExprList(), "<=");
+        exprListConcatByOperator(o.getExprList(), "<=");
     }
 
     @Override
     public void visitGtExpr(@NotNull JassGtExpr o) {
-        exprSexpr(o.getExprList(), ">");
+        exprListConcatByOperator(o.getExprList(), ">");
     }
 
     @Override
     public void visitGtEqExpr(@NotNull JassGtEqExpr o) {
-        exprSexpr(o.getExprList(), ">=");
+        exprListConcatByOperator(o.getExprList(), ">=");
     }
 
     @Override
     public void visitParenExpr(@NotNull JassParenExpr o) {
         stringBuffer.append("(");
-        o.getExpr().accept(this);
+        acceptExpr(o.getExpr());
         stringBuffer.append(")");
     }
 
     @Override
     public void visitAndExpr(@NotNull JassAndExpr o) {
-        exprSexpr(o.getExprList(), "&&");
+        exprListConcatByOperator(o.getExprList(), "&&");
     }
 
     @Override
     public void visitOrExpr(@NotNull JassOrExpr o) {
-        exprSexpr(o.getExprList(), "||");
+        exprListConcatByOperator(o.getExprList(), "||");
     }
 
     @Override
     public void visitPlusExpr(@NotNull JassPlusExpr o) {
-        exprSexpr(o.getExprList(), "+");
+        exprListConcatByOperator(o.getExprList(), "+");
     }
 
     @Override
     public void visitMinusExpr(@NotNull JassMinusExpr o) {
-        exprSexpr(o.getExprList(), "-");
+        exprListConcatByOperator(o.getExprList(), "-");
     }
 
     @Override
     public void visitMulExpr(@NotNull JassMulExpr o) {
-        exprSexpr(o.getExprList(), "*");
+        exprListConcatByOperator(o.getExprList(), "*");
     }
 
     @Override
     public void visitDivExpr(@NotNull JassDivExpr o) {
-        exprSexpr(o.getExprList(), "/");
+        exprListConcatByOperator(o.getExprList(), "/");
     }
 
 

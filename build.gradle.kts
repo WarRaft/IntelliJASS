@@ -26,8 +26,6 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.30")
 }
 
-
-
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
@@ -36,9 +34,7 @@ java {
 intellij {
     version.set("2023.3")
     plugins.set(
-        listOf(
-            "com.intellij.java"
-        )
+        listOf("com.tang:1.4.11-IDEA231")
     )
 }
 
