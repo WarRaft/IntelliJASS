@@ -16,6 +16,10 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         stringBuffer.append("//").append(comment).append("\n");
     }
 
+    public void appendBlockLineComment(String comment) {
+        stringBuffer.append("/*").append(comment).append("*/");
+    }
+
     public void appendStatementLineEnd() {
         stringBuffer.append(";\n");
     }
@@ -92,6 +96,12 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     // --- statement
 
+    // stmt list
+    @Override
+    public void visitStmt(@NotNull JassStmt o) {
+        o.acceptChildren(this);
+    }
+
     // return
     @Override
     public void visitReturnStmt(@NotNull JassReturnStmt o) {
@@ -104,8 +114,6 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     // set
     @Override
     public void visitSetStmt(@NotNull JassSetStmt o) {
-        System.out.print("lua\n" + o.getText());
-
         final var id = o.getId();
         if (id != null) stringBuffer.append(id.getText());
         final var arr = o.getArrayAccess();
@@ -118,46 +126,20 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendStatementLineEnd();
     }
 
-    // ===============
-
-    private void unexpr(@Nullable JassExpr expr, String op) {
-        if (expr == null) return;
-        stringBuffer.append(" ").append(op).append(" ");
-        expr.accept(this);
+    // call
+    @Override
+    public void visitCallStmt(@NotNull JassCallStmt o) {
+        if (o.getDebug() != null) appendBlockLineComment("debug");
+        o.getFunCall().accept(this);
+        appendStatementLineEnd();
     }
+
+    // ===============
 
     private boolean text(@Nullable PsiElement pe) {
         if (pe == null) return false;
         stringBuffer.append(pe.getText());
         return true;
-    }
-
-    @Override
-    public void visitExitWhenStmt(@NotNull JassExitWhenStmt o) {
-        final var expr = o.getExpr();
-        if (expr == null) return;
-        stringBuffer.append("if (");
-        expr.accept(this);
-        stringBuffer.append(") break;\n");
-    }
-
-    @Override
-    public void visitLoopStmt(@NotNull JassLoopStmt o) {
-        stringBuffer.append("while (true) {\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
-    }
-
-    @Override
-    public void visitCallStmt(@NotNull JassCallStmt o) {
-        if (o.getDebug() != null) stringBuffer.append("/*debug*/");
-        o.getFunCall().accept(this);
-        appendStatementLineEnd();
-    }
-
-    @Override
-    public void visitStmt(@NotNull JassStmt o) {
-        o.acceptChildren(this);
     }
 
     @Override
@@ -192,6 +174,25 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendFunctionAsCode(o.getId().getText());
     }
 
+    // --- expression
+    public void acceptExpr(@Nullable JassExpr expr) {
+        if (expr == null) return;
+        expr.accept(this);
+    }
+
+    public void appendExprWithPrefixOp(@Nullable JassExpr expr, String op) {
+        if (expr == null) return;
+        stringBuffer.append(" ").append(op).append(" ");
+        expr.accept(this);
+    }
+
+    public void appendExprListConcatByOperator(List<JassExpr> list, String op) {
+        list.get(0).accept(this);
+        stringBuffer.append(" ").append(op).append(" ");
+        list.get(1).accept(this);
+    }
+
+    // primary
     @Override
     public void visitPrimExpr(@NotNull JassPrimExpr o) {
         if (text(o.getTrue())) return;
@@ -226,71 +227,59 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         o.acceptChildren(this);
     }
 
-    // --- expression
-    public void acceptExpr(@Nullable JassExpr expr) {
-        if (expr == null) return;
-        expr.accept(this);
-    }
-
-    public void exprListConcatByOperator(List<JassExpr> list, String op) {
-        list.get(0).accept(this);
-        stringBuffer.append(" ").append(op).append(" ");
-        list.get(1).accept(this);
-    }
-
     @Override
     public void visitMulUnExpr(@NotNull JassMulUnExpr o) {
-        unexpr(o.getExpr(), "*");
+        appendExprWithPrefixOp(o.getExpr(), "*");
     }
 
     @Override
     public void visitDivUnExpr(@NotNull JassDivUnExpr o) {
-        unexpr(o.getExpr(), "/");
+        appendExprWithPrefixOp(o.getExpr(), "/");
     }
 
     @Override
     public void visitPlusUnExpr(@NotNull JassPlusUnExpr o) {
-        unexpr(o.getExpr(), "+");
+        appendExprWithPrefixOp(o.getExpr(), "+");
     }
 
     @Override
     public void visitMinusUnExpr(@NotNull JassMinusUnExpr o) {
-        unexpr(o.getExpr(), "-");
+        appendExprWithPrefixOp(o.getExpr(), "-");
     }
 
     @Override
     public void visitNotExpr(@NotNull JassNotExpr o) {
-        unexpr(o.getExpr(), "!");
+        appendExprWithPrefixOp(o.getExpr(), "!");
     }
 
     @Override
     public void visitEqExpr(@NotNull JassEqExpr o) {
-        exprListConcatByOperator(o.getExprList(), "==");
+        appendExprListConcatByOperator(o.getExprList(), "==");
     }
 
     @Override
     public void visitNeqExpr(@NotNull JassNeqExpr o) {
-        exprListConcatByOperator(o.getExprList(), "!=");
+        appendExprListConcatByOperator(o.getExprList(), "!=");
     }
 
     @Override
     public void visitLtExpr(@NotNull JassLtExpr o) {
-        exprListConcatByOperator(o.getExprList(), "<");
+        appendExprListConcatByOperator(o.getExprList(), "<");
     }
 
     @Override
     public void visitLtEqExpr(@NotNull JassLtEqExpr o) {
-        exprListConcatByOperator(o.getExprList(), "<=");
+        appendExprListConcatByOperator(o.getExprList(), "<=");
     }
 
     @Override
     public void visitGtExpr(@NotNull JassGtExpr o) {
-        exprListConcatByOperator(o.getExprList(), ">");
+        appendExprListConcatByOperator(o.getExprList(), ">");
     }
 
     @Override
     public void visitGtEqExpr(@NotNull JassGtEqExpr o) {
-        exprListConcatByOperator(o.getExprList(), ">=");
+        appendExprListConcatByOperator(o.getExprList(), ">=");
     }
 
     @Override
@@ -302,32 +291,32 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     @Override
     public void visitAndExpr(@NotNull JassAndExpr o) {
-        exprListConcatByOperator(o.getExprList(), "&&");
+        appendExprListConcatByOperator(o.getExprList(), "&&");
     }
 
     @Override
     public void visitOrExpr(@NotNull JassOrExpr o) {
-        exprListConcatByOperator(o.getExprList(), "||");
+        appendExprListConcatByOperator(o.getExprList(), "||");
     }
 
     @Override
     public void visitPlusExpr(@NotNull JassPlusExpr o) {
-        exprListConcatByOperator(o.getExprList(), "+");
+        appendExprListConcatByOperator(o.getExprList(), "+");
     }
 
     @Override
     public void visitMinusExpr(@NotNull JassMinusExpr o) {
-        exprListConcatByOperator(o.getExprList(), "-");
+        appendExprListConcatByOperator(o.getExprList(), "-");
     }
 
     @Override
     public void visitMulExpr(@NotNull JassMulExpr o) {
-        exprListConcatByOperator(o.getExprList(), "*");
+        appendExprListConcatByOperator(o.getExprList(), "*");
     }
 
     @Override
     public void visitDivExpr(@NotNull JassDivExpr o) {
-        exprListConcatByOperator(o.getExprList(), "/");
+        appendExprListConcatByOperator(o.getExprList(), "/");
     }
 
 

@@ -135,4 +135,21 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
         appendStatementLineEnd();
     }
 
+    // loop
+    @Override
+    public void visitLoopStmt(@NotNull JassLoopStmt o) {
+        stringBuffer.append("while (true) {\n");
+        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
+        stringBuffer.append("}\n");
+    }
+
+    @Override
+    public void visitExitWhenStmt(@NotNull JassExitWhenStmt o) {
+        final var expr = o.getExpr();
+        if (expr == null) return;
+        stringBuffer.append("if (");
+        expr.accept(this);
+        stringBuffer.append(") break;\n");
+    }
+
 }
