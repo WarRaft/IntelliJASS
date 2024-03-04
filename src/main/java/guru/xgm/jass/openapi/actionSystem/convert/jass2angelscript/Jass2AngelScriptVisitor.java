@@ -5,13 +5,68 @@ import guru.xgm.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
 public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
 
     Jass2AngelScriptVisitor() {
-
+        // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_reserved_keywords.html
+        keywords = new HashSet<>() {{
+            add("abstract");
+            add("auto");
+            add("bool");
+            add("break");
+            add("case");
+            add("catch");
+            add("class");
+            add("const");
+            add("continue");
+            add("default");
+            add("do");
+            add("double");
+            add("enum");
+            add("explicit");
+            add("external");
+            add("final");
+            add("float");
+            add("for");
+            add("from");
+            add("funcdef");
+            add("get");
+            add("import");
+            add("in");
+            add("inout");
+            add("int");
+            add("interface");
+            add("int8");
+            add("int16");
+            add("int32");
+            add("int64");
+            add("is");
+            add("mixin");
+            add("namespace");
+            add("out");
+            add("override");
+            add("private");
+            add("property");
+            add("protected");
+            add("shared");
+            add("super");
+            add("switch");
+            add("this");
+            add("try");
+            add("typedef");
+            add("uint");
+            add("uint8");
+            add("uint16");
+            add("uint32");
+            add("uint64");
+            add("void");
+            add("while");
+            add("xor");
+        }};
     }
 
     @Override
@@ -75,7 +130,8 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
             } else {
                 stringBuffer.append(getConvertedTypeName(type.getText()));
             }
-            stringBuffer.append(' ').append(param.getId().getText());
+            stringBuffer.append(" ");
+            appendSafeName(param.getId().getText());
             if (i < params.size() - 1) stringBuffer.append(", ");
         }
         stringBuffer.append("){\n");
@@ -123,7 +179,7 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
     @Override
     public void visitSetStmt(@NotNull JassSetStmt o) {
         final var id = o.getId();
-        if (id != null) stringBuffer.append(id.getText());
+        if (id != null) appendSafeName(id.getText());
         final var arr = o.getArrayAccess();
         if (arr != null) arr.accept(this);
         final var expr = o.getExpr();
