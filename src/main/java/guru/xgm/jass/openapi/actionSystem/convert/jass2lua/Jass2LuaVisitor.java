@@ -5,11 +5,28 @@ import guru.xgm.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static guru.xgm.jass.psi.JassTypes.*;
 
 public class Jass2LuaVisitor extends Jass2AnyVisitor {
+
+    Jass2LuaVisitor() {
+        //https://www.lua.org/manual/5.1/manual.html
+        keywords = new HashSet<>() {{
+            add("break");
+            add("do");
+            add("end");
+            add("for");
+            add("in");
+            add("nil");
+            add("repeat");
+            add("until");
+            add("while");
+        }};
+    }
+
     @Override
     public void appendStatementLineEnd() {
         stringBuffer.append("\n");
@@ -55,13 +72,15 @@ public class Jass2LuaVisitor extends Jass2AnyVisitor {
     @Override
     public void appendFunction(@Nullable String returns, String name, @NotNull List<JassParam> params, @NotNull List<JassStmt> statements) {
         for (JassParam param : params) {
-            stringBuffer.append("---@param ").append(param.getId().getText()).append(" ").append(getConvertedTypeName(param.getTypeName().getText())).append("\n");
+            stringBuffer.append("---@param ");
+            appendSafeName(param.getId().getText());
+            stringBuffer.append(" ").append(getConvertedTypeName(param.getTypeName().getText())).append("\n");
         }
         if (returns != null) stringBuffer.append("---@return ").append(returns).append("\n");
 
         stringBuffer.append("function ").append(name).append("(");
         for (int i = 0; i < params.size(); i++) {
-            stringBuffer.append(params.get(i).getId().getText());
+            appendSafeName(params.get(i).getId().getText());
             if (i < params.size() - 1) stringBuffer.append(", ");
         }
         stringBuffer.append(")\n");

@@ -6,9 +6,27 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class Jass2AnyVisitor extends JassVisitor {
+    public Jass2AnyVisitor() {
+        keywords = new HashSet<>();
+    }
+
+    private static final String keywordSuffix = "_FUCKING_KEYWORD";
+
+    public String getSafeName(String name) {
+        if (keywords.contains(name)) return name + keywordSuffix;
+        return name;
+    }
+
+    public void appendSafeName(String name) {
+        stringBuffer.append(name);
+        if (keywords.contains(name)) stringBuffer.append(keywordSuffix);
+    }
+
+    public HashSet<String> keywords;
 
     public StringBuffer stringBuffer = new StringBuffer();
 
@@ -56,7 +74,7 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     public abstract void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr);
 
     private void appendVarPrepare(boolean constant, boolean global, @NotNull JassVar var) {
-        appendVar(constant, global, var.getArray() != null, getConvertedTypeName(var.getTypeName().getText()), var.getId().getText(), var.getExpr());
+        appendVar(constant, global, var.getArray() != null, getConvertedTypeName(var.getTypeName().getText()), getSafeName(var.getId().getText()), var.getExpr());
     }
 
     @Override
@@ -88,7 +106,7 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
         appendFunction(
                 ret == null || rettype == null || ret.getNothing() != null ? null : getConvertedTypeName(rettype.getText()),
-                name == null ? "" : name.getText(),
+                name == null ? "" : getSafeName(name.getText()),
                 params,
                 o.getStmtList()
         );
@@ -106,8 +124,7 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     @Override
     public void visitReturnStmt(@NotNull JassReturnStmt o) {
         stringBuffer.append("return ");
-        final var expr = o.getExpr();
-        if (expr != null) expr.accept(this);
+        acceptExpr(o.getExpr());
         appendStatementLineEnd();
     }
 
@@ -115,7 +132,7 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     @Override
     public void visitSetStmt(@NotNull JassSetStmt o) {
         final var id = o.getId();
-        if (id != null) stringBuffer.append(id.getText());
+        if (id != null) appendSafeName(id.getText());
         final var arr = o.getArrayAccess();
         if (arr != null) arr.accept(this);
         final var expr = o.getExpr();
@@ -134,12 +151,15 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendStatementLineEnd();
     }
 
-    // ===============
+    @Override
+    public void visitFunCall(@NotNull JassFunCall o) {
+        appendSafeName(o.getId().getText());
+        stringBuffer.append("(");
 
-    private boolean text(@Nullable PsiElement pe) {
-        if (pe == null) return false;
-        stringBuffer.append(pe.getText());
-        return true;
+        final var list = o.getArgList();
+        if (list != null) list.accept(this);
+
+        stringBuffer.append(")");
     }
 
     @Override
@@ -152,13 +172,16 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
     }
 
     @Override
-    public void visitFunCall(@NotNull JassFunCall o) {
-        stringBuffer.append(o.getId().getText()).append("(");
+    public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
+        appendFunctionAsCode(getSafeName(o.getId().getText()));
+    }
 
-        final var list = o.getArgList();
-        if (list != null) list.accept(this);
+    // ===============
 
-        stringBuffer.append(")");
+    private boolean text(@Nullable PsiElement pe) {
+        if (pe == null) return false;
+        stringBuffer.append(pe.getText());
+        return true;
     }
 
     @Override
@@ -167,11 +190,6 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         final var expr = o.getExpr();
         if (expr != null) expr.accept(this);
         stringBuffer.append("]");
-    }
-
-    @Override
-    public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
-        appendFunctionAsCode(o.getId().getText());
     }
 
     // --- expression
@@ -202,7 +220,11 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
             appendNull();
             return;
         }
-        if (text(o.getId())) return;
+        final var id = o.getId();
+        if (id != null) {
+            appendSafeName(id.getText());
+            return;
+        }
         if (text(o.getIntval())) return;
         final var str = o.getStrval();
         if (str != null) {

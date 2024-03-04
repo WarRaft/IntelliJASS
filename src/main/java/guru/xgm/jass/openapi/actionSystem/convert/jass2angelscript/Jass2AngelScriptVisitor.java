@@ -10,6 +10,10 @@ import java.util.Objects;
 
 public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
 
+    Jass2AngelScriptVisitor() {
+
+    }
+
     @Override
     public @NotNull String getConvertedTypeName(@NotNull String type) {
         return switch (type) {
