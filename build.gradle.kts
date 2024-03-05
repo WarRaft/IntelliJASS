@@ -33,10 +33,8 @@ java {
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2023.3")
-    type.set("IU")
-    plugins.set(
-        listOf("com.tang:1.4.11-IDEA231")
-    )
+    //type.set("IU")
+    //plugins.set(listOf("com.tang:1.4.11-IDEA231"))
 }
 
 tasks {
