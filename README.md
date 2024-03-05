@@ -6,11 +6,19 @@
 
 Just Another Scripting Syntax for [Warcraft III](https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos).
 
-# Preprocessors
+# Support language
 
-Due to lack of documentation and non-obvious behavior, VJASS syntax is not supported.
+| Language    | File extension |
+|-------------|----------------|
+| JASS        | `.j`           |
+| VJASS       | `.vj`          |
+| ZINC        | `.zn`          |
+| AngelScript | `.ass`         |
 
-ZINC has a completely different syntax and its own file resolution. Therefore, its support does not interfere with JASS in any way.
+# Leave a comment
+
+- [XGM](https://xgm.guru/p/wc3/IntelliJASS)
+- [Hive](https://www.hiveworkshop.com/threads/intellijass.352009/)
 
 # Useful links
 
@@ -20,4 +28,5 @@ ZINC has a completely different syntax and its own file resolution. Therefore, i
 - https://github.com/hmatt1/angelscript-intellij
 
 ## Support
+
 <a href="https://www.buymeacoffee.com/nazarpunk"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=nazarpunk&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
