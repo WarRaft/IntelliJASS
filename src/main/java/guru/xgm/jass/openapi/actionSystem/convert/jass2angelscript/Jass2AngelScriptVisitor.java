@@ -89,6 +89,14 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
         stringBuffer.append(real).append("f");
     }
 
+    // --- typedef https://www.angelcode.com/angelscript/sdk/docs/manual/doc_global_typedef.html
+
+    @Override
+    public void appendTypeDef(String name, String base) {
+        stringBuffer.append("//typedef ").append(base).append(" ").append(name);
+        appendStatementLineEnd();
+    }
+
     // --- variable
     private void appendVarExpr(@Nullable JassExpr expr) {
         if (expr == null) return;

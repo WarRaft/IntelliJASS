@@ -62,6 +62,19 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         return type;
     }
 
+    // --- typedef
+    public void appendTypeDef(String name, String base) {
+        appendSingleLineComment(name + " extends " + base);
+    }
+
+    @Override
+    public void visitTypeDef(@NotNull JassTypeDef o) {
+        final var name = o.getTypeName();
+        final var base = o.getTypeNameBase();
+        if (name == null || base == null) return;
+        appendTypeDef(name.getText(), base.getText());
+    }
+
     // --- globals
     @Override
     public void visitGlob(@NotNull JassGlob o) {

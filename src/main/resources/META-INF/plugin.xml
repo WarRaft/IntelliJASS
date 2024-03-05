@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.15</version>
+    <version>2.0.16</version>
     <idea-version since-build="2023.3"/>
     <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
@@ -131,6 +131,24 @@
                 class="guru.xgm.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
                 text="Convert to Lua"
                 description="Convert file to valid Lua"
+        >
+            <add-to-group group-id="EditorPopupMenu"/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+        </action>
+        <action
+                id="guru.xgm.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                class="guru.xgm.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                text="Convert to JavaScript"
+                description="Convert file to valid to JavaScript"
+        >
+            <add-to-group group-id="EditorPopupMenu"/>
+            <add-to-group group-id="ProjectViewPopupMenu"/>
+        </action>
+        <action
+                id="guru.xgm.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                class="guru.xgm.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                text="Convert to TypeScript"
+                description="Convert file to valid to TypeScript"
         >
             <add-to-group group-id="EditorPopupMenu"/>
             <add-to-group group-id="ProjectViewPopupMenu"/>

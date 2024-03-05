@@ -47,6 +47,13 @@ public class Jass2LuaVisitor extends Jass2AnyVisitor {
         stringBuffer.append("nil");
     }
 
+    // -- typedef
+    @Override
+    public void appendTypeDef(String name, String base) {
+        stringBuffer.append("---@class ").append(name).append(":").append(base);
+        appendStatementLineEnd();
+    }
+
     // -- variable
     @Override
     public void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr) {
