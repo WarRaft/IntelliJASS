@@ -8,15 +8,8 @@ import java.util.Arrays;
 public class JassRawVal {
     JassRawVal(PsiElement elem) {
         final var text = elem.getText();
-        final var textbytes = text.getBytes(StandardCharsets.US_ASCII);
-
-
-        System.out.print("raw|" + text + "|" + Arrays.toString(textbytes) + "\n");
-        final var chars = text.toCharArray();
-        for (char ch : chars) {
-            System.out.print("[" + ch + "] " + Character.getNumericValue(ch) + "\n");
-        }
-
+        final var textbytes = text.getBytes(StandardCharsets.ISO_8859_1);
+        
         if (textbytes.length < 2 || textbytes[0] != 39 || textbytes[textbytes.length - 1] != 39) {
             error = true;
             safe = false;

@@ -8,6 +8,8 @@ import guru.xgm.jass.psi.JassPrimExpr;
 import guru.xgm.jass.psi.JassVisitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public final class JassRawValInspection extends LocalInspectionTool implements CleanupLocalInspectionTool {
     @NotNull
     @Override
@@ -24,12 +26,15 @@ public final class JassRawValInspection extends LocalInspectionTool implements C
                     return;
                 }
 
-                if (!raw.safe) {
-                    holder.registerProblem(psiraw, "Rawcode has unsafe character");
-                }
+                System.out.print("raw" + raw.bytes.length + "|" + psiraw.getText() + "| " + Arrays.toString(raw.bytes) + "\n");
 
                 if (raw.bytes.length != 1 && raw.bytes.length != 4) {
                     holder.registerProblem(psiraw, "Rawcode must contain 1 or 4 symbols");
+                    return;
+                }
+
+                if (!raw.safe) {
+                    holder.registerProblem(psiraw, "Rawcode has unsafe character");
                 }
             }
         };

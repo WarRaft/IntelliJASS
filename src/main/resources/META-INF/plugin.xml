@@ -8,8 +8,9 @@
     <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-
     <extensions defaultExtensionNs="com.intellij">
+
+
         <!-- === JASS === -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.jass.openapi.fileTypes.JassFileType"

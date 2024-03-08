@@ -13,6 +13,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import guru.xgm.jass.lang.JassLanguage;
+import guru.xgm.jass.openapi.fileTypes.JassFileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public abstract class Jass2AnyAction extends AnAction {
 
     public void update(AnActionEvent e) {
         VirtualFile virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        e.getPresentation().setEnabledAndVisible(virtualFile != null && "j".equals(virtualFile.getExtension()));
+        e.getPresentation().setEnabledAndVisible(virtualFile != null && JassFileType.extension.equals(virtualFile.getExtension()));
     }
 
     @Override
