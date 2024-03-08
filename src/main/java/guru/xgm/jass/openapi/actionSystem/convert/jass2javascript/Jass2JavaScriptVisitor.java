@@ -109,13 +109,18 @@ public class Jass2JavaScriptVisitor extends Jass2AnyVisitor {
     @Override
     public void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr) {
         if (!typescript) {
-            stringBuffer.append("/** @type {").append(type).append("}");
+            stringBuffer.append("/** @type {").append(type);
+            if (array) stringBuffer.append("[]");
+            stringBuffer.append("}");
             if (global) stringBuffer.append("\n *  @global\n");
             stringBuffer.append(" */\n");
         }
         stringBuffer.append(constant ? "const" : "let").append(" ").append(name);
 
-        if (typescript) stringBuffer.append(":").append(type);
+        if (typescript) {
+            stringBuffer.append(":").append(type);
+            if (array) stringBuffer.append("[]");
+        }
 
         stringBuffer.append(" = ");
         if (expr == null) {

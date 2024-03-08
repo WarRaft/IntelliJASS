@@ -55,6 +55,17 @@
                          implementationClass="guru.xgm.jass.codeInspection.JassOperatorCallBehaviorInspection"
         />
 
+        <localInspection language="JASS"
+                         bundle="messages.JassInspectionsBundle"
+                         key="rawcode.display.name"
+                         groupPath="JASS"
+                         groupBundle="messages.JassInspectionsBundle"
+                         groupKey="group.syntax.rawcode"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="guru.xgm.jass.codeInspection.rawval.JassRawValInspection"
+        />
+
         <!-- === ZINC === -->
         <fileType name="ZINC"
                   implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincFileType"
