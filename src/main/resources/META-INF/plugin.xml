@@ -64,7 +64,7 @@
                          groupKey="group.names.number"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="guru.xgm.jass.codeInspection.number.JassUnsafeRawcodeInspection"
+                         implementationClass="guru.xgm.jass.codeInspection.number.JassRawcodeUnsafeInspection"
         />
 
         <!-- === ZINC === -->

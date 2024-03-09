@@ -47,6 +47,7 @@ public final class JassFileType extends LanguageFileType {
         return JassIcons.FILE;
     }
 
+    /*
     @Override
     public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @NotNull CharSequence content) {
         return StandardCharsets.ISO_8859_1;
@@ -56,4 +57,5 @@ public final class JassFileType extends LanguageFileType {
     public @NonNls @NotNull String getCharset(@NotNull VirtualFile file, byte @NotNull [] content) {
         return "ISO-8859-1";
     }
+     */
 }

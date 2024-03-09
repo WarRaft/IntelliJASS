@@ -28,11 +28,5 @@ public class JassElementFactory {
         final JassPsiFileBase file = createFile(project, "globals int fuckingCrutch = " + value + " endglobals");
         return ((JassGlob) file.getFirstChild()).getGvarList().get(0).getVar().getExpr();
     }
-
-    public static void recreateRawVal(Project project, String value) {
-        final JassPsiFileBase file = createFile(project, "globals int fuckingCrutch = " + value + " endglobals");
-
-        //return ((JassGlob) file.getFirstChild()).getGvarList().get(0).getVar().getExpr();
-    }
 }
 

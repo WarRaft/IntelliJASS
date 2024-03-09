@@ -9,7 +9,7 @@ import guru.xgm.jass.psi.JassPrimExpr;
 import guru.xgm.jass.psi.JassVisitor;
 import org.jetbrains.annotations.NotNull;
 
-public final class JassUnsafeRawcodeInspection extends LocalInspectionTool implements CleanupLocalInspectionTool {
+public final class JassRawcodeUnsafeInspection extends LocalInspectionTool implements CleanupLocalInspectionTool {
     private final ToHexQuickFix toHexQuickFix = new ToHexQuickFix();
     private final ToIntQuickFix toIntQuickFix = new ToIntQuickFix();
 
