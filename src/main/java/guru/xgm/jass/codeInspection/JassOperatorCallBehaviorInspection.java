@@ -118,9 +118,7 @@ final class JassOperatorCallBehaviorInspection extends LocalInspectionTool imple
             final JassFunCall funcCall = (JassFunCall) funcCallName.getParent();
             final PsiElement ws = funcCall.getPrevSibling();
             final PsiElement call = ws.getPrevSibling();
-            if (!(ws instanceof PsiWhiteSpace) || call.getNode().getElementType() != JassTypes.CALL) {
-                return;
-            }
+            if (!(ws instanceof PsiWhiteSpace) || call.getNode().getElementType() != JassTypes.CALL) return;
             ws.delete();
             call.delete();
         }

@@ -23,5 +23,10 @@ public class JassElementFactory {
         final JassStmt stmtNew = funcDecl.getStmtList().get(0);
         return stmtNew.getCallStmt();
     }
+
+    public static JassExpr recreateExpr(Project project, String value) {
+        final JassPsiFileBase file = createFile(project, "globals int fuckingCrutch = " + value + " endglobals");
+        return ((JassGlob) file.getFirstChild()).getGvarList().get(0).getVar().getExpr();
+    }
 }
 
