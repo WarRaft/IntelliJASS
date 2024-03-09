@@ -58,13 +58,13 @@
 
         <localInspection language="JASS"
                          bundle="messages.JassInspectionsBundle"
-                         key="rawcode.display.name"
+                         key="number.rawcode.unsafe.key"
                          groupPath="JASS"
                          groupBundle="messages.JassInspectionsBundle"
-                         groupKey="group.syntax.rawcode"
+                         groupKey="group.names.number"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="guru.xgm.jass.codeInspection.rawval.JassRawValInspection"
+                         implementationClass="guru.xgm.jass.codeInspection.number.JassUnsafeRawcodeInspection"
         />
 
         <!-- === ZINC === -->
@@ -174,7 +174,7 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p>Add base VJASS parser for *.vj files.</p>
+        <p>Add primitive AngelScript support.</p>
         ]]></change-notes>
 
 </idea-plugin>
