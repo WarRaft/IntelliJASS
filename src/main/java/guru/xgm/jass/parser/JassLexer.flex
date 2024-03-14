@@ -28,9 +28,10 @@ SINGLE_LINE_COMMENT="//"[^\n]*
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
-RAWVAL='[^']*'
 STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*
+
+%state RAWVAL_STATE
 
 %%
 <YYINITIAL> {
@@ -89,15 +90,22 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
+  "'"                         {yybegin(RAWVAL_STATE);}
 
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
-  {RAWVAL}                    { return RAWVAL; }
   {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
 }
+
+ <RAWVAL_STATE> {
+    "'"       {yybegin(YYINITIAL); return RAWVAL;}
+    [^]       { /*ignore*/ }
+    <<EOF>>   {yybegin(YYINITIAL); return RAWVAL;}
+}
+
 
 [^] { return BAD_CHARACTER; }
