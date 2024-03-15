@@ -10,6 +10,8 @@
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
 
+        <!-- colors -->
+        <colorProvider implementation="guru.xgm.jass.openapi.editor.JassElementColorProvider"/>
 
         <!-- === JASS === -->
         <fileType name="JASS"
