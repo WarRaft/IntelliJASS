@@ -11,7 +11,7 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- colors -->
-        <colorProvider implementation="guru.xgm.jass.openapi.editor.JassElementColorProvider"/>
+        <colorProvider implementation="guru.xgm.jass.openapi.editor.JassElementColorProvider" />
 
         <!-- === JASS === -->
         <fileType name="JASS"
@@ -71,12 +71,12 @@
 
         <!-- === ZINC === -->
         <fileType name="ZINC"
-                  implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincFileType"
+                  implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincFileType"
                   fieldName="INSTANCE"
                   language="ZINC"
                   extensions="zn"
         />
-        <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.zinc.lang.ZincParserDefinition"/>
+        <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.language.zinc.lang.ZincParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC"
@@ -92,12 +92,12 @@
 
         <!-- === VJASS === -->
         <fileType name="VJASS"
-                  implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassFileType"
+                  implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassFileType"
                   fieldName="INSTANCE"
                   language="VJASS"
                   extensions="vj"
         />
-        <lang.parserDefinition language="VJASS" implementationClass="guru.xgm.vjass.lang.VjassParserDefinition"/>
+        <lang.parserDefinition language="VJASS" implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
@@ -105,13 +105,13 @@
 
         <!-- === AngelScript === -->
         <fileType name="AngelScript"
-                  implementationClass="guru.xgm.angelscript.openapi.fileTypes.AngelScriptFileType"
+                  implementationClass="guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType"
                   fieldName="INSTANCE"
                   language="AngelScript"
                   extensions="ass"
         />
         <lang.parserDefinition language="AngelScript"
-                               implementationClass="guru.xgm.angelscript.lang.AngelScriptParserDefinition"/>
+                               implementationClass="guru.xgm.language.angelscript.lang.AngelScriptParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
