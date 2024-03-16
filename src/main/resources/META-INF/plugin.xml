@@ -11,40 +11,40 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- colors -->
-        <colorProvider implementation="guru.xgm.jass.openapi.editor.JassElementColorProvider" />
+        <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider" />
 
         <!-- === JASS === -->
         <fileType name="JASS"
-                  implementationClass="guru.xgm.jass.openapi.fileTypes.JassFileType"
+                  implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
                   fieldName="INSTANCE"
                   language="JASS"
                   extensions="j"
         />
-        <lang.parserDefinition language="JASS" implementationClass="guru.xgm.jass.lang.JassParserDefinition"/>
+        <lang.parserDefinition language="JASS" implementationClass="guru.xgm.language.jass.lang.JassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="JASS"
-                                       implementationClass="guru.xgm.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
+                                       implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="guru.xgm.jass.openapi.options.colors.JassColorSettingsPage"/>
+        <colorSettingsPage implementation="guru.xgm.language.jass.openapi.options.colors.JassColorSettingsPage"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/JASSDarcula.xml"/>
 
         <!-- annotator -->
-        <annotator language="JASS" implementationClass="guru.xgm.jass.lang.annotation.JassAnnotator"/>
+        <annotator language="JASS" implementationClass="guru.xgm.language.jass.lang.annotation.JassAnnotator"/>
 
         <!-- folding -->
-        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.jass.lang.folding.JassCustomFoldingBuilder"/>
-        <codeFoldingOptionsProvider instance="guru.xgm.jass.lang.folding.JassCodeFoldingOptionsProvider"/>
-        <applicationService serviceImplementation="guru.xgm.jass.lang.folding.JassCodeFoldingSettings"/>
+        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.language.jass.lang.folding.JassCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.language.jass.lang.folding.JassCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="guru.xgm.language.jass.lang.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
-        <lang.formatter language="JASS" implementationClass="guru.xgm.jass.formatting.JassFormattingModelBuilder"/>
+        <lang.formatter language="JASS" implementationClass="guru.xgm.language.jass.formatting.JassFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
+                implementation="guru.xgm.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
         <!-- sdk -->
-        <sdkType implementation="guru.xgm.jass.openapi.projectRoots.JassSdkType"/>
+        <sdkType implementation="guru.xgm.language.jass.openapi.projectRoots.JassSdkType"/>
 
         <!-- inspections -->
         <localInspection language="JASS"
@@ -55,7 +55,7 @@
                          groupKey="group.names.operator"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="guru.xgm.jass.codeInspection.JassOperatorCallBehaviorInspection"
+                         implementationClass="guru.xgm.language.jass.codeInspection.JassOperatorCallBehaviorInspection"
         />
 
         <localInspection language="JASS"
@@ -66,7 +66,7 @@
                          groupKey="group.names.number"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="guru.xgm.jass.codeInspection.number.JassRawcodeUnsafeInspection"
+                         implementationClass="guru.xgm.language.jass.codeInspection.number.JassRawcodeUnsafeInspection"
         />
 
         <!-- === ZINC === -->
@@ -80,15 +80,15 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC"
-                                       implementationClass="guru.xgm.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
+                                       implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
         <!-- formatter -->
-        <lang.formatter language="ZINC" implementationClass="guru.xgm.zinc.formatting.ZincFormattingModelBuilder"/>
+        <lang.formatter language="ZINC" implementationClass="guru.xgm.language.zinc.formatting.ZincFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
+                implementation="guru.xgm.language.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
 
         <!-- annotator -->
-        <annotator language="ZINC" implementationClass="guru.xgm.zinc.lang.annotation.ZincAnnotator"/>
+        <annotator language="ZINC" implementationClass="guru.xgm.language.zinc.lang.annotation.ZincAnnotator"/>
 
         <!-- === VJASS === -->
         <fileType name="VJASS"
@@ -101,7 +101,7 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
-                                       implementationClass="guru.xgm.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+                                       implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
 
         <!-- === AngelScript === -->
         <fileType name="AngelScript"
@@ -115,25 +115,25 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
-                                       implementationClass="guru.xgm.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterFactory"/>
+                                       implementationClass="guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterFactory"/>
 
         <!-- formatter -->
         <lang.formatter language="AngelScript"
-                        implementationClass="guru.xgm.angelscript.formatting.AngelScriptFormattingModelBuilder"/>
+                        implementationClass="guru.xgm.language.angelscript.formatting.AngelScriptFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.angelscript.psi.codeStyle.AngelScriptLanguageCodeStyleSettingsProvider"/>
+                implementation="guru.xgm.language.angelscript.psi.codeStyle.AngelScriptLanguageCodeStyleSettingsProvider"/>
 
         <!-- annotator -->
         <annotator language="AngelScript"
-                   implementationClass="guru.xgm.angelscript.lang.annotation.AngelScriptAnnotator"/>
+                   implementationClass="guru.xgm.language.angelscript.lang.annotation.AngelScriptAnnotator"/>
 
     </extensions>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
     <actions>
         <action
-                id="guru.xgm.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
-                class="guru.xgm.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
+                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
+                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
                 text="Convert to AngelScript"
                 description="Convert file to valid AngelScript"
         >
@@ -141,8 +141,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
-                class="guru.xgm.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
+                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
+                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
                 text="Convert to Lua"
                 description="Convert file to valid Lua"
         >
@@ -150,8 +150,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
-                class="guru.xgm.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
                 text="Convert to JavaScript"
                 description="Convert file to valid to JavaScript"
         >
@@ -159,8 +159,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
-                class="guru.xgm.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
                 text="Convert to TypeScript"
                 description="Convert file to valid to TypeScript"
         >

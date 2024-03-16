@@ -13,8 +13,8 @@ import com.intellij.psi.tree.TokenSet;
 import guru.xgm.language.angelscript.psi.AngelScriptTokenSets;
 import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase;
 import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter;
-import guru.xgm.angelscript.parser.AngelScriptParser;
-import guru.xgm.angelscript.psi.AngelScriptTypes;
+import guru.xgm.language.angelscript.parser.AngelScriptParser;
+import guru.xgm.language.angelscript.psi.AngelScriptTypes;
 import org.jetbrains.annotations.NotNull;
 
 public final class AngelScriptParserDefinition implements ParserDefinition {

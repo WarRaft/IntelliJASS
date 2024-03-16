@@ -1,4 +1,4 @@
-package guru.xgm.jass.psi.codeStyle;
+package guru.xgm.language.jass.psi.codeStyle;
 
 import com.ibm.icu.impl.Pair;
 import com.intellij.application.options.CodeStyleAbstractConfigurable;
@@ -7,15 +7,15 @@ import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.*;
-import guru.xgm.jass.formatting.JassCodeStyleSettings;
-import guru.xgm.jass.formatting.panel.JassAlignTokenPanel;
-import guru.xgm.jass.formatting.panel.JassCodeStyleMainPanel;
-import guru.xgm.jass.lang.JassLanguage;
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
+import guru.xgm.language.jass.formatting.panel.JassAlignTokenPanel;
+import guru.xgm.language.jass.formatting.panel.JassCodeStyleMainPanel;
+import guru.xgm.language.jass.lang.JassLanguage;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
-import static guru.xgm.jass.formatting.JassCodeStyleSettings.Fields.*;
+import static guru.xgm.language.jass.formatting.JassCodeStyleSettings.Fields.*;
 
 final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 

@@ -13,8 +13,8 @@ import com.intellij.psi.tree.TokenSet;
 import guru.xgm.language.zinc.lexer.ZincFlexAdapter;
 import guru.xgm.language.zinc.psi.ZincTokenSets;
 import guru.xgm.language.zinc.extapi.psi.ZincPsiFileBase;
-import guru.xgm.zinc.parser.ZincParser;
-import guru.xgm.zinc.psi.ZincTypes;
+import guru.xgm.language.zinc.parser.ZincParser;
+import guru.xgm.language.zinc.psi.ZincTypes;
 import org.jetbrains.annotations.NotNull;
 
 public final class ZincParserDefinition implements ParserDefinition {

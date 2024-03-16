@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
-import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
+import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 
 public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
     public static final TextAttributesKey ID_KEY = createTextAttributesKey("ANGELSCRIPT_ID", DefaultLanguageHighlighterColors.IDENTIFIER);

@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
+import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
+import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 
 public class AngelScriptBlock implements ASTBlock {
 

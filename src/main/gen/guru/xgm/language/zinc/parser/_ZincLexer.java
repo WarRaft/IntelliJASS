@@ -4,9 +4,11 @@
 package guru.xgm.language.zinc.parser;
 
 import com.intellij.psi.tree.IElementType;
+import com.intellij.lexer.FlexLexer;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static guru.xgm.language.zinc.psi.ZincTypes.*;
 
 
 public class _ZincLexer implements FlexLexer {

@@ -1,11 +1,11 @@
-package guru.xgm.jass.psi;
+package guru.xgm.language.jass.psi;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileFactory;
-import guru.xgm.jass.extapi.psi.JassPsiFileBase;
-import guru.xgm.jass.lang.JassLanguage;
-import guru.xgm.language.jass.psi.*;
+import guru.xgm.language.jass.extapi.psi.JassPsiFileBase;
+import guru.xgm.language.jass.lang.JassLanguage;
+import org.jetbrains.annotations.NotNull;
 
 public class JassElementFactory {
     private static JassPsiFileBase createFile(Project project, String text) {
@@ -30,4 +30,9 @@ public class JassElementFactory {
         return ((JassGlob) file.getFirstChild()).getGvarList().get(0).getVar().getExpr();
     }
 
+    public static void replaceExprChild(@NotNull Project project, @NotNull PsiElement target, @NotNull String value) {
+        final var child = recreateExpr(project, value).getFirstChild();
+        if (child == null) return;
+        target.replace(child);
+    }
 }

@@ -36,7 +36,7 @@ public class JassRawcode {
         validLength = bytes.length == 1 || bytes.length == 4;
         integer = bytes2int(bytes);
         intstr = Long.toString(integer & 0xFFFFFFFFL);
-        hex = "0x" + String.format("%02x", integer);
+        hex = "0x" + String.format("%02x", integer).toUpperCase();
     }
 
     private boolean isSafe() {

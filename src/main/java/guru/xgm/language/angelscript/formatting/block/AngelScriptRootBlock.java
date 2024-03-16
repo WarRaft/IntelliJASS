@@ -9,7 +9,7 @@ import guru.xgm.language.angelscript.formatting.AngelScriptCodeStyleSettings;
 import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
 import org.jetbrains.annotations.NotNull;
 
-import static guru.xgm.angelscript.psi.AngelScriptTypes.*;
+import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 
 @SuppressWarnings("CommentedOutCode")
 public class AngelScriptRootBlock extends AngelScriptBlock {

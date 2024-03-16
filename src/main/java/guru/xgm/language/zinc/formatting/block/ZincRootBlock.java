@@ -9,7 +9,7 @@ import guru.xgm.language.zinc.lang.ZincLanguage;
 import guru.xgm.language.zinc.formatting.ZincCodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 
-import static guru.xgm.zinc.psi.ZincTypes.*;
+import static guru.xgm.language.zinc.psi.ZincTypes.*;
 
 @SuppressWarnings("CommentedOutCode")
 public class ZincRootBlock extends ZincBlock {

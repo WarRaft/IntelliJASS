@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static guru.xgm.zinc.psi.ZincTypes.*;
+import static guru.xgm.language.zinc.psi.ZincTypes.*;
 import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
 
 public class ZincBlock implements ASTBlock {

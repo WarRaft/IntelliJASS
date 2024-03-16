@@ -1,5 +1,6 @@
 package guru.xgm.language.jass.parser;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
@@ -25,7 +26,7 @@ import static guru.xgm.language.jass.psi.JassTypes.*;
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
-HEXVAL=(0x|\$)[0-9a-fA-F]+
+HEXVAL=(0x|\$)[0-9a-zA-Z]+
 INTVAL=[0-9]+
 STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*

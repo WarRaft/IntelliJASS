@@ -5,7 +5,7 @@ import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import guru.xgm.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterBase;
-import guru.xgm.zinc.psi.ZincTypeName;
+import guru.xgm.language.zinc.psi.ZincTypeName;
 import org.jetbrains.annotations.NotNull;
 
 final class ZincAnnotator implements Annotator {

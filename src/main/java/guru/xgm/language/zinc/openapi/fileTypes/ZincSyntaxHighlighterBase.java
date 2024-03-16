@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
-import static guru.xgm.zinc.psi.ZincTypes.*;
+import static guru.xgm.language.zinc.psi.ZincTypes.*;
 
 public class ZincSyntaxHighlighterBase extends SyntaxHighlighterBase {
     public static final TextAttributesKey ID_KEY = createTextAttributesKey("ZINC_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
