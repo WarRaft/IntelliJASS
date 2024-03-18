@@ -74,10 +74,10 @@
         LBRACK='['
         RBRACK=']'
 
-        REALVAl='regexp:\d+\.\d*|\.\d+'
+        REALVAL='regexp:\d+\.\d*|\.\d+'
         HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
         INTVAL='regexp:\d+'
-        RAWVAl="regexp:'[^']*'"
+        RAWVAL="regexp:'[^']*'"
         STRVAL="regexp:\"([^\"\\]|\\.)*\""
 
         ID='regexp:[A-Za-z_][_0-9A-Za-z]*'

@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.17</version>
+    <version>2.0.18</version>
     <idea-version since-build="2023.3"/>
     <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
@@ -11,7 +11,7 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- colors -->
-        <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider" />
+        <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider"/>
 
         <!-- === JASS === -->
         <fileType name="JASS"
@@ -34,12 +34,14 @@
         <annotator language="JASS" implementationClass="guru.xgm.language.jass.lang.annotation.JassAnnotator"/>
 
         <!-- folding -->
-        <lang.foldingBuilder language="JASS" implementationClass="guru.xgm.language.jass.lang.folding.JassCustomFoldingBuilder"/>
+        <lang.foldingBuilder language="JASS"
+                             implementationClass="guru.xgm.language.jass.lang.folding.JassCustomFoldingBuilder"/>
         <codeFoldingOptionsProvider instance="guru.xgm.language.jass.lang.folding.JassCodeFoldingOptionsProvider"/>
         <applicationService serviceImplementation="guru.xgm.language.jass.lang.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
-        <lang.formatter language="JASS" implementationClass="guru.xgm.language.jass.formatting.JassFormattingModelBuilder"/>
+        <lang.formatter language="JASS"
+                        implementationClass="guru.xgm.language.jass.formatting.JassFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
                 implementation="guru.xgm.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
@@ -83,7 +85,8 @@
                                        implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
         <!-- formatter -->
-        <lang.formatter language="ZINC" implementationClass="guru.xgm.language.zinc.formatting.ZincFormattingModelBuilder"/>
+        <lang.formatter language="ZINC"
+                        implementationClass="guru.xgm.language.zinc.formatting.ZincFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
                 implementation="guru.xgm.language.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
 
@@ -97,7 +100,8 @@
                   language="VJASS"
                   extensions="vj"
         />
-        <lang.parserDefinition language="VJASS" implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
+        <lang.parserDefinition language="VJASS"
+                               implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
@@ -126,6 +130,25 @@
         <!-- annotator -->
         <annotator language="AngelScript"
                    implementationClass="guru.xgm.language.angelscript.lang.annotation.AngelScriptAnnotator"/>
+
+        <!-- === Lni === -->
+        <fileType name="Lni"
+                  implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
+                  fieldName="INSTANCE"
+                  language="Lni"
+                  extensions="lni"
+        />
+        <lang.parserDefinition language="Lni"
+                               implementationClass="guru.xgm.language.lni.lang.LniParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="Lni"
+                                       implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniSyntaxHighlighterFactory"/>
+
+        <!-- annotator -->
+        <annotator language="Lni"
+                   implementationClass="guru.xgm.language.lni.lang.annotation.LniAnnotator"/>
+
 
     </extensions>
 

@@ -114,7 +114,7 @@
         LBRACK = '['
         RBRACK = ']'
 
-        REALVAl='regexp:(\d+\.\d*|\.\d+)([fd])?'
+        REALVAL='regexp:(\d+\.\d*|\.\d+)([fd])?'
         HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
         INTVAL='regexp:\d+'
 
