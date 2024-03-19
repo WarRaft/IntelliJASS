@@ -10,4 +10,10 @@ public interface LniList extends PsiElement {
   @NotNull
   List<LniListItem> getListItemList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

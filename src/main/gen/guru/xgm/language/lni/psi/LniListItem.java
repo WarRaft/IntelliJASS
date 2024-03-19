@@ -11,6 +11,9 @@ public interface LniListItem extends PsiElement {
   LniPrim getPrim();
 
   @Nullable
+  PsiElement getEq();
+
+  @Nullable
   PsiElement getIntval();
 
 }

@@ -35,6 +35,12 @@ public class LniListItemImpl extends ASTWrapperPsiElement implements LniListItem
 
   @Override
   @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getIntval() {
     return findChildByType(INTVAL);
   }

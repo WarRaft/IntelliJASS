@@ -41,6 +41,12 @@ public class LniPropertyImpl extends ASTWrapperPsiElement implements LniProperty
 
   @Override
   @NotNull
+  public PsiElement getEq() {
+    return findNotNullChildByType(EQ);
+  }
+
+  @Override
+  @NotNull
   public PsiElement getId() {
     return findNotNullChildByType(ID);
   }

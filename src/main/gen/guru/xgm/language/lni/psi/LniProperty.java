@@ -14,6 +14,9 @@ public interface LniProperty extends PsiElement {
   LniPrim getPrim();
 
   @NotNull
+  PsiElement getEq();
+
+  @NotNull
   PsiElement getId();
 
 }
