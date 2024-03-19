@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @State(name = "LniCodeFoldingSettings", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
 public class LniCodeFoldingSettings implements PersistentStateComponent<LniCodeFoldingSettings> {
-    private boolean foldItems = false;
+    private boolean foldItem = false;
+    private boolean foldList = false;
 
     public static LniCodeFoldingSettings getInstance() {
         return ApplicationManager.getApplication().getService(LniCodeFoldingSettings.class);

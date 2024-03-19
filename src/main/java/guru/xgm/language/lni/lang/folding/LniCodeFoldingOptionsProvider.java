@@ -8,6 +8,7 @@ public class LniCodeFoldingOptionsProvider extends BeanConfigurable<LniCodeFoldi
         super(LniCodeFoldingSettings.getInstance(), "LNI");
         LniCodeFoldingSettings settings = getInstance();
         assert settings != null;
-        checkBox("Item", settings::isFoldItems, settings::setFoldItems);
+        checkBox("Item", settings::isFoldItem, settings::setFoldItem);
+        checkBox("List", settings::isFoldList, settings::setFoldList);
     }
 }

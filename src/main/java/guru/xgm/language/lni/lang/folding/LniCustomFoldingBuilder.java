@@ -34,13 +34,15 @@ final class LniCustomFoldingBuilder extends CustomFoldingBuilder implements Dumb
         final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
                 root,
                 PsiComment.class,
-                LniItem.class
+                LniItem.class,
+                LniList.class
         );
 
         for (PsiElement element : psiElements) {
+            final int end = element.getTextOffset() + element.getTextLength();
+
             if (element instanceof LniItem item) {
                 int start;
-
                 final var head = item.getHead();
                 if (head == null) {
                     final var list = item.getPropertyList();
@@ -52,7 +54,14 @@ final class LniCustomFoldingBuilder extends CustomFoldingBuilder implements Dumb
                 }
 
                 if (start < 0) continue;
-                descriptors.add(new FoldingDescriptor(element, TextRange.create(start, item.getTextOffset() + item.getTextLength())));
+                descriptors.add(new FoldingDescriptor(element, TextRange.create(start, end)));
+                continue;
+            }
+
+            if (element instanceof LniList list) {
+                final var lb = list.getLbrace();
+                final var rb = list.getRbrace();
+                descriptors.add(new FoldingDescriptor(element, TextRange.create(lb.getTextOffset() + lb.getTextLength(), rb.getTextOffset())));
             }
         }
     }
@@ -65,6 +74,13 @@ final class LniCustomFoldingBuilder extends CustomFoldingBuilder implements Dumb
             final int size = psi.getPropertyList().size();
             return size == 0 ? "..." : "...(" + size + ")";
         }
+
+        if (type == LniTypes.LIST) {
+            final var psi = node.getPsi(LniList.class);
+            final int size = psi.getListItemList().size();
+            return size == 0 ? "..." : "(" + size + ")";
+        }
+
         return null;
     }
 
@@ -73,7 +89,8 @@ final class LniCustomFoldingBuilder extends CustomFoldingBuilder implements Dumb
         final IElementType type = node.getElementType();
         final var settings = LniCodeFoldingSettings.getInstance();
 
-        if (type == LniTypes.ITEM) return settings.isFoldItems();
+        if (type == LniTypes.ITEM) return settings.isFoldItem();
+        if (type == LniTypes.LIST) return settings.isFoldList();
         return false;
     }
 }

@@ -155,6 +155,13 @@
         <codeFoldingOptionsProvider instance="guru.xgm.language.lni.lang.folding.LniCodeFoldingOptionsProvider"/>
         <applicationService serviceImplementation="guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings"/>
 
+        <!-- formatter -->
+        <lang.formatter language="LNI"
+                        implementationClass="guru.xgm.language.lni.formatting.LniFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"/>
+
+
 
     </extensions>
 
