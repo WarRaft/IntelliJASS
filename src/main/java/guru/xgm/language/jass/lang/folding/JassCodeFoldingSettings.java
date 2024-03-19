@@ -6,9 +6,13 @@ import com.intellij.openapi.components.SettingsCategory;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-@State(name = "CodeFoldingSettingsJASS", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
+@Setter
+@Getter
+@State(name = "JassCodeFoldingSettings", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
 public class JassCodeFoldingSettings implements PersistentStateComponent<JassCodeFoldingSettings> {
     private boolean foldGlobals = false;
     private boolean foldFunction = false;
@@ -29,35 +33,4 @@ public class JassCodeFoldingSettings implements PersistentStateComponent<JassCod
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public boolean isFoldGlobals() {
-        return foldGlobals;
-    }
-
-    public void setFoldGlobals(boolean foldGlobals) {
-        this.foldGlobals = foldGlobals;
-    }
-
-    public boolean isFoldFunction() {
-        return foldFunction;
-    }
-
-    public void setFoldFunction(boolean foldFunction) {
-        this.foldFunction = foldFunction;
-    }
-
-    public boolean isFoldIf() {
-        return foldIf;
-    }
-
-    public void setFoldIf(boolean foldIf) {
-        this.foldIf = foldIf;
-    }
-
-    public boolean isFoldLoop() {
-        return foldLoop;
-    }
-
-    public void setFoldLoop(boolean foldLoop) {
-        this.foldLoop = foldLoop;
-    }
 }

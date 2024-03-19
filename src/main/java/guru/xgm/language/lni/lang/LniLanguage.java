@@ -6,6 +6,6 @@ public class LniLanguage extends Language {
     public static final LniLanguage INSTANCE = new LniLanguage();
 
     private LniLanguage() {
-        super("Lni");
+        super("LNI");
     }
 }

@@ -18,13 +18,13 @@ public final class LniFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "Lni";
+        return "LNI";
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "Lni language file";
+        return "LNI language file";
     }
 
     @NotNull

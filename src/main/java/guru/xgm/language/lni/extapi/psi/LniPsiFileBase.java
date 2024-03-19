@@ -21,6 +21,6 @@ public class LniPsiFileBase extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "Lni";
+        return "LNI";
     }
 }

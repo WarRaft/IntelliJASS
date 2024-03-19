@@ -132,22 +132,28 @@
                    implementationClass="guru.xgm.language.angelscript.lang.annotation.AngelScriptAnnotator"/>
 
         <!-- === Lni === -->
-        <fileType name="Lni"
+        <fileType name="LNI"
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="INSTANCE"
-                  language="Lni"
+                  language="LNI"
                   extensions="lni"
         />
-        <lang.parserDefinition language="Lni"
+        <lang.parserDefinition language="LNI"
                                implementationClass="guru.xgm.language.lni.lang.LniParserDefinition"/>
 
         <!-- highlight -->
-        <lang.syntaxHighlighterFactory language="Lni"
+        <lang.syntaxHighlighterFactory language="LNI"
                                        implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniSyntaxHighlighterFactory"/>
 
         <!-- annotator -->
-        <annotator language="Lni"
+        <annotator language="LNI"
                    implementationClass="guru.xgm.language.lni.lang.annotation.LniAnnotator"/>
+
+        <!-- folding -->
+        <lang.foldingBuilder language="LNI"
+                             implementationClass="guru.xgm.language.lni.lang.folding.LniCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.language.lni.lang.folding.LniCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings"/>
 
 
     </extensions>
