@@ -80,11 +80,6 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
     }
 
     @Override
-    public void appendString(@NotNull String str) {
-        stringBuffer.append("\"\"").append(str).append("\"\"");
-    }
-
-    @Override
     public void appendReal(@NotNull String real) {
         stringBuffer.append(real).append("f");
     }

@@ -21,6 +21,8 @@ public class _LniLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
+  public static final int STRVAL_MULTI_STATE = 2;
+  public static final int HEADVAL_STATE = 4;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -29,7 +31,7 @@ public class _LniLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0, 0
+     0,  0,  1,  1,  2, 2
   };
 
   /**
@@ -67,11 +69,11 @@ public class _LniLexer implements FlexLexer {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\3\3\22\0\1\1\1\0\1\4"+
-    "\1\0\1\5\3\0\1\6\1\7\2\0\1\10\1\11"+
-    "\1\12\1\0\1\13\11\14\3\0\1\15\3\0\6\16"+
-    "\24\17\1\20\1\21\1\22\1\0\1\17\1\0\6\16"+
-    "\21\17\1\23\2\17\1\24\1\0\1\25\7\0\1\26"+
-    "\u01a2\0\2\26\326\0\u0100\26";
+    "\1\0\1\5\7\0\1\6\1\7\1\10\1\0\1\11"+
+    "\11\12\3\0\1\13\3\0\6\14\24\15\1\16\1\17"+
+    "\1\20\1\0\1\15\1\0\6\14\21\15\1\21\2\15"+
+    "\1\22\1\0\1\23\7\0\1\24\u01a2\0\2\24\326\0"+
+    "\u0100\24";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -98,13 +100,12 @@ public class _LniLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\2\1\1\3\1\4\1\5\1\6"+
-    "\1\1\2\7\1\10\1\11\1\12\1\13\1\14\1\15"+
-    "\1\0\1\16\1\0\1\17\1\20\1\21\3\0\1\22"+
-    "\1\0\1\22\1\0\1\23";
+    "\3\0\1\1\1\2\2\1\1\3\1\4\1\1\2\5"+
+    "\1\6\1\7\1\10\1\11\1\12\2\13\1\14\1\0"+
+    "\1\15\1\0\1\16\1\17\1\20\3\0\1\21\1\22";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[32];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -129,13 +130,13 @@ public class _LniLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\27\0\56\0\105\0\134\0\27\0\27\0\27"+
-    "\0\163\0\212\0\241\0\270\0\27\0\317\0\346\0\27"+
-    "\0\27\0\27\0\105\0\27\0\375\0\134\0\u0114\0\212"+
-    "\0\134\0\u012b\0\u0142\0\27\0\u0159\0\u0170\0\u0187\0\27";
+    "\0\0\0\25\0\52\0\77\0\124\0\151\0\176\0\77"+
+    "\0\223\0\250\0\275\0\322\0\77\0\347\0\374\0\77"+
+    "\0\77\0\77\0\u0111\0\77\0\151\0\77\0\u0126\0\176"+
+    "\0\u013b\0\250\0\176\0\u0150\0\u0165\0\77\0\77";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[32];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -158,20 +159,18 @@ public class _LniLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\3\3\1\4\1\5\1\6\1\7\1\10\1\11"+
-    "\1\12\1\13\1\14\1\15\2\16\1\17\1\2\1\20"+
-    "\1\16\1\21\1\22\1\2\30\0\3\3\23\0\4\23"+
-    "\1\24\14\23\1\25\5\23\13\0\2\26\1\0\1\26"+
-    "\21\0\1\27\30\0\2\30\24\0\1\30\2\14\6\0"+
-    "\1\31\15\0\1\30\2\14\25\0\2\16\1\0\2\16"+
-    "\3\0\1\16\3\0\15\32\1\33\4\32\1\34\4\32"+
-    "\2\23\2\0\22\23\1\0\2\27\1\0\24\27\22\32"+
-    "\1\34\24\32\1\35\1\32\1\34\4\32\6\35\2\32"+
-    "\5\35\1\32\4\35\1\36\4\35\15\0\1\37\33\0"+
-    "\1\40\4\0";
+    "\1\4\3\5\1\6\1\7\1\10\1\11\1\12\1\13"+
+    "\1\14\1\15\2\16\1\17\2\4\1\16\1\20\1\21"+
+    "\1\4\20\22\1\23\24\22\1\24\4\22\26\0\3\5"+
+    "\21\0\4\25\1\26\12\25\1\27\5\25\11\0\2\30"+
+    "\1\0\1\30\17\0\1\31\26\0\2\32\22\0\1\32"+
+    "\2\14\6\0\1\33\13\0\1\32\2\14\23\0\2\16"+
+    "\1\0\2\16\3\0\1\16\16\0\1\34\24\0\1\35"+
+    "\11\0\2\25\2\0\20\25\1\0\2\31\1\0\22\31"+
+    "\16\0\1\36\26\0\1\37\4\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[414];
+    int [] result = new int[378];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -209,12 +208,11 @@ public class _LniLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\3\1\3\11\4\1\1\11\2\1\3\11"+
-    "\1\0\1\11\1\0\3\1\3\0\1\11\1\0\1\1"+
-    "\1\0\1\11";
+    "\3\0\1\11\3\1\1\11\4\1\1\11\2\1\3\11"+
+    "\1\1\1\11\1\0\1\11\1\0\3\1\3\0\2\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[32];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -524,7 +522,18 @@ public class _LniLexer implements FlexLexer {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
+            switch (zzLexicalState) {
+            case STRVAL_MULTI_STATE: {
+              yybegin(YYINITIAL); return STRVAL_MULT;
+            }  // fall though
+            case 32: break;
+            case HEADVAL_STATE: {
+              yybegin(YYINITIAL); return HEADVAL;
+            }  // fall though
+            case 33: break;
+            default:
         return null;
+        }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -532,97 +541,92 @@ public class _LniLexer implements FlexLexer {
             { return BAD_CHARACTER;
             }
           // fall through
-          case 20: break;
+          case 19: break;
           case 2:
             { return WHITE_SPACE;
             }
           // fall through
-          case 21: break;
+          case 20: break;
           case 3:
-            { return LPAREN;
-            }
-          // fall through
-          case 22: break;
-          case 4:
-            { return RPAREN;
-            }
-          // fall through
-          case 23: break;
-          case 5:
             { return COMMA;
             }
           // fall through
-          case 24: break;
-          case 6:
+          case 21: break;
+          case 4:
             { return MINUS;
             }
           // fall through
-          case 25: break;
-          case 7:
+          case 22: break;
+          case 5:
             { return INTVAL;
             }
           // fall through
-          case 26: break;
-          case 8:
+          case 23: break;
+          case 6:
             { return EQ;
             }
           // fall through
-          case 27: break;
-          case 9:
+          case 24: break;
+          case 7:
             { return ID;
             }
           // fall through
-          case 28: break;
-          case 10:
-            { return LBRACK;
+          case 25: break;
+          case 8:
+            { yybegin(HEADVAL_STATE);
             }
           // fall through
-          case 29: break;
-          case 11:
-            { return RBRACK;
-            }
-          // fall through
-          case 30: break;
-          case 12:
+          case 26: break;
+          case 9:
             { return LBRACE;
             }
           // fall through
-          case 31: break;
-          case 13:
+          case 27: break;
+          case 10:
             { return RBRACE;
             }
           // fall through
-          case 32: break;
-          case 14:
+          case 28: break;
+          case 11:
+            { /*ignore*/
+            }
+          // fall through
+          case 29: break;
+          case 12:
+            { yybegin(YYINITIAL);return HEADVAL;
+            }
+          // fall through
+          case 30: break;
+          case 13:
             { return STRVAL;
             }
           // fall through
-          case 33: break;
-          case 15:
+          case 31: break;
+          case 14:
             { return HEXVAL;
             }
           // fall through
-          case 34: break;
-          case 16:
+          case 32: break;
+          case 15:
             { return SINGLE_LINE_COMMENT;
             }
           // fall through
-          case 35: break;
-          case 17:
+          case 33: break;
+          case 16:
             { return REALVAL;
             }
           // fall through
-          case 36: break;
+          case 34: break;
+          case 17:
+            { yybegin(STRVAL_MULTI_STATE);
+            }
+          // fall through
+          case 35: break;
           case 18:
-            { return HEADVAL;
+            { yybegin(YYINITIAL);return STRVAL_MULT;
             }
           // fall through
-          case 37: break;
-          case 19:
-            { return STRVAL_MULT;
-            }
-          // fall through
-          case 38: break;
+          case 36: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

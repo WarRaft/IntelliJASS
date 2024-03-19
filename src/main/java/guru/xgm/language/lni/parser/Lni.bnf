@@ -19,10 +19,6 @@
         EQ='='
         LBRACE = '{'
         RBRACE = '}'
-        LPAREN = '('
-        RPAREN = ')'
-        LBRACK = '['
-        RBRACK = ']'
 
         MINUS = '-'
 
@@ -39,7 +35,7 @@
 
 Root ::= Item*
 
-Item ::= Head Property* {recoverWhile=ItemRecovery}
+Item ::= (Head Property*)|(Head? Property) {recoverWhile=ItemRecovery}
 
 private ItemRecovery ::= !(HEADVAL)
 

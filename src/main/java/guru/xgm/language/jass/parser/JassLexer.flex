@@ -101,7 +101,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
 
 }
 
- <RAWVAL_STATE> {
+<RAWVAL_STATE> {
     "'"       {yybegin(YYINITIAL); return RAWVAL;}
     [^]       { /*ignore*/ }
     <<EOF>>   {yybegin(YYINITIAL); return RAWVAL;}

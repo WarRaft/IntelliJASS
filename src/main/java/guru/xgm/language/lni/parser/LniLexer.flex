@@ -22,31 +22,27 @@ import static guru.xgm.language.lni.psi.LniTypes.*;
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=\s+
-
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT=--[^\n]*
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
 STRVAL=\"([^\"\\]|\\.)*\"
-STRVAL_MULT=\[=\[[^(\]=)]*]=]
-HEADVAL=\[[^\]]*]
 ID=[A-Za-z_][_0-9A-Za-z]*
+
+%state STRVAL_MULTI_STATE
+%state HEADVAL_STATE
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}               { return WHITE_SPACE; }
+    {WHITE_SPACE}             { return WHITE_SPACE; }
+    "[=["                     { yybegin(STRVAL_MULTI_STATE);}
+    "["                       {yybegin(HEADVAL_STATE);}
 
   ","                         { return COMMA; }
   "="                         { return EQ; }
   "{"                         { return LBRACE; }
   "}"                         { return RBRACE; }
-  "("                         { return LPAREN; }
-  ")"                         { return RPAREN; }
-  "["                         { return LBRACK; }
-  "]"                         { return RBRACK; }
   "-"                         { return MINUS; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
@@ -55,10 +51,19 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
   {STRVAL}                    { return STRVAL; }
-  {STRVAL_MULT}               { return STRVAL_MULT; }
-  {HEADVAL}                   { return HEADVAL; }
   {ID}                        { return ID; }
+}
 
+<STRVAL_MULTI_STATE> {
+    "]=]"     { yybegin(YYINITIAL);return STRVAL_MULT; }
+    [^]       { /*ignore*/ }
+    <<EOF>>   { yybegin(YYINITIAL); return STRVAL_MULT; }
+}
+
+<HEADVAL_STATE> {
+    "]"       { yybegin(YYINITIAL);return HEADVAL; }
+    [^]       { /*ignore*/ }
+    <<EOF>>   { yybegin(YYINITIAL); return HEADVAL; }
 }
 
 [^] { return BAD_CHARACTER; }

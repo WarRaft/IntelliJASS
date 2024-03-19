@@ -39,7 +39,9 @@ public class LniSyntaxHighlighterBase extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType == ID) return ID_KEYS;
+        if (Objects.equals(HEADVAL, tokenType)) return ID_KEYS;
+        if (Objects.equals(ID, tokenType)) return KEYWORD_KEYS;
+        if (Objects.equals(SINGLE_LINE_COMMENT, tokenType)) return LINE_COMMENT_KEYS;
 
         if (Arrays.asList(
                 INTVAL,
@@ -47,14 +49,6 @@ public class LniSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 HEXVAL
         ).contains(tokenType)) {
             return NUMBER_KEYS;
-        }
-
-        if (Objects.equals(SINGLE_LINE_COMMENT, tokenType)) {
-            return LINE_COMMENT_KEYS;
-        }
-
-        if (Objects.equals(HEADVAL, tokenType)) {
-            return KEYWORD_KEYS;
         }
 
         if (Arrays.asList(

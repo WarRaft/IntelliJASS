@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface LniItem extends PsiElement {
 
-  @NotNull
+  @Nullable
   LniHead getHead();
 
   @NotNull

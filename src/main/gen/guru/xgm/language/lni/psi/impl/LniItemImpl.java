@@ -28,9 +28,9 @@ public class LniItemImpl extends ASTWrapperPsiElement implements LniItem {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public LniHead getHead() {
-    return findNotNullChildByClass(LniHead.class);
+    return findChildByClass(LniHead.class);
   }
 
   @Override

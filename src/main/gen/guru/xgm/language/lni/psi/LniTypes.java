@@ -26,13 +26,9 @@ public interface LniTypes {
   IElementType ID = new LniIToken("ID");
   IElementType INTVAL = new LniIToken("INTVAL");
   IElementType LBRACE = new LniIToken("{");
-  IElementType LBRACK = new LniIToken("[");
-  IElementType LPAREN = new LniIToken("(");
   IElementType MINUS = new LniIToken("-");
   IElementType RBRACE = new LniIToken("}");
-  IElementType RBRACK = new LniIToken("]");
   IElementType REALVAL = new LniIToken("REALVAL");
-  IElementType RPAREN = new LniIToken(")");
   IElementType SINGLE_LINE_COMMENT = new LniIToken("SINGLE_LINE_COMMENT");
   IElementType STRVAL = new LniIToken("STRVAL");
   IElementType STRVAL_MULT = new LniIToken("STRVAL_MULT");

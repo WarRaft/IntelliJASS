@@ -48,25 +48,54 @@ public class LniParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Head Property*
+  // (Head Property*)|(Head? Property)
   public static boolean Item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Item")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ITEM, "<item>");
-    r = Head(b, l + 1);
-    r = r && Item_1(b, l + 1);
+    r = Item_0(b, l + 1);
+    if (!r) r = Item_1(b, l + 1);
     exit_section_(b, l, m, r, false, LniParser::ItemRecovery);
     return r;
   }
 
+  // Head Property*
+  private static boolean Item_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Item_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Head(b, l + 1);
+    r = r && Item_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
   // Property*
-  private static boolean Item_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Item_1")) return false;
+  private static boolean Item_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Item_0_1")) return false;
     while (true) {
       int c = current_position_(b);
       if (!Property(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "Item_1", c)) break;
+      if (!empty_element_parsed_guard_(b, "Item_0_1", c)) break;
     }
+    return true;
+  }
+
+  // Head? Property
+  private static boolean Item_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Item_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = Item_1_0(b, l + 1);
+    r = r && Property(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // Head?
+  private static boolean Item_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Item_1_0")) return false;
+    Head(b, l + 1);
     return true;
   }
 
