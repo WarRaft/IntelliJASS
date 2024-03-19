@@ -1,7 +1,7 @@
 package guru.xgm.language.lni.openapi.fileTypes;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import guru.xgm.language.lni.icons.LniScriptIcons;
+import guru.xgm.language.lni.icons.LniIcons;
 import guru.xgm.language.lni.lang.LniLanguage;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +35,6 @@ public final class LniFileType extends LanguageFileType {
 
     @Override
     public @NotNull Icon getIcon() {
-        return LniScriptIcons.FILE;
+        return LniIcons.FILE;
     }
 }

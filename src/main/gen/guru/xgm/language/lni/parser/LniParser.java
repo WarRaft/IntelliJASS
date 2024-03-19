@@ -111,19 +111,26 @@ public class LniParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE ListItem (COMMA ListItem)* COMMA* RBRACE
+  // LBRACE ListItem? (COMMA ListItem)* COMMA* RBRACE
   public static boolean List(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "List")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LBRACE);
-    r = r && ListItem(b, l + 1);
+    r = r && List_1(b, l + 1);
     r = r && List_2(b, l + 1);
     r = r && List_3(b, l + 1);
     r = r && consumeToken(b, RBRACE);
     exit_section_(b, m, LIST, r);
     return r;
+  }
+
+  // ListItem?
+  private static boolean List_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "List_1")) return false;
+    ListItem(b, l + 1);
+    return true;
   }
 
   // (COMMA ListItem)*

@@ -2,13 +2,12 @@
 package guru.xgm.language.lni.psi;
 
 import java.util.List;
-
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
 public interface LniHead extends PsiElement {
 
-    @NotNull
-    PsiElement getHeadval();
+  @NotNull
+  PsiElement getHeadval();
 
 }

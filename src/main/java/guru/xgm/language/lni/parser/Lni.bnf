@@ -49,6 +49,6 @@ String::=STRVAL|STRVAL_MULT
 Number::= MINUS* (INTVAL|REALVAL)
 
 ListItem ::= (INTVAL EQ Prim)|Prim
-List ::= LBRACE ListItem (COMMA ListItem)* COMMA* RBRACE
+List ::= LBRACE ListItem? (COMMA ListItem)* COMMA* RBRACE
 
 
