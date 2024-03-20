@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Jass2AnyVisitor extends JassVisitor {
     public Jass2AnyVisitor() {
@@ -166,10 +167,24 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
 
     @Override
     public void visitFunCall(@NotNull JassFunCall o) {
-        appendSafeName(o.getId().getText());
-        stringBuffer.append("(");
-
+        final var name = o.getId().getText();
         final var list = o.getArgList();
+        if (Objects.equals(name, "ExecuteFunc") && list != null) {
+            final var exprs = list.getExprList();
+            if (exprs.size() == 1) {
+                final var expr = exprs.get(0).getFirstChild();
+                if (expr.getNode().getElementType() == JassTypes.STRVAL) {
+                    String fn = expr.getText().replaceFirst("^\"", "").replaceFirst("\"$", "");
+                    if (fn.matches("^[a-zA-Z_][a-zA-Z_0-9]*$")) {
+                        stringBuffer.append(fn).append("()");
+                        return;
+                    }
+                }
+            }
+        }
+
+        appendSafeName(name);
+        stringBuffer.append("(");
         if (list != null) list.accept(this);
 
         stringBuffer.append(")");

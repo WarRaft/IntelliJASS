@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static guru.xgm.language.lni.psi.LniTypes.EQ;
+
 public class LniBlock implements ASTBlock {
 
     public LniBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
@@ -77,18 +79,7 @@ public class LniBlock implements ASTBlock {
     protected SpacingBuilder getSpacingBuilder() {
         //final CommonCodeStyleSettings code = myCodeStyleSettings.getCommonSettings(AngelScriptLanguage.INSTANCE.getID());
         return new SpacingBuilder(myCodeStyleSettings, LniLanguage.INSTANCE)
-                // paren
-                //.after(LPAREN).spacing(0, 1, 0, true, 0)
-                //.before(RPAREN).spacing(0, 1, 0, true, 0)
-                //.before(ARG_LIST).spacing(0, 1, 0, true, 0)
-                // comma
-                //.after(COMMA).spacing(1, 1, 0, false, 0)
-                //.before(COMMA).spacing(0, 0, 0, false, 0)
-
-
-                //.around(DOT).spacing(0, 0, 0, false, 0)
-                //.around(EQ).spacing(1, 1, 0, false, 0)
-                //.around(MINUS_GT).spacing(1, 1, 0, false, 0)
+                .around(EQ).spacing(1, 1, 0, false, 0)
                 ;
     }
 
