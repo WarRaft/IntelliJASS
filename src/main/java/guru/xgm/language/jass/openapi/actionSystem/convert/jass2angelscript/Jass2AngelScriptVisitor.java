@@ -9,6 +9,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+/*
+ExecuteFunc
+array to Dictionary<int,type>
+ */
+
 public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
 
     Jass2AngelScriptVisitor() {

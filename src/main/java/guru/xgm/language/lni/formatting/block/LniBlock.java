@@ -12,9 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.lni.psi.LniTypes.*;
-
 public class LniBlock implements ASTBlock {
 
     public LniBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
@@ -35,9 +32,7 @@ public class LniBlock implements ASTBlock {
 
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         Indent indent = Indent.getNoneIndent();
-
         //if (isOneOf(childNode, STMT)) indent = Indent.getNormalIndent();
-
         return new LniBlock(childNode, null, indent, myCodeStyleSettings);
     }
 

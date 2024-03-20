@@ -18,7 +18,7 @@ final class LniFormattingModelBuilder implements FormattingModelBuilder {
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(
                         formattingContext.getContainingFile(),
-                        new LniRootBlock(formattingContext.getNode(), code, settings),
+                        new LniRootBlock(formattingContext.getNode(), code),
                         code
                 );
     }

@@ -69,27 +69,27 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
             );
             case LANGUAGE_SPECIFIC -> {
                 addToGroup(consumer, new Pair[]{
-                        Pair.of(AT_TYPE_DECL_EXTENDS, "'extends' keyword"),
-                        Pair.of(AT_TYPE_DECL_TYPE_RIGHT, "Type right align"),
-                        Pair.of(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align")
-                }, LniAlignTokenPanel.GROUP_TYPE_DECL);
+                        Pair.of(AT_PROPERTY_EQ, "'=' token"),
+                        //Pair.of(AT_TYPE_DECL_TYPE_RIGHT, "Type right align"),
+                        //Pair.of(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align")
+                }, LniAlignTokenPanel.GROUP_PROPERTY);
 
                 addToGroup(consumer, new Pair[]{
-                        Pair.of(AT_NATIVE_DECL_NATIVE, "'native' keyword"),
-                        Pair.of(AT_NATIVE_DECL_NAME, "Name"),
-                        Pair.of(AT_NATIVE_DECL_NAME_RIGHT, "Name right align"),
-                        Pair.of(AT_NATIVE_DECL_TAKES, "'takes' keyword"),
-                        Pair.of(AT_NATIVE_DECL_ARGUMENT, "Arguments"),
-                        Pair.of(AT_NATIVE_DECL_RETURNS, "'returns' keyword"),
+                        //Pair.of(AT_NATIVE_DECL_NATIVE, "'native' keyword"),
+                        //Pair.of(AT_NATIVE_DECL_NAME, "Name"),
+                        //Pair.of(AT_NATIVE_DECL_NAME_RIGHT, "Name right align"),
+                        //Pair.of(AT_NATIVE_DECL_TAKES, "'takes' keyword"),
+                        //Pair.of(AT_NATIVE_DECL_ARGUMENT, "Arguments"),
+                        //Pair.of(AT_NATIVE_DECL_RETURNS, "'returns' keyword"),
                 }, LniAlignTokenPanel.GROUP_NATIVE_DECL);
 
                 addToGroup(consumer, new Pair[]{
-                        Pair.of(AT_GVAR_TYPE, "Type"),
-                        Pair.of(AT_GVAR_TYPE_RIGHT, "Type right align"),
-                        Pair.of(AT_GVAR_ARRAY, "'array' keyword"),
-                        Pair.of(AT_GVAR_NAME, "Name"),
-                        Pair.of(AT_GVAR_NAME_RIGHT, "Name right align"),
-                        Pair.of(AT_GVAR_ASSIGN, "'=' token"),
+                        //Pair.of(AT_GVAR_TYPE, "Type"),
+                        //Pair.of(AT_GVAR_TYPE_RIGHT, "Type right align"),
+                        //Pair.of(AT_GVAR_ARRAY, "'array' keyword"),
+                        //Pair.of(AT_GVAR_NAME, "Name"),
+                        //Pair.of(AT_GVAR_NAME_RIGHT, "Name right align"),
+                        //Pair.of(AT_GVAR_ASSIGN, "'=' token"),
                 }, LniAlignTokenPanel.GROUP_GVAR);
             }
         }
@@ -114,21 +114,18 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                type abilityintegerlevelarrayfield extends handle
-                type bonetype extends attachmenttype
-
-                constant native GetCameraBoundMinX takes nothing returns real
-                native CameraSetTargetNoiseEx takes real mag, real velocity, boolean vertOnly returns nothing
-                native SetDestructablePositionLocation takes destructable whichDestructable, location whichLocation returns nothing
-                               
-                                
-                globals
-                constant boolean TRUE = true
-                constant integer JASS_MAX_ARRAY_SIZE = 262144
-                constant playercolor PLAYER_COLOR_RED = ConvertPlayerColor(0)
-                force array bj_FORCE_PLAYER
-                mapcontrol array bj_slotControl
-                endglobals
+                [ACac]
+                string = "value"
+                multiline_string = [=[
+                "a"
+                ]=]
+                intlist = {1,2,3,4,}
+                stringlist = {
+                    "a",
+                    "b",
+                    "c",
+                    "d",
+                }
                 """;
     }
 }

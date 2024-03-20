@@ -20,7 +20,7 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
     }
 
     @NlsContexts.Label
-    public static String GROUP_TYPE_DECL = "Type declaration";
+    public static String GROUP_PROPERTY = "Property";
 
     @NlsContexts.Label
     public static String GROUP_NATIVE_DECL = "Native declaration";
@@ -30,7 +30,7 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
 
     @Override
     protected void initTables() {
-        initCustomOptions(GROUP_TYPE_DECL);
+        initCustomOptions(GROUP_PROPERTY);
         initCustomOptions(GROUP_NATIVE_DECL);
         initCustomOptions(GROUP_GVAR);
     }
