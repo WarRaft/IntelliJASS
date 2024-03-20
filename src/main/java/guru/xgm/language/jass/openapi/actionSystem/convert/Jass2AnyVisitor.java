@@ -186,7 +186,6 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         appendSafeName(name);
         stringBuffer.append("(");
         if (list != null) list.accept(this);
-
         stringBuffer.append(")");
     }
 
