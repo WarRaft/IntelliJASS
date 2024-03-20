@@ -27,12 +27,11 @@ public class JassRootBlock extends JassBlock {
 
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
+
         if (isOneOf(childNode, TYPE_DEF)) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (isOneOf(childNode, NATIV))
-            return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
+        if (isOneOf(childNode, NATIV)) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
         if (isOneOf(childNode, GLOB)) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
-        if (isOneOf(childNode, FUN))
-            return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
+        if (isOneOf(childNode, FUN)) return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
 
         return new JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
     }

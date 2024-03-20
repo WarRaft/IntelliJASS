@@ -5,14 +5,13 @@ import com.intellij.formatting.Indent;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.angelscript.formatting.AngelScriptCodeStyleSettings;
-import guru.xgm.language.angelscript.formatting.block.AngelScriptBlock;
-import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
+import guru.xgm.language.lni.formatting.LniCodeStyleSettings;
+import guru.xgm.language.lni.lang.LniLanguage;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("CommentedOutCode")
-public class LniRootBlock extends AngelScriptBlock {
-    public LniRootBlock(ASTNode myNode, CodeStyleSettings code, AngelScriptCodeStyleSettings settings) {
+public class LniRootBlock extends LniBlock {
+    public LniRootBlock(ASTNode myNode, CodeStyleSettings code, LniCodeStyleSettings settings) {
         super(myNode, null, Indent.getNoneIndent(), code);
         //typeAlignments = JassTypeBlock.getAlignments(jass);
         //nativeAligner = new AngelScriptNativeBlockAligner(jass);
@@ -27,12 +26,12 @@ public class LniRootBlock extends AngelScriptBlock {
         //if (isOneOf(childNode, TYPE_DEF)) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
         //if (isOneOf(childNode, NATIVE_DEF)) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
         //if (isOneOf(childNode, GLOBALS_DEF)) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
-        return new AngelScriptBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
+        return new LniBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
     }
 
     @Override
     protected SpacingBuilder getSpacingBuilder() {
-        return new SpacingBuilder(myCodeStyleSettings, AngelScriptLanguage.INSTANCE)
+        return new SpacingBuilder(myCodeStyleSettings, LniLanguage.INSTANCE)
                 //.between(TYPE_DEF, TYPE_DEF).spacing(0, 0, 1, true, 2)
                 //.between(TYPE_DEF, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
                 //.between(NATIVE_DEF, NATIVE_DEF).spacing(0, 0, 1, true, 2)

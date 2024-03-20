@@ -7,30 +7,30 @@ import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.*;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import guru.xgm.language.jass.formatting.panel.JassAlignTokenPanel;
-import guru.xgm.language.jass.formatting.panel.JassCodeStyleMainPanel;
-import guru.xgm.language.jass.lang.JassLanguage;
+import guru.xgm.language.lni.formatting.LniCodeStyleSettings;
+import guru.xgm.language.lni.formatting.panel.LniAlignTokenPanel;
+import guru.xgm.language.lni.formatting.panel.LniCodeStyleMainPanel;
+import guru.xgm.language.lni.lang.LniLanguage;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
-import static guru.xgm.language.jass.formatting.JassCodeStyleSettings.Fields.*;
+import static guru.xgm.language.lni.formatting.LniCodeStyleSettings.Fields.*;
 
 final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
     @Override
     public @NotNull CustomCodeStyleSettings createCustomSettings(@NotNull CodeStyleSettings settings) {
-        return new JassCodeStyleSettings(settings);
+        return new LniCodeStyleSettings(settings);
     }
 
     @NotNull
     @Override
     public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
-        return new CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.INSTANCE.getDisplayName()) {
+        return new CodeStyleAbstractConfigurable(settings, modelSettings, LniLanguage.INSTANCE.getDisplayName()) {
             @Override
             protected @NotNull CodeStyleAbstractPanel createPanel(final @NotNull CodeStyleSettings settings) {
-                return new JassCodeStyleMainPanel(getCurrentSettings(), settings);
+                return new LniCodeStyleMainPanel(getCurrentSettings(), settings);
             }
 
             @Override
@@ -43,12 +43,12 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     @NotNull
     @Override
     public Language getLanguage() {
-        return JassLanguage.INSTANCE;
+        return LniLanguage.INSTANCE;
     }
 
     private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {
         for (var pair : list) {
-            consumer.showCustomOption(JassCodeStyleSettings.class, pair.first, pair.second, group);
+            consumer.showCustomOption(LniCodeStyleSettings.class, pair.first, pair.second, group);
         }
     }
 
@@ -72,7 +72,7 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
                         Pair.of(AT_TYPE_DECL_EXTENDS, "'extends' keyword"),
                         Pair.of(AT_TYPE_DECL_TYPE_RIGHT, "Type right align"),
                         Pair.of(AT_TYPE_DECL_TYPE_BASE_RIGHT, "Base type right align")
-                }, JassAlignTokenPanel.GROUP_TYPE_DECL);
+                }, LniAlignTokenPanel.GROUP_TYPE_DECL);
 
                 addToGroup(consumer, new Pair[]{
                         Pair.of(AT_NATIVE_DECL_NATIVE, "'native' keyword"),
@@ -81,7 +81,7 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
                         Pair.of(AT_NATIVE_DECL_TAKES, "'takes' keyword"),
                         Pair.of(AT_NATIVE_DECL_ARGUMENT, "Arguments"),
                         Pair.of(AT_NATIVE_DECL_RETURNS, "'returns' keyword"),
-                }, JassAlignTokenPanel.GROUP_NATIVE_DECL);
+                }, LniAlignTokenPanel.GROUP_NATIVE_DECL);
 
                 addToGroup(consumer, new Pair[]{
                         Pair.of(AT_GVAR_TYPE, "Type"),
@@ -90,7 +90,7 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
                         Pair.of(AT_GVAR_NAME, "Name"),
                         Pair.of(AT_GVAR_NAME_RIGHT, "Name right align"),
                         Pair.of(AT_GVAR_ASSIGN, "'=' token"),
-                }, JassAlignTokenPanel.GROUP_GVAR);
+                }, LniAlignTokenPanel.GROUP_GVAR);
             }
         }
     }

@@ -23,12 +23,8 @@ public class JassNativeBlock extends JassBlock {
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         Alignment alignment = null;
-
         if (isOneOf(childNode, NATIVE)) alignment = aligner.named(AT_NATIVE_DECL_NATIVE);
-        if (isOneOf(childNode, ID)) {
-            childNode = childNode.getFirstChildNode();
-            alignment = aligner.named(AT_NATIVE_DECL_NAME);
-        }
+        if (isOneOf(childNode, ID)) alignment = aligner.named(AT_NATIVE_DECL_NAME);
         if (isOneOf(childNode, TAKES)) alignment = aligner.named(AT_NATIVE_DECL_TAKES);
         if (isOneOf(childNode, RETURNS)) alignment = aligner.named(AT_NATIVE_DECL_RETURNS);
 

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 @FieldNameConstants
 public class LniCodeStyleSettings extends CustomCodeStyleSettings {
     public LniCodeStyleSettings(@NotNull CodeStyleSettings container) {
-        super("AngelScriptCodeStyleSettings", container);
+        super("LniCodeStyleSettings", container);
     }
 
     public boolean AT_TYPE_DECL_EXTENDS = true;

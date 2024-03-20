@@ -5,8 +5,7 @@ import com.intellij.formatting.FormattingModel;
 import com.intellij.formatting.FormattingModelBuilder;
 import com.intellij.formatting.FormattingModelProvider;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.angelscript.formatting.AngelScriptCodeStyleSettings;
-import guru.xgm.language.angelscript.formatting.block.AngelScriptRootBlock;
+import guru.xgm.language.lni.formatting.block.LniRootBlock;
 import org.jetbrains.annotations.NotNull;
 
 final class LniFormattingModelBuilder implements FormattingModelBuilder {
@@ -15,11 +14,11 @@ final class LniFormattingModelBuilder implements FormattingModelBuilder {
     public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
         final CodeStyleSettings code = formattingContext.getCodeStyleSettings();
 
-        final AngelScriptCodeStyleSettings settings = code.getCustomSettings(AngelScriptCodeStyleSettings.class);
+        final LniCodeStyleSettings settings = code.getCustomSettings(LniCodeStyleSettings.class);
         return FormattingModelProvider
                 .createFormattingModelForPsiFile(
                         formattingContext.getContainingFile(),
-                        new AngelScriptRootBlock(formattingContext.getNode(), code, settings),
+                        new LniRootBlock(formattingContext.getNode(), code, settings),
                         code
                 );
     }

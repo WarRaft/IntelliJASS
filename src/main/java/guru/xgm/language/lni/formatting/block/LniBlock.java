@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.FormatterUtil;
-import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
+import guru.xgm.language.lni.lang.LniLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
+import static guru.xgm.language.lni.psi.LniTypes.*;
 
 public class LniBlock implements ASTBlock {
 
@@ -36,7 +36,7 @@ public class LniBlock implements ASTBlock {
     public Block makeSubBlock(@NotNull ASTNode childNode) {
         Indent indent = Indent.getNoneIndent();
 
-        if (isOneOf(childNode, STMT)) indent = Indent.getNormalIndent();
+        //if (isOneOf(childNode, STMT)) indent = Indent.getNormalIndent();
 
         return new LniBlock(childNode, null, indent, myCodeStyleSettings);
     }
@@ -81,19 +81,19 @@ public class LniBlock implements ASTBlock {
 
     protected SpacingBuilder getSpacingBuilder() {
         //final CommonCodeStyleSettings code = myCodeStyleSettings.getCommonSettings(AngelScriptLanguage.INSTANCE.getID());
-        return new SpacingBuilder(myCodeStyleSettings, AngelScriptLanguage.INSTANCE)
+        return new SpacingBuilder(myCodeStyleSettings, LniLanguage.INSTANCE)
                 // paren
-                .after(LPAREN).spacing(0, 1, 0, true, 0)
-                .before(RPAREN).spacing(0, 1, 0, true, 0)
-                .before(ARG_LIST).spacing(0, 1, 0, true, 0)
+                //.after(LPAREN).spacing(0, 1, 0, true, 0)
+                //.before(RPAREN).spacing(0, 1, 0, true, 0)
+                //.before(ARG_LIST).spacing(0, 1, 0, true, 0)
                 // comma
-                .after(COMMA).spacing(1, 1, 0, false, 0)
-                .before(COMMA).spacing(0, 0, 0, false, 0)
+                //.after(COMMA).spacing(1, 1, 0, false, 0)
+                //.before(COMMA).spacing(0, 0, 0, false, 0)
 
 
-                .around(DOT).spacing(0, 0, 0, false, 0)
-                .around(EQ).spacing(1, 1, 0, false, 0)
-                .around(MINUS_GT).spacing(1, 1, 0, false, 0)
+                //.around(DOT).spacing(0, 0, 0, false, 0)
+                //.around(EQ).spacing(1, 1, 0, false, 0)
+                //.around(MINUS_GT).spacing(1, 1, 0, false, 0)
                 ;
     }
 
