@@ -25,6 +25,7 @@ public interface AngelScriptTypes {
   IElementType DIV_EXPR = new AngelScriptIElement("DIV_EXPR");
   IElementType DIV_UN_EXPR = new AngelScriptIElement("DIV_UN_EXPR");
   IElementType DO_WHILE_STMT = new AngelScriptIElement("DO_WHILE_STMT");
+  IElementType ELSE_STMT = new AngelScriptIElement("ELSE_STMT");
   IElementType EQ_EXPR = new AngelScriptIElement("EQ_EXPR");
   IElementType EXPR = new AngelScriptIElement("EXPR");
   IElementType EXPR_STAT = new AngelScriptIElement("EXPR_STAT");
@@ -63,17 +64,15 @@ public interface AngelScriptTypes {
   IElementType PRIM_TYPE = new AngelScriptIElement("PRIM_TYPE");
   IElementType REF_EXPR = new AngelScriptIElement("REF_EXPR");
   IElementType RETURN_STMT = new AngelScriptIElement("RETURN_STMT");
-  IElementType ROOT_ITEM = new AngelScriptIElement("ROOT_ITEM");
   IElementType SCOPE = new AngelScriptIElement("SCOPE");
   IElementType STAT_BLOCK = new AngelScriptIElement("STAT_BLOCK");
-  IElementType STMT = new AngelScriptIElement("STMT");
   IElementType STR = new AngelScriptIElement("STR");
   IElementType SWITCH_STMT = new AngelScriptIElement("SWITCH_STMT");
   IElementType TYPE = new AngelScriptIElement("TYPE");
   IElementType TYPE_MOD = new AngelScriptIElement("TYPE_MOD");
   IElementType VAR = new AngelScriptIElement("VAR");
   IElementType VIRT_PROP = new AngelScriptIElement("VIRT_PROP");
-  IElementType WHILE_STNT = new AngelScriptIElement("WHILE_STNT");
+  IElementType WHILE_STMT = new AngelScriptIElement("WHILE_STMT");
 
   IElementType ABSTRACT = new AngelScriptIToken("abstract");
   IElementType AMP = new AngelScriptIToken("&");
@@ -229,6 +228,9 @@ public interface AngelScriptTypes {
       else if (type == DO_WHILE_STMT) {
         return new AngelScriptDoWhileStmtImpl(node);
       }
+      else if (type == ELSE_STMT) {
+        return new AngelScriptElseStmtImpl(node);
+      }
       else if (type == EQ_EXPR) {
         return new AngelScriptEqExprImpl(node);
       }
@@ -340,17 +342,11 @@ public interface AngelScriptTypes {
       else if (type == RETURN_STMT) {
         return new AngelScriptReturnStmtImpl(node);
       }
-      else if (type == ROOT_ITEM) {
-        return new AngelScriptRootItemImpl(node);
-      }
       else if (type == SCOPE) {
         return new AngelScriptScopeImpl(node);
       }
       else if (type == STAT_BLOCK) {
         return new AngelScriptStatBlockImpl(node);
-      }
-      else if (type == STMT) {
-        return new AngelScriptStmtImpl(node);
       }
       else if (type == STR) {
         return new AngelScriptStrImpl(node);
@@ -370,8 +366,8 @@ public interface AngelScriptTypes {
       else if (type == VIRT_PROP) {
         return new AngelScriptVirtPropImpl(node);
       }
-      else if (type == WHILE_STNT) {
-        return new AngelScriptWhileStntImpl(node);
+      else if (type == WHILE_STMT) {
+        return new AngelScriptWhileStmtImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

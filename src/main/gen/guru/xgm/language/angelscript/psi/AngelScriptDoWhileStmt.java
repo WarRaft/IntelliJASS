@@ -10,7 +10,31 @@ public interface AngelScriptDoWhileStmt extends PsiElement {
   @NotNull
   AngelScriptAssign getAssign();
 
-  @NotNull
-  AngelScriptStmt getStmt();
+  @Nullable
+  AngelScriptBreakStmt getBreakStmt();
+
+  @Nullable
+  AngelScriptDoWhileStmt getDoWhileStmt();
+
+  @Nullable
+  AngelScriptExprStat getExprStat();
+
+  @Nullable
+  AngelScriptForStmt getForStmt();
+
+  @Nullable
+  AngelScriptIfStmt getIfStmt();
+
+  @Nullable
+  AngelScriptReturnStmt getReturnStmt();
+
+  @Nullable
+  AngelScriptStatBlock getStatBlock();
+
+  @Nullable
+  AngelScriptSwitchStmt getSwitchStmt();
+
+  @Nullable
+  AngelScriptWhileStmt getWhileStmt();
 
 }

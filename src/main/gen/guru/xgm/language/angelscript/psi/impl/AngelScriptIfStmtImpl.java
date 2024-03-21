@@ -28,15 +28,69 @@ public class AngelScriptIfStmtImpl extends ASTWrapperPsiElement implements Angel
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptAssign getAssign() {
-    return findNotNullChildByClass(AngelScriptAssign.class);
+    return findChildByClass(AngelScriptAssign.class);
   }
 
   @Override
-  @NotNull
-  public List<AngelScriptStmt> getStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStmt.class);
+  @Nullable
+  public AngelScriptBreakStmt getBreakStmt() {
+    return findChildByClass(AngelScriptBreakStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptDoWhileStmt getDoWhileStmt() {
+    return findChildByClass(AngelScriptDoWhileStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptElseStmt getElseStmt() {
+    return findChildByClass(AngelScriptElseStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptExprStat getExprStat() {
+    return findChildByClass(AngelScriptExprStat.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptForStmt getForStmt() {
+    return findChildByClass(AngelScriptForStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptIfStmt getIfStmt() {
+    return findChildByClass(AngelScriptIfStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptReturnStmt getReturnStmt() {
+    return findChildByClass(AngelScriptReturnStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptStatBlock getStatBlock() {
+    return findChildByClass(AngelScriptStatBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptSwitchStmt getSwitchStmt() {
+    return findChildByClass(AngelScriptSwitchStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptWhileStmt getWhileStmt() {
+    return findChildByClass(AngelScriptWhileStmt.class);
   }
 
 }

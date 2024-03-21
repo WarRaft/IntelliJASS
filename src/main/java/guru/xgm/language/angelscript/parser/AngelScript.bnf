@@ -134,7 +134,7 @@
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
 Root ::= RootItem*
-RootItem ::= IncludeStmt|Var|Fun|FunDef|Clazz|Nspace|SEMI
+private RootItem ::= IncludeStmt|Var|Fun|FunDef|Clazz|Nspace|SEMI
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
 Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE
@@ -271,11 +271,12 @@ FuncAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
 // STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
 StatBlock ::= LBRACE (Var | Stmt)* RBRACE
 // STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
-Stmt ::= (StatBlock|ExprStat|IfStmt|ForStmt|WhileStnt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt)
+private Stmt ::= (StatBlock|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt)
 // EXPRSTAT      ::= [ASSIGN] ';'
 ExprStat ::= Assign? SEMI
 // IF            ::= 'if' '(' ASSIGN ')' STATEMENT ['else' STATEMENT]
-IfStmt ::= IF LPAREN Assign RPAREN Stmt (ELSE Stmt)?
+IfStmt ::= IF LPAREN Assign RPAREN Stmt ElseStmt? {pin=1}
+ElseStmt ::= ELSE Stmt {pin=1}
 // FOR           ::= 'for' '(' (VAR | EXPRSTAT) EXPRSTAT    [
 //                                                              ASSIGN {',' ASSIGN}
 //                                                          ]
@@ -283,7 +284,7 @@ IfStmt ::= IF LPAREN Assign RPAREN Stmt (ELSE Stmt)?
 //                                                          STATEMENT
 ForStmt ::=  FOR LPAREN (Var | ExprStat) ExprStat (Assign (COMMA Assign)*)? RPAREN Stmt
 // WHILE         ::= 'while' '(' ASSIGN ')' STATEMENT
-WhileStnt ::= WHILE LPAREN Assign RPAREN Stmt
+WhileStmt ::= WHILE LPAREN Assign RPAREN Stmt
 // DOWHILE       ::= 'do' STATEMENT 'while' '(' ASSIGN ')' ';'
 DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI
 // RETURN        ::= 'return' [ASSIGN] ';'

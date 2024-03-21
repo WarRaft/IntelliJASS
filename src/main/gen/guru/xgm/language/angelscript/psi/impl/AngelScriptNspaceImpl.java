@@ -29,8 +29,38 @@ public class AngelScriptNspaceImpl extends ASTWrapperPsiElement implements Angel
 
   @Override
   @NotNull
-  public List<AngelScriptRootItem> getRootItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptRootItem.class);
+  public List<AngelScriptClazz> getClazzList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptClazz.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptFun> getFunList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFun.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptFunDef> getFunDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFunDef.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptIncludeStmt> getIncludeStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptIncludeStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptNspace> getNspaceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptNspace.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptVar> getVarList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVar.class);
   }
 
 }

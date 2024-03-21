@@ -69,4 +69,10 @@ public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements A
     return findChildByType(INTVAL);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getRealval() {
+    return findChildByType(REALVAL);
+  }
+
 }

@@ -67,6 +67,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitElseStmt(@NotNull AngelScriptElseStmt o) {
+    visitPsiElement(o);
+  }
+
   public void visitEqExpr(@NotNull AngelScriptEqExpr o) {
     visitExpr(o);
   }
@@ -219,19 +223,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitRootItem(@NotNull AngelScriptRootItem o) {
-    visitPsiElement(o);
-  }
-
   public void visitScope(@NotNull AngelScriptScope o) {
     visitPsiElement(o);
   }
 
   public void visitStatBlock(@NotNull AngelScriptStatBlock o) {
-    visitPsiElement(o);
-  }
-
-  public void visitStmt(@NotNull AngelScriptStmt o) {
     visitPsiElement(o);
   }
 
@@ -259,7 +255,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitWhileStnt(@NotNull AngelScriptWhileStnt o) {
+  public void visitWhileStmt(@NotNull AngelScriptWhileStmt o) {
     visitPsiElement(o);
   }
 

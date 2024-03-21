@@ -48,6 +48,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (Arrays.asList(
                 ABSTRACT,
                 ARRAY,
+                AND,
                 AUTO,
                 BREAK,
                 CASE,
@@ -70,7 +71,9 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 NAMESPACE,
                 NULL,
                 NIL,
+                NOT,
                 OVERRIDE,
+                OR,
                 OUT,
                 PRIVATE,
                 PROPERTY,

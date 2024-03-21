@@ -11,8 +11,9 @@ import guru.xgm.language.angelscript.formatting.panel.AngelScriptCodeStyleMainPa
 import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
 import org.jetbrains.annotations.NotNull;
 
-import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS;
+import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.*;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
+import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.WrappingOrBraceOption.*;
 
 final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
@@ -46,6 +47,8 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
 
+        //consumer.showAllStandardOptions();
+
         switch (settingsType) {
             case INDENT_SETTINGS -> consumer.showStandardOptions();
 
@@ -57,6 +60,11 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
             case BLANK_LINES_SETTINGS -> consumer.showStandardOptions(
                     KEEP_BLANK_LINES_IN_DECLARATIONS.name()
             );
+
+            case WRAPPING_AND_BRACES_SETTINGS -> consumer.showStandardOptions(
+                    METHOD_BRACE_STYLE.name(),
+                    BRACE_STYLE.name()
+            );
         }
     }
 
@@ -66,9 +74,6 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
 
     @Override
     protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings, @NotNull CommonCodeStyleSettings.IndentOptions indentOptions) {
-        commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
-        commonSettings.SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS = true;
-
         indentOptions.INDENT_SIZE = 4;
         indentOptions.CONTINUATION_INDENT_SIZE = 4;
         indentOptions.TAB_SIZE = 4;
@@ -79,9 +84,23 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                libary Shit {
-                               
-                }
+                void MyFunc( trigger t, playerunitevent whichEvent )
+                 {
+                 int a = 1;
+                 a += 2;
+                 a -= 3;
+                 
+                     for ( int i = 0; i < GetBJMaxPlayerSlots( ); i++ )
+                         {
+                             TriggerRegisterPlayerUnitEvent( t, Player( i ), whichEvent, nil );
+                         }
+                         
+                         if (a > 23) {
+                            a -= 1;
+                         } else {
+                            a += 45;
+                         }
+                 }
                 """;
     }
 }

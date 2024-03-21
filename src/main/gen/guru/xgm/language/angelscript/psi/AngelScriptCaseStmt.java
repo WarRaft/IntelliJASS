@@ -7,10 +7,34 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptCaseStmt extends PsiElement {
 
+  @NotNull
+  List<AngelScriptBreakStmt> getBreakStmtList();
+
+  @NotNull
+  List<AngelScriptDoWhileStmt> getDoWhileStmtList();
+
   @Nullable
   AngelScriptExpr getExpr();
 
   @NotNull
-  List<AngelScriptStmt> getStmtList();
+  List<AngelScriptExprStat> getExprStatList();
+
+  @NotNull
+  List<AngelScriptForStmt> getForStmtList();
+
+  @NotNull
+  List<AngelScriptIfStmt> getIfStmtList();
+
+  @NotNull
+  List<AngelScriptReturnStmt> getReturnStmtList();
+
+  @NotNull
+  List<AngelScriptStatBlock> getStatBlockList();
+
+  @NotNull
+  List<AngelScriptSwitchStmt> getSwitchStmtList();
+
+  @NotNull
+  List<AngelScriptWhileStmt> getWhileStmtList();
 
 }

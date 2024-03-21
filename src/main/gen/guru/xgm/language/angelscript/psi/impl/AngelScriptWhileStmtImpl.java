@@ -11,14 +11,14 @@ import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.language.angelscript.psi.*;
 
-public class AngelScriptForStmtImpl extends ASTWrapperPsiElement implements AngelScriptForStmt {
+public class AngelScriptWhileStmtImpl extends ASTWrapperPsiElement implements AngelScriptWhileStmt {
 
-  public AngelScriptForStmtImpl(@NotNull ASTNode node) {
+  public AngelScriptWhileStmtImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitForStmt(this);
+    visitor.visitWhileStmt(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class AngelScriptForStmtImpl extends ASTWrapperPsiElement implements Ange
 
   @Override
   @NotNull
-  public List<AngelScriptAssign> getAssignList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptAssign.class);
+  public AngelScriptAssign getAssign() {
+    return findNotNullChildByClass(AngelScriptAssign.class);
   }
 
   @Override
@@ -46,9 +46,9 @@ public class AngelScriptForStmtImpl extends ASTWrapperPsiElement implements Ange
   }
 
   @Override
-  @NotNull
-  public List<AngelScriptExprStat> getExprStatList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExprStat.class);
+  @Nullable
+  public AngelScriptExprStat getExprStat() {
+    return findChildByClass(AngelScriptExprStat.class);
   }
 
   @Override
@@ -79,12 +79,6 @@ public class AngelScriptForStmtImpl extends ASTWrapperPsiElement implements Ange
   @Nullable
   public AngelScriptSwitchStmt getSwitchStmt() {
     return findChildByClass(AngelScriptSwitchStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public AngelScriptVar getVar() {
-    return findChildByClass(AngelScriptVar.class);
   }
 
   @Override

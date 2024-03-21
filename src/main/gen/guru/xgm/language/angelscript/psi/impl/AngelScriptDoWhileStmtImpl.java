@@ -34,9 +34,57 @@ public class AngelScriptDoWhileStmtImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
-  public AngelScriptStmt getStmt() {
-    return findNotNullChildByClass(AngelScriptStmt.class);
+  @Nullable
+  public AngelScriptBreakStmt getBreakStmt() {
+    return findChildByClass(AngelScriptBreakStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptDoWhileStmt getDoWhileStmt() {
+    return findChildByClass(AngelScriptDoWhileStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptExprStat getExprStat() {
+    return findChildByClass(AngelScriptExprStat.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptForStmt getForStmt() {
+    return findChildByClass(AngelScriptForStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptIfStmt getIfStmt() {
+    return findChildByClass(AngelScriptIfStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptReturnStmt getReturnStmt() {
+    return findChildByClass(AngelScriptReturnStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptStatBlock getStatBlock() {
+    return findChildByClass(AngelScriptStatBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptSwitchStmt getSwitchStmt() {
+    return findChildByClass(AngelScriptSwitchStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptWhileStmt getWhileStmt() {
+    return findChildByClass(AngelScriptWhileStmt.class);
   }
 
 }

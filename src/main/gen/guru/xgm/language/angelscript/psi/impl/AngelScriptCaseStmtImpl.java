@@ -28,6 +28,18 @@ public class AngelScriptCaseStmtImpl extends ASTWrapperPsiElement implements Ang
   }
 
   @Override
+  @NotNull
+  public List<AngelScriptBreakStmt> getBreakStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptBreakStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptDoWhileStmt> getDoWhileStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptDoWhileStmt.class);
+  }
+
+  @Override
   @Nullable
   public AngelScriptExpr getExpr() {
     return findChildByClass(AngelScriptExpr.class);
@@ -35,8 +47,44 @@ public class AngelScriptCaseStmtImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @NotNull
-  public List<AngelScriptStmt> getStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStmt.class);
+  public List<AngelScriptExprStat> getExprStatList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExprStat.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptForStmt> getForStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptForStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptIfStmt> getIfStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptIfStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptReturnStmt> getReturnStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptReturnStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptStatBlock> getStatBlockList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStatBlock.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptSwitchStmt> getSwitchStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptSwitchStmt.class);
+  }
+
+  @Override
+  @NotNull
+  public List<AngelScriptWhileStmt> getWhileStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptWhileStmt.class);
   }
 
 }

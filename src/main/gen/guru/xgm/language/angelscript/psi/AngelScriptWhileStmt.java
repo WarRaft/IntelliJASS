@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptForStmt extends PsiElement {
+public interface AngelScriptWhileStmt extends PsiElement {
 
   @NotNull
-  List<AngelScriptAssign> getAssignList();
+  AngelScriptAssign getAssign();
 
   @Nullable
   AngelScriptBreakStmt getBreakStmt();
@@ -16,8 +16,8 @@ public interface AngelScriptForStmt extends PsiElement {
   @Nullable
   AngelScriptDoWhileStmt getDoWhileStmt();
 
-  @NotNull
-  List<AngelScriptExprStat> getExprStatList();
+  @Nullable
+  AngelScriptExprStat getExprStat();
 
   @Nullable
   AngelScriptForStmt getForStmt();
@@ -33,9 +33,6 @@ public interface AngelScriptForStmt extends PsiElement {
 
   @Nullable
   AngelScriptSwitchStmt getSwitchStmt();
-
-  @Nullable
-  AngelScriptVar getVar();
 
   @Nullable
   AngelScriptWhileStmt getWhileStmt();

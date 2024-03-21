@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptStmt extends PsiElement {
+public interface AngelScriptElseStmt extends PsiElement {
 
   @Nullable
   AngelScriptBreakStmt getBreakStmt();
@@ -32,6 +32,6 @@ public interface AngelScriptStmt extends PsiElement {
   AngelScriptSwitchStmt getSwitchStmt();
 
   @Nullable
-  AngelScriptWhileStnt getWhileStnt();
+  AngelScriptWhileStmt getWhileStmt();
 
 }
