@@ -84,23 +84,29 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
-                void MyFunc( trigger t, playerunitevent whichEvent )
-                 {
-                 int a = 1;
-                 a += 2;
-                 a -= 3;
-                 
-                     for ( int i = 0; i < GetBJMaxPlayerSlots( ); i++ )
-                         {
-                             TriggerRegisterPlayerUnitEvent( t, Player( i ), whichEvent, nil );
-                         }
-                         
-                         if (a > 23) {
-                            a -= 1;
-                         } else {
-                            a += 45;
-                         }
-                 }
+                int myFunc (int a, float b, string c)
+                {
+                    float d = 13;
+                    int e = 56;
+                    int d = anotherFunc(10, 2.f, "somevalue");
+                                
+                    while (a < 10)
+                    {
+                        a += 20;
+                        if (e < 41)
+                        {
+                            c = "a";
+                        }
+                        else if (e < 10)
+                        {
+                            c = "b";
+                        }
+                        else
+                        {
+                            c = "c";
+                        }
+                    }
+                }
                 """;
     }
 }

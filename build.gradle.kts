@@ -1,6 +1,7 @@
+// https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.16.1"
+    id("org.jetbrains.intellij") version "1.17.2"
 }
 
 group = "org.intellij.sdk"

@@ -92,16 +92,24 @@ public class AngelScriptBlock implements ASTBlock {
     }
 
     protected SpacingBuilder getSpacingBuilder() {
-        final int saao = settings.common.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0;
+        var sb = new SpacingBuilder(settings.code, AngelScriptLanguage.INSTANCE);
 
-        return new SpacingBuilder(settings.code, AngelScriptLanguage.INSTANCE)
-                // SPACE_AROUND_ASSIGNMENT_OPERATORS
-                .around(EQ).spacing(saao, saao, 0, false, 0)
+        final int saao = settings.common.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0;
+        sb = sb.around(EQ).spacing(saao, saao, 0, false, 0)
                 .around(PLUS_EQ).spacing(saao, saao, 0, false, 0)
                 .around(MINUS_EQ).spacing(saao, saao, 0, false, 0)
                 .around(MUL_EQ).spacing(saao, saao, 0, false, 0)
-                .around(DIV_EQ).spacing(saao, saao, 0, false, 0)
+                .around(DIV_EQ).spacing(saao, saao, 0, false, 0);
 
+
+        final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
+        sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
+
+        final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
+        sb = sb.after(COMMA).spacing(sac, sac, 0, false, 0);
+
+
+        return sb
                 // generic
                 .between(LT, TYPE).spacing(0, 0, 0, false, 0)
                 .between(TYPE, GT).spacing(0, 0, 0, false, 0)
@@ -110,10 +118,6 @@ public class AngelScriptBlock implements ASTBlock {
                 .after(LPAREN).spacing(0, 1, 0, true, 0)
                 .before(RPAREN).spacing(0, 1, 0, true, 0)
                 .before(ARG_LIST).spacing(0, 1, 0, true, 0)
-                // comma
-                .after(COMMA).spacing(1, 1, 0, false, 0)
-                .before(COMMA).spacing(0, 0, 0, false, 0)
-
 
                 .around(DOT).spacing(0, 0, 0, false, 0)
                 .around(MINUS_GT).spacing(1, 1, 0, false, 0);
