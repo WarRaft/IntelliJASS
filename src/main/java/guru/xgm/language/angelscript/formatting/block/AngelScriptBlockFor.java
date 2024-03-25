@@ -11,5 +11,4 @@ public class AngelScriptBlockFor extends AngelScriptBlockBraceParent {
         super(myNode, myAlignment, myIndent, settings);
         braceStyle = settings.common.BRACE_STYLE;
     }
-
 }

@@ -45,6 +45,7 @@
         IF='if'
         INCLUDE='include'
         IN = 'in'
+        IS = 'is'
         INOUT='inout'
         INT = 'int'
         INT8 = 'int8'
@@ -74,9 +75,13 @@
         UINT32 = 'uint32'
         UINT64 = 'uint64'
         VOID = 'void'
+        XOR='xor'
         WHILE='while'
 
+        NIS='!is'
         AT='@'
+        PERCENT='%'
+        PERCENT_EQ='%='
         HASH='#'
         TILDE='~'
         DOT='.'
@@ -89,8 +94,10 @@
         SEMI = ';'
         MINUS_GT = '->'
         AMP_AMP = '&&'
+        AMP_EQ='&='
         AMP='&'
         VBAR_VBAR = '||'
+        VBAR_EQ='|='
         VBAR='|'
         EXCL='!'
         PLUS_PLUS='++'
@@ -99,15 +106,26 @@
         MINUS_MINUS='--'
         MINUS='-'
         MINUS_EQ='-='
+        MUL_MUL_EQ='**='
+        MUL_MUL='**'
         MUL='*'
         MUL_EQ='*='
         DIV='/'
         DIV_EQ='/='
         LT_EQ='<='
+        LT_LT_EQ='<<='
+        LT_LT='<<'
         LT='<'
         GT_EQ='>='
+        GT_GT_GT_EQ='>>>='
+        GT_GT_GT='>>>'
+        GT_GT_EQ='>>='
+        GT_GT='>>'
         GT='>'
         QUEST='?'
+        CAR_CAR='^^'
+        CAR_EQ='^='
+        CAR='^'
         LBRACE = '{'
         RBRACE = '}'
         LPAREN = '('
@@ -246,8 +264,6 @@ InitList ::=    LBRACE
 Assign ::= Condition (AssignOp Assign)?
 // CONDITION     ::= EXPR ['?' ASSIGN ':' ASSIGN]
 Condition ::= Expr (QUEST Assign COLON Assign)?
-// ASSIGNOP      ::= '=' | '+=' | '-=' | '*=' | '/=' | '|=' | '&=' | '^=' | '%=' | '**=' | '<<=' | '>>=' | '>>>='
-AssignOp ::= EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ
 // ARGLIST       ::=    '('
 //                      [IDENTIFIER ':']
 //                      ASSIGN
@@ -302,9 +318,11 @@ DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI
 // RETURN        ::= 'return' [ASSIGN] ';'
 ReturnStmt ::= RETURN Assign? SEMI
 // SWITCH        ::= 'switch' '(' ASSIGN ')' '{' {CASE} '}'
-SwitchStmt ::= SWITCH LPAREN Assign RPAREN LBRACE (CaseStmt)* RBRACE
+SwitchStmt ::= SWITCH LPAREN Assign RPAREN SwitchStatBlock
+SwitchStatBlock ::= LBRACE (CaseStmt)* RBRACE
 // CASE          ::= (('case' EXPR) | 'default') ':' {STATEMENT}
-CaseStmt ::= ((CASE Expr) | DEFAULT) COLON (Stmt)*
+CaseStmt ::= ((CASE Expr) | DEFAULT) COLON CaseStmtList
+CaseStmtList ::= Stmt*
 // BREAK         ::= 'break' ';'
 BreakStmt ::= BREAK SEMI
 // LAMBDA ::=   'function'
@@ -329,23 +347,105 @@ Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? R
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
-    AssignExpr|
-    RefExpr|
-    PlusExpr|MinusExpr|
-    MulExpr|DivExpr|
-    MulUnExpr|DivUnExpr|PlusUnExpr|MinusUnExpr|NotExpr|PreIncExpr|PostIncExpr|PreDecExpr|PostDecExpr|
-    EqExpr|NEqExpr|LTExpr|LTEqExpr|GTExpr|GTEqExpr|
-    OrExpr|AndExpr|
+// 15
+    AssignExpr| // Seee rule
+//  14
+    OrExpr| // 14 | Левая | || | Логическое ИЛИ | a||b
+//  13
+    AndExpr| // 13 | Левая | && | Логическое И | a&&b
+//  12
+    BOrExpr| // 12 | Левая | | | Битовое ИЛИ | a|b
+//  11
+    BXorExpr| // 11 | Левая | ^ | Битовое исключающее ИЛИ | a^b
+//  10
+    BAndExpr| // 10 | Левая | & | Битовое И | a&b
+//  9
+    EqExpr| // 9 | Левая | == | Равно | a==b
+    NEqExpr| // 9 | Левая | != | Не равно | a!=b
+    XorExpr| // 9 | Левая | ^^ | Логическое исключающее ИЛИ | a^^b
+    IsExpr| // 9 | Левая | is | Принадлежит | a is b
+//  8
+    LTExpr| // 8 | Левая | < | Меньше | a<b
+    GTExpr| // 8 | Левая | > | Больше | a>b
+    LTEqExpr| // 8 | Левая | <= | Меньше или равно | a<=b
+    GTEqExpr| // 8 | Левая | >= | Больше или равно | a>=b
+//  7
+    BShiftLExpr| // 7 | Левая | << | Битовый сдвиг влево | a<<b
+    BShiftRExpr| // 7 | Левая | >> | Битовый сдвиг вправо | a>>b
+    BShiftRAExpr| // 7 | Левая | >>> | Битовый сдвиг вправо c сохранением знакового бита | a>>>b
+//  6
+    PlusExpr| // 6 | Левая | + | Сложение | a+b
+    MinusExpr| // 6 | Левая | - | Вычитание | a-b
+//  5
+    MulExpr| // 5 | Левая | * | Умножение | a*b
+    DivExpr| // 5 | Левая | / | Деление | a/b
+    ModExpr| // 5 | Левая | % | Модуль (оставшаяся часть от деления) | a%b
+//  4
+    PowExpr| // 4 | Левая | ** | Возведение в степень | a**b
+//  3
+    PreIncExpr| // 3 | Правая | ++ | Преинкримент | ++a
+    PreDecExpr| // 3 | Правая | ++ | Преинкримент | ++a
+    BitNotUnExpr| // 3 | Правая | {{~}} | Побитовое отрицание | {{~}}a
+    NotExpr| // 3 | Правая | ! | Логическое НЕ | !a
+    MinusUnExpr| // 3 | Правая | - | Математическая смена знака | -a
+    PlusUnExpr| // 3 | Правая | + | Математическое взятие модуля | +a
+    // 3 | Правая | @ | Ссылка | @a TODO refactor?
+    // 3 | Правая | () | Приведение типа | a(b) TODO need test
+    // 3 | Правая | cast | Приведение типа | cast<a>(b) TODO need test
+    MulUnExpr| // Added for inspection
+    DivUnExpr| // Added for inspection
+//  2
+    RefExpr| // 2 | Левая | . | Доступ к члену | a.b
+    // 2 | Левая | [] | Доступ к индексу | a[b] TODO refactor?
+    // 2 | Левая | () | Вызов функции | a(b) TODO refactor?
+    PostIncExpr| // 2 | Левая | ++ | Постинкримент | a++
+    PostDecExpr| // 2 | Левая | -- | Постдекримент | a--
+//  1
+    ScopeExpr| // 1 | Нет | :: | Область видимости | a::b TODO test and add
+//  0 Primary
     PrimaryExpr
 
+// ASSIGNOP      ::= '=' | '+=' | '-=' | '*=' | '/=' | '|=' | '&=' | '^=' | '%=' | '**=' | '<<=' | '>>=' | '>>>='
+AssignOp ::=
+        VBAR_EQ| // 15 | Правая | |= | Присваивающее битовое ИЛИ | a|=b
+        CAR_EQ| // 15 | Правая | ^= | Присваивающее битовое исключающее ИЛИ | a^=b
+        AMP_EQ| // 15 | Правая | &= | Присваивающее битовое И | a&=b
+        GT_GT_GT_EQ|// 15 | Правая | >>>= | Присваивающий битовый сдвиг вправо c сохранением знакового бита | a>>>=b
+        GT_GT_EQ| // 15 | Правая | >>= | Присваивающий битовый сдвиг вправо | a>>=b
+        LT_LT_EQ| // 15 | Правая | <<= | Присваивающий битовый сдвиг влево | a<<=b
+        PERCENT_EQ| // 15 | Правая | %= | Присваивающее деление с остатком | a%=b
+        MUL_MUL_EQ| // 15 | Правая | **= | Присваивающее возведение в степень | a**=b
+        EQ| // 15 | Правая | = | Присваивание | a=b
+        PLUS_EQ| // 15 | Правая | += | Присваивающее сложение | a+=b
+        MINUS_EQ| // 15 | Правая | -= | Присваивающее вычитание | a-=b
+        MUL_EQ| // 15 | Правая | *= | Присваивающее умножение | a*=b
+        DIV_EQ // 15 | Правая | /= | Присваивающее деление | a/=b
+
+AssignExpr ::= Expr AssignOp Expr
+
 RefExpr ::= Expr DOT Expr
-AssignExpr ::= Expr (EQ|PLUS_EQ|MINUS_EQ|MUL_EQ|DIV_EQ) Expr
+ScopeExpr ::= Expr COLON_COLON Expr
 
 PlusExpr ::= Expr PLUS Expr
 MinusExpr ::= Expr MINUS Expr
-
 MulExpr ::= Expr MUL Expr
 DivExpr ::= Expr DIV Expr
+
+PowExpr ::= Expr MUL_MUL Expr
+ModExpr ::= Expr PERCENT Expr
+
+IsExpr ::= Expr (IS|NIS) Expr
+BitNotUnExpr ::= TILDE Expr
+
+BShiftLExpr ::= Expr LT_LT Expr
+BShiftRExpr ::= Expr GT_GT Expr
+BShiftRAExpr ::= Expr GT_GT_GT Expr
+
+XorExpr ::= Expr (XOR|CAR_CAR) Expr
+BXorExpr ::= Expr CAR Expr
+BOrExpr ::= Expr VBAR Expr
+
+BAndExpr ::= Expr AMP Expr
 
 MulUnExpr ::= MUL Expr
 DivUnExpr ::= DIV Expr
@@ -367,6 +467,24 @@ GTEqExpr ::= Expr GT_EQ Expr
 OrExpr ::= Expr (OR|VBAR_VBAR) Expr
 AndExpr ::= Expr (AND|AMP_AMP) Expr
 ParenExpr ::= LPAREN Expr RPAREN
+
+/*
+
+**	exponent
+* / %	multiply, divide, and modulo
++ -	add and subtract
+<< >> >>>	left shift, right shift, and arithmetic right shift
+&	bitwise and
+^	bitwise xor
+|	bitwise or
+<= < >= >	comparison
+== != is !is xor ^^	equality, identity, and logical exclusive or
+and &&	logical and
+or ||	logical or
+?:	condition
+= += -= *= /= %= **= &=
+|= ^= <<= >>= >>>=	assignment
+ */
 
 PrimaryExpr ::=
     TRUE |

@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.20</version>
+    <version>2.0.21</version>
     <idea-version since-build="2023.3"/>
     <vendor url="https://xgm.guru/p/wc3/IntelliJASS">XGM</vendor>
 
@@ -213,7 +213,7 @@
         ]]></description>
 
     <change-notes><![CDATA[
-        <p>Add primitive AngelScript support.</p>
+        <p>Add more AngelScript support.</p>
         ]]></change-notes>
 
 </idea-plugin>

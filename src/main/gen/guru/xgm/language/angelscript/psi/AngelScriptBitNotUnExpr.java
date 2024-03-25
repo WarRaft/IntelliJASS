@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptAssignExpr extends AngelScriptExpr {
+public interface AngelScriptBitNotUnExpr extends AngelScriptExpr {
 
-  @NotNull
-  AngelScriptAssignOp getAssignOp();
-
-  @NotNull
-  List<AngelScriptExpr> getExprList();
+  @Nullable
+  AngelScriptExpr getExpr();
 
 }

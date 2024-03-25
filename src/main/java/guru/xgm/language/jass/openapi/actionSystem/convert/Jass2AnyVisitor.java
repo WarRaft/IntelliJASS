@@ -1,14 +1,12 @@
 package guru.xgm.language.jass.openapi.actionSystem.convert;
 
 import com.intellij.psi.PsiElement;
+import guru.xgm.language.jass.codeInspection.number.JassRawcode;
 import guru.xgm.language.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Jass2AnyVisitor extends JassVisitor {
     public Jass2AnyVisitor() {
@@ -237,6 +235,10 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         list.get(1).accept(this);
     }
 
+    public void appendRawcode(JassRawcode raw) {
+        stringBuffer.append("FourCC(\"").append(raw.strval).append("\")");
+    }
+
     // primary
     @Override
     public void visitPrimExpr(@NotNull JassPrimExpr o) {
@@ -260,7 +262,7 @@ public abstract class Jass2AnyVisitor extends JassVisitor {
         }
         final var raw = o.getRawval();
         if (raw != null) {
-            stringBuffer.append("FourCC(\"").append(raw.getText().replace("'", "")).append("\")");
+            appendRawcode(new JassRawcode(raw));
             return;
         }
         final var hex = o.getHexval();

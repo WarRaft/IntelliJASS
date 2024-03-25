@@ -73,7 +73,8 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
 
             case WRAPPING_AND_BRACES_SETTINGS -> consumer.showStandardOptions(
                     METHOD_BRACE_STYLE.name(),
-                    BRACE_STYLE.name()
+                    BRACE_STYLE.name(),
+                    INDENT_CASE_FROM_SWITCH.name()
             );
 
             case LANGUAGE_SPECIFIC -> {
@@ -111,7 +112,22 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
                     float d = 13;
                     int e = 56;
                     int d = anotherFunc(10, 2.f, "somevalue");
-                                
+                    
+                    switch( value )
+                    {
+                        case 0:
+                        case 1:
+                            a = 1;
+                            break;
+                        case 2:
+                            {
+                                int b = 2;
+                            }
+                        case constant_value:
+                            break;
+                        default:
+                    }
+                              
                     while (a < 10)
                     {
                         a += 20;

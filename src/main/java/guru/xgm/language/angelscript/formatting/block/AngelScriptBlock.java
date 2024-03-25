@@ -53,6 +53,9 @@ public class AngelScriptBlock implements ASTBlock {
         if (isOneOf(childNode, ENUMS))
             return new AngelScriptBlockEnum(childNode, null, indent, settings);
 
+        if (isOneOf(childNode, SWITCH_STMT))
+            return new AngelScriptBlockSwitch(childNode, null, indent, settings);
+
         return new AngelScriptBlock(childNode, null, indent, settings);
     }
 

@@ -26,7 +26,6 @@ public class AngelScriptBlockStat extends AngelScriptBlock {
         if (isOneOf(childNode, LBRACE, RBRACE)) {
             return new AngelScriptBlockStatBrace(childNode, null, Indent.getNoneIndent(), settings, braceStyle);
         }
-
         return super.makeSubBlock(childNode, Indent.getNormalIndent());
     }
 

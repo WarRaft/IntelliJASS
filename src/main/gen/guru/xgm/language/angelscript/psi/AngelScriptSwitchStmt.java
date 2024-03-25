@@ -11,6 +11,6 @@ public interface AngelScriptSwitchStmt extends PsiElement {
   AngelScriptAssign getAssign();
 
   @NotNull
-  List<AngelScriptCaseStmt> getCaseStmtList();
+  AngelScriptSwitchStatBlock getSwitchStatBlock();
 
 }

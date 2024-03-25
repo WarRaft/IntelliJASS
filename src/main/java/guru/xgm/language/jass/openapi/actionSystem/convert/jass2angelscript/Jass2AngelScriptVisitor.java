@@ -1,5 +1,6 @@
 package guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript;
 
+import guru.xgm.language.jass.codeInspection.number.JassRawcode;
 import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
 import guru.xgm.language.jass.psi.*;
 import org.jetbrains.annotations.NotNull;
@@ -220,4 +221,12 @@ public class Jass2AngelScriptVisitor extends Jass2AnyVisitor {
         stringBuffer.append(") break;\n");
     }
 
+    // --- expressions
+
+
+    @Override
+    public void appendRawcode(JassRawcode raw) {
+        if (raw.safe) stringBuffer.append("'").append(raw.strval).append("'");
+        else stringBuffer.append(raw.hex);
+    }
 }

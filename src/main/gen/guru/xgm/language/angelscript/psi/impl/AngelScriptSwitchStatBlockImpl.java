@@ -11,14 +11,14 @@ import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import guru.xgm.language.angelscript.psi.*;
 
-public class AngelScriptSwitchStmtImpl extends ASTWrapperPsiElement implements AngelScriptSwitchStmt {
+public class AngelScriptSwitchStatBlockImpl extends ASTWrapperPsiElement implements AngelScriptSwitchStatBlock {
 
-  public AngelScriptSwitchStmtImpl(@NotNull ASTNode node) {
+  public AngelScriptSwitchStatBlockImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitSwitchStmt(this);
+    visitor.visitSwitchStatBlock(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class AngelScriptSwitchStmtImpl extends ASTWrapperPsiElement implements A
 
   @Override
   @NotNull
-  public AngelScriptAssign getAssign() {
-    return findNotNullChildByClass(AngelScriptAssign.class);
-  }
-
-  @Override
-  @NotNull
-  public AngelScriptSwitchStatBlock getSwitchStatBlock() {
-    return findNotNullChildByClass(AngelScriptSwitchStatBlock.class);
+  public List<AngelScriptCaseStmt> getCaseStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptCaseStmt.class);
   }
 
 }

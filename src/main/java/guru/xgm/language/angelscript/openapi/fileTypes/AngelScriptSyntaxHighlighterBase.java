@@ -68,10 +68,12 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 IF,
                 INCLUDE,
                 IN,
+                IS,
                 INOUT,
                 NAMESPACE,
                 NULL,
                 NIL,
+                NIS,
                 NOT,
                 OVERRIDE,
                 OR,
@@ -86,6 +88,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 SWITCH,
                 VOID,
                 WHILE,
+                XOR,
                 TRUE,
                 FALSE
         ).contains(tokenType)) {

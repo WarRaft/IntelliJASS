@@ -29,6 +29,12 @@ public class AngelScriptAssignExprImpl extends AngelScriptExprImpl implements An
 
   @Override
   @NotNull
+  public AngelScriptAssignOp getAssignOp() {
+    return findNotNullChildByClass(AngelScriptAssignOp.class);
+  }
+
+  @Override
+  @NotNull
   public List<AngelScriptExpr> getExprList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }

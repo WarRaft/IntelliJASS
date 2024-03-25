@@ -15,9 +15,9 @@ public class JassRawcode {
         return i;
     }
 
-    JassRawcode(PsiElement elem) {
+    public JassRawcode(PsiElement elem) {
         final var text = elem.getText();
-        final var textbytes = text.getBytes(StandardCharsets.ISO_8859_1);
+        final var textbytes = text.getBytes(StandardCharsets.UTF_8);
 
         if (textbytes.length < 2 || textbytes[0] != 39 || textbytes[textbytes.length - 1] != 39) {
             error = true;
@@ -27,11 +27,14 @@ public class JassRawcode {
             intstr = "0";
             hex = "0x0";
             validLength = false;
+            strval = "";
             return;
         }
         error = false;
         bytes = Arrays.copyOfRange(textbytes, 1, textbytes.length - 1);
         safe = isSafe();
+
+        strval = new String(bytes, StandardCharsets.UTF_8);
 
         validLength = bytes.length == 1 || bytes.length == 4;
         integer = bytes2int(bytes);
@@ -46,11 +49,12 @@ public class JassRawcode {
         return true;
     }
 
-    final boolean safe;
-    final boolean validLength;
-    final boolean error;
-    final byte[] bytes;
-    final int integer;
-    final String intstr;
-    final String hex;
+    public final boolean safe;
+    public final boolean validLength;
+    public final boolean error;
+    public final byte[] bytes;
+    public final int integer;
+    public final String intstr;
+    public final String hex;
+    public final String strval;
 }
