@@ -6,6 +6,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
 import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
 
 public class AngelScriptCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
+
     public AngelScriptCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
         super(AngelScriptLanguage.INSTANCE, currentSettings, settings);
     }
@@ -13,6 +14,7 @@ public class AngelScriptCodeStyleMainPanel extends TabbedLanguageCodeStylePanel 
     @Override
     protected void initTabs(CodeStyleSettings settings) {
         super.initTabs(settings);
+        addTab(new AngelScriptAlignTokenPanel(settings));
         for (CodeStyleSettingsProvider provider : CodeStyleSettingsProvider.EXTENSION_POINT_NAME.getExtensionList()) {
             if (provider.getLanguage() == AngelScriptLanguage.INSTANCE && !provider.hasSettingsPage()) {
                 createTab(provider);

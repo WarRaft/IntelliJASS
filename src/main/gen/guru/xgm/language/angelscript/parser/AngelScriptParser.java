@@ -476,6 +476,124 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ID (EQ Expr)?
+  public static boolean EnumItem(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumItem")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    r = r && EnumItem_1(b, l + 1);
+    exit_section_(b, m, ENUM_ITEM, r);
+    return r;
+  }
+
+  // (EQ Expr)?
+  private static boolean EnumItem_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumItem_1")) return false;
+    EnumItem_1_0(b, l + 1);
+    return true;
+  }
+
+  // EQ Expr
+  private static boolean EnumItem_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumItem_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EQ);
+    r = r && Expr(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LBRACE EnumItem (COMMA EnumItem)* COMMA* RBRACE
+  public static boolean EnumStatBlock(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumStatBlock")) return false;
+    if (!nextTokenIs(b, LBRACE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LBRACE);
+    r = r && EnumItem(b, l + 1);
+    r = r && EnumStatBlock_2(b, l + 1);
+    r = r && EnumStatBlock_3(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, m, ENUM_STAT_BLOCK, r);
+    return r;
+  }
+
+  // (COMMA EnumItem)*
+  private static boolean EnumStatBlock_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumStatBlock_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!EnumStatBlock_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "EnumStatBlock_2", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA EnumItem
+  private static boolean EnumStatBlock_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumStatBlock_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && EnumItem(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // COMMA*
+  private static boolean EnumStatBlock_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumStatBlock_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!consumeToken(b, COMMA)) break;
+      if (!empty_element_parsed_guard_(b, "EnumStatBlock_3", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock)
+  public static boolean Enums(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Enums")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ENUMS, "<enums>");
+    r = Enums_0(b, l + 1);
+    r = r && consumeTokens(b, 0, ENUM, ID);
+    r = r && Enums_3(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (SHARED|EXTERNAL)?
+  private static boolean Enums_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Enums_0")) return false;
+    Enums_0_0(b, l + 1);
+    return true;
+  }
+
+  // SHARED|EXTERNAL
+  private static boolean Enums_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Enums_0_0")) return false;
+    boolean r;
+    r = consumeToken(b, SHARED);
+    if (!r) r = consumeToken(b, EXTERNAL);
+    return r;
+  }
+
+  // SEMI | EnumStatBlock
+  private static boolean Enums_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Enums_3")) return false;
+    boolean r;
+    r = consumeToken(b, SEMI);
+    if (!r) r = EnumStatBlock(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // Assign? SEMI
   public static boolean ExprStat(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ExprStat")) return false;
@@ -1257,11 +1375,12 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IncludeStmt|Var|Fun|FunDef|Clazz|Nspace|SEMI
+  // IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
   static boolean RootItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RootItem")) return false;
     boolean r;
     r = IncludeStmt(b, l + 1);
+    if (!r) r = Enums(b, l + 1);
     if (!r) r = Var(b, l + 1);
     if (!r) r = Fun(b, l + 1);
     if (!r) r = FunDef(b, l + 1);
@@ -2090,6 +2209,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   //     ArrayAccess |
   //     FuncCall |
   //     Lambda |
+  //     RAWVAL |
   //     REALVAL |
   //     HEXVAL |
   //     INTVAL |
@@ -2107,29 +2227,30 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = ArrayAccess(b, l + 1);
     if (!r) r = FuncCall(b, l + 1);
     if (!r) r = Lambda(b, l + 1);
+    if (!r) r = consumeTokenSmart(b, RAWVAL);
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
     if (!r) r = Str(b, l + 1);
-    if (!r) r = PrimaryExpr_12(b, l + 1);
+    if (!r) r = PrimaryExpr_13(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // AT? ID
-  private static boolean PrimaryExpr_12(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_12")) return false;
+  private static boolean PrimaryExpr_13(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimaryExpr_13")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = PrimaryExpr_12_0(b, l + 1);
+    r = PrimaryExpr_13_0(b, l + 1);
     r = r && consumeToken(b, ID);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // AT?
-  private static boolean PrimaryExpr_12_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_12_0")) return false;
+  private static boolean PrimaryExpr_13_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimaryExpr_13_0")) return false;
     consumeTokenSmart(b, AT);
     return true;
   }

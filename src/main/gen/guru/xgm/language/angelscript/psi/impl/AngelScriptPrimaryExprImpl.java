@@ -71,6 +71,12 @@ public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements A
 
   @Override
   @Nullable
+  public PsiElement getRawval() {
+    return findChildByType(RAWVAL);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getRealval() {
     return findChildByType(REALVAL);
   }

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.psi.codeStyle.CommonCodeStyleSettings.*;
 import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
+import static guru.xgm.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK;
 import static guru.xgm.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK;
 
 public abstract class AngelScriptBlockBraceParent extends AngelScriptBlock {
@@ -33,9 +34,13 @@ public abstract class AngelScriptBlockBraceParent extends AngelScriptBlock {
         var sb = super.getSpacingBuilder();
         switch (braceStyle) {
             case END_OF_LINE:
-                sb = sb.before(STAT_BLOCK).spacing(1, 1, 0, false, 0);
+                sb = sb
+                        .before(STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 0, false, 0);
             case NEXT_LINE, NEXT_LINE_IF_WRAPPED, NEXT_LINE_SHIFTED, NEXT_LINE_SHIFTED2:
-                sb = sb.before(STAT_BLOCK).spacing(1, 1, 1, false, 0);
+                sb = sb
+                        .before(STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0);
         }
         return sb;
     }

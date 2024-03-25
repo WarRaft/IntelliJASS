@@ -1,4 +1,4 @@
-package guru.xgm.language.jass.formatting.panel;
+package guru.xgm.language.angelscript.formatting.panel;
 
 import com.intellij.application.options.codeStyle.OptionTreeWithPreviewPanel;
 import com.intellij.lang.Language;
@@ -6,33 +6,23 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
-import guru.xgm.language.jass.lang.JassLanguage;
-import guru.xgm.language.jass.openapi.fileTypes.JassFileType;
+import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
-public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
-    public JassAlignTokenPanel(CodeStyleSettings settings) {
+public class AngelScriptAlignTokenPanel extends OptionTreeWithPreviewPanel {
+    public AngelScriptAlignTokenPanel(CodeStyleSettings settings) {
         super(settings);
         init();
     }
 
     @NlsContexts.Label
-    public static String GROUP_TYPE_DECL = "Type declaration";
-
-    @NlsContexts.Label
-    public static String GROUP_NATIVE_DECL = "Native declaration";
-
-    @NlsContexts.Label
-    public static String GROUP_GVAR = "Global variable";
+    public static String ENUM = "Enum";
 
     @Override
     protected void initTables() {
-        initCustomOptions(GROUP_TYPE_DECL);
-        initCustomOptions(GROUP_NATIVE_DECL);
-        initCustomOptions(GROUP_GVAR);
+        initCustomOptions(ENUM);
     }
 
     @Override
@@ -47,19 +37,19 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
 
     @Override
     protected void customizeSettings() {
-        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(JassLanguage.INSTANCE);
+        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(AngelScriptLanguage.INSTANCE);
         if (provider != null) provider.customizeSettings(this, getSettingsType());
     }
 
     @Override
     @NotNull
     protected final FileType getFileType() {
-        return JassFileType.INSTANCE;
+        return AngelScriptFileType.INSTANCE;
     }
 
     @Nullable
     @Override
     public Language getDefaultLanguage() {
-        return JassLanguage.INSTANCE;
+        return AngelScriptLanguage.INSTANCE;
     }
 }

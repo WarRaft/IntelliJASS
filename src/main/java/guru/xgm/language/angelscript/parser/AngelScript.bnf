@@ -31,6 +31,7 @@
         DEFAULT='default'
         DO='do'
         ELSE='else'
+        ENUM='enum'
         EXTERNAL='external'
         EXPLICIT='explicit'
         FALSE='false'
@@ -114,15 +115,13 @@
         LBRACK = '['
         RBRACK = ']'
 
+        RAWVAL="regexp:'[^']*'"
         REALVAL='regexp:(\d+\.\d*|\.\d+)([fd])?'
         HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
         INTVAL='regexp:\d+'
 
-        // STRVAL="regexp:(\"{3}(^(\"{3}))*\"{3})|(\"([^\"\\]|\\.)*\")|('([^'\\]|\\.)*')"
         // https://stackoverflow.com/questions/46133654/antlr-grammar-for-triple-quoted-string
         // https://github.com/JetBrains/intellij-community/blob/master/python/python-parser/src/com/jetbrains/python/lexer/Python.flex
-
-        STRING_SINGLE="regexp:'([^'\\]|\\.)*'"
         STRING_DOUBLE='regexp:"([^"\\]|\\.)*"'
         STRING_BLOCK='regexp:\"\"\"(.*?)\"\"\"'
         // https://github.com/hmatt1/angelscript-intellij/blob/main/src/main/java/org/intellij/sdk/language/angelscript.bnf
@@ -134,7 +133,20 @@
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
 Root ::= RootItem*
-private RootItem ::= IncludeStmt|Var|Fun|FunDef|Clazz|Nspace|SEMI
+private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
+
+//ENUM ::=  {'shared' | 'external'}
+//          'enum'
+//          IDENTIFIER  (
+//                          ';' |   (
+//                                      '{'
+//                                          IDENTIFIER ['=' EXPR] {',' IDENTIFIER ['=' EXPR]}
+//                                      '}'
+//                                  )
+//                      )
+Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock)
+EnumStatBlock ::= LBRACE EnumItem (COMMA EnumItem)* COMMA* RBRACE
+EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
 Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE
@@ -317,10 +329,10 @@ Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? R
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
-    AssignExpr |
-    RefExpr |
+    AssignExpr|
+    RefExpr|
     PlusExpr|MinusExpr|
-    MulExpr | DivExpr |
+    MulExpr|DivExpr|
     MulUnExpr|DivUnExpr|PlusUnExpr|MinusUnExpr|NotExpr|PreIncExpr|PostIncExpr|PreDecExpr|PostDecExpr|
     EqExpr|NEqExpr|LTExpr|LTEqExpr|GTExpr|GTEqExpr|
     OrExpr|AndExpr|
@@ -365,6 +377,7 @@ PrimaryExpr ::=
     ArrayAccess |
     FuncCall |
     Lambda |
+    RAWVAL |
     REALVAL |
     HEXVAL |
     INTVAL |

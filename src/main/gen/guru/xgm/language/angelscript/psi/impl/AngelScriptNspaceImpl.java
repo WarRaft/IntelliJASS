@@ -35,6 +35,12 @@ public class AngelScriptNspaceImpl extends ASTWrapperPsiElement implements Angel
 
   @Override
   @NotNull
+  public List<AngelScriptEnums> getEnumsList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptEnums.class);
+  }
+
+  @Override
+  @NotNull
   public List<AngelScriptFun> getFunList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFun.class);
   }

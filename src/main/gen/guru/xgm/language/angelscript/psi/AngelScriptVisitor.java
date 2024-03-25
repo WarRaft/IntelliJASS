@@ -71,6 +71,18 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitEnumItem(@NotNull AngelScriptEnumItem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitEnumStatBlock(@NotNull AngelScriptEnumStatBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitEnums(@NotNull AngelScriptEnums o) {
+    visitPsiElement(o);
+  }
+
   public void visitEqExpr(@NotNull AngelScriptEqExpr o) {
     visitExpr(o);
   }

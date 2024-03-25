@@ -57,6 +57,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 DEFAULT,
                 DO,
                 ELSE,
+                ENUM,
                 EXTERNAL,
                 EXPLICIT,
                 FINAL,
@@ -92,6 +93,7 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
         }
 
         if (Arrays.asList(
+                RAWVAL,
                 INTVAL,
                 REALVAL,
                 HEXVAL

@@ -26,6 +26,9 @@ public interface AngelScriptTypes {
   IElementType DIV_UN_EXPR = new AngelScriptIElement("DIV_UN_EXPR");
   IElementType DO_WHILE_STMT = new AngelScriptIElement("DO_WHILE_STMT");
   IElementType ELSE_STMT = new AngelScriptIElement("ELSE_STMT");
+  IElementType ENUMS = new AngelScriptIElement("ENUMS");
+  IElementType ENUM_ITEM = new AngelScriptIElement("ENUM_ITEM");
+  IElementType ENUM_STAT_BLOCK = new AngelScriptIElement("ENUM_STAT_BLOCK");
   IElementType EQ_EXPR = new AngelScriptIElement("EQ_EXPR");
   IElementType EXPR = new AngelScriptIElement("EXPR");
   IElementType EXPR_STAT = new AngelScriptIElement("EXPR_STAT");
@@ -97,6 +100,7 @@ public interface AngelScriptTypes {
   IElementType DOT = new AngelScriptIToken(".");
   IElementType DOUBLE = new AngelScriptIToken("double");
   IElementType ELSE = new AngelScriptIToken("else");
+  IElementType ENUM = new AngelScriptIToken("enum");
   IElementType EQ = new AngelScriptIToken("=");
   IElementType EQ_EQ = new AngelScriptIToken("==");
   IElementType EXCL = new AngelScriptIToken("!");
@@ -152,6 +156,7 @@ public interface AngelScriptTypes {
   IElementType PROPERTY = new AngelScriptIToken("property");
   IElementType PROTECTED = new AngelScriptIToken("protected");
   IElementType QUEST = new AngelScriptIToken("?");
+  IElementType RAWVAL = new AngelScriptIToken("RAWVAL");
   IElementType RBRACE = new AngelScriptIToken("}");
   IElementType RBRACK = new AngelScriptIToken("]");
   IElementType REALVAL = new AngelScriptIToken("REALVAL");
@@ -230,6 +235,15 @@ public interface AngelScriptTypes {
       }
       else if (type == ELSE_STMT) {
         return new AngelScriptElseStmtImpl(node);
+      }
+      else if (type == ENUMS) {
+        return new AngelScriptEnumsImpl(node);
+      }
+      else if (type == ENUM_ITEM) {
+        return new AngelScriptEnumItemImpl(node);
+      }
+      else if (type == ENUM_STAT_BLOCK) {
+        return new AngelScriptEnumStatBlockImpl(node);
       }
       else if (type == EQ_EXPR) {
         return new AngelScriptEqExprImpl(node);

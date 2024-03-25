@@ -50,6 +50,9 @@ public class AngelScriptBlock implements ASTBlock {
         if (isOneOf(childNode, ELSE_STMT))
             return new AngelScriptBlockElse(childNode, null, indent, settings);
 
+        if (isOneOf(childNode, ENUMS))
+            return new AngelScriptBlockEnum(childNode, null, indent, settings);
+
         return new AngelScriptBlock(childNode, null, indent, settings);
     }
 
@@ -102,12 +105,11 @@ public class AngelScriptBlock implements ASTBlock {
                 .around(DIV_EQ).spacing(saao, saao, 0, false, 0);
 
 
-        final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
-        sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
+        //final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
+        //sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
 
-        final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
-        sb = sb.after(COMMA).spacing(sac, sac, 0, false, 0);
-
+        //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
+        //sb = sb.after(COMMA).spacing(sac, sac, 0, false, 0);
 
         return sb
                 // generic

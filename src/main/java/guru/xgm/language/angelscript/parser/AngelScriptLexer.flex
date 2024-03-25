@@ -22,9 +22,6 @@ import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=\s+
-
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 SINGLE_LINE_COMMENT="//"[^\n]*
 MULTI_LINE_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
@@ -35,6 +32,8 @@ STRING_SINGLE='([^'\\]|\\.)*'
 STRING_DOUBLE=\"([^\"\\]|\\.)*\"
 STRING_BLOCK=\\"\\"\\"(.*?)\\"\\"\\"
 ID=[A-Za-z_][_0-9A-Za-z]*
+
+%state RAWVAL_STATE
 
 %%
 <YYINITIAL> {
@@ -54,6 +53,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "default"                   { return DEFAULT; }
   "do"                        { return DO; }
   "else"                      { return ELSE; }
+  "enum"                      { return ENUM; }
   "external"                  { return EXTERNAL; }
   "explicit"                  { return EXPLICIT; }
   "false"                     { return FALSE; }
@@ -136,6 +136,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
   "STRVAL"                    { return STRVAL; }
+  "'"                         {yybegin(RAWVAL_STATE);}
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
   {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
@@ -143,11 +144,15 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
-  {STRING_SINGLE}             { return STRING_SINGLE; }
   {STRING_DOUBLE}             { return STRING_DOUBLE; }
   {STRING_BLOCK}              { return STRING_BLOCK; }
   {ID}                        { return ID; }
+}
 
+<RAWVAL_STATE> {
+    "'"       {yybegin(YYINITIAL); return RAWVAL;}
+    [^]       { /*ignore*/ }
+    <<EOF>>   {yybegin(YYINITIAL); return RAWVAL;}
 }
 
 [^] { return BAD_CHARACTER; }

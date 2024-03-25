@@ -1,5 +1,6 @@
 package guru.xgm.language.angelscript.psi.codeStyle;
 
+import com.ibm.icu.impl.Pair;
 import com.intellij.application.options.CodeStyleAbstractConfigurable;
 import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.IndentOptionsEditor;
@@ -7,6 +8,7 @@ import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.*;
 import guru.xgm.language.angelscript.formatting.AngelScriptCodeStyleSettings;
+import guru.xgm.language.angelscript.formatting.panel.AngelScriptAlignTokenPanel;
 import guru.xgm.language.angelscript.formatting.panel.AngelScriptCodeStyleMainPanel;
 import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.BlankLinesOption.*;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SpacingOption.*;
 import static com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.WrappingOrBraceOption.*;
+import static guru.xgm.language.angelscript.formatting.AngelScriptCodeStyleSettings.Fields.*;
 
 final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
 
@@ -44,6 +47,13 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
         return AngelScriptLanguage.INSTANCE;
     }
 
+    private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {
+        for (var pair : list) {
+            consumer.showCustomOption(AngelScriptCodeStyleSettings.class, pair.first, pair.second, group);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
 
@@ -65,6 +75,12 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
                     METHOD_BRACE_STYLE.name(),
                     BRACE_STYLE.name()
             );
+
+            case LANGUAGE_SPECIFIC -> {
+                addToGroup(consumer, new Pair[]{
+                        Pair.of(AT_ENUM_EQ, "'=' token"),
+                }, AngelScriptAlignTokenPanel.ENUM);
+            }
         }
     }
 
@@ -84,6 +100,12 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
+                enum MyEnum {
+                    A,
+                    B = 20,
+                    MyEnumItem = 31,
+                }
+                                
                 int myFunc (int a, float b, string c)
                 {
                     float d = 13;

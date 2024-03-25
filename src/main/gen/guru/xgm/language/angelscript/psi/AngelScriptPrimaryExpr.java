@@ -29,6 +29,9 @@ public interface AngelScriptPrimaryExpr extends AngelScriptExpr {
   PsiElement getIntval();
 
   @Nullable
+  PsiElement getRawval();
+
+  @Nullable
   PsiElement getRealval();
 
 }

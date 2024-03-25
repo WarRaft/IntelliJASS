@@ -11,6 +11,9 @@ public interface AngelScriptNspace extends PsiElement {
   List<AngelScriptClazz> getClazzList();
 
   @NotNull
+  List<AngelScriptEnums> getEnumsList();
+
+  @NotNull
   List<AngelScriptFun> getFunList();
 
   @NotNull
