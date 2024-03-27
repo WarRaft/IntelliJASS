@@ -1,0 +1,22 @@
+<!-- https://plugins.jetbrains.com/docs/intellij/template-support.html -->
+<templateSet group="AngelScript">
+    <!-- https://www.jetbrains.com/help/idea/using-live-templates.html#live_templates_types -->
+    <template
+            name="tmr"
+            value="TimerStart(CreateTimer(), $TIME$, false, function() {&#10;$END$&#10;});"
+            description="Start new timer with lambda"
+            toReformat="false"
+            toShortenFQNames="false"
+    >
+        <context>
+            <option name="AngelScript" value="true"/>
+        </context>
+        <!-- https://www.jetbrains.com/help/idea/template-variables.html#predefined_functions -->
+
+        <variable
+                name="TIME"
+                expression=""
+                defaultValue=""
+                alwaysStopAt="true"/>
+    </template>
+</templateSet>
