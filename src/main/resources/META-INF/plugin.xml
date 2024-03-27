@@ -131,6 +131,16 @@
         <annotator language="AngelScript"
                    implementationClass="guru.xgm.language.angelscript.lang.annotation.AngelScriptAnnotator"/>
 
+        <!-- braces -->
+        <lang.braceMatcher language="AngelScript"
+                           implementationClass="guru.xgm.language.angelscript.lang.AngelScriptPairedBraceMatcher"/>
+
+        <!-- folding -->
+        <lang.foldingBuilder language="AngelScript"
+                             implementationClass="guru.xgm.language.angelscript.lang.folding.AngelScriptCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings"/>
+
         <!-- === Lni === -->
         <fileType name="LNI"
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"

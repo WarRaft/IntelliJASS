@@ -163,7 +163,7 @@ private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
 //                                  )
 //                      )
 Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock)
-EnumStatBlock ::= LBRACE EnumItem (COMMA EnumItem)* COMMA* RBRACE
+EnumStatBlock ::= LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE
 EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
@@ -347,7 +347,7 @@ Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? R
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
 
 Expr ::=
-// 15
+//  15
     AssignExpr| // Seee rule
 //  14
     OrExpr| // 14 | Левая | || | Логическое ИЛИ | a||b
@@ -467,24 +467,6 @@ GTEqExpr ::= Expr GT_EQ Expr
 OrExpr ::= Expr (OR|VBAR_VBAR) Expr
 AndExpr ::= Expr (AND|AMP_AMP) Expr
 ParenExpr ::= LPAREN Expr RPAREN
-
-/*
-
-**	exponent
-* / %	multiply, divide, and modulo
-+ -	add and subtract
-<< >> >>>	left shift, right shift, and arithmetic right shift
-&	bitwise and
-^	bitwise xor
-|	bitwise or
-<= < >= >	comparison
-== != is !is xor ^^	equality, identity, and logical exclusive or
-and &&	logical and
-or ||	logical or
-?:	condition
-= += -= *= /= %= **= &=
-|= ^= <<= >>= >>>=	assignment
- */
 
 PrimaryExpr ::=
     TRUE |

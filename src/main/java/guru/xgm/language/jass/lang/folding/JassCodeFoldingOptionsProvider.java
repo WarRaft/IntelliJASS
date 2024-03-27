@@ -6,7 +6,7 @@ import com.intellij.openapi.options.BeanConfigurable;
 public class JassCodeFoldingOptionsProvider extends BeanConfigurable<JassCodeFoldingSettings> implements CodeFoldingOptionsProvider {
     public JassCodeFoldingOptionsProvider() {
         super(JassCodeFoldingSettings.getInstance(), "JASS");
-        JassCodeFoldingSettings settings = getInstance();
+        final var settings = getInstance();
         assert settings != null;
         checkBox("Globals", settings::isFoldGlobals, settings::setFoldGlobals);
         checkBox("Function", settings::isFoldFunction, settings::setFoldFunction);

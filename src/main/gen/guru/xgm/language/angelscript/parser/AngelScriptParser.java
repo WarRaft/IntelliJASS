@@ -523,19 +523,26 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE EnumItem (COMMA EnumItem)* COMMA* RBRACE
+  // LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE
   public static boolean EnumStatBlock(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "EnumStatBlock")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LBRACE);
-    r = r && EnumItem(b, l + 1);
+    r = r && EnumStatBlock_1(b, l + 1);
     r = r && EnumStatBlock_2(b, l + 1);
     r = r && EnumStatBlock_3(b, l + 1);
     r = r && consumeToken(b, RBRACE);
     exit_section_(b, m, ENUM_STAT_BLOCK, r);
     return r;
+  }
+
+  // EnumItem?
+  private static boolean EnumStatBlock_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EnumStatBlock_1")) return false;
+    EnumItem(b, l + 1);
+    return true;
   }
 
   // (COMMA EnumItem)*
