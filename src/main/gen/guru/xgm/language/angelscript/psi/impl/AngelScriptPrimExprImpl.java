@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 import guru.xgm.language.angelscript.psi.*;
 
-public class AngelScriptPrimaryExprImpl extends AngelScriptExprImpl implements AngelScriptPrimaryExpr {
+public class AngelScriptPrimExprImpl extends AngelScriptExprImpl implements AngelScriptPrimExpr {
 
-  public AngelScriptPrimaryExprImpl(@NotNull ASTNode node) {
+  public AngelScriptPrimExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitPrimaryExpr(this);
+    visitor.visitPrimExpr(this);
   }
 
   @Override

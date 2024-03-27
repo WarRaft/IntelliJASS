@@ -263,12 +263,12 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitPrimType(@NotNull AngelScriptPrimType o) {
-    visitPsiElement(o);
+  public void visitPrimExpr(@NotNull AngelScriptPrimExpr o) {
+    visitExpr(o);
   }
 
-  public void visitPrimaryExpr(@NotNull AngelScriptPrimaryExpr o) {
-    visitExpr(o);
+  public void visitPrimType(@NotNull AngelScriptPrimType o) {
+    visitPsiElement(o);
   }
 
   public void visitRefExpr(@NotNull AngelScriptRefExpr o) {

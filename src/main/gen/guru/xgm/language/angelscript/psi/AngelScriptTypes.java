@@ -74,7 +74,7 @@ public interface AngelScriptTypes {
   IElementType POW_EXPR = new AngelScriptIElement("POW_EXPR");
   IElementType PRE_DEC_EXPR = new AngelScriptIElement("PRE_DEC_EXPR");
   IElementType PRE_INC_EXPR = new AngelScriptIElement("PRE_INC_EXPR");
-  IElementType PRIMARY_EXPR = new AngelScriptIElement("PRIMARY_EXPR");
+  IElementType PRIM_EXPR = new AngelScriptIElement("PRIM_EXPR");
   IElementType PRIM_TYPE = new AngelScriptIElement("PRIM_TYPE");
   IElementType REF_EXPR = new AngelScriptIElement("REF_EXPR");
   IElementType RETURN_STMT = new AngelScriptIElement("RETURN_STMT");
@@ -409,8 +409,8 @@ public interface AngelScriptTypes {
       else if (type == PRE_INC_EXPR) {
         return new AngelScriptPreIncExprImpl(node);
       }
-      else if (type == PRIMARY_EXPR) {
-        return new AngelScriptPrimaryExprImpl(node);
+      else if (type == PRIM_EXPR) {
+        return new AngelScriptPrimExprImpl(node);
       }
       else if (type == PRIM_TYPE) {
         return new AngelScriptPrimTypeImpl(node);

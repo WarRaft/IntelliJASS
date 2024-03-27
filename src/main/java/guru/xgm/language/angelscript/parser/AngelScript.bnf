@@ -403,7 +403,7 @@ Expr ::=
 //  1
     ScopeExpr| // 1 | Нет | :: | Область видимости | a::b TODO test and add
 //  0 Primary
-    PrimaryExpr
+    PrimExpr
 
 // ASSIGNOP      ::= '=' | '+=' | '-=' | '*=' | '/=' | '|=' | '&=' | '^=' | '%=' | '**=' | '<<=' | '>>=' | '>>>='
 AssignOp ::=
@@ -468,7 +468,7 @@ OrExpr ::= Expr (OR|VBAR_VBAR) Expr
 AndExpr ::= Expr (AND|AMP_AMP) Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
-PrimaryExpr ::=
+PrimExpr ::=
     TRUE |
     FALSE |
     NULL |

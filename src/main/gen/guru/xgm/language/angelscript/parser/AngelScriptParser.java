@@ -44,7 +44,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
       MOD_EXPR, MUL_EXPR, MUL_UN_EXPR, NOT_EXPR,
       N_EQ_EXPR, OR_EXPR, PAREN_EXPR, PLUS_EXPR,
       PLUS_UN_EXPR, POST_DEC_EXPR, POST_INC_EXPR, POW_EXPR,
-      PRE_DEC_EXPR, PRE_INC_EXPR, PRIMARY_EXPR, REF_EXPR,
+      PRE_DEC_EXPR, PRE_INC_EXPR, PRIM_EXPR, REF_EXPR,
       SCOPE_EXPR, XOR_EXPR),
   };
 
@@ -2029,7 +2029,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   // 32: POSTFIX(PostIncExpr)
   // 33: POSTFIX(PostDecExpr)
   // 34: BINARY(ScopeExpr)
-  // 35: ATOM(PrimaryExpr)
+  // 35: ATOM(PrimExpr)
   public static boolean Expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "Expr")) return false;
     addVariant(b, "<expr>");
@@ -2043,7 +2043,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = PreDecExpr(b, l + 1);
     if (!r) r = BitNotUnExpr(b, l + 1);
     if (!r) r = NotExpr(b, l + 1);
-    if (!r) r = PrimaryExpr(b, l + 1);
+    if (!r) r = PrimExpr(b, l + 1);
     p = r;
     r = r && Expr_0(b, l + 1, g);
     exit_section_(b, l, m, null, r, p, null);
@@ -2326,10 +2326,10 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   //     INTVAL |
   //     Str |
   //     (AT? ID)
-  public static boolean PrimaryExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr")) return false;
+  public static boolean PrimExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimExpr")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, PRIMARY_EXPR, "<primary expr>");
+    Marker m = enter_section_(b, l, _COLLAPSE_, PRIM_EXPR, "<prim expr>");
     r = consumeTokenSmart(b, TRUE);
     if (!r) r = consumeTokenSmart(b, FALSE);
     if (!r) r = consumeTokenSmart(b, NULL);
@@ -2343,25 +2343,25 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, HEXVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
     if (!r) r = Str(b, l + 1);
-    if (!r) r = PrimaryExpr_13(b, l + 1);
+    if (!r) r = PrimExpr_13(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // AT? ID
-  private static boolean PrimaryExpr_13(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_13")) return false;
+  private static boolean PrimExpr_13(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimExpr_13")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = PrimaryExpr_13_0(b, l + 1);
+    r = PrimExpr_13_0(b, l + 1);
     r = r && consumeToken(b, ID);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // AT?
-  private static boolean PrimaryExpr_13_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PrimaryExpr_13_0")) return false;
+  private static boolean PrimExpr_13_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "PrimExpr_13_0")) return false;
     consumeTokenSmart(b, AT);
     return true;
   }

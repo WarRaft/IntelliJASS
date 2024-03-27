@@ -2,6 +2,8 @@ package guru.xgm.intellij.openapi.editor;
 
 import com.intellij.openapi.editor.ElementColorProvider;
 import com.intellij.psi.PsiElement;
+import guru.xgm.language.angelscript.psi.AngelScriptElementFactory;
+import guru.xgm.language.angelscript.psi.AngelScriptPrimExpr;
 import guru.xgm.language.jass.psi.JassArgList;
 import guru.xgm.language.jass.psi.JassElementFactory;
 import guru.xgm.language.jass.psi.JassFunCall;
@@ -101,6 +103,14 @@ public class IntellijElementColorProvider implements ElementColorProvider {
 
     @Override
     public @Nullable Color getColorFrom(@NotNull PsiElement psiElement) {
+        // AngelScript - hexval
+        if (psiElement instanceof AngelScriptPrimExpr prim) {
+            final var hexval = prim.getHexval();
+            if (hexval != null) return fromHex(hexval.getText());
+            return null;
+        }
+
+        // JASS - hexval
         if (psiElement instanceof JassPrimExpr prim) {
             final var hexval = prim.getHexval();
             if (hexval != null) return fromHex(hexval.getText());
@@ -121,6 +131,16 @@ public class IntellijElementColorProvider implements ElementColorProvider {
         final String hex = "0x" + String.format("%02x%02x%02x%02x", color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue()).toUpperCase();
         @NotNull final var project = psiElement.getProject();
 
+        // AngelScript - hexval
+        if (psiElement instanceof AngelScriptPrimExpr prim) {
+            final var hexval = prim.getHexval();
+            if (hexval != null) {
+                AngelScriptElementFactory.replaceExprChild(project, hexval, hex);
+                return;
+            }
+        }
+
+        // JASS - hexval
         if (psiElement instanceof JassPrimExpr prim) {
             final var hexval = prim.getHexval();
             if (hexval != null) {
@@ -129,6 +149,7 @@ public class IntellijElementColorProvider implements ElementColorProvider {
             }
         }
 
+        // JASS - func call
         if (psiElement instanceof JassFunCall call) {
             final var name = call.getId().getText();
             if (funcCallRgb.containsKey(name)) {
