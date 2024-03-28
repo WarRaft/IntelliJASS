@@ -1,9 +1,6 @@
 package guru.xgm.language.angelscript.formatting.block.utils;
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.SpacingBuilder;
+import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import guru.xgm.language.angelscript.formatting.block.AngelScriptBlock;
 import guru.xgm.language.angelscript.formatting.block.AngelScriptBlockStat;
@@ -44,5 +41,4 @@ public abstract class AngelScriptBlockBraceParent extends AngelScriptBlock {
         }
         return sb;
     }
-
 }

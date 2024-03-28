@@ -149,6 +149,11 @@
                 contextId="AngelScript"
                 implementation="guru.xgm.language.angelscript.codeInsight.template.AngelScriptTemplateContextType"/>
 
+        <!-- commenter -->
+        <lang.commenter
+                language="AngelScript"
+                implementationClass="guru.xgm.language.angelscript.lang.AngelScriptCommenter"/>
+
         <!-- === Lni === -->
         <fileType name="LNI"
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"

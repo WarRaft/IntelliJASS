@@ -24,7 +24,7 @@ public class AngelScriptBlockStat extends AngelScriptBlock {
     @Override
     public Block makeSubBlock(@NotNull ASTNode childNode, Indent indent) {
         if (isOneOf(childNode, LBRACE, RBRACE)) {
-            return new AngelScriptBlockStatBrace(childNode, null, Indent.getNoneIndent(), settings, braceStyle);
+            return new AngelScriptBlockStatBrace(childNode, null, null, settings, braceStyle);
         }
         return super.makeSubBlock(childNode, Indent.getNormalIndent());
     }

@@ -145,7 +145,9 @@ public class AngelScriptBlock implements ASTBlock {
 
     @Override
     public @NotNull ChildAttributes getChildAttributes(int i) {
-        return new ChildAttributes(Indent.getNoneIndent(), null);
+        var indent = Indent.getNoneIndent();
+        if (isOneOf(myNode, STAT_BLOCK, ENUM_STAT_BLOCK)) indent = Indent.getNormalIndent();
+        return new ChildAttributes(indent, null);
     }
 
     @Override
