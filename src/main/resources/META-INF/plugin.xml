@@ -20,6 +20,8 @@
                   language="JASS"
                   extensions="j"
         />
+
+        <!-- parser -->
         <lang.parserDefinition language="JASS" implementationClass="guru.xgm.language.jass.lang.JassParserDefinition"/>
 
         <!-- highlight -->
@@ -78,6 +80,8 @@
                   language="ZINC"
                   extensions="zn"
         />
+
+        <!-- parser -->
         <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.language.zinc.lang.ZincParserDefinition"/>
 
         <!-- highlight -->
@@ -100,6 +104,8 @@
                   language="VJASS"
                   extensions="vj"
         />
+
+        <!-- parser -->
         <lang.parserDefinition language="VJASS"
                                implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
 
@@ -114,6 +120,8 @@
                   language="AngelScript"
                   extensions="ass"
         />
+
+        <!-- parser -->
         <lang.parserDefinition language="AngelScript"
                                implementationClass="guru.xgm.language.angelscript.lang.AngelScriptParserDefinition"/>
 
@@ -183,6 +191,26 @@
                         implementationClass="guru.xgm.language.lni.formatting.LniFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
                 implementation="guru.xgm.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"/>
+
+        <!-- === WTS === -->
+        <fileType name="WTS"
+                  implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsFileType"
+                  fieldName="INSTANCE"
+                  language="WTS"
+                  extensions="wts"
+        />
+
+        <!-- parser -->
+        <lang.parserDefinition language="WTS"
+                               implementationClass="guru.xgm.language.wts.lang.WtsParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="WTS"
+                                       implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsSyntaxHighlighterFactory"/>
+
+        <!-- annotator -->
+        <annotator language="WTS" implementationClass="guru.xgm.language.wts.lang.annotation.WtsAnnotator"/>
+
     </extensions>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
