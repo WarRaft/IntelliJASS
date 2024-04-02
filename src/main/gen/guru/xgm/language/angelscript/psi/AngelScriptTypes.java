@@ -201,7 +201,6 @@ public interface AngelScriptTypes {
   IElementType STRING_BLOCK = new AngelScriptIToken("STRING_BLOCK");
   IElementType STRING_DOUBLE = new AngelScriptIToken("STRING_DOUBLE");
   IElementType STRING_SINGLE = new AngelScriptIToken("STRING_SINGLE");
-  IElementType STRVAL = new AngelScriptIToken("STRVAL");
   IElementType SWITCH = new AngelScriptIToken("switch");
   IElementType TILDE = new AngelScriptIToken("~");
   IElementType TRUE = new AngelScriptIToken("true");

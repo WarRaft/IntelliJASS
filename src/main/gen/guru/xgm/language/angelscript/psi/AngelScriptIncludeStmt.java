@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptIncludeStmt extends PsiElement {
 
+  @NotNull
+  AngelScriptStr getStr();
+
 }

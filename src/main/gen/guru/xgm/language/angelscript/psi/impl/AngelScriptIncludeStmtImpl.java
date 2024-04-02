@@ -27,4 +27,10 @@ public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements 
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public AngelScriptStr getStr() {
+    return findNotNullChildByClass(AngelScriptStr.class);
+  }
+
 }

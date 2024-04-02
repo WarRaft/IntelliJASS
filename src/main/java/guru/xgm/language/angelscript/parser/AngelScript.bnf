@@ -168,7 +168,7 @@ EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
 Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE
-IncludeStmt ::= HASH INCLUDE STRVAL
+IncludeStmt ::= HASH INCLUDE Str
 // FUNCDEF       ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
 // CLASS         ::= {'shared' | 'abstract' | 'final' | 'external'} 'class' IDENTIFIER  (
 //                                                                                          ';'
@@ -260,7 +260,7 @@ InitList ::=    LBRACE
                     (Assign|InitList)?
                 )*
                 RBRACE
-// ASSIGN        ::= CONDITION [ ASSIGNOP ASSIGN ]
+// ASSIGN        ::= CONDITION [ASSIGNOP ASSIGN]
 Assign ::= Condition (AssignOp Assign)?
 // CONDITION     ::= EXPR ['?' ASSIGN ':' ASSIGN]
 Condition ::= Expr (QUEST Assign COLON Assign)?

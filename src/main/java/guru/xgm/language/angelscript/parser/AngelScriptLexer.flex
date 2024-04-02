@@ -13,6 +13,17 @@ import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
   public _AngelScriptLexer() {
     this((java.io.Reader)null);
   }
+
+
+int peek() {
+    int nextChar = yycharat(yylength());
+    if (nextChar == -1) {
+        return -1;
+    } else {
+        return (char) nextChar;
+    }
+}
+
 %}
 
 %public
@@ -22,22 +33,11 @@ import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
 %type IElementType
 %unicode
 
-WHITE_SPACE=[ \t\n\x0B\f\r]+
-SINGLE_LINE_COMMENT="//"[^\n]*
-MULTI_LINE_COMMENT="/*" !([^]* "*/" [^]*) ("*/")?
-REALVAL=([0-9]+\.[0-9]*|\.[0-9]+)([fd])?
-HEXVAL=(0x|\$)[0-9a-fA-F]+
-INTVAL=[0-9]+
-STRING_SINGLE='([^'\\]|\\.)*'
-STRING_DOUBLE=\"([^\"\\]|\\.)*\"
-STRING_BLOCK=\\"\\"\\"(.*?)\\"\\"\\"
-ID=[A-Za-z_][_0-9A-Za-z]*
-
 %state RAWVAL_STATE
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}               { return WHITE_SPACE; }
+  [ \t\n\x0B\f\r]+            { return WHITE_SPACE; }
 
    "abstract"                  { return ABSTRACT; }
    "array"                     { return ARRAY; }
@@ -99,7 +99,6 @@ ID=[A-Za-z_][_0-9A-Za-z]*
    "void"                      { return VOID; }
    "xor"                       { return XOR; }
    "while"                     { return WHILE; }
-   "!is"                       { return NIS; }
    "@"                         { return AT; }
    "%"                         { return PERCENT; }
    "%="                        { return PERCENT_EQ; }
@@ -120,6 +119,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
    "||"                        { return VBAR_VBAR; }
    "|="                        { return VBAR_EQ; }
    "|"                         { return VBAR; }
+   "!is"                       { if (peek() == ' ') return NIS; }
    "!"                         { return EXCL; }
    "++"                        { return PLUS_PLUS; }
    "+"                         { return PLUS; }
@@ -154,18 +154,16 @@ ID=[A-Za-z_][_0-9A-Za-z]*
    "["                         { return LBRACK; }
    "]"                         { return RBRACK; }
 
-   "STRVAL"                    { return STRVAL; }
    "'"                         {yybegin(RAWVAL_STATE);}
 
-  {WHITE_SPACE}               { return WHITE_SPACE; }
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
-  {MULTI_LINE_COMMENT}        { return MULTI_LINE_COMMENT; }
-  {REALVAL}                   { return REALVAL; }
-  {HEXVAL}                    { return HEXVAL; }
-  {INTVAL}                    { return INTVAL; }
-  {STRING_DOUBLE}             { return STRING_DOUBLE; }
-  {STRING_BLOCK}              { return STRING_BLOCK; }
-  {ID}                        { return ID; }
+  "//"[^\n]*                       { return SINGLE_LINE_COMMENT; }
+  "/*" !([^]* "*/" [^]*) ("*/")?   { return MULTI_LINE_COMMENT; }
+  ([0-9]+\.[0-9]*|\.[0-9]+)([fd])? { return REALVAL; }
+  (0x|\$)[0-9a-fA-F]+              { return HEXVAL; }
+  [0-9]+                      { return INTVAL; }
+  \"([^\"\\]|\\.)*\"          { return STRING_DOUBLE; }
+  \\"\\"\\"(.*?)\\"\\"\\"     { return STRING_BLOCK; }
+  [A-Za-z_][_0-9A-Za-z]*      { return ID; }
 }
 
 <RAWVAL_STATE> {

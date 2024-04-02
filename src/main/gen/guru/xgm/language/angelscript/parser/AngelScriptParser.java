@@ -973,13 +973,14 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // HASH INCLUDE STRVAL
+  // HASH INCLUDE Str
   public static boolean IncludeStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IncludeStmt")) return false;
     if (!nextTokenIs(b, HASH)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASH, INCLUDE, STRVAL);
+    r = consumeTokens(b, 0, HASH, INCLUDE);
+    r = r && Str(b, l + 1);
     exit_section_(b, m, INCLUDE_STMT, r);
     return r;
   }

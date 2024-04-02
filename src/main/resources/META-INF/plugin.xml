@@ -13,6 +13,9 @@
         <!-- colors -->
         <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider"/>
 
+        <!-- file nesting -->
+        <projectViewNestingRulesProvider implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
+
         <!-- === JASS === -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
