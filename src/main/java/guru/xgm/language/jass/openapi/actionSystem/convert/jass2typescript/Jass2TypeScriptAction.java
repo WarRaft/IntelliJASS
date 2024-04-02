@@ -18,6 +18,6 @@ public class Jass2TypeScriptAction extends Jass2AnyAction {
 
     @Override
     public @NotNull String getTargetExtension() {
-        return ".ts";
+        return "ts";
     }
 }

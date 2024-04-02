@@ -17,6 +17,6 @@ public class Jass2LuaAction extends Jass2AnyAction {
 
     @Override
     public @NotNull String getTargetExtension() {
-        return ".lua";
+        return "lua";
     }
 }

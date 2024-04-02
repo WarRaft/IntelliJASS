@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 
 public abstract class Jass2AnyAction extends AnAction {
 
@@ -60,8 +61,9 @@ public abstract class Jass2AnyAction extends AnAction {
         }
 
         // create file
-        String filePath = virtualFile.getPath() + getTargetExtension();
-        File file = new File(filePath);
+        final String separator = FileSystems.getDefault().getSeparator();
+        final String filePath = virtualFile.getParent().getPath() + separator + virtualFile.getNameWithoutExtension() + "." + getTargetExtension();
+        final File file = new File(filePath);
 
         boolean success = true;
 

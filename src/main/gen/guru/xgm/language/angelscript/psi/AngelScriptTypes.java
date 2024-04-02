@@ -84,6 +84,7 @@ public interface AngelScriptTypes {
   IElementType STR = new AngelScriptIElement("STR");
   IElementType SWITCH_STAT_BLOCK = new AngelScriptIElement("SWITCH_STAT_BLOCK");
   IElementType SWITCH_STMT = new AngelScriptIElement("SWITCH_STMT");
+  IElementType TERNAR_EXPR = new AngelScriptIElement("TERNAR_EXPR");
   IElementType TYPE = new AngelScriptIElement("TYPE");
   IElementType TYPE_MOD = new AngelScriptIElement("TYPE_MOD");
   IElementType VAR = new AngelScriptIElement("VAR");
@@ -437,6 +438,9 @@ public interface AngelScriptTypes {
       }
       else if (type == SWITCH_STMT) {
         return new AngelScriptSwitchStmtImpl(node);
+      }
+      else if (type == TERNAR_EXPR) {
+        return new AngelScriptTernarExprImpl(node);
       }
       else if (type == TYPE) {
         return new AngelScriptTypeImpl(node);

@@ -17,6 +17,6 @@ public class Jass2JavaScriptAction extends Jass2AnyAction {
 
     @Override
     public @NotNull String getTargetExtension() {
-        return ".js";
+        return "js";
     }
 }

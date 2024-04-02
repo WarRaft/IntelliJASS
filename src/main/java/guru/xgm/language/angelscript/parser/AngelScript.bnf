@@ -216,6 +216,7 @@ Var ::= (PRIVATE|PROTECTED)?
             )?
         )*
         SEMI
+
 // TYPE ::=
 //          ['const']
 //          SCOPE
@@ -345,10 +346,12 @@ Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? R
 // https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
 // https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
 // https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+// https://learn.microsoft.com/en-us/cpp/cpp/cpp-built-in-operators-precedence-and-associativity?view=msvc-170
 
 Expr ::=
 //  15
-    AssignExpr| // Seee rule
+    TernarExpr | // Правая
+    AssignExpr| // Правая
 //  14
     OrExpr| // 14 | Левая | || | Логическое ИЛИ | a||b
 //  13
@@ -467,6 +470,8 @@ GTEqExpr ::= Expr GT_EQ Expr
 OrExpr ::= Expr (OR|VBAR_VBAR) Expr
 AndExpr ::= Expr (AND|AMP_AMP) Expr
 ParenExpr ::= LPAREN Expr RPAREN
+
+TernarExpr ::= Expr QUEST Expr COLON Expr
 
 PrimExpr ::=
     TRUE |

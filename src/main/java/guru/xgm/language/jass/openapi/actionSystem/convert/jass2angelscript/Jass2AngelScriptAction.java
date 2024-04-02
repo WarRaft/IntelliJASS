@@ -17,6 +17,6 @@ public class Jass2AngelScriptAction extends Jass2AnyAction {
 
     @Override
     public @NotNull String getTargetExtension() {
-        return ".ass";
+        return "ass";
     }
 }

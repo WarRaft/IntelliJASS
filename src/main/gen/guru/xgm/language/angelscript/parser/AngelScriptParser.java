@@ -45,7 +45,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
       N_EQ_EXPR, OR_EXPR, PAREN_EXPR, PLUS_EXPR,
       PLUS_UN_EXPR, POST_DEC_EXPR, POST_INC_EXPR, POW_EXPR,
       PRE_DEC_EXPR, PRE_INC_EXPR, PRIM_EXPR, REF_EXPR,
-      SCOPE_EXPR, XOR_EXPR),
+      SCOPE_EXPR, TERNAR_EXPR, XOR_EXPR),
   };
 
   /* ********************************************************** */
@@ -1995,42 +1995,43 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // Expression root: Expr
   // Operator priority table:
-  // 0: BINARY(AssignExpr)
-  // 1: BINARY(OrExpr)
-  // 2: BINARY(AndExpr)
-  // 3: BINARY(BOrExpr)
-  // 4: BINARY(BXorExpr)
-  // 5: BINARY(BAndExpr)
-  // 6: BINARY(EqExpr)
-  // 7: BINARY(NEqExpr)
-  // 8: BINARY(XorExpr)
-  // 9: BINARY(IsExpr)
-  // 10: BINARY(LTExpr)
-  // 11: BINARY(GTExpr)
-  // 12: BINARY(LTEqExpr)
-  // 13: BINARY(GTEqExpr)
-  // 14: BINARY(BShiftLExpr)
-  // 15: BINARY(BShiftRExpr)
-  // 16: BINARY(BShiftRAExpr)
-  // 17: BINARY(PlusExpr)
-  // 18: BINARY(MinusExpr)
-  // 19: BINARY(MulExpr)
-  // 20: BINARY(DivExpr)
-  // 21: BINARY(ModExpr)
-  // 22: BINARY(PowExpr)
-  // 23: PREFIX(PreIncExpr)
-  // 24: PREFIX(PreDecExpr)
-  // 25: PREFIX(BitNotUnExpr)
-  // 26: PREFIX(NotExpr)
-  // 27: PREFIX(MinusUnExpr)
-  // 28: PREFIX(PlusUnExpr)
-  // 29: PREFIX(MulUnExpr)
-  // 30: PREFIX(DivUnExpr)
-  // 31: BINARY(RefExpr)
-  // 32: POSTFIX(PostIncExpr)
-  // 33: POSTFIX(PostDecExpr)
-  // 34: BINARY(ScopeExpr)
-  // 35: ATOM(PrimExpr)
+  // 0: BINARY(TernarExpr)
+  // 1: BINARY(AssignExpr)
+  // 2: BINARY(OrExpr)
+  // 3: BINARY(AndExpr)
+  // 4: BINARY(BOrExpr)
+  // 5: BINARY(BXorExpr)
+  // 6: BINARY(BAndExpr)
+  // 7: BINARY(EqExpr)
+  // 8: BINARY(NEqExpr)
+  // 9: BINARY(XorExpr)
+  // 10: BINARY(IsExpr)
+  // 11: BINARY(LTExpr)
+  // 12: BINARY(GTExpr)
+  // 13: BINARY(LTEqExpr)
+  // 14: BINARY(GTEqExpr)
+  // 15: BINARY(BShiftLExpr)
+  // 16: BINARY(BShiftRExpr)
+  // 17: BINARY(BShiftRAExpr)
+  // 18: BINARY(PlusExpr)
+  // 19: BINARY(MinusExpr)
+  // 20: BINARY(MulExpr)
+  // 21: BINARY(DivExpr)
+  // 22: BINARY(ModExpr)
+  // 23: BINARY(PowExpr)
+  // 24: PREFIX(PreIncExpr)
+  // 25: PREFIX(PreDecExpr)
+  // 26: PREFIX(BitNotUnExpr)
+  // 27: PREFIX(NotExpr)
+  // 28: PREFIX(MinusUnExpr)
+  // 29: PREFIX(PlusUnExpr)
+  // 30: PREFIX(MulUnExpr)
+  // 31: PREFIX(DivUnExpr)
+  // 32: BINARY(RefExpr)
+  // 33: POSTFIX(PostIncExpr)
+  // 34: POSTFIX(PostDecExpr)
+  // 35: BINARY(ScopeExpr)
+  // 36: ATOM(PrimExpr)
   public static boolean Expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "Expr")) return false;
     addVariant(b, "<expr>");
@@ -2056,112 +2057,117 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     boolean r = true;
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
-      if (g < 0 && AssignOp(b, l + 1)) {
-        r = Expr(b, l, 0);
+      if (g < 0 && consumeTokenSmart(b, QUEST)) {
+        r = report_error_(b, Expr(b, l, 0));
+        r = TernarExpr_1(b, l + 1) && r;
+        exit_section_(b, l, m, TERNAR_EXPR, r, true, null);
+      }
+      else if (g < 1 && AssignOp(b, l + 1)) {
+        r = Expr(b, l, 1);
         exit_section_(b, l, m, ASSIGN_EXPR, r, true, null);
       }
-      else if (g < 1 && OrExpr_0(b, l + 1)) {
-        r = Expr(b, l, 1);
+      else if (g < 2 && OrExpr_0(b, l + 1)) {
+        r = Expr(b, l, 2);
         exit_section_(b, l, m, OR_EXPR, r, true, null);
       }
-      else if (g < 2 && AndExpr_0(b, l + 1)) {
-        r = Expr(b, l, 2);
+      else if (g < 3 && AndExpr_0(b, l + 1)) {
+        r = Expr(b, l, 3);
         exit_section_(b, l, m, AND_EXPR, r, true, null);
       }
-      else if (g < 3 && consumeTokenSmart(b, VBAR)) {
-        r = Expr(b, l, 3);
+      else if (g < 4 && consumeTokenSmart(b, VBAR)) {
+        r = Expr(b, l, 4);
         exit_section_(b, l, m, B_OR_EXPR, r, true, null);
       }
-      else if (g < 4 && consumeTokenSmart(b, CAR)) {
-        r = Expr(b, l, 4);
+      else if (g < 5 && consumeTokenSmart(b, CAR)) {
+        r = Expr(b, l, 5);
         exit_section_(b, l, m, B_XOR_EXPR, r, true, null);
       }
-      else if (g < 5 && consumeTokenSmart(b, AMP)) {
-        r = Expr(b, l, 5);
+      else if (g < 6 && consumeTokenSmart(b, AMP)) {
+        r = Expr(b, l, 6);
         exit_section_(b, l, m, B_AND_EXPR, r, true, null);
       }
-      else if (g < 6 && consumeTokenSmart(b, EQ_EQ)) {
-        r = Expr(b, l, 6);
+      else if (g < 7 && consumeTokenSmart(b, EQ_EQ)) {
+        r = Expr(b, l, 7);
         exit_section_(b, l, m, EQ_EXPR, r, true, null);
       }
-      else if (g < 7 && consumeTokenSmart(b, NEQ)) {
-        r = Expr(b, l, 7);
+      else if (g < 8 && consumeTokenSmart(b, NEQ)) {
+        r = Expr(b, l, 8);
         exit_section_(b, l, m, N_EQ_EXPR, r, true, null);
       }
-      else if (g < 8 && XorExpr_0(b, l + 1)) {
-        r = Expr(b, l, 8);
+      else if (g < 9 && XorExpr_0(b, l + 1)) {
+        r = Expr(b, l, 9);
         exit_section_(b, l, m, XOR_EXPR, r, true, null);
       }
-      else if (g < 9 && IsExpr_0(b, l + 1)) {
-        r = Expr(b, l, 9);
+      else if (g < 10 && IsExpr_0(b, l + 1)) {
+        r = Expr(b, l, 10);
         exit_section_(b, l, m, IS_EXPR, r, true, null);
       }
-      else if (g < 10 && consumeTokenSmart(b, LT)) {
-        r = Expr(b, l, 10);
+      else if (g < 11 && consumeTokenSmart(b, LT)) {
+        r = Expr(b, l, 11);
         exit_section_(b, l, m, LT_EXPR, r, true, null);
       }
-      else if (g < 11 && consumeTokenSmart(b, GT)) {
-        r = Expr(b, l, 11);
+      else if (g < 12 && consumeTokenSmart(b, GT)) {
+        r = Expr(b, l, 12);
         exit_section_(b, l, m, GT_EXPR, r, true, null);
       }
-      else if (g < 12 && consumeTokenSmart(b, LT_EQ)) {
-        r = Expr(b, l, 12);
+      else if (g < 13 && consumeTokenSmart(b, LT_EQ)) {
+        r = Expr(b, l, 13);
         exit_section_(b, l, m, LT_EQ_EXPR, r, true, null);
       }
-      else if (g < 13 && consumeTokenSmart(b, GT_EQ)) {
-        r = Expr(b, l, 13);
+      else if (g < 14 && consumeTokenSmart(b, GT_EQ)) {
+        r = Expr(b, l, 14);
         exit_section_(b, l, m, GT_EQ_EXPR, r, true, null);
       }
-      else if (g < 14 && consumeTokenSmart(b, LT_LT)) {
-        r = Expr(b, l, 14);
+      else if (g < 15 && consumeTokenSmart(b, LT_LT)) {
+        r = Expr(b, l, 15);
         exit_section_(b, l, m, B_SHIFT_L_EXPR, r, true, null);
       }
-      else if (g < 15 && consumeTokenSmart(b, GT_GT)) {
-        r = Expr(b, l, 15);
+      else if (g < 16 && consumeTokenSmart(b, GT_GT)) {
+        r = Expr(b, l, 16);
         exit_section_(b, l, m, B_SHIFT_R_EXPR, r, true, null);
       }
-      else if (g < 16 && consumeTokenSmart(b, GT_GT_GT)) {
-        r = Expr(b, l, 16);
+      else if (g < 17 && consumeTokenSmart(b, GT_GT_GT)) {
+        r = Expr(b, l, 17);
         exit_section_(b, l, m, B_SHIFT_RA_EXPR, r, true, null);
       }
-      else if (g < 17 && consumeTokenSmart(b, PLUS)) {
-        r = Expr(b, l, 17);
+      else if (g < 18 && consumeTokenSmart(b, PLUS)) {
+        r = Expr(b, l, 18);
         exit_section_(b, l, m, PLUS_EXPR, r, true, null);
       }
-      else if (g < 18 && consumeTokenSmart(b, MINUS)) {
-        r = Expr(b, l, 18);
+      else if (g < 19 && consumeTokenSmart(b, MINUS)) {
+        r = Expr(b, l, 19);
         exit_section_(b, l, m, MINUS_EXPR, r, true, null);
       }
-      else if (g < 19 && consumeTokenSmart(b, MUL)) {
-        r = Expr(b, l, 19);
+      else if (g < 20 && consumeTokenSmart(b, MUL)) {
+        r = Expr(b, l, 20);
         exit_section_(b, l, m, MUL_EXPR, r, true, null);
       }
-      else if (g < 20 && consumeTokenSmart(b, DIV)) {
-        r = Expr(b, l, 20);
+      else if (g < 21 && consumeTokenSmart(b, DIV)) {
+        r = Expr(b, l, 21);
         exit_section_(b, l, m, DIV_EXPR, r, true, null);
       }
-      else if (g < 21 && consumeTokenSmart(b, PERCENT)) {
-        r = Expr(b, l, 21);
+      else if (g < 22 && consumeTokenSmart(b, PERCENT)) {
+        r = Expr(b, l, 22);
         exit_section_(b, l, m, MOD_EXPR, r, true, null);
       }
-      else if (g < 22 && consumeTokenSmart(b, MUL_MUL)) {
-        r = Expr(b, l, 22);
+      else if (g < 23 && consumeTokenSmart(b, MUL_MUL)) {
+        r = Expr(b, l, 23);
         exit_section_(b, l, m, POW_EXPR, r, true, null);
       }
-      else if (g < 32 && consumeTokenSmart(b, PLUS_PLUS)) {
+      else if (g < 33 && consumeTokenSmart(b, PLUS_PLUS)) {
         r = true;
         exit_section_(b, l, m, POST_INC_EXPR, r, true, null);
       }
-      else if (g < 33 && consumeTokenSmart(b, MINUS_MINUS)) {
+      else if (g < 34 && consumeTokenSmart(b, MINUS_MINUS)) {
         r = true;
         exit_section_(b, l, m, POST_DEC_EXPR, r, true, null);
       }
-      else if (g < 31 && consumeTokenSmart(b, DOT)) {
-        r = Expr(b, l, 31);
+      else if (g < 32 && consumeTokenSmart(b, DOT)) {
+        r = Expr(b, l, 32);
         exit_section_(b, l, m, REF_EXPR, r, true, null);
       }
-      else if (g < 34 && consumeTokenSmart(b, COLON_COLON)) {
-        r = Expr(b, l, 34);
+      else if (g < 35 && consumeTokenSmart(b, COLON_COLON)) {
+        r = Expr(b, l, 35);
         exit_section_(b, l, m, SCOPE_EXPR, r, true, null);
       }
       else {
@@ -2169,6 +2175,17 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
         break;
       }
     }
+    return r;
+  }
+
+  // COLON Expr
+  private static boolean TernarExpr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TernarExpr_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && Expr(b, l + 1, -1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2215,7 +2232,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS);
     p = r;
-    r = p && Expr(b, l, 28);
+    r = p && Expr(b, l, 29);
     exit_section_(b, l, m, PLUS_UN_EXPR, r, p, null);
     return r || p;
   }
@@ -2227,7 +2244,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS);
     p = r;
-    r = p && Expr(b, l, 27);
+    r = p && Expr(b, l, 28);
     exit_section_(b, l, m, MINUS_UN_EXPR, r, p, null);
     return r || p;
   }
@@ -2239,7 +2256,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MUL);
     p = r;
-    r = p && Expr(b, l, 29);
+    r = p && Expr(b, l, 30);
     exit_section_(b, l, m, MUL_UN_EXPR, r, p, null);
     return r || p;
   }
@@ -2251,7 +2268,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, DIV);
     p = r;
-    r = p && Expr(b, l, 30);
+    r = p && Expr(b, l, 31);
     exit_section_(b, l, m, DIV_UN_EXPR, r, p, null);
     return r || p;
   }
@@ -2263,7 +2280,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, PLUS_PLUS);
     p = r;
-    r = p && Expr(b, l, 23);
+    r = p && Expr(b, l, 24);
     exit_section_(b, l, m, PRE_INC_EXPR, r, p, null);
     return r || p;
   }
@@ -2275,7 +2292,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, MINUS_MINUS);
     p = r;
-    r = p && Expr(b, l, 24);
+    r = p && Expr(b, l, 25);
     exit_section_(b, l, m, PRE_DEC_EXPR, r, p, null);
     return r || p;
   }
@@ -2287,7 +2304,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, TILDE);
     p = r;
-    r = p && Expr(b, l, 25);
+    r = p && Expr(b, l, 26);
     exit_section_(b, l, m, BIT_NOT_UN_EXPR, r, p, null);
     return r || p;
   }
@@ -2299,7 +2316,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = NotExpr_0(b, l + 1);
     p = r;
-    r = p && Expr(b, l, 26);
+    r = p && Expr(b, l, 27);
     exit_section_(b, l, m, NOT_EXPR, r, p, null);
     return r || p;
   }

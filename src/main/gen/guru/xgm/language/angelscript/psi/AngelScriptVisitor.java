@@ -303,6 +303,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTernarExpr(@NotNull AngelScriptTernarExpr o) {
+    visitExpr(o);
+  }
+
   public void visitType(@NotNull AngelScriptType o) {
     visitPsiElement(o);
   }
