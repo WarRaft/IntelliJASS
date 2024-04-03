@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://xgm.guru/files/100/316767/JASS.png" alt="JASS">
+<img src="https://xgm.guru/files/2308/316767/JASS.png" alt="JASS">
 </p>
 
 [Install](https://plugins.jetbrains.com/plugin/23120-jass)
@@ -8,12 +8,14 @@ Just Another Scripting Syntax for [Warcraft III](https://en.wikipedia.org/wiki/W
 
 # Support language
 
-| Language    | File extension |
-|-------------|----------------|
-| JASS        | `.j`           |
-| VJASS       | `.vj`          |
-| ZINC        | `.zn`          |
-| AngelScript | `.ass`         |
+| Language             | File extension |
+|----------------------|----------------|
+| JASS                 | `.j`           |
+| VJASS                | `.vj`          |
+| ZINC                 | `.zn`          |
+| AngelScript          | `.ass`         |
+| Warcraft Text String | `.wts`         |
+| LNI                  | `.lni`         |
 
 # Leave a comment
 
