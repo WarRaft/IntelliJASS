@@ -112,9 +112,8 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
         }
 
         if (Arrays.asList(
-                STRING_BLOCK,
-                STRING_DOUBLE,
-                STRING_SINGLE
+                STRING_ONE,
+                STRING_THREE
         ).contains(tokenType)) {
             return STRING_KEYS;
         }

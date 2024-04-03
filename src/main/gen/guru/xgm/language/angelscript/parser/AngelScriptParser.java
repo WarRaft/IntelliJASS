@@ -1533,9 +1533,10 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (STRING_BLOCK|STRING_SINGLE|STRING_DOUBLE)+
+  // (STRING_ONE|STRING_THREE)+
   public static boolean Str(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Str")) return false;
+    if (!nextTokenIs(b, "<str>", STRING_ONE, STRING_THREE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, STR, "<str>");
     r = Str_0(b, l + 1);
@@ -1548,13 +1549,12 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // STRING_BLOCK|STRING_SINGLE|STRING_DOUBLE
+  // STRING_ONE|STRING_THREE
   private static boolean Str_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Str_0")) return false;
     boolean r;
-    r = consumeToken(b, STRING_BLOCK);
-    if (!r) r = consumeToken(b, STRING_SINGLE);
-    if (!r) r = consumeToken(b, STRING_DOUBLE);
+    r = consumeToken(b, STRING_ONE);
+    if (!r) r = consumeToken(b, STRING_THREE);
     return r;
   }
 

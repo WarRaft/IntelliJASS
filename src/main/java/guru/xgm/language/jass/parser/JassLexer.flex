@@ -23,19 +23,12 @@ import static guru.xgm.language.jass.psi.JassTypes.*;
 %type IElementType
 %unicode
 
-WHITE_SPACE=[ \t\n\x0B\f\r]+
-SINGLE_LINE_COMMENT="//"[^\n]*
-REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
-HEXVAL=(0x|\$)[0-9a-zA-Z]+
-INTVAL=[0-9]+
-STRVAL=\"([^\"\\]|\\.)*\"
-ID=[A-Za-z_][_0-9A-Za-z]*
-
 %state RAWVAL_STATE
+%state STRVAL_STATE
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}               { return WHITE_SPACE; }
+  [ \t\n\x0B\f\r]+            { return WHITE_SPACE; }
 
   "and"                       { return AND; }
   "array"                     { return ARRAY; }
@@ -90,22 +83,28 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   ")"                         { return RPAREN; }
   "["                         { return LBRACK; }
   "]"                         { return RBRACK; }
-  "'"                         {yybegin(RAWVAL_STATE);}
+  '                           { yybegin(RAWVAL_STATE); }
+  \"                          { yybegin(STRVAL_STATE); }
 
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
-  {REALVAL}                   { return REALVAL; }
-  {HEXVAL}                    { return HEXVAL; }
-  {INTVAL}                    { return INTVAL; }
-  {STRVAL}                    { return STRVAL; }
-  {ID}                        { return ID; }
-
+  "//"[^\n]*                  { return SINGLE_LINE_COMMENT; }
+  [0-9]+\.[0-9]*|\.[0-9]+     { return REALVAL; }
+  (0x|\$)[0-9a-zA-Z]+         { return HEXVAL; }
+  [0-9]+                      { return INTVAL; }
+  [A-Za-z_][_0-9A-Za-z]*      { return ID; }
 }
 
 <RAWVAL_STATE> {
-    "'"       {yybegin(YYINITIAL); return RAWVAL;}
+    '         {yybegin(YYINITIAL); return RAWVAL;}
     [^]       { /*ignore*/ }
     <<EOF>>   {yybegin(YYINITIAL); return RAWVAL;}
 }
 
+<STRVAL_STATE> {
+    \\\\      { /*ignore*/ }
+    \\\"      { /*ignore*/ }
+    \"        {yybegin(YYINITIAL); return STRVAL;}
+    [^]       { /*ignore*/ }
+    <<EOF>>   {yybegin(YYINITIAL); return STRVAL;}
+}
 
 [^] { return BAD_CHARACTER; }

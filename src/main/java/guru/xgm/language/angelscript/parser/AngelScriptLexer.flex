@@ -34,6 +34,8 @@ int peek() {
 %unicode
 
 %state RAWVAL_STATE
+%state STRING_ONE_STATE
+%state STRING_THREE_STATE
 
 %%
 <YYINITIAL> {
@@ -154,22 +156,39 @@ int peek() {
    "["                         { return LBRACK; }
    "]"                         { return RBRACK; }
 
-   "'"                         {yybegin(RAWVAL_STATE);}
+   \"\"\"                      { yybegin(STRING_THREE_STATE); }
+   \"                          { yybegin(STRING_ONE_STATE); }
+   '                           { yybegin(RAWVAL_STATE); }
 
   "//"[^\n]*                       { return SINGLE_LINE_COMMENT; }
   "/*" !([^]* "*/" [^]*) ("*/")?   { return MULTI_LINE_COMMENT; }
   ([0-9]+\.[0-9]*|\.[0-9]+)([fd])? { return REALVAL; }
   (0x|\$)[0-9a-fA-F]+              { return HEXVAL; }
-  [0-9]+                      { return INTVAL; }
-  \"([^\"\\]|\\.)*\"          { return STRING_DOUBLE; }
-  \\"\\"\\"(.*?)\\"\\"\\"     { return STRING_BLOCK; }
-  [A-Za-z_][_0-9A-Za-z]*      { return ID; }
+  [0-9]+                           { return INTVAL; }
+
+  [A-Za-z_][_0-9A-Za-z]*           { return ID; }
 }
 
 <RAWVAL_STATE> {
-    "'"       {yybegin(YYINITIAL); return RAWVAL;}
+    '         {yybegin(YYINITIAL); return RAWVAL;}
     [^]       { /*ignore*/ }
     <<EOF>>   {yybegin(YYINITIAL); return RAWVAL;}
+}
+
+<STRING_THREE_STATE> {
+    \\\\      { /*ignore*/ }
+    \\\"      { /*ignore*/ }
+    \"\"\"    {yybegin(YYINITIAL); return STRING_THREE;}
+    [^]       { /*ignore*/ }
+    <<EOF>>   {yybegin(YYINITIAL); return STRING_THREE;}
+}
+
+<STRING_ONE_STATE> {
+    \\\\      { /*ignore*/ }
+    \\\"      { /*ignore*/ }
+    \"        {yybegin(YYINITIAL); return STRING_ONE;}
+    [^]       { /*ignore*/ }
+    <<EOF>>   {yybegin(YYINITIAL); return STRING_ONE;}
 }
 
 [^] { return BAD_CHARACTER; }

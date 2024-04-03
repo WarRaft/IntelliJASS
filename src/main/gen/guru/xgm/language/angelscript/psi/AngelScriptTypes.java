@@ -199,9 +199,8 @@ public interface AngelScriptTypes {
   IElementType SINGLE_LINE_COMMENT = new AngelScriptIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new AngelScriptIToken("static");
   IElementType STRING = new AngelScriptIToken("string");
-  IElementType STRING_BLOCK = new AngelScriptIToken("STRING_BLOCK");
-  IElementType STRING_DOUBLE = new AngelScriptIToken("STRING_DOUBLE");
-  IElementType STRING_SINGLE = new AngelScriptIToken("STRING_SINGLE");
+  IElementType STRING_ONE = new AngelScriptIToken("STRING_ONE");
+  IElementType STRING_THREE = new AngelScriptIToken("STRING_THREE");
   IElementType SWITCH = new AngelScriptIToken("switch");
   IElementType TILDE = new AngelScriptIToken("~");
   IElementType TRUE = new AngelScriptIToken("true");
