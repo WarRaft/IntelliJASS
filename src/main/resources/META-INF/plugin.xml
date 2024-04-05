@@ -3,8 +3,9 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.22</version>
-    <idea-version since-build="2023.3"/>
+    <version>2.0.25</version>
+    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__idea-version -->
+    <idea-version since-build="2024.1" />
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -14,7 +15,8 @@
         <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider"/>
 
         <!-- file nesting -->
-        <projectViewNestingRulesProvider implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
+        <projectViewNestingRulesProvider
+                implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
 
         <!-- === JASS === -->
         <fileType name="JASS"

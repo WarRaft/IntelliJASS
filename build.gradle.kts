@@ -1,7 +1,7 @@
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.17.2"
+    id("org.jetbrains.intellij") version "1.17.3"
 }
 
 group = "org.intellij.sdk"
@@ -33,7 +33,7 @@ java {
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.3.4")
+    version.set("2024.1")
     //type.set("IU")
     //plugins.set(listOf("com.tang:1.4.11-IDEA231"))
 }
