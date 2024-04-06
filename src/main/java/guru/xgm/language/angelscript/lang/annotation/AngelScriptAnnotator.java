@@ -27,15 +27,16 @@ final class AngelScriptAnnotator implements Annotator {
         if (element instanceof AngelScriptStr str) {
             final var text = str.getText();
 
-            int s = 1;
-            int e = text.length() - 2;
-            if (e <= s) return;
+            int s = 0;
+            int e = text.length();
+            if (e == s) return;
             while (s < e) {
                 s = text.indexOf("\\", s + 1);
                 if (s < 0) break;
                 final var c = text.substring(s + 1, s + 2);
 
                 final var tr = new TextRange(textRange.getStartOffset() + s, textRange.getStartOffset() + s + 2);
+
                 switch (c) {
                     case "0":
                     case "\\":

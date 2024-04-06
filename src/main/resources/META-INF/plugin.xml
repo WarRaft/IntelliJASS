@@ -18,6 +18,8 @@
         <projectViewNestingRulesProvider
                 implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
 
+        <typedHandler implementation="guru.xgm.intellij.codeInsight.IntellijTypedHandlerDelegate"/>
+
         <!-- TODO:JASS -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
@@ -173,6 +175,13 @@
                 instance="guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingOptionsProvider"/>
         <applicationService
                 serviceImplementation="guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings"/>
+
+        <!-- completion -->
+        <completion.contributor language="AngelScript"
+                                implementationClass="guru.xgm.language.angelscript.codeInsight.completion.AngelScriptCompletionContributor"/>
+        <completion.confidence language="AngelScript"
+                               implementationClass="guru.xgm.language.angelscript.codeInsight.completion.AngelScriptCompletionConfidence"
+                               order="first"/>
 
         <!-- live template -->
         <defaultLiveTemplates file="/liveTemplates/AngelScript.xml"/>

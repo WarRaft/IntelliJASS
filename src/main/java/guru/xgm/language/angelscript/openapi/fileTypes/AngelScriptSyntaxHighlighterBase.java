@@ -35,6 +35,10 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
     public static final TextAttributesKey STRING_KEY = createTextAttributesKey("ANGELSCRIPT_STRING", DefaultLanguageHighlighterColors.STRING);
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING_KEY};
 
+    public static final TextAttributesKey BRACES_KEY = createTextAttributesKey("ANGELSCRIPT_BRACES", DefaultLanguageHighlighterColors.BRACES);
+    private static final TextAttributesKey[] BRACES_KEYS = new TextAttributesKey[]{BRACES_KEY};
+
+
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
@@ -116,6 +120,13 @@ public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
                 STRING_THREE
         ).contains(tokenType)) {
             return STRING_KEYS;
+        }
+
+        if (Arrays.asList(
+                LBRACE,
+                RBRACE
+        ).contains(tokenType)) {
+            return BRACES_KEYS;
         }
 
         if (Objects.equals(TYPE, tokenType)) {
