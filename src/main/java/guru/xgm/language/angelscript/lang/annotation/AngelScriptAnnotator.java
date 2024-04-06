@@ -1,6 +1,5 @@
 package guru.xgm.language.angelscript.lang.annotation;
 
-import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
@@ -17,6 +16,7 @@ final class AngelScriptAnnotator implements Annotator {
         final var textRange = element.getTextRange();
 
         if (element instanceof AngelScriptType) {
+            System.out.print("catcha!!");
             holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(textRange)
@@ -48,14 +48,13 @@ final class AngelScriptAnnotator implements Annotator {
                         holder
                                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                                 .range(tr)
-                                .textAttributes(AngelScriptSyntaxHighlighterBase.KEYWORD_KEY).create();
+                                .textAttributes(AngelScriptSyntaxHighlighterBase.VALID_STRING_ESCAPE_KEY).create();
                         s += 1;
                         break;
                     default:
                         holder.newAnnotation(HighlightSeverity.ERROR, "Invalid escape sequence")
                                 .range(tr)
-                                .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                                .create();
+                                .textAttributes(AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY).create();
                 }
 
             }

@@ -120,8 +120,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
                 constant native GetCameraBoundMinX takes nothing returns real
                 native CameraSetTargetNoiseEx takes real mag, real velocity, boolean vertOnly returns nothing
                 native SetDestructablePositionLocation takes destructable whichDestructable, location whichLocation returns nothing
-                               
-                                
+               
                 globals
                 constant boolean TRUE = true
                 constant integer JASS_MAX_ARRAY_SIZE = 262144

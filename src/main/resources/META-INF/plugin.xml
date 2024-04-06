@@ -13,6 +13,7 @@
 
         <!-- colors -->
         <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/Darcula.xml"/>
 
         <!-- file nesting -->
         <projectViewNestingRulesProvider
@@ -37,7 +38,6 @@
 
         <!-- color -->
         <colorSettingsPage implementation="guru.xgm.language.jass.openapi.options.colors.JassColorSettingsPage"/>
-        <additionalTextAttributes scheme="Darcula" file="colorSchemes/JASSDarcula.xml"/>
 
         <!-- annotator -->
         <annotator language="JASS" implementationClass="guru.xgm.language.jass.lang.annotation.JassAnnotator"/>
@@ -153,6 +153,10 @@
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
                                        implementationClass="guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterFactory"/>
+
+        <!-- color -->
+        <colorSettingsPage
+                implementation="guru.xgm.language.angelscript.openapi.options.colors.AngelScriptColorSettingsPage"/>
 
         <!-- formatter -->
         <lang.formatter language="AngelScript"

@@ -24,6 +24,7 @@
         BOOL='bool'
         BREAK='break'
         CASE='case'
+        CAST='cast'
         CODE='code'
         CONST='const'
         CLASS='class'

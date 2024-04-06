@@ -48,6 +48,7 @@ int peek() {
    "bool"                      { return BOOL; }
    "break"                     { return BREAK; }
    "case"                      { return CASE; }
+   "cast"                      { return CAST; }
    "code"                      { return CODE; }
    "const"                     { return CONST; }
    "class"                     { return CLASS; }

@@ -13,4 +13,10 @@
             <option name="FOREGROUND" value="008000"/>
         </value>
     </option>
+    <!-- ANGELSCRIPT -->
+    <option name="ANGELSCRIPT_TYPE_NAME">
+        <value>
+            <option name="FOREGROUND" value="008000"/>
+        </value>
+    </option>
 </list>
