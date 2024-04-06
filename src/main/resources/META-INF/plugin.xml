@@ -5,7 +5,7 @@
     <name>JASS</name>
     <version>2.0.25</version>
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__idea-version -->
-    <idea-version since-build="2024.1" />
+    <idea-version since-build="2024.1"/>
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -18,7 +18,7 @@
         <projectViewNestingRulesProvider
                 implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
 
-        <!-- === JASS === -->
+        <!-- TODO:JASS -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
                   fieldName="INSTANCE"
@@ -52,6 +52,12 @@
         <langCodeStyleSettingsProvider
                 implementation="guru.xgm.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
+        <!-- commenter -->
+        <lang.commenter
+                language="JASS"
+                implementationClass="guru.xgm.language.jass.lang.JassCommenter"/>
+
+
         <!-- sdk -->
         <sdkType implementation="guru.xgm.language.jass.openapi.projectRoots.JassSdkType"/>
 
@@ -78,7 +84,7 @@
                          implementationClass="guru.xgm.language.jass.codeInspection.number.JassRawcodeUnsafeInspection"
         />
 
-        <!-- === ZINC === -->
+        <!-- TODO:ZINC-->
         <fileType name="ZINC"
                   implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincFileType"
                   fieldName="INSTANCE"
@@ -102,7 +108,13 @@
         <!-- annotator -->
         <annotator language="ZINC" implementationClass="guru.xgm.language.zinc.lang.annotation.ZincAnnotator"/>
 
-        <!-- === VJASS === -->
+        <!-- commenter -->
+        <lang.commenter
+                language="ZINC"
+                implementationClass="guru.xgm.language.zinc.lang.ZincCommenter"/>
+
+
+        <!-- TODO:VJASS -->
         <fileType name="VJASS"
                   implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassFileType"
                   fieldName="INSTANCE"
@@ -118,7 +130,13 @@
         <lang.syntaxHighlighterFactory language="VJASS"
                                        implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
 
-        <!-- === AngelScript === -->
+        <!-- commenter -->
+        <lang.commenter
+                language="VJASS"
+                implementationClass="guru.xgm.language.vjass.lang.VjassCommenter"/>
+
+
+        <!-- TODO:AngelScript -->
         <fileType name="AngelScript"
                   implementationClass="guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType"
                   fieldName="INSTANCE"
@@ -167,7 +185,7 @@
                 language="AngelScript"
                 implementationClass="guru.xgm.language.angelscript.lang.AngelScriptCommenter"/>
 
-        <!-- === Lni === -->
+        <!-- TODO:LNI -->
         <fileType name="LNI"
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="INSTANCE"
@@ -197,7 +215,13 @@
         <langCodeStyleSettingsProvider
                 implementation="guru.xgm.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"/>
 
-        <!-- === WTS === -->
+        <!-- commenter -->
+        <lang.commenter
+                language="LNI"
+                implementationClass="guru.xgm.language.lni.lang.LniCommenter"/>
+
+
+        <!-- TODO:WTS -->
         <fileType name="WTS"
                   implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsFileType"
                   fieldName="INSTANCE"
@@ -215,6 +239,12 @@
 
         <!-- annotator -->
         <annotator language="WTS" implementationClass="guru.xgm.language.wts.lang.annotation.WtsAnnotator"/>
+
+        <!-- commenter -->
+        <lang.commenter
+                language="WTS"
+                implementationClass="guru.xgm.language.wts.lang.WtsCommenter"/>
+
 
     </extensions>
 

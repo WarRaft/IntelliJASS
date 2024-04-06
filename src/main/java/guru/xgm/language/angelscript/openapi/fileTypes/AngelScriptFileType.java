@@ -24,7 +24,7 @@ public final class AngelScriptFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "AngelScript language file";
+        return "AngelScript";
     }
 
     @NotNull
