@@ -41,7 +41,7 @@ public class LniSyntaxHighlighterBase extends SyntaxHighlighterBase {
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
         if (Objects.equals(HEADVAL, tokenType)) return ID_KEYS;
         if (Objects.equals(ID, tokenType)) return KEYWORD_KEYS;
-        if (Objects.equals(SINGLE_LINE_COMMENT, tokenType)) return LINE_COMMENT_KEYS;
+        if (Objects.equals(LINE_COMMENT, tokenType)) return LINE_COMMENT_KEYS;
 
         if (Arrays.asList(
                 INTVAL,

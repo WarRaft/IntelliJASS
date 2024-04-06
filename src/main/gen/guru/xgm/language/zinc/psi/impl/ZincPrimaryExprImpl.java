@@ -59,6 +59,18 @@ public class ZincPrimaryExprImpl extends ZincExprImpl implements ZincPrimaryExpr
 
   @Override
   @Nullable
+  public PsiElement getRawval() {
+    return findChildByType(RAWVAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRealval() {
+    return findChildByType(REALVAL);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getStrval() {
     return findChildByType(STRVAL);
   }

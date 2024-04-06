@@ -74,6 +74,7 @@ public interface VjassTypes {
 
   IElementType AND = new VjassIToken("and");
   IElementType ARRAY = new VjassIToken("array");
+  IElementType BLOCK_COMMENT = new VjassIToken("BLOCK_COMMENT");
   IElementType BOOLEAN = new VjassIToken("boolean");
   IElementType CALL = new VjassIToken("call");
   IElementType CODE = new VjassIToken("code");
@@ -113,6 +114,7 @@ public interface VjassTypes {
   IElementType KEY = new VjassIToken("KEY");
   IElementType LBRACK = new VjassIToken("[");
   IElementType LIBRARY = new VjassIToken("library");
+  IElementType LINE_COMMENT = new VjassIToken("LINE_COMMENT");
   IElementType LOCAL = new VjassIToken("local");
   IElementType LOOP = new VjassIToken("loop");
   IElementType LPAREN = new VjassIToken("(");
@@ -122,7 +124,6 @@ public interface VjassTypes {
   IElementType MINUS = new VjassIToken("-");
   IElementType MODULE = new VjassIToken("module");
   IElementType MUL = new VjassIToken("*");
-  IElementType MULTI_LINE_COMMENT = new VjassIToken("MULTI_LINE_COMMENT");
   IElementType NATIVE = new VjassIToken("native");
   IElementType NEEDS = new VjassIToken("needs");
   IElementType NEQ = new VjassIToken("!=");
@@ -143,7 +144,6 @@ public interface VjassTypes {
   IElementType RETURNS = new VjassIToken("returns");
   IElementType RPAREN = new VjassIToken(")");
   IElementType SET = new VjassIToken("set");
-  IElementType SINGLE_LINE_COMMENT = new VjassIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new VjassIToken("static");
   IElementType STRING = new VjassIToken("string");
   IElementType STRUCT = new VjassIToken("struct");

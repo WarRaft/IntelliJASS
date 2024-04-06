@@ -23,7 +23,7 @@ import static guru.xgm.language.lni.psi.LniTypes.*;
 %unicode
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-SINGLE_LINE_COMMENT=--[^\n]*
+LINE_COMMENT=--[^\n]*
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -46,7 +46,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "-"                         { return MINUS; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {LINE_COMMENT}       { return LINE_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }

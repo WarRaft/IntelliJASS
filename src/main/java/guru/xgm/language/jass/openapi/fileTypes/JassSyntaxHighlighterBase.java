@@ -97,7 +97,7 @@ public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
             return TYPE_NAME_KEYS;
         }
 
-        if (tokenType == SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
+        if (tokenType == LINE_COMMENT) return LINE_COMMENT_KEYS;
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
         if (tokenType == COMMA) return COMMA_KEYS;
         if (tokenType == STRVAL) return STRING_KEYS;

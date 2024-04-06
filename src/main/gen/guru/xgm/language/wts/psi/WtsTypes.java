@@ -13,7 +13,7 @@ public interface WtsTypes {
   IElementType ITEM = new WtsIElement("ITEM");
 
   IElementType ID = new WtsIToken("ID");
-  IElementType SINGLE_LINE_COMMENT = new WtsIToken("SINGLE_LINE_COMMENT");
+  IElementType LINE_COMMENT = new WtsIToken("LINE_COMMENT");
   IElementType STRING = new WtsIToken("STRING");
   IElementType VALUE = new WtsIToken("VALUE");
 

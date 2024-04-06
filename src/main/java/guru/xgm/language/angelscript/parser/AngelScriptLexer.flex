@@ -160,8 +160,8 @@ int peek() {
    \"                          { yybegin(STRING_ONE_STATE); }
    '                           { yybegin(RAWVAL_STATE); }
 
-  "//"[^\n]*                       { return SINGLE_LINE_COMMENT; }
-  "/*" !([^]* "*/" [^]*) ("*/")?   { return MULTI_LINE_COMMENT; }
+  "//"[^\n]*                       { return LINE_COMMENT; }
+  "/*" !([^]* "*/" [^]*) ("*/")?   { return BLOCK_COMMENT; }
   ([0-9]+\.[0-9]*|\.[0-9]+)([fd])? { return REALVAL; }
   (0x|\$)[0-9a-fA-F]+              { return HEXVAL; }
   [0-9]+                           { return INTVAL; }

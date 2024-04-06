@@ -608,7 +608,7 @@ public class _LniLexer implements FlexLexer {
           // fall through
           case 32: break;
           case 15:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 33: break;

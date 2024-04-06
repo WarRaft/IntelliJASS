@@ -73,6 +73,7 @@ public interface ZincTypes {
   IElementType WHILE_STMT = new ZincIElement("WHILE_STMT");
 
   IElementType AND_AND = new ZincIToken("&&");
+  IElementType BLOCK_COMMENT = new ZincIToken("BLOCK_COMMENT");
   IElementType BOOLEAN = new ZincIToken("boolean");
   IElementType BREAK = new ZincIToken("break");
   IElementType CODE = new ZincIToken("code");
@@ -101,6 +102,7 @@ public interface ZincTypes {
   IElementType LBRACE = new ZincIToken("{");
   IElementType LBRACK = new ZincIToken("[");
   IElementType LIBRARY = new ZincIToken("library");
+  IElementType LINE_COMMENT = new ZincIToken("LINE_COMMENT");
   IElementType LPAREN = new ZincIToken("(");
   IElementType LT = new ZincIToken("<");
   IElementType LT_EQ = new ZincIToken("<=");
@@ -109,7 +111,6 @@ public interface ZincTypes {
   IElementType MINUS_EQ = new ZincIToken("-=");
   IElementType MINUS_GT = new ZincIToken("->");
   IElementType MUL = new ZincIToken("*");
-  IElementType MULTI_LINE_COMMENT = new ZincIToken("MULTI_LINE_COMMENT");
   IElementType MUL_EQ = new ZincIToken("*=");
   IElementType NEQ = new ZincIToken("!=");
   IElementType NOT = new ZincIToken("!");
@@ -130,7 +131,6 @@ public interface ZincTypes {
   IElementType RETURN = new ZincIToken("return");
   IElementType RPAREN = new ZincIToken(")");
   IElementType SEMI = new ZincIToken(";");
-  IElementType SINGLE_LINE_COMMENT = new ZincIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new ZincIToken("static");
   IElementType STRING = new ZincIToken("string");
   IElementType STRUCT = new ZincIToken("struct");

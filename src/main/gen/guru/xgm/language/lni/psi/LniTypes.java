@@ -26,10 +26,10 @@ public interface LniTypes {
   IElementType ID = new LniIToken("ID");
   IElementType INTVAL = new LniIToken("INTVAL");
   IElementType LBRACE = new LniIToken("{");
+  IElementType LINE_COMMENT = new LniIToken("LINE_COMMENT");
   IElementType MINUS = new LniIToken("-");
   IElementType RBRACE = new LniIToken("}");
   IElementType REALVAL = new LniIToken("REALVAL");
-  IElementType SINGLE_LINE_COMMENT = new LniIToken("SINGLE_LINE_COMMENT");
   IElementType STRVAL = new LniIToken("STRVAL");
   IElementType STRVAL_MULT = new LniIToken("STRVAL_MULT");
 

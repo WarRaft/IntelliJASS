@@ -1047,12 +1047,12 @@ int peek() {
           // fall through
           case 177: break;
           case 49:
-            { return MULTI_LINE_COMMENT;
+            { return BLOCK_COMMENT;
             }
           // fall through
           case 178: break;
           case 50:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 179: break;

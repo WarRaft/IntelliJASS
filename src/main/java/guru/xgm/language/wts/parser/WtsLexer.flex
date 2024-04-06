@@ -23,7 +23,7 @@ import static guru.xgm.language.wts.psi.WtsTypes.*;
 %unicode
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-SINGLE_LINE_COMMENT="//"[^\n]*
+LINE_COMMENT="//"[^\n]*
 ID=[0-9]+
 VALUE=\{[^}]*}
 
@@ -33,7 +33,7 @@ VALUE=\{[^}]*}
 
   "STRING"                    { return STRING; }
 
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {LINE_COMMENT}       { return LINE_COMMENT; }
   {ID}                        { return ID; }
   {VALUE}                     { return VALUE; }
 }

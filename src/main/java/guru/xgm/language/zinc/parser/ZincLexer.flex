@@ -29,7 +29,7 @@ EOL=\R
 WHITE_SPACE=\s+
 
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-SINGLE_LINE_COMMENT="//"[^\n]*
+LINE_COMMENT="//"[^\n]*
 REALVAL=[0-9]+\.[0-9]*|\.[0-9]+
 HEXVAL=(0x|\$)[0-9a-fA-F]+
 INTVAL=[0-9]+
@@ -100,7 +100,7 @@ ID=[A-Za-z_][_0-9A-Za-z]*
   "]"                         { return RBRACK; }
 
   {WHITE_SPACE}               { return WHITE_SPACE; }
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {LINE_COMMENT}       { return LINE_COMMENT; }
   {REALVAL}                   { return REALVAL; }
   {HEXVAL}                    { return HEXVAL; }
   {INTVAL}                    { return INTVAL; }
@@ -111,14 +111,14 @@ ID=[A-Za-z_][_0-9A-Za-z]*
    "/*"  {
           yybegin(COMMENT);
           commentDepth = 1;
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
         }
 }
 
 <COMMENT> {
     "/*"  {
             commentDepth++;
-            return MULTI_LINE_COMMENT;
+            return BLOCK_COMMENT;
         }
 
     "*/"    {
@@ -126,14 +126,14 @@ ID=[A-Za-z_][_0-9A-Za-z]*
           if(commentDepth == 0) {
               yybegin(YYINITIAL);
           }
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
       }
 
     [\s\S] {/*ignore*/}
 
     <<EOF>> {
         yybegin(YYINITIAL);
-        return MULTI_LINE_COMMENT;
+        return BLOCK_COMMENT;
     }
 }
 

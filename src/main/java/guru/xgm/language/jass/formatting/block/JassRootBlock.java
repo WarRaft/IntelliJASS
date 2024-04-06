@@ -40,9 +40,9 @@ public class JassRootBlock extends JassBlock {
     protected SpacingBuilder getSpacingBuilder() {
         return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
                 .between(TYPE_DEF, TYPE_DEF).spacing(0, 0, 1, true, 2)
-                .between(TYPE_DEF, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
+                .between(TYPE_DEF, LINE_COMMENT).spacing(1, 1, 0, true, 100)
                 .between(NATIV, NATIV).spacing(0, 0, 1, true, 2)
-                .between(NATIV, SINGLE_LINE_COMMENT).spacing(1, 1, 0, true, 100)
+                .between(NATIV, LINE_COMMENT).spacing(1, 1, 0, true, 100)
                 ;
     }
 }

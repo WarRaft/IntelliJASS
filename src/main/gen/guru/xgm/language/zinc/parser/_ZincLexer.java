@@ -682,7 +682,7 @@ public class _ZincLexer implements FlexLexer {
             switch (zzLexicalState) {
             case COMMENT: {
               yybegin(YYINITIAL);
-        return MULTI_LINE_COMMENT;
+        return BLOCK_COMMENT;
             }  // fall though
             case 197: break;
             default:
@@ -854,12 +854,12 @@ public class _ZincLexer implements FlexLexer {
           case 33:
             { yybegin(COMMENT);
           commentDepth = 1;
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
             }
           // fall through
           case 103: break;
           case 34:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 104: break;
@@ -903,13 +903,13 @@ public class _ZincLexer implements FlexLexer {
           if(commentDepth == 0) {
               yybegin(YYINITIAL);
           }
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
             }
           // fall through
           case 112: break;
           case 43:
             { commentDepth++;
-            return MULTI_LINE_COMMENT;
+            return BLOCK_COMMENT;
             }
           // fall through
           case 113: break;

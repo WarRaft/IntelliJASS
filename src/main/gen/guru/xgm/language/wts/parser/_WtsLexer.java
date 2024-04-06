@@ -528,7 +528,7 @@ public class _WtsLexer implements FlexLexer {
           // fall through
           case 9: break;
           case 4:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 10: break;

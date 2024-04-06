@@ -799,7 +799,7 @@ public class _VjassLexer implements FlexLexer {
             switch (zzLexicalState) {
             case COMMENT: {
               yybegin(YYINITIAL);
-        return MULTI_LINE_COMMENT;
+        return BLOCK_COMMENT;
             }  // fall though
             case 308: break;
             default:
@@ -926,12 +926,12 @@ public class _VjassLexer implements FlexLexer {
           case 24:
             { yybegin(COMMENT);
           commentDepth = 1;
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
             }
           // fall through
           case 110: break;
           case 25:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 111: break;
@@ -965,13 +965,13 @@ public class _VjassLexer implements FlexLexer {
           if(commentDepth == 0) {
               yybegin(YYINITIAL);
           }
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
             }
           // fall through
           case 117: break;
           case 32:
             { commentDepth++;
-            return MULTI_LINE_COMMENT;
+            return BLOCK_COMMENT;
             }
           // fall through
           case 118: break;

@@ -23,6 +23,12 @@ public interface ZincPrimaryExpr extends ZincExpr {
   PsiElement getIntval();
 
   @Nullable
+  PsiElement getRawval();
+
+  @Nullable
+  PsiElement getRealval();
+
+  @Nullable
   PsiElement getStrval();
 
 }

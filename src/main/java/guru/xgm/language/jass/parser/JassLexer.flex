@@ -86,7 +86,7 @@ import static guru.xgm.language.jass.psi.JassTypes.*;
   '                           { yybegin(RAWVAL_STATE); }
   \"                          { yybegin(STRVAL_STATE); }
 
-  "//"[^\n]*                  { return SINGLE_LINE_COMMENT; }
+  "//"[^\n]*                  { return LINE_COMMENT; }
   [0-9]+\.[0-9]*|\.[0-9]+     { return REALVAL; }
   (0x|\$)[0-9a-zA-Z]+         { return HEXVAL; }
   [0-9]+                      { return INTVAL; }

@@ -65,6 +65,18 @@ public class VjassPrimaryExprImpl extends VjassExprImpl implements VjassPrimaryE
 
   @Override
   @Nullable
+  public PsiElement getRawval() {
+    return findChildByType(RAWVAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRealval() {
+    return findChildByType(REALVAL);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getStrval() {
     return findChildByType(STRVAL);
   }

@@ -100,6 +100,7 @@ public interface AngelScriptTypes {
   IElementType ARRAY = new AngelScriptIToken("array");
   IElementType AT = new AngelScriptIToken("@");
   IElementType AUTO = new AngelScriptIToken("auto");
+  IElementType BLOCK_COMMENT = new AngelScriptIToken("BLOCK_COMMENT");
   IElementType BOOL = new AngelScriptIToken("bool");
   IElementType BREAK = new AngelScriptIToken("break");
   IElementType CAR = new AngelScriptIToken("^");
@@ -155,6 +156,7 @@ public interface AngelScriptTypes {
   IElementType IS = new AngelScriptIToken("is");
   IElementType LBRACE = new AngelScriptIToken("{");
   IElementType LBRACK = new AngelScriptIToken("[");
+  IElementType LINE_COMMENT = new AngelScriptIToken("LINE_COMMENT");
   IElementType LPAREN = new AngelScriptIToken("(");
   IElementType LT = new AngelScriptIToken("<");
   IElementType LT_EQ = new AngelScriptIToken("<=");
@@ -165,7 +167,6 @@ public interface AngelScriptTypes {
   IElementType MINUS_GT = new AngelScriptIToken("->");
   IElementType MINUS_MINUS = new AngelScriptIToken("--");
   IElementType MUL = new AngelScriptIToken("*");
-  IElementType MULTI_LINE_COMMENT = new AngelScriptIToken("MULTI_LINE_COMMENT");
   IElementType MUL_EQ = new AngelScriptIToken("*=");
   IElementType MUL_MUL = new AngelScriptIToken("**");
   IElementType MUL_MUL_EQ = new AngelScriptIToken("**=");
@@ -196,7 +197,6 @@ public interface AngelScriptTypes {
   IElementType SEMI = new AngelScriptIToken(";");
   IElementType SET = new AngelScriptIToken("set");
   IElementType SHARED = new AngelScriptIToken("shared");
-  IElementType SINGLE_LINE_COMMENT = new AngelScriptIToken("SINGLE_LINE_COMMENT");
   IElementType STATIC = new AngelScriptIToken("static");
   IElementType STRING = new AngelScriptIToken("string");
   IElementType STRING_ONE = new AngelScriptIToken("STRING_ONE");

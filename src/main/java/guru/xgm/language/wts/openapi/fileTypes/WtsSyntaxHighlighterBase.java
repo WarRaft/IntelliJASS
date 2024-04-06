@@ -39,7 +39,7 @@ public class WtsSyntaxHighlighterBase extends SyntaxHighlighterBase {
         if (tokenType == ID) return NUMBER_KEYS;
         if (tokenType == VALUE) return STRING_KEYS;
 
-        if (tokenType == SINGLE_LINE_COMMENT) return LINE_COMMENT_KEYS;
+        if (tokenType == LINE_COMMENT) return LINE_COMMENT_KEYS;
 
         if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
 

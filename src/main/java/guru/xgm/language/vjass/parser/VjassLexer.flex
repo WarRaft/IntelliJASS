@@ -31,7 +31,7 @@ INTVAL=[0-9]+
 RAWVAL='[^']*'
 STRVAL=\"([^\"\\]|\\.)*\"
 ID=[A-Za-z_][_0-9A-Za-z]*
-SINGLE_LINE_COMMENT="//"[^\n]*
+LINE_COMMENT="//"[^\n]*
 
 %state COMMENT
 
@@ -122,19 +122,19 @@ SINGLE_LINE_COMMENT="//"[^\n]*
   {STRVAL}                    { return STRVAL; }
   {ID}                        { return ID; }
 
-  {SINGLE_LINE_COMMENT}       { return SINGLE_LINE_COMMENT; }
+  {LINE_COMMENT}       { return LINE_COMMENT; }
 
    "/*"  {
           yybegin(COMMENT);
           commentDepth = 1;
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
         }
 }
 
 <COMMENT> {
     "/*"  {
             commentDepth++;
-            return MULTI_LINE_COMMENT;
+            return BLOCK_COMMENT;
         }
 
     "*/"    {
@@ -142,14 +142,14 @@ SINGLE_LINE_COMMENT="//"[^\n]*
           if(commentDepth == 0) {
               yybegin(YYINITIAL);
           }
-          return MULTI_LINE_COMMENT;
+          return BLOCK_COMMENT;
       }
 
     [\s\S] {/*ignore*/}
 
     <<EOF>> {
         yybegin(YYINITIAL);
-        return MULTI_LINE_COMMENT;
+        return BLOCK_COMMENT;
     }
 }
 

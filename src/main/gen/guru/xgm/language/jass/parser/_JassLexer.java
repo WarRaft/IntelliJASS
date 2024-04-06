@@ -824,7 +824,7 @@ public class _JassLexer implements FlexLexer {
           // fall through
           case 89: break;
           case 25:
-            { return SINGLE_LINE_COMMENT;
+            { return LINE_COMMENT;
             }
           // fall through
           case 90: break;

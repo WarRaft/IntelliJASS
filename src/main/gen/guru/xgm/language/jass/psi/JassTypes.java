@@ -88,6 +88,7 @@ public interface JassTypes {
   IElementType INTEGER = new JassIToken("integer");
   IElementType INTVAL = new JassIToken("INTVAL");
   IElementType LBRACK = new JassIToken("[");
+  IElementType LINE_COMMENT = new JassIToken("LINE_COMMENT");
   IElementType LOCAL = new JassIToken("local");
   IElementType LOOP = new JassIToken("loop");
   IElementType LPAREN = new JassIToken("(");
@@ -110,7 +111,6 @@ public interface JassTypes {
   IElementType RETURNS = new JassIToken("returns");
   IElementType RPAREN = new JassIToken(")");
   IElementType SET = new JassIToken("set");
-  IElementType SINGLE_LINE_COMMENT = new JassIToken("SINGLE_LINE_COMMENT");
   IElementType STRING = new JassIToken("string");
   IElementType STRVAL = new JassIToken("STRVAL");
   IElementType TAKES = new JassIToken("takes");
