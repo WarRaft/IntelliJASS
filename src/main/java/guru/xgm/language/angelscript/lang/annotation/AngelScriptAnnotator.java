@@ -10,13 +10,15 @@ import guru.xgm.language.angelscript.psi.AngelScriptStr;
 import guru.xgm.language.angelscript.psi.AngelScriptType;
 import org.jetbrains.annotations.NotNull;
 
+import static guru.xgm.language.angelscript.psi.AngelScriptTypes.RAWVAL;
+
 final class AngelScriptAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
         final var textRange = element.getTextRange();
+        final var type = element.getNode().getElementType();
 
         if (element instanceof AngelScriptType) {
-            System.out.print("catcha!!");
             holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(textRange)
@@ -24,8 +26,8 @@ final class AngelScriptAnnotator implements Annotator {
             return;
         }
 
-        if (element instanceof AngelScriptStr str) {
-            final var text = str.getText();
+        if (element instanceof AngelScriptStr || type == RAWVAL) {
+            final var text = element.getText();
 
             int s = 0;
             int e = text.length();
