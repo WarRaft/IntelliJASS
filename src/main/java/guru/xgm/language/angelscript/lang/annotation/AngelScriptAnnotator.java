@@ -6,8 +6,8 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase;
+import guru.xgm.language.angelscript.psi.AngelScriptDataType;
 import guru.xgm.language.angelscript.psi.AngelScriptStr;
-import guru.xgm.language.angelscript.psi.AngelScriptType;
 import org.jetbrains.annotations.NotNull;
 
 import static guru.xgm.language.angelscript.psi.AngelScriptTypes.RAWVAL;
@@ -18,7 +18,7 @@ final class AngelScriptAnnotator implements Annotator {
         final var textRange = element.getTextRange();
         final var type = element.getNode().getElementType();
 
-        if (element instanceof AngelScriptType) {
+        if (element instanceof AngelScriptDataType) {
             holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(textRange)

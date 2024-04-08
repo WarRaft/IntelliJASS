@@ -151,7 +151,8 @@
 }
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
-Root ::= RootItem*
+Root ::= RootItem* {recoverWhile=RootRecover}
+private RootRecover ::= !(DataType|NAMESPACE|ENUM|HASH|CONST)
 private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
 
 //ENUM ::=  {'shared' | 'external'}
@@ -163,13 +164,16 @@ private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
 //                                      '}'
 //                                  )
 //                      )
-Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock)
+Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock) {name="enum"}
 EnumStatBlock ::= LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE
 EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
-Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE
-IncludeStmt ::= HASH INCLUDE Str
+Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE {pin=1}
+
+IncludeStmt ::= HASH INCLUDE Str {pin=2}
+private IncludeStmtRecover ::= !(INCLUDE|Str)
+
 // FUNCDEF       ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
 // CLASS         ::= {'shared' | 'abstract' | 'final' | 'external'} 'class' IDENTIFIER  (
 //                                                                                          ';'
@@ -181,14 +185,14 @@ IncludeStmt ::= HASH INCLUDE Str
 //                                                                                              '}'
 //                                                                                          )
 //                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE))
+Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE)) {pin=2 name="class"}
 // VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'
 //                                                                      {
 //                                                                          ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';')
 //                                                                      }
 //                                                                      '}'
 VirtProp ::= (PRIVATE|PROTECTED)? Type AND? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
-FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI
+FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI {name="funcdef"}
 // VAR ::=  ['private'|'protected']
 //          TYPE
 //          IDENTIFIER
@@ -280,7 +284,7 @@ FuncCall ::= Scope ID (ArgList | (LPAREN RPAREN))
 //                                                                          ( (TYPE ['&']) | '~' )
 //                                                                      ]
 //                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
-Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock}
+Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock name="function"}
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'

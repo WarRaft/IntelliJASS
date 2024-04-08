@@ -28,9 +28,9 @@ public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptStr getStr() {
-    return findNotNullChildByClass(AngelScriptStr.class);
+    return findChildByClass(AngelScriptStr.class);
   }
 
 }

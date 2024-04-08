@@ -299,13 +299,14 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   // (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE))
   public static boolean Clazz(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Clazz")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CLAZZ, "<clazz>");
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CLAZZ, "<class>");
     r = Clazz_0(b, l + 1);
-    r = r && consumeTokens(b, 0, CLASS, ID);
+    r = r && consumeTokens(b, 1, CLASS, ID);
+    p = r; // pin = 2
     r = r && Clazz_3(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // (SHARED|ABSTRACT|FINAL|EXTERNAL)*
@@ -583,7 +584,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   public static boolean Enums(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Enums")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ENUMS, "<enums>");
+    Marker m = enter_section_(b, l, _NONE_, ENUMS, "<enum>");
     r = Enums_0(b, l + 1);
     r = r && consumeTokens(b, 0, ENUM, ID);
     r = r && Enums_3(b, l + 1);
@@ -706,7 +707,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   public static boolean Fun(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUN, "<fun>");
+    Marker m = enter_section_(b, l, _NONE_, FUN, "<function>");
     r = Fun_0(b, l + 1);
     r = r && Fun_1(b, l + 1);
     r = r && Fun_2(b, l + 1);
@@ -812,7 +813,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   public static boolean FunDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunDef")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUN_DEF, "<fun def>");
+    Marker m = enter_section_(b, l, _NONE_, FUN_DEF, "<funcdef>");
     r = FunDef_0(b, l + 1);
     r = r && consumeToken(b, FUNCDEF);
     r = r && Type(b, l + 1);
@@ -977,11 +978,32 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   public static boolean IncludeStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IncludeStmt")) return false;
     if (!nextTokenIs(b, HASH)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASH, INCLUDE);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, INCLUDE_STMT, null);
+    r = consumeTokens(b, 2, HASH, INCLUDE);
+    p = r; // pin = 2
     r = r && Str(b, l + 1);
-    exit_section_(b, m, INCLUDE_STMT, r);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  /* ********************************************************** */
+  // !(INCLUDE|Str)
+  static boolean IncludeStmtRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IncludeStmtRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !IncludeStmtRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // INCLUDE|Str
+  private static boolean IncludeStmtRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IncludeStmtRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, INCLUDE);
+    if (!r) r = Str(b, l + 1);
     return r;
   }
 
@@ -1176,15 +1198,16 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   public static boolean Nspace(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Nspace")) return false;
     if (!nextTokenIs(b, NAMESPACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, NAMESPACE, ID);
-    r = r && Nspace_2(b, l + 1);
-    r = r && consumeToken(b, LBRACE);
-    r = r && Nspace_4(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, NSPACE, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, NSPACE, null);
+    r = consumeTokens(b, 1, NAMESPACE, ID);
+    p = r; // pin = 1
+    r = r && report_error_(b, Nspace_2(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, LBRACE)) && r;
+    r = p && report_error_(b, Nspace_4(b, l + 1)) && r;
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // (COLON_COLON ID)*
@@ -1390,11 +1413,13 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   // RootItem*
   static boolean Root(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Root")) return false;
+    Marker m = enter_section_(b, l, _NONE_);
     while (true) {
       int c = current_position_(b);
       if (!RootItem(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "Root", c)) break;
     }
+    exit_section_(b, l, m, true, false, AngelScriptParser::RootRecover);
     return true;
   }
 
@@ -1411,6 +1436,29 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = Clazz(b, l + 1);
     if (!r) r = Nspace(b, l + 1);
     if (!r) r = consumeToken(b, SEMI);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(DataType|NAMESPACE|ENUM|HASH|CONST)
+  static boolean RootRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RootRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !RootRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // DataType|NAMESPACE|ENUM|HASH|CONST
+  private static boolean RootRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RootRecover_0")) return false;
+    boolean r;
+    r = DataType(b, l + 1);
+    if (!r) r = consumeToken(b, NAMESPACE);
+    if (!r) r = consumeToken(b, ENUM);
+    if (!r) r = consumeToken(b, HASH);
+    if (!r) r = consumeToken(b, CONST);
     return r;
   }
 

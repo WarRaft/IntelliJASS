@@ -14,6 +14,12 @@ public class IntellijTypedHandlerDelegate extends TypedHandlerDelegate {
     @NotNull
     public Result checkAutoPopup(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (file.getLanguage() instanceof AngelScriptLanguage) {
+            if (charTyped == '#') {
+                AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
+                return Result.STOP;
+            }
+
+
             if (charTyped == File.separatorChar || charTyped == '/') {
                 AutoPopupController.getInstance(project).scheduleAutoPopup(editor);
                 return Result.STOP;
