@@ -41,7 +41,7 @@ public class AngelScriptBlockStat extends AngelScriptBlock {
     @Override
     protected SpacingBuilder getSpacingBuilder() {
         return super.getSpacingBuilder()
-                .after(LBRACE).spacing(1, 1, 1, false, 0)
-                .before(RBRACE).spacing(1, 1, 1, false, 0);
+                .after(LBRACE).spacing(1, 1, 1, false, 1)
+                .before(RBRACE).spacing(1, 1, 1, false, 1);
     }
 }

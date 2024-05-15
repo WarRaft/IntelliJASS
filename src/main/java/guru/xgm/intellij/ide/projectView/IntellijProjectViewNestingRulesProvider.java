@@ -1,15 +1,17 @@
 package guru.xgm.intellij.ide.projectView;
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider;
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType;
 import org.jetbrains.annotations.NotNull;
 
 public class IntellijProjectViewNestingRulesProvider implements ProjectViewNestingRulesProvider {
     @Override
     public void addFileNestingRules(@NotNull ProjectViewNestingRulesProvider.Consumer consumer) {
-        consumer.addNestingRule(".j", ".ass");
-        consumer.addNestingRule(".j", ".as");
+        final var as = AngelScriptFileType.EXTENSION;
 
-        for (String e : new String[]{".j", ".as", ".ass"}) {
+        consumer.addNestingRule(".j", as);
+
+        for (String e : new String[]{".j", as}) {
             consumer.addNestingRule(e, ".wts");
         }
     }

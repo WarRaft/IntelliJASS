@@ -7,16 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptClazz extends PsiElement {
 
-  @NotNull
-  List<AngelScriptFun> getFunList();
-
-  @NotNull
-  List<AngelScriptFunDef> getFunDefList();
-
-  @NotNull
-  List<AngelScriptVar> getVarList();
-
-  @NotNull
-  List<AngelScriptVirtProp> getVirtPropList();
+  @Nullable
+  AngelScriptClazzStatBlock getClazzStatBlock();
 
 }

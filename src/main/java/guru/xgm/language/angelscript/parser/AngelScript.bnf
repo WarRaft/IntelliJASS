@@ -151,9 +151,14 @@
 }
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 
-Root ::= RootItem* {recoverWhile=RootRecover}
-private RootRecover ::= !(DataType|NAMESPACE|ENUM|HASH|CONST)
-private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI
+Root ::= RootItem*
+private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI //{recoverWhile=RootItemRecover}
+private RootItemRecover ::= !(
+ID|ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRING|UINT|UINT16|UINT32|UINT64|VOID|
+QUEST|AUTO|CLASS|
+HASH|NAMESPACE|ENUM|CONST)
+
+private StatBlockRecover ::= ! RBRACE
 
 //ENUM ::=  {'shared' | 'external'}
 //          'enum'
@@ -169,10 +174,11 @@ EnumStatBlock ::= LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE
 EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
-Nspace ::= NAMESPACE ID (COLON_COLON ID)* LBRACE RootItem* RBRACE {pin=1}
+Nspace ::= NAMESPACE ID (COLON_COLON ID)* NspaceStatBlock {pin=1}
+NspaceStatBlock ::= LBRACE NspaceItems RBRACE
+private NspaceItems ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* //{recoverWhile=StatBlockRecover}
 
-IncludeStmt ::= HASH INCLUDE Str {pin=2}
-private IncludeStmtRecover ::= !(INCLUDE|Str)
+IncludeStmt ::= HASH INCLUDE Str {pin=2 name="include"}
 
 // FUNCDEF       ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
 // CLASS         ::= {'shared' | 'abstract' | 'final' | 'external'} 'class' IDENTIFIER  (
@@ -185,14 +191,16 @@ private IncludeStmtRecover ::= !(INCLUDE|Str)
 //                                                                                              '}'
 //                                                                                          )
 //                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE)) {pin=2 name="class"}
+Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2 name="class"}
+ClazzStatBlock ::= LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE
+
 // VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'
 //                                                                      {
 //                                                                          ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';')
 //                                                                      }
 //                                                                      '}'
-VirtProp ::= (PRIVATE|PROTECTED)? Type AND? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
-FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AND? ID ParamList SEMI {name="funcdef"}
+VirtProp ::= (PRIVATE|PROTECTED)? Type AMP? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
+FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AMP? ID ParamList SEMI {name="funcdef"}
 // VAR ::=  ['private'|'protected']
 //          TYPE
 //          IDENTIFIER
@@ -284,7 +292,7 @@ FuncCall ::= Scope ID (ArgList | (LPAREN RPAREN))
 //                                                                          ( (TYPE ['&']) | '~' )
 //                                                                      ]
 //                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
-Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock name="function"}
+Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AMP? AT?)|TILDE))? ID ParamList CONST? FuncAttr (SEMI | StatBlock) {pin=StatBlock name="function"}
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'
@@ -297,9 +305,11 @@ Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)?  (((Type AND?)|TILDE))? ID Param
 //                      ]
 //                      ')'
 ParamList ::= LPAREN (VOID | (Param (COMMA Param)*) )? RPAREN
-Param ::= Type TypeMod ID? (EQ Expr)?
+Param ::= Type TypeMod? ID? (EQ Expr)? {recoverWhile=ParamRecover}
+private ParamRecover ::= !(RPAREN|COMMA);
+
 // TYPEMOD       ::= ['&' ['in' | 'out' | 'inout']]
-TypeMod ::= (AND (IN|OUT|INOUT)?)?
+TypeMod ::= AMP (IN|OUT|INOUT)?
 // FUNCATTR      ::= {'override' | 'final' | 'explicit' | 'property'}
 FuncAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
 // STATBLOCK     ::= '{' {VAR | STATEMENT} '}'

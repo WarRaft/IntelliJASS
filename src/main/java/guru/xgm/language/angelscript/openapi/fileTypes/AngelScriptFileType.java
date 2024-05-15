@@ -11,6 +11,8 @@ public final class AngelScriptFileType extends LanguageFileType {
 
     public static final AngelScriptFileType INSTANCE = new AngelScriptFileType();
 
+    public static final String EXTENSION = "as";
+
     private AngelScriptFileType() {
         super(AngelScriptLanguage.INSTANCE);
     }
@@ -30,7 +32,7 @@ public final class AngelScriptFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "as";
+        return AngelScriptFileType.EXTENSION;
     }
 
     @Override

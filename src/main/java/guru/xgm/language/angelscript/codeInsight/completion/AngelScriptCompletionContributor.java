@@ -35,12 +35,11 @@ public class AngelScriptCompletionContributor extends CompletionContributor {
             //System.out.print(prev);
             //System.out.print("\ntype|" + (opos.getParent().getNode().getClass()) + "\n");
             if (prev != null) {
-                System.out.print(isUnderPsiRoot(opos.getContainingFile(), prev));
+                //System.out.print(isUnderPsiRoot(opos.getContainingFile(), prev));
 
             }
 
         }
-
 
         // include
         ASTNode child = parameters.getPosition().getNode();

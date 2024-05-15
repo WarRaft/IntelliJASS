@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class AngelScriptElementFactory {
 
     private static AngelScriptPsiFileBase createFile(Project project, String text) {
-        String name = "dummy.ass";
+        String name = "dummy.as";
         return (AngelScriptPsiFileBase) PsiFileFactory.getInstance(project).createFileFromText(name, AngelScriptLanguage.INSTANCE, text);
     }
 

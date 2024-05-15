@@ -2,11 +2,12 @@
 // Native types. All native functions take extended handle types when
 // possible to help prevent passing bad values to native functions
 //
-type agent extends handle // all reference counted objects
-type event extends agent // a reference to an event registration
-type player extends agent // a single player reference
-type widget extends agent // an interactive game object with life
-type unit extends widget // a single unit reference
+type agent extends handle	// all reference counted objects
+type event extends agent	// a reference to an event registration
+type player extends agent	// a single player reference
+type war3image extends agent	// an interactive game object that serves as a base to nearly every model-based object.
+type widget extends war3image	// an interactive game object with life
+type unit extends widget	// a single unit reference
 type destructable extends widget
 type item extends widget
 type ability extends agent
@@ -28,7 +29,6 @@ type unitpool extends handle
 type itempool extends handle
 type race extends handle
 type alliancetype extends handle
-type racepreference extends handle
 type gamestate extends handle
 type igamestate extends gamestate
 type fgamestate extends gamestate
@@ -49,8 +49,6 @@ type unittype extends handle
 type projectiletype extends handle
 type gamespeed extends handle
 type gamedifficulty extends handle
-type gametype extends handle
-type mapflag extends handle
 type mapvisibility extends handle
 type mapsetting extends handle
 type mapdensity extends handle
@@ -66,7 +64,7 @@ type startlocprio extends handle
 type raritycontrol extends handle
 type blendmode extends handle
 type texmapflags extends handle
-type effect extends agent
+type effect extends war3image
 type effecttype extends handle
 type weathereffect extends handle
 type terraindeformation extends handle
@@ -81,7 +79,7 @@ type timerdialog extends agent
 type leaderboard extends agent
 type multiboard extends agent
 type multiboarditem extends agent
-type trackable extends agent
+type trackable extends war3image
 type gamecache extends agent
 type version extends handle
 type itemtype extends handle
@@ -102,10 +100,11 @@ type cursoranimtype extends mappedtype
 type image extends handle
 type ubersplat extends handle
 type hashtable extends agent
-type sprite extends agent
-type projectile extends agent
-type doodad extends agent
+type sprite extends war3image
+type projectile extends war3image
+type doodad extends war3image
 type framehandle extends handle
+type commandbuttoneffect extends handle
 type originframetype extends handle
 type framepointtype extends handle
 type textaligntype extends handle
@@ -138,23 +137,34 @@ type unitweaponintegerfield extends agentdatafield
 type unitweaponrealfield extends agentdatafield
 type unitweaponbooleanfield extends agentdatafield
 type unitweaponstringfield extends agentdatafield
-type movetype extends handle
-type pathingaitype extends handle
-type collisiontype extends handle
-type targetflag extends handle
+type flagtype extends handle
+type racepreference extends flagtype
+type gametype extends flagtype
+type mapflag extends flagtype
+type movetype extends flagtype
+type pathingaitype extends flagtype
+type collisiontype extends flagtype
+type targetflag extends flagtype
+type unitcategory extends flagtype
+type pathingflag extends flagtype
+type layoutstyleflag extends flagtype
+type gridstyleflag extends flagtype
+type layerstyleflag extends flagtype
+type controlstyleflag extends flagtype
+type framestate extends flagtype
+type abilitytype extends flagtype
 type armortype extends handle
 type heroattribute extends handle
 type defensetype extends handle
 type regentype extends handle
-type unitcategory extends handle
-type pathingflag extends handle
-type commandbuttoneffect extends handle
 type timetype extends handle
 type variabletype extends handle
 type renderstage extends handle
+type connectiontype extends handle
 type jassthread extends handle
 type handlelist extends handle
 type textfilehandle extends handle
+type orderhandle extends agent
 
 constant native ConvertRace takes integer i returns race
 constant native ConvertAllianceType takes integer i returns alliancetype
@@ -221,9 +231,9 @@ constant native ConvertAbilityIntegerLevelField takes integer i returns abilityi
 constant native ConvertAbilityRealLevelField takes integer i returns abilityreallevelfield
 constant native ConvertAbilityBooleanLevelField takes integer i returns abilitybooleanlevelfield
 constant native ConvertAbilityStringLevelField takes integer i returns abilitystringlevelfield
-constant native ConvertAbilityIntegerLevelArrayField takes integer i returns abilityintegerlevelarrayfield
+constant native ConvertAbilityIntegerLevelArrayField	takes integer i returns abilityintegerlevelarrayfield
 constant native ConvertAbilityRealLevelArrayField takes integer i returns abilityreallevelarrayfield
-constant native ConvertAbilityBooleanLevelArrayField takes integer i returns abilitybooleanlevelarrayfield
+constant native ConvertAbilityBooleanLevelArrayField	takes integer i returns abilitybooleanlevelarrayfield
 constant native ConvertAbilityStringLevelArrayField takes integer i returns abilitystringlevelarrayfield
 constant native ConvertDestructableStringField takes integer i returns destructablestringfield
 constant native ConvertItemIntegerField takes integer i returns itemintegerfield
@@ -251,6 +261,13 @@ constant native ConvertPathingFlag takes integer i returns pathingflag
 constant native ConvertTimeType takes integer i returns timetype
 constant native ConvertVariableType takes integer i returns variabletype
 constant native ConvertRenderStage takes integer i returns renderstage
+constant native ConvertLayoutStyleFlag takes integer i returns layoutstyleflag
+constant native ConvertGridStyleFlag takes integer i returns gridstyleflag
+constant native ConvertLayerStyleFlag takes integer i returns layerstyleflag
+constant native ConvertControlStyleFlag takes integer i returns controlstyleflag
+constant native ConvertFrameState takes integer i returns framestate
+constant native ConvertAbilityType takes integer i returns abilitytype
+constant native ConvertConnectionType takes integer i returns connectiontype
 
 constant native OrderId takes string orderIdString returns integer
 constant native OrderId2String takes integer orderId returns string
@@ -275,15 +292,14 @@ constant native GetJassArrayLimit takes nothing returns integer
 constant native GetTextTagLimit takes nothing returns integer
 
 globals
-
     //===================================================
     // Game Constants
     //===================================================
 
     constant boolean FALSE = false
     constant boolean TRUE = true
-    constant integer JASS_MAX_ARRAY_SIZE = GetJassArrayLimit( )            // Previously was hardcoded 262144, this is subject to change if needed.
-    constant integer TEXT_TAG_MAX_SIZE = GetTextTagLimit( )            // Original 100 limit raised to 1024, this is subject to change if needed.
+    constant integer JASS_MAX_ARRAY_SIZE = GetJassArrayLimit( ) // Previously was hardcoded 262144, this is subject to change if needed.
+    constant integer TEXT_TAG_MAX_SIZE = GetTextTagLimit( ) // Original 100 limit raised to 1024, this is subject to change if needed.
 
     constant integer PLAYER_NEUTRAL_PASSIVE = GetPlayerNeutralPassive( )
     constant integer PLAYER_NEUTRAL_AGGRESSIVE = GetPlayerNeutralAggressive( )
@@ -782,7 +798,7 @@ globals
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_ORDER = ConvertPlayerUnitEvent(38)
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER = ConvertPlayerUnitEvent(39)
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER = ConvertPlayerUnitEvent(40)
-    constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_UNIT_ORDER = ConvertPlayerUnitEvent(40)    // for compat
+    constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_UNIT_ORDER = ConvertPlayerUnitEvent(40)	// for compat
 
     constant playerunitevent EVENT_PLAYER_HERO_LEVEL = ConvertPlayerUnitEvent(41)
     constant playerunitevent EVENT_PLAYER_HERO_SKILL = ConvertPlayerUnitEvent(42)
@@ -895,6 +911,14 @@ globals
     constant gameevent EVENT_GAME_TOURNAMENT_FINISH_NOW = ConvertGameEvent(258)
     constant gameevent EVENT_GAME_SAVE = ConvertGameEvent(259)
 
+    constant gameevent EVENT_GAME_AGENT_DESTROYED = ConvertGameEvent(800)
+    constant gameevent EVENT_GAME_AGENT_ARRIVAL = ConvertGameEvent(801)
+    constant gameevent EVENT_GAME_AGENT_CANT_PATH = ConvertGameEvent(802)
+    constant gameevent EVENT_GAME_AGENT_WARP_START = ConvertGameEvent(803)
+    constant gameevent EVENT_GAME_AGENT_WARP_END = ConvertGameEvent(804)
+    constant gameevent EVENT_GAME_WIDGET_DAMAGING = ConvertGameEvent(805)
+    constant gameevent EVENT_GAME_WIDGET_DAMAGED = ConvertGameEvent(806)
+    constant gameevent EVENT_GAME_WIDGET_DEATH = ConvertGameEvent(807)
     //===================================================
     // For use with TriggerRegisterPlayerEvent
     //===================================================
@@ -916,6 +940,11 @@ globals
     constant playerevent EVENT_PLAYER_KEY_DOWN = ConvertPlayerEvent(312)
     constant playerevent EVENT_PLAYER_KEY_UP = ConvertPlayerEvent(313)
 
+    constant playerevent EVENT_PLAYER_WIDGET_TRACK = ConvertPlayerEvent(320)
+    constant playerevent EVENT_PLAYER_WIDGET_GHOST_TRACK = ConvertPlayerEvent(321)
+    constant playerevent EVENT_PLAYER_WIDGET_CLICK = ConvertPlayerEvent(322)
+    constant playerevent EVENT_PLAYER_WIDGET_GHOST_CLICK = ConvertPlayerEvent(323)
+    constant playerevent EVENT_PLAYER_TERRAIN_CLICK = ConvertPlayerEvent(324)
     //===================================================
     // For use with TriggerRegisterPlayerUnitEvent
     //===================================================
@@ -1167,6 +1196,7 @@ globals
     constant originframetype ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(53)
     constant originframetype ORIGIN_FRAME_FPS_TEXT = ConvertOriginFrameType(54)
     constant originframetype ORIGIN_FRAME_MEMORY_TEXT = ConvertOriginFrameType(55)
+    constant originframetype ORIGIN_FRAME_SIMPLE_TOP = ConvertOriginFrameType(56) // This frame contains all CSimpleRegions/CSimpleFrames.
 
     constant framepointtype FRAMEPOINT_TOPLEFT = ConvertFramePointType(0)
     constant framepointtype FRAMEPOINT_TOP = ConvertFramePointType(1)
@@ -1194,7 +1224,8 @@ globals
     constant frameeventtype FRAMEEVENT_CHECKBOX_CHECKED = ConvertFrameEventType(7)
     constant frameeventtype FRAMEEVENT_CHECKBOX_UNCHECKED = ConvertFrameEventType(8)
     constant frameeventtype FRAMEEVENT_EDITBOX_TEXT_CHANGED = ConvertFrameEventType(9)
-    constant frameeventtype FRAMEEVENT_POPUPMENU_ITEM_CHANGED = ConvertFrameEventType(10)
+    constant frameeventtype FRAMEEVENT_POPUPMENU_ITEM_CHANGED = ConvertFrameEventType(10) // This also works with CListBox and CMenu
+    constant frameeventtype FRAMEEVENT_FRAME_ITEM_CHANGED = ConvertFrameEventType(10) // More streamlined version, as not only CPopupMenu can have ITEM_CHANGED events.
     constant frameeventtype FRAMEEVENT_MOUSE_DOUBLECLICK = ConvertFrameEventType(11)
     constant frameeventtype FRAMEEVENT_SPRITE_ANIM_UPDATE = ConvertFrameEventType(12)
     constant frameeventtype FRAMEEVENT_SLIDER_VALUE_CHANGED = ConvertFrameEventType(13)
@@ -1434,6 +1465,8 @@ globals
     constant integer CHAT_RECIPIENT_REFEREES = 2
     constant integer CHAT_RECIPIENT_OBSERVERS = 2
     constant integer CHAT_RECIPIENT_PRIVATE = 3
+    constant integer CHAT_RECIPIENT_UNKNOWN = 4
+    // use CHAT_RECIPIENT_UNKNOWN to ignore text stating to which recipient the text was sent.
 
     //===================================================
     // Instanced Object Operation API constants
@@ -1450,6 +1483,8 @@ globals
     constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField('arpx')
     constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField('arpy')
     constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_ALL = ConvertAbilityIntegerField('ahtk') // Set only
+    constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_SPELLBOOK_X = ConvertAbilityIntegerField('asbx') // Ability Instance only
+    constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_SPELLBOOK_Y = ConvertAbilityIntegerField('asby') // Ability Instance only
     constant abilityintegerfield ABILITY_IF_MISSILE_SPEED = ConvertAbilityIntegerField('amsp')
     constant abilityintegerfield ABILITY_IF_TARGET_ATTACHMENTS = ConvertAbilityIntegerField('atac')
     constant abilityintegerfield ABILITY_IF_CASTER_ATTACHMENTS = ConvertAbilityIntegerField('acac')
@@ -1473,191 +1508,191 @@ globals
     constant abilitystringfield ABILITY_SF_EFFECT_SOUND = ConvertAbilityStringField('aefs')
     constant abilitystringfield ABILITY_SF_EFFECT_SOUND_LOOPING = ConvertAbilityStringField('aefl')
 
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_COST = ConvertAbilityIntegerLevelField('amcs')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_WAVES = ConvertAbilityIntegerLevelField('Hbz1')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SHARDS = ConvertAbilityIntegerLevelField('Hbz3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_TELEPORTED = ConvertAbilityIntegerLevelField('Hmt1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_COUNT_HWE2 = ConvertAbilityIntegerLevelField('Hwe2')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_IMAGES = ConvertAbilityIntegerLevelField('Omi1')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_UAN1 = ConvertAbilityIntegerLevelField('Uan1')
-    constant abilityintegerlevelfield ABILITY_ILF_MORPHING_FLAGS = ConvertAbilityIntegerLevelField('Eme2')
-    constant abilityintegerlevelfield ABILITY_ILF_STRENGTH_BONUS_NRG5 = ConvertAbilityIntegerLevelField('Nrg5')
-    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_BONUS_NRG6 = ConvertAbilityIntegerLevelField('Nrg6')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_TARGETS_HIT = ConvertAbilityIntegerLevelField('Ocl2')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_OFS1 = ConvertAbilityIntegerLevelField('Ofs1')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_OSF2 = ConvertAbilityIntegerLevelField('Osf2')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_EFN1 = ConvertAbilityIntegerLevelField('Efn1')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_HRE1 = ConvertAbilityIntegerLevelField('Hre1')
-    constant abilityintegerlevelfield ABILITY_ILF_STACK_FLAGS = ConvertAbilityIntegerLevelField('Hca4')
-    constant abilityintegerlevelfield ABILITY_ILF_MINIMUM_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Ndp2')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_NDP3 = ConvertAbilityIntegerLevelField('Ndp3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_CREATED_NRC2 = ConvertAbilityIntegerLevelField('Nrc2')
-    constant abilityintegerlevelfield ABILITY_ILF_SHIELD_LIFE = ConvertAbilityIntegerLevelField('Ams3')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_AMS4 = ConvertAbilityIntegerLevelField('Ams4')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_PER_INTERVAL_BGM1 = ConvertAbilityIntegerLevelField('Bgm1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_NUMBER_OF_MINERS = ConvertAbilityIntegerLevelField('Bgm3')
-    constant abilityintegerlevelfield ABILITY_ILF_CARGO_CAPACITY = ConvertAbilityIntegerLevelField('Car1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_DEV3 = ConvertAbilityIntegerLevelField('Dev3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_CREEP_LEVEL_DEV1 = ConvertAbilityIntegerLevelField('Dev1')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_PER_INTERVAL_EGM1 = ConvertAbilityIntegerLevelField('Egm1')
-    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_REDUCTION = ConvertAbilityIntegerLevelField('Fae1')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_FLA1 = ConvertAbilityIntegerLevelField('Fla1')
-    constant abilityintegerlevelfield ABILITY_ILF_FLARE_COUNT = ConvertAbilityIntegerLevelField('Fla3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_GOLD = ConvertAbilityIntegerLevelField('Gld1')
-    constant abilityintegerlevelfield ABILITY_ILF_MINING_CAPACITY = ConvertAbilityIntegerLevelField('Gld3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_GYD1 = ConvertAbilityIntegerLevelField('Gyd1')
-    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_TO_TREE = ConvertAbilityIntegerLevelField('Har1')
-    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_CAPACITY = ConvertAbilityIntegerLevelField('Har2')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_CAPACITY = ConvertAbilityIntegerLevelField('Har3')
-    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_INCREASE_INF2 = ConvertAbilityIntegerLevelField('Inf2')
-    constant abilityintegerlevelfield ABILITY_ILF_INTERACTION_TYPE = ConvertAbilityIntegerLevelField('Neu2')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_COST_NDT1 = ConvertAbilityIntegerLevelField('Ndt1')
-    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_COST_NDT2 = ConvertAbilityIntegerLevelField('Ndt2')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_NDT3 = ConvertAbilityIntegerLevelField('Ndt3')
-    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_POI4 = ConvertAbilityIntegerLevelField('Poi4')
-    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_POA5 = ConvertAbilityIntegerLevelField('Poa5')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_PLY1 = ConvertAbilityIntegerLevelField('Ply1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_POS1 = ConvertAbilityIntegerLevelField('Pos1')
-    constant abilityintegerlevelfield ABILITY_ILF_MOVEMENT_UPDATE_FREQUENCY_PRG1 = ConvertAbilityIntegerLevelField('Prg1')
-    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_UPDATE_FREQUENCY_PRG2 = ConvertAbilityIntegerLevelField('Prg2')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_PRG6 = ConvertAbilityIntegerLevelField('Prg6')
-    constant abilityintegerlevelfield ABILITY_ILF_UNITS_SUMMONED_TYPE_ONE = ConvertAbilityIntegerLevelField('Rai1')
-    constant abilityintegerlevelfield ABILITY_ILF_UNITS_SUMMONED_TYPE_TWO = ConvertAbilityIntegerLevelField('Rai2')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_SUMMONED = ConvertAbilityIntegerLevelField('Ucb5')
-    constant abilityintegerlevelfield ABILITY_ILF_ALLOW_WHEN_FULL_REJ3 = ConvertAbilityIntegerLevelField('Rej3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS_CHARGED_TO_CASTER = ConvertAbilityIntegerLevelField('Rpb5')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS_AFFECTED = ConvertAbilityIntegerLevelField('Rpb6')
-    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_INCREASE_ROA2 = ConvertAbilityIntegerLevelField('Roa2')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_ROA7 = ConvertAbilityIntegerLevelField('Roa7')
-    constant abilityintegerlevelfield ABILITY_ILF_ROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo1')
-    constant abilityintegerlevelfield ABILITY_ILF_UPROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo2')
-    constant abilityintegerlevelfield ABILITY_ILF_UPROOTED_DEFENSE_TYPE = ConvertAbilityIntegerLevelField('Roo4')
-    constant abilityintegerlevelfield ABILITY_ILF_ACCUMULATION_STEP = ConvertAbilityIntegerLevelField('Sal2')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_OWLS = ConvertAbilityIntegerLevelField('Esn4')
-    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_SPO4 = ConvertAbilityIntegerLevelField('Spo4')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Sod1')
-    constant abilityintegerlevelfield ABILITY_ILF_SPIDER_CAPACITY = ConvertAbilityIntegerLevelField('Spa1')
-    constant abilityintegerlevelfield ABILITY_ILF_INTERVALS_BEFORE_CHANGING_TREES = ConvertAbilityIntegerLevelField('Wha2')
-    constant abilityintegerlevelfield ABILITY_ILF_AGILITY_BONUS = ConvertAbilityIntegerLevelField('Iagi')
-    constant abilityintegerlevelfield ABILITY_ILF_INTELLIGENCE_BONUS = ConvertAbilityIntegerLevelField('Iint')
-    constant abilityintegerlevelfield ABILITY_ILF_STRENGTH_BONUS_ISTR = ConvertAbilityIntegerLevelField('Istr')
-    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_BONUS = ConvertAbilityIntegerLevelField('Iatt')
-    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_BONUS_IDEF = ConvertAbilityIntegerLevelField('Idef')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMON_1_AMOUNT = ConvertAbilityIntegerLevelField('Isn1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMON_2_AMOUNT = ConvertAbilityIntegerLevelField('Isn2')
-    constant abilityintegerlevelfield ABILITY_ILF_EXPERIENCE_GAINED = ConvertAbilityIntegerLevelField('Ixpg')
-    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_GAINED_IHPG = ConvertAbilityIntegerLevelField('Ihpg')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_GAINED_IMPG = ConvertAbilityIntegerLevelField('Impg')
-    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_GAINED_IHP2 = ConvertAbilityIntegerLevelField('Ihp2')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_GAINED_IMP2 = ConvertAbilityIntegerLevelField('Imp2')
-    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_BONUS_DICE = ConvertAbilityIntegerLevelField('Idic')
-    constant abilityintegerlevelfield ABILITY_ILF_ARMOR_PENALTY_IARP = ConvertAbilityIntegerLevelField('Iarp')
-    constant abilityintegerlevelfield ABILITY_ILF_ENABLED_ATTACK_INDEX_IOB5 = ConvertAbilityIntegerLevelField('Iob5')
-    constant abilityintegerlevelfield ABILITY_ILF_LEVELS_GAINED = ConvertAbilityIntegerLevelField('Ilev')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_LIFE_GAINED = ConvertAbilityIntegerLevelField('Ilif')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_MANA_GAINED = ConvertAbilityIntegerLevelField('Iman')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_GIVEN = ConvertAbilityIntegerLevelField('Igol')
-    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_GIVEN = ConvertAbilityIntegerLevelField('Ilum')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_IFA1 = ConvertAbilityIntegerLevelField('Ifa1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_ICRE = ConvertAbilityIntegerLevelField('Icre')
-    constant abilityintegerlevelfield ABILITY_ILF_MOVEMENT_SPEED_BONUS = ConvertAbilityIntegerLevelField('Imvb')
-    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_REGENERATED_PER_SECOND = ConvertAbilityIntegerLevelField('Ihpr')
-    constant abilityintegerlevelfield ABILITY_ILF_SIGHT_RANGE_BONUS = ConvertAbilityIntegerLevelField('Isib')
-    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_PER_DURATION = ConvertAbilityIntegerLevelField('Icfd')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_USED_PER_SECOND = ConvertAbilityIntegerLevelField('Icfm')
-    constant abilityintegerlevelfield ABILITY_ILF_EXTRA_MANA_REQUIRED = ConvertAbilityIntegerLevelField('Icfx')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_RADIUS_IDET = ConvertAbilityIntegerLevelField('Idet')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_PER_UNIT_IDIM = ConvertAbilityIntegerLevelField('Idim')
-    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = ConvertAbilityIntegerLevelField('Idid')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField('Irec')
-    constant abilityintegerlevelfield ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField('Ircd')
-    constant abilityintegerlevelfield ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField('irc2')
-    constant abilityintegerlevelfield ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
-    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Ihps')
-    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Imps')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField('Itpm')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_CAD1 = ConvertAbilityIntegerLevelField('Cad1')
-    constant abilityintegerlevelfield ABILITY_ILF_TERRAIN_DEFORMATION_DURATION_MS = ConvertAbilityIntegerLevelField('Wrs3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS = ConvertAbilityIntegerLevelField('Uds1')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_DET1 = ConvertAbilityIntegerLevelField('Det1')
-    constant abilityintegerlevelfield ABILITY_ILF_GOLD_COST_PER_STRUCTURE = ConvertAbilityIntegerLevelField('Nsp1')
-    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_COST_PER_USE = ConvertAbilityIntegerLevelField('Nsp2')
-    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_NSP3 = ConvertAbilityIntegerLevelField('Nsp3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SWARM_UNITS = ConvertAbilityIntegerLevelField('Uls1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_SWARM_UNITS_PER_TARGET = ConvertAbilityIntegerLevelField('Uls3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NBA2 = ConvertAbilityIntegerLevelField('Nba2')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_NCH1 = ConvertAbilityIntegerLevelField('Nch1')
-    constant abilityintegerlevelfield ABILITY_ILF_ATTACKS_PREVENTED = ConvertAbilityIntegerLevelField('Nsi1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_EFK3 = ConvertAbilityIntegerLevelField('Efk3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_ESV1 = ConvertAbilityIntegerLevelField('Esv1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_EXH1 = ConvertAbilityIntegerLevelField('exh1')
-    constant abilityintegerlevelfield ABILITY_ILF_ITEM_CAPACITY = ConvertAbilityIntegerLevelField('inv1')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_SPL2 = ConvertAbilityIntegerLevelField('spl2')
-    constant abilityintegerlevelfield ABILITY_ILF_ALLOW_WHEN_FULL_IRL3 = ConvertAbilityIntegerLevelField('irl3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_DISPELLED_UNITS = ConvertAbilityIntegerLevelField('idc3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_LURES = ConvertAbilityIntegerLevelField('imo1')
-    constant abilityintegerlevelfield ABILITY_ILF_NEW_TIME_OF_DAY_HOUR = ConvertAbilityIntegerLevelField('ict1')
-    constant abilityintegerlevelfield ABILITY_ILF_NEW_TIME_OF_DAY_MINUTE = ConvertAbilityIntegerLevelField('ict2')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_CREATED_MEC1 = ConvertAbilityIntegerLevelField('mec1')
-    constant abilityintegerlevelfield ABILITY_ILF_MINIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb3')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb4')
-    constant abilityintegerlevelfield ABILITY_ILF_DISABLED_ATTACK_INDEX = ConvertAbilityIntegerLevelField('gra3')
-    constant abilityintegerlevelfield ABILITY_ILF_ENABLED_ATTACK_INDEX_GRA4 = ConvertAbilityIntegerLevelField('gra4')
-    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_ATTACKS = ConvertAbilityIntegerLevelField('gra5')
-    constant abilityintegerlevelfield ABILITY_ILF_BUILDING_TYPES_ALLOWED_NPR1 = ConvertAbilityIntegerLevelField('Npr1')
-    constant abilityintegerlevelfield ABILITY_ILF_BUILDING_TYPES_ALLOWED_NSA1 = ConvertAbilityIntegerLevelField('Nsa1')
-    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_MODIFICATION = ConvertAbilityIntegerLevelField('Iaa1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_COUNT_NPA5 = ConvertAbilityIntegerLevelField('Npa5')
-    constant abilityintegerlevelfield ABILITY_ILF_UPGRADE_LEVELS = ConvertAbilityIntegerLevelField('Igl1')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NDO2 = ConvertAbilityIntegerLevelField('Ndo2')
-    constant abilityintegerlevelfield ABILITY_ILF_BEASTS_PER_SECOND = ConvertAbilityIntegerLevelField('Nst1')
-    constant abilityintegerlevelfield ABILITY_ILF_TARGETS_ALLOWED = ConvertAbilityIntegerLevelField('atar')
-    constant abilityintegerlevelfield ABILITY_ILF_TARGET_TYPE = ConvertAbilityIntegerLevelField('Ncl2')
-    constant abilityintegerlevelfield ABILITY_ILF_OPTIONS = ConvertAbilityIntegerLevelField('Ncl3')
-    constant abilityintegerlevelfield ABILITY_ILF_ARMOR_PENALTY_NAB3 = ConvertAbilityIntegerLevelField('Nab3')
-    constant abilityintegerlevelfield ABILITY_ILF_WAVE_COUNT_NHS6 = ConvertAbilityIntegerLevelField('Nhs6')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_CREEP_LEVEL_NTM3 = ConvertAbilityIntegerLevelField('Ntm3')
-    constant abilityintegerlevelfield ABILITY_ILF_MISSILE_COUNT = ConvertAbilityIntegerLevelField('Ncs3')
-    constant abilityintegerlevelfield ABILITY_ILF_SPLIT_ATTACK_COUNT = ConvertAbilityIntegerLevelField('Nlm3')
-    constant abilityintegerlevelfield ABILITY_ILF_GENERATION_COUNT = ConvertAbilityIntegerLevelField('Nlm6')
-    constant abilityintegerlevelfield ABILITY_ILF_ROCK_RING_COUNT = ConvertAbilityIntegerLevelField('Nvc1')
-    constant abilityintegerlevelfield ABILITY_ILF_WAVE_COUNT_NVC2 = ConvertAbilityIntegerLevelField('Nvc2')
-    constant abilityintegerlevelfield ABILITY_ILF_PREFER_HOSTILES_TAU1 = ConvertAbilityIntegerLevelField('Tau1')
-    constant abilityintegerlevelfield ABILITY_ILF_PREFER_FRIENDLIES_TAU2 = ConvertAbilityIntegerLevelField('Tau2')
-    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_TAU3 = ConvertAbilityIntegerLevelField('Tau3')
-    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_PULSES = ConvertAbilityIntegerLevelField('Tau4')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_HWE1 = ConvertAbilityIntegerLevelField('Hwe1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_UIN4 = ConvertAbilityIntegerLevelField('Uin4')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_OSF1 = ConvertAbilityIntegerLevelField('Osf1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_EFNU = ConvertAbilityIntegerLevelField('Efnu')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NBAU = ConvertAbilityIntegerLevelField('Nbau')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NTOU = ConvertAbilityIntegerLevelField('Ntou')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_ESVU = ConvertAbilityIntegerLevelField('Esvu')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPES = ConvertAbilityIntegerLevelField('Nef1')
-    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NDOU = ConvertAbilityIntegerLevelField('Ndou')
-    constant abilityintegerlevelfield ABILITY_ILF_ALTERNATE_FORM_UNIT_EMEU = ConvertAbilityIntegerLevelField('Emeu')
-    constant abilityintegerlevelfield ABILITY_ILF_PLAGUE_WARD_UNIT_TYPE = ConvertAbilityIntegerLevelField('Aplu')
-    constant abilityintegerlevelfield ABILITY_ILF_ALLOWED_UNIT_TYPE_BTL1 = ConvertAbilityIntegerLevelField('Btl1')
-    constant abilityintegerlevelfield ABILITY_ILF_NEW_UNIT_TYPE = ConvertAbilityIntegerLevelField('Cha1')
-    constant abilityintegerlevelfield ABILITY_ILF_RESULTING_UNIT_TYPE_ENT1 = ConvertAbilityIntegerLevelField('ent1')
-    constant abilityintegerlevelfield ABILITY_ILF_CORPSE_UNIT_TYPE = ConvertAbilityIntegerLevelField('Gydu')
-    constant abilityintegerlevelfield ABILITY_ILF_ALLOWED_UNIT_TYPE_LOA1 = ConvertAbilityIntegerLevelField('Loa1')
-    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_FOR_LIMIT_CHECK = ConvertAbilityIntegerLevelField('Raiu')
-    constant abilityintegerlevelfield ABILITY_ILF_WARD_UNIT_TYPE_STAU = ConvertAbilityIntegerLevelField('Stau')
-    constant abilityintegerlevelfield ABILITY_ILF_EFFECT_ABILITY = ConvertAbilityIntegerLevelField('Iobu')
-    constant abilityintegerlevelfield ABILITY_ILF_CONVERSION_UNIT = ConvertAbilityIntegerLevelField('Ndc2')
-    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TO_PRESERVE = ConvertAbilityIntegerLevelField('Nsl1')
-    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_ALLOWED = ConvertAbilityIntegerLevelField('Chl1')
-    constant abilityintegerlevelfield ABILITY_ILF_SWARM_UNIT_TYPE = ConvertAbilityIntegerLevelField('Ulsu')
-    constant abilityintegerlevelfield ABILITY_ILF_RESULTING_UNIT_TYPE_COAU = ConvertAbilityIntegerLevelField('coau')
-    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_EXHU = ConvertAbilityIntegerLevelField('exhu')
-    constant abilityintegerlevelfield ABILITY_ILF_WARD_UNIT_TYPE_HWDU = ConvertAbilityIntegerLevelField('hwdu')
-    constant abilityintegerlevelfield ABILITY_ILF_LURE_UNIT_TYPE = ConvertAbilityIntegerLevelField('imou')
-    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_IPMU = ConvertAbilityIntegerLevelField('ipmu')
-    constant abilityintegerlevelfield ABILITY_ILF_FACTORY_UNIT_ID = ConvertAbilityIntegerLevelField('Nsyu')
-    constant abilityintegerlevelfield ABILITY_ILF_SPAWN_UNIT_ID_NFYU = ConvertAbilityIntegerLevelField('Nfyu')
-    constant abilityintegerlevelfield ABILITY_ILF_DESTRUCTIBLE_ID = ConvertAbilityIntegerLevelField('Nvcu')
-    constant abilityintegerlevelfield ABILITY_ILF_UPGRADE_TYPE = ConvertAbilityIntegerLevelField('Iglu')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_COST = ConvertAbilityIntegerLevelField('amcs')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_WAVES = ConvertAbilityIntegerLevelField('Hbz1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SHARDS = ConvertAbilityIntegerLevelField('Hbz3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_TELEPORTED = ConvertAbilityIntegerLevelField('Hmt1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_COUNT_HWE2 = ConvertAbilityIntegerLevelField('Hwe2')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_IMAGES = ConvertAbilityIntegerLevelField('Omi1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_UAN1 = ConvertAbilityIntegerLevelField('Uan1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MORPHING_FLAGS = ConvertAbilityIntegerLevelField('Eme2')
+    constant abilityintegerlevelfield	ABILITY_ILF_STRENGTH_BONUS_NRG5 = ConvertAbilityIntegerLevelField('Nrg5')
+    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_BONUS_NRG6 = ConvertAbilityIntegerLevelField('Nrg6')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_TARGETS_HIT = ConvertAbilityIntegerLevelField('Ocl2')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_OFS1 = ConvertAbilityIntegerLevelField('Ofs1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_OSF2 = ConvertAbilityIntegerLevelField('Osf2')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_EFN1 = ConvertAbilityIntegerLevelField('Efn1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_HRE1 = ConvertAbilityIntegerLevelField('Hre1')
+    constant abilityintegerlevelfield	ABILITY_ILF_STACK_FLAGS = ConvertAbilityIntegerLevelField('Hca4')
+    constant abilityintegerlevelfield	ABILITY_ILF_MINIMUM_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Ndp2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_NDP3 = ConvertAbilityIntegerLevelField('Ndp3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_CREATED_NRC2 = ConvertAbilityIntegerLevelField('Nrc2')
+    constant abilityintegerlevelfield	ABILITY_ILF_SHIELD_LIFE = ConvertAbilityIntegerLevelField('Ams3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_AMS4 = ConvertAbilityIntegerLevelField('Ams4')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_PER_INTERVAL_BGM1 = ConvertAbilityIntegerLevelField('Bgm1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_NUMBER_OF_MINERS = ConvertAbilityIntegerLevelField('Bgm3')
+    constant abilityintegerlevelfield	ABILITY_ILF_CARGO_CAPACITY = ConvertAbilityIntegerLevelField('Car1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_DEV3 = ConvertAbilityIntegerLevelField('Dev3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_CREEP_LEVEL_DEV1 = ConvertAbilityIntegerLevelField('Dev1')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_PER_INTERVAL_EGM1 = ConvertAbilityIntegerLevelField('Egm1')
+    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_REDUCTION = ConvertAbilityIntegerLevelField('Fae1')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_FLA1 = ConvertAbilityIntegerLevelField('Fla1')
+    constant abilityintegerlevelfield	ABILITY_ILF_FLARE_COUNT = ConvertAbilityIntegerLevelField('Fla3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_GOLD = ConvertAbilityIntegerLevelField('Gld1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MINING_CAPACITY = ConvertAbilityIntegerLevelField('Gld3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_GYD1 = ConvertAbilityIntegerLevelField('Gyd1')
+    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_TO_TREE = ConvertAbilityIntegerLevelField('Har1')
+    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_CAPACITY = ConvertAbilityIntegerLevelField('Har2')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_CAPACITY = ConvertAbilityIntegerLevelField('Har3')
+    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_INCREASE_INF2 = ConvertAbilityIntegerLevelField('Inf2')
+    constant abilityintegerlevelfield	ABILITY_ILF_INTERACTION_TYPE = ConvertAbilityIntegerLevelField('Neu2')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_COST_NDT1 = ConvertAbilityIntegerLevelField('Ndt1')
+    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_COST_NDT2 = ConvertAbilityIntegerLevelField('Ndt2')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_NDT3 = ConvertAbilityIntegerLevelField('Ndt3')
+    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_POI4 = ConvertAbilityIntegerLevelField('Poi4')
+    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_POA5 = ConvertAbilityIntegerLevelField('Poa5')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_PLY1 = ConvertAbilityIntegerLevelField('Ply1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_POS1 = ConvertAbilityIntegerLevelField('Pos1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MOVEMENT_UPDATE_FREQUENCY_PRG1 = ConvertAbilityIntegerLevelField('Prg1')
+    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_UPDATE_FREQUENCY_PRG2 = ConvertAbilityIntegerLevelField('Prg2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_PRG6 = ConvertAbilityIntegerLevelField('Prg6')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNITS_SUMMONED_TYPE_ONE = ConvertAbilityIntegerLevelField('Rai1')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNITS_SUMMONED_TYPE_TWO = ConvertAbilityIntegerLevelField('Rai2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_SUMMONED = ConvertAbilityIntegerLevelField('Ucb5')
+    constant abilityintegerlevelfield	ABILITY_ILF_ALLOW_WHEN_FULL_REJ3 = ConvertAbilityIntegerLevelField('Rej3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS_CHARGED_TO_CASTER = ConvertAbilityIntegerLevelField('Rpb5')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS_AFFECTED = ConvertAbilityIntegerLevelField('Rpb6')
+    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_INCREASE_ROA2 = ConvertAbilityIntegerLevelField('Roa2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_ROA7 = ConvertAbilityIntegerLevelField('Roa7')
+    constant abilityintegerlevelfield	ABILITY_ILF_ROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo1')
+    constant abilityintegerlevelfield	ABILITY_ILF_UPROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo2')
+    constant abilityintegerlevelfield	ABILITY_ILF_UPROOTED_DEFENSE_TYPE = ConvertAbilityIntegerLevelField('Roo4')
+    constant abilityintegerlevelfield	ABILITY_ILF_ACCUMULATION_STEP = ConvertAbilityIntegerLevelField('Sal2')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_OWLS = ConvertAbilityIntegerLevelField('Esn4')
+    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_SPO4 = ConvertAbilityIntegerLevelField('Spo4')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Sod1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SPIDER_CAPACITY = ConvertAbilityIntegerLevelField('Spa1')
+    constant abilityintegerlevelfield	ABILITY_ILF_INTERVALS_BEFORE_CHANGING_TREES = ConvertAbilityIntegerLevelField('Wha2')
+    constant abilityintegerlevelfield	ABILITY_ILF_AGILITY_BONUS = ConvertAbilityIntegerLevelField('Iagi')
+    constant abilityintegerlevelfield	ABILITY_ILF_INTELLIGENCE_BONUS = ConvertAbilityIntegerLevelField('Iint')
+    constant abilityintegerlevelfield	ABILITY_ILF_STRENGTH_BONUS_ISTR = ConvertAbilityIntegerLevelField('Istr')
+    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_BONUS = ConvertAbilityIntegerLevelField('Iatt')
+    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_BONUS_IDEF = ConvertAbilityIntegerLevelField('Idef')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMON_1_AMOUNT = ConvertAbilityIntegerLevelField('Isn1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMON_2_AMOUNT = ConvertAbilityIntegerLevelField('Isn2')
+    constant abilityintegerlevelfield	ABILITY_ILF_EXPERIENCE_GAINED = ConvertAbilityIntegerLevelField('Ixpg')
+    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_GAINED_IHPG = ConvertAbilityIntegerLevelField('Ihpg')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_GAINED_IMPG = ConvertAbilityIntegerLevelField('Impg')
+    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_GAINED_IHP2 = ConvertAbilityIntegerLevelField('Ihp2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_GAINED_IMP2 = ConvertAbilityIntegerLevelField('Imp2')
+    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_BONUS_DICE = ConvertAbilityIntegerLevelField('Idic')
+    constant abilityintegerlevelfield	ABILITY_ILF_ARMOR_PENALTY_IARP = ConvertAbilityIntegerLevelField('Iarp')
+    constant abilityintegerlevelfield	ABILITY_ILF_ENABLED_ATTACK_INDEX_IOB5 = ConvertAbilityIntegerLevelField('Iob5')
+    constant abilityintegerlevelfield	ABILITY_ILF_LEVELS_GAINED = ConvertAbilityIntegerLevelField('Ilev')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_LIFE_GAINED = ConvertAbilityIntegerLevelField('Ilif')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_MANA_GAINED = ConvertAbilityIntegerLevelField('Iman')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_GIVEN = ConvertAbilityIntegerLevelField('Igol')
+    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_GIVEN = ConvertAbilityIntegerLevelField('Ilum')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_IFA1 = ConvertAbilityIntegerLevelField('Ifa1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_ICRE = ConvertAbilityIntegerLevelField('Icre')
+    constant abilityintegerlevelfield	ABILITY_ILF_MOVEMENT_SPEED_BONUS = ConvertAbilityIntegerLevelField('Imvb')
+    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_REGENERATED_PER_SECOND = ConvertAbilityIntegerLevelField('Ihpr')
+    constant abilityintegerlevelfield	ABILITY_ILF_SIGHT_RANGE_BONUS = ConvertAbilityIntegerLevelField('Isib')
+    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_PER_DURATION = ConvertAbilityIntegerLevelField('Icfd')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_USED_PER_SECOND = ConvertAbilityIntegerLevelField('Icfm')
+    constant abilityintegerlevelfield	ABILITY_ILF_EXTRA_MANA_REQUIRED = ConvertAbilityIntegerLevelField('Icfx')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_RADIUS_IDET = ConvertAbilityIntegerLevelField('Idet')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_PER_UNIT_IDIM = ConvertAbilityIntegerLevelField('Idim')
+    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = ConvertAbilityIntegerLevelField('Idid')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField('Irec')
+    constant abilityintegerlevelfield	ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField('Ircd')
+    constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField('irc2')
+    constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
+    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Ihps')
+    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Imps')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField('Itpm')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_CAD1 = ConvertAbilityIntegerLevelField('Cad1')
+    constant abilityintegerlevelfield	ABILITY_ILF_TERRAIN_DEFORMATION_DURATION_MS = ConvertAbilityIntegerLevelField('Wrs3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS = ConvertAbilityIntegerLevelField('Uds1')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_DET1 = ConvertAbilityIntegerLevelField('Det1')
+    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_COST_PER_STRUCTURE = ConvertAbilityIntegerLevelField('Nsp1')
+    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_COST_PER_USE = ConvertAbilityIntegerLevelField('Nsp2')
+    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_NSP3 = ConvertAbilityIntegerLevelField('Nsp3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SWARM_UNITS = ConvertAbilityIntegerLevelField('Uls1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_SWARM_UNITS_PER_TARGET = ConvertAbilityIntegerLevelField('Uls3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NBA2 = ConvertAbilityIntegerLevelField('Nba2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_NCH1 = ConvertAbilityIntegerLevelField('Nch1')
+    constant abilityintegerlevelfield	ABILITY_ILF_ATTACKS_PREVENTED = ConvertAbilityIntegerLevelField('Nsi1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_EFK3 = ConvertAbilityIntegerLevelField('Efk3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_ESV1 = ConvertAbilityIntegerLevelField('Esv1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_EXH1 = ConvertAbilityIntegerLevelField('exh1')
+    constant abilityintegerlevelfield	ABILITY_ILF_ITEM_CAPACITY = ConvertAbilityIntegerLevelField('inv1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_SPL2 = ConvertAbilityIntegerLevelField('spl2')
+    constant abilityintegerlevelfield	ABILITY_ILF_ALLOW_WHEN_FULL_IRL3 = ConvertAbilityIntegerLevelField('irl3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_DISPELLED_UNITS = ConvertAbilityIntegerLevelField('idc3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_LURES = ConvertAbilityIntegerLevelField('imo1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NEW_TIME_OF_DAY_HOUR = ConvertAbilityIntegerLevelField('ict1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NEW_TIME_OF_DAY_MINUTE = ConvertAbilityIntegerLevelField('ict2')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_CREATED_MEC1 = ConvertAbilityIntegerLevelField('mec1')
+    constant abilityintegerlevelfield	ABILITY_ILF_MINIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb4')
+    constant abilityintegerlevelfield	ABILITY_ILF_DISABLED_ATTACK_INDEX = ConvertAbilityIntegerLevelField('gra3')
+    constant abilityintegerlevelfield	ABILITY_ILF_ENABLED_ATTACK_INDEX_GRA4 = ConvertAbilityIntegerLevelField('gra4')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_ATTACKS = ConvertAbilityIntegerLevelField('gra5')
+    constant abilityintegerlevelfield	ABILITY_ILF_BUILDING_TYPES_ALLOWED_NPR1 = ConvertAbilityIntegerLevelField('Npr1')
+    constant abilityintegerlevelfield	ABILITY_ILF_BUILDING_TYPES_ALLOWED_NSA1 = ConvertAbilityIntegerLevelField('Nsa1')
+    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_MODIFICATION = ConvertAbilityIntegerLevelField('Iaa1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_COUNT_NPA5 = ConvertAbilityIntegerLevelField('Npa5')
+    constant abilityintegerlevelfield	ABILITY_ILF_UPGRADE_LEVELS = ConvertAbilityIntegerLevelField('Igl1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NDO2 = ConvertAbilityIntegerLevelField('Ndo2')
+    constant abilityintegerlevelfield	ABILITY_ILF_BEASTS_PER_SECOND = ConvertAbilityIntegerLevelField('Nst1')
+    constant abilityintegerlevelfield	ABILITY_ILF_TARGETS_ALLOWED = ConvertAbilityIntegerLevelField('atar')
+    constant abilityintegerlevelfield	ABILITY_ILF_TARGET_TYPE = ConvertAbilityIntegerLevelField('Ncl2')
+    constant abilityintegerlevelfield	ABILITY_ILF_OPTIONS = ConvertAbilityIntegerLevelField('Ncl3')
+    constant abilityintegerlevelfield	ABILITY_ILF_ARMOR_PENALTY_NAB3 = ConvertAbilityIntegerLevelField('Nab3')
+    constant abilityintegerlevelfield	ABILITY_ILF_WAVE_COUNT_NHS6 = ConvertAbilityIntegerLevelField('Nhs6')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_CREEP_LEVEL_NTM3 = ConvertAbilityIntegerLevelField('Ntm3')
+    constant abilityintegerlevelfield	ABILITY_ILF_MISSILE_COUNT = ConvertAbilityIntegerLevelField('Ncs3')
+    constant abilityintegerlevelfield	ABILITY_ILF_SPLIT_ATTACK_COUNT = ConvertAbilityIntegerLevelField('Nlm3')
+    constant abilityintegerlevelfield	ABILITY_ILF_GENERATION_COUNT = ConvertAbilityIntegerLevelField('Nlm6')
+    constant abilityintegerlevelfield	ABILITY_ILF_ROCK_RING_COUNT = ConvertAbilityIntegerLevelField('Nvc1')
+    constant abilityintegerlevelfield	ABILITY_ILF_WAVE_COUNT_NVC2 = ConvertAbilityIntegerLevelField('Nvc2')
+    constant abilityintegerlevelfield	ABILITY_ILF_PREFER_HOSTILES_TAU1 = ConvertAbilityIntegerLevelField('Tau1')
+    constant abilityintegerlevelfield	ABILITY_ILF_PREFER_FRIENDLIES_TAU2 = ConvertAbilityIntegerLevelField('Tau2')
+    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_TAU3 = ConvertAbilityIntegerLevelField('Tau3')
+    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_PULSES = ConvertAbilityIntegerLevelField('Tau4')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_HWE1 = ConvertAbilityIntegerLevelField('Hwe1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_UIN4 = ConvertAbilityIntegerLevelField('Uin4')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_OSF1 = ConvertAbilityIntegerLevelField('Osf1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_EFNU = ConvertAbilityIntegerLevelField('Efnu')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NBAU = ConvertAbilityIntegerLevelField('Nbau')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NTOU = ConvertAbilityIntegerLevelField('Ntou')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_ESVU = ConvertAbilityIntegerLevelField('Esvu')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPES = ConvertAbilityIntegerLevelField('Nef1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NDOU = ConvertAbilityIntegerLevelField('Ndou')
+    constant abilityintegerlevelfield	ABILITY_ILF_ALTERNATE_FORM_UNIT_EMEU = ConvertAbilityIntegerLevelField('Emeu')
+    constant abilityintegerlevelfield	ABILITY_ILF_PLAGUE_WARD_UNIT_TYPE = ConvertAbilityIntegerLevelField('Aplu')
+    constant abilityintegerlevelfield	ABILITY_ILF_ALLOWED_UNIT_TYPE_BTL1 = ConvertAbilityIntegerLevelField('Btl1')
+    constant abilityintegerlevelfield	ABILITY_ILF_NEW_UNIT_TYPE = ConvertAbilityIntegerLevelField('Cha1')
+    constant abilityintegerlevelfield	ABILITY_ILF_RESULTING_UNIT_TYPE_ENT1 = ConvertAbilityIntegerLevelField('ent1')
+    constant abilityintegerlevelfield	ABILITY_ILF_CORPSE_UNIT_TYPE = ConvertAbilityIntegerLevelField('Gydu')
+    constant abilityintegerlevelfield	ABILITY_ILF_ALLOWED_UNIT_TYPE_LOA1 = ConvertAbilityIntegerLevelField('Loa1')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_FOR_LIMIT_CHECK = ConvertAbilityIntegerLevelField('Raiu')
+    constant abilityintegerlevelfield	ABILITY_ILF_WARD_UNIT_TYPE_STAU = ConvertAbilityIntegerLevelField('Stau')
+    constant abilityintegerlevelfield	ABILITY_ILF_EFFECT_ABILITY = ConvertAbilityIntegerLevelField('Iobu')
+    constant abilityintegerlevelfield	ABILITY_ILF_CONVERSION_UNIT = ConvertAbilityIntegerLevelField('Ndc2')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TO_PRESERVE = ConvertAbilityIntegerLevelField('Nsl1')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_ALLOWED = ConvertAbilityIntegerLevelField('Chl1')
+    constant abilityintegerlevelfield	ABILITY_ILF_SWARM_UNIT_TYPE = ConvertAbilityIntegerLevelField('Ulsu')
+    constant abilityintegerlevelfield	ABILITY_ILF_RESULTING_UNIT_TYPE_COAU = ConvertAbilityIntegerLevelField('coau')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_EXHU = ConvertAbilityIntegerLevelField('exhu')
+    constant abilityintegerlevelfield	ABILITY_ILF_WARD_UNIT_TYPE_HWDU = ConvertAbilityIntegerLevelField('hwdu')
+    constant abilityintegerlevelfield	ABILITY_ILF_LURE_UNIT_TYPE = ConvertAbilityIntegerLevelField('imou')
+    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_IPMU = ConvertAbilityIntegerLevelField('ipmu')
+    constant abilityintegerlevelfield	ABILITY_ILF_FACTORY_UNIT_ID = ConvertAbilityIntegerLevelField('Nsyu')
+    constant abilityintegerlevelfield	ABILITY_ILF_SPAWN_UNIT_ID_NFYU = ConvertAbilityIntegerLevelField('Nfyu')
+    constant abilityintegerlevelfield	ABILITY_ILF_DESTRUCTIBLE_ID = ConvertAbilityIntegerLevelField('Nvcu')
+    constant abilityintegerlevelfield	ABILITY_ILF_UPGRADE_TYPE = ConvertAbilityIntegerLevelField('Iglu')
 
     constant abilityreallevelfield ABILITY_RLF_CASTING_TIME = ConvertAbilityRealLevelField('acas')
     constant abilityreallevelfield ABILITY_RLF_CAST_BACK_SWING = ConvertAbilityRealLevelField('acbs')
@@ -1888,7 +1923,7 @@ globals
     constant abilityreallevelfield ABILITY_RLF_DELAY_FOR_TARGET_EFFECT = ConvertAbilityRealLevelField('Idel')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_DEALT_PERCENT_OF_NORMAL = ConvertAbilityRealLevelField('Iild')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_RECEIVED_MULTIPLIER = ConvertAbilityRealLevelField('Iilw')
-    constant abilityreallevelfield ABILITY_RLF_MANA_REGENERATION_BONUS_AS_FRACTION_OF_NORMAL = ConvertAbilityRealLevelField('Imrp')
+    constant abilityreallevelfield ABILITY_RLF_MANA_REGENERATION_BONUS_AS_FRACTION_OF_NORMAL	= ConvertAbilityRealLevelField('Imrp')
     constant abilityreallevelfield ABILITY_RLF_MOVEMENT_SPEED_INCREASE_ISPI = ConvertAbilityRealLevelField('Ispi')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_PER_SECOND_IDPS = ConvertAbilityRealLevelField('Idps')
     constant abilityreallevelfield ABILITY_RLF_ATTACK_DAMAGE_INCREASE_CAC1 = ConvertAbilityRealLevelField('Cac1')
@@ -2076,114 +2111,114 @@ globals
     constant abilityreallevelfield ABILITY_RLF_HALF_DAMAGE_FACTOR = ConvertAbilityRealLevelField('Nvc6')
     constant abilityreallevelfield ABILITY_RLF_INTERVAL_BETWEEN_PULSES = ConvertAbilityRealLevelField('Tau5')
 
-    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_HAB2 = ConvertAbilityBooleanLevelField('Hab2')
-    constant abilitybooleanlevelfield ABILITY_BLF_USE_TELEPORT_CLUSTERING_HMT3 = ConvertAbilityBooleanLevelField('Hmt3')
-    constant abilitybooleanlevelfield ABILITY_BLF_NEVER_MISS_OCR5 = ConvertAbilityBooleanLevelField('Ocr5')
-    constant abilitybooleanlevelfield ABILITY_BLF_EXCLUDE_ITEM_DAMAGE = ConvertAbilityBooleanLevelField('Ocr6')
-    constant abilitybooleanlevelfield ABILITY_BLF_BACKSTAB_DAMAGE = ConvertAbilityBooleanLevelField('Owk4')
-    constant abilitybooleanlevelfield ABILITY_BLF_INHERIT_UPGRADES_UAN3 = ConvertAbilityBooleanLevelField('Uan3')
-    constant abilitybooleanlevelfield ABILITY_BLF_MANA_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp3')
-    constant abilitybooleanlevelfield ABILITY_BLF_LIFE_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp4')
-    constant abilitybooleanlevelfield ABILITY_BLF_LEAVE_TARGET_ALIVE = ConvertAbilityBooleanLevelField('Udp5')
-    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_UAU3 = ConvertAbilityBooleanLevelField('Uau3')
-    constant abilitybooleanlevelfield ABILITY_BLF_DAMAGE_IS_PERCENT_RECEIVED = ConvertAbilityBooleanLevelField('Eah2')
-    constant abilitybooleanlevelfield ABILITY_BLF_MELEE_BONUS = ConvertAbilityBooleanLevelField('Ear2')
-    constant abilitybooleanlevelfield ABILITY_BLF_RANGED_BONUS = ConvertAbilityBooleanLevelField('Ear3')
-    constant abilitybooleanlevelfield ABILITY_BLF_FLAT_BONUS = ConvertAbilityBooleanLevelField('Ear4')
-    constant abilitybooleanlevelfield ABILITY_BLF_NEVER_MISS_HBH5 = ConvertAbilityBooleanLevelField('Hbh5')
-    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_HAD2 = ConvertAbilityBooleanLevelField('Had2')
-    constant abilitybooleanlevelfield ABILITY_BLF_CAN_DEACTIVATE = ConvertAbilityBooleanLevelField('Hds1')
-    constant abilitybooleanlevelfield ABILITY_BLF_RAISED_UNITS_ARE_INVULNERABLE = ConvertAbilityBooleanLevelField('Hre2')
-    constant abilitybooleanlevelfield ABILITY_BLF_PERCENTAGE_OAR2 = ConvertAbilityBooleanLevelField('Oar2')
-    constant abilitybooleanlevelfield ABILITY_BLF_SUMMON_BUSY_UNITS = ConvertAbilityBooleanLevelField('Btl2')
-    constant abilitybooleanlevelfield ABILITY_BLF_CREATES_BLIGHT = ConvertAbilityBooleanLevelField('Bli2')
-    constant abilitybooleanlevelfield ABILITY_BLF_EXPLODES_ON_DEATH = ConvertAbilityBooleanLevelField('Sds6')
-    constant abilitybooleanlevelfield ABILITY_BLF_ALWAYS_AUTOCAST_FAE2 = ConvertAbilityBooleanLevelField('Fae2')
-    constant abilitybooleanlevelfield ABILITY_BLF_REGENERATE_ONLY_AT_NIGHT = ConvertAbilityBooleanLevelField('Mbt5')
-    constant abilitybooleanlevelfield ABILITY_BLF_SHOW_SELECT_UNIT_BUTTON = ConvertAbilityBooleanLevelField('Neu3')
-    constant abilitybooleanlevelfield ABILITY_BLF_SHOW_UNIT_INDICATOR = ConvertAbilityBooleanLevelField('Neu4')
-    constant abilitybooleanlevelfield ABILITY_BLF_CHARGE_OWNING_PLAYER = ConvertAbilityBooleanLevelField('Ans6')
-    constant abilitybooleanlevelfield ABILITY_BLF_PERCENTAGE_ARM2 = ConvertAbilityBooleanLevelField('Arm2')
-    constant abilitybooleanlevelfield ABILITY_BLF_TARGET_IS_INVULNERABLE = ConvertAbilityBooleanLevelField('Pos3')
-    constant abilitybooleanlevelfield ABILITY_BLF_TARGET_IS_MAGIC_IMMUNE = ConvertAbilityBooleanLevelField('Pos4')
-    constant abilitybooleanlevelfield ABILITY_BLF_KILL_ON_CASTER_DEATH = ConvertAbilityBooleanLevelField('Ucb6')
-    constant abilitybooleanlevelfield ABILITY_BLF_NO_TARGET_REQUIRED_REJ4 = ConvertAbilityBooleanLevelField('Rej4')
-    constant abilitybooleanlevelfield ABILITY_BLF_ACCEPTS_GOLD = ConvertAbilityBooleanLevelField('Rtn1')
-    constant abilitybooleanlevelfield ABILITY_BLF_ACCEPTS_LUMBER = ConvertAbilityBooleanLevelField('Rtn2')
-    constant abilitybooleanlevelfield ABILITY_BLF_PREFER_HOSTILES_ROA5 = ConvertAbilityBooleanLevelField('Roa5')
-    constant abilitybooleanlevelfield ABILITY_BLF_PREFER_FRIENDLIES_ROA6 = ConvertAbilityBooleanLevelField('Roa6')
-    constant abilitybooleanlevelfield ABILITY_BLF_ROOTED_TURNING = ConvertAbilityBooleanLevelField('Roo3')
-    constant abilitybooleanlevelfield ABILITY_BLF_ALWAYS_AUTOCAST_SLO3 = ConvertAbilityBooleanLevelField('Slo3')
-    constant abilitybooleanlevelfield ABILITY_BLF_HIDE_BUTTON = ConvertAbilityBooleanLevelField('Ihid')
-    constant abilitybooleanlevelfield ABILITY_BLF_USE_TELEPORT_CLUSTERING_ITP2 = ConvertAbilityBooleanLevelField('Itp2')
-    constant abilitybooleanlevelfield ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS = ConvertAbilityBooleanLevelField('Eth1')
-    constant abilitybooleanlevelfield ABILITY_BLF_DOES_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Eth2')
-    constant abilitybooleanlevelfield ABILITY_BLF_AUTO_ACQUIRE_ATTACK_TARGETS = ConvertAbilityBooleanLevelField('Gho1')
-    constant abilitybooleanlevelfield ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS_GHO2 = ConvertAbilityBooleanLevelField('Gho2')
-    constant abilitybooleanlevelfield ABILITY_BLF_DO_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Gho3')
-    constant abilitybooleanlevelfield ABILITY_BLF_INCLUDE_RANGED_DAMAGE = ConvertAbilityBooleanLevelField('Ssk4')
-    constant abilitybooleanlevelfield ABILITY_BLF_INCLUDE_MELEE_DAMAGE = ConvertAbilityBooleanLevelField('Ssk5')
-    constant abilitybooleanlevelfield ABILITY_BLF_MOVE_TO_PARTNER = ConvertAbilityBooleanLevelField('coa2')
-    constant abilitybooleanlevelfield ABILITY_BLF_CAN_BE_DISPELLED = ConvertAbilityBooleanLevelField('cyc1')
-    constant abilitybooleanlevelfield ABILITY_BLF_IGNORE_FRIENDLY_BUFFS = ConvertAbilityBooleanLevelField('dvm6')
-    constant abilitybooleanlevelfield ABILITY_BLF_DROP_ITEMS_ON_DEATH = ConvertAbilityBooleanLevelField('inv2')
-    constant abilitybooleanlevelfield ABILITY_BLF_CAN_USE_ITEMS = ConvertAbilityBooleanLevelField('inv3')
-    constant abilitybooleanlevelfield ABILITY_BLF_CAN_GET_ITEMS = ConvertAbilityBooleanLevelField('inv4')
-    constant abilitybooleanlevelfield ABILITY_BLF_CAN_DROP_ITEMS = ConvertAbilityBooleanLevelField('inv5')
-    constant abilitybooleanlevelfield ABILITY_BLF_REPAIRS_ALLOWED = ConvertAbilityBooleanLevelField('liq4')
-    constant abilitybooleanlevelfield ABILITY_BLF_CASTER_ONLY_SPLASH = ConvertAbilityBooleanLevelField('mfl6')
-    constant abilitybooleanlevelfield ABILITY_BLF_NO_TARGET_REQUIRED_IRL4 = ConvertAbilityBooleanLevelField('irl4')
-    constant abilitybooleanlevelfield ABILITY_BLF_DISPEL_ON_ATTACK = ConvertAbilityBooleanLevelField('irl5')
-    constant abilitybooleanlevelfield ABILITY_BLF_AMOUNT_IS_RAW_VALUE = ConvertAbilityBooleanLevelField('ipv3')
-    constant abilitybooleanlevelfield ABILITY_BLF_SHARED_SPELL_COOLDOWN = ConvertAbilityBooleanLevelField('spb2')
-    constant abilitybooleanlevelfield ABILITY_BLF_SLEEP_ONCE = ConvertAbilityBooleanLevelField('sla1')
-    constant abilitybooleanlevelfield ABILITY_BLF_ALLOW_ON_ANY_PLAYER_SLOT = ConvertAbilityBooleanLevelField('sla2')
-    constant abilitybooleanlevelfield ABILITY_BLF_DISABLE_OTHER_ABILITIES = ConvertAbilityBooleanLevelField('Ncl5')
-    constant abilitybooleanlevelfield ABILITY_BLF_ALLOW_BOUNTY = ConvertAbilityBooleanLevelField('Ntm4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_HAB2 = ConvertAbilityBooleanLevelField('Hab2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_USE_TELEPORT_CLUSTERING_HMT3 = ConvertAbilityBooleanLevelField('Hmt3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_NEVER_MISS_OCR5 = ConvertAbilityBooleanLevelField('Ocr5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_EXCLUDE_ITEM_DAMAGE = ConvertAbilityBooleanLevelField('Ocr6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_BACKSTAB_DAMAGE = ConvertAbilityBooleanLevelField('Owk4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_INHERIT_UPGRADES_UAN3 = ConvertAbilityBooleanLevelField('Uan3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_MANA_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_LIFE_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_LEAVE_TARGET_ALIVE = ConvertAbilityBooleanLevelField('Udp5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_UAU3 = ConvertAbilityBooleanLevelField('Uau3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DAMAGE_IS_PERCENT_RECEIVED = ConvertAbilityBooleanLevelField('Eah2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_MELEE_BONUS = ConvertAbilityBooleanLevelField('Ear2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_RANGED_BONUS = ConvertAbilityBooleanLevelField('Ear3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_FLAT_BONUS = ConvertAbilityBooleanLevelField('Ear4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_NEVER_MISS_HBH5 = ConvertAbilityBooleanLevelField('Hbh5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_HAD2 = ConvertAbilityBooleanLevelField('Had2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_DEACTIVATE = ConvertAbilityBooleanLevelField('Hds1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_RAISED_UNITS_ARE_INVULNERABLE = ConvertAbilityBooleanLevelField('Hre2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENTAGE_OAR2 = ConvertAbilityBooleanLevelField('Oar2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_SUMMON_BUSY_UNITS = ConvertAbilityBooleanLevelField('Btl2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CREATES_BLIGHT = ConvertAbilityBooleanLevelField('Bli2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_EXPLODES_ON_DEATH = ConvertAbilityBooleanLevelField('Sds6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ALWAYS_AUTOCAST_FAE2 = ConvertAbilityBooleanLevelField('Fae2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_REGENERATE_ONLY_AT_NIGHT = ConvertAbilityBooleanLevelField('Mbt5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_SHOW_SELECT_UNIT_BUTTON = ConvertAbilityBooleanLevelField('Neu3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_SHOW_UNIT_INDICATOR = ConvertAbilityBooleanLevelField('Neu4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CHARGE_OWNING_PLAYER = ConvertAbilityBooleanLevelField('Ans6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENTAGE_ARM2 = ConvertAbilityBooleanLevelField('Arm2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_TARGET_IS_INVULNERABLE = ConvertAbilityBooleanLevelField('Pos3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_TARGET_IS_MAGIC_IMMUNE = ConvertAbilityBooleanLevelField('Pos4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_KILL_ON_CASTER_DEATH = ConvertAbilityBooleanLevelField('Ucb6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_NO_TARGET_REQUIRED_REJ4 = ConvertAbilityBooleanLevelField('Rej4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ACCEPTS_GOLD = ConvertAbilityBooleanLevelField('Rtn1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ACCEPTS_LUMBER = ConvertAbilityBooleanLevelField('Rtn2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PREFER_HOSTILES_ROA5 = ConvertAbilityBooleanLevelField('Roa5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_PREFER_FRIENDLIES_ROA6 = ConvertAbilityBooleanLevelField('Roa6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ROOTED_TURNING = ConvertAbilityBooleanLevelField('Roo3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ALWAYS_AUTOCAST_SLO3 = ConvertAbilityBooleanLevelField('Slo3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_HIDE_BUTTON = ConvertAbilityBooleanLevelField('Ihid')
+    constant abilitybooleanlevelfield	ABILITY_BLF_USE_TELEPORT_CLUSTERING_ITP2 = ConvertAbilityBooleanLevelField('Itp2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS = ConvertAbilityBooleanLevelField('Eth1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DOES_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Eth2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_AUTO_ACQUIRE_ATTACK_TARGETS = ConvertAbilityBooleanLevelField('Gho1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS_GHO2 = ConvertAbilityBooleanLevelField('Gho2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DO_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Gho3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_INCLUDE_RANGED_DAMAGE = ConvertAbilityBooleanLevelField('Ssk4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_INCLUDE_MELEE_DAMAGE = ConvertAbilityBooleanLevelField('Ssk5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_MOVE_TO_PARTNER = ConvertAbilityBooleanLevelField('coa2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_BE_DISPELLED = ConvertAbilityBooleanLevelField('cyc1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_IGNORE_FRIENDLY_BUFFS = ConvertAbilityBooleanLevelField('dvm6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DROP_ITEMS_ON_DEATH = ConvertAbilityBooleanLevelField('inv2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_USE_ITEMS = ConvertAbilityBooleanLevelField('inv3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_GET_ITEMS = ConvertAbilityBooleanLevelField('inv4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_DROP_ITEMS = ConvertAbilityBooleanLevelField('inv5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_REPAIRS_ALLOWED = ConvertAbilityBooleanLevelField('liq4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_CASTER_ONLY_SPLASH = ConvertAbilityBooleanLevelField('mfl6')
+    constant abilitybooleanlevelfield	ABILITY_BLF_NO_TARGET_REQUIRED_IRL4 = ConvertAbilityBooleanLevelField('irl4')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DISPEL_ON_ATTACK = ConvertAbilityBooleanLevelField('irl5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_AMOUNT_IS_RAW_VALUE = ConvertAbilityBooleanLevelField('ipv3')
+    constant abilitybooleanlevelfield	ABILITY_BLF_SHARED_SPELL_COOLDOWN = ConvertAbilityBooleanLevelField('spb2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_SLEEP_ONCE = ConvertAbilityBooleanLevelField('sla1')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ALLOW_ON_ANY_PLAYER_SLOT = ConvertAbilityBooleanLevelField('sla2')
+    constant abilitybooleanlevelfield	ABILITY_BLF_DISABLE_OTHER_ABILITIES = ConvertAbilityBooleanLevelField('Ncl5')
+    constant abilitybooleanlevelfield	ABILITY_BLF_ALLOW_BOUNTY = ConvertAbilityBooleanLevelField('Ntm4')
 
-    constant abilitystringlevelfield ABILITY_SLF_ICON_NORMAL = ConvertAbilityStringLevelField('aart')
-    constant abilitystringlevelfield ABILITY_SLF_CASTER = ConvertAbilityStringLevelField('acat')
-    constant abilitystringlevelfield ABILITY_SLF_TARGET = ConvertAbilityStringLevelField('atat')
-    constant abilitystringlevelfield ABILITY_SLF_SPECIAL = ConvertAbilityStringLevelField('asat')
-    constant abilitystringlevelfield ABILITY_SLF_EFFECT = ConvertAbilityStringLevelField('aeat')
-    constant abilitystringlevelfield ABILITY_SLF_AREA_EFFECT = ConvertAbilityStringLevelField('aaea')
-    constant abilitystringlevelfield ABILITY_SLF_LIGHTNING_EFFECTS = ConvertAbilityStringLevelField('alig')
-    constant abilitystringlevelfield ABILITY_SLF_MISSILE_ART = ConvertAbilityStringLevelField('amat')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_LEARN = ConvertAbilityStringLevelField('aret')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_LEARN_EXTENDED = ConvertAbilityStringLevelField('arut')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_NORMAL = ConvertAbilityStringLevelField('atp1')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_TURN_OFF = ConvertAbilityStringLevelField('aut1')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringLevelField('aub1')
-    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_TURN_OFF_EXTENDED = ConvertAbilityStringLevelField('auu1')
-    constant abilitystringlevelfield ABILITY_SLF_NORMAL_FORM_UNIT_EME1 = ConvertAbilityStringLevelField('Eme1')
-    constant abilitystringlevelfield ABILITY_SLF_SPAWNED_UNITS = ConvertAbilityStringLevelField('Ndp1')
-    constant abilitystringlevelfield ABILITY_SLF_ABILITY_FOR_UNIT_CREATION = ConvertAbilityStringLevelField('Nrc1')
-    constant abilitystringlevelfield ABILITY_SLF_NORMAL_FORM_UNIT_MIL1 = ConvertAbilityStringLevelField('Mil1')
-    constant abilitystringlevelfield ABILITY_SLF_ALTERNATE_FORM_UNIT_MIL2 = ConvertAbilityStringLevelField('Mil2')
-    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_ANS5 = ConvertAbilityStringLevelField('Ans5')
-    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_GROUND = ConvertAbilityStringLevelField('Ply2')
-    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_AIR = ConvertAbilityStringLevelField('Ply3')
-    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_AMPHIBIOUS = ConvertAbilityStringLevelField('Ply4')
-    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_WATER = ConvertAbilityStringLevelField('Ply5')
-    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('Rai3')
-    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('Rai4')
-    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_SOD2 = ConvertAbilityStringLevelField('Sod2')
-    constant abilitystringlevelfield ABILITY_SLF_SUMMON_1_UNIT_TYPE = ConvertAbilityStringLevelField('Ist1')
-    constant abilitystringlevelfield ABILITY_SLF_SUMMON_2_UNIT_TYPE = ConvertAbilityStringLevelField('Ist2')
-    constant abilitystringlevelfield ABILITY_SLF_RACE_TO_CONVERT = ConvertAbilityStringLevelField('Ndc1')
-    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE = ConvertAbilityStringLevelField('coa1')
-    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('dcp1')
-    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('dcp2')
-    constant abilitystringlevelfield ABILITY_SLF_REQUIRED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi1')
-    constant abilitystringlevelfield ABILITY_SLF_CONVERTED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi2')
-    constant abilitystringlevelfield ABILITY_SLF_SPELL_LIST = ConvertAbilityStringLevelField('spb1')
-    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_SPB5 = ConvertAbilityStringLevelField('spb5')
-    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_NCL6 = ConvertAbilityStringLevelField('Ncl6')
-    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_1 = ConvertAbilityStringLevelField('Neg3')
-    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_2 = ConvertAbilityStringLevelField('Neg4')
-    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_3 = ConvertAbilityStringLevelField('Neg5')
-    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField('Neg6')
-    constant abilitystringlevelfield ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField('Nsy2')
+    constant abilitystringlevelfield	ABILITY_SLF_ICON_NORMAL = ConvertAbilityStringLevelField('aart')
+    constant abilitystringlevelfield	ABILITY_SLF_CASTER = ConvertAbilityStringLevelField('acat')
+    constant abilitystringlevelfield	ABILITY_SLF_TARGET = ConvertAbilityStringLevelField('atat')
+    constant abilitystringlevelfield	ABILITY_SLF_SPECIAL = ConvertAbilityStringLevelField('asat')
+    constant abilitystringlevelfield	ABILITY_SLF_EFFECT = ConvertAbilityStringLevelField('aeat')
+    constant abilitystringlevelfield	ABILITY_SLF_AREA_EFFECT = ConvertAbilityStringLevelField('aaea')
+    constant abilitystringlevelfield	ABILITY_SLF_LIGHTNING_EFFECTS = ConvertAbilityStringLevelField('alig')
+    constant abilitystringlevelfield	ABILITY_SLF_MISSILE_ART = ConvertAbilityStringLevelField('amat')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_LEARN = ConvertAbilityStringLevelField('aret')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_LEARN_EXTENDED = ConvertAbilityStringLevelField('arut')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_NORMAL = ConvertAbilityStringLevelField('atp1')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_TURN_OFF = ConvertAbilityStringLevelField('aut1')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringLevelField('aub1')
+    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_TURN_OFF_EXTENDED = ConvertAbilityStringLevelField('auu1')
+    constant abilitystringlevelfield	ABILITY_SLF_NORMAL_FORM_UNIT_EME1 = ConvertAbilityStringLevelField('Eme1')
+    constant abilitystringlevelfield	ABILITY_SLF_SPAWNED_UNITS = ConvertAbilityStringLevelField('Ndp1')
+    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_FOR_UNIT_CREATION = ConvertAbilityStringLevelField('Nrc1')
+    constant abilitystringlevelfield	ABILITY_SLF_NORMAL_FORM_UNIT_MIL1 = ConvertAbilityStringLevelField('Mil1')
+    constant abilitystringlevelfield	ABILITY_SLF_ALTERNATE_FORM_UNIT_MIL2 = ConvertAbilityStringLevelField('Mil2')
+    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_ANS5 = ConvertAbilityStringLevelField('Ans5')
+    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_GROUND = ConvertAbilityStringLevelField('Ply2')
+    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_AIR = ConvertAbilityStringLevelField('Ply3')
+    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_AMPHIBIOUS = ConvertAbilityStringLevelField('Ply4')
+    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_WATER = ConvertAbilityStringLevelField('Ply5')
+    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('Rai3')
+    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('Rai4')
+    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_SOD2 = ConvertAbilityStringLevelField('Sod2')
+    constant abilitystringlevelfield	ABILITY_SLF_SUMMON_1_UNIT_TYPE = ConvertAbilityStringLevelField('Ist1')
+    constant abilitystringlevelfield	ABILITY_SLF_SUMMON_2_UNIT_TYPE = ConvertAbilityStringLevelField('Ist2')
+    constant abilitystringlevelfield	ABILITY_SLF_RACE_TO_CONVERT = ConvertAbilityStringLevelField('Ndc1')
+    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE = ConvertAbilityStringLevelField('coa1')
+    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('dcp1')
+    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('dcp2')
+    constant abilitystringlevelfield	ABILITY_SLF_REQUIRED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi1')
+    constant abilitystringlevelfield	ABILITY_SLF_CONVERTED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi2')
+    constant abilitystringlevelfield	ABILITY_SLF_SPELL_LIST = ConvertAbilityStringLevelField('spb1')
+    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_SPB5 = ConvertAbilityStringLevelField('spb5')
+    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_NCL6 = ConvertAbilityStringLevelField('Ncl6')
+    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_1 = ConvertAbilityStringLevelField('Neg3')
+    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_2 = ConvertAbilityStringLevelField('Neg4')
+    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_3 = ConvertAbilityStringLevelField('Neg5')
+    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField('Neg6')
+    constant abilitystringlevelfield	ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField('Nsy2')
 
     // Buff
     constant abilitystringfield BUFF_SF_ICON_NORMAL = ConvertAbilityStringField('fart')
@@ -2191,8 +2226,8 @@ globals
     constant abilitystringfield BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringField('fube')
 
     // Destructable
-    constant destructablestringfield DESTRUCTABLE_SF_NAME = ConvertDestructableStringField('bnam')
-    constant destructablestringfield DESTRUCTABLE_SF_MODEL = ConvertDestructableStringField('bfil')
+    constant destructablestringfield	DESTRUCTABLE_SF_NAME = ConvertDestructableStringField('bnam')
+    constant destructablestringfield	DESTRUCTABLE_SF_MODEL = ConvertDestructableStringField('bfil')
 
     // Item
     constant itemintegerfield ITEM_IF_TINTING_COLOR = ConvertItemIntegerField('iclt')
@@ -2213,6 +2248,7 @@ globals
     constant itemintegerfield ITEM_IF_STOCK_REPLENISH_INTERVAL = ConvertItemIntegerField('istr')
     constant itemintegerfield ITEM_IF_STOCK_START_DELAY = ConvertItemIntegerField('isst')
     constant itemintegerfield ITEM_IF_MAX_HIT_POINTS = ConvertItemIntegerField('ihtp')
+    constant itemintegerfield ITEM_IF_HOTKEY = ConvertItemIntegerField('ihot')
 
     constant itemrealfield ITEM_RF_SCALING_VALUE = ConvertItemRealField('isca')
     constant itemrealfield ITEM_RF_SELECTION_SIZE = ConvertItemRealField('issc')
@@ -2270,6 +2306,8 @@ globals
     constant unitintegerfield UNIT_IF_ORIENTATION_INTERPOLATION = ConvertUnitIntegerField('uori')
     constant unitintegerfield UNIT_IF_ELEVATION_SAMPLE_POINTS = ConvertUnitIntegerField('uept')
     constant unitintegerfield UNIT_IF_PROPER_NAMES_COUNT = ConvertUnitIntegerField('upru') // Get Only
+    constant unitintegerfield UNIT_IF_PROPER_NAME_INDEX = ConvertUnitIntegerField('uprd') // Gets/Sets currently active name from the list | Instance Unit Only.
+    constant unitintegerfield UNIT_IF_PROPER_NAME_GENERATION = ConvertUnitIntegerField('uprg') // This sets the Roman numeration of the unit, a number is contained. | Instance Unit Only.
     constant unitintegerfield UNIT_IF_HOTKEY = ConvertUnitIntegerField('uhot')
     constant unitintegerfield UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField('uclt')
     constant unitintegerfield UNIT_IF_TINTING_COLOR_RED = ConvertUnitIntegerField('uclr')
@@ -2458,6 +2496,16 @@ globals
     constant targetflag TARGET_FLAG_ANCIENT = ConvertTargetFlag(2147483648)
     constant targetflag TARGET_FLAG_EMPTY = ConvertTargetFlag(4294967295)
 
+    // ability types
+    constant abilitytype ABILITY_TYPE_POSITIVE = ConvertAbilityType(0)
+    constant abilitytype ABILITY_TYPE_NEGATIVE = ConvertAbilityType(1)
+    constant abilitytype ABILITY_TYPE_AURA = ConvertAbilityType(2)
+    constant abilitytype ABILITY_TYPE_BUFF = ConvertAbilityType(3)
+    constant abilitytype ABILITY_TYPE_TIMED_LIFE = ConvertAbilityType(4)
+    constant abilitytype ABILITY_TYPE_PHYSICAL = ConvertAbilityType(5)
+    constant abilitytype ABILITY_TYPE_MAGICAL = ConvertAbilityType(6)
+    constant abilitytype ABILITY_TYPE_AUTODISPEL = ConvertAbilityType(7)
+
     // defense type
     constant defensetype DEFENSE_TYPE_LIGHT = ConvertDefenseType(0)
     constant defensetype DEFENSE_TYPE_MEDIUM = ConvertDefenseType(1)
@@ -2559,6 +2607,50 @@ globals
     constant renderstage RENDER_STAGE_LIGHTNING = ConvertRenderStage(20)
     constant renderstage RENDER_STAGE_TEXTTAG = ConvertRenderStage(21)
 
+    constant layoutstyleflag LAYOUT_STYLE_BOUNDING_FRAME_POSITION = ConvertLayoutStyleFlag(1)
+    constant layoutstyleflag LAYOUT_STYLE_ALWAYS_TRACK = ConvertLayoutStyleFlag(2)
+    constant layoutstyleflag LAYOUT_STYLE_NO_ENV = ConvertLayoutStyleFlag(4)
+
+    constant gridstyleflag GRID_STYLE_JUSTIFY_LEFT = ConvertGridStyleFlag(8)
+    constant gridstyleflag GRID_STYLE_JUSTIFY_RIGHT = ConvertGridStyleFlag(16)
+    constant gridstyleflag GRID_STYLE_JUSTIFY_TOP = ConvertGridStyleFlag(32)
+    constant gridstyleflag GRID_STYLE_JUSTIFY_BOTTOM = ConvertGridStyleFlag(64)
+    constant gridstyleflag GRID_STYLE_JUSTIFY_MIDDLE = ConvertGridStyleFlag(128)
+    constant gridstyleflag GRID_STYLE_JUSTIFY_CENTER = ConvertGridStyleFlag(256)
+    constant gridstyleflag GRID_STYLE_PACK_ITEMS = ConvertGridStyleFlag(512)
+
+    constant layerstyleflag LAYER_STYLE_SVIEWPOINT = ConvertLayerStyleFlag(1)
+    constant layerstyleflag LAYER_STYLE_IGNORE_TRACK_EVENTS = ConvertLayerStyleFlag(2)
+    constant layerstyleflag LAYER_STYLE_SHADING = ConvertLayerStyleFlag(4)
+    constant layerstyleflag LAYER_STYLE_SCROLL = ConvertLayerStyleFlag(8)
+    constant layerstyleflag LAYER_STYLE_NO_DEPTH_SET = ConvertLayerStyleFlag(16)
+    constant layerstyleflag LAYER_STYLE_NO_DEPTH_TEST = ConvertLayerStyleFlag(32)
+
+    constant controlstyleflag CONTROL_STYLE_AUTOTRACK = ConvertControlStyleFlag(1)
+    constant controlstyleflag CONTROL_STYLE_CLICK_MOUSE_DOWN = ConvertControlStyleFlag(2)
+    constant controlstyleflag CONTROL_STYLE_RELEASE_NOTIFY = ConvertControlStyleFlag(4)
+    constant controlstyleflag CONTROL_STYLE_DRAG = ConvertControlStyleFlag(8)
+    constant controlstyleflag CONTROL_STYLE_HIGHLIGHT_ON_FOCUS = ConvertControlStyleFlag(16)
+    constant controlstyleflag CONTROL_STYLE_DRAW = ConvertControlStyleFlag(32)
+    constant controlstyleflag CONTROL_STYLE_HIGHLIGHT_FOCUS = ConvertControlStyleFlag(32) // For compat
+    constant controlstyleflag CONTROL_STYLE_HIGHLIGHT_ON_MOUSE_OVER = ConvertControlStyleFlag(64)
+    constant controlstyleflag CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128)
+    constant controlstyleflag CONTROL_STYLE_HIGHLIGHT = ConvertControlStyleFlag(256)
+    constant controlstyleflag CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) // Seems to be the same as SHIFTDESELECT and AUTODOWN
+    constant controlstyleflag CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024)
+
+    constant framestate FRAME_STATE_SIMPLE_BUTTON_DISABLED = ConvertFrameState(0)
+    constant framestate FRAME_STATE_SIMPLE_BUTTON_ENABLED = ConvertFrameState(1)
+    constant framestate FRAME_STATE_SIMPLE_BUTTON_PUSHED = ConvertFrameState(2)
+    constant framestate FRAME_STATE_SIMPLE_BUTTON_CURRENT = ConvertFrameState(3)
+
+    constant framestate FRAME_STATE_CONTROL_CURRENT = ConvertFrameState(0)
+    constant framestate FRAME_STATE_CONTROL_ENABLED = ConvertFrameState(1)
+    constant framestate FRAME_STATE_CONTROL_PUSHED = ConvertFrameState(2)
+    constant framestate FRAME_STATE_CONTROL_DISABLED = ConvertFrameState(3)
+    constant framestate FRAME_STATE_CONTROL_CHECK_ENABLED = ConvertFrameState(5)
+    constant framestate FRAME_STATE_CONTROL_CHECK_DISABLED = ConvertFrameState(6)
+
     constant integer BORDER_FLAG_UPPER_LEFT = 1
     constant integer BORDER_FLAG_UPPER_RIGHT = 2
     constant integer BORDER_FLAG_BOTTOM_LEFT = 4
@@ -2568,6 +2660,11 @@ globals
     constant integer BORDER_FLAG_BOTTOM = 64
     constant integer BORDER_FLAG_RIGHT = 128
     constant integer BORDER_FLAG_ALL = 255
+
+    constant connectiontype CONNECTION_TYPE_SINGLE_PLAYER = ConvertConnectionType(0)
+    constant connectiontype CONNECTION_TYPE_LOCAL_GAME = ConvertConnectionType(1)
+    constant connectiontype CONNECTION_TYPE_BATTLE_NET = ConvertConnectionType(2)
+    constant connectiontype CONNECTION_TYPE_REPLAY = ConvertConnectionType(3)
 endglobals
 
 //============================================================================
@@ -2591,7 +2688,7 @@ native Atan2 takes real y, real x returns real
 native SquareRoot takes real x returns real
 
 // computes x to the y power
-// y == 0.0			 => 1
+// y == 0.0 => 1
 // x ==0.0 and y < 0	=> 0
 //
 native Pow takes real x, real power returns real
@@ -2892,7 +2989,7 @@ constant native GetClickedButton takes nothing returns button
 constant native GetClickedDialog takes nothing returns dialog
 
 // EVENT_GAME_TOURNAMENT_FINISH_SOON
-constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real
+constant native GetTournamentFinishSoonTimeRemaining	takes nothing returns real
 constant native GetTournamentFinishNowRule takes nothing returns integer
 constant native GetTournamentFinishNowPlayer takes nothing returns player
 constant native GetTournamentScore takes player whichPlayer returns integer
@@ -2947,7 +3044,7 @@ constant native GetKillingUnit takes nothing returns unit
 constant native GetDecayingUnit takes nothing returns unit
 
 // EVENT_PLAYER_UNIT_SELECTED
-//constant native GetSelectedUnit						takes nothing returns unit
+//constant native GetSelectedUnit takes nothing returns unit
 
 // EVENT_PLAYER_UNIT_CONSTRUCT_START
 constant native GetConstructingStructure takes nothing returns unit
@@ -3044,8 +3141,7 @@ native TriggerRegisterPlayerChatEvent takes trigger whichTrigger, player whichPl
 
 // EVENT_PLAYER_CHAT
 
-// returns the actual string they typed in ( same as what you registered for
-// if you required exact match )
+// returns the actual string they typed in ( same as what you registered for if you required exact match )
 constant native GetEventPlayerChatString takes nothing returns string
 
 // returns the string that you registered for
@@ -3819,7 +3915,7 @@ native QuestSetRequired takes quest whichQuest, boolean required returns nothing
 native QuestSetCompleted takes quest whichQuest, boolean completed returns nothing
 native QuestSetDiscovered takes quest whichQuest, boolean discovered returns nothing
 native QuestSetFailed takes quest whichQuest, boolean failed returns nothing
-native QuestSetEnabled takes quest whichQuest, boolean enabled returns nothing
+native QuestSetEnabled takes quest whichQuest, boolean enabled	returns nothing
 
 native IsQuestRequired takes quest whichQuest returns boolean
 native IsQuestCompleted takes quest whichQuest returns boolean
@@ -4170,7 +4266,7 @@ native SetDoodadAnimationRect takes rect r, integer doodadID, string animName, b
 //============================================================================
 // Computer AI interface
 //
-native StartMeleeAI takes player num, string script returns nothing
+native StartMeleeAI takes player num, string script	returns nothing
 native StartCampaignAI takes player num, string script returns nothing
 native CommandAI takes player num, integer command, integer data returns nothing
 native PauseCompAI takes player p, boolean pause returns nothing
@@ -4215,13 +4311,17 @@ native BitwiseAND takes integer bit1, integer bit2 returns integer
 native BitwiseOR takes integer bit1, integer bit2 returns integer
 native BitwiseXOR takes integer bit1, integer bit2 returns integer
 native BitwiseShiftLeft takes integer i, integer bitsToShift returns integer
+native BitwiseShiftLeftLogical takes integer i, integer bitsToShift returns integer
 native BitwiseShiftRight takes integer i, integer bitsToShift returns integer
+native BitwiseShiftRightLogical takes integer i, integer bitsToShift returns integer
 native BitwiseToInteger takes integer byte1, integer byte2, integer byte3, integer byte4 returns integer
 
 native Id2String takes integer i returns string
 native String2Id takes string idString returns integer
 native IntToHex takes integer i returns string
 native IntToChar takes integer i returns string
+native IntToRoman takes integer i returns string
+native HexToInt takes string hex returns integer
 native ConvertColour takes integer alpha, integer red, integer green, integer blue returns integer
 
 //===================================================
@@ -4370,11 +4470,25 @@ native SetJassGlobalReal takes jassthread thread, string variableName, real valu
 native SetJassGlobalString takes jassthread thread, string variableName, string value returns boolean
 native SetJassGlobalHandle takes jassthread thread, string variableName, handle value returns boolean
 native SetJassGlobalBoolean takes jassthread thread, string variableName, boolean value returns boolean
+
+native GetJassLocalInteger takes string variableName returns integer
+native GetJassLocalReal takes string variableName returns real
+native GetJassLocalString takes string variableName returns string
+native GetJassLocalHandle takes string variableName returns handle
+native GetJassLocalBoolean takes string variableName returns boolean
+
+native SetJassLocalInteger takes string variableName, integer value returns boolean
+native SetJassLocalReal takes string variableName, real value returns boolean
+native SetJassLocalString takes string variableName, string value returns boolean
+native SetJassLocalHandle takes string variableName, handle value returns boolean
+native SetJassLocalBoolean takes string variableName, boolean value returns boolean
 //
 
 // Jass Operations
 native IsOperationLimitEnabled takes nothing returns boolean
 native EnableOperationLimit takes boolean enable returns nothing
+native GetOperationLimit takes nothing returns integer
+native SetOperationLimit takes integer opLimit returns nothing
 native GetCodeByName takes string funcName returns code
 native ExecuteCode takes code c returns nothing
 native ExecuteFuncEx takes string funcName returns nothing
@@ -4459,7 +4573,8 @@ native TextFileClear takes textfilehandle whichTextFile returns nothing
 native TextFileDelete takes textfilehandle whichTextFile returns nothing
 native TextFileCountLines takes textfilehandle whichTextFile returns integer
 native TextFileReadLine takes textfilehandle whichTextFile, integer lineNumber returns string
-native TextFileReadAll takes textfilehandle whichTextFile returns string
+native TextFileReadAllLines takes textfilehandle whichTextFile returns string
+native TextFileRead takes textfilehandle whichTextFile returns string
 native TextFileWriteLine takes textfilehandle whichTextFile, string text returns nothing
 //
 
@@ -4471,8 +4586,9 @@ native GetLocale takes nothing returns string
 native GetMiscDataString takes string sectionName, string optionName, integer index returns string
 native SetMiscDataString takes string sectionName, string optionName, integer index, string value returns nothing
 
-native GetSkinDataString takes string raceName, string sectionName, string optionName, integer index returns string // raceName can be null
-native SetSkinDataString takes string raceName, string sectionName, string optionName, integer index, string value returns nothing // raceName can be null
+// raceName can be null/empty
+native GetSkinDataString takes string raceName, string sectionName, string optionName, integer index returns string
+native SetSkinDataString takes string raceName, string sectionName, string optionName, integer index, string value returns nothing
 
 native GetFDFDataString takes string sectionName returns string
 native SetFDFDataString takes string sectionName, string value returns nothing
@@ -4542,6 +4658,13 @@ native GetTimeStamp takes boolean isLocalTime, integer isMiliseconds returns str
 native GetTickCount takes nothing returns integer
 //
 
+// Benchmark API
+native BenchmarkStart takes nothing returns nothing
+native BenchmarkEnd takes nothing returns nothing
+native BenchmarkReset takes nothing returns nothing
+native BenchmarkGetElapsed takes integer benchType returns string // 0 for nanoseconds, 1 for microseconds, 2 for milliseconds
+//
+
 // Screen API
 native SetScreenFieldOfView takes real fov returns nothing
 native SetWidescreenState takes boolean flag returns nothing
@@ -4590,14 +4713,18 @@ native GetMouseWorldZ takes nothing returns real
 // Chat API
 native DisplayWarningMessage takes player toPlayer, string message returns nothing
 native DisplayTimedWarningMessage takes player toPlayer, real duration, string message returns nothing
+// if whichPlayer is null, then players name text will be omitted, set recipient to CHAT_RECIPIENT_UNKNOWN to omit associated text.
+native DisplayChatMessageEx takes player whichPlayer, integer recipient, real duration, boolean addToLog, string message returns nothing
 native DisplayChatMessage takes player whichPlayer, integer recipient, string message returns nothing
 native DisplayTimedChatMessage takes player whichPlayer, integer recipient, real duration, string message returns nothing
+//
 native DisplayTopMessage takes player toPlayer, string message returns nothing
 native DisplayTimedTopMessage takes player toPlayer, real duration, string message returns nothing
 //
 
 // Handle API
 // This function is meant mostly for debugging, for example, to get all units in the map pass '+w3u' as agentBaseTypeId, '+ply' for players, '+mdb' for multiboards, '+frm' for frames accessed/created from jass/lua.
+native IsHandleDestroyed takes handle whichHandle returns boolean // this returns internal state of the object, whenever it's nullptr or CAgentBaseAbs was removed.
 native GetHandleReferenceCount takes handle whichHandle returns integer
 native GetHandleBaseTypeId takes handle whichHandle returns integer // this returns '+w3u' from unit, if it was passed as handle, and so on.
 native GetHandleBaseTypeName takes handle whichHandle returns string // this returns CUnit from unit, if it was passed as handle, and so on.
@@ -4623,7 +4750,9 @@ native SaveCode takes hashtable table, integer parentKey, integer childKey, code
 native SaveAttackTypeHandle takes hashtable table, integer parentKey, integer childKey, attacktype whichAttackType returns boolean
 native SaveDamageTypeHandle takes hashtable table, integer parentKey, integer childKey, damagetype whichDamageType returns boolean
 native SaveWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey, weapontype whichWeaponType returns boolean
+native SaveBuffHandle takes hashtable table, integer parentKey, integer childKey, buff whichBuff returns boolean
 native SaveSpriteHandle takes hashtable table, integer parentKey, integer childKey, sprite whichsprite returns boolean
+native SaveWar3ImageHandle takes hashtable table, integer parentKey, integer childKey, war3image whichWar3Image returns boolean
 native SaveDoodadHandle takes hashtable table, integer parentKey, integer childKey, doodad whichDoodad returns boolean
 native SaveTextFileHandle takes hashtable table, integer parentKey, integer childKey, textfilehandle whichFile returns boolean
 native SaveProjectileHandle takes hashtable table, integer parentKey, integer childKey, projectile whichProjectile returns boolean
@@ -4635,7 +4764,9 @@ native LoadCode takes hashtable table, integer parentKey, integer childKey retur
 native LoadAttackTypeHandle takes hashtable table, integer parentKey, integer childKey returns attacktype
 native LoadDamageTypeHandle takes hashtable table, integer parentKey, integer childKey returns damagetype
 native LoadWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey returns weapontype
+native LoadBuffHandle takes hashtable table, integer parentKey, integer childKey returns buff
 native LoadSpriteHandle takes hashtable table, integer parentKey, integer childKey returns sprite
+native LoadWar3ImageHandle takes hashtable table, integer parentKey, integer childKey returns war3image
 native LoadDoodadHandle takes hashtable table, integer parentKey, integer childKey returns doodad
 native LoadTextFileHandle takes hashtable table, integer parentKey, integer childKey returns textfilehandle
 native LoadProjectileHandle takes hashtable table, integer parentKey, integer childKey returns projectile
@@ -4651,12 +4782,10 @@ native ForceCountPlayers takes force whichForce returns integer
 //
 
 //============================================================================
-// Player API
+// Game API
 //
 native GetHostPlayer takes nothing returns player
-//
-
-// Game API
+native GetConnectionType takes nothing returns connectiontype
 native IsReplay takes nothing returns boolean
 //
 
@@ -4665,7 +4794,7 @@ native IsReplay takes nothing returns boolean
 native GroupGetCount takes group whichGroup returns integer
 native GroupContainsUnit takes group whichGroup, unit whichUnit returns boolean
 native GroupGetUnitByIndex takes group whichGroup, integer index returns unit
-native GroupForEachUnit takes group whichGroup returns unit // this mimics FristOfGroup, but each consecutive call will pick next unit. DO NOT USE this with GroupRemoveUnit, as it will break it.
+native GroupForEachUnit takes group whichGroup returns unit	// this mimics FristOfGroup, but each consecutive call will pick next unit. DO NOT USE this with GroupRemoveUnit, as it will break it.
 native GroupAddGroupEx takes group destGroup, group sourceGroup returns integer
 native GroupRemoveGroupEx takes group destGroup, group sourceGroup returns integer
 //
@@ -4704,6 +4833,7 @@ native HandleListGetSpriteCount takes handlelist whichHandleList returns integer
 native HandleListGetEffectCount takes handlelist whichHandleList returns integer
 native HandleListGetProjectileCount takes handlelist whichHandleList returns integer
 native HandleListGetFrameCount takes handlelist whichHandleList returns integer
+native HandleListGetOrderCount takes handlelist whichHandleList returns integer
 
 native HandleListGetHandleByIndex takes handlelist whichHandleList, integer index returns handle
 native HandleListGetHandleByIndexEx takes handlelist whichHandleList, integer handleTypeId, integer index returns handle
@@ -4721,6 +4851,7 @@ native HandleListGetSpriteByIndex takes handlelist whichHandleList, integer inde
 native HandleListGetEffectByIndex takes handlelist whichHandleList, integer index returns effect
 native HandleListGetProjectileByIndex takes handlelist whichHandleList, integer index returns projectile
 native HandleListGetFrameByIndex takes handlelist whichHandleList, integer index returns framehandle
+native HandleListGetOrderByIndex takes handlelist whichHandleList, integer index returns orderhandle
 
 native HandleListGetFilterHandle takes nothing returns handle
 native HandleListGetFilterAgent takes nothing returns agent
@@ -4735,6 +4866,7 @@ native HandleListGetFilterSprite takes nothing returns sprite
 native HandleListGetFilterEffect takes nothing returns effect
 native HandleListGetFilterProjectile takes nothing returns projectile
 native HandleListGetFilterFrame takes nothing returns framehandle
+native HandleListGetFilterOrder takes nothing returns orderhandle
 
 native HandleListGetEnumHandle takes nothing returns handle
 native HandleListGetEnumAgent takes nothing returns agent
@@ -4749,6 +4881,7 @@ native HandleListGetEnumSprite takes nothing returns sprite
 native HandleListGetEnumEffect takes nothing returns effect
 native HandleListGetEnumProjectile takes nothing returns projectile
 native HandleListGetEnumFrame takes nothing returns framehandle
+native HandleListGetEnumOrder takes nothing returns orderhandle
 
 native HandleListEnumInRange takes handlelist whichHandleList, real x, real y, real radius, boolexpr filter returns nothing
 native HandleListEnumInRangeEx takes handlelist whichHandleList, real x, real y, real radius, integer handleTypeId, boolexpr filter returns nothing
@@ -4791,6 +4924,7 @@ native HandleListEnumByIdEx takes handlelist whichHandleList, integer handleType
 
 native HandleListEnumUnitAbilities takes handlelist whichHandleList, unit whichUnit, boolexpr filter returns nothing
 native HandleListEnumUnitBuffs takes handlelist whichHandleList, unit whichUnit, boolexpr filter returns nothing
+native HandleListEnumUnitOrders takes handlelist whichHandleList, unit whichUnit, boolexpr filter returns nothing
 
 native HandleListForEach takes handlelist whichHandleList, code c returns nothing
 native HandleListForEachById takes handlelist whichHandleList, integer handleTypeId, code c returns nothing
@@ -4863,6 +4997,8 @@ native GetLightningColourB takes lightning whichBolt returns integer
 native SetLightningColour takes lightning whichBolt, integer red, integer green, integer blue, integer alpha returns boolean
 native GetLightningLength takes lightning whichBolt returns real
 native SetLightningLength takes lightning whichBolt, real value returns nothing
+native GetLightningWidth takes lightning whichBolt returns real
+native SetLightningWidth takes lightning whichBolt, real value returns nothing
 native GetLightningNoiseScaling takes lightning whichBolt returns real
 native SetLightningNoiseScaling takes lightning whichBolt, real value returns nothing
 native GetLightningTextureCoordinates takes lightning whichBolt returns real
@@ -4961,8 +5097,14 @@ native SetDoodadPitch takes doodad whichDoodad, real pitch returns nothing
 native GetDoodadRoll takes doodad whichDoodad returns real
 native SetDoodadRoll takes doodad whichDoodad, real roll returns nothing
 native SetDoodadOrientation takes doodad whichDoodad, real yaw, real pitch, real roll returns nothing
+native GetDoodadPlayerColour takes doodad whichDoodad returns playercolor
+native SetDoodadPlayerColour takes doodad whichDoodad, playercolor color returns nothing
 native GetDoodadModel takes doodad whichDoodad returns string
-native SetDoodadModel takes doodad whichDoodad, string whichModel returns nothing
+native SetDoodadModel takes doodad whichDoodad, string modelFile returns nothing
+native SetDoodadModelEx takes doodad whichDoodad, string modelFile, integer playerId returns nothing
+native SetDoodadMaterialTexture takes doodad whichDoodad, string textureName, integer materialId, integer textureIndex returns nothing
+native SetDoodadTexture takes doodad whichDoodad, string textureName, integer textureIndex returns nothing
+native SetDoodadReplaceableTexture takes doodad whichDoodad, string textureName, integer textureIndex returns nothing
 native IsDoodadVisible takes doodad whichDoodad returns boolean
 native ShowDoodad takes doodad whichDoodad, boolean isShow returns nothing
 native SetDoodadAnimationWithRarityByIndex takes doodad whichDoodad, integer animIndex, raritycontrol rarity returns nothing
@@ -5086,11 +5228,17 @@ native IsAbilityBaseTargetAllowed takes integer abilCode, widget source, widget 
 
 // Normal API
 native CreateAbility takes integer abilCode returns ability
+native GetTriggerAbility takes nothing returns ability // mimics GetSpellAbility
+native IsAbilityType takes ability whichAbility, abilitytype whichAbilityType returns boolean
 native GetAbilityOwner takes ability whichAbility returns unit
 native SetAbilityOwner takes ability whichAbility, unit whichUnit returns nothing
+native GetAbilityOwningAbility takes ability whichAbility returns ability // if it belongs to Spellbook (Aspb) and so on.
+native SetAbilityOwningAbility takes ability whichAbility, ability whichSpellbook returns nothing // Allows to place ability in Spellbook (Aspb).
 native GetAbilityOwningItem takes ability whichAbility returns item
+native SetAbilityOwningItem takes ability whichAbility, item whichItem returns nothing
 native GetAbilityOrderId takes ability whichAbility returns integer
-native SetAbilityOrderId takes ability whichAbility, integer orderId returns boolean // Highly experimental, may be removed if proven unstable.
+native SetAbilityOrderId takes ability whichAbility, integer orderId returns nothing // Highly experimental, may be removed if proven unstable.
+native ResetAbilityOrder takes ability whichAbility returns nothing // Simply removes SetAbilityOrderId's influence.
 native GetAbilityLevel takes ability whichAbility returns integer
 native SetAbilityLevel takes ability whichAbility, integer level returns integer
 native GetAbilityBaseTypeId takes ability whichAbility returns integer
@@ -5114,8 +5262,8 @@ native SetAbilityBackswing takes ability whichAbility, real backswing returns no
 native GetAbilityCooldown takes ability whichAbility returns real
 native SetAbilityCooldown takes ability whichAbility, real cooldown returns nothing
 native GetAbilityRemainingCooldown takes ability whichAbility returns real
-native SetAbilityRemainingCooldown takes ability whichAbility, real cooldown returns boolean
-native StartAbilityCooldown takes ability whichAbility, real cooldown returns boolean
+native SetAbilityRemainingCooldown takes ability whichAbility, real cooldown returns nothing
+native StartAbilityCooldown takes ability whichAbility, real cooldown returns nothing
 native DisableAbility takes ability whichAbility, boolean hide, boolean disable returns nothing
 native EnableAbility takes ability whichAbility, boolean show, boolean enable returns nothing
 native CastAbility takes ability whichAbility returns boolean
@@ -5133,8 +5281,37 @@ native EnumUnitAbilities takes unit whichUnit, boolexpr whichBoolexpr, code whic
 //
 
 // Base Field API
-native GetBuffBaseStringFieldById takes integer buffId, abilitystringfield whichField returns string
-native SetBuffBaseStringFieldById takes integer buffId, abilitystringfield whichField, string value returns boolean
+native GetBuffBaseIntegerFieldById takes integer bid, abilityintegerfield whichField returns integer
+native SetBuffBaseIntegerFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBaseBooleanFieldById takes integer bid, abilitybooleanfield whichField returns boolean
+native SetBuffBaseBooleanFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffBaseRealFieldById takes integer bid, abilityrealfield whichField returns real
+native SetBuffBaseRealFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+
+native GetBuffBaseStringFieldById takes integer bid, abilitystringfield whichField returns string
+native SetBuffBaseStringFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
+
+native GetBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer index returns integer
+native SetBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer index, integer value returns boolean
+native AddBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+native RemoveBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, integer index returns boolean
+native SetBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, integer index, boolean value returns boolean
+native AddBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+native RemoveBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, integer index returns real
+native SetBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, integer index, real value returns boolean
+native AddBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+native RemoveBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+
+native GetBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, integer index returns string
+native SetBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, integer index, string value returns boolean
+native AddBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
+native RemoveBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
 //
 
 // Field API
@@ -5150,21 +5327,47 @@ native SetBuffRealField takes buff whichBuff, abilityrealfield whichField, real 
 native GetBuffStringField takes buff whichBuff, abilitystringfield whichField returns string
 native SetBuffStringField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
 
-native ResetBuffFieldData takes buff whichBuff returns boolean // Acts same as ResetAbilityFieldData, but for buffs.
+native GetBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer index returns integer
+native SetBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer index, integer value returns boolean
+native AddBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer value returns boolean
+native RemoveBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, integer index returns boolean
+native SetBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, integer index, boolean value returns boolean
+native AddBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, boolean value returns boolean
+native RemoveBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, integer index returns real
+native SetBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, integer index, real value returns boolean
+native AddBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, real value returns boolean
+native RemoveBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, real value returns boolean
+
+native GetBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, integer index returns string
+native SetBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, integer index, string value returns boolean
+native AddBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
+native RemoveBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
 //
 
+native ResetBuffFieldData takes buff whichBuff returns boolean // Acts same as ResetAbilityFieldData, but for buffs.
+
 // Normal API
+// Supported buffs are available here: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3BuffListSupportedInBuffAPI.txt
 native CreateBuff takes integer buffId returns buff
 
 native GetBuffTypeId takes buff whichBuff returns integer
 native GetBuffBaseTypeId takes buff whichBuff returns integer
 native GetBuffOwner takes buff whichbuff returns unit
 native SetBuffOwner takes buff whichBuff, unit whichUnit returns nothing
+native GetBuffOwningAbility takes buff whichbuff returns ability // experimental
+native SetBuffOwningAbility takes buff whichBuff, ability whichAbility returns nothing // experimental
+native IsBuffDispellable takes buff whichBuff returns boolean
+native SetBuffDispellable takes buff whichBuff, boolean isSet returns nothing
 native GetBuffLevel takes buff whichBuff returns integer
 native SetBuffLevel takes buff whichBuff, integer level returns nothing
 native GetBuffRemainingDuration takes buff whichBuff returns real
-native SetBuffRemainingDuration takes buff whichBuff, real duration returns boolean
-native RefreshBuff takes buff whichBuff returns boolean
+native SetBuffRemainingDuration takes buff whichBuff, real duration returns nothing
+native PauseBuff takes buff whichBuff, boolean pause returns nothing
+native RefreshBuff takes buff whichBuff returns nothing
 
 native GetFilterBuff takes nothing returns buff
 native GetEnumBuff takes nothing returns buff
@@ -5175,6 +5378,72 @@ native GetTriggerBuff takes nothing returns buff
 native GetTriggerBuffSourceAbility takes nothing returns ability
 native GetTriggerBuffSourceUnit takes nothing returns unit
 native GetTriggerBuffTarget takes nothing returns unit
+//
+
+//============================================================================
+// War3Image API
+//
+// This is API for the "lowest" in terms of hierarchy object type for any and all widgets. Sprites and doodads are exception, however this API can distinguish between them and handle accordingly.
+native GetWar3ImageSprite takes war3image whichWar3Image returns sprite
+native IsWar3ImageVisible takes war3image whichWar3Image returns boolean
+native SetWar3ImageVisible takes war3image whichWar3Image, boolean visible returns nothing
+native IsWar3ImageInvulnerable takes war3image whichWar3Image returns boolean
+native SetWar3ImageInvulnerable takes war3image whichWar3Image, boolean invulnerable returns nothing
+native GetWar3ImageX takes war3image whichWar3Image returns real
+native GetWar3ImageY takes war3image whichWar3Image returns real
+native GetWar3ImageZ takes war3image whichWar3Image returns real
+native GetWar3ImagePositionLoc takes war3image whichWar3Image returns location
+native SetWar3ImagePositionLoc takes war3image whichWar3Image, location whichLocation returns nothing
+native SetWar3ImagePosition takes war3image whichWar3Image, real x, real y returns nothing
+native SetWar3ImagePositionWithZ takes war3image whichWar3Image, real x, real y, real z returns nothing
+native SetWar3ImageX takes war3image whichWar3Image, real x returns nothing
+native SetWar3ImageY takes war3image whichWar3Image, real y returns nothing
+native SetWar3ImageZ takes war3image whichWar3Image, real z returns nothing
+native ResetWar3ImageZ takes war3image whichWar3Image returns nothing // returns Z control to game.
+native GetWar3ImageHeight takes war3image whichWar3Image returns real
+native SetWar3ImageHeight takes war3image whichWar3Image, real height returns nothing
+native GetWar3ImageScreenX takes war3image whichWar3Image returns real
+native GetWar3ImageScreenY takes war3image whichWar3Image returns real
+native GetWar3ImagePlayerColour takes war3image whichWar3Image returns playercolor // This gets glow/team colour.
+native SetWar3ImagePlayerColour takes war3image whichWar3Image, playercolor color returns nothing // This sets Glow and Team Colour. Mimics the SetUnitColor.
+native GetWar3ImageVertexColour takes war3image whichWar3Image returns integer
+native SetWar3ImageVertexColour takes war3image whichWar3Image, integer red, integer green, integer blue, integer alpha returns nothing
+native GetWar3ImageTimeScale takes war3image whichWar3Image returns real
+native SetWar3ImageTimeScale takes war3image whichWar3Image, real timeScale returns nothing
+native GetWar3ImageScale takes war3image whichWar3Image returns real
+native SetWar3ImageScale takes war3image whichWar3Image, real scale returns nothing
+native GetWar3ImageFacing takes war3image whichWar3Image returns real
+native SetWar3ImageFacing takes war3image whichWar3Image, real facing, boolean isInstant returns nothing
+native SetWar3ImageMatrixScale takes war3image whichWar3Image, real x, real y, real z returns nothing
+native ResetWar3ImageMatrix takes war3image whichWar3Image returns nothing
+native SetWar3ImageOrientationEx takes war3image whichWar3Image, real yaw, real pitch, real roll, integer eulerOrder returns nothing
+native SetWar3ImageOrientation takes war3image whichWar3Image, real yaw, real pitch, real roll returns nothing
+native GetWar3ImageYaw takes war3image whichWar3Image returns real
+native SetWar3ImageYaw takes war3image whichWar3Image, real yaw returns nothing
+native GetWar3ImagePitch takes war3image whichWar3Image returns real
+native SetWar3ImagePitch takes war3image whichWar3Image, real pitch returns nothing
+native GetWar3ImageRoll takes war3image whichWar3Image returns real
+native SetWar3ImageRoll takes war3image whichWar3Image, real roll returns nothing
+native GetWar3ImageModel takes war3image whichWar3Image returns string
+native SetWar3ImageModel takes war3image whichWar3Image, string modelFile returns nothing
+native SetWar3ImageModelEx takes war3image whichWar3Image, string modelFile, integer playerId returns nothing // 0-15, -1 to ignore the colour.
+native SetWar3ImageMaterialTexture takes war3image whichWar3Image, string textureName, integer materialId, integer textureIndex returns nothing
+native SetWar3ImageTexture takes war3image whichWar3Image, string textureName, integer textureIndex returns nothing
+native SetWar3ImageReplaceableTexture takes war3image whichWar3Image, string textureName, integer textureIndex returns nothing // 1 - TeamColour | 2 - TeamGlow | 11 - Cliff0/1 | 21 - "grabbed texture" for CCursorFrame | 31-37 trees.
+native GetWar3ImageModelObjectX takes war3image whichWar3Image, string whichObject returns real
+native GetWar3ImageModelObjectY takes war3image whichWar3Image, string whichObject returns real
+native GetWar3ImageModelObjectZ takes war3image whichWar3Image, string whichObject returns real
+native GetWar3ImageModelObjectPositionLoc takes war3image whichWar3Image, string whichObject returns location
+native GetWar3ImageCurrentAnimationId takes war3image whichWar3Image returns integer
+native GetWar3ImageCurrentAnimationName takes war3image whichWar3Image returns string
+native SetWar3ImageAnimationWithRarityByIndex takes war3image whichWar3Image, integer animIndex, raritycontrol rarity returns nothing
+native SetWar3ImageAnimationWithRarity takes war3image whichWar3Image, string animationName, raritycontrol rarity returns nothing
+native SetWar3ImageAnimationByIndex takes war3image whichWar3Image, integer animIndex returns nothing
+native SetWar3ImageAnimation takes war3image whichWar3Image, string animationName returns nothing
+native QueueWar3ImageAnimationByIndex takes war3image whichWar3Image, integer animIndex returns nothing
+native QueueWar3ImageAnimation takes war3image whichWar3Image, string animationName returns nothing
+native GetWar3ImageAnimationOffsetPercent takes war3image whichWar3Image returns real
+native SetWar3ImageAnimationOffsetPercent takes war3image whichWar3Image, real percent returns nothing
 //
 
 //============================================================================
@@ -5196,8 +5465,8 @@ native GetSpriteY takes sprite whichSprite returns real
 native GetSpriteZ takes sprite whichSprite returns real
 native GetSpriteHeight takes sprite whichSprite returns real
 native GetSpritePositionLoc takes sprite whichSprite returns location
-native SetSpritePositionWithZ takes sprite whichSprite, real x, real y, real z returns nothing
 native SetSpritePosition takes sprite whichSprite, real x, real y returns nothing
+native SetSpritePositionWithZ takes sprite whichSprite, real x, real y, real z returns nothing
 native SetSpritePositionLoc takes sprite whichSprite, location loc returns nothing
 native SetSpriteX takes sprite whichSprite, real x returns nothing
 native SetSpriteY takes sprite whichSprite, real y returns nothing
@@ -5209,6 +5478,7 @@ native GetSpriteScale takes sprite whichSprite returns real
 native SetSpriteScale takes sprite whichSprite, real scale returns nothing
 native GetSpriteTimeScale takes sprite whichSprite returns real
 native SetSpriteTimeScale takes sprite whichSprite, real timescale returns nothing
+native GetSpritePlayerColour takes sprite whichSprite returns playercolor
 native SetSpritePlayerColour takes sprite whichSprite, playercolor color returns nothing
 native GetSpriteColour takes sprite whichSprite returns integer
 native SetSpriteColour takes sprite whichSprite, integer colour returns nothing
@@ -5254,14 +5524,14 @@ native SetSpriteAnimationOffsetPercent takes sprite whichSprite, real percent re
 //
 native GetSpecialEffectSprite takes effect whichEffect returns sprite
 native IsSpecialEffectVisible takes effect whichEffect returns boolean
-native SetSpecialEffectVisibility takes effect whichEffect, boolean visibility returns nothing
+native SetSpecialEffectVisible takes effect whichEffect, boolean visibility returns nothing
 native GetSpecialEffectX takes effect whichEffect returns real
 native GetSpecialEffectY takes effect whichEffect returns real
 native GetSpecialEffectZ takes effect whichEffect returns real
 native GetSpecialEffectHeight takes effect whichEffect returns real
 native GetSpecialEffectPositionLoc takes effect whichEffect returns location
-native SetSpecialEffectPositionWithZ takes effect whichEffect, real x, real y, real z returns nothing
 native SetSpecialEffectPosition takes effect whichEffect, real x, real y returns nothing
+native SetSpecialEffectPositionWithZ takes effect whichEffect, real x, real y, real z returns nothing
 native SetSpecialEffectPositionLoc takes effect whichEffect, location loc returns nothing
 native SetSpecialEffectX takes effect whichEffect, real x returns nothing
 native SetSpecialEffectY takes effect whichEffect, real y returns nothing
@@ -5273,6 +5543,7 @@ native GetSpecialEffectScale takes effect whichEffect returns real
 native SetSpecialEffectScale takes effect whichEffect, real scale returns nothing
 native GetSpecialEffectTimeScale takes effect whichEffect returns real
 native SetSpecialEffectTimeScale takes effect whichEffect, real timescale returns nothing
+native GetSpecialEffectPlayerColour takes effect whichEffect returns playercolor
 native SetSpecialEffectPlayerColour takes effect whichEffect, playercolor color returns nothing
 native GetSpecialEffectColour takes effect whichEffect returns integer
 native SetSpecialEffectColour takes effect whichEffect, integer colour returns nothing
@@ -5324,14 +5595,14 @@ native EnumSpecialEffectsInRange takes real x, real y, real radius, boolexpr fil
 //
 native GetTrackableSprite takes trackable whichTrackable returns sprite
 native IsTrackableVisible takes trackable whichTrackable returns boolean
-native SetTrackableVisibility takes trackable whichTrackable, boolean visibility returns nothing
+native SetTrackableVisible takes trackable whichTrackable, boolean visibility returns nothing
 native GetTrackableX takes trackable whichTrackable returns real
 native GetTrackableY takes trackable whichTrackable returns real
 native GetTrackableZ takes trackable whichTrackable returns real
 native GetTrackableHeight takes trackable whichTrackable returns real
 native GetTrackablePositionLoc takes trackable whichTrackable returns location
-native SetTrackablePositionWithZ takes trackable whichTrackable, real x, real y, real z returns nothing
 native SetTrackablePosition takes trackable whichTrackable, real x, real y returns nothing
+native SetTrackablePositionWithZ takes trackable whichTrackable, real x, real y, real z returns nothing
 native SetTrackablePositionLoc takes trackable whichTrackable, location loc returns nothing
 native SetTrackableX takes trackable whichTrackable, real x returns nothing
 native SetTrackableY takes trackable whichTrackable, real y returns nothing
@@ -5343,6 +5614,7 @@ native GetTrackableScale takes trackable whichTrackable returns real
 native SetTrackableScale takes trackable whichTrackable, real scale returns nothing
 native GetTrackableTimeScale takes trackable whichTrackable returns real
 native SetTrackableTimeScale takes trackable whichTrackable, real timescale returns nothing
+native GetTrackablePlayerColour takes trackable whichTrackable returns playercolor
 native SetTrackablePlayerColour takes trackable whichTrackable, playercolor color returns nothing
 native GetTrackableColour takes trackable whichTrackable returns integer
 native SetTrackableColour takes trackable whichTrackable, integer colour returns nothing
@@ -5391,6 +5663,7 @@ native EnumTrackablesInRange takes real x, real y, real radius, boolexpr filter,
 //============================================================================
 // Widget API
 //
+native GetWidgetUnderCursor takes nothing returns widget // Async
 native GetWidgetSprite takes widget whichWidget returns sprite
 native GetWidgetTypeId takes widget whichWidget returns integer
 native GetWidgetName takes widget whichWidget returns string
@@ -5401,13 +5674,21 @@ native SetWidgetVisible takes widget whichWidget, boolean visible returns nothin
 native IsWidgetInvulnerable takes widget whichWidget returns boolean
 native SetWidgetInvulnerable takes widget whichWidget, boolean invulnerable returns nothing
 native IsWidgetTargetAllowed takes widget whichWidget, widget target, targetflag whichFlags returns boolean
+native GetWidgetZ takes widget whichWidget returns real
 native GetWidgetPositionLoc takes widget whichWidget returns location
 native SetWidgetPositionLoc takes widget whichWidget, location whichLocation returns nothing
 native SetWidgetPosition takes widget whichWidget, real x, real y returns nothing
+native SetWidgetPositionWithZ takes widget whichWidget, real x, real y, real z returns nothing
 native SetWidgetX takes widget whichWidget, real x returns nothing
 native SetWidgetY takes widget whichWidget, real y returns nothing
+native SetWidgetZ takes widget whichWidget, real z returns nothing
+native ResetWidgetZ takes widget whichWidget returns nothing // returns Z control to game.
+native GetWidgetHeight takes widget whichWidget returns real
+native SetWidgetHeight takes widget whichWidget, real height returns nothing
 native GetWidgetScreenX takes widget whichWidget returns real
 native GetWidgetScreenY takes widget whichWidget returns real
+native GetWidgetPlayerColour takes widget whichWidget returns playercolor
+native SetWidgetPlayerColour takes widget whichWidget, playercolor color returns nothing
 native GetWidgetVertexColour takes widget whichWidget returns integer
 native SetWidgetVertexColour takes widget whichWidget, integer red, integer green, integer blue, integer alpha returns nothing
 native GetWidgetTimeScale takes widget whichWidget returns real
@@ -5454,6 +5735,8 @@ native TriggerRegisterWidgetEvent takes trigger whichTrigger, widget whichWidget
 // Destructable API
 //
 
+native GetDestructableUnderCursor takes nothing returns destructable // Async
+
 // Field API
 native GetDestructableStringField takes destructable whichDestructable, destructablestringfield whichField returns string
 native SetDestructableStringField takes destructable whichDestructable, destructablestringfield whichField, string value returns boolean
@@ -5465,6 +5748,10 @@ native SetDestructableVariationEx takes destructable whichDestructable, integer 
 native IsDestructableBlighted takes destructable whichDestructable returns boolean
 native SetDestructableBlighted takes destructable whichDestructable, boolean flag returns nothing
 native GetDestructableSprite takes destructable whichDestructable returns sprite
+native GetDestructableZ takes destructable whichDestructable returns real
+native ResetDestructableZ takes destructable whichDestructable returns nothing // returns Z control to game.
+native GetDestructableHeight takes destructable whichDestructable returns real
+native SetDestructableHeight takes destructable whichDestructable, real height returns nothing
 native SetDestructablePositionWithZ takes destructable whichDestructable, real x, real y, real z returns nothing
 native SetDestructablePosition takes destructable whichDestructable, real x, real y returns nothing
 native GetDestructablePositionLoc takes destructable whichDestructable returns location
@@ -5474,6 +5761,8 @@ native SetDestructableY takes destructable whichDestructable, real y returns not
 native SetDestructableZ takes destructable whichDestructable, real z returns nothing
 native GetDestructableScreenX takes destructable whichDestructable returns real
 native GetDestructableScreenY takes destructable whichDestructable returns real
+native GetDestructablePlayerColour takes destructable whichDestructable returns playercolor
+native SetDestructablePlayerColour takes destructable whichDestructable, playercolor color returns nothing
 native GetDestructableVertexColour takes destructable whichDestructable returns integer
 native SetDestructableVertexColour takes destructable whichDestructable, integer red, integer green, integer blue, integer alpha returns nothing
 native GetDestructableTimeScale takes destructable whichDestructable returns real
@@ -5547,7 +5836,19 @@ native SetItemStringField takes item whichItem, itemstringfield whichField, stri
 //
 
 // Normal API
+constant native GetTriggerItem takes nothing returns item
+native GetItemUnderCursor takes nothing returns item // Async
+native GetItemOwner takes item whichItem returns unit
+native IsItemDroppable takes item whichItem returns boolean
 native GetItemSprite takes item whichItem returns sprite
+native GetItemZ takes item whichItem returns real
+native SetItemPositionWithZ takes item whichItem, real x, real y, real z returns nothing
+native SetItemX takes item whichItem, real x returns nothing
+native SetItemY takes item whichItem, real y returns nothing
+native SetItemZ takes item whichItem, real z returns nothing
+native ResetItemZ takes item whichItem returns nothing // returns Z control to game.
+native GetItemHeight takes item whichItem returns real
+native SetItemHeight takes item whichItem, real height returns nothing
 native GetItemScreenX takes item whichItem returns real
 native GetItemScreenY takes item whichItem returns real
 native GetItemLife takes item whichItem returns real
@@ -5565,6 +5866,8 @@ native SetItemCooldown takes item whichItem, real cooldown returns nothing
 native StartItemCooldown takes unit whichUnit, item whichItem, real cooldown returns nothing
 native GetItemRemainingCooldown takes item whichItem returns real
 native SetItemRemainingCooldown takes item whichItem, real cooldown returns nothing
+native GetItemPlayerColour takes item whichItem returns playercolor
+native SetItemPlayerColour takes item whichItem, playercolor color returns nothing
 native GetItemVertexColour takes item whichItem returns integer
 native SetItemVertexColour takes item whichItem, integer red, integer green, integer blue, integer alpha returns nothing
 native GetItemTimeScale takes item whichItem returns real
@@ -5669,11 +5972,17 @@ native SetUnitWeaponStringField takes unit whichUnit, unitweaponstringfield whic
 //
 
 // Normal API
+native GetUnitUnderCursor takes nothing returns unit // Async
 native GetUnitSprite takes unit whichUnit returns sprite
+native SetUnitPositionEx takes unit whichUnit, boolean breakOrder, boolean checkPathing, real x, real y, real z returns nothing
+native SetUnitPositionWithZ takes unit whichUnit, real x, real y, real z returns nothing
+native SetUnitZ takes unit whichUnit, real z returns nothing
+native ResetUnitZ takes unit whichUnit returns nothing // returns Z control to game.
+native GetUnitHeight takes unit whichUnit returns real // this is separate from SetUnitFlyHeight
+native SetUnitHeight takes unit whichUnit, real height returns nothing
 native GetUnitScreenX takes unit whichUnit returns real
 native GetUnitScreenY takes unit whichUnit returns real
 native SetUnitTypeId takes unit whichUnit, integer newId returns nothing
-native GetUnitUnderCursor takes nothing returns unit
 native GetUnitSelectedCountByPlayer takes player whichPlayer returns integer
 native GetUnitSelected takes player whichPlayer returns unit // Always returns Active unit, aka the "main" one whose UI is drawn.
 native GetUnitInSelectionByIndex takes player whichPlayer, integer index returns unit
@@ -5700,10 +6009,13 @@ native UnitUnapplyUpgrades takes unit whichUnit returns nothing
 native UnitApplyUpgrades takes unit whichUnit returns nothing
 
 // Unit Ability API
-native GetUnitAbility takes unit whichUnit, integer aid returns ability
-native GetUnitAbilityByIndex takes unit whichUnit, integer index returns ability
 native UnitAddAbilityEx takes unit whichUnit, integer abilCode, boolean checkForDuplicates returns boolean
 native UnitRemoveAbilityEx takes unit whichUnit, integer abilCode, boolean removeDuplicates returns boolean
+
+native CountUnitAbilities takes unit whichUnit, boolean alsoCountBuffs returns integer
+native GetUnitAbility takes unit whichUnit, integer aid returns ability
+native GetUnitAbilityEx takes unit whichUnit, integer aid, integer id returns ability // Allows you to search through duplicates.
+native GetUnitAbilityByIndex takes unit whichUnit, integer index returns ability
 native IsUnitAbilityVisible takes unit whichUnit, integer abilCode returns boolean
 native ShowUnitAbility takes unit whichUnit, integer abilCode, boolean show returns nothing
 native ShowUnitAbilityEx takes unit whichUnit, integer abilCode, boolean show, boolean checkDuplicates returns nothing
@@ -5714,14 +6026,14 @@ native EnableUnitAbilityEx takes unit whichUnit, integer abilCode, boolean show,
 //
 
 // Unit Buff API
-// In very early stages of development, may be unstable for now.
 native UnitAddBuff takes unit whichUnit, buff whichBuff returns boolean // Does not add duplicates!
 native UnitAddBuffEx takes unit whichUnit, buff whichBuff, boolean checkForDuplicates returns boolean
-
 native UnitAddBuffById takes unit whichUnit, integer buffId returns boolean // Does not add duplicates!
 native UnitAddBuffByIdEx takes unit whichUnit, integer buffId, boolean checkForDuplicates returns boolean
-//
+
+native CountUnitBuffs takes unit whichUnit returns integer
 native GetUnitBuff takes unit whichUnit, integer buffId returns buff
+native GetUnitBuffEx takes unit whichUnit, integer buffId, integer id returns buff // Allows you to search through duplicates.
 native GetUnitBuffByIndex takes unit whichUnit, integer index returns buff
 native GetUnitBuffLevel takes unit whichUnit, integer buffId returns integer
 //
@@ -5729,14 +6041,16 @@ native GetUnitBuffLevel takes unit whichUnit, integer buffId returns integer
 native UnitCancelTimedLife takes unit whichUnit returns nothing
 native GetUnitRemainingTimedLife takes unit whichUnit returns real
 native SetUnitRemainingTimedLife takes unit whichUnit, real duration returns nothing
+native IsUnitGhosted takes unit whichUnit returns boolean
+native SetUnitGhosted takes unit whichUnit, boolean state, real transitionTime returns nothing // This is similar to Invisibility, but uses Ghost (Agho) as base logic, just like windwalk. Attacking from this state does not cause the unit to exit Ghost state.
 native IsUnitSelectable takes unit whichUnit returns boolean
 native SetUnitSelectable takes unit whichUnit, boolean selectable returns nothing
 native IsUnitTargetable takes unit whichUnit returns boolean
 native SetUnitTargetable takes unit whichUnit, boolean targetable returns nothing
 native IsUnitTruesightImmune takes unit whichUnit returns boolean
 native SetUnitTruesightImmuneState takes unit whichUnit, boolean state returns nothing
-native SetUnitVisibleByPlayer takes unit whichUnit, player whichPlayer, boolean flag returns nothing // experimental
-native SetUnitDetectableByPlayer takes unit whichUnit, player whichPlayer, boolean flag returns nothing // experimental
+native SetUnitVisibleByPlayer takes unit whichUnit, player whichPlayer, boolean flag returns nothing // These are supposed to be used in EVENT_PLAYER_UNIT_DETECTED и EVENT_UNIT_DETECTED events.
+native SetUnitDetectableByPlayer takes unit whichUnit, player whichPlayer, boolean flag returns nothing // They are supposed to suppress the vision processing, but it's quite annoying to test/verify.
 native GetUnitZ takes unit whichUnit returns real
 native GetUnitDamageReduction takes unit whichUnit returns real
 native GetUnitMagicResistByType takes unit whichUnit, integer resistType returns real
@@ -5744,7 +6058,14 @@ native GetUnitEluneMagicResist takes unit whichUnit returns real
 native GetUnitRunicMagicResist takes unit whichUnit returns real
 native GetUnitTotalMagicResist takes unit whichUnit returns real
 native IsUnitGatherer takes unit whichUnit returns boolean
-native GetUnitCurrentResources takes unit whichUnit returns integer
+native GetUnitResourceCurrent takes unit whichUnit returns integer
+native SetUnitResourceCurrent takes unit whichUnit, integer amount returns nothing // only works on units that can "keep" gathered resources.
+native GetUnitResourceCapacity takes unit whichUnit, integer resourceType returns integer // 0 for gold, 1 for lumber.
+native SetUnitResourceCapacity takes unit whichUnit, integer resourceType, integer amount returns nothing // only works on units that can "keep" gathered resources.
+native GetUnitResourcePerGather takes unit whichUnit, integer resourceType returns integer
+native SetUnitResourcePerGather takes unit whichUnit, integer resourceType, integer amount returns nothing // for gold simply changes capacity
+native GetUnitResourceGatherInterval takes unit whichUnit returns real // wisp only
+native SetUnitResourceGatherInterval takes unit whichUnit, real interval returns nothing
 native GetUnitCurrentSight takes unit whichUnit returns real
 native SetUnitCurrentSight takes unit whichUnit, real realValue returns nothing
 native GetUnitAttackRemainingCooldown takes unit whichUnit returns real
@@ -5798,7 +6119,12 @@ native GetUnitBaseMoveSpeed takes unit whichUnit returns real
 native SetUnitBaseMoveSpeed takes unit whichUnit, real baseMoveSpeed returns nothing
 native GetUnitBonusMoveSpeedPercent takes unit whichUnit returns real
 native SetUnitBonusMoveSpeedPercent takes unit whichUnit, real bonusMoveSpeedPercent returns nothing
+native GetUnitPlayerColour takes unit whichUnit returns playercolor
+native SetUnitPlayerColour takes unit whichUnit, playercolor color returns nothing
 native GetUnitVertexColour takes unit whichUnit returns integer
+native UnitAddItemToSlot takes unit whichUnit, item whichItem, integer itemSlot returns boolean
+native ReviveUnit takes unit whichUnit, real x, real y returns boolean
+native ReviveUnitLoc takes unit whichUnit, location loc returns boolean
 native GetUnitCurrentLife takes unit whichUnit returns real
 native SetUnitCurrentLife takes unit whichUnit, real life returns nothing
 native GetUnitMaxLife takes unit whichUnit returns real
@@ -5888,6 +6214,26 @@ native UnitGetUpgradeRemainingTime takes unit whichUnit returns real
 native UnitSetUpgradeRemainingTime takes unit whichUnit, real time returns nothing
 //
 
+// Unit Training API
+native UnitGetTrainingProgress takes unit whichUnit returns real
+native UnitSetTrainingProgress takes unit whichUnit, integer trainingPercentage returns nothing
+native UnitGetTrainingRemainingTime takes unit whichUnit returns real
+native UnitSetTrainingRemainingTime takes unit whichUnit, real time returns nothing
+native UnitGetTrainingTypeIdAt takes unit whichUnit, integer index returns integer
+native UnitCancelTrainingAt takes unit whichUnit, integer index returns nothing
+native UnitSetTrainingTypeIdAt takes unit whichUnit, integer index, integer typeId returns nothing
+//
+
+// Unit Research API
+native UnitGetResearchProgress takes unit whichUnit returns real
+native UnitSetResearchProgress takes unit whichUnit, integer trainingPercentage returns nothing
+native UnitGetResearchRemainingTime takes unit whichUnit returns real
+native UnitSetResearchRemainingTime takes unit whichUnit, real time returns nothing
+native UnitGetResearchTypeIdAt takes unit whichUnit, integer index returns integer
+native UnitCancelResearchAt takes unit whichUnit, integer index returns nothing
+native UnitSetResearchTypeIdAt takes unit whichUnit, integer index, integer typeId returns nothing
+//
+
 // Illusion API
 // All created illusions are created without timed life, this can and should be handled by the mapmaker.
 native CreateIllusion takes player whichPlayer, integer unitTypeId, real x, real y, real facing returns unit
@@ -5902,7 +6248,7 @@ native GetIllusionDamageReceived takes unit whichUnit returns real
 native SetIllusionDamageReceived takes unit whichUnit, real multiplier returns nothing
 //
 
-// Order API
+// Unit Order API
 native QueueImmediateOrderById takes unit whichUnit, integer order returns boolean
 native QueuePointOrderById takes unit whichUnit, integer order, real x, real y returns boolean
 native QueueTargetOrderById takes unit whichUnit, integer order, widget targetWidget returns boolean
@@ -5913,10 +6259,36 @@ native QueueNeutralImmediateOrderById takes player forWhichPlayer, unit neutralS
 native QueueNeutralPointOrderById takes player forWhichPlayer, unit neutralStructure, integer unitId, real x, real y returns boolean
 native QueueNeutralTargetOrderById takes player forWhichPlayer, unit neutralStructure, integer unitId, widget target returns boolean
 native GetUnitOrderCount takes unit whichUnit returns integer
+native GetUnitOrderByIndex takes unit whichUnit, integer index returns orderhandle
+native GetUnitOrderByOrderId takes unit whichUnit, integer orderId, integer index returns orderhandle // since units can queue same orders, this allows to differentiate between them.
 native GetUnitOrderIdByIndex takes unit whichUnit, integer index returns integer
+native UnitRemoveOrderByIndex takes unit whichUnit, integer index returns boolean
+native UnitRemoveOrderByOrderId takes unit whichUnit, integer orderId, boolean eraseAllSimilar returns boolean
+native UnitReverseOrders takes unit whichUnit returns nothing
 native UnitClearOrders takes unit whichUnit, boolean onlyQueued returns nothing
 native UnitForceStopOrder takes unit whichUnit, boolean clearQueue returns nothing
 //
+//
+
+//============================================================================
+// Order API
+// Naming is reversed to avoid clashes with GetOrderTarget and so on.
+//
+native GetTriggerOrder takes nothing returns orderhandle
+native OrderGetNext takes orderhandle whichOrder returns orderhandle
+native OrderGetId takes orderhandle whichOrder returns integer // returns actual order id, "move" as 851986.
+native OrderGetTargetX takes orderhandle whichOrder returns real
+native OrderGetTargetY takes orderhandle whichOrder returns real
+native OrderGetTargetLoc takes orderhandle whichOrder returns location
+// Patrol orders only?
+native OrderGetSourceX takes orderhandle whichOrder returns real
+native OrderGetSourceY takes orderhandle whichOrder returns real
+native OrderGetSourceLoc takes orderhandle whichOrder returns location
+//
+native OrderGetTarget takes orderhandle whichOrder returns widget
+native OrderGetTargetDestructable takes orderhandle whichOrder returns destructable
+native OrderGetTargetItem takes orderhandle whichOrder returns item
+native OrderGetTargetUnit takes orderhandle whichOrder returns unit
 //
 
 //============================================================================
@@ -5948,13 +6320,14 @@ native GetProjectileScreenY takes projectile whichProjectile returns real
 native GetProjectileHeight takes projectile whichProjectile returns real
 native SetProjectileHeight takes projectile whichProjectile, real height returns nothing
 native GetProjectilePositionLoc takes projectile whichProjectile returns location
-native SetProjectilePositionWithZ takes projectile whichProjectile, real x, real y, real z returns nothing
 native SetProjectilePosition takes projectile whichProjectile, real x, real y returns nothing
+native SetProjectilePositionWithZ takes projectile whichProjectile, real x, real y, real z returns nothing
 native SetProjectilePositionLoc takes projectile whichProjectile, location loc returns nothing
 native GetProjectileScale takes projectile whichProjectile returns real
 native SetProjectileScale takes projectile whichProjectile, real scale returns nothing
 native GetProjectileTimeScale takes projectile whichProjectile returns real
 native SetProjectileTimeScale takes projectile whichProjectile, real timescale returns nothing
+native GetProjectilePlayerColour takes projectile whichProjectile returns playercolor
 native SetProjectilePlayerColour takes projectile whichProjectile, playercolor color returns nothing
 native GetProjectileColour takes projectile whichProjectile returns integer
 native SetProjectileColour takes projectile whichProjectile, integer colour returns nothing
@@ -5996,6 +6369,7 @@ native SetProjectileAnimationOffsetPercent takes projectile whichProjectile, rea
 native GetProjectileSource takes projectile whichProjectile returns unit
 native SetProjectileSource takes projectile whichProjectile, unit whichUnit returns nothing
 native GetProjectileSourceAbility takes projectile whichProjectile returns ability
+native SetProjectileSourceAbility takes projectile whichProjectile, ability whichAbility returns nothing
 native GetProjectileTargetX takes projectile whichProjectile returns real
 native SetProjectileTargetX takes projectile whichProjectile, real x returns nothing
 native GetProjectileTargetY takes projectile whichProjectile returns real
@@ -6053,7 +6427,7 @@ native EnumProjectilesInRect takes rect whichRect, boolexpr filter, code handler
 // Frame API
 //
 native GetOriginFrame takes originframetype whichType, integer index returns framehandle
-// native EnableUIAutoPosition							takes boolean flag returns nothing // not active for now
+// native EnableUIAutoPosition takes boolean flag returns nothing // not active for now
 native HideOriginFrames takes boolean flag returns nothing
 native EditBlackBorders takes real upperHeight, real bottomHeight returns nothing
 native LoadTOCFile takes string TOCFile returns boolean
@@ -6065,7 +6439,15 @@ native IsFrameRegion takes framehandle whichFrame returns boolean
 native IsFrameSimple takes framehandle whichFrame returns boolean
 native IsFrameComplex takes framehandle whichFrame returns boolean
 native DestroyFrame takes framehandle whichFrame returns nothing
+native GetFrameScreenX takes framehandle whichFrame returns real
+native GetFrameScreenY takes framehandle whichFrame returns real
+native GetFrameRelativePointParent takes framehandle whichFrame, framepointtype point returns framehandle
+native GetFrameRelativePointType takes framehandle whichFrame, framepointtype point returns framepointtype
+native GetFrameRelativePointX takes framehandle whichFrame, framepointtype point returns real
+native GetFrameRelativePointY takes framehandle whichFrame, framepointtype point returns real
 native SetFrameRelativePoint takes framehandle whichFrame, framepointtype point, framehandle relativeFrame, framepointtype relativePoint, real x, real y returns nothing
+native GetFrameAbsolutePointX takes framehandle whichFrame, framepointtype point returns real
+native GetFrameAbsolutePointY takes framehandle whichFrame, framepointtype point returns real
 native SetFrameAbsolutePoint takes framehandle whichFrame, framepointtype point, real x, real y returns nothing
 native ClearFrameAllPoints takes framehandle whichFrame returns nothing
 native SetFrameAllPoints takes framehandle whichFrame, framehandle relativeFrame returns boolean
@@ -6077,6 +6459,10 @@ native GetCSimpleFontStringByName takes string frameName, integer createContext 
 native GetCSimpleTextureByName takes string frameName, integer createContext returns framehandle
 native GetCSimpleFrameByName takes string frameName, integer createContext returns framehandle
 native GetFrameUnderCursor takes nothing returns framehandle
+native GetFrameChildrenCountEx takes framehandle whichFrame, integer listId returns integer // listId: CFrames: 0 for default | 1 for layouts (will return CLayer) | CSimpleFrames 0 - 6 | CSimpleRegions any number, as they only have 1 child node.
+native GetFrameChildrenCount takes framehandle whichFrame returns integer
+native GetFrameChildEx takes framehandle whichFrame, integer listId, integer index returns framehandle
+native GetFrameChild takes framehandle whichFrame, integer index returns framehandle
 native GetFrameTypeName takes framehandle whichFrame returns string
 native GetFrameName takes framehandle whichFrame returns string
 native SetFrameName takes framehandle whichFrame, string contextName returns nothing
@@ -6090,36 +6476,47 @@ native GetFrameText takes framehandle whichFrame returns string
 native AddFrameText takes framehandle whichFrame, string text returns nothing
 native SetFrameTextSizeLimit takes framehandle whichFrame, integer textSize returns nothing
 native GetFrameTextSizeLimit takes framehandle whichFrame returns integer
-native GetFrameTextColourEx takes framehandle whichFrame, integer stateId returns integer // 0 = font | 1 = highlighted | 2 = disabled | 3 = shadow
+native GetFrameTextColourEx takes framehandle whichFrame, integer stateId returns integer // CSimpleFontString: 0 - normal, 1 - shadow | CTextFrame: 0 = font | 1 = highlighted | 2 = disabled | 3 = shadow
 native SetFrameTextColourEx takes framehandle whichFrame, integer stateId, integer colour returns nothing
 native GetFrameTextColour takes framehandle whichFrame returns integer
 native SetFrameTextColour takes framehandle whichFrame, integer colour returns nothing
 native SetFrameFocus takes framehandle whichFrame, boolean isFocus returns boolean
 native GetFrameModel takes framehandle whichFrame returns string
 native SetFrameModel takes framehandle whichFrame, string model, integer cameraIndex returns nothing
+native GetFrameState takes framehandle whichFrame returns framestate
+native SetFrameState takes framehandle whichFrame, framestate whichFrameState returns nothing
 native IsFrameEnabled takes framehandle whichFrame returns boolean
 native SetFrameEnabled takes framehandle whichFrame, boolean enabled returns nothing
-native IsFrameDraggable takes framehandle whichFrame returns boolean
-native SetFrameDraggable takes framehandle whichFrame, boolean enabled returns nothing
-native GetFrameTrackState takes framehandle whichFrame returns integer
-native SetFrameTrackState takes framehandle whichFrame, integer trackState returns nothing // 0 - NONE | 1 - Track | 2 - Ignore Track
+native IsFrameLayoutFlag takes framehandle whichFrame, layoutstyleflag whichLayoutStyle returns boolean
+native SetFrameLayoutFlag takes framehandle whichFrame, layoutstyleflag whichLayoutStyle, boolean isSet returns nothing
+native IsFrameGridFlag takes framehandle whichFrame, gridstyleflag whichGridStyle returns boolean
+native SetFrameGridFlag takes framehandle whichFrame, gridstyleflag whichGridStyle, boolean isSet returns nothing
+native IsFrameLayerFlag takes framehandle whichFrame, layerstyleflag whichLayerStyle returns boolean
+native SetFrameLayerFlag takes framehandle whichFrame, layerstyleflag whichLayerStyle, boolean isSet returns nothing
+native IsFrameControlFlag takes framehandle whichFrame, controlstyleflag whichControlStyle returns boolean
+native SetFrameControlFlag takes framehandle whichFrame, controlstyleflag whichControlStyle, boolean isSet returns nothing
 native GetFrameColourEx takes framehandle whichFrame, integer textureId returns integer
 native SetFrameColourEx takes framehandle whichFrame, integer textureId, integer colour returns nothing
 native GetFrameColour takes framehandle whichFrame returns integer
 native SetFrameColour takes framehandle whichFrame, integer colour returns nothing
+native SetFrameVertexColour takes framehandle whichFrame, integer alpha, integer red, integer green, integer blue returns nothing
+native SetFrameVertexColourEx takes framehandle whichFrame, integer textureId, integer alpha, integer red, integer green, integer blue returns nothing
 native GetFrameAlphaEx takes framehandle whichFrame, integer textureId returns integer
 native SetFrameAlphaEx takes framehandle whichFrame, integer textureId, integer alpha returns nothing
 native GetFrameAlpha takes framehandle whichFrame returns integer
 native SetFrameAlpha takes framehandle whichFrame, integer alpha returns nothing
-native GetFrameTexture takes framehandle whichFrame, integer textureId returns string // 0 - Disabled | 1 - Enabled | 2 - Pushed | 3 = Current
+native GetFrameTexture takes framehandle whichFrame, integer textureId returns string
 native SetFrameBackdropTexture takes framehandle whichFrame, integer textureId, string backgroundTextureFile, boolean allowTransparency, boolean blend, string borderTextureFile, integer borderFlags, boolean isControlBackdrop returns nothing
 native SetFrameTextureEx takes framehandle whichFrame, integer textureId, string backgroundTextureFile, boolean blend, string borderTextureFile, integer borderFlags returns nothing
 native SetFrameTexture takes framehandle whichFrame, string textureFile, integer textureId, boolean blend returns nothing
+native GetFrameBlendMode takes framehandle whichFrame, integer textureId returns blendmode // 0 for CSimpleRegions.
+native SetFrameBlendMode takes framehandle whichFrame, integer textureId, blendmode whichMode returns nothing
 native SetFrameTooltip takes framehandle whichFrame, framehandle tooltipFrame returns nothing
 native SetFrameMouseCaged takes framehandle whichFrame, boolean enable returns nothing
 native GetFrameValue takes framehandle whichFrame returns real
 native SetFrameValue takes framehandle whichFrame, real value returns nothing // fires event by default
 native SetFrameValueEx takes framehandle whichFrame, real value, boolean isFireEvent returns nothing
+native GetFrameMinMaxValues takes framehandle whichFrame, integer valueId returns real // 0 = min | 1 = max
 native SetFrameMinMaxValues takes framehandle whichFrame, real minVal, real maxVal returns nothing
 native GetFrameStepSize takes framehandle whichFrame returns real
 native SetFrameStepSize takes framehandle whichFrame, real stepSize returns nothing
@@ -6129,40 +6526,44 @@ native GetFrameHeight takes framehandle whichFrame returns real
 native SetFrameHeight takes framehandle whichFrame, real height returns nothing
 native SetFrameSize takes framehandle whichFrame, real width, real height returns nothing
 native SetFrameScale takes framehandle whichFrame, real scale returns nothing
-native SetFrameVertexColourEx takes framehandle whichFrame, integer alpha, integer red, integer blue, integer green returns nothing
-native SetFrameVertexColour takes framehandle whichFrame, integer colour returns nothing
 native GetFramePriority takes framehandle whichFrame returns integer
 native SetFramePriority takes framehandle whichFrame, integer priority returns nothing
 native SetFrameParent takes framehandle whichFrame, framehandle whichParent returns nothing
 native GetFrameParent takes framehandle whichFrame returns framehandle
 native SetFrameFont takes framehandle whichFrame, string fontName, real size, integer flags returns nothing
+// CSimpleFontString: 0 - x Scale, 1 - y Scale, 2 - x Shadow, 3 - y Shadow | CTextFrame: 0 - x, 1 - y, 2 - x Shadow, 3 - y Shadow, 4 = FontJustificationOffset | CEditBox: 0 - x | 1 - y | 2 - text scale "Border Scale"
+native GetFrameTextAlignmentValue takes framehandle whichFrame, integer id returns real
+native SetFrameTextAlignmentValue takes framehandle whichFrame, integer id, real offset returns nothing
 native SetFrameTextAlignment takes framehandle whichFrame, textaligntype verticalAlign, textaligntype horizontalAlign returns nothing
 native SetFrameTextVerticalAlignment takes framehandle whichFrame, textaligntype verticalAlign returns nothing
 native SetFrameTextHorizontalAlignment takes framehandle whichFrame, textaligntype horizontalAlign returns nothing
-native GetFrameChildrenCount takes framehandle whichFrame returns integer
-native GetFrameChild takes framehandle whichFrame, integer index returns framehandle
 native GetFrameCheckState takes framehandle whichFrame returns boolean
 native SetFrameCheckState takes framehandle whichFrame, boolean isCheck returns nothing
 //
 
 native SetMiniMapTexture takes string texturePath returns boolean
 
-// CListBox API
-native GetFrameItemsBorder takes framehandle listBox returns real
-native SetFrameItemsBorder takes framehandle listBox, real value returns nothing
-native GetFrameItemsHeight takes framehandle listBox returns real
-native SetFrameItemsHeight takes framehandle listBox, real value returns nothing
+// CSlider / CScollBar API | Scrollbar extends slider, so both use the same logic.
+native GetFrameSlider takes framehandle whichFrame returns framehandle
+native AddFrameSlider takes framehandle whichFrame returns framehandle
+//
 
-// These functions return CListBoxItem frames.
-native AddFrameListItem takes framehandle listBox, string text, framehandle whichFrame returns framehandle
-native GetFrameListItemCount takes framehandle listBox returns integer
-native GetFrameListItemById takes framehandle listBox, integer id returns framehandle
-native SetFrameListItemById takes framehandle listBox, integer id, framehandle whichFrame returns nothing
-native GetFrameListItemByFrame takes framehandle listBox, framehandle frameToFind returns framehandle
-native SetFrameListItemByFrame takes framehandle listBox, framehandle frameToFind, framehandle whichFrame returns nothing
-native RemoveFrameListItem takes framehandle listBox, framehandle whichFrame returns nothing // this uses CListBoxItem
-native RemoveFrameListItemById takes framehandle listBox, integer id returns nothing
-native RemoveFrameListItemByFrame takes framehandle listBox, framehandle whichFrame returns nothing
+// CListBox / CMenu / CPopupMenu / CRadioGroup API
+native GetFrameItemsBorder takes framehandle whichFrame returns real
+native SetFrameItemsBorder takes framehandle whichFrame, real value returns nothing
+native GetFrameItemsHeight takes framehandle whichFrame returns real
+native SetFrameItemsHeight takes framehandle whichFrame, real value returns nothing
+
+// These functions return CListBoxItem frames for CListBox / CMenu / CPopupMenu and CCheckBox/CGlueCheckBox for CRadioGroup.
+native AddFrameListItem takes framehandle whichFrame, string text, framehandle frameToAdd returns framehandle
+native GetFrameListItemCount takes framehandle whichFrame returns integer
+native GetFrameListItemById takes framehandle whichFrame, integer id returns framehandle
+native SetFrameListItemById takes framehandle whichFrame, integer id, framehandle listBoxItem returns nothing
+native GetFrameListItemByFrame takes framehandle whichFrame, framehandle frameToFind returns framehandle
+native SetFrameListItemByFrame takes framehandle whichFrame, framehandle frameToFind, framehandle listBoxItem returns nothing
+native RemoveFrameListItem takes framehandle whichFrame, framehandle listBoxItem returns nothing // this uses CListBoxItem
+native RemoveFrameListItemById takes framehandle whichFrame, integer id returns nothing
+native RemoveFrameListItemByFrame takes framehandle whichFrame, framehandle listBoxItem returns nothing
 //
 
 // CListBoxItem API
@@ -6170,9 +6571,19 @@ native GetFrameItemOwner takes framehandle listBoxItem returns framehandle
 native SetFrameItemOwner takes framehandle listBoxItem, framehandle whichFrame returns nothing
 //
 
-// CBackdropFrame API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children, backdropId has to be always 0.
+// Highlight API
+native GetFrameHighlight takes framehandle whichFrame, integer highlightId returns framehandle // Gets highlights of CControl
+native GetFrameHighlightTexture takes framehandle whichFrame, integer highlightId returns string // If highlighframe type is sent, it will modify itself instead, if ccontrol or its children, then it will check possible highlights.
+native SetFrameHighlightTexture takes framehandle whichFrame, integer highlightId, string texturePath, blendmode blendMode returns nothing // 0 - FOCUS | 1 - ON HOVER
+//
+
+// Backdrop API | Border API | For border flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
+// For CFrames that contain backdrops, use ids to differentiate between them, this is similar to CSimpleButton states, etc.
+native GetFrameBackdrop takes framehandle whichFrame, integer backdropId returns framehandle // will return itself if frame is CBackdropFrame or CSimpleFrame.
+native IsFrameBorderEnabled takes framehandle whichFrame, integer backdropId returns boolean
+native SetFrameBorderEnabled takes framehandle whichFrame, integer backdropId, boolean isEnable returns nothing
 native GetFrameBorderFlags takes framehandle whichFrame, integer backdropId returns integer
-native SetFrameBorderFlags takes framehandle whichFrame, integer backdropId, integer cornerFlag returns nothing
+native SetFrameBorderFlags takes framehandle whichFrame, integer backdropId, integer borderFlag returns nothing
 native GetFrameBorderSize takes framehandle whichFrame, integer backdropId returns real
 native SetFrameBorderSize takes framehandle whichFrame, integer backdropId, real value returns nothing
 native GetFrameBackgroundSize takes framehandle whichFrame, integer backdropId returns real
@@ -6180,6 +6591,17 @@ native SetFrameBackgroundSize takes framehandle whichFrame, integer backdropId, 
 native GetFrameBackgroundInsetById takes framehandle whichFrame, integer backdropId, integer insetId returns real
 native SetFrameBackgroundInsetById takes framehandle whichFrame, integer backdropId, integer insetId, real value returns nothing
 native SetFrameBackgroundInsets takes framehandle whichFrame, integer backdropId, real minX, real minY, real maxX, real maxY returns nothing
+//
+
+// Grid API
+native GetFrameGridRows takes framehandle grid returns integer
+native GetFrameGridColumns takes framehandle grid returns integer
+native SetFrameGridSize takes framehandle grid, integer row, integer column returns nothing
+native GetFrameGridFrame takes framehandle grid, integer row, integer column returns framehandle
+native GetFrameGridFrameById takes framehandle grid, integer id returns framehandle
+native SetFrameGridFrame takes framehandle grid, integer row, integer column, framehandle whichFrame returns nothing
+native IsBuffBarRenderDuplicates takes nothing returns boolean
+native SetBuffBarRenderDuplicates takes boolean allow returns nothing // this will allow the rendering (drawing) of duplicate (similar) buffs. By default is off.
 //
 
 // Trigger Frame API
@@ -6191,6 +6613,7 @@ native GetTriggerFrameReal takes nothing returns real // aka GetTriggerFrameValu
 native GetTriggerFrameBoolean takes nothing returns boolean
 native GetTriggerFrameString takes nothing returns string // aka GetTriggerFrameText
 native GetTriggerFrameMouseButton takes nothing returns mousebuttontype
+native GetTriggerFrameTargetFrame takes nothing returns framehandle
 
 native TriggerRegisterFrameEvent takes trigger whichTrigger, framehandle whichFrame, frameeventtype frameEvent returns event
 native RegisterFrameMouseButton takes framehandle whichFrame, mousebuttontype whichButton, boolean isAdd returns nothing // Add/Remove for event handling on Left/Middle/Right Mouse buttons, works for any CSimpleButton / CControl and whichever frame extends them.
@@ -6205,6 +6628,7 @@ native GetFrameSpriteScale takes framehandle whichFrame returns real
 native SetFrameSpriteScale takes framehandle whichFrame, real scale returns nothing
 native GetFrameSpriteTimeScale takes framehandle whichFrame returns real
 native SetFrameSpriteTimeScale takes framehandle whichFrame, real timescale returns nothing
+native GetFrameSpritePlayerColour takes framehandle whichFrame returns playercolor
 native SetFrameSpritePlayerColour takes framehandle whichFrame, playercolor color returns nothing
 native GetFrameSpriteAlpha takes framehandle whichFrame returns integer
 native SetFrameSpriteAlpha takes framehandle whichFrame, integer alpha returns boolean
@@ -6292,20 +6716,42 @@ native TriggerRegisterPlayerSyncEvent takes trigger whichTrigger, player whichPl
 // Key/KeyEvent API
 native IsKeyPressed takes oskeytype key returns boolean
 native IsMouseKeyPressed takes mousebuttontype mouseKey returns boolean
+native GetTriggerPlayerIsKeyDown takes nothing returns boolean
 
+// EVENT_PLAYER_MOUSE_DOWN
+// EVENT_PLAYER_MOUSE_UP
+// EVENT_PLAYER_KEY
+// EVENT_PLAYER_KEY_DOWN
+// EVENT_PLAYER_KEY_UP
+// EVENT_PLAYER_WIDGET_CLICK
+// EVENT_PLAYER_WIDGET_GHOST_CLICK
+// EVENT_PLAYER_TERRAIN_CLICK
 native GetTriggerPlayerKey takes nothing returns oskeytype
 native GetTriggerPlayerMouseButton takes nothing returns mousebuttontype
 native GetTriggerPlayerMetaKey takes nothing returns integer
-native GetTriggerPlayerIsKeyDown takes nothing returns boolean
 
 native TriggerRegisterPlayerKeyEvent takes trigger whichTrigger, player whichPlayer, oskeytype whichKey, integer whichMetaKey, boolean isKeyDown returns event
 //
 
-// Mouse Event API | For use with EVENT_PLAYER_MOUSE_MOVE
+// Mouse Event API
+native GetMouseMoveEventScreenAxisEnabled takes nothing returns boolean
+native SetMouseMoveEventScreenAxisEnabled takes boolean enable returns nothing // Enables GetTriggerPlayerMouseScreenX/Y, default: on.
+native GetMouseMoveEventWorldAxisEnabled takes nothing returns boolean
+native SetMouseMoveEventWorldAxisEnabled takes boolean enable returns nothing // Enables GetTriggerPlayerMouseWorldX/Y/Z, default: off.
+native GetMouseMoveEventDelay takes nothing returns integer
+native SetMouseMoveEventDelay takes integer delay returns nothing // delay is in ticks (ms), default: 10
+
+// EVENT_PLAYER_MOUSE_MOVE_WORLD
+// EVENT_PLAYER_WIDGET_TRACK
+// EVENT_PLAYER_WIDGET_GHOST_TRACK
+// EVENT_PLAYER_WIDGET_CLICK
+// EVENT_PLAYER_WIDGET_GHOST_CLICK
+// EVENT_PLAYER_TERRAIN_CLICK
 native GetTriggerPlayerMouseWorldX takes nothing returns real
 native GetTriggerPlayerMouseWorldY takes nothing returns real
 native GetTriggerPlayerMouseWorldZ takes nothing returns real
 
+// EVENT_PLAYER_MOUSE_MOVE
 native GetTriggerPlayerMouseScreenX takes nothing returns real
 native GetTriggerPlayerMouseScreenY takes nothing returns real
 //
@@ -6313,6 +6759,8 @@ native GetTriggerPlayerMouseScreenY takes nothing returns real
 //============================================================================
 // Damage Event API
 //
+
+// Refer to https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3DamageData.txt
 native GetEventDamageFlags takes nothing returns integer
 native SetEventDamageFlags takes integer flags returns boolean
 
@@ -6615,8 +7063,8 @@ native BlzGetUnitAbilityByIndex takes unit whichUnit, integer index returns abil
 native BlzGetAbilityId takes ability whichAbility returns integer
 native BlzDisplayChatMessage takes player whichPlayer, integer recipient, string message returns nothing
 native BlzPauseUnitEx takes unit whichUnit, boolean flag returns nothing
-// native BlzFourCC2S									takes integer value returns string
-// native BlzS2FourCC									takes string value returns integer
+// native BlzFourCC2S takes integer value returns string
+// native BlzS2FourCC takes string value returns integer
 native BlzSetUnitFacingEx takes unit whichUnit, real facingAngle returns nothing
 
 native CreateCommandButtonEffect takes integer abilCode, string order returns commandbuttoneffect

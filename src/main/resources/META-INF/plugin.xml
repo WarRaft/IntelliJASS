@@ -143,7 +143,7 @@
                   implementationClass="guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType"
                   fieldName="INSTANCE"
                   language="AngelScript"
-                  extensions="ass"
+                  extensions="as"
         />
 
         <!-- parser -->

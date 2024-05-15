@@ -7,25 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptNspace extends PsiElement {
 
-  @NotNull
-  List<AngelScriptClazz> getClazzList();
-
-  @NotNull
-  List<AngelScriptEnums> getEnumsList();
-
-  @NotNull
-  List<AngelScriptFun> getFunList();
-
-  @NotNull
-  List<AngelScriptFunDef> getFunDefList();
-
-  @NotNull
-  List<AngelScriptIncludeStmt> getIncludeStmtList();
-
-  @NotNull
-  List<AngelScriptNspace> getNspaceList();
-
-  @NotNull
-  List<AngelScriptVar> getVarList();
+  @Nullable
+  AngelScriptNspaceStatBlock getNspaceStatBlock();
 
 }

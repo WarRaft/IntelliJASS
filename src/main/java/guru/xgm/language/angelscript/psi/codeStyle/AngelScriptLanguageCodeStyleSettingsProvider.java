@@ -72,6 +72,7 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
             );
 
             case WRAPPING_AND_BRACES_SETTINGS -> consumer.showStandardOptions(
+                    CLASS_BRACE_STYLE.name(),
                     METHOD_BRACE_STYLE.name(),
                     BRACE_STYLE.name(),
                     INDENT_CASE_FROM_SWITCH.name()
@@ -101,18 +102,20 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @Override
     public String getCodeSample(@NotNull SettingsType settingsType) {
         return """
+                namespace MyNamespace {
                 enum MyEnum {
                     A,
                     B = 20,
                     MyEnumItem = 31,
                 }
-                                
+                }
+
                 int myFunc (int a, float b, string c)
                 {
                     float d = 13;
                     int e = 56;
                     int d = anotherFunc(10, 2.f, "somevalue");
-                    
+
                     switch( value )
                     {
                         case 0:
@@ -127,7 +130,7 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
                             break;
                         default:
                     }
-                              
+
                     while (a < 10)
                     {
                         a += 20;
@@ -143,6 +146,22 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
                         {
                             c = "c";
                         }
+                    }
+                }
+                
+                class Group {
+                    ~Group() {
+                        DestroyGroup(g);
+                    }
+
+                    private group g = CreateGroup();
+
+                    unit get_opIndex(int index) const {
+                        return GroupGetUnitByIndex(g, index);
+                    }
+
+                    void clear() {
+                        GroupClear();
                     }
                 }
                 """;

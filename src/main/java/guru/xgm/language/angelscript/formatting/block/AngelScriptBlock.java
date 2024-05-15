@@ -38,6 +38,9 @@ public class AngelScriptBlock implements ASTBlock {
         if (isOneOf(childNode, FUN))
             return new AngelScriptBlockFun(childNode, null, indent, settings);
 
+        if (isOneOf(childNode, CLAZZ))
+            return new AngelScriptBlockClazz(childNode, null, indent, settings);
+
         if (isOneOf(childNode, FOR_STMT))
             return new AngelScriptBlockFor(childNode, null, indent, settings);
 
@@ -55,6 +58,9 @@ public class AngelScriptBlock implements ASTBlock {
 
         if (isOneOf(childNode, SWITCH_STMT))
             return new AngelScriptBlockSwitch(childNode, null, indent, settings);
+
+        if (isOneOf(childNode, NSPACE))
+            return new AngelScriptBlockNamespace(childNode, null, indent, settings);
 
         return new AngelScriptBlock(childNode, null, indent, settings);
     }
@@ -146,7 +152,8 @@ public class AngelScriptBlock implements ASTBlock {
     @Override
     public @NotNull ChildAttributes getChildAttributes(int i) {
         var indent = Indent.getNoneIndent();
-        if (isOneOf(myNode, STAT_BLOCK, ENUM_STAT_BLOCK)) indent = Indent.getNormalIndent();
+        if (isOneOf(myNode, STAT_BLOCK, CLAZZ_STAT_BLOCK, ENUM_STAT_BLOCK, NSPACE_STAT_BLOCK))
+            indent = Indent.getNormalIndent();
         return new ChildAttributes(indent, null);
     }
 

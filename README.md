@@ -13,7 +13,7 @@ Just Another Scripting Syntax for [Warcraft III](https://en.wikipedia.org/wiki/W
 | JASS                 | `.j`           |
 | VJASS                | `.vj`          |
 | ZINC                 | `.zn`          |
-| AngelScript          | `.ass`         |
+| AngelScript          | `.as`          |
 | Warcraft Text String | `.wts`         |
 | LNI                  | `.lni`         |
 

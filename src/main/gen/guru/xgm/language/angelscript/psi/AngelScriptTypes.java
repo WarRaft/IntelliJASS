@@ -28,6 +28,7 @@ public interface AngelScriptTypes {
   IElementType CASE_STMT = new AngelScriptIElement("CASE_STMT");
   IElementType CASE_STMT_LIST = new AngelScriptIElement("CASE_STMT_LIST");
   IElementType CLAZZ = new AngelScriptIElement("CLAZZ");
+  IElementType CLAZZ_STAT_BLOCK = new AngelScriptIElement("CLAZZ_STAT_BLOCK");
   IElementType CONDITION = new AngelScriptIElement("CONDITION");
   IElementType DATA_TYPE = new AngelScriptIElement("DATA_TYPE");
   IElementType DIV_EXPR = new AngelScriptIElement("DIV_EXPR");
@@ -62,6 +63,7 @@ public interface AngelScriptTypes {
   IElementType MUL_UN_EXPR = new AngelScriptIElement("MUL_UN_EXPR");
   IElementType NOT_EXPR = new AngelScriptIElement("NOT_EXPR");
   IElementType NSPACE = new AngelScriptIElement("NSPACE");
+  IElementType NSPACE_STAT_BLOCK = new AngelScriptIElement("NSPACE_STAT_BLOCK");
   IElementType N_EQ_EXPR = new AngelScriptIElement("N_EQ_EXPR");
   IElementType OR_EXPR = new AngelScriptIElement("OR_EXPR");
   IElementType PARAM = new AngelScriptIElement("PARAM");
@@ -274,6 +276,9 @@ public interface AngelScriptTypes {
       else if (type == CLAZZ) {
         return new AngelScriptClazzImpl(node);
       }
+      else if (type == CLAZZ_STAT_BLOCK) {
+        return new AngelScriptClazzStatBlockImpl(node);
+      }
       else if (type == CONDITION) {
         return new AngelScriptConditionImpl(node);
       }
@@ -372,6 +377,9 @@ public interface AngelScriptTypes {
       }
       else if (type == NSPACE) {
         return new AngelScriptNspaceImpl(node);
+      }
+      else if (type == NSPACE_STAT_BLOCK) {
+        return new AngelScriptNspaceStatBlockImpl(node);
       }
       else if (type == N_EQ_EXPR) {
         return new AngelScriptNEqExprImpl(node);
