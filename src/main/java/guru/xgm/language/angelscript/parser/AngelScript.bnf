@@ -11,6 +11,8 @@
     elementTypeClass=         "guru.xgm.language.angelscript.psi.tree.AngelScriptIElement"
     tokenTypeClass=           "guru.xgm.language.angelscript.psi.tree.AngelScriptIToken"
 
+    //generateTokenAccessors=true
+
     extends(".*Expr")=Expr
 
     tokens=[
@@ -27,7 +29,7 @@
         CAST='cast'
         CODE='code'
         CONST='const'
-        CLASS='class'
+        CLASSS='class'
         DOUBLE='double'
         DEFAULT='default'
         DO='do'
@@ -155,7 +157,7 @@ Root ::= RootItem*
 private RootItem ::= IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI //{recoverWhile=RootItemRecover}
 private RootItemRecover ::= !(
 ID|ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRING|UINT|UINT16|UINT32|UINT64|VOID|
-QUEST|AUTO|CLASS|
+QUEST|AUTO|CLASSS|
 HASH|NAMESPACE|ENUM|CONST)
 
 private StatBlockRecover ::= ! RBRACE
@@ -191,7 +193,7 @@ IncludeStmt ::= HASH INCLUDE Str {pin=2 name="include"}
 //                                                                                              '}'
 //                                                                                          )
 //                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2 name="class"}
+Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* 'class' ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2}
 ClazzStatBlock ::= LBRACE (VirtProp|Fun|Var|FunDef)* RBRACE
 
 // VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'

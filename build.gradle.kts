@@ -2,6 +2,7 @@
 plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.17.3"
+    kotlin("jvm")
 }
 
 group = "org.intellij.sdk"
@@ -25,10 +26,10 @@ dependencies {
 
     testCompileOnly("org.projectlombok:lombok:1.18.30")
     testCompileOnly("org.projectlombok:lombok:1.18.30")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
@@ -47,4 +48,7 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
     }
+}
+kotlin {
+    jvmToolchain(17)
 }

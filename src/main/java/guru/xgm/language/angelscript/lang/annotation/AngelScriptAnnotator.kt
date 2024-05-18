@@ -1,64 +1,63 @@
-package guru.xgm.language.angelscript.lang.annotation;
+package guru.xgm.language.angelscript.lang.annotation
 
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase;
-import guru.xgm.language.angelscript.psi.AngelScriptDataType;
-import guru.xgm.language.angelscript.psi.AngelScriptStr;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
+import guru.xgm.intellij.lang.injection.general.IntellijScriptInjector.Companion.INJECT_JASS
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase
+import guru.xgm.language.angelscript.psi.AngelScriptDataType
+import guru.xgm.language.angelscript.psi.AngelScriptStr
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.RAWVAL;
+internal class AngelScriptAnnotator : Annotator {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        val textRange = element.textRange
+        val type = element.node.elementType
 
-final class AngelScriptAnnotator implements Annotator {
-    @Override
-    public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-        final var textRange = element.getTextRange();
-        final var type = element.getNode().getElementType();
-
-        if (element instanceof AngelScriptDataType) {
+        if (element is AngelScriptDataType) {
             holder
-                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(textRange)
-                    .textAttributes(AngelScriptSyntaxHighlighterBase.TYPE_NAME_KEY).create();
-            return;
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(textRange)
+                .textAttributes(AngelScriptSyntaxHighlighterBase.TYPE_NAME_KEY).create()
+            return
         }
 
-        if (element instanceof AngelScriptStr || type == RAWVAL) {
-            final var text = element.getText();
+        if (type === AngelScriptTypes.LINE_COMMENT && element.text.startsWith(INJECT_JASS)) {
+            holder
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(TextRange(element.textOffset + 3, element.textOffset + INJECT_JASS.length))
+                .textAttributes(AngelScriptSyntaxHighlighterBase.INJECTOR).create()
+            return
+        }
 
-            int s = 0;
-            int e = text.length();
-            if (e == s) return;
+        if (element is AngelScriptStr || type === AngelScriptTypes.RAWVAL) {
+            val text = element.text
+
+            var s = 0
+            val e = text.length
+            if (e == 0) return
             while (s < e) {
-                s = text.indexOf("\\", s + 1);
-                if (s < 0) break;
-                final var c = text.substring(s + 1, s + 2);
+                s = text.indexOf("\\", s + 1)
+                if (s < 0) break
+                val c = text.substring(s + 1, s + 2)
 
-                final var tr = new TextRange(textRange.getStartOffset() + s, textRange.getStartOffset() + s + 2);
+                val tr = TextRange(textRange.startOffset + s, textRange.startOffset + s + 2)
 
-                switch (c) {
-                    case "0":
-                    case "\\":
-                    case "'":
-                    case "\"":
-                    case "n":
-                    case "r":
-                    case "t":
+                when (c) {
+                    "0", "\\", "'", "\"", "n", "r", "t" -> {
                         holder
-                                .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                                .range(tr)
-                                .textAttributes(AngelScriptSyntaxHighlighterBase.VALID_STRING_ESCAPE_KEY).create();
-                        s += 1;
-                        break;
-                    default:
-                        holder.newAnnotation(HighlightSeverity.ERROR, "Invalid escape sequence")
-                                .range(tr)
-                                .textAttributes(AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY).create();
-                }
+                            .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                            .range(tr)
+                            .textAttributes(AngelScriptSyntaxHighlighterBase.VALID_STRING_ESCAPE_KEY).create()
+                        s += 1
+                    }
 
+                    else -> holder.newAnnotation(HighlightSeverity.ERROR, "Invalid escape sequence")
+                        .range(tr)
+                        .textAttributes(AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY).create()
+                }
             }
         }
     }

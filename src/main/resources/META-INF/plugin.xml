@@ -3,7 +3,7 @@
 <idea-plugin>
     <id>JASS</id>
     <name>JASS</name>
-    <version>2.0.25</version>
+    <version>2.0.26</version>
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__idea-version -->
     <idea-version since-build="2024.1"/>
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
@@ -19,7 +19,15 @@
         <projectViewNestingRulesProvider
                 implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
 
+        <!-- typing -->
         <typedHandler implementation="guru.xgm.intellij.codeInsight.IntellijTypedHandlerDelegate"/>
+
+        <!-- sdk -->
+        <sdkType implementation="guru.xgm.intellij.openapi.projectRoots.IntellijSdkType"/>
+        <postStartupActivity implementation="guru.xgm.intellij.openapi.startup.IntellijProjectActivity"/>
+
+        <!-- injection -->
+        <multiHostInjector implementation="guru.xgm.intellij.lang.injection.general.IntellijScriptInjector"/>
 
         <!-- TODO:JASS -->
         <fileType name="JASS"
@@ -58,10 +66,6 @@
         <lang.commenter
                 language="JASS"
                 implementationClass="guru.xgm.language.jass.lang.JassCommenter"/>
-
-
-        <!-- sdk -->
-        <sdkType implementation="guru.xgm.language.jass.openapi.projectRoots.JassSdkType"/>
 
         <!-- inspections -->
         <localInspection language="JASS"
@@ -306,9 +310,9 @@
     </actions>
 
     <description><![CDATA[
-        <p>Just Another Scripting Syntax (JASS) for
-            <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a>.</p>
-        <p>Code folding, highlight and open binary ingame files.</p>
+        <p><b>J</b>ust <b>A</b>ngel <b>S</b>cript <b>S</b>upport for
+            <a href="https://en.wikipedia.org/wiki/Warcraft_III:_Reign_of_Chaos">Warcraft III</a> with <a
+                    href="https://github.com/UnryzeC/UjAPI">UjAPI</a></p>
         ]]></description>
 
     <change-notes><![CDATA[

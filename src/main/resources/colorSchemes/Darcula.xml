@@ -19,4 +19,9 @@
             <option name="FOREGROUND" value="008000"/>
         </value>
     </option>
+    <option name="ANGELSCRIPT_INJECTOR">
+        <value>
+            <option name="FOREGROUND" value="#b42faf"/>
+        </value>
+    </option>
 </list>

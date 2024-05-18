@@ -2,169 +2,169 @@
 // Native types. All native functions take extended handle types when
 // possible to help prevent passing bad values to native functions
 //
-type agent extends handle	// all reference counted objects
-type event extends agent	// a reference to an event registration
-type player extends agent	// a single player reference
-type war3image extends agent	// an interactive game object that serves as a base to nearly every model-based object.
-type widget extends war3image	// an interactive game object with life
-type unit extends widget	// a single unit reference
-type destructable extends widget
-type item extends widget
-type ability extends agent
-type buff extends ability
-type force extends agent
-type group extends agent
-type trigger extends agent
-type triggercondition extends agent
-type triggeraction extends handle
-type timer extends agent
-type location extends agent
-type region extends agent
-type rect extends agent
-type boolexpr extends agent
-type sound extends agent
-type conditionfunc extends boolexpr
-type filterfunc extends boolexpr
-type unitpool extends handle
-type itempool extends handle
-type race extends handle
-type alliancetype extends handle
-type gamestate extends handle
-type igamestate extends gamestate
-type fgamestate extends gamestate
-type playerstate extends handle
-type playerscore extends handle
-type playergameresult extends handle
-type unitstate extends handle
-type aidifficulty extends handle
-type eventid extends handle
-type gameevent extends eventid
-type playerevent extends eventid
-type playerunitevent extends eventid
-type unitevent extends eventid
-type limitop extends eventid
-type widgetevent extends eventid
-type dialogevent extends eventid
-type unittype extends handle
-type projectiletype extends handle
-type gamespeed extends handle
-type gamedifficulty extends handle
-type mapvisibility extends handle
-type mapsetting extends handle
-type mapdensity extends handle
-type mapcontrol extends handle
-type minimapicon extends handle
-type playerslotstate extends handle
-type volumegroup extends handle
-type camerafield extends handle
-type camerasetup extends handle
-type playercolor extends handle
-type placement extends handle
-type startlocprio extends handle
-type raritycontrol extends handle
-type blendmode extends handle
-type texmapflags extends handle
-type effect extends war3image
-type effecttype extends handle
-type weathereffect extends handle
-type terraindeformation extends handle
-type fogstate extends handle
-type fogmodifier extends agent
-type dialog extends agent
-type button extends agent
-type quest extends agent
-type questitem extends agent
-type defeatcondition extends agent
-type timerdialog extends agent
-type leaderboard extends agent
-type multiboard extends agent
-type multiboarditem extends agent
-type trackable extends war3image
-type gamecache extends agent
-type version extends handle
-type itemtype extends handle
-type texttag extends handle
-type attacktype extends handle
-type damagetype extends handle
-type weapontype extends handle
-type soundtype extends handle
-type lightning extends handle
-type pathingtype extends handle
-type mappedfield extends handle
-type mappedtype extends handle
-type attachmenttype extends mappedtype
-type bonetype extends attachmenttype
-type animtype extends mappedtype
-type subanimtype extends animtype
-type cursoranimtype extends mappedtype
-type image extends handle
-type ubersplat extends handle
-type hashtable extends agent
-type sprite extends war3image
-type projectile extends war3image
-type doodad extends war3image
-type framehandle extends handle
-type commandbuttoneffect extends handle
-type originframetype extends handle
-type framepointtype extends handle
-type textaligntype extends handle
-type frameeventtype extends handle
-type oskeytype extends handle
-type mousebuttontype extends handle
-type agentdatafield extends handle
-type abilityintegerfield extends agentdatafield
-type abilityrealfield extends agentdatafield
-type abilitybooleanfield extends agentdatafield
-type abilitystringfield extends agentdatafield
-type abilityintegerlevelfield extends abilityintegerfield
-type abilityreallevelfield extends abilityrealfield
-type abilitybooleanlevelfield extends abilitybooleanfield
-type abilitystringlevelfield extends abilitystringfield
+type agent                         extends handle // all reference counted objects
+type event                         extends agent // a reference to an event registration
+type player                        extends agent // a single player reference
+type war3image                     extends agent // an interactive game object that serves as a base to nearly every model-based object.
+type widget                        extends war3image // an interactive game object with life
+type unit                          extends widget // a single unit reference
+type destructable                  extends widget
+type item                          extends widget
+type ability                       extends agent
+type buff                          extends ability
+type force                         extends agent
+type group                         extends agent
+type trigger                       extends agent
+type triggercondition              extends agent
+type triggeraction                 extends handle
+type timer                         extends agent
+type location                      extends agent
+type region                        extends agent
+type rect                          extends agent
+type boolexpr                      extends agent
+type sound                         extends agent
+type conditionfunc                 extends boolexpr
+type filterfunc                    extends boolexpr
+type unitpool                      extends handle
+type itempool                      extends handle
+type race                          extends handle
+type alliancetype                  extends handle
+type gamestate                     extends handle
+type igamestate                    extends gamestate
+type fgamestate                    extends gamestate
+type playerstate                   extends handle
+type playerscore                   extends handle
+type playergameresult              extends handle
+type unitstate                     extends handle
+type aidifficulty                  extends handle
+type eventid                       extends handle
+type gameevent                     extends eventid
+type playerevent                   extends eventid
+type playerunitevent               extends eventid
+type unitevent                     extends eventid
+type limitop                       extends eventid
+type widgetevent                   extends eventid
+type dialogevent                   extends eventid
+type unittype                      extends handle
+type projectiletype                extends handle
+type gamespeed                     extends handle
+type gamedifficulty                extends handle
+type mapvisibility                 extends handle
+type mapsetting                    extends handle
+type mapdensity                    extends handle
+type mapcontrol                    extends handle
+type minimapicon                   extends handle
+type playerslotstate               extends handle
+type volumegroup                   extends handle
+type camerafield                   extends handle
+type camerasetup                   extends handle
+type playercolor                   extends handle
+type placement                     extends handle
+type startlocprio                  extends handle
+type raritycontrol                 extends handle
+type blendmode                     extends handle
+type texmapflags                   extends handle
+type effect                        extends war3image
+type effecttype                    extends handle
+type weathereffect                 extends handle
+type terraindeformation            extends handle
+type fogstate                      extends handle
+type fogmodifier                   extends agent
+type dialog                        extends agent
+type button                        extends agent
+type quest                         extends agent
+type questitem                     extends agent
+type defeatcondition               extends agent
+type timerdialog                   extends agent
+type leaderboard                   extends agent
+type multiboard                    extends agent
+type multiboarditem                extends agent
+type trackable                     extends war3image
+type gamecache                     extends agent
+type version                       extends handle
+type itemtype                      extends handle
+type texttag                       extends handle
+type attacktype                    extends handle
+type damagetype                    extends handle
+type weapontype                    extends handle
+type soundtype                     extends handle
+type lightning                     extends handle
+type pathingtype                   extends handle
+type mappedfield                   extends handle
+type mappedtype                    extends handle
+type attachmenttype                extends mappedtype
+type bonetype                      extends attachmenttype
+type animtype                      extends mappedtype
+type subanimtype                   extends animtype
+type cursoranimtype                extends mappedtype
+type image                         extends handle
+type ubersplat                     extends handle
+type hashtable                     extends agent
+type sprite                        extends war3image
+type projectile                    extends war3image
+type doodad                        extends war3image
+type framehandle                   extends handle
+type commandbuttoneffect           extends handle
+type originframetype               extends handle
+type framepointtype                extends handle
+type textaligntype                 extends handle
+type frameeventtype                extends handle
+type oskeytype                     extends handle
+type mousebuttontype               extends handle
+type agentdatafield                extends handle
+type abilityintegerfield           extends agentdatafield
+type abilityrealfield              extends agentdatafield
+type abilitybooleanfield           extends agentdatafield
+type abilitystringfield            extends agentdatafield
+type abilityintegerlevelfield      extends abilityintegerfield
+type abilityreallevelfield         extends abilityrealfield
+type abilitybooleanlevelfield      extends abilitybooleanfield
+type abilitystringlevelfield       extends abilitystringfield
 type abilityintegerlevelarrayfield extends abilityintegerlevelfield
-type abilityreallevelarrayfield extends abilityreallevelfield
+type abilityreallevelarrayfield    extends abilityreallevelfield
 type abilitybooleanlevelarrayfield extends abilitybooleanlevelfield
-type abilitystringlevelarrayfield extends abilitystringlevelfield
-type destructablestringfield extends agentdatafield
-type itemintegerfield extends agentdatafield
-type itemrealfield extends agentdatafield
-type itembooleanfield extends agentdatafield
-type itemstringfield extends agentdatafield
-type unitintegerfield extends agentdatafield
-type unitrealfield extends agentdatafield
-type unitbooleanfield extends agentdatafield
-type unitstringfield extends agentdatafield
-type unitweaponintegerfield extends agentdatafield
-type unitweaponrealfield extends agentdatafield
-type unitweaponbooleanfield extends agentdatafield
-type unitweaponstringfield extends agentdatafield
-type flagtype extends handle
-type racepreference extends flagtype
-type gametype extends flagtype
-type mapflag extends flagtype
-type movetype extends flagtype
-type pathingaitype extends flagtype
-type collisiontype extends flagtype
-type targetflag extends flagtype
-type unitcategory extends flagtype
-type pathingflag extends flagtype
-type layoutstyleflag extends flagtype
-type gridstyleflag extends flagtype
-type layerstyleflag extends flagtype
-type controlstyleflag extends flagtype
-type framestate extends flagtype
-type abilitytype extends flagtype
-type armortype extends handle
-type heroattribute extends handle
-type defensetype extends handle
-type regentype extends handle
-type timetype extends handle
-type variabletype extends handle
-type renderstage extends handle
-type connectiontype extends handle
-type jassthread extends handle
-type handlelist extends handle
-type textfilehandle extends handle
-type orderhandle extends agent
+type abilitystringlevelarrayfield  extends abilitystringlevelfield
+type destructablestringfield       extends agentdatafield
+type itemintegerfield              extends agentdatafield
+type itemrealfield                 extends agentdatafield
+type itembooleanfield              extends agentdatafield
+type itemstringfield               extends agentdatafield
+type unitintegerfield              extends agentdatafield
+type unitrealfield                 extends agentdatafield
+type unitbooleanfield              extends agentdatafield
+type unitstringfield               extends agentdatafield
+type unitweaponintegerfield        extends agentdatafield
+type unitweaponrealfield           extends agentdatafield
+type unitweaponbooleanfield        extends agentdatafield
+type unitweaponstringfield         extends agentdatafield
+type flagtype                      extends handle
+type racepreference                extends flagtype
+type gametype                      extends flagtype
+type mapflag                       extends flagtype
+type movetype                      extends flagtype
+type pathingaitype                 extends flagtype
+type collisiontype                 extends flagtype
+type targetflag                    extends flagtype
+type unitcategory                  extends flagtype
+type pathingflag                   extends flagtype
+type layoutstyleflag               extends flagtype
+type gridstyleflag                 extends flagtype
+type layerstyleflag                extends flagtype
+type controlstyleflag              extends flagtype
+type framestate                    extends flagtype
+type abilitytype                   extends flagtype
+type armortype                     extends handle
+type heroattribute                 extends handle
+type defensetype                   extends handle
+type regentype                     extends handle
+type timetype                      extends handle
+type variabletype                  extends handle
+type renderstage                   extends handle
+type connectiontype                extends handle
+type jassthread                    extends handle
+type handlelist                    extends handle
+type textfilehandle                extends handle
+type orderhandle                   extends agent
 
 constant native ConvertRace takes integer i returns race
 constant native ConvertAllianceType takes integer i returns alliancetype
@@ -231,9 +231,9 @@ constant native ConvertAbilityIntegerLevelField takes integer i returns abilityi
 constant native ConvertAbilityRealLevelField takes integer i returns abilityreallevelfield
 constant native ConvertAbilityBooleanLevelField takes integer i returns abilitybooleanlevelfield
 constant native ConvertAbilityStringLevelField takes integer i returns abilitystringlevelfield
-constant native ConvertAbilityIntegerLevelArrayField	takes integer i returns abilityintegerlevelarrayfield
+constant native ConvertAbilityIntegerLevelArrayField takes integer i returns abilityintegerlevelarrayfield
 constant native ConvertAbilityRealLevelArrayField takes integer i returns abilityreallevelarrayfield
-constant native ConvertAbilityBooleanLevelArrayField	takes integer i returns abilitybooleanlevelarrayfield
+constant native ConvertAbilityBooleanLevelArrayField takes integer i returns abilitybooleanlevelarrayfield
 constant native ConvertAbilityStringLevelArrayField takes integer i returns abilitystringlevelarrayfield
 constant native ConvertDestructableStringField takes integer i returns destructablestringfield
 constant native ConvertItemIntegerField takes integer i returns itemintegerfield
@@ -798,7 +798,7 @@ globals
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_ORDER = ConvertPlayerUnitEvent(38)
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER = ConvertPlayerUnitEvent(39)
     constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER = ConvertPlayerUnitEvent(40)
-    constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_UNIT_ORDER = ConvertPlayerUnitEvent(40)	// for compat
+    constant playerunitevent EVENT_PLAYER_UNIT_ISSUED_UNIT_ORDER = ConvertPlayerUnitEvent(40)    // for compat
 
     constant playerunitevent EVENT_PLAYER_HERO_LEVEL = ConvertPlayerUnitEvent(41)
     constant playerunitevent EVENT_PLAYER_HERO_SKILL = ConvertPlayerUnitEvent(42)
@@ -1508,191 +1508,191 @@ globals
     constant abilitystringfield ABILITY_SF_EFFECT_SOUND = ConvertAbilityStringField('aefs')
     constant abilitystringfield ABILITY_SF_EFFECT_SOUND_LOOPING = ConvertAbilityStringField('aefl')
 
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_COST = ConvertAbilityIntegerLevelField('amcs')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_WAVES = ConvertAbilityIntegerLevelField('Hbz1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SHARDS = ConvertAbilityIntegerLevelField('Hbz3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_TELEPORTED = ConvertAbilityIntegerLevelField('Hmt1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_COUNT_HWE2 = ConvertAbilityIntegerLevelField('Hwe2')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_IMAGES = ConvertAbilityIntegerLevelField('Omi1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_UAN1 = ConvertAbilityIntegerLevelField('Uan1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MORPHING_FLAGS = ConvertAbilityIntegerLevelField('Eme2')
-    constant abilityintegerlevelfield	ABILITY_ILF_STRENGTH_BONUS_NRG5 = ConvertAbilityIntegerLevelField('Nrg5')
-    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_BONUS_NRG6 = ConvertAbilityIntegerLevelField('Nrg6')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_TARGETS_HIT = ConvertAbilityIntegerLevelField('Ocl2')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_OFS1 = ConvertAbilityIntegerLevelField('Ofs1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_OSF2 = ConvertAbilityIntegerLevelField('Osf2')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_EFN1 = ConvertAbilityIntegerLevelField('Efn1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_HRE1 = ConvertAbilityIntegerLevelField('Hre1')
-    constant abilityintegerlevelfield	ABILITY_ILF_STACK_FLAGS = ConvertAbilityIntegerLevelField('Hca4')
-    constant abilityintegerlevelfield	ABILITY_ILF_MINIMUM_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Ndp2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_NDP3 = ConvertAbilityIntegerLevelField('Ndp3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_CREATED_NRC2 = ConvertAbilityIntegerLevelField('Nrc2')
-    constant abilityintegerlevelfield	ABILITY_ILF_SHIELD_LIFE = ConvertAbilityIntegerLevelField('Ams3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_AMS4 = ConvertAbilityIntegerLevelField('Ams4')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_PER_INTERVAL_BGM1 = ConvertAbilityIntegerLevelField('Bgm1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_NUMBER_OF_MINERS = ConvertAbilityIntegerLevelField('Bgm3')
-    constant abilityintegerlevelfield	ABILITY_ILF_CARGO_CAPACITY = ConvertAbilityIntegerLevelField('Car1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_DEV3 = ConvertAbilityIntegerLevelField('Dev3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_CREEP_LEVEL_DEV1 = ConvertAbilityIntegerLevelField('Dev1')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_PER_INTERVAL_EGM1 = ConvertAbilityIntegerLevelField('Egm1')
-    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_REDUCTION = ConvertAbilityIntegerLevelField('Fae1')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_FLA1 = ConvertAbilityIntegerLevelField('Fla1')
-    constant abilityintegerlevelfield	ABILITY_ILF_FLARE_COUNT = ConvertAbilityIntegerLevelField('Fla3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_GOLD = ConvertAbilityIntegerLevelField('Gld1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MINING_CAPACITY = ConvertAbilityIntegerLevelField('Gld3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_GYD1 = ConvertAbilityIntegerLevelField('Gyd1')
-    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_TO_TREE = ConvertAbilityIntegerLevelField('Har1')
-    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_CAPACITY = ConvertAbilityIntegerLevelField('Har2')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_CAPACITY = ConvertAbilityIntegerLevelField('Har3')
-    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_INCREASE_INF2 = ConvertAbilityIntegerLevelField('Inf2')
-    constant abilityintegerlevelfield	ABILITY_ILF_INTERACTION_TYPE = ConvertAbilityIntegerLevelField('Neu2')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_COST_NDT1 = ConvertAbilityIntegerLevelField('Ndt1')
-    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_COST_NDT2 = ConvertAbilityIntegerLevelField('Ndt2')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_NDT3 = ConvertAbilityIntegerLevelField('Ndt3')
-    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_POI4 = ConvertAbilityIntegerLevelField('Poi4')
-    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_POA5 = ConvertAbilityIntegerLevelField('Poa5')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_PLY1 = ConvertAbilityIntegerLevelField('Ply1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_POS1 = ConvertAbilityIntegerLevelField('Pos1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MOVEMENT_UPDATE_FREQUENCY_PRG1 = ConvertAbilityIntegerLevelField('Prg1')
-    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_UPDATE_FREQUENCY_PRG2 = ConvertAbilityIntegerLevelField('Prg2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_PRG6 = ConvertAbilityIntegerLevelField('Prg6')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNITS_SUMMONED_TYPE_ONE = ConvertAbilityIntegerLevelField('Rai1')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNITS_SUMMONED_TYPE_TWO = ConvertAbilityIntegerLevelField('Rai2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_SUMMONED = ConvertAbilityIntegerLevelField('Ucb5')
-    constant abilityintegerlevelfield	ABILITY_ILF_ALLOW_WHEN_FULL_REJ3 = ConvertAbilityIntegerLevelField('Rej3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS_CHARGED_TO_CASTER = ConvertAbilityIntegerLevelField('Rpb5')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS_AFFECTED = ConvertAbilityIntegerLevelField('Rpb6')
-    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_INCREASE_ROA2 = ConvertAbilityIntegerLevelField('Roa2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_ROA7 = ConvertAbilityIntegerLevelField('Roa7')
-    constant abilityintegerlevelfield	ABILITY_ILF_ROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo1')
-    constant abilityintegerlevelfield	ABILITY_ILF_UPROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo2')
-    constant abilityintegerlevelfield	ABILITY_ILF_UPROOTED_DEFENSE_TYPE = ConvertAbilityIntegerLevelField('Roo4')
-    constant abilityintegerlevelfield	ABILITY_ILF_ACCUMULATION_STEP = ConvertAbilityIntegerLevelField('Sal2')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_OWLS = ConvertAbilityIntegerLevelField('Esn4')
-    constant abilityintegerlevelfield	ABILITY_ILF_STACKING_TYPE_SPO4 = ConvertAbilityIntegerLevelField('Spo4')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Sod1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SPIDER_CAPACITY = ConvertAbilityIntegerLevelField('Spa1')
-    constant abilityintegerlevelfield	ABILITY_ILF_INTERVALS_BEFORE_CHANGING_TREES = ConvertAbilityIntegerLevelField('Wha2')
-    constant abilityintegerlevelfield	ABILITY_ILF_AGILITY_BONUS = ConvertAbilityIntegerLevelField('Iagi')
-    constant abilityintegerlevelfield	ABILITY_ILF_INTELLIGENCE_BONUS = ConvertAbilityIntegerLevelField('Iint')
-    constant abilityintegerlevelfield	ABILITY_ILF_STRENGTH_BONUS_ISTR = ConvertAbilityIntegerLevelField('Istr')
-    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_BONUS = ConvertAbilityIntegerLevelField('Iatt')
-    constant abilityintegerlevelfield	ABILITY_ILF_DEFENSE_BONUS_IDEF = ConvertAbilityIntegerLevelField('Idef')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMON_1_AMOUNT = ConvertAbilityIntegerLevelField('Isn1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMON_2_AMOUNT = ConvertAbilityIntegerLevelField('Isn2')
-    constant abilityintegerlevelfield	ABILITY_ILF_EXPERIENCE_GAINED = ConvertAbilityIntegerLevelField('Ixpg')
-    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_GAINED_IHPG = ConvertAbilityIntegerLevelField('Ihpg')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_GAINED_IMPG = ConvertAbilityIntegerLevelField('Impg')
-    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_GAINED_IHP2 = ConvertAbilityIntegerLevelField('Ihp2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_GAINED_IMP2 = ConvertAbilityIntegerLevelField('Imp2')
-    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_BONUS_DICE = ConvertAbilityIntegerLevelField('Idic')
-    constant abilityintegerlevelfield	ABILITY_ILF_ARMOR_PENALTY_IARP = ConvertAbilityIntegerLevelField('Iarp')
-    constant abilityintegerlevelfield	ABILITY_ILF_ENABLED_ATTACK_INDEX_IOB5 = ConvertAbilityIntegerLevelField('Iob5')
-    constant abilityintegerlevelfield	ABILITY_ILF_LEVELS_GAINED = ConvertAbilityIntegerLevelField('Ilev')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_LIFE_GAINED = ConvertAbilityIntegerLevelField('Ilif')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_MANA_GAINED = ConvertAbilityIntegerLevelField('Iman')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_GIVEN = ConvertAbilityIntegerLevelField('Igol')
-    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_GIVEN = ConvertAbilityIntegerLevelField('Ilum')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_IFA1 = ConvertAbilityIntegerLevelField('Ifa1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_ICRE = ConvertAbilityIntegerLevelField('Icre')
-    constant abilityintegerlevelfield	ABILITY_ILF_MOVEMENT_SPEED_BONUS = ConvertAbilityIntegerLevelField('Imvb')
-    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_REGENERATED_PER_SECOND = ConvertAbilityIntegerLevelField('Ihpr')
-    constant abilityintegerlevelfield	ABILITY_ILF_SIGHT_RANGE_BONUS = ConvertAbilityIntegerLevelField('Isib')
-    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_PER_DURATION = ConvertAbilityIntegerLevelField('Icfd')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_USED_PER_SECOND = ConvertAbilityIntegerLevelField('Icfm')
-    constant abilityintegerlevelfield	ABILITY_ILF_EXTRA_MANA_REQUIRED = ConvertAbilityIntegerLevelField('Icfx')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_RADIUS_IDET = ConvertAbilityIntegerLevelField('Idet')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_LOSS_PER_UNIT_IDIM = ConvertAbilityIntegerLevelField('Idim')
-    constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = ConvertAbilityIntegerLevelField('Idid')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField('Irec')
-    constant abilityintegerlevelfield	ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField('Ircd')
-    constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField('irc2')
-    constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
-    constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Ihps')
-    constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Imps')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField('Itpm')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_CAD1 = ConvertAbilityIntegerLevelField('Cad1')
-    constant abilityintegerlevelfield	ABILITY_ILF_TERRAIN_DEFORMATION_DURATION_MS = ConvertAbilityIntegerLevelField('Wrs3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_UNITS = ConvertAbilityIntegerLevelField('Uds1')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_DET1 = ConvertAbilityIntegerLevelField('Det1')
-    constant abilityintegerlevelfield	ABILITY_ILF_GOLD_COST_PER_STRUCTURE = ConvertAbilityIntegerLevelField('Nsp1')
-    constant abilityintegerlevelfield	ABILITY_ILF_LUMBER_COST_PER_USE = ConvertAbilityIntegerLevelField('Nsp2')
-    constant abilityintegerlevelfield	ABILITY_ILF_DETECTION_TYPE_NSP3 = ConvertAbilityIntegerLevelField('Nsp3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SWARM_UNITS = ConvertAbilityIntegerLevelField('Uls1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_SWARM_UNITS_PER_TARGET = ConvertAbilityIntegerLevelField('Uls3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NBA2 = ConvertAbilityIntegerLevelField('Nba2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_CREEP_LEVEL_NCH1 = ConvertAbilityIntegerLevelField('Nch1')
-    constant abilityintegerlevelfield	ABILITY_ILF_ATTACKS_PREVENTED = ConvertAbilityIntegerLevelField('Nsi1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_EFK3 = ConvertAbilityIntegerLevelField('Efk3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_ESV1 = ConvertAbilityIntegerLevelField('Esv1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_EXH1 = ConvertAbilityIntegerLevelField('exh1')
-    constant abilityintegerlevelfield	ABILITY_ILF_ITEM_CAPACITY = ConvertAbilityIntegerLevelField('inv1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_SPL2 = ConvertAbilityIntegerLevelField('spl2')
-    constant abilityintegerlevelfield	ABILITY_ILF_ALLOW_WHEN_FULL_IRL3 = ConvertAbilityIntegerLevelField('irl3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_DISPELLED_UNITS = ConvertAbilityIntegerLevelField('idc3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_LURES = ConvertAbilityIntegerLevelField('imo1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NEW_TIME_OF_DAY_HOUR = ConvertAbilityIntegerLevelField('ict1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NEW_TIME_OF_DAY_MINUTE = ConvertAbilityIntegerLevelField('ict2')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_UNITS_CREATED_MEC1 = ConvertAbilityIntegerLevelField('mec1')
-    constant abilityintegerlevelfield	ABILITY_ILF_MINIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb4')
-    constant abilityintegerlevelfield	ABILITY_ILF_DISABLED_ATTACK_INDEX = ConvertAbilityIntegerLevelField('gra3')
-    constant abilityintegerlevelfield	ABILITY_ILF_ENABLED_ATTACK_INDEX_GRA4 = ConvertAbilityIntegerLevelField('gra4')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_ATTACKS = ConvertAbilityIntegerLevelField('gra5')
-    constant abilityintegerlevelfield	ABILITY_ILF_BUILDING_TYPES_ALLOWED_NPR1 = ConvertAbilityIntegerLevelField('Npr1')
-    constant abilityintegerlevelfield	ABILITY_ILF_BUILDING_TYPES_ALLOWED_NSA1 = ConvertAbilityIntegerLevelField('Nsa1')
-    constant abilityintegerlevelfield	ABILITY_ILF_ATTACK_MODIFICATION = ConvertAbilityIntegerLevelField('Iaa1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_COUNT_NPA5 = ConvertAbilityIntegerLevelField('Npa5')
-    constant abilityintegerlevelfield	ABILITY_ILF_UPGRADE_LEVELS = ConvertAbilityIntegerLevelField('Igl1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NDO2 = ConvertAbilityIntegerLevelField('Ndo2')
-    constant abilityintegerlevelfield	ABILITY_ILF_BEASTS_PER_SECOND = ConvertAbilityIntegerLevelField('Nst1')
-    constant abilityintegerlevelfield	ABILITY_ILF_TARGETS_ALLOWED = ConvertAbilityIntegerLevelField('atar')
-    constant abilityintegerlevelfield	ABILITY_ILF_TARGET_TYPE = ConvertAbilityIntegerLevelField('Ncl2')
-    constant abilityintegerlevelfield	ABILITY_ILF_OPTIONS = ConvertAbilityIntegerLevelField('Ncl3')
-    constant abilityintegerlevelfield	ABILITY_ILF_ARMOR_PENALTY_NAB3 = ConvertAbilityIntegerLevelField('Nab3')
-    constant abilityintegerlevelfield	ABILITY_ILF_WAVE_COUNT_NHS6 = ConvertAbilityIntegerLevelField('Nhs6')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_CREEP_LEVEL_NTM3 = ConvertAbilityIntegerLevelField('Ntm3')
-    constant abilityintegerlevelfield	ABILITY_ILF_MISSILE_COUNT = ConvertAbilityIntegerLevelField('Ncs3')
-    constant abilityintegerlevelfield	ABILITY_ILF_SPLIT_ATTACK_COUNT = ConvertAbilityIntegerLevelField('Nlm3')
-    constant abilityintegerlevelfield	ABILITY_ILF_GENERATION_COUNT = ConvertAbilityIntegerLevelField('Nlm6')
-    constant abilityintegerlevelfield	ABILITY_ILF_ROCK_RING_COUNT = ConvertAbilityIntegerLevelField('Nvc1')
-    constant abilityintegerlevelfield	ABILITY_ILF_WAVE_COUNT_NVC2 = ConvertAbilityIntegerLevelField('Nvc2')
-    constant abilityintegerlevelfield	ABILITY_ILF_PREFER_HOSTILES_TAU1 = ConvertAbilityIntegerLevelField('Tau1')
-    constant abilityintegerlevelfield	ABILITY_ILF_PREFER_FRIENDLIES_TAU2 = ConvertAbilityIntegerLevelField('Tau2')
-    constant abilityintegerlevelfield	ABILITY_ILF_MAX_UNITS_TAU3 = ConvertAbilityIntegerLevelField('Tau3')
-    constant abilityintegerlevelfield	ABILITY_ILF_NUMBER_OF_PULSES = ConvertAbilityIntegerLevelField('Tau4')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_HWE1 = ConvertAbilityIntegerLevelField('Hwe1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_UIN4 = ConvertAbilityIntegerLevelField('Uin4')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_OSF1 = ConvertAbilityIntegerLevelField('Osf1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_EFNU = ConvertAbilityIntegerLevelField('Efnu')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NBAU = ConvertAbilityIntegerLevelField('Nbau')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NTOU = ConvertAbilityIntegerLevelField('Ntou')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_ESVU = ConvertAbilityIntegerLevelField('Esvu')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPES = ConvertAbilityIntegerLevelField('Nef1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SUMMONED_UNIT_TYPE_NDOU = ConvertAbilityIntegerLevelField('Ndou')
-    constant abilityintegerlevelfield	ABILITY_ILF_ALTERNATE_FORM_UNIT_EMEU = ConvertAbilityIntegerLevelField('Emeu')
-    constant abilityintegerlevelfield	ABILITY_ILF_PLAGUE_WARD_UNIT_TYPE = ConvertAbilityIntegerLevelField('Aplu')
-    constant abilityintegerlevelfield	ABILITY_ILF_ALLOWED_UNIT_TYPE_BTL1 = ConvertAbilityIntegerLevelField('Btl1')
-    constant abilityintegerlevelfield	ABILITY_ILF_NEW_UNIT_TYPE = ConvertAbilityIntegerLevelField('Cha1')
-    constant abilityintegerlevelfield	ABILITY_ILF_RESULTING_UNIT_TYPE_ENT1 = ConvertAbilityIntegerLevelField('ent1')
-    constant abilityintegerlevelfield	ABILITY_ILF_CORPSE_UNIT_TYPE = ConvertAbilityIntegerLevelField('Gydu')
-    constant abilityintegerlevelfield	ABILITY_ILF_ALLOWED_UNIT_TYPE_LOA1 = ConvertAbilityIntegerLevelField('Loa1')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_FOR_LIMIT_CHECK = ConvertAbilityIntegerLevelField('Raiu')
-    constant abilityintegerlevelfield	ABILITY_ILF_WARD_UNIT_TYPE_STAU = ConvertAbilityIntegerLevelField('Stau')
-    constant abilityintegerlevelfield	ABILITY_ILF_EFFECT_ABILITY = ConvertAbilityIntegerLevelField('Iobu')
-    constant abilityintegerlevelfield	ABILITY_ILF_CONVERSION_UNIT = ConvertAbilityIntegerLevelField('Ndc2')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TO_PRESERVE = ConvertAbilityIntegerLevelField('Nsl1')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_ALLOWED = ConvertAbilityIntegerLevelField('Chl1')
-    constant abilityintegerlevelfield	ABILITY_ILF_SWARM_UNIT_TYPE = ConvertAbilityIntegerLevelField('Ulsu')
-    constant abilityintegerlevelfield	ABILITY_ILF_RESULTING_UNIT_TYPE_COAU = ConvertAbilityIntegerLevelField('coau')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_EXHU = ConvertAbilityIntegerLevelField('exhu')
-    constant abilityintegerlevelfield	ABILITY_ILF_WARD_UNIT_TYPE_HWDU = ConvertAbilityIntegerLevelField('hwdu')
-    constant abilityintegerlevelfield	ABILITY_ILF_LURE_UNIT_TYPE = ConvertAbilityIntegerLevelField('imou')
-    constant abilityintegerlevelfield	ABILITY_ILF_UNIT_TYPE_IPMU = ConvertAbilityIntegerLevelField('ipmu')
-    constant abilityintegerlevelfield	ABILITY_ILF_FACTORY_UNIT_ID = ConvertAbilityIntegerLevelField('Nsyu')
-    constant abilityintegerlevelfield	ABILITY_ILF_SPAWN_UNIT_ID_NFYU = ConvertAbilityIntegerLevelField('Nfyu')
-    constant abilityintegerlevelfield	ABILITY_ILF_DESTRUCTIBLE_ID = ConvertAbilityIntegerLevelField('Nvcu')
-    constant abilityintegerlevelfield	ABILITY_ILF_UPGRADE_TYPE = ConvertAbilityIntegerLevelField('Iglu')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_COST = ConvertAbilityIntegerLevelField('amcs')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_WAVES = ConvertAbilityIntegerLevelField('Hbz1')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SHARDS = ConvertAbilityIntegerLevelField('Hbz3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_TELEPORTED = ConvertAbilityIntegerLevelField('Hmt1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_COUNT_HWE2 = ConvertAbilityIntegerLevelField('Hwe2')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_IMAGES = ConvertAbilityIntegerLevelField('Omi1')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_UAN1 = ConvertAbilityIntegerLevelField('Uan1')
+    constant abilityintegerlevelfield ABILITY_ILF_MORPHING_FLAGS = ConvertAbilityIntegerLevelField('Eme2')
+    constant abilityintegerlevelfield ABILITY_ILF_STRENGTH_BONUS_NRG5 = ConvertAbilityIntegerLevelField('Nrg5')
+    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_BONUS_NRG6 = ConvertAbilityIntegerLevelField('Nrg6')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_TARGETS_HIT = ConvertAbilityIntegerLevelField('Ocl2')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_OFS1 = ConvertAbilityIntegerLevelField('Ofs1')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_OSF2 = ConvertAbilityIntegerLevelField('Osf2')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_EFN1 = ConvertAbilityIntegerLevelField('Efn1')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_HRE1 = ConvertAbilityIntegerLevelField('Hre1')
+    constant abilityintegerlevelfield ABILITY_ILF_STACK_FLAGS = ConvertAbilityIntegerLevelField('Hca4')
+    constant abilityintegerlevelfield ABILITY_ILF_MINIMUM_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Ndp2')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_NDP3 = ConvertAbilityIntegerLevelField('Ndp3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_CREATED_NRC2 = ConvertAbilityIntegerLevelField('Nrc2')
+    constant abilityintegerlevelfield ABILITY_ILF_SHIELD_LIFE = ConvertAbilityIntegerLevelField('Ams3')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_AMS4 = ConvertAbilityIntegerLevelField('Ams4')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_PER_INTERVAL_BGM1 = ConvertAbilityIntegerLevelField('Bgm1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_NUMBER_OF_MINERS = ConvertAbilityIntegerLevelField('Bgm3')
+    constant abilityintegerlevelfield ABILITY_ILF_CARGO_CAPACITY = ConvertAbilityIntegerLevelField('Car1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_DEV3 = ConvertAbilityIntegerLevelField('Dev3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_CREEP_LEVEL_DEV1 = ConvertAbilityIntegerLevelField('Dev1')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_PER_INTERVAL_EGM1 = ConvertAbilityIntegerLevelField('Egm1')
+    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_REDUCTION = ConvertAbilityIntegerLevelField('Fae1')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_FLA1 = ConvertAbilityIntegerLevelField('Fla1')
+    constant abilityintegerlevelfield ABILITY_ILF_FLARE_COUNT = ConvertAbilityIntegerLevelField('Fla3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_GOLD = ConvertAbilityIntegerLevelField('Gld1')
+    constant abilityintegerlevelfield ABILITY_ILF_MINING_CAPACITY = ConvertAbilityIntegerLevelField('Gld3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_GYD1 = ConvertAbilityIntegerLevelField('Gyd1')
+    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_TO_TREE = ConvertAbilityIntegerLevelField('Har1')
+    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_CAPACITY = ConvertAbilityIntegerLevelField('Har2')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_CAPACITY = ConvertAbilityIntegerLevelField('Har3')
+    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_INCREASE_INF2 = ConvertAbilityIntegerLevelField('Inf2')
+    constant abilityintegerlevelfield ABILITY_ILF_INTERACTION_TYPE = ConvertAbilityIntegerLevelField('Neu2')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_COST_NDT1 = ConvertAbilityIntegerLevelField('Ndt1')
+    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_COST_NDT2 = ConvertAbilityIntegerLevelField('Ndt2')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_NDT3 = ConvertAbilityIntegerLevelField('Ndt3')
+    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_POI4 = ConvertAbilityIntegerLevelField('Poi4')
+    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_POA5 = ConvertAbilityIntegerLevelField('Poa5')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_PLY1 = ConvertAbilityIntegerLevelField('Ply1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_POS1 = ConvertAbilityIntegerLevelField('Pos1')
+    constant abilityintegerlevelfield ABILITY_ILF_MOVEMENT_UPDATE_FREQUENCY_PRG1 = ConvertAbilityIntegerLevelField('Prg1')
+    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_UPDATE_FREQUENCY_PRG2 = ConvertAbilityIntegerLevelField('Prg2')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_PRG6 = ConvertAbilityIntegerLevelField('Prg6')
+    constant abilityintegerlevelfield ABILITY_ILF_UNITS_SUMMONED_TYPE_ONE = ConvertAbilityIntegerLevelField('Rai1')
+    constant abilityintegerlevelfield ABILITY_ILF_UNITS_SUMMONED_TYPE_TWO = ConvertAbilityIntegerLevelField('Rai2')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_SUMMONED = ConvertAbilityIntegerLevelField('Ucb5')
+    constant abilityintegerlevelfield ABILITY_ILF_ALLOW_WHEN_FULL_REJ3 = ConvertAbilityIntegerLevelField('Rej3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS_CHARGED_TO_CASTER = ConvertAbilityIntegerLevelField('Rpb5')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS_AFFECTED = ConvertAbilityIntegerLevelField('Rpb6')
+    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_INCREASE_ROA2 = ConvertAbilityIntegerLevelField('Roa2')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_ROA7 = ConvertAbilityIntegerLevelField('Roa7')
+    constant abilityintegerlevelfield ABILITY_ILF_ROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo1')
+    constant abilityintegerlevelfield ABILITY_ILF_UPROOTED_WEAPONS = ConvertAbilityIntegerLevelField('Roo2')
+    constant abilityintegerlevelfield ABILITY_ILF_UPROOTED_DEFENSE_TYPE = ConvertAbilityIntegerLevelField('Roo4')
+    constant abilityintegerlevelfield ABILITY_ILF_ACCUMULATION_STEP = ConvertAbilityIntegerLevelField('Sal2')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_OWLS = ConvertAbilityIntegerLevelField('Esn4')
+    constant abilityintegerlevelfield ABILITY_ILF_STACKING_TYPE_SPO4 = ConvertAbilityIntegerLevelField('Spo4')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS = ConvertAbilityIntegerLevelField('Sod1')
+    constant abilityintegerlevelfield ABILITY_ILF_SPIDER_CAPACITY = ConvertAbilityIntegerLevelField('Spa1')
+    constant abilityintegerlevelfield ABILITY_ILF_INTERVALS_BEFORE_CHANGING_TREES = ConvertAbilityIntegerLevelField('Wha2')
+    constant abilityintegerlevelfield ABILITY_ILF_AGILITY_BONUS = ConvertAbilityIntegerLevelField('Iagi')
+    constant abilityintegerlevelfield ABILITY_ILF_INTELLIGENCE_BONUS = ConvertAbilityIntegerLevelField('Iint')
+    constant abilityintegerlevelfield ABILITY_ILF_STRENGTH_BONUS_ISTR = ConvertAbilityIntegerLevelField('Istr')
+    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_BONUS = ConvertAbilityIntegerLevelField('Iatt')
+    constant abilityintegerlevelfield ABILITY_ILF_DEFENSE_BONUS_IDEF = ConvertAbilityIntegerLevelField('Idef')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMON_1_AMOUNT = ConvertAbilityIntegerLevelField('Isn1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMON_2_AMOUNT = ConvertAbilityIntegerLevelField('Isn2')
+    constant abilityintegerlevelfield ABILITY_ILF_EXPERIENCE_GAINED = ConvertAbilityIntegerLevelField('Ixpg')
+    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_GAINED_IHPG = ConvertAbilityIntegerLevelField('Ihpg')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_GAINED_IMPG = ConvertAbilityIntegerLevelField('Impg')
+    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_GAINED_IHP2 = ConvertAbilityIntegerLevelField('Ihp2')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_GAINED_IMP2 = ConvertAbilityIntegerLevelField('Imp2')
+    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_BONUS_DICE = ConvertAbilityIntegerLevelField('Idic')
+    constant abilityintegerlevelfield ABILITY_ILF_ARMOR_PENALTY_IARP = ConvertAbilityIntegerLevelField('Iarp')
+    constant abilityintegerlevelfield ABILITY_ILF_ENABLED_ATTACK_INDEX_IOB5 = ConvertAbilityIntegerLevelField('Iob5')
+    constant abilityintegerlevelfield ABILITY_ILF_LEVELS_GAINED = ConvertAbilityIntegerLevelField('Ilev')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_LIFE_GAINED = ConvertAbilityIntegerLevelField('Ilif')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_MANA_GAINED = ConvertAbilityIntegerLevelField('Iman')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_GIVEN = ConvertAbilityIntegerLevelField('Igol')
+    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_GIVEN = ConvertAbilityIntegerLevelField('Ilum')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_IFA1 = ConvertAbilityIntegerLevelField('Ifa1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_ICRE = ConvertAbilityIntegerLevelField('Icre')
+    constant abilityintegerlevelfield ABILITY_ILF_MOVEMENT_SPEED_BONUS = ConvertAbilityIntegerLevelField('Imvb')
+    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_REGENERATED_PER_SECOND = ConvertAbilityIntegerLevelField('Ihpr')
+    constant abilityintegerlevelfield ABILITY_ILF_SIGHT_RANGE_BONUS = ConvertAbilityIntegerLevelField('Isib')
+    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_PER_DURATION = ConvertAbilityIntegerLevelField('Icfd')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_USED_PER_SECOND = ConvertAbilityIntegerLevelField('Icfm')
+    constant abilityintegerlevelfield ABILITY_ILF_EXTRA_MANA_REQUIRED = ConvertAbilityIntegerLevelField('Icfx')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_RADIUS_IDET = ConvertAbilityIntegerLevelField('Idet')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_LOSS_PER_UNIT_IDIM = ConvertAbilityIntegerLevelField('Idim')
+    constant abilityintegerlevelfield ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = ConvertAbilityIntegerLevelField('Idid')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField('Irec')
+    constant abilityintegerlevelfield ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField('Ircd')
+    constant abilityintegerlevelfield ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField('irc2')
+    constant abilityintegerlevelfield ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
+    constant abilityintegerlevelfield ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Ihps')
+    constant abilityintegerlevelfield ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Imps')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField('Itpm')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_CORPSES_RAISED_CAD1 = ConvertAbilityIntegerLevelField('Cad1')
+    constant abilityintegerlevelfield ABILITY_ILF_TERRAIN_DEFORMATION_DURATION_MS = ConvertAbilityIntegerLevelField('Wrs3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_UNITS = ConvertAbilityIntegerLevelField('Uds1')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_DET1 = ConvertAbilityIntegerLevelField('Det1')
+    constant abilityintegerlevelfield ABILITY_ILF_GOLD_COST_PER_STRUCTURE = ConvertAbilityIntegerLevelField('Nsp1')
+    constant abilityintegerlevelfield ABILITY_ILF_LUMBER_COST_PER_USE = ConvertAbilityIntegerLevelField('Nsp2')
+    constant abilityintegerlevelfield ABILITY_ILF_DETECTION_TYPE_NSP3 = ConvertAbilityIntegerLevelField('Nsp3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SWARM_UNITS = ConvertAbilityIntegerLevelField('Uls1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_SWARM_UNITS_PER_TARGET = ConvertAbilityIntegerLevelField('Uls3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NBA2 = ConvertAbilityIntegerLevelField('Nba2')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_CREEP_LEVEL_NCH1 = ConvertAbilityIntegerLevelField('Nch1')
+    constant abilityintegerlevelfield ABILITY_ILF_ATTACKS_PREVENTED = ConvertAbilityIntegerLevelField('Nsi1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_EFK3 = ConvertAbilityIntegerLevelField('Efk3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_ESV1 = ConvertAbilityIntegerLevelField('Esv1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_CORPSES_EXH1 = ConvertAbilityIntegerLevelField('exh1')
+    constant abilityintegerlevelfield ABILITY_ILF_ITEM_CAPACITY = ConvertAbilityIntegerLevelField('inv1')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_NUMBER_OF_TARGETS_SPL2 = ConvertAbilityIntegerLevelField('spl2')
+    constant abilityintegerlevelfield ABILITY_ILF_ALLOW_WHEN_FULL_IRL3 = ConvertAbilityIntegerLevelField('irl3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_DISPELLED_UNITS = ConvertAbilityIntegerLevelField('idc3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_LURES = ConvertAbilityIntegerLevelField('imo1')
+    constant abilityintegerlevelfield ABILITY_ILF_NEW_TIME_OF_DAY_HOUR = ConvertAbilityIntegerLevelField('ict1')
+    constant abilityintegerlevelfield ABILITY_ILF_NEW_TIME_OF_DAY_MINUTE = ConvertAbilityIntegerLevelField('ict2')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_UNITS_CREATED_MEC1 = ConvertAbilityIntegerLevelField('mec1')
+    constant abilityintegerlevelfield ABILITY_ILF_MINIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb3')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_SPELLS = ConvertAbilityIntegerLevelField('spb4')
+    constant abilityintegerlevelfield ABILITY_ILF_DISABLED_ATTACK_INDEX = ConvertAbilityIntegerLevelField('gra3')
+    constant abilityintegerlevelfield ABILITY_ILF_ENABLED_ATTACK_INDEX_GRA4 = ConvertAbilityIntegerLevelField('gra4')
+    constant abilityintegerlevelfield ABILITY_ILF_MAXIMUM_ATTACKS = ConvertAbilityIntegerLevelField('gra5')
+    constant abilityintegerlevelfield ABILITY_ILF_BUILDING_TYPES_ALLOWED_NPR1 = ConvertAbilityIntegerLevelField('Npr1')
+    constant abilityintegerlevelfield ABILITY_ILF_BUILDING_TYPES_ALLOWED_NSA1 = ConvertAbilityIntegerLevelField('Nsa1')
+    constant abilityintegerlevelfield ABILITY_ILF_ATTACK_MODIFICATION = ConvertAbilityIntegerLevelField('Iaa1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_COUNT_NPA5 = ConvertAbilityIntegerLevelField('Npa5')
+    constant abilityintegerlevelfield ABILITY_ILF_UPGRADE_LEVELS = ConvertAbilityIntegerLevelField('Igl1')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NDO2 = ConvertAbilityIntegerLevelField('Ndo2')
+    constant abilityintegerlevelfield ABILITY_ILF_BEASTS_PER_SECOND = ConvertAbilityIntegerLevelField('Nst1')
+    constant abilityintegerlevelfield ABILITY_ILF_TARGETS_ALLOWED = ConvertAbilityIntegerLevelField('atar')
+    constant abilityintegerlevelfield ABILITY_ILF_TARGET_TYPE = ConvertAbilityIntegerLevelField('Ncl2')
+    constant abilityintegerlevelfield ABILITY_ILF_OPTIONS = ConvertAbilityIntegerLevelField('Ncl3')
+    constant abilityintegerlevelfield ABILITY_ILF_ARMOR_PENALTY_NAB3 = ConvertAbilityIntegerLevelField('Nab3')
+    constant abilityintegerlevelfield ABILITY_ILF_WAVE_COUNT_NHS6 = ConvertAbilityIntegerLevelField('Nhs6')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_CREEP_LEVEL_NTM3 = ConvertAbilityIntegerLevelField('Ntm3')
+    constant abilityintegerlevelfield ABILITY_ILF_MISSILE_COUNT = ConvertAbilityIntegerLevelField('Ncs3')
+    constant abilityintegerlevelfield ABILITY_ILF_SPLIT_ATTACK_COUNT = ConvertAbilityIntegerLevelField('Nlm3')
+    constant abilityintegerlevelfield ABILITY_ILF_GENERATION_COUNT = ConvertAbilityIntegerLevelField('Nlm6')
+    constant abilityintegerlevelfield ABILITY_ILF_ROCK_RING_COUNT = ConvertAbilityIntegerLevelField('Nvc1')
+    constant abilityintegerlevelfield ABILITY_ILF_WAVE_COUNT_NVC2 = ConvertAbilityIntegerLevelField('Nvc2')
+    constant abilityintegerlevelfield ABILITY_ILF_PREFER_HOSTILES_TAU1 = ConvertAbilityIntegerLevelField('Tau1')
+    constant abilityintegerlevelfield ABILITY_ILF_PREFER_FRIENDLIES_TAU2 = ConvertAbilityIntegerLevelField('Tau2')
+    constant abilityintegerlevelfield ABILITY_ILF_MAX_UNITS_TAU3 = ConvertAbilityIntegerLevelField('Tau3')
+    constant abilityintegerlevelfield ABILITY_ILF_NUMBER_OF_PULSES = ConvertAbilityIntegerLevelField('Tau4')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_HWE1 = ConvertAbilityIntegerLevelField('Hwe1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_UIN4 = ConvertAbilityIntegerLevelField('Uin4')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_OSF1 = ConvertAbilityIntegerLevelField('Osf1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_EFNU = ConvertAbilityIntegerLevelField('Efnu')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NBAU = ConvertAbilityIntegerLevelField('Nbau')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NTOU = ConvertAbilityIntegerLevelField('Ntou')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_ESVU = ConvertAbilityIntegerLevelField('Esvu')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPES = ConvertAbilityIntegerLevelField('Nef1')
+    constant abilityintegerlevelfield ABILITY_ILF_SUMMONED_UNIT_TYPE_NDOU = ConvertAbilityIntegerLevelField('Ndou')
+    constant abilityintegerlevelfield ABILITY_ILF_ALTERNATE_FORM_UNIT_EMEU = ConvertAbilityIntegerLevelField('Emeu')
+    constant abilityintegerlevelfield ABILITY_ILF_PLAGUE_WARD_UNIT_TYPE = ConvertAbilityIntegerLevelField('Aplu')
+    constant abilityintegerlevelfield ABILITY_ILF_ALLOWED_UNIT_TYPE_BTL1 = ConvertAbilityIntegerLevelField('Btl1')
+    constant abilityintegerlevelfield ABILITY_ILF_NEW_UNIT_TYPE = ConvertAbilityIntegerLevelField('Cha1')
+    constant abilityintegerlevelfield ABILITY_ILF_RESULTING_UNIT_TYPE_ENT1 = ConvertAbilityIntegerLevelField('ent1')
+    constant abilityintegerlevelfield ABILITY_ILF_CORPSE_UNIT_TYPE = ConvertAbilityIntegerLevelField('Gydu')
+    constant abilityintegerlevelfield ABILITY_ILF_ALLOWED_UNIT_TYPE_LOA1 = ConvertAbilityIntegerLevelField('Loa1')
+    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_FOR_LIMIT_CHECK = ConvertAbilityIntegerLevelField('Raiu')
+    constant abilityintegerlevelfield ABILITY_ILF_WARD_UNIT_TYPE_STAU = ConvertAbilityIntegerLevelField('Stau')
+    constant abilityintegerlevelfield ABILITY_ILF_EFFECT_ABILITY = ConvertAbilityIntegerLevelField('Iobu')
+    constant abilityintegerlevelfield ABILITY_ILF_CONVERSION_UNIT = ConvertAbilityIntegerLevelField('Ndc2')
+    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TO_PRESERVE = ConvertAbilityIntegerLevelField('Nsl1')
+    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_ALLOWED = ConvertAbilityIntegerLevelField('Chl1')
+    constant abilityintegerlevelfield ABILITY_ILF_SWARM_UNIT_TYPE = ConvertAbilityIntegerLevelField('Ulsu')
+    constant abilityintegerlevelfield ABILITY_ILF_RESULTING_UNIT_TYPE_COAU = ConvertAbilityIntegerLevelField('coau')
+    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_EXHU = ConvertAbilityIntegerLevelField('exhu')
+    constant abilityintegerlevelfield ABILITY_ILF_WARD_UNIT_TYPE_HWDU = ConvertAbilityIntegerLevelField('hwdu')
+    constant abilityintegerlevelfield ABILITY_ILF_LURE_UNIT_TYPE = ConvertAbilityIntegerLevelField('imou')
+    constant abilityintegerlevelfield ABILITY_ILF_UNIT_TYPE_IPMU = ConvertAbilityIntegerLevelField('ipmu')
+    constant abilityintegerlevelfield ABILITY_ILF_FACTORY_UNIT_ID = ConvertAbilityIntegerLevelField('Nsyu')
+    constant abilityintegerlevelfield ABILITY_ILF_SPAWN_UNIT_ID_NFYU = ConvertAbilityIntegerLevelField('Nfyu')
+    constant abilityintegerlevelfield ABILITY_ILF_DESTRUCTIBLE_ID = ConvertAbilityIntegerLevelField('Nvcu')
+    constant abilityintegerlevelfield ABILITY_ILF_UPGRADE_TYPE = ConvertAbilityIntegerLevelField('Iglu')
 
     constant abilityreallevelfield ABILITY_RLF_CASTING_TIME = ConvertAbilityRealLevelField('acas')
     constant abilityreallevelfield ABILITY_RLF_CAST_BACK_SWING = ConvertAbilityRealLevelField('acbs')
@@ -1923,7 +1923,7 @@ globals
     constant abilityreallevelfield ABILITY_RLF_DELAY_FOR_TARGET_EFFECT = ConvertAbilityRealLevelField('Idel')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_DEALT_PERCENT_OF_NORMAL = ConvertAbilityRealLevelField('Iild')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_RECEIVED_MULTIPLIER = ConvertAbilityRealLevelField('Iilw')
-    constant abilityreallevelfield ABILITY_RLF_MANA_REGENERATION_BONUS_AS_FRACTION_OF_NORMAL	= ConvertAbilityRealLevelField('Imrp')
+    constant abilityreallevelfield ABILITY_RLF_MANA_REGENERATION_BONUS_AS_FRACTION_OF_NORMAL = ConvertAbilityRealLevelField('Imrp')
     constant abilityreallevelfield ABILITY_RLF_MOVEMENT_SPEED_INCREASE_ISPI = ConvertAbilityRealLevelField('Ispi')
     constant abilityreallevelfield ABILITY_RLF_DAMAGE_PER_SECOND_IDPS = ConvertAbilityRealLevelField('Idps')
     constant abilityreallevelfield ABILITY_RLF_ATTACK_DAMAGE_INCREASE_CAC1 = ConvertAbilityRealLevelField('Cac1')
@@ -2111,114 +2111,114 @@ globals
     constant abilityreallevelfield ABILITY_RLF_HALF_DAMAGE_FACTOR = ConvertAbilityRealLevelField('Nvc6')
     constant abilityreallevelfield ABILITY_RLF_INTERVAL_BETWEEN_PULSES = ConvertAbilityRealLevelField('Tau5')
 
-    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_HAB2 = ConvertAbilityBooleanLevelField('Hab2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_USE_TELEPORT_CLUSTERING_HMT3 = ConvertAbilityBooleanLevelField('Hmt3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_NEVER_MISS_OCR5 = ConvertAbilityBooleanLevelField('Ocr5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_EXCLUDE_ITEM_DAMAGE = ConvertAbilityBooleanLevelField('Ocr6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_BACKSTAB_DAMAGE = ConvertAbilityBooleanLevelField('Owk4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_INHERIT_UPGRADES_UAN3 = ConvertAbilityBooleanLevelField('Uan3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_MANA_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_LIFE_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_LEAVE_TARGET_ALIVE = ConvertAbilityBooleanLevelField('Udp5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_UAU3 = ConvertAbilityBooleanLevelField('Uau3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DAMAGE_IS_PERCENT_RECEIVED = ConvertAbilityBooleanLevelField('Eah2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_MELEE_BONUS = ConvertAbilityBooleanLevelField('Ear2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_RANGED_BONUS = ConvertAbilityBooleanLevelField('Ear3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_FLAT_BONUS = ConvertAbilityBooleanLevelField('Ear4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_NEVER_MISS_HBH5 = ConvertAbilityBooleanLevelField('Hbh5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENT_BONUS_HAD2 = ConvertAbilityBooleanLevelField('Had2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_DEACTIVATE = ConvertAbilityBooleanLevelField('Hds1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_RAISED_UNITS_ARE_INVULNERABLE = ConvertAbilityBooleanLevelField('Hre2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENTAGE_OAR2 = ConvertAbilityBooleanLevelField('Oar2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_SUMMON_BUSY_UNITS = ConvertAbilityBooleanLevelField('Btl2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CREATES_BLIGHT = ConvertAbilityBooleanLevelField('Bli2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_EXPLODES_ON_DEATH = ConvertAbilityBooleanLevelField('Sds6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ALWAYS_AUTOCAST_FAE2 = ConvertAbilityBooleanLevelField('Fae2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_REGENERATE_ONLY_AT_NIGHT = ConvertAbilityBooleanLevelField('Mbt5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_SHOW_SELECT_UNIT_BUTTON = ConvertAbilityBooleanLevelField('Neu3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_SHOW_UNIT_INDICATOR = ConvertAbilityBooleanLevelField('Neu4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CHARGE_OWNING_PLAYER = ConvertAbilityBooleanLevelField('Ans6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PERCENTAGE_ARM2 = ConvertAbilityBooleanLevelField('Arm2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_TARGET_IS_INVULNERABLE = ConvertAbilityBooleanLevelField('Pos3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_TARGET_IS_MAGIC_IMMUNE = ConvertAbilityBooleanLevelField('Pos4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_KILL_ON_CASTER_DEATH = ConvertAbilityBooleanLevelField('Ucb6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_NO_TARGET_REQUIRED_REJ4 = ConvertAbilityBooleanLevelField('Rej4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ACCEPTS_GOLD = ConvertAbilityBooleanLevelField('Rtn1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ACCEPTS_LUMBER = ConvertAbilityBooleanLevelField('Rtn2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PREFER_HOSTILES_ROA5 = ConvertAbilityBooleanLevelField('Roa5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_PREFER_FRIENDLIES_ROA6 = ConvertAbilityBooleanLevelField('Roa6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ROOTED_TURNING = ConvertAbilityBooleanLevelField('Roo3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ALWAYS_AUTOCAST_SLO3 = ConvertAbilityBooleanLevelField('Slo3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_HIDE_BUTTON = ConvertAbilityBooleanLevelField('Ihid')
-    constant abilitybooleanlevelfield	ABILITY_BLF_USE_TELEPORT_CLUSTERING_ITP2 = ConvertAbilityBooleanLevelField('Itp2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS = ConvertAbilityBooleanLevelField('Eth1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DOES_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Eth2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_AUTO_ACQUIRE_ATTACK_TARGETS = ConvertAbilityBooleanLevelField('Gho1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS_GHO2 = ConvertAbilityBooleanLevelField('Gho2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DO_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Gho3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_INCLUDE_RANGED_DAMAGE = ConvertAbilityBooleanLevelField('Ssk4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_INCLUDE_MELEE_DAMAGE = ConvertAbilityBooleanLevelField('Ssk5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_MOVE_TO_PARTNER = ConvertAbilityBooleanLevelField('coa2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_BE_DISPELLED = ConvertAbilityBooleanLevelField('cyc1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_IGNORE_FRIENDLY_BUFFS = ConvertAbilityBooleanLevelField('dvm6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DROP_ITEMS_ON_DEATH = ConvertAbilityBooleanLevelField('inv2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_USE_ITEMS = ConvertAbilityBooleanLevelField('inv3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_GET_ITEMS = ConvertAbilityBooleanLevelField('inv4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CAN_DROP_ITEMS = ConvertAbilityBooleanLevelField('inv5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_REPAIRS_ALLOWED = ConvertAbilityBooleanLevelField('liq4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_CASTER_ONLY_SPLASH = ConvertAbilityBooleanLevelField('mfl6')
-    constant abilitybooleanlevelfield	ABILITY_BLF_NO_TARGET_REQUIRED_IRL4 = ConvertAbilityBooleanLevelField('irl4')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DISPEL_ON_ATTACK = ConvertAbilityBooleanLevelField('irl5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_AMOUNT_IS_RAW_VALUE = ConvertAbilityBooleanLevelField('ipv3')
-    constant abilitybooleanlevelfield	ABILITY_BLF_SHARED_SPELL_COOLDOWN = ConvertAbilityBooleanLevelField('spb2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_SLEEP_ONCE = ConvertAbilityBooleanLevelField('sla1')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ALLOW_ON_ANY_PLAYER_SLOT = ConvertAbilityBooleanLevelField('sla2')
-    constant abilitybooleanlevelfield	ABILITY_BLF_DISABLE_OTHER_ABILITIES = ConvertAbilityBooleanLevelField('Ncl5')
-    constant abilitybooleanlevelfield	ABILITY_BLF_ALLOW_BOUNTY = ConvertAbilityBooleanLevelField('Ntm4')
+    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_HAB2 = ConvertAbilityBooleanLevelField('Hab2')
+    constant abilitybooleanlevelfield ABILITY_BLF_USE_TELEPORT_CLUSTERING_HMT3 = ConvertAbilityBooleanLevelField('Hmt3')
+    constant abilitybooleanlevelfield ABILITY_BLF_NEVER_MISS_OCR5 = ConvertAbilityBooleanLevelField('Ocr5')
+    constant abilitybooleanlevelfield ABILITY_BLF_EXCLUDE_ITEM_DAMAGE = ConvertAbilityBooleanLevelField('Ocr6')
+    constant abilitybooleanlevelfield ABILITY_BLF_BACKSTAB_DAMAGE = ConvertAbilityBooleanLevelField('Owk4')
+    constant abilitybooleanlevelfield ABILITY_BLF_INHERIT_UPGRADES_UAN3 = ConvertAbilityBooleanLevelField('Uan3')
+    constant abilitybooleanlevelfield ABILITY_BLF_MANA_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp3')
+    constant abilitybooleanlevelfield ABILITY_BLF_LIFE_CONVERSION_AS_PERCENT = ConvertAbilityBooleanLevelField('Udp4')
+    constant abilitybooleanlevelfield ABILITY_BLF_LEAVE_TARGET_ALIVE = ConvertAbilityBooleanLevelField('Udp5')
+    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_UAU3 = ConvertAbilityBooleanLevelField('Uau3')
+    constant abilitybooleanlevelfield ABILITY_BLF_DAMAGE_IS_PERCENT_RECEIVED = ConvertAbilityBooleanLevelField('Eah2')
+    constant abilitybooleanlevelfield ABILITY_BLF_MELEE_BONUS = ConvertAbilityBooleanLevelField('Ear2')
+    constant abilitybooleanlevelfield ABILITY_BLF_RANGED_BONUS = ConvertAbilityBooleanLevelField('Ear3')
+    constant abilitybooleanlevelfield ABILITY_BLF_FLAT_BONUS = ConvertAbilityBooleanLevelField('Ear4')
+    constant abilitybooleanlevelfield ABILITY_BLF_NEVER_MISS_HBH5 = ConvertAbilityBooleanLevelField('Hbh5')
+    constant abilitybooleanlevelfield ABILITY_BLF_PERCENT_BONUS_HAD2 = ConvertAbilityBooleanLevelField('Had2')
+    constant abilitybooleanlevelfield ABILITY_BLF_CAN_DEACTIVATE = ConvertAbilityBooleanLevelField('Hds1')
+    constant abilitybooleanlevelfield ABILITY_BLF_RAISED_UNITS_ARE_INVULNERABLE = ConvertAbilityBooleanLevelField('Hre2')
+    constant abilitybooleanlevelfield ABILITY_BLF_PERCENTAGE_OAR2 = ConvertAbilityBooleanLevelField('Oar2')
+    constant abilitybooleanlevelfield ABILITY_BLF_SUMMON_BUSY_UNITS = ConvertAbilityBooleanLevelField('Btl2')
+    constant abilitybooleanlevelfield ABILITY_BLF_CREATES_BLIGHT = ConvertAbilityBooleanLevelField('Bli2')
+    constant abilitybooleanlevelfield ABILITY_BLF_EXPLODES_ON_DEATH = ConvertAbilityBooleanLevelField('Sds6')
+    constant abilitybooleanlevelfield ABILITY_BLF_ALWAYS_AUTOCAST_FAE2 = ConvertAbilityBooleanLevelField('Fae2')
+    constant abilitybooleanlevelfield ABILITY_BLF_REGENERATE_ONLY_AT_NIGHT = ConvertAbilityBooleanLevelField('Mbt5')
+    constant abilitybooleanlevelfield ABILITY_BLF_SHOW_SELECT_UNIT_BUTTON = ConvertAbilityBooleanLevelField('Neu3')
+    constant abilitybooleanlevelfield ABILITY_BLF_SHOW_UNIT_INDICATOR = ConvertAbilityBooleanLevelField('Neu4')
+    constant abilitybooleanlevelfield ABILITY_BLF_CHARGE_OWNING_PLAYER = ConvertAbilityBooleanLevelField('Ans6')
+    constant abilitybooleanlevelfield ABILITY_BLF_PERCENTAGE_ARM2 = ConvertAbilityBooleanLevelField('Arm2')
+    constant abilitybooleanlevelfield ABILITY_BLF_TARGET_IS_INVULNERABLE = ConvertAbilityBooleanLevelField('Pos3')
+    constant abilitybooleanlevelfield ABILITY_BLF_TARGET_IS_MAGIC_IMMUNE = ConvertAbilityBooleanLevelField('Pos4')
+    constant abilitybooleanlevelfield ABILITY_BLF_KILL_ON_CASTER_DEATH = ConvertAbilityBooleanLevelField('Ucb6')
+    constant abilitybooleanlevelfield ABILITY_BLF_NO_TARGET_REQUIRED_REJ4 = ConvertAbilityBooleanLevelField('Rej4')
+    constant abilitybooleanlevelfield ABILITY_BLF_ACCEPTS_GOLD = ConvertAbilityBooleanLevelField('Rtn1')
+    constant abilitybooleanlevelfield ABILITY_BLF_ACCEPTS_LUMBER = ConvertAbilityBooleanLevelField('Rtn2')
+    constant abilitybooleanlevelfield ABILITY_BLF_PREFER_HOSTILES_ROA5 = ConvertAbilityBooleanLevelField('Roa5')
+    constant abilitybooleanlevelfield ABILITY_BLF_PREFER_FRIENDLIES_ROA6 = ConvertAbilityBooleanLevelField('Roa6')
+    constant abilitybooleanlevelfield ABILITY_BLF_ROOTED_TURNING = ConvertAbilityBooleanLevelField('Roo3')
+    constant abilitybooleanlevelfield ABILITY_BLF_ALWAYS_AUTOCAST_SLO3 = ConvertAbilityBooleanLevelField('Slo3')
+    constant abilitybooleanlevelfield ABILITY_BLF_HIDE_BUTTON = ConvertAbilityBooleanLevelField('Ihid')
+    constant abilitybooleanlevelfield ABILITY_BLF_USE_TELEPORT_CLUSTERING_ITP2 = ConvertAbilityBooleanLevelField('Itp2')
+    constant abilitybooleanlevelfield ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS = ConvertAbilityBooleanLevelField('Eth1')
+    constant abilitybooleanlevelfield ABILITY_BLF_DOES_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Eth2')
+    constant abilitybooleanlevelfield ABILITY_BLF_AUTO_ACQUIRE_ATTACK_TARGETS = ConvertAbilityBooleanLevelField('Gho1')
+    constant abilitybooleanlevelfield ABILITY_BLF_IMMUNE_TO_MORPH_EFFECTS_GHO2 = ConvertAbilityBooleanLevelField('Gho2')
+    constant abilitybooleanlevelfield ABILITY_BLF_DO_NOT_BLOCK_BUILDINGS = ConvertAbilityBooleanLevelField('Gho3')
+    constant abilitybooleanlevelfield ABILITY_BLF_INCLUDE_RANGED_DAMAGE = ConvertAbilityBooleanLevelField('Ssk4')
+    constant abilitybooleanlevelfield ABILITY_BLF_INCLUDE_MELEE_DAMAGE = ConvertAbilityBooleanLevelField('Ssk5')
+    constant abilitybooleanlevelfield ABILITY_BLF_MOVE_TO_PARTNER = ConvertAbilityBooleanLevelField('coa2')
+    constant abilitybooleanlevelfield ABILITY_BLF_CAN_BE_DISPELLED = ConvertAbilityBooleanLevelField('cyc1')
+    constant abilitybooleanlevelfield ABILITY_BLF_IGNORE_FRIENDLY_BUFFS = ConvertAbilityBooleanLevelField('dvm6')
+    constant abilitybooleanlevelfield ABILITY_BLF_DROP_ITEMS_ON_DEATH = ConvertAbilityBooleanLevelField('inv2')
+    constant abilitybooleanlevelfield ABILITY_BLF_CAN_USE_ITEMS = ConvertAbilityBooleanLevelField('inv3')
+    constant abilitybooleanlevelfield ABILITY_BLF_CAN_GET_ITEMS = ConvertAbilityBooleanLevelField('inv4')
+    constant abilitybooleanlevelfield ABILITY_BLF_CAN_DROP_ITEMS = ConvertAbilityBooleanLevelField('inv5')
+    constant abilitybooleanlevelfield ABILITY_BLF_REPAIRS_ALLOWED = ConvertAbilityBooleanLevelField('liq4')
+    constant abilitybooleanlevelfield ABILITY_BLF_CASTER_ONLY_SPLASH = ConvertAbilityBooleanLevelField('mfl6')
+    constant abilitybooleanlevelfield ABILITY_BLF_NO_TARGET_REQUIRED_IRL4 = ConvertAbilityBooleanLevelField('irl4')
+    constant abilitybooleanlevelfield ABILITY_BLF_DISPEL_ON_ATTACK = ConvertAbilityBooleanLevelField('irl5')
+    constant abilitybooleanlevelfield ABILITY_BLF_AMOUNT_IS_RAW_VALUE = ConvertAbilityBooleanLevelField('ipv3')
+    constant abilitybooleanlevelfield ABILITY_BLF_SHARED_SPELL_COOLDOWN = ConvertAbilityBooleanLevelField('spb2')
+    constant abilitybooleanlevelfield ABILITY_BLF_SLEEP_ONCE = ConvertAbilityBooleanLevelField('sla1')
+    constant abilitybooleanlevelfield ABILITY_BLF_ALLOW_ON_ANY_PLAYER_SLOT = ConvertAbilityBooleanLevelField('sla2')
+    constant abilitybooleanlevelfield ABILITY_BLF_DISABLE_OTHER_ABILITIES = ConvertAbilityBooleanLevelField('Ncl5')
+    constant abilitybooleanlevelfield ABILITY_BLF_ALLOW_BOUNTY = ConvertAbilityBooleanLevelField('Ntm4')
 
-    constant abilitystringlevelfield	ABILITY_SLF_ICON_NORMAL = ConvertAbilityStringLevelField('aart')
-    constant abilitystringlevelfield	ABILITY_SLF_CASTER = ConvertAbilityStringLevelField('acat')
-    constant abilitystringlevelfield	ABILITY_SLF_TARGET = ConvertAbilityStringLevelField('atat')
-    constant abilitystringlevelfield	ABILITY_SLF_SPECIAL = ConvertAbilityStringLevelField('asat')
-    constant abilitystringlevelfield	ABILITY_SLF_EFFECT = ConvertAbilityStringLevelField('aeat')
-    constant abilitystringlevelfield	ABILITY_SLF_AREA_EFFECT = ConvertAbilityStringLevelField('aaea')
-    constant abilitystringlevelfield	ABILITY_SLF_LIGHTNING_EFFECTS = ConvertAbilityStringLevelField('alig')
-    constant abilitystringlevelfield	ABILITY_SLF_MISSILE_ART = ConvertAbilityStringLevelField('amat')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_LEARN = ConvertAbilityStringLevelField('aret')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_LEARN_EXTENDED = ConvertAbilityStringLevelField('arut')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_NORMAL = ConvertAbilityStringLevelField('atp1')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_TURN_OFF = ConvertAbilityStringLevelField('aut1')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringLevelField('aub1')
-    constant abilitystringlevelfield	ABILITY_SLF_TOOLTIP_TURN_OFF_EXTENDED = ConvertAbilityStringLevelField('auu1')
-    constant abilitystringlevelfield	ABILITY_SLF_NORMAL_FORM_UNIT_EME1 = ConvertAbilityStringLevelField('Eme1')
-    constant abilitystringlevelfield	ABILITY_SLF_SPAWNED_UNITS = ConvertAbilityStringLevelField('Ndp1')
-    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_FOR_UNIT_CREATION = ConvertAbilityStringLevelField('Nrc1')
-    constant abilitystringlevelfield	ABILITY_SLF_NORMAL_FORM_UNIT_MIL1 = ConvertAbilityStringLevelField('Mil1')
-    constant abilitystringlevelfield	ABILITY_SLF_ALTERNATE_FORM_UNIT_MIL2 = ConvertAbilityStringLevelField('Mil2')
-    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_ANS5 = ConvertAbilityStringLevelField('Ans5')
-    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_GROUND = ConvertAbilityStringLevelField('Ply2')
-    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_AIR = ConvertAbilityStringLevelField('Ply3')
-    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_AMPHIBIOUS = ConvertAbilityStringLevelField('Ply4')
-    constant abilitystringlevelfield	ABILITY_SLF_MORPH_UNITS_WATER = ConvertAbilityStringLevelField('Ply5')
-    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('Rai3')
-    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('Rai4')
-    constant abilitystringlevelfield	ABILITY_SLF_UNIT_TYPE_SOD2 = ConvertAbilityStringLevelField('Sod2')
-    constant abilitystringlevelfield	ABILITY_SLF_SUMMON_1_UNIT_TYPE = ConvertAbilityStringLevelField('Ist1')
-    constant abilitystringlevelfield	ABILITY_SLF_SUMMON_2_UNIT_TYPE = ConvertAbilityStringLevelField('Ist2')
-    constant abilitystringlevelfield	ABILITY_SLF_RACE_TO_CONVERT = ConvertAbilityStringLevelField('Ndc1')
-    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE = ConvertAbilityStringLevelField('coa1')
-    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('dcp1')
-    constant abilitystringlevelfield	ABILITY_SLF_PARTNER_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('dcp2')
-    constant abilitystringlevelfield	ABILITY_SLF_REQUIRED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi1')
-    constant abilitystringlevelfield	ABILITY_SLF_CONVERTED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi2')
-    constant abilitystringlevelfield	ABILITY_SLF_SPELL_LIST = ConvertAbilityStringLevelField('spb1')
-    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_SPB5 = ConvertAbilityStringLevelField('spb5')
-    constant abilitystringlevelfield	ABILITY_SLF_BASE_ORDER_ID_NCL6 = ConvertAbilityStringLevelField('Ncl6')
-    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_1 = ConvertAbilityStringLevelField('Neg3')
-    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_2 = ConvertAbilityStringLevelField('Neg4')
-    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_3 = ConvertAbilityStringLevelField('Neg5')
-    constant abilitystringlevelfield	ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField('Neg6')
-    constant abilitystringlevelfield	ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField('Nsy2')
+    constant abilitystringlevelfield ABILITY_SLF_ICON_NORMAL = ConvertAbilityStringLevelField('aart')
+    constant abilitystringlevelfield ABILITY_SLF_CASTER = ConvertAbilityStringLevelField('acat')
+    constant abilitystringlevelfield ABILITY_SLF_TARGET = ConvertAbilityStringLevelField('atat')
+    constant abilitystringlevelfield ABILITY_SLF_SPECIAL = ConvertAbilityStringLevelField('asat')
+    constant abilitystringlevelfield ABILITY_SLF_EFFECT = ConvertAbilityStringLevelField('aeat')
+    constant abilitystringlevelfield ABILITY_SLF_AREA_EFFECT = ConvertAbilityStringLevelField('aaea')
+    constant abilitystringlevelfield ABILITY_SLF_LIGHTNING_EFFECTS = ConvertAbilityStringLevelField('alig')
+    constant abilitystringlevelfield ABILITY_SLF_MISSILE_ART = ConvertAbilityStringLevelField('amat')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_LEARN = ConvertAbilityStringLevelField('aret')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_LEARN_EXTENDED = ConvertAbilityStringLevelField('arut')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_NORMAL = ConvertAbilityStringLevelField('atp1')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_TURN_OFF = ConvertAbilityStringLevelField('aut1')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringLevelField('aub1')
+    constant abilitystringlevelfield ABILITY_SLF_TOOLTIP_TURN_OFF_EXTENDED = ConvertAbilityStringLevelField('auu1')
+    constant abilitystringlevelfield ABILITY_SLF_NORMAL_FORM_UNIT_EME1 = ConvertAbilityStringLevelField('Eme1')
+    constant abilitystringlevelfield ABILITY_SLF_SPAWNED_UNITS = ConvertAbilityStringLevelField('Ndp1')
+    constant abilitystringlevelfield ABILITY_SLF_ABILITY_FOR_UNIT_CREATION = ConvertAbilityStringLevelField('Nrc1')
+    constant abilitystringlevelfield ABILITY_SLF_NORMAL_FORM_UNIT_MIL1 = ConvertAbilityStringLevelField('Mil1')
+    constant abilitystringlevelfield ABILITY_SLF_ALTERNATE_FORM_UNIT_MIL2 = ConvertAbilityStringLevelField('Mil2')
+    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_ANS5 = ConvertAbilityStringLevelField('Ans5')
+    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_GROUND = ConvertAbilityStringLevelField('Ply2')
+    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_AIR = ConvertAbilityStringLevelField('Ply3')
+    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_AMPHIBIOUS = ConvertAbilityStringLevelField('Ply4')
+    constant abilitystringlevelfield ABILITY_SLF_MORPH_UNITS_WATER = ConvertAbilityStringLevelField('Ply5')
+    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('Rai3')
+    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('Rai4')
+    constant abilitystringlevelfield ABILITY_SLF_UNIT_TYPE_SOD2 = ConvertAbilityStringLevelField('Sod2')
+    constant abilitystringlevelfield ABILITY_SLF_SUMMON_1_UNIT_TYPE = ConvertAbilityStringLevelField('Ist1')
+    constant abilitystringlevelfield ABILITY_SLF_SUMMON_2_UNIT_TYPE = ConvertAbilityStringLevelField('Ist2')
+    constant abilitystringlevelfield ABILITY_SLF_RACE_TO_CONVERT = ConvertAbilityStringLevelField('Ndc1')
+    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE = ConvertAbilityStringLevelField('coa1')
+    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE_ONE = ConvertAbilityStringLevelField('dcp1')
+    constant abilitystringlevelfield ABILITY_SLF_PARTNER_UNIT_TYPE_TWO = ConvertAbilityStringLevelField('dcp2')
+    constant abilitystringlevelfield ABILITY_SLF_REQUIRED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi1')
+    constant abilitystringlevelfield ABILITY_SLF_CONVERTED_UNIT_TYPE = ConvertAbilityStringLevelField('tpi2')
+    constant abilitystringlevelfield ABILITY_SLF_SPELL_LIST = ConvertAbilityStringLevelField('spb1')
+    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_SPB5 = ConvertAbilityStringLevelField('spb5')
+    constant abilitystringlevelfield ABILITY_SLF_BASE_ORDER_ID_NCL6 = ConvertAbilityStringLevelField('Ncl6')
+    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_1 = ConvertAbilityStringLevelField('Neg3')
+    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_2 = ConvertAbilityStringLevelField('Neg4')
+    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_3 = ConvertAbilityStringLevelField('Neg5')
+    constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField('Neg6')
+    constant abilitystringlevelfield ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField('Nsy2')
 
     // Buff
     constant abilitystringfield BUFF_SF_ICON_NORMAL = ConvertAbilityStringField('fart')
@@ -2226,8 +2226,8 @@ globals
     constant abilitystringfield BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringField('fube')
 
     // Destructable
-    constant destructablestringfield	DESTRUCTABLE_SF_NAME = ConvertDestructableStringField('bnam')
-    constant destructablestringfield	DESTRUCTABLE_SF_MODEL = ConvertDestructableStringField('bfil')
+    constant destructablestringfield DESTRUCTABLE_SF_NAME = ConvertDestructableStringField('bnam')
+    constant destructablestringfield DESTRUCTABLE_SF_MODEL = ConvertDestructableStringField('bfil')
 
     // Item
     constant itemintegerfield ITEM_IF_TINTING_COLOR = ConvertItemIntegerField('iclt')
@@ -2989,7 +2989,7 @@ constant native GetClickedButton takes nothing returns button
 constant native GetClickedDialog takes nothing returns dialog
 
 // EVENT_GAME_TOURNAMENT_FINISH_SOON
-constant native GetTournamentFinishSoonTimeRemaining	takes nothing returns real
+constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real
 constant native GetTournamentFinishNowRule takes nothing returns integer
 constant native GetTournamentFinishNowPlayer takes nothing returns player
 constant native GetTournamentScore takes player whichPlayer returns integer
@@ -3915,7 +3915,7 @@ native QuestSetRequired takes quest whichQuest, boolean required returns nothing
 native QuestSetCompleted takes quest whichQuest, boolean completed returns nothing
 native QuestSetDiscovered takes quest whichQuest, boolean discovered returns nothing
 native QuestSetFailed takes quest whichQuest, boolean failed returns nothing
-native QuestSetEnabled takes quest whichQuest, boolean enabled	returns nothing
+native QuestSetEnabled takes quest whichQuest, boolean enabled returns nothing
 
 native IsQuestRequired takes quest whichQuest returns boolean
 native IsQuestCompleted takes quest whichQuest returns boolean
@@ -4266,7 +4266,7 @@ native SetDoodadAnimationRect takes rect r, integer doodadID, string animName, b
 //============================================================================
 // Computer AI interface
 //
-native StartMeleeAI takes player num, string script	returns nothing
+native StartMeleeAI takes player num, string script returns nothing
 native StartCampaignAI takes player num, string script returns nothing
 native CommandAI takes player num, integer command, integer data returns nothing
 native PauseCompAI takes player p, boolean pause returns nothing
@@ -4794,7 +4794,7 @@ native IsReplay takes nothing returns boolean
 native GroupGetCount takes group whichGroup returns integer
 native GroupContainsUnit takes group whichGroup, unit whichUnit returns boolean
 native GroupGetUnitByIndex takes group whichGroup, integer index returns unit
-native GroupForEachUnit takes group whichGroup returns unit	// this mimics FristOfGroup, but each consecutive call will pick next unit. DO NOT USE this with GroupRemoveUnit, as it will break it.
+native GroupForEachUnit takes group whichGroup returns unit // this mimics FristOfGroup, but each consecutive call will pick next unit. DO NOT USE this with GroupRemoveUnit, as it will break it.
 native GroupAddGroupEx takes group destGroup, group sourceGroup returns integer
 native GroupRemoveGroupEx takes group destGroup, group sourceGroup returns integer
 //

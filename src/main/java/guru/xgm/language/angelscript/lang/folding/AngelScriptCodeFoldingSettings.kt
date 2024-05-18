@@ -1,33 +1,29 @@
-package guru.xgm.language.angelscript.lang.folding;
+package guru.xgm.language.angelscript.lang.folding
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.SettingsCategory;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.util.xmlb.XmlSerializerUtil;
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.SettingsCategory
+import com.intellij.openapi.components.State
+import com.intellij.openapi.components.Storage
+import com.intellij.util.xmlb.XmlSerializerUtil
 
-@Setter
-@Getter
-@State(name = "AngelScriptCodeFoldingSettings", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
-public class AngelScriptCodeFoldingSettings implements PersistentStateComponent<AngelScriptCodeFoldingSettings> {
-    private boolean foldEnum = false;
+@State(name = "AngelScriptCodeFoldingSettings", storages = [Storage("editor.xml")], category = SettingsCategory.CODE)
+class AngelScriptCodeFoldingSettings : PersistentStateComponent<AngelScriptCodeFoldingSettings> {
+    var isFoldEnum: Boolean = false
 
-    public static AngelScriptCodeFoldingSettings getInstance() {
-        return ApplicationManager.getApplication().getService(AngelScriptCodeFoldingSettings.class);
+    override fun getState(): AngelScriptCodeFoldingSettings {
+        return this
     }
 
-    @Override
-    public AngelScriptCodeFoldingSettings getState() {
-        return this;
+    override fun loadState(state: AngelScriptCodeFoldingSettings) {
+        XmlSerializerUtil.copyBean(state, this)
     }
 
-    @Override
-    public void loadState(@NotNull final AngelScriptCodeFoldingSettings state) {
-        XmlSerializerUtil.copyBean(state, this);
+    companion object {
+        @JvmStatic
+        val instance: AngelScriptCodeFoldingSettings
+            get() = ApplicationManager.getApplication().getService(
+                AngelScriptCodeFoldingSettings::class.java
+            )
     }
-
 }

@@ -1,190 +1,257 @@
-package guru.xgm.language.angelscript.openapi.fileTypes;
+package guru.xgm.language.angelscript.openapi.fileTypes
 
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lexer.Lexer
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.HighlighterColors
+import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
+import com.intellij.psi.TokenType
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
+import com.squareup.wire.internal.JvmField
+import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
-
-public class AngelScriptSyntaxHighlighterBase extends SyntaxHighlighterBase {
-    private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<>();
-
-    public static final TextAttributesKey BAD_CHARACTER_KEY = createTextAttributesKey("ANGELSCRIPT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
-    private static final TokenSet BAD_CHARACTER_SET = TokenSet.create(TokenType.BAD_CHARACTER);
-
-    public static final TextAttributesKey ID_KEY = createTextAttributesKey("ANGELSCRIPT_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
-    private static final TokenSet ID_SET = TokenSet.create(ID);
-
-    public static final TextAttributesKey LINE_COMMENT_KEY = createTextAttributesKey("ANGELSCRIPT_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    private static final TokenSet LINE_COMMENT_SET = TokenSet.create(LINE_COMMENT);
-
-    public static final TextAttributesKey BLOCK_COMMENT_KEY = createTextAttributesKey("ANGELSCRIPT_BLOCK_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    private static final TokenSet BLOCK_COMMENT_SET = TokenSet.create(BLOCK_COMMENT);
-
-    public static final TextAttributesKey KEYWORD_KEY = createTextAttributesKey("ANGELSCRIPT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    private static final TokenSet KEYWORD_SET = TokenSet.create(
-            ABSTRACT,
-            ARRAY,
-            AUTO,
-            BREAK,
-            CASE,
-            CONST,
-            CLASS,
-            DEFAULT,
-            DO,
-            ELSE,
-            ENUM,
-            EXTERNAL,
-            EXPLICIT,
-            FINAL,
-            FOR,
-            FUNCDEF,
-            FUNCTION,
-            GET,
-            IF,
-            INCLUDE,
-            IN,
-            INOUT,
-            NAMESPACE,
-            NULL,
-            NIL,
-            OVERRIDE,
-            OUT,
-            PRIVATE,
-            PROPERTY,
-            PROTECTED,
-            RETURN,
-            SET,
-            SHARED,
-            STATIC,
-            SWITCH,
-            WHILE,
-            TRUE,
-            FALSE
-    );
-
-    public static final TextAttributesKey NUMBER_KEY = createTextAttributesKey("ANGELSCRIPT_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
-    private static final TokenSet NUMBER_SET = TokenSet.create(RAWVAL, INTVAL, REALVAL, HEXVAL);
-
-    public static final TextAttributesKey PARENTHESES_KEY = createTextAttributesKey("ANGELSCRIPT_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES);
-    private static final TokenSet PARENTHESES_SET = TokenSet.create(LPAREN, RPAREN);
-
-    public static final TextAttributesKey BRACES_KEY = createTextAttributesKey("ANGELSCRIPT_BRACES", DefaultLanguageHighlighterColors.BRACES);
-    private static final TokenSet BRACES_SET = TokenSet.create(LBRACE, RBRACE);
-
-    public static final TextAttributesKey BRACKETS_KEY = createTextAttributesKey("ANGELSCRIPT_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS);
-    private static final TokenSet BRACKETS_SET = TokenSet.create(LBRACK, RBRACK);
-
-    public static final TextAttributesKey COMMA_KEY = createTextAttributesKey("ANGELSCRIPT_COMMA", DefaultLanguageHighlighterColors.COMMA);
-    private static final TokenSet COMMA_SET = TokenSet.create(COMMA);
-
-    public static final TextAttributesKey SEMICOLON_KEY = createTextAttributesKey("ANGELSCRIPT_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
-    private static final TokenSet SEMICOLON_SET = TokenSet.create(SEMI);
-
-    public static final TextAttributesKey DOT_KEY = createTextAttributesKey("ANGELSCRIPT_DOT", DefaultLanguageHighlighterColors.DOT);
-    private static final TokenSet DOT_SET = TokenSet.create(DOT);
-
-    public static final TextAttributesKey OPERATION_SIGN_KEY = createTextAttributesKey("ANGELSCRIPT_OPERATION_SIGN", DefaultLanguageHighlighterColors.OPERATION_SIGN);
-    private static final TokenSet OPERATION_SIGN_SET = TokenSet.create(
-            COLON_COLON,
-            PLUS_PLUS,
-            MINUS_MINUS,
-            TILDE,
-            EXCL,
-            NOT,
-            MINUS,
-            PLUS,
-            AT,
-            CAST,
-            MUL_MUL,
-            MUL,
-            DIV,
-            PERCENT,
-            LT_LT,
-            GT_GT,
-            GT_GT_GT,
-            LT,
-            GT,
-            LT_EQ,
-            GT_EQ,
-            EQ_EQ,
-            NEQ,
-            CAR_CAR,
-            XOR,
-            IS,
-            NIS,
-            AMP,
-            CAR,
-            VBAR,
-            AMP_AMP,
-            AND,
-            VBAR_VBAR,
-            OR,
-            QUEST,
-            COLON,
-            EQ,
-            MUL_MUL_EQ,
-            MUL_EQ,
-            DIV_EQ,
-            PERCENT_EQ,
-            PLUS_EQ,
-            MINUS_EQ,
-            LT_LT_EQ,
-            GT_GT_EQ,
-            AMP_EQ,
-            CAR_EQ,
-            VBAR_EQ
-    );
-
-    public static final TextAttributesKey STRING_KEY = createTextAttributesKey("ANGELSCRIPT_STRING", DefaultLanguageHighlighterColors.STRING);
-    private static final TokenSet STRING_SET = TokenSet.create(STRING_ONE, STRING_THREE);
-
-    public static final TextAttributesKey VALID_STRING_ESCAPE_KEY = createTextAttributesKey("ANGELSCRIPT_VALID_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE);
-
-    public static final TextAttributesKey INVALID_STRING_ESCAPE_KEY = createTextAttributesKey("ANGELSCRIPT_INVALID_STRING_ESCAPE", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE);
-
-    public static final TextAttributesKey TYPE_NAME_KEY = createTextAttributesKey("ANGELSCRIPT_TYPE_NAME", DefaultLanguageHighlighterColors.KEYWORD);
-    private static final TokenSet TYPE_NAME_SET = TokenSet.create(
-            ARRAY, BOOL, CODE, DOUBLE, FLOAT, HANDLE, INT, INT8, INT16, INT32, INT64, STRING, UINT, UINT16, UINT32, UINT64, VOID
-    );
-
-    static {
-        fillMap(ATTRIBUTES, BAD_CHARACTER_SET, BAD_CHARACTER_KEY);
-        fillMap(ATTRIBUTES, ID_SET, ID_KEY);
-        fillMap(ATTRIBUTES, KEYWORD_SET, KEYWORD_KEY);
-        fillMap(ATTRIBUTES, LINE_COMMENT_SET, LINE_COMMENT_KEY);
-        fillMap(ATTRIBUTES, BLOCK_COMMENT_SET, BLOCK_COMMENT_KEY);
-        fillMap(ATTRIBUTES, NUMBER_SET, NUMBER_KEY);
-        fillMap(ATTRIBUTES, PARENTHESES_SET, PARENTHESES_KEY);
-        fillMap(ATTRIBUTES, BRACES_SET, BRACES_KEY);
-        fillMap(ATTRIBUTES, BRACKETS_SET, BRACKETS_KEY);
-        fillMap(ATTRIBUTES, COMMA_SET, COMMA_KEY);
-        fillMap(ATTRIBUTES, SEMICOLON_SET, SEMICOLON_KEY);
-        fillMap(ATTRIBUTES, DOT_SET, DOT_KEY);
-        fillMap(ATTRIBUTES, OPERATION_SIGN_SET, OPERATION_SIGN_KEY);
-        fillMap(ATTRIBUTES, STRING_SET, STRING_KEY);
-        fillMap(ATTRIBUTES, TYPE_NAME_SET, TYPE_NAME_KEY);
+class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
+    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
+        return pack(ATTRIBUTES[tokenType])
     }
 
-    @Override
-    public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        return pack(ATTRIBUTES.get(tokenType));
+    override fun getHighlightingLexer(): Lexer {
+        return AngelScriptFlexAdapter()
     }
 
-    @NotNull
-    @Override
-    public Lexer getHighlightingLexer() {
-        return new AngelScriptFlexAdapter();
+    companion object {
+
+        private val ATTRIBUTES: MutableMap<IElementType, TextAttributesKey> = HashMap()
+
+        @JvmField
+        val INJECTOR: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_INJECTOR", HighlighterColors.BAD_CHARACTER)
+
+        @JvmField
+        val BAD_CHARACTER_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        private val BAD_CHARACTER_SET = TokenSet.create(TokenType.BAD_CHARACTER)
+
+        private val ID_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_ID", DefaultLanguageHighlighterColors.IDENTIFIER)
+        private val ID_SET = TokenSet.create(AngelScriptTypes.ID)
+
+        @JvmField
+        val LINE_COMMENT_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_LINE_COMMENT",
+            DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
+        private val LINE_COMMENT_SET = TokenSet.create(AngelScriptTypes.LINE_COMMENT)
+
+        @JvmField
+        val BLOCK_COMMENT_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_BLOCK_COMMENT",
+            DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
+        private val BLOCK_COMMENT_SET = TokenSet.create(AngelScriptTypes.BLOCK_COMMENT)
+
+        @JvmField
+        val KEYWORD_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
+        private val KEYWORD_SET = TokenSet.create(
+            AngelScriptTypes.ABSTRACT,
+            AngelScriptTypes.ARRAY,
+            AngelScriptTypes.AUTO,
+            AngelScriptTypes.BREAK,
+            AngelScriptTypes.CASE,
+            AngelScriptTypes.CONST,
+            AngelScriptTypes.CLASSS,
+            AngelScriptTypes.DEFAULT,
+            AngelScriptTypes.DO,
+            AngelScriptTypes.ELSE,
+            AngelScriptTypes.ENUM,
+            AngelScriptTypes.EXTERNAL,
+            AngelScriptTypes.EXPLICIT,
+            AngelScriptTypes.FINAL,
+            AngelScriptTypes.FOR,
+            AngelScriptTypes.FUNCDEF,
+            AngelScriptTypes.FUNCTION,
+            AngelScriptTypes.GET,
+            AngelScriptTypes.IF,
+            AngelScriptTypes.INCLUDE,
+            AngelScriptTypes.IN,
+            AngelScriptTypes.INOUT,
+            AngelScriptTypes.NAMESPACE,
+            AngelScriptTypes.NULL,
+            AngelScriptTypes.NIL,
+            AngelScriptTypes.OVERRIDE,
+            AngelScriptTypes.OUT,
+            AngelScriptTypes.PRIVATE,
+            AngelScriptTypes.PROPERTY,
+            AngelScriptTypes.PROTECTED,
+            AngelScriptTypes.RETURN,
+            AngelScriptTypes.SET,
+            AngelScriptTypes.SHARED,
+            AngelScriptTypes.STATIC,
+            AngelScriptTypes.SWITCH,
+            AngelScriptTypes.WHILE,
+            AngelScriptTypes.TRUE,
+            AngelScriptTypes.FALSE
+        )
+
+        @JvmField
+        val NUMBER_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_NUMBER", DefaultLanguageHighlighterColors.NUMBER)
+        private val NUMBER_SET = TokenSet.create(
+            AngelScriptTypes.RAWVAL,
+            AngelScriptTypes.INTVAL,
+            AngelScriptTypes.REALVAL,
+            AngelScriptTypes.HEXVAL
+        )
+
+        @JvmField
+        val PARENTHESES_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_PARENTHESES",
+            DefaultLanguageHighlighterColors.PARENTHESES
+        )
+        private val PARENTHESES_SET = TokenSet.create(AngelScriptTypes.LPAREN, AngelScriptTypes.RPAREN)
+
+        @JvmField
+        val BRACES_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_BRACES", DefaultLanguageHighlighterColors.BRACES)
+        private val BRACES_SET = TokenSet.create(AngelScriptTypes.LBRACE, AngelScriptTypes.RBRACE)
+
+        @JvmField
+        val BRACKETS_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS)
+        private val BRACKETS_SET = TokenSet.create(AngelScriptTypes.LBRACK, AngelScriptTypes.RBRACK)
+
+        @JvmField
+        val COMMA_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_COMMA", DefaultLanguageHighlighterColors.COMMA)
+        private val COMMA_SET = TokenSet.create(AngelScriptTypes.COMMA)
+
+        @JvmField
+        val SEMICOLON_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_SEMICOLON",
+            DefaultLanguageHighlighterColors.SEMICOLON
+        )
+        private val SEMICOLON_SET = TokenSet.create(AngelScriptTypes.SEMI)
+
+        @JvmField
+        val DOT_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_DOT", DefaultLanguageHighlighterColors.DOT)
+        private val DOT_SET = TokenSet.create(AngelScriptTypes.DOT)
+
+        @JvmField
+        val OPERATION_SIGN_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_OPERATION_SIGN",
+            DefaultLanguageHighlighterColors.OPERATION_SIGN
+        )
+        private val OPERATION_SIGN_SET = TokenSet.create(
+            AngelScriptTypes.COLON_COLON,
+            AngelScriptTypes.PLUS_PLUS,
+            AngelScriptTypes.MINUS_MINUS,
+            AngelScriptTypes.TILDE,
+            AngelScriptTypes.EXCL,
+            AngelScriptTypes.NOT,
+            AngelScriptTypes.MINUS,
+            AngelScriptTypes.PLUS,
+            AngelScriptTypes.AT,
+            AngelScriptTypes.CAST,
+            AngelScriptTypes.MUL_MUL,
+            AngelScriptTypes.MUL,
+            AngelScriptTypes.DIV,
+            AngelScriptTypes.PERCENT,
+            AngelScriptTypes.LT_LT,
+            AngelScriptTypes.GT_GT,
+            AngelScriptTypes.GT_GT_GT,
+            AngelScriptTypes.LT,
+            AngelScriptTypes.GT,
+            AngelScriptTypes.LT_EQ,
+            AngelScriptTypes.GT_EQ,
+            AngelScriptTypes.EQ_EQ,
+            AngelScriptTypes.NEQ,
+            AngelScriptTypes.CAR_CAR,
+            AngelScriptTypes.XOR,
+            AngelScriptTypes.IS,
+            AngelScriptTypes.NIS,
+            AngelScriptTypes.AMP,
+            AngelScriptTypes.CAR,
+            AngelScriptTypes.VBAR,
+            AngelScriptTypes.AMP_AMP,
+            AngelScriptTypes.AND,
+            AngelScriptTypes.VBAR_VBAR,
+            AngelScriptTypes.OR,
+            AngelScriptTypes.QUEST,
+            AngelScriptTypes.COLON,
+            AngelScriptTypes.EQ,
+            AngelScriptTypes.MUL_MUL_EQ,
+            AngelScriptTypes.MUL_EQ,
+            AngelScriptTypes.DIV_EQ,
+            AngelScriptTypes.PERCENT_EQ,
+            AngelScriptTypes.PLUS_EQ,
+            AngelScriptTypes.MINUS_EQ,
+            AngelScriptTypes.LT_LT_EQ,
+            AngelScriptTypes.GT_GT_EQ,
+            AngelScriptTypes.AMP_EQ,
+            AngelScriptTypes.CAR_EQ,
+            AngelScriptTypes.VBAR_EQ
+        )
+
+        @JvmField
+        val STRING_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_STRING", DefaultLanguageHighlighterColors.STRING)
+        private val STRING_SET = TokenSet.create(AngelScriptTypes.STRING_ONE, AngelScriptTypes.STRING_THREE)
+
+        @JvmField
+        val VALID_STRING_ESCAPE_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_VALID_STRING_ESCAPE",
+            DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE
+        )
+
+        @JvmField
+        val INVALID_STRING_ESCAPE_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "ANGELSCRIPT_INVALID_STRING_ESCAPE",
+            DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE
+        )
+
+        @JvmField
+        val TYPE_NAME_KEY: TextAttributesKey =
+            TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_TYPE_NAME", DefaultLanguageHighlighterColors.KEYWORD)
+        private val TYPE_NAME_SET = TokenSet.create(
+            AngelScriptTypes.ARRAY,
+            AngelScriptTypes.BOOL,
+            AngelScriptTypes.CODE,
+            AngelScriptTypes.DOUBLE,
+            AngelScriptTypes.FLOAT,
+            AngelScriptTypes.HANDLE,
+            AngelScriptTypes.INT,
+            AngelScriptTypes.INT8,
+            AngelScriptTypes.INT16,
+            AngelScriptTypes.INT32,
+            AngelScriptTypes.INT64,
+            AngelScriptTypes.STRING,
+            AngelScriptTypes.UINT,
+            AngelScriptTypes.UINT16,
+            AngelScriptTypes.UINT32,
+            AngelScriptTypes.UINT64,
+            AngelScriptTypes.VOID
+        )
+
+        init {
+            fillMap(ATTRIBUTES, BAD_CHARACTER_SET, BAD_CHARACTER_KEY)
+            fillMap(ATTRIBUTES, ID_SET, ID_KEY)
+            fillMap(ATTRIBUTES, KEYWORD_SET, KEYWORD_KEY)
+            fillMap(ATTRIBUTES, LINE_COMMENT_SET, LINE_COMMENT_KEY)
+            fillMap(ATTRIBUTES, BLOCK_COMMENT_SET, BLOCK_COMMENT_KEY)
+            fillMap(ATTRIBUTES, NUMBER_SET, NUMBER_KEY)
+            fillMap(ATTRIBUTES, PARENTHESES_SET, PARENTHESES_KEY)
+            fillMap(ATTRIBUTES, BRACES_SET, BRACES_KEY)
+            fillMap(ATTRIBUTES, BRACKETS_SET, BRACKETS_KEY)
+            fillMap(ATTRIBUTES, COMMA_SET, COMMA_KEY)
+            fillMap(ATTRIBUTES, SEMICOLON_SET, SEMICOLON_KEY)
+            fillMap(ATTRIBUTES, DOT_SET, DOT_KEY)
+            fillMap(ATTRIBUTES, OPERATION_SIGN_SET, OPERATION_SIGN_KEY)
+            fillMap(ATTRIBUTES, STRING_SET, STRING_KEY)
+            fillMap(ATTRIBUTES, TYPE_NAME_SET, TYPE_NAME_KEY)
+        }
     }
 }

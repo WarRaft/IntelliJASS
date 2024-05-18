@@ -24,6 +24,8 @@ final class AngelScriptColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor(OptionsBundle.messagePointer("options.java.attribute.descriptor.bad.character"), BAD_CHARACTER_KEY),
 
+            new AttributesDescriptor("Injector", TYPE_NAME_KEY),
+
             new AttributesDescriptor("Type", TYPE_NAME_KEY),
 
             new AttributesDescriptor(OptionsBundle.messagePointer("options.language.defaults.line.comment"), LINE_COMMENT_KEY),
@@ -66,6 +68,7 @@ final class AngelScriptColorSettingsPage implements ColorSettingsPage {
                 /*
                 block comment
                 */
+                //$jass native DestroyGroup takes group whichGroup returns nothing
                 <TYPE_NAME>void</TYPE_NAME> d(){
                     if (true){
                         <TYPE_NAME>int</TYPE_NAME> i = 2 * 0xDEADBEAF + '!@#$%^&*' - a.i[2];

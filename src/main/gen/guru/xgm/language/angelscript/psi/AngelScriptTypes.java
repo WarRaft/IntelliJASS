@@ -110,7 +110,7 @@ public interface AngelScriptTypes {
   IElementType CAR_EQ = new AngelScriptIToken("^=");
   IElementType CASE = new AngelScriptIToken("case");
   IElementType CAST = new AngelScriptIToken("cast");
-  IElementType CLASS = new AngelScriptIToken("class");
+  IElementType CLASSS = new AngelScriptIToken("class");
   IElementType CODE = new AngelScriptIToken("code");
   IElementType COLON = new AngelScriptIToken(":");
   IElementType COLON_COLON = new AngelScriptIToken("::");

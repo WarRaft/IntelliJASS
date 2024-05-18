@@ -296,13 +296,13 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLASS ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock))
+  // (SHARED|ABSTRACT|FINAL|EXTERNAL)* 'class' ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock))
   public static boolean Clazz(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Clazz")) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, CLAZZ, "<class>");
+    Marker m = enter_section_(b, l, _NONE_, CLAZZ, "<clazz>");
     r = Clazz_0(b, l + 1);
-    r = r && consumeTokens(b, 1, CLASS, ID);
+    r = r && consumeTokens(b, 1, CLASSS, ID);
     p = r; // pin = 2
     r = r && Clazz_3(b, l + 1);
     exit_section_(b, l, m, r, p, null);
@@ -1495,7 +1495,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // !(
   // ID|ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRING|UINT|UINT16|UINT32|UINT64|VOID|
-  // QUEST|AUTO|CLASS|
+  // QUEST|AUTO|CLASSS|
   // HASH|NAMESPACE|ENUM|CONST)
   static boolean RootItemRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RootItemRecover")) return false;
@@ -1507,7 +1507,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   // ID|ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRING|UINT|UINT16|UINT32|UINT64|VOID|
-  // QUEST|AUTO|CLASS|
+  // QUEST|AUTO|CLASSS|
   // HASH|NAMESPACE|ENUM|CONST
   private static boolean RootItemRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RootItemRecover_0")) return false;
@@ -1532,7 +1532,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, VOID);
     if (!r) r = consumeToken(b, QUEST);
     if (!r) r = consumeToken(b, AUTO);
-    if (!r) r = consumeToken(b, CLASS);
+    if (!r) r = consumeToken(b, CLASSS);
     if (!r) r = consumeToken(b, HASH);
     if (!r) r = consumeToken(b, NAMESPACE);
     if (!r) r = consumeToken(b, ENUM);

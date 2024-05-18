@@ -11,8 +11,6 @@ import guru.xgm.language.jass.openapi.fileTypes.JassFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     public JassAlignTokenPanel(CodeStyleSettings settings) {
         super(settings);

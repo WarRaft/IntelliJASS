@@ -1,88 +1,101 @@
-package guru.xgm.language.angelscript.lang.folding;
+package guru.xgm.language.angelscript.lang.folding
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.CustomFoldingBuilder;
-import com.intellij.lang.folding.FoldingDescriptor;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase;
-import guru.xgm.language.angelscript.lang.AngelScriptParserDefinition;
-import guru.xgm.language.angelscript.psi.AngelScriptEnums;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode
+import com.intellij.lang.folding.CustomFoldingBuilder
+import com.intellij.lang.folding.FoldingDescriptor
+import com.intellij.openapi.editor.Document
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
+import com.intellij.refactoring.suggested.startOffset
+import guru.xgm.intellij.lang.injection.general.IntellijScriptInjector.Companion.INJECT_JASS
+import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase
+import guru.xgm.language.angelscript.lang.AngelScriptParserDefinition
+import guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings.Companion.instance
+import guru.xgm.language.angelscript.psi.AngelScriptEnums
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
+import guru.xgm.language.angelscript.psi.AngelScriptTypes.ENUMS
+import guru.xgm.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT
 
-import java.util.Collection;
-import java.util.List;
-
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.ENUMS;
-
-final class AngelScriptCustomFoldingBuilder extends CustomFoldingBuilder implements DumbAware {
-
-    @Override
-    protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
-        final IElementType type = node.getElementType();
-        return type == AngelScriptParserDefinition.ANGELSCRIPT_FILE || type == ENUMS;
+internal class AngelScriptCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
+    override fun isCustomFoldingRoot(node: ASTNode): Boolean {
+        val type = node.elementType
+        return type === AngelScriptParserDefinition.ANGELSCRIPT_FILE || type === ENUMS
     }
 
-    @Override
-    protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> descriptors, @NotNull PsiElement root, @NotNull Document document, boolean quick) {
-        if (!(root instanceof AngelScriptPsiFileBase)) return;
+    override fun buildLanguageFoldRegions(
+        descriptors: MutableList<FoldingDescriptor>,
+        root: PsiElement,
+        document: Document,
+        quick: Boolean
+    ) {
+        if (root !is AngelScriptPsiFileBase) return
 
-        final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
-                root,
-                PsiComment.class,
-                AngelScriptEnums.class
-        );
+        val psiElements = PsiTreeUtil.findChildrenOfAnyType(
+            root,
+            PsiComment::class.java,
+            AngelScriptEnums::class.java
+        )
 
-        for (PsiElement element : psiElements) {
-            if (element instanceof AngelScriptEnums enums) {
-                final var id = enums.getId();
+        for (element in psiElements) {
+            val type = element.elementType
 
-                final var s = id.getNode();
-                final var e = enums.getNode();
+            if (type == LINE_COMMENT && element.text.startsWith(INJECT_JASS)) {
+                descriptors.add(
+                    FoldingDescriptor(
+                        element,
+                        TextRange.create(element.startOffset, element.startOffset + 3)
+                    )
+                )
+            }
 
-                descriptors.add(new FoldingDescriptor(element, TextRange.create(s.getStartOffset() + s.getTextLength(), e.getStartOffset() + e.getTextLength())));
+            if (element is AngelScriptEnums) {
+                val id: PsiElement = element.id
+
+                val s = id.node
+                val e = element.getNode()
+
+                descriptors.add(
+                    FoldingDescriptor(
+                        element,
+                        TextRange.create(s.startOffset + s.textLength, e.startOffset + e.textLength)
+                    )
+                )
             }
         }
     }
 
-    @Override
-    protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
-        final IElementType type = node.getElementType();
+    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String? {
+        val type = node.elementType
 
-        if (type == ENUMS) {
-            final var psi = node.getPsi(AngelScriptEnums.class);
-            final var block = psi.getEnumStatBlock();
-            return block == null ? "..." : sizeable(block.getEnumItemList());
+        if (type === LINE_COMMENT) {
+            return ""
         }
-        return null;
+
+        if (type === ENUMS) {
+            val psi = node.getPsi(AngelScriptEnums::class.java)
+            val block = psi.enumStatBlock
+            return if (block == null) "..." else sizeable(block.enumItemList)
+        }
+        return null
     }
 
-    private String sizeable(List<?> list) {
-        final int size = list.size();
-        return size == 0 ? " ... " : " (" + size + ") ";
+    private fun sizeable(list: List<*>): String {
+        val size = list.size
+        return if (size == 0) " ... " else " ($size) "
     }
 
-    @Override
-    protected boolean isRegionCollapsedByDefault(@NotNull ASTNode node) {
-        final IElementType type = node.getElementType();
-        final var settings = AngelScriptCodeFoldingSettings.getInstance();
+    override fun isRegionCollapsedByDefault(node: ASTNode): Boolean {
+        val type = node.elementType
+        val settings = instance
 
-        if (type == ENUMS) return settings.isFoldEnum();
-        return false;
+        return when {
+            type === ENUMS -> settings.isFoldEnum
+            type === LINE_COMMENT -> true
+            else -> false
+        }
     }
-
-    private void foldSimple(PsiElement element, IElementType start, IElementType end, List<FoldingDescriptor> descriptors) {
-        final ASTNode s = element.getNode().findChildByType(start);
-        final ASTNode e = element.getNode().findChildByType(end, s);
-
-        if (s == null || e == null) return;
-
-        descriptors.add(new FoldingDescriptor(element, TextRange.create(s.getStartOffset() + s.getTextLength(), e.getStartOffset())));
-    }
-
 }

@@ -1292,7 +1292,7 @@ int peek() {
           // fall through
           case 227: break;
           case 98:
-            { return CLASS;
+            { return CLASSS;
             }
           // fall through
           case 228: break;
