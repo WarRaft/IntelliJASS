@@ -5,13 +5,15 @@ import guru.xgm.language.jass.icons.JassIcons
 import guru.xgm.language.jass.lang.JassLanguage
 import javax.swing.Icon
 
+// https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html
+
 class JassFileType : LanguageFileType(JassLanguage.instance) {
     override fun getName(): String {
-        return "JASS"
+        return JassLanguage.NAME
     }
 
     override fun getDescription(): String {
-        return "JASS language file"
+        return JassLanguage.NAME + " language file"
     }
 
     override fun getDefaultExtension(): String {
@@ -22,6 +24,7 @@ class JassFileType : LanguageFileType(JassLanguage.instance) {
         return JassIcons.FILE
     }
 
+    @Suppress("CompanionObjectInExtension")
     companion object {
         val INSTANCE: JassFileType = JassFileType()
 

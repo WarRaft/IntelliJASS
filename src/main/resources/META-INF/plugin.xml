@@ -30,11 +30,12 @@
         <multiHostInjector implementation="guru.xgm.intellij.lang.injection.general.IntellijScriptInjector"/>
 
         <!-- TODO:JASS -->
+        <!-- https://plugins.jetbrains.com/docs/intellij/registering-file-type.html#registration -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
                   fieldName="INSTANCE"
                   language="JASS"
-                  extensions="j"
+                  extensions="j;ai;pld"
         />
 
         <!-- parser -->

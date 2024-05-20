@@ -6,6 +6,7 @@ import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import guru.xgm.language.jass.icons.JassIcons;
+import guru.xgm.language.jass.lang.JassLanguage;
 import guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterBase;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +68,7 @@ final class JassColorSettingsPage implements ColorSettingsPage {
     @NotNull
     @Override
     public String getDisplayName() {
-        return "JASS";
+        return JassLanguage.NAME;
     }
 
 }

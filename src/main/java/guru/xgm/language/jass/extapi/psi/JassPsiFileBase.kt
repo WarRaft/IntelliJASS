@@ -12,6 +12,6 @@ class JassPsiFileBase(viewProvider: FileViewProvider) : PsiFileBase(viewProvider
     }
 
     override fun toString(): String {
-        return "JASS"
+        return JassLanguage.NAME
     }
 }
