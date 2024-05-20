@@ -7,7 +7,7 @@ import guru.xgm.language.jass.lang.JassLanguage;
 
 public class JassCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
     public JassCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
-        super(JassLanguage.INSTANCE, currentSettings, settings);
+        super(JassLanguage.Companion.getInstance(), currentSettings, settings);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class JassCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
         super.initTabs(settings);
         addTab(new JassAlignTokenPanel(settings));
         for (CodeStyleSettingsProvider provider : CodeStyleSettingsProvider.EXTENSION_POINT_NAME.getExtensionList()) {
-            if (provider.getLanguage() == JassLanguage.INSTANCE && !provider.hasSettingsPage()) {
+            if (provider.getLanguage() == JassLanguage.Companion.getInstance() && !provider.hasSettingsPage()) {
                 createTab(provider);
             }
         }

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class IntellijProjectViewNestingRulesProvider implements ProjectViewNestingRulesProvider {
     @Override
     public void addFileNestingRules(@NotNull ProjectViewNestingRulesProvider.Consumer consumer) {
-        final var as = AngelScriptFileType.EXTENSION;
+        final var as = "." + AngelScriptFileType.EXTENSION;
 
         consumer.addNestingRule(".j", as);
 

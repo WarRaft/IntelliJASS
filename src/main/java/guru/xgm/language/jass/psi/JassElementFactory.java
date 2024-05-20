@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class JassElementFactory {
     private static JassPsiFileBase createFile(Project project, String text) {
         String name = "dummy.j";
-        return (JassPsiFileBase) PsiFileFactory.getInstance(project).createFileFromText(name, JassLanguage.INSTANCE, text);
+        return (JassPsiFileBase) PsiFileFactory.getInstance(project).createFileFromText(name, JassLanguage.Companion.getInstance(), text);
     }
 
     public static PsiElement createToken(Project project, String text) {

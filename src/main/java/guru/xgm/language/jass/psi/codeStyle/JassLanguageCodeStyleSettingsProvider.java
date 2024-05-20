@@ -27,7 +27,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @NotNull
     @Override
     public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
-        return new CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.INSTANCE.getDisplayName()) {
+        return new CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.Companion.getInstance().getDisplayName()) {
             @Override
             protected @NotNull CodeStyleAbstractPanel createPanel(final @NotNull CodeStyleSettings settings) {
                 return new JassCodeStyleMainPanel(getCurrentSettings(), settings);
@@ -43,7 +43,7 @@ final class JassLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSetti
     @NotNull
     @Override
     public Language getLanguage() {
-        return JassLanguage.INSTANCE;
+        return JassLanguage.Companion.getInstance();
     }
 
     private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {

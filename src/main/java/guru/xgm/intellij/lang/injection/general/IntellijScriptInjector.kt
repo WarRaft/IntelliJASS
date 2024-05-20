@@ -23,7 +23,7 @@ internal class IntellijScriptInjector : MultiHostInjector {
             val text = context.text
             val len = INJECT_JASS.length
             if (text.startsWith(INJECT_JASS) && text.length > len && text[len] == ' ') {
-                registrar.startInjecting(JassLanguage.INSTANCE)
+                registrar.startInjecting(JassLanguage.instance)
                 registrar.addPlace(
                     "", "",
                     (context as PsiLanguageInjectionHost),

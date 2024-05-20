@@ -1,42 +1,30 @@
-package guru.xgm.language.jass.openapi.fileTypes;
+package guru.xgm.language.jass.openapi.fileTypes
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import guru.xgm.language.jass.icons.JassIcons;
-import guru.xgm.language.jass.lang.JassLanguage;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.LanguageFileType
+import guru.xgm.language.jass.icons.JassIcons
+import guru.xgm.language.jass.lang.JassLanguage
+import javax.swing.Icon
 
-import javax.swing.*;
-
-public final class JassFileType extends LanguageFileType {
-
-    public static final JassFileType INSTANCE = new JassFileType();
-
-    public JassFileType() {
-        super(JassLanguage.INSTANCE);
+class JassFileType : LanguageFileType(JassLanguage.instance) {
+    override fun getName(): String {
+        return "JASS"
     }
 
-    public static final String extension = "j";
-
-    @NotNull
-    @Override
-    public String getName() {
-        return "JASS";
+    override fun getDescription(): String {
+        return "JASS language file"
     }
 
-    @NotNull
-    @Override
-    public String getDescription() {
-        return "JASS language file";
+    override fun getDefaultExtension(): String {
+        return EXTENSION
     }
 
-    @NotNull
-    @Override
-    public String getDefaultExtension() {
-        return extension;
+    override fun getIcon(): Icon {
+        return JassIcons.FILE
     }
 
-    @Override
-    public @NotNull Icon getIcon() {
-        return JassIcons.FILE;
+    companion object {
+        val INSTANCE: JassFileType = JassFileType()
+
+        const val EXTENSION: String = "j"
     }
 }

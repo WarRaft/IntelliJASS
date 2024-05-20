@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class JassIToken extends IElementType {
 
     public JassIToken(@NotNull @NonNls String debugName) {
-        super(debugName, JassLanguage.INSTANCE);
+        super(debugName, JassLanguage.Companion.getInstance());
     }
 
     @Override

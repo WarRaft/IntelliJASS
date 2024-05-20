@@ -45,19 +45,19 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
 
     @Override
     protected void customizeSettings() {
-        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(JassLanguage.INSTANCE);
+        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(JassLanguage.Companion.getInstance());
         if (provider != null) provider.customizeSettings(this, getSettingsType());
     }
 
     @Override
     @NotNull
     protected final FileType getFileType() {
-        return JassFileType.INSTANCE;
+        return JassFileType.Companion.getINSTANCE();
     }
 
     @Nullable
     @Override
     public Language getDefaultLanguage() {
-        return JassLanguage.INSTANCE;
+        return JassLanguage.Companion.getInstance();
     }
 }

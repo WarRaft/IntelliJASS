@@ -34,7 +34,7 @@ public abstract class Jass2AnyAction extends AnAction {
 
     public void update(AnActionEvent e) {
         VirtualFile virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        e.getPresentation().setEnabledAndVisible(virtualFile != null && JassFileType.extension.equals(virtualFile.getExtension()));
+        e.getPresentation().setEnabledAndVisible(virtualFile != null && JassFileType.EXTENSION.equals(virtualFile.getExtension()));
     }
 
     @Override

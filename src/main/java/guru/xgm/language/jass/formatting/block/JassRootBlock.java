@@ -38,7 +38,7 @@ public class JassRootBlock extends JassBlock {
 
     @Override
     protected SpacingBuilder getSpacingBuilder() {
-        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
+        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.Companion.getInstance())
                 .between(TYPE_DEF, TYPE_DEF).spacing(0, 0, 1, true, 2)
                 .between(TYPE_DEF, LINE_COMMENT).spacing(1, 1, 0, true, 100)
                 .between(NATIV, NATIV).spacing(0, 0, 1, true, 2)

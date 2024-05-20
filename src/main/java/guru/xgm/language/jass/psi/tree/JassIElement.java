@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class JassIElement extends IElementType {
 
     public JassIElement(@NotNull @NonNls String debugName) {
-        super(debugName, JassLanguage.INSTANCE);
+        super(debugName, JassLanguage.Companion.getInstance());
     }
 
     @Override

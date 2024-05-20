@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class JassParserDefinition implements ParserDefinition {
 
-    public static final IFileElementType JASS_FILE = new IFileElementType(JassLanguage.INSTANCE);
+    public static final IFileElementType JASS_FILE = new IFileElementType(JassLanguage.Companion.getInstance());
 
     @NotNull
     @Override

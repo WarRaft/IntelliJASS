@@ -61,7 +61,7 @@ public class JassTypeBlock extends JassBlock {
 
     @Override
     protected SpacingBuilder getSpacingBuilder() {
-        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.INSTANCE)
+        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.Companion.getInstance())
                 .after(TYPE).spacing(1, 1, 0, false, 0)
                 .around(EXTENDS).spacing(1, 1, 0, false, 0)
                 ;
