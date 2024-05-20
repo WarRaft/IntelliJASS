@@ -52,7 +52,7 @@ public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
     @Override
     @NotNull
     protected final FileType getFileType() {
-        return JassFileType.Companion.getINSTANCE();
+        return JassFileType.Companion.getInstance();
     }
 
     @Nullable

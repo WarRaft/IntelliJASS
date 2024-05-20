@@ -26,7 +26,7 @@ class JassFileType : LanguageFileType(JassLanguage.instance) {
 
     @Suppress("CompanionObjectInExtension")
     companion object {
-        val INSTANCE: JassFileType = JassFileType()
+        val instance: JassFileType = JassFileType()
 
         const val EXTENSION: String = "j"
     }

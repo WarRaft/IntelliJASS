@@ -33,7 +33,7 @@
         <!-- https://plugins.jetbrains.com/docs/intellij/registering-file-type.html#registration -->
         <fileType name="JASS"
                   implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassFileType"
-                  fieldName="INSTANCE"
+                  fieldName="instance"
                   language="JASS"
                   extensions="j;ai;pld"
         />
@@ -262,6 +262,9 @@
         <lang.commenter
                 language="WTS"
                 implementationClass="guru.xgm.language.wts.lang.WtsCommenter"/>
+
+        <!-- TODO:BLP -->
+
 
 
     </extensions>

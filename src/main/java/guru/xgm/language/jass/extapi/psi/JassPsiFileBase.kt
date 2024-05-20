@@ -8,7 +8,7 @@ import guru.xgm.language.jass.openapi.fileTypes.JassFileType
 
 class JassPsiFileBase(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, JassLanguage.instance) {
     override fun getFileType(): FileType {
-        return JassFileType.INSTANCE
+        return JassFileType.instance
     }
 
     override fun toString(): String {
