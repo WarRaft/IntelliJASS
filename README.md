@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://xgm.guru/files/2308/316767/JASS.png" alt="JASS">
+<img src="https://xgm.guru/files/2308/316767/JASS_logo.png" alt="JASS">
 </p>
 
 [Install](https://plugins.jetbrains.com/plugin/23120-jass)
