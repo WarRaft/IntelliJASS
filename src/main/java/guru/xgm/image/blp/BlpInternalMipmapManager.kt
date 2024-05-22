@@ -18,7 +18,7 @@ import javax.imageio.stream.ImageOutputStream
  *
  * @author ImperialGood
  */
-internal class InternalMipmapManager {
+internal class BlpInternalMipmapManager {
     private val chunkOffsets = IntArray(BlpCommon.MIPMAP_MAX)
     private val chunkSizes = IntArray(BlpCommon.MIPMAP_MAX)
     private var chunkStreamPos = 0L

@@ -12,7 +12,7 @@ import javax.imageio.stream.ImageInputStream;
 
 import guru.xgm.image.blp.legacy.MagicInt;
 
-import static guru.xgm.image.blp.ImageSpiCommon.*;
+import static guru.xgm.image.blp.BlpImageSpiCommon.*;
 
 /**
  * Service provider for BLP image file ImageReader.
@@ -20,10 +20,10 @@ import static guru.xgm.image.blp.ImageSpiCommon.*;
  * @author Imperial Good
  */
 public class BlpReaderSpi extends ImageReaderSpi {
-    static final String READER_CLASS = "com.hiveworkshop.blizzard.blp.BLPReader";
+    static final String READER_CLASS = "guru.xgm.image.blp.BlpReader";
     static final Class<?>[] INPUT_TYPES = {ImageInputStream.class, File.class,
             Path.class};
-    static final String[] WRITER_SPI_CLASSES = {"com.hiveworkshop.blizzard.blp.BLPWriterSpi"};
+    static final String[] WRITER_SPI_CLASSES = {"guru.xgm.image.blp.BlpWriterSpi"};
 
     public BlpReaderSpi() {
         super(VENDOR, VERSION, FORMAT_NAMES, FORMAT_SUFFIXES, FORMAT_MIMES,

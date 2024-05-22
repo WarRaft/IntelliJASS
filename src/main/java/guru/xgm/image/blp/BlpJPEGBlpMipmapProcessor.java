@@ -63,7 +63,7 @@ import guru.xgm.image.blp.intellij.BlpBundle;
  *
  * @author Imperial Good
  */
-class JPEGMipmapProcessor extends MipmapProcessor {
+class BlpJPEGBlpMipmapProcessor extends BlpMipmapProcessor {
     /**
      * The maximum valid shared header length.
      * <p>
@@ -93,7 +93,7 @@ class JPEGMipmapProcessor extends MipmapProcessor {
      * @param alphaBits the alpha component bits, if any.
      * @throws IllegalArgumentException if alphaBits is not valid.
      */
-    public JPEGMipmapProcessor(int alphaBits) {
+    public BlpJPEGBlpMipmapProcessor(int alphaBits) {
         if (!BlpEncodingType.JPEG.isAlphaBitsValid(alphaBits))
             throw new IllegalArgumentException("Unsupported alphaBits.");
         final boolean hasAlpha = alphaBits == 8;

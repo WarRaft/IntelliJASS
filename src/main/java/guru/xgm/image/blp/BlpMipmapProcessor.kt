@@ -20,7 +20,7 @@ import javax.imageio.stream.ImageOutputStream
  *
  * @author Imperial Good
  */
-abstract class MipmapProcessor {
+abstract class BlpMipmapProcessor {
     /**
      * Set by subclasses when the MipmapProcessor is ready to call decodeMipmap.
      */

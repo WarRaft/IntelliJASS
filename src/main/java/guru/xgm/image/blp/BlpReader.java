@@ -70,7 +70,7 @@ public class BlpReader extends ImageReader {
     /**
      * Mipmap processor for content.
      */
-    private MipmapProcessor mipmapProcessor = null;
+    private BlpMipmapProcessor blpMipmapProcessor = null;
 
     public String tempGetInfo() throws IOException {
         loadHeader();
@@ -132,7 +132,7 @@ public class BlpReader extends ImageReader {
         MipmapReader mipmapReader;
         if (streamMeta.getVersion() > 0) {
             // mipmap chunks within same file
-            InternalMipmapManager imm = new InternalMipmapManager();
+            BlpInternalMipmapManager imm = new BlpInternalMipmapManager();
             imm.readObject(src);
             BlpReader thisref = this;
 
@@ -150,7 +150,7 @@ public class BlpReader extends ImageReader {
             };
         } else if (path != null) {
             // file must have ".blp" extension
-            ExternalMipmapManager emm = new ExternalMipmapManager(path);
+            BlpExternalMipmapManager emm = new BlpExternalMipmapManager(path);
 
             mipmapReader = new MipmapReader() {
                 @Override
@@ -166,14 +166,14 @@ public class BlpReader extends ImageReader {
 
         // read content header
         if (streamMeta.getEncodingType() == BlpEncodingType.JPEG) {
-            mipmapProcessor = new JPEGMipmapProcessor(streamMeta.getAlphaBits());
+            blpMipmapProcessor = new BlpJPEGBlpMipmapProcessor(streamMeta.getAlphaBits());
         } else if (streamMeta.getEncodingType() == BlpEncodingType.INDEXED) {
-            mipmapProcessor = new IndexedMipmapProcessor(
+            blpMipmapProcessor = new BlpIndexedBlpMipmapProcessor(
                     streamMeta.getAlphaBits());
         } else {
             throw new IIOException("Unsupported content type.");
         }
-        mipmapProcessor.readObject(src, this::processWarningOccurred);
+        blpMipmapProcessor.readObject(src, this::processWarningOccurred);
 
         // if seeking forward only then header data can now be discarded
         if (seekForwardOnly)
@@ -265,7 +265,7 @@ public class BlpReader extends ImageReader {
         loadHeader();
         checkImageIndex(imageIndex);
 
-        return mipmapProcessor.getSupportedImageTypes(
+        return blpMipmapProcessor.getSupportedImageTypes(
                 streamMeta.getWidth(imageIndex),
                 streamMeta.getHeight(imageIndex));
     }
@@ -302,7 +302,7 @@ public class BlpReader extends ImageReader {
             mipmapReader.flushTo(minIndex);
         }
 
-        if (!mipmapProcessor.canDecode())
+        if (!blpMipmapProcessor.canDecode())
             throw new IIOException("Mipmap processor cannot decode.");
 
         processImageStarted(imageIndex);
@@ -313,7 +313,7 @@ public class BlpReader extends ImageReader {
         // unpack mipmap image data into a mipmap image
         final int width = streamMeta.getWidth(imageIndex);
         final int height = streamMeta.getHeight(imageIndex);
-        BufferedImage srcImg = mipmapProcessor.decodeMipmap(mmData, param,
+        BufferedImage srcImg = blpMipmapProcessor.decodeMipmap(mmData, param,
                 width, height, this::processWarningOccurred);
         // imageIndex);
         BufferedImage destImg;

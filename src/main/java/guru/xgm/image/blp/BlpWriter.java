@@ -51,7 +51,7 @@ public class BlpWriter extends ImageWriter {
     }
 
     private MipmapWriter mipmapWriter = null;
-    private MipmapProcessor mipmapProcessor = null;
+    private BlpMipmapProcessor blpMipmapProcessor = null;
     private ImageOutputStream iosOutput = null;
     private boolean internalOutput = false;
     private boolean badOutput = false;
@@ -297,7 +297,7 @@ public class BlpWriter extends ImageWriter {
                 else
                     throw new IllegalStateException(
                             "Version 0 can only be written to Path of File.");
-                ExternalMipmapManager emm = new ExternalMipmapManager(path);
+                BlpExternalMipmapManager emm = new BlpExternalMipmapManager(path);
                 mipmapWriter = new MipmapWriter() {
                     @Override
                     public void setMipmapDataChunk(int mipmap, byte[] mmData)
@@ -307,7 +307,7 @@ public class BlpWriter extends ImageWriter {
                 };
             } else {
                 // internal mipmaps
-                InternalMipmapManager imm = new InternalMipmapManager();
+                BlpInternalMipmapManager imm = new BlpInternalMipmapManager();
                 mipmapWriter = new MipmapWriter() {
                     private long objectPos = -1L;
 
@@ -341,11 +341,11 @@ public class BlpWriter extends ImageWriter {
                     .getEncodingType();
             switch (encodingType) {
                 case INDEXED:
-                    mipmapProcessor = new IndexedMipmapProcessor(
+                    blpMipmapProcessor = new BlpIndexedBlpMipmapProcessor(
                             this.streamMetadata.getAlphaBits());
                     break;
                 case JPEG:
-                    mipmapProcessor = new JPEGMipmapProcessor(
+                    blpMipmapProcessor = new BlpJPEGBlpMipmapProcessor(
                             this.streamMetadata.getAlphaBits());
                     break;
                 case UNKNOWN:
@@ -378,15 +378,15 @@ public class BlpWriter extends ImageWriter {
 
         // encode image
         processImageStarted(imageIndex);
-        byte[] mmData = mipmapProcessor.encodeMipmap(destImg, param,
+        byte[] mmData = blpMipmapProcessor.encodeMipmap(destImg, param,
                 warn -> this.processWarningOccurred(warn, imageIndex));
 
         // write out mipmap data
-        if (mipmapProcessor.mustPostProcess()) {
+        if (blpMipmapProcessor.mustPostProcess()) {
             mmDataList.add(mmData);
         } else {
-            if (!canWriteMipmaps && mipmapProcessor.canDecode()) {
-                mipmapProcessor.writeObject(iosOutput);
+            if (!canWriteMipmaps && blpMipmapProcessor.canDecode()) {
+                blpMipmapProcessor.writeObject(iosOutput);
                 mipmapWriter.startMipmapSequence(iosOutput);
                 canWriteMipmaps = true;
             }
@@ -422,11 +422,11 @@ public class BlpWriter extends ImageWriter {
                 graphics.dispose();
 
                 // encode image
-                mmData = mipmapProcessor.encodeMipmap(mmImg, param,
+                mmData = blpMipmapProcessor.encodeMipmap(mmImg, param,
                         warn -> this.processWarningOccurred(warn, imageIndex));
 
                 // write out mipmap data
-                if (mipmapProcessor.mustPostProcess()) {
+                if (blpMipmapProcessor.mustPostProcess()) {
                     mmDataList.add(mmData);
                 } else {
                     mipmapWriter.setMipmapDataChunk(imageIndex, mmData);
@@ -439,10 +439,10 @@ public class BlpWriter extends ImageWriter {
 
         if (imageIndex == mmCount) {
             // post process mipmaps
-            if (mipmapProcessor.mustPostProcess()) {
-                mmDataList = mipmapProcessor.postProcessMipmapData(mmDataList,
+            if (blpMipmapProcessor.mustPostProcess()) {
+                mmDataList = blpMipmapProcessor.postProcessMipmapData(mmDataList,
                         warn -> this.processWarningOccurred(warn, -1));
-                mipmapProcessor.writeObject(iosOutput);
+                blpMipmapProcessor.writeObject(iosOutput);
                 mipmapWriter.startMipmapSequence(iosOutput);
                 canWriteMipmaps = true;
                 for (int i = 0; i < mmCount; i += 1) {
@@ -483,7 +483,7 @@ public class BlpWriter extends ImageWriter {
         imageIndex = 0;
         streamMetadata = null;
         mipmapWriter = null;
-        mipmapProcessor = null;
+        blpMipmapProcessor = null;
         iosOutput = null;
         internalOutput = false;
         badOutput = false;

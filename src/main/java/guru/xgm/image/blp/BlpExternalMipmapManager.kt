@@ -15,7 +15,7 @@ import javax.imageio.IIOException
  *
  * @author ImperialGood
  */
-internal class ExternalMipmapManager(file: Path) {
+internal class BlpExternalMipmapManager(file: Path) {
     /**
      * Parent folder of the BLP0 file. Where the mipmaps files get saved.
      */

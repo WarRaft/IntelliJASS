@@ -35,7 +35,7 @@ import javax.imageio.stream.ImageOutputStream
  *
  * @author Imperial Good
  */
-class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
+class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
     /**
      * The BLP indexed color model used to process mipmaps.
      */

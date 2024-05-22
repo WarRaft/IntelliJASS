@@ -1,6 +1,6 @@
 package guru.xgm.image.blp
 
-internal object ImageSpiCommon {
+internal object BlpImageSpiCommon {
 
     const val VENDOR: String = "Hive Workshop"
     const val VERSION: String = "1.2"
