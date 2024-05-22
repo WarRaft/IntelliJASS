@@ -39,7 +39,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
     /**
      * The BLP indexed color model used to process mipmaps.
      */
-    private var indexedBLPColorModel: BLPIndexColorModel? = null
+    private var indexedBLPColorModel: BlpIndexColorModel? = null
 
     /**
      * The bandSizes to use.
@@ -52,7 +52,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
         else intArrayOf(8)
 
         // dummy color model
-        indexedBLPColorModel = BLPIndexColorModel(
+        indexedBLPColorModel = BlpIndexColorModel(
             null,
             if (bandSizes.size > 1) bandSizes[1] else 0
         )
@@ -74,8 +74,8 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
         if (!canDecode) {
             // get a color model
             when (srcCM) {
-                is BLPIndexColorModel -> {
-                    indexedBLPColorModel = BLPIndexColorModel(
+                is BlpIndexColorModel -> {
+                    indexedBLPColorModel = BlpIndexColorModel(
                         srcCM.palette,
                         if (bandSizes.size > 1) bandSizes[1] else 0
                     )
@@ -89,7 +89,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
                     // color space conversion
                     val srcCMapCM = ColorModel.getRGBdefault()
                     val destCMapCM =
-                        BLPIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
+                        BlpIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
                     val destCMap = IntArray(srcCMap.size)
                     val components = IntArray(
                         srcCMapCM
@@ -104,7 +104,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
                         i += 1
                     }
 
-                    indexedBLPColorModel = BLPIndexColorModel(
+                    indexedBLPColorModel = BlpIndexColorModel(
                         destCMap,
                         if (bandSizes.size > 1) bandSizes[1] else 0
                     )
@@ -120,7 +120,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
         }
 
         // create destination
-        val destSM: SampleModel = BLPPackedSampleModel(
+        val destSM: SampleModel = BlpPackedSampleModel(
             w, h, bandSizes,
             null
         )
@@ -163,7 +163,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
     ): BufferedImage {
         // create sample model
         var mData = mmData
-        val sm = BLPPackedSampleModel(
+        val sm = BlpPackedSampleModel(
             width, height,
             bandSizes, null
         )
@@ -194,7 +194,7 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
         return listOf(
             ImageTypeSpecifier(
                 indexedBLPColorModel,
-                BLPPackedSampleModel(width, height, bandSizes, null)
+                BlpPackedSampleModel(width, height, bandSizes, null)
             )
         )
             .iterator()
@@ -207,10 +207,10 @@ class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
     ) {
         checkNotNull(src)
         src.byteOrder = ByteOrder.LITTLE_ENDIAN
-        val palette = IntArray(BLPIndexColorModel.MAX_PALETTE_LENGTH)
+        val palette = IntArray(BlpIndexColorModel.MAX_PALETTE_LENGTH)
         src.readFully(palette, 0, palette.size)
 
-        indexedBLPColorModel = BLPIndexColorModel(
+        indexedBLPColorModel = BlpIndexColorModel(
             palette,
             if (bandSizes.size > 1) bandSizes[1] else 0
         )

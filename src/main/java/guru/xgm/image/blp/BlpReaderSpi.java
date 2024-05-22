@@ -19,13 +19,13 @@ import static guru.xgm.image.blp.ImageSpiCommon.*;
  *
  * @author Imperial Good
  */
-public class BLPReaderSpi extends ImageReaderSpi {
+public class BlpReaderSpi extends ImageReaderSpi {
     static final String READER_CLASS = "com.hiveworkshop.blizzard.blp.BLPReader";
     static final Class<?>[] INPUT_TYPES = {ImageInputStream.class, File.class,
             Path.class};
     static final String[] WRITER_SPI_CLASSES = {"com.hiveworkshop.blizzard.blp.BLPWriterSpi"};
 
-    public BLPReaderSpi() {
+    public BlpReaderSpi() {
         super(VENDOR, VERSION, FORMAT_NAMES, FORMAT_SUFFIXES, FORMAT_MIMES,
                 READER_CLASS, INPUT_TYPES, WRITER_SPI_CLASSES,
                 STANDARD_STREAM_METADATA_SUPPORT, NATIVE_STREAM_METADATA_NAME,
@@ -61,7 +61,7 @@ public class BLPReaderSpi extends ImageReaderSpi {
 
     @Override
     public ImageReader createReaderInstance(Object extension) throws IOException {
-        return new BLPReader(this);
+        return new BlpReader(this);
     }
 
     @Override

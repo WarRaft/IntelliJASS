@@ -24,7 +24,7 @@ import java.awt.image.SampleModel
  *
  * @author Imperial Good
  */
-class BLPPackedSampleModel(w: Int, h: Int, bandSizes: IntArray, bands: IntArray?) :
+class BlpPackedSampleModel(w: Int, h: Int, bandSizes: IntArray, bands: IntArray?) :
     SampleModel(DataBuffer.TYPE_BYTE, w, h, bands?.size ?: bandSizes.size) {
     /**
      * Band sizes array.
@@ -156,8 +156,8 @@ class BLPPackedSampleModel(w: Int, h: Int, bandSizes: IntArray, bands: IntArray?
         )
     }
 
-    override fun createCompatibleSampleModel(w: Int, h: Int): BLPPackedSampleModel {
-        return BLPPackedSampleModel(w, h, bandSizes, bands)
+    override fun createCompatibleSampleModel(w: Int, h: Int): BlpPackedSampleModel {
+        return BlpPackedSampleModel(w, h, bandSizes, bands)
     }
 
     override fun createSubsetSampleModel(bands: IntArray): SampleModel {
@@ -176,7 +176,7 @@ class BLPPackedSampleModel(w: Int, h: Int, bandSizes: IntArray, bands: IntArray?
             i += 1
         }
 
-        return BLPPackedSampleModel(width, height, bandSizes, destBands)
+        return BlpPackedSampleModel(width, height, bandSizes, destBands)
     }
 
     val bufferSize: Int

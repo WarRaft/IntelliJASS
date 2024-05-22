@@ -3,8 +3,8 @@ package guru.xgm.image.blp.intellij
 import com.intellij.ide.AppLifecycleListener
 import com.intellij.ide.plugins.DynamicPluginListener
 import com.intellij.ide.plugins.IdeaPluginDescriptor
-import guru.xgm.image.blp.BLPReaderSpi
-import guru.xgm.image.blp.BLPWriterSpi
+import guru.xgm.image.blp.BlpReaderSpi
+import guru.xgm.image.blp.BlpWriterSpi
 import javax.imageio.spi.IIORegistry
 import javax.imageio.spi.ImageReaderSpi
 import javax.imageio.spi.ImageWriterSpi
@@ -25,8 +25,8 @@ class BlpMetadataRegistrar : AppLifecycleListener, DynamicPluginListener {
     }
 
     companion object {
-        private val IMAGE_READER_PROVIDER: ImageReaderSpi = BLPReaderSpi()
-        private val IMAGE_WRITER_PROVIDER: ImageWriterSpi = BLPWriterSpi()
+        private val IMAGE_READER_PROVIDER: ImageReaderSpi = BlpReaderSpi()
+        private val IMAGE_WRITER_PROVIDER: ImageWriterSpi = BlpWriterSpi()
 
         fun ensureQoiRegistered() {
             val defaultInstance = IIORegistry.getDefaultInstance()

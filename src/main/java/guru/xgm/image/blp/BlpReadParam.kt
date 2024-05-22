@@ -22,7 +22,7 @@ import javax.imageio.spi.ImageReaderSpi
  *
  * @author Imperial Good
  */
-class BLPReadParam : ImageReadParam() {
+class BlpReadParam : ImageReadParam() {
     var jPEGSpi: ImageReaderSpi? = null
         private set
 

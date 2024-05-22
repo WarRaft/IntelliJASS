@@ -22,7 +22,7 @@ import java.util.Arrays;
  *
  * @author Imperial Good
  */
-public final class BLPIndexColorModel extends ColorModel {
+public final class BlpIndexColorModel extends ColorModel {
     /**
      * Number of bits used for palette entries.
      */
@@ -153,7 +153,7 @@ public final class BLPIndexColorModel extends ColorModel {
      * @param palette   Palette this ColorModel will use.
      * @param alphaBits Precision of alpha component in bits.
      */
-    public BLPIndexColorModel(final int[] palette, final int alphaBits) {
+    public BlpIndexColorModel(final int[] palette, final int alphaBits) {
         this(palette, alphaBits,
                 ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB));
     }
@@ -174,7 +174,7 @@ public final class BLPIndexColorModel extends ColorModel {
      * @param alphaBits  Precision of alpha component in bits.
      * @param colorSpace RGB color space used by this ColorModel.
      */
-    public BLPIndexColorModel(final int[] palette, final int alphaBits,
+    public BlpIndexColorModel(final int[] palette, final int alphaBits,
                               final ColorSpace colorSpace) {
         super(8 + alphaBits,
                 alphaBits == 0 ? new int[]{8, 8, 8}
@@ -216,7 +216,7 @@ public final class BLPIndexColorModel extends ColorModel {
 
     @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
-        return new BLPPackedSampleModel(w, h,
+        return new BlpPackedSampleModel(w, h,
                 hasAlpha()
                         ? new int[]{PALETTE_INDEX_BITS,
                         getComponentSize(getNumColorComponents())}

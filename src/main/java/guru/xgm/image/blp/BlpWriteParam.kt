@@ -36,7 +36,7 @@ import javax.imageio.spi.ImageWriterSpi
  *
  * @author Imperial Good
  */
-class BLPWriteParam : ImageWriteParam() {
+class BlpWriteParam : ImageWriteParam() {
     var jPEGSpi: ImageWriterSpi? = null
 
     /**

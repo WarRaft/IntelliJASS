@@ -17,13 +17,13 @@ import javax.imageio.stream.ImageOutputStream;
  *
  * @author Imperial Good
  */
-public class BLPWriterSpi extends ImageWriterSpi {
+public class BlpWriterSpi extends ImageWriterSpi {
 	static final String WRITER_CLASS = "com.hiveworkshop.blizzard.blp.BLPWriter";
 	static final Class<?>[] OUTPUT_TYPES = { ImageOutputStream.class,
 			File.class, Path.class };
 	static final String[] READER_SPI_CLASSES = { "com.hiveworkshop.blizzard.blp.BLPReaderSpi" };
 
-	public BLPWriterSpi() {
+	public BlpWriterSpi() {
 		super(VENDOR, VERSION, FORMAT_NAMES, FORMAT_SUFFIXES, FORMAT_MIMES,
 				WRITER_CLASS, OUTPUT_TYPES, READER_SPI_CLASSES,
 				STANDARD_STREAM_METADATA_SUPPORT, NATIVE_STREAM_METADATA_NAME,
@@ -42,7 +42,7 @@ public class BLPWriterSpi extends ImageWriterSpi {
 	@Override
 	public ImageWriter createWriterInstance(Object extension)
 			throws IOException {
-		return new BLPWriter(this);
+		return new BlpWriter(this);
 	}
 
 	@Override

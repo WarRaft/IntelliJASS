@@ -38,12 +38,12 @@ import guru.xgm.image.blp.intellij.BlpBundle;
  *
  * @author ImperialGood
  */
-public class BLPReader extends ImageReader {
+public class BlpReader extends ImageReader {
     /**
      * BLP stream metadata object. Represents the contents of the BLP file
      * header and is used to decode all mipmap levels.
      */
-    private BLPStreamMetadata streamMeta = null;
+    private BlpStreamMetadata streamMeta = null;
 
     /**
      * Internally managed ImageInputStream.
@@ -77,7 +77,7 @@ public class BLPReader extends ImageReader {
         return streamMeta.toString();
     }
 
-    public BLPReader(ImageReaderSpi originatingProvider) {
+    public BlpReader(ImageReaderSpi originatingProvider) {
         super(originatingProvider);
     }
 
@@ -124,7 +124,7 @@ public class BLPReader extends ImageReader {
         // start from beginning of stream
         src.seek(0);
 
-        BLPStreamMetadata streamMeta = new BLPStreamMetadata();
+        BlpStreamMetadata streamMeta = new BlpStreamMetadata();
         streamMeta.setWarningHandler(this::processWarningOccurred);
         streamMeta.readObject(src);
 
@@ -134,7 +134,7 @@ public class BLPReader extends ImageReader {
             // mipmap chunks within same file
             InternalMipmapManager imm = new InternalMipmapManager();
             imm.readObject(src);
-            BLPReader thisref = this;
+            BlpReader thisref = this;
 
             mipmapReader = new MipmapReader() {
                 @Override
@@ -321,7 +321,7 @@ public class BLPReader extends ImageReader {
         // return src image if direct read mode is specified or no
         // ImageReadParam is present
         if (param == null
-                || (param instanceof BLPReadParam && ((BLPReadParam) param)
+                || (param instanceof BlpReadParam && ((BlpReadParam) param)
                 .isDirectRead()))
             destImg = srcImg;
         else {
@@ -373,6 +373,6 @@ public class BLPReader extends ImageReader {
 
     @Override
     public ImageReadParam getDefaultReadParam() {
-        return new BLPReadParam();
+        return new BlpReadParam();
     }
 }

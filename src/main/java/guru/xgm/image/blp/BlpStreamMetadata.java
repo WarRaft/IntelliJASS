@@ -40,7 +40,7 @@ import org.w3c.dom.Node;
  *
  * @author Imperial Good
  */
-public final class BLPStreamMetadata extends IIOMetadata {
+public final class BlpStreamMetadata extends IIOMetadata {
     /**
      * The maximum dimension size allowed by version 0 and loaded by version 1.
      */
@@ -187,7 +187,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
      * Constructs a BLP1 header for JPEG content with no alpha or mipmaps and
      * image dimensions of 1*1.
      */
-    public BLPStreamMetadata() {
+    public BlpStreamMetadata() {
         version = 1;
         setEncoding(BlpEncodingType.JPEG, (byte) 0);
         hasMipmaps = true;
@@ -198,7 +198,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
     }
 
     private static void warn(String msg) {
-        Logger.getLogger(BLPStreamMetadata.class.getName()).warning(msg);
+        Logger.getLogger(BlpStreamMetadata.class.getName()).warning(msg);
     }
 
     /**
@@ -212,7 +212,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
      */
     public void setWarningHandler(Consumer<String> handler) {
         if (handler == null)
-            handler = BLPStreamMetadata::warn;
+            handler = BlpStreamMetadata::warn;
         warning = handler;
     }
 

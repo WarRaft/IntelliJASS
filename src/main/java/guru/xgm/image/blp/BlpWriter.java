@@ -30,12 +30,12 @@ import javax.imageio.stream.ImageOutputStream;
 
 import guru.xgm.image.blp.intellij.BlpBundle;
 
-import static guru.xgm.image.blp.BLPWriteParam.ScaleOptimization;
-import static guru.xgm.image.blp.BLPStreamMetadata.LEGACY_MAX_DIMENSION;
+import static guru.xgm.image.blp.BlpWriteParam.ScaleOptimization;
+import static guru.xgm.image.blp.BlpStreamMetadata.LEGACY_MAX_DIMENSION;
 
-public class BLPWriter extends ImageWriter {
+public class BlpWriter extends ImageWriter {
     private int imageIndex = 0;
-    private BLPStreamMetadata streamMetadata = null;
+    private BlpStreamMetadata streamMetadata = null;
 
     private static abstract class MipmapWriter {
         public void writeMipmapManager(ImageOutputStream ios)
@@ -58,19 +58,19 @@ public class BLPWriter extends ImageWriter {
     private List<byte[]> mmDataList = null;
     private boolean canWriteMipmaps = false;
 
-    public BLPWriter(ImageWriterSpi originatingProvider) {
+    public BlpWriter(ImageWriterSpi originatingProvider) {
         super(originatingProvider);
     }
 
     @Override
     public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        BLPStreamMetadata smd = new BLPStreamMetadata();
-        if (param instanceof BLPWriteParam blpParam) {
+        BlpStreamMetadata smd = new BlpStreamMetadata();
+        if (param instanceof BlpWriteParam blpParam) {
             smd.setMipmaps(blpParam.isAutoMipmap());
             ImageTypeSpecifier its = blpParam.getDestinationType();
             if (its != null) {
                 ColorModel cm = its.getColorModel();
-                if (cm instanceof BLPIndexColorModel) {
+                if (cm instanceof BlpIndexColorModel) {
                     smd.setEncoding(BlpEncodingType.INDEXED, (byte) cm
                             .getComponentSize(cm.getNumColorComponents()));
                 } else if (cm instanceof IndexColorModel) {
@@ -104,7 +104,7 @@ public class BLPWriter extends ImageWriter {
 
     @Override
     public ImageWriteParam getDefaultWriteParam() {
-        return new BLPWriteParam();
+        return new BlpWriteParam();
     }
 
     /**
@@ -232,16 +232,16 @@ public class BLPWriter extends ImageWriter {
         // stream setup
         if (imageIndex == 0) {
             // process stream metadata
-            if (!(streamMetadata instanceof BLPStreamMetadata)) {
+            if (!(streamMetadata instanceof BlpStreamMetadata)) {
                 streamMetadata = convertStreamMetadata(streamMetadata, param);
             }
-            this.streamMetadata = (BLPStreamMetadata) streamMetadata;
+            this.streamMetadata = (BlpStreamMetadata) streamMetadata;
 
             // resolve output image dimensions
             boolean rescaleDest = false;
             ScaleOptimization autoScale = ScaleOptimization.CLAMP;
-            if (param instanceof BLPWriteParam)
-                autoScale = ((BLPWriteParam) param).getScaleOptimization();
+            if (param instanceof BlpWriteParam)
+                autoScale = ((BlpWriteParam) param).getScaleOptimization();
             int worst = Math.max(destW, destH);
             final int max_dimension = this.streamMetadata.getVersion() < 2 ? LEGACY_MAX_DIMENSION
                     : this.streamMetadata.getDimensionMaximum();
@@ -263,7 +263,7 @@ public class BLPWriter extends ImageWriter {
             }
             this.streamMetadata.setHeight(destH);
             this.streamMetadata.setWidth(destW);
-            if (!(param instanceof BLPWriteParam)) {
+            if (!(param instanceof BlpWriteParam)) {
                 this.streamMetadata.setEncoding(BlpEncodingType.JPEG, srcCM.hasAlpha() ? (byte) 8 : (byte) 0);
             }
 
@@ -398,8 +398,8 @@ public class BLPWriter extends ImageWriter {
 
         // resolve auto mipmap
         boolean autoMipmap = true;
-        if (param instanceof BLPWriteParam) {
-            autoMipmap = ((BLPWriteParam) param).isAutoMipmap();
+        if (param instanceof BlpWriteParam) {
+            autoMipmap = ((BlpWriteParam) param).isAutoMipmap();
         }
 
         // apply auto mipmaps

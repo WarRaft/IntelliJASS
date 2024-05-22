@@ -152,10 +152,10 @@ class JPEGMipmapProcessor extends MipmapProcessor {
                                Consumer<String> handler) throws IOException {
         // resolve a JPEG ImageWriter
         ImageWriter jpegWriter = null;
-        if (param instanceof BLPWriteParam
-                && ((BLPWriteParam) param).getJPEGSpi() != null) {
+        if (param instanceof BlpWriteParam
+                && ((BlpWriteParam) param).getJPEGSpi() != null) {
             // use explicit JPEG reader
-            jpegWriter = ((BLPWriteParam) param).getJPEGSpi()
+            jpegWriter = ((BlpWriteParam) param).getJPEGSpi()
                     .createWriterInstance();
         } else {
             // find a JPEG reader
@@ -220,7 +220,7 @@ class JPEGMipmapProcessor extends MipmapProcessor {
                 && param.getCompressionMode() == ImageWriteParam.MODE_EXPLICIT) {
             jpegParam.setCompressionQuality(param.getCompressionQuality());
         } else {
-            jpegParam.setCompressionQuality(BLPWriteParam.DEFAULT_QUALITY);
+            jpegParam.setCompressionQuality(BlpWriteParam.DEFAULT_QUALITY);
         }
         jpegWriter.addIIOWriteWarningListener(new IIOWriteWarningListener() {
             @Override
@@ -244,15 +244,15 @@ class JPEGMipmapProcessor extends MipmapProcessor {
                                       int width, int height, Consumer<String> handler)
             throws IOException {
         final boolean directRead = param == null
-                || (param instanceof BLPReadParam && ((BLPReadParam) param)
+                || (param instanceof BlpReadParam && ((BlpReadParam) param)
                 .isDirectRead());
 
         // resolve a JPEG ImageReader
         ImageReader jpegReader = null;
-        if (param instanceof BLPReadParam
-                && ((BLPReadParam) param).getJPEGSpi() != null) {
+        if (param instanceof BlpReadParam
+                && ((BlpReadParam) param).getJPEGSpi() != null) {
             // use explicit JPEG reader
-            jpegReader = ((BLPReadParam) param).getJPEGSpi()
+            jpegReader = ((BlpReadParam) param).getJPEGSpi()
                     .createReaderInstance();
         } else {
             // find a JPEG reader
