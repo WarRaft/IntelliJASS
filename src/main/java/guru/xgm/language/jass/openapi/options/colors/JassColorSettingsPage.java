@@ -27,7 +27,7 @@ final class JassColorSettingsPage implements ColorSettingsPage {
 
     @Override
     public @NotNull Icon getIcon() {
-        return JassIcons.FILE;
+        return JassIcons.INSTANCE.getFILE();
     }
 
     @NotNull

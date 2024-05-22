@@ -9,6 +9,8 @@
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.platform.images</depends>
+
     <extensions defaultExtensionNs="com.intellij">
 
         <!-- colors -->
@@ -263,11 +265,15 @@
                 language="WTS"
                 implementationClass="guru.xgm.language.wts.lang.WtsCommenter"/>
 
-        <!-- TODO:BLP -->
-
-
-
+        <!-- TODO:IMAGE -->
+        <!-- https://github.com/DrSuperGood/blp-iio-plugin -->
+        <fileType name="Image" extensions="blp"/>
     </extensions>
+
+    <applicationListeners>
+        <listener class="com.hiveworkshop.blizzard.blp.BLPMetadataRegistrar"
+                  topic="com.intellij.ide.AppLifecycleListener"/>
+    </applicationListeners>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
     <actions>
