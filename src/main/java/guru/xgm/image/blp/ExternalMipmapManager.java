@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +12,7 @@ import javax.imageio.IIOException;
  * <p>
  * The retrieval and extraction of mipmap data chunks from accompanying files
  * are managed. Methods are provided to read or write mipmap data chunks.
- * 
+ *
  * @author ImperialGood
  */
 class ExternalMipmapManager {
@@ -29,7 +29,7 @@ class ExternalMipmapManager {
 
 	/**
 	 * Get the file for the specified mipmap level.
-	 * 
+	 *
 	 * @param mipmap
 	 *            the mipmap level.
 	 * @return the file.
@@ -43,7 +43,7 @@ class ExternalMipmapManager {
 	 * <p>
 	 * The Path must represent a file with the '.blp' suffix. The file itself is
 	 * not manipulated and is assumed to exist.
-	 * 
+	 *
 	 * @param file
 	 *            a blp file.
 	 * @throws IOException
@@ -64,7 +64,7 @@ class ExternalMipmapManager {
 	/**
 	 * Extracts a mipmap data chunk for the requested mipmap level and returns
 	 * it as unprocessed data.
-	 * 
+	 *
 	 * @param mipmap
 	 *            the mipmap level.
 	 * @return a byte array containing the mipmap data chunk.
@@ -78,7 +78,7 @@ class ExternalMipmapManager {
 	/**
 	 * Writes a mipmap data chunk for the requested mipmap level. A null chunk
 	 * can be used to completely remove saved chunks.
-	 * 
+	 *
 	 * @param mipmap
 	 *            the mipmap level.
 	 * @param chunk

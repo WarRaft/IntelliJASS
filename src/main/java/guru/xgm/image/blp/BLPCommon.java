@@ -1,6 +1,6 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
-import com.hiveworkshop.lang.MagicInt;
+import guru.xgm.image.blp.legacy.MagicInt;
 
 /**
  * Class containing static constants and methods shared by various other classes

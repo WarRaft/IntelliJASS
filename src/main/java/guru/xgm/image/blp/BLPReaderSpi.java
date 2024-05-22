@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 
-import com.hiveworkshop.lang.MagicInt;
+import guru.xgm.image.blp.legacy.MagicInt;
 
-import static com.hiveworkshop.blizzard.blp.ImageSpiCommon.*;
+import static guru.xgm.image.blp.ImageSpiCommon.*;
 
 /**
  * Service provider for BLP image file ImageReader.

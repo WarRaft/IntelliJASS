@@ -1,10 +1,10 @@
-package com.hiveworkshop.lang;
+package guru.xgm.image.blp.legacy;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- * 
+ *
  * Class to represent a 32 bit magic number.
  * <p>
  * Such numbers are often produced by combining four human readable 8 bit ASCII
@@ -18,7 +18,7 @@ import java.nio.ByteOrder;
  * use so that the internal magic number produced is compatible with a stream or
  * buffer using the same ByteOrder. This removes the need to change ByteOrder or
  * invert human readable magic strings.
- * 
+ *
  * @author Imperial Good
  */
 public class MagicInt implements Comparable<MagicInt> {
@@ -27,7 +27,7 @@ public class MagicInt implements Comparable<MagicInt> {
 	/**
 	 * Constructs a magic number from an internal magic number assuming
 	 * BIG_ENDIAN byte order.
-	 * 
+	 *
 	 * @param value
 	 *            internal magic number.
 	 */
@@ -38,7 +38,7 @@ public class MagicInt implements Comparable<MagicInt> {
 	/**
 	 * Constructs a magic number from an internal magic number with the
 	 * specified byte order.
-	 * 
+	 *
 	 * @param value
 	 *            internal magic number.
 	 * @param bo
@@ -54,7 +54,7 @@ public class MagicInt implements Comparable<MagicInt> {
 	 * <p>
 	 * A readable magic string must be exactly 4 characters long. Only
 	 * characters that can fit into 1 byte will parse correctly.
-	 * 
+	 *
 	 * @param value
 	 *            - the type string.
 	 * @throws StringIndexOutOfBoundsException
@@ -69,7 +69,7 @@ public class MagicInt implements Comparable<MagicInt> {
 	 * <p>
 	 * A readable magic number must be exactly 4 characters long. Only
 	 * characters that can fit into 1 byte will parse correctly.
-	 * 
+	 *
 	 * @param value
 	 *            human readable magic number.
 	 * @return internal magic number.
@@ -92,7 +92,7 @@ public class MagicInt implements Comparable<MagicInt> {
 	 * Converts an internal magic number into a human readable magic string.
 	 * <p>
 	 * Not all magic numbers might be human readable.
-	 * 
+	 *
 	 * @param value
 	 *            internal magic number.
 	 * @return a human readable magic string.
@@ -126,7 +126,7 @@ public class MagicInt implements Comparable<MagicInt> {
 
 	/**
 	 * Gets the magic number as a human readable magic string.
-	 * 
+	 *
 	 * @return a human readable magic string.
 	 */
 	@Override
@@ -136,7 +136,7 @@ public class MagicInt implements Comparable<MagicInt> {
 
 	/**
 	 * Gets an internal magic number assuming BIG_ENDIAN byte order.
-	 * 
+	 *
 	 * @return the internal magic number.
 	 */
 	public int toInt() {
@@ -145,7 +145,7 @@ public class MagicInt implements Comparable<MagicInt> {
 
 	/**
 	 * Gets an internal magic number using the specified byte order..
-	 * 
+	 *
 	 * @param bo
 	 *            byte order to use.
 	 * @return the internal magic number.

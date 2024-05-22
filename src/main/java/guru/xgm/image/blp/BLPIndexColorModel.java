@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
@@ -19,7 +19,7 @@ import java.util.Arrays;
  * 8 bit per channel RGB values and an optional separate 1, 4 or 8 bit alpha
  * channel to determine pixel color. The underlying Raster must use 8 bit
  * samples for index with appropriately sized samples for alpha.
- * 
+ *
  * @author Imperial Good
  */
 public final class BLPIndexColorModel extends ColorModel {
@@ -58,7 +58,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * colors in the palette.
 	 * <p>
 	 * The ColorSpace must be an RGB type.
-	 * 
+	 *
 	 * @param colorSpace
 	 *            RGB color space of the palette.
 	 * @return ColorModel suitable for interacting with the palette.
@@ -81,7 +81,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * <p>
 	 * Color levels are distributed evenly within the sRGB ColorSpace. These are
 	 * then converted for use with colorSpace.
-	 * 
+	 *
 	 * @param redLevels
 	 *            Number of red levels.
 	 * @param greenLevels
@@ -130,7 +130,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	/**
 	 * Utility method to convert an alpha bits amount into a transparency mode
 	 * as defined by Transparency interface.
-	 * 
+	 *
 	 * @param alphaBits
 	 *            Number of bits in alpha channel.
 	 * @return Transparency mode.
@@ -155,7 +155,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * <p>
 	 * Alpha bits is the precision of the alpha channel. Valid values are 0, 1,
 	 * 4 and 8.
-	 * 
+	 *
 	 * @param palette
 	 *            Palette this ColorModel will use.
 	 * @param alphaBits
@@ -177,7 +177,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * <p>
 	 * Alpha bits is the precision of the alpha channel. Valid values are 0, 1,
 	 * 4 and 8.
-	 * 
+	 *
 	 * @param palette
 	 *            Palette this ColorModel will use.
 	 * @param alphaBits
@@ -216,7 +216,7 @@ public final class BLPIndexColorModel extends ColorModel {
 
 	/**
 	 * Utility method to construct an internal pixel.
-	 * 
+	 *
 	 * @param index
 	 *            Palette index element.
 	 * @param alpha
@@ -247,7 +247,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * Produces a ColorModel suitable for processing palette entries in the
 	 * specified ColorSpace. The ColorModel can be used to decode or encode
 	 * colors in the palette.
-	 * 
+	 *
 	 * @return ColorModel suitable for interacting with the palette.
 	 */
 	public ColorModel createPaletteColorModel() {
@@ -276,7 +276,7 @@ public final class BLPIndexColorModel extends ColorModel {
 
 	/**
 	 * Get number of bands in a pixel of this ColorModel.
-	 * 
+	 *
 	 * @return Band count.
 	 */
 	public int getBandNumber() {
@@ -294,7 +294,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * measured. The results should be vaguely what one can expect for indexed
 	 * ColorModels. For best indexed color quantization a separate algorithm
 	 * should be used with the results fed to this color model.
-	 * 
+	 *
 	 * @param normComponents
 	 *            normalized components
 	 * @param normOffset
@@ -455,7 +455,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	 * values and the returned array will always have a length of
 	 * <code>MAX_PALETTE_LENGTH</code>. Indices can be processed using a color
 	 * model returned from <b>createPaletteColorModel</b>.
-	 * 
+	 *
 	 * @return Array of palette colors.
 	 */
 	public int[] getPalette() {
@@ -464,7 +464,7 @@ public final class BLPIndexColorModel extends ColorModel {
 
 	/**
 	 * Lookup a color in the palette.
-	 * 
+	 *
 	 * @param index
 	 *            Index of requested color.
 	 * @return Color compatible with <code>paletteColorModel</code>.
@@ -526,7 +526,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	/**
 	 * Utility method to convert an input pixel into an internal pixel for
 	 * processing.
-	 * 
+	 *
 	 * @param pixel
 	 *            Input pixel.
 	 * @return Internal pixel.
@@ -540,7 +540,7 @@ public final class BLPIndexColorModel extends ColorModel {
 	/**
 	 * Utility method to convert an input pixel into an internal pixel for
 	 * processing.
-	 * 
+	 *
 	 * @param inData
 	 *            Array of pixel values.
 	 * @return Internal pixel.

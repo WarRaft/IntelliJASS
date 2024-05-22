@@ -271,7 +271,8 @@
     </extensions>
 
     <applicationListeners>
-        <listener class="com.hiveworkshop.blizzard.blp.BLPMetadataRegistrar"
+        <!-- https://github.com/xiaozhuai/jetbrains-qoi -->
+        <listener class="guru.xgm.image.blp.BLPMetadataRegistrar"
                   topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 

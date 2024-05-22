@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -18,7 +18,7 @@ import java.awt.image.SampleModel;
  * the most significant bits.
  * <p>
  * This SampleModel is not intended to be fast.
- * 
+ *
  * @author Imperial Good
  */
 public class BLPPackedSampleModel extends SampleModel {
@@ -52,7 +52,7 @@ public class BLPPackedSampleModel extends SampleModel {
 	 * are used. Although bands does check if a band number is valid, it does
 	 * not check for duplicates. A value of null will automatically assign bands
 	 * in a natural way as determined by bandSizes.
-	 * 
+	 *
 	 * @param w
 	 *            width in pixels.
 	 * @param h
@@ -187,7 +187,7 @@ public class BLPPackedSampleModel extends SampleModel {
 		// validation
 		if (bands.length > numBands)
 			throw new IllegalArgumentException("Too many bands.");
-		
+
 		// process band redirection
 		final boolean[] bandUsed = new boolean[this.bands.length];
 		final int[] destBands = new int[bands.length];
@@ -198,7 +198,7 @@ public class BLPPackedSampleModel extends SampleModel {
 			bandUsed[bandref] = true;
 			destBands[i] = this.bands[bandref];
 		}
-		
+
 		return new BLPPackedSampleModel(width, height, bandSizes, destBands);
 	}
 
@@ -218,7 +218,7 @@ public class BLPPackedSampleModel extends SampleModel {
 		for (int i = 0 ; i < numBands ; i+= 1) {
 			bandSizes[i] = this.bandSizes[bands[i]];
 		}
-		
+
 		return bandSizes;
 	}
 

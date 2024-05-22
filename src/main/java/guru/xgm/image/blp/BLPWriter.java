@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,10 +29,10 @@ import javax.imageio.spi.ImageWriterSpi;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import com.hiveworkshop.lang.LocalizedFormatedString;
+import guru.xgm.image.blp.intellij.BlpBundle;
 
-import static com.hiveworkshop.blizzard.blp.BLPWriteParam.ScaleOptimization;
-import static com.hiveworkshop.blizzard.blp.BLPStreamMetadata.LEGACY_MAX_DIMENSION;
+import static guru.xgm.image.blp.BLPWriteParam.ScaleOptimization;
+import static guru.xgm.image.blp.BLPStreamMetadata.LEGACY_MAX_DIMENSION;
 
 public class BLPWriter extends ImageWriter {
     private int imageIndex = 0;
@@ -115,19 +115,13 @@ public class BLPWriter extends ImageWriter {
      * @param msg   the warning message to send to all warning listeners.
      * @param level the mipmap level the warning occured for.
      */
-    protected void processWarningOccurred(LocalizedFormatedString msg, int level) {
+    protected void processWarningOccurred(String msg, int level) {
         if (warningListeners == null)
             return;
         else if (msg == null)
             throw new IllegalArgumentException("msg is null.");
-        int numListeners = warningListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteWarningListener listener = warningListeners.get(i);
-            Locale locale = (Locale) warningLocales.get(i);
-            if (locale == null) {
-                locale = Locale.getDefault();
-            }
-            listener.warningOccurred(this, level, msg.toString(locale));
+        for (IIOWriteWarningListener listener : warningListeners) {
+            listener.warningOccurred(this, level, msg);
         }
     }
 
@@ -276,11 +270,9 @@ public class BLPWriter extends ImageWriter {
 
             // rescale output image if required
             if (rescaleDest) {
-                processWarningOccurred(
-                        new LocalizedFormatedString(
-                                "com.hiveworkshop.text.blp", "WriteResize",
-                                destImg.getWidth(), destImg.getHeight(), destW,
-                                destH), imageIndex);
+                processWarningOccurred(BlpBundle.message("WriteResize",
+                        destImg.getWidth(), destImg.getHeight(), destW,
+                        destH), imageIndex);
                 BufferedImage destImgNew = new BufferedImage(srcCM, destImg
                         .getRaster().createCompatibleWritableRaster(destW,
                                 destH), srcCM.isAlphaPremultiplied(), null);
@@ -318,12 +310,12 @@ public class BLPWriter extends ImageWriter {
                 // internal mipmaps
                 InternalMipmapManager imm = new InternalMipmapManager();
                 mipmapWriter = new MipmapWriter() {
-                    private long objectPos = -1l;
+                    private long objectPos = -1L;
 
                     @Override
                     public void writeMipmapManager(ImageOutputStream ios)
                             throws IOException {
-                        if (objectPos == -1l) {
+                        if (objectPos == -1L) {
                             objectPos = ios.getStreamPosition();
                         } else {
                             ios.seek(objectPos);
@@ -478,18 +470,14 @@ public class BLPWriter extends ImageWriter {
             try {
                 iosOutput.close();
             } catch (IOException e) {
-                processWarningOccurred(
-                        new LocalizedFormatedString(
-                                "com.hiveworkshop.text.blp", "ISCloseFail",
-                                e.getMessage()), -1);
+                processWarningOccurred(BlpBundle.message("ISCloseFail", e.getMessage()), -1);
             }
         }
 
         // warn if incomple file was written
         if (!badOutput && streamMetadata != null
                 && imageIndex != streamMetadata.getMipmapCount()) {
-            processWarningOccurred(new LocalizedFormatedString(
-                    "com.hiveworkshop.text.blp", "IncompleteFile"), -1);
+            processWarningOccurred(BlpBundle.message("IncompleteFile"), -1);
         }
 
         // reset state

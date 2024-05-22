@@ -1,16 +1,14 @@
-package guru.xgm.language.jass.codeInspection
+package guru.xgm.image.blp.intellij
 
-import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
+import com.intellij.DynamicBundle
 
 @NonNls
-private const val BUNDLE = "messages.JassInspectionsBundle"
+private const val BUNDLE = "messages.BlpBundle"
 
-object JassInspectionBundle : DynamicBundle(BUNDLE) {
+object BlpBundle : DynamicBundle(BUNDLE) {
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
         getMessage(key, *params)
 }
-
-

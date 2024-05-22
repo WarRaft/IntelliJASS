@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import javax.imageio.ImageWriteParam;
 import javax.imageio.spi.ImageWriterSpi;
@@ -30,7 +30,7 @@ import javax.imageio.spi.ImageWriterSpi;
  * separately. All resizing is done using an area averaging algorithm. CLAMP is
  * specified by default for ease of use and maximum quality as BLP file aspect
  * ratio does not usually matter.
- * 
+ *
  * @author Imperial Good
  */
 public class BLPWriteParam extends ImageWriteParam {
@@ -85,7 +85,7 @@ public class BLPWriteParam extends ImageWriteParam {
 
 	/**
 	 * Get the ImageWriterSpi used to encode JPEG content BLPs.
-	 * 
+	 *
 	 * @return the JPEG ImageWriterSpi.
 	 */
 	public ImageWriterSpi getJPEGSpi() {
@@ -100,7 +100,7 @@ public class BLPWriteParam extends ImageWriteParam {
 	 * The ImageWriterSpi must be able to encode JPEG image files. Setting to
 	 * null will cause a JPEG ImageWriter to be obtained automatically if
 	 * installed.
-	 * 
+	 *
 	 * @param jpegSpi
 	 *            the ImageWriterSpi to use for JPEG content.
 	 */
@@ -110,7 +110,7 @@ public class BLPWriteParam extends ImageWriteParam {
 
 	/**
 	 * Get the current scale optimization being used.
-	 * 
+	 *
 	 * @return scale optimization to be used.
 	 */
 	public ScaleOptimization getScaleOptimization() {
@@ -121,7 +121,7 @@ public class BLPWriteParam extends ImageWriteParam {
 	 * Set the scale optimization setting to use.
 	 * <p>
 	 * See ScaleOptimization enums for their mechanical details.
-	 * 
+	 *
 	 * @param scaleOpt
 	 *            the scale optimization setting to use.
 	 */
@@ -131,7 +131,7 @@ public class BLPWriteParam extends ImageWriteParam {
 
 	/**
 	 * Returns if auto mipmap generation is being used.
-	 * 
+	 *
 	 * @return true if mipmaps will be automatically generated as needed.
 	 */
 	public boolean isAutoMipmap() {
@@ -143,7 +143,7 @@ public class BLPWriteParam extends ImageWriteParam {
 	 * <p>
 	 * When true, all remaining mipmap levels will be automatically generate as
 	 * from the provided image using an area averaging algorithm.
-	 * 
+	 *
 	 * @param autoMipmap
 	 *            the automatic mipmap generation setting to use.
 	 */

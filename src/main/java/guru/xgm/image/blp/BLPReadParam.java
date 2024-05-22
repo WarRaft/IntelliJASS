@@ -1,4 +1,4 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
 import javax.imageio.ImageReadParam;
 import javax.imageio.spi.ImageReaderSpi;

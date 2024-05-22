@@ -1,23 +1,16 @@
-package guru.xgm.language.angelscript.codeInspection;
+package guru.xgm.language.angelscript.codeInspection
 
-import com.intellij.DynamicBundle;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.PropertyKey;
+import com.intellij.DynamicBundle
+import guru.xgm.language.angelscript.codeInspection.AngelScriptInspectionBundle
+import org.jetbrains.annotations.Nls
+import org.jetbrains.annotations.NonNls
+import org.jetbrains.annotations.PropertyKey
 
-public final class AngelScriptInspectionBundle extends DynamicBundle {
-    private static final AngelScriptInspectionBundle ourInstance = new AngelScriptInspectionBundle();
+@NonNls
+private const val BUNDLE = "messages.AngelScriptInspectionsBundle"
 
-    @NonNls
-    public static final String BUNDLE = "messages.AngelScriptInspectionsBundle";
-
-    private AngelScriptInspectionBundle() {
-        super(BUNDLE);
-    }
-
-    public static @Nls String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key,
-                                      Object @NotNull ... params) {
-        return ourInstance.getMessage(key, params);
-    }
+object AngelScriptInspectionBundle : DynamicBundle(BUNDLE) {
+    @JvmStatic
+    fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
+        getMessage(key, *params)
 }

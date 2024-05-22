@@ -1,6 +1,6 @@
-package com.hiveworkshop.blizzard.blp;
+package guru.xgm.image.blp;
 
-import static com.hiveworkshop.blizzard.blp.ImageSpiCommon.*;
+import static guru.xgm.image.blp.ImageSpiCommon.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import javax.imageio.stream.ImageOutputStream;
 
 /**
  * Service provider for BLP image file ImageWriter.
- * 
+ *
  * @author Imperial Good
  */
 public class BLPWriterSpi extends ImageWriterSpi {
