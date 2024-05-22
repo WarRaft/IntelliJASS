@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.imageio.IIOException;
 import javax.imageio.IIOImage;
@@ -72,12 +71,12 @@ public class BLPWriter extends ImageWriter {
             if (its != null) {
                 ColorModel cm = its.getColorModel();
                 if (cm instanceof BLPIndexColorModel) {
-                    smd.setEncoding(BLPEncodingType.INDEXED, (byte) cm
+                    smd.setEncoding(BlpEncodingType.INDEXED, (byte) cm
                             .getComponentSize(cm.getNumColorComponents()));
                 } else if (cm instanceof IndexColorModel) {
-                    smd.setEncoding(BLPEncodingType.INDEXED, (byte) 0);
+                    smd.setEncoding(BlpEncodingType.INDEXED, (byte) 0);
                 } else {
-                    smd.setEncoding(BLPEncodingType.JPEG,
+                    smd.setEncoding(BlpEncodingType.JPEG,
                             (byte) (cm.hasAlpha() ? 8 : 0));
                 }
             }
@@ -265,7 +264,7 @@ public class BLPWriter extends ImageWriter {
             this.streamMetadata.setHeight(destH);
             this.streamMetadata.setWidth(destW);
             if (!(param instanceof BLPWriteParam)) {
-                this.streamMetadata.setEncoding(BLPEncodingType.JPEG, srcCM.hasAlpha() ? (byte) 8 : (byte) 0);
+                this.streamMetadata.setEncoding(BlpEncodingType.JPEG, srcCM.hasAlpha() ? (byte) 8 : (byte) 0);
             }
 
             // rescale output image if required
@@ -338,7 +337,7 @@ public class BLPWriter extends ImageWriter {
             }
 
             // construct mipmap processor
-            BLPEncodingType encodingType = this.streamMetadata
+            BlpEncodingType encodingType = this.streamMetadata
                     .getEncodingType();
             switch (encodingType) {
                 case INDEXED:

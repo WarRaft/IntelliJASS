@@ -94,7 +94,7 @@ class JPEGMipmapProcessor extends MipmapProcessor {
      * @throws IllegalArgumentException if alphaBits is not valid.
      */
     public JPEGMipmapProcessor(int alphaBits) {
-        if (!BLPEncodingType.JPEG.isAlphaBitsValid(alphaBits))
+        if (!BlpEncodingType.JPEG.isAlphaBitsValid(alphaBits))
             throw new IllegalArgumentException("Unsupported alphaBits.");
         final boolean hasAlpha = alphaBits == 8;
         jpegBLPColorModel = new ComponentColorModel(
@@ -371,6 +371,7 @@ class JPEGMipmapProcessor extends MipmapProcessor {
     public void readObject(ImageInputStream src,
                            Consumer<String> warning) throws IOException {
         // read JPEG header
+        assert src != null;
         src.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         final int length = src.readInt();
         byte[] jpegh = new byte[length];
@@ -391,6 +392,7 @@ class JPEGMipmapProcessor extends MipmapProcessor {
         byte[] jpegh = jpegHeader != null ? jpegHeader : new byte[0];
 
         // write JPEG header
+        assert dst != null;
         dst.setByteOrder(ByteOrder.LITTLE_ENDIAN);
         dst.writeInt(jpegh.length);
         dst.write(jpegh);

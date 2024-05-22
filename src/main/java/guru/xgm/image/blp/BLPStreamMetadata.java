@@ -189,7 +189,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
      */
     public BLPStreamMetadata() {
         version = 1;
-        setEncoding(BLPEncodingType.JPEG, (byte) 0);
+        setEncoding(BlpEncodingType.JPEG, (byte) 0);
         hasMipmaps = true;
         width = 1;
         height = 1;
@@ -222,14 +222,14 @@ public final class BLPStreamMetadata extends IIOMetadata {
      *
      * @return the encoding type for the image.
      */
-    public BLPEncodingType getEncodingType() {
+    public BlpEncodingType getEncodingType() {
         // convert configuration to encoding
         if (contentType == ContentType.JPEG && pixmapType == PixmapType.NONE)
-            return BLPEncodingType.JPEG;
+            return BlpEncodingType.JPEG;
         else if (contentType == ContentType.DIRECT
                 && pixmapType == PixmapType.INDEXED)
-            return BLPEncodingType.INDEXED;
-        return BLPEncodingType.UNKNOWN;
+            return BlpEncodingType.INDEXED;
+        return BlpEncodingType.UNKNOWN;
     }
 
     /**
@@ -252,8 +252,8 @@ public final class BLPStreamMetadata extends IIOMetadata {
      * @throws IllegalArgumentException if encodingType does not support alphaBit.
      * @throws IllegalArgumentException if version does not support encodingType.
      */
-    public void setEncoding(BLPEncodingType encodingType, byte alphaBits) {
-        if (encodingType == BLPEncodingType.UNKNOWN)
+    public void setEncoding(BlpEncodingType encodingType, byte alphaBits) {
+        if (encodingType == BlpEncodingType.UNKNOWN)
             throw new IllegalArgumentException(
                     "cannot use UNKNOWN encodingType");
         else if (!encodingType.isAlphaBitsValid(alphaBits))
@@ -414,7 +414,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
     public int getDimensionMaximum() {
         if (version < 1)
             return LEGACY_MAX_DIMENSION;
-        return (1 << BLPCommon.MIPMAP_MAX) - 1;
+        return (1 << BlpCommon.MIPMAP_MAX) - 1;
     }
 
     /**
@@ -437,7 +437,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
         src.setByteOrder(ByteOrder.LITTLE_ENDIAN);
 
         // read and validate magic and version
-        version = BLPCommon.resolveVersion(new MagicInt(src.readInt(),
+        version = BlpCommon.resolveVersion(new MagicInt(src.readInt(),
                 ByteOrder.LITTLE_ENDIAN));
         if (version == -1) {
             throw new IIOException("Not valid BLP file magic.");
@@ -485,8 +485,8 @@ public final class BLPStreamMetadata extends IIOMetadata {
             hasMipmaps = src.readByte() != 0;
         }
 
-        final BLPEncodingType encodingType = getEncodingType();
-        if (encodingType == BLPEncodingType.UNKNOWN)
+        final BlpEncodingType encodingType = getEncodingType();
+        if (encodingType == BlpEncodingType.UNKNOWN)
             warning.accept(BlpBundle.message("BadEncoding", contentType.name(), pixmapType.name(), sampleType.name()));
         if (!encodingType.isAlphaBitsValid(alphaBits)) {
             final int defaultAlphaBits = 0;
@@ -543,7 +543,7 @@ public final class BLPStreamMetadata extends IIOMetadata {
         dst.setByteOrder(ByteOrder.LITTLE_ENDIAN);
 
         // write magic and version
-        dst.writeInt(BLPCommon.resolveMagic(version).toInt(ByteOrder.LITTLE_ENDIAN));
+        dst.writeInt(BlpCommon.resolveMagic(version).toInt(ByteOrder.LITTLE_ENDIAN));
 
         // write content
         dst.writeInt(contentType.ordinal());

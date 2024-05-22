@@ -272,7 +272,7 @@
 
     <applicationListeners>
         <!-- https://github.com/xiaozhuai/jetbrains-qoi -->
-        <listener class="guru.xgm.image.blp.BLPMetadataRegistrar"
+        <listener class="guru.xgm.image.blp.intellij.BlpMetadataRegistrar"
                   topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 

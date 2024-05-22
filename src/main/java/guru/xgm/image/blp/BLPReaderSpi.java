@@ -47,7 +47,7 @@ public class BLPReaderSpi extends ImageReaderSpi {
                 src.setByteOrder(ByteOrder.LITTLE_ENDIAN);
                 final MagicInt magic = new MagicInt(src.readInt(),
                         ByteOrder.LITTLE_ENDIAN);
-                if (BLPCommon.resolveVersion(magic) != -1)
+                if (BlpCommon.resolveVersion(magic) != -1)
                     return true;
             } finally {
                 // Restore stream.

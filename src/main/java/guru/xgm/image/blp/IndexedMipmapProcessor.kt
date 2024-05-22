@@ -1,41 +1,30 @@
-package guru.xgm.image.blp;
+package guru.xgm.image.blp
 
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
-
-import javax.imageio.IIOException;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-
-import com.intellij.util.ui.ImageUtil;
-import guru.xgm.image.blp.intellij.BlpBundle;
+import guru.xgm.image.blp.intellij.BlpBundle.message
+import java.awt.color.ColorSpace
+import java.awt.image.*
+import java.io.IOException
+import java.nio.ByteOrder
+import java.util.function.Consumer
+import javax.imageio.IIOException
+import javax.imageio.ImageReadParam
+import javax.imageio.ImageTypeSpecifier
+import javax.imageio.ImageWriteParam
+import javax.imageio.stream.ImageInputStream
+import javax.imageio.stream.ImageOutputStream
 
 /**
  * A class that is responsible for processing between mipmap data and indexed
  * color content.
- * <p>
+ *
+ *
  * During decoding if the mipmap data is of incorrect size then it is resized to
  * fit and a warning is generated. Some poor BLP implementations, such as used
  * by some versions of Warcraft III, do not read and process mipmap data safely
  * so might be able to extract more meaningful visual information from a
  * technically corrupt file.
- * <p>
+ *
+ *
  * When encoding images the first image ColorModel is used to determine the
  * color map used. Both BLPIndexColorModel and IndexColorModel are supported
  * although IndexColorModel alpha is not. The direct values of the required
@@ -46,160 +35,193 @@ import guru.xgm.image.blp.intellij.BlpBundle;
  *
  * @author Imperial Good
  */
-public class IndexedMipmapProcessor extends MipmapProcessor {
+class IndexedMipmapProcessor(alphaBits: Int) : MipmapProcessor() {
     /**
      * The BLP indexed color model used to process mipmaps.
      */
-    private BLPIndexColorModel indexedBLPColorModel = null;
+    private var indexedBLPColorModel: BLPIndexColorModel? = null
 
     /**
      * The bandSizes to use.
      */
-    private final int[] bandSizes;
+    private val bandSizes: IntArray
 
-    /**
-     * Constructs a MipmapProcessor for indexed color content.
-     *
-     * @param alphaBits the alpha component bits, if any.
-     * @throws IllegalArgumentException if alphaBits is not valid.
-     */
-    public IndexedMipmapProcessor(int alphaBits) {
-        if (!BLPEncodingType.INDEXED.isAlphaBitsValid(alphaBits))
-            throw new IllegalArgumentException("Unsupported alphaBits.");
-        bandSizes = alphaBits != 0 ? new int[]{8, alphaBits}
-                : new int[]{8};
+    init {
+        require(BlpEncodingType.INDEXED.isAlphaBitsValid(alphaBits)) { "Unsupported alphaBits." }
+        bandSizes = if (alphaBits != 0) intArrayOf(8, alphaBits)
+        else intArrayOf(8)
 
         // dummy color model
-        indexedBLPColorModel = new BLPIndexColorModel(null,
-                bandSizes.length > 1 ? bandSizes[1] : 0);
+        indexedBLPColorModel = BLPIndexColorModel(
+            null,
+            if (bandSizes.size > 1) bandSizes[1] else 0
+        )
     }
 
-    @Override
-    public byte[] encodeMipmap(BufferedImage img, ImageWriteParam param,
-                               Consumer<String> handler) throws IOException {
-        final WritableRaster srcWR = img.getRaster();
-        final ColorModel srcCM = img.getColorModel();
-        final SampleModel srcSM = srcWR.getSampleModel();
-        final int h = srcSM.getHeight();
-        final int w = srcSM.getWidth();
+    @Throws(IOException::class)
+    override fun encodeMipmap(
+        img: BufferedImage?, param: ImageWriteParam?,
+        handler: Consumer<String?>?
+    ): ByteArray? {
+        checkNotNull(img)
+        val srcWR = img.raster
+        val srcCM = img.colorModel
+        val srcSM = srcWR.sampleModel
+        val h = srcSM.height
+        val w = srcSM.width
 
         // process ColorModel
         if (!canDecode) {
             // get a color model
-            if (srcCM instanceof BLPIndexColorModel blpICM) {
-                indexedBLPColorModel = new BLPIndexColorModel(
-                        blpICM.getPalette(),
-                        bandSizes.length > 1 ? bandSizes[1] : 0);
-            } else if (srcCM instanceof IndexColorModel iCM) {
-                // basic IndexColorModel compatibility
-                final int[] srcCMap = new int[iCM.getMapSize()];
-                iCM.getRGBs(srcCMap);
-
-                // color space conversion
-                final ColorModel srcCMapCM = ColorModel.getRGBdefault();
-                final ColorModel destCMapCM = BLPIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB));
-                final int[] destCMap = new int[srcCMap.length];
-                final int[] components = new int[srcCMapCM
-                        .getNumColorComponents()];
-                for (int i = 0; i < srcCMap.length; i += 1) {
-                    destCMap[i] = destCMapCM.getDataElement(
-                            srcCMapCM.getComponents(srcCMap[i], components, 0),
-                            0);
+            when (srcCM) {
+                is BLPIndexColorModel -> {
+                    indexedBLPColorModel = BLPIndexColorModel(
+                        srcCM.palette,
+                        if (bandSizes.size > 1) bandSizes[1] else 0
+                    )
                 }
 
-                indexedBLPColorModel = new BLPIndexColorModel(destCMap,
-                        bandSizes.length > 1 ? bandSizes[1] : 0);
-            } else {
-                throw new IIOException(
-                        "Cannot obtain sensible color map from ColorModel.");
+                is IndexColorModel -> {
+                    // basic IndexColorModel compatibility
+                    val srcCMap = IntArray(srcCM.mapSize)
+                    srcCM.getRGBs(srcCMap)
+
+                    // color space conversion
+                    val srcCMapCM = ColorModel.getRGBdefault()
+                    val destCMapCM =
+                        BLPIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
+                    val destCMap = IntArray(srcCMap.size)
+                    val components = IntArray(
+                        srcCMapCM
+                            .numColorComponents
+                    )
+                    var i = 0
+                    while (i < srcCMap.size) {
+                        destCMap[i] = destCMapCM.getDataElement(
+                            srcCMapCM.getComponents(srcCMap[i], components, 0),
+                            0
+                        )
+                        i += 1
+                    }
+
+                    indexedBLPColorModel = BLPIndexColorModel(
+                        destCMap,
+                        if (bandSizes.size > 1) bandSizes[1] else 0
+                    )
+                }
+
+                else -> {
+                    throw IIOException(
+                        "Cannot obtain sensible color map from ColorModel."
+                    )
+                }
             }
-            canDecode = true;
+            canDecode = true
         }
 
         // create destination
-        final SampleModel destSM = new BLPPackedSampleModel(w, h, bandSizes,
-                null);
-        final DataBuffer destDB = destSM.createDataBuffer();
-        final WritableRaster destWR = WritableRaster
-                .createWritableRaster(destSM, destDB, null);
+        val destSM: SampleModel = BLPPackedSampleModel(
+            w, h, bandSizes,
+            null
+        )
+        val destDB = destSM.createDataBuffer()
+        val destWR = WritableRaster
+            .createWritableRaster(destSM, destDB, null)
 
         // copy bands
-        final boolean hasAlpha = bandSizes.length > 1;
-        final boolean srcHasAlpha = hasAlpha && srcSM.getNumBands() > 1;
-        final boolean rescaleAlpha = srcHasAlpha
-                && srcSM.getSampleSize(1) != bandSizes[1];
-        final int alphaMask = hasAlpha ? (1 << bandSizes[1]) - 1 : 0;
-        for (int y = 0; y < h; y += 1) {
-            for (int x = 0; x < w; x += 1) {
-                destWR.setSample(x, y, 0, srcWR.getSample(x, y, 0));
+        val hasAlpha = bandSizes.size > 1
+        val srcHasAlpha = hasAlpha && srcSM.numBands > 1
+        val rescaleAlpha = (srcHasAlpha
+                && srcSM.getSampleSize(1) != bandSizes[1])
+        val alphaMask = if (hasAlpha) (1 shl bandSizes[1]) - 1 else 0
+        var y = 0
+        while (y < h) {
+            var x = 0
+            while (x < w) {
+                destWR.setSample(x, y, 0, srcWR.getSample(x, y, 0))
                 if (hasAlpha) {
                     if (srcHasAlpha) {
-                        int alphaSample = srcWR.getSample(x, y, 1);
-                        if (rescaleAlpha)
-                            alphaSample = (int) ((float) alphaMask
-                                    * (float) alphaSample
-                                    / (float) (srcSM.getSampleSize(1) - 1));
-                        destWR.setSample(x, y, 1, alphaSample);
-                    } else
-                        destWR.setSample(x, y, 1, alphaMask);
+                        var alphaSample = srcWR.getSample(x, y, 1)
+                        if (rescaleAlpha) alphaSample = (alphaMask.toFloat() * alphaSample.toFloat()
+                                / (srcSM.getSampleSize(1) - 1).toFloat()).toInt()
+                        destWR.setSample(x, y, 1, alphaSample)
+                    } else destWR.setSample(x, y, 1, alphaMask)
                 }
+                x += 1
             }
+            y += 1
         }
 
         // return destination results
-        return ((DataBufferByte) srcWR.getDataBuffer()).getData();
+        return (srcWR.dataBuffer as DataBufferByte).data
     }
 
-    @Override
-    public BufferedImage decodeMipmap(byte[] mmData, ImageReadParam param,
-                                      int width, int height, Consumer<String> handler)
-            throws IOException {
+    @Throws(IOException::class)
+    override fun decodeMipmap(
+        mmData: ByteArray?, param: ImageReadParam?,
+        width: Int, height: Int, handler: Consumer<String?>?
+    ): BufferedImage {
         // create sample model
-        final BLPPackedSampleModel sm = new BLPPackedSampleModel(width, height,
-                bandSizes, null);
+        var mData = mmData
+        val sm = BLPPackedSampleModel(
+            width, height,
+            bandSizes, null
+        )
 
         // validate chunk size
-        final int expected = sm.getBufferSize();
-        if (mmData.length != expected) {
-            handler.accept(BlpBundle.message("BadBuffer", mmData.length, expected));
-            mmData = Arrays.copyOf(mmData, expected);
+        val expected = sm.bufferSize
+        checkNotNull(mData)
+        if (mData.size != expected) {
+            handler!!.accept(message("BadBuffer", mData.size, expected))
+            mData = mData.copyOf(expected)
         }
 
         // produce image WritableRaster
-        final DataBuffer db = new DataBufferByte(mmData, mmData.length);
-        final WritableRaster raster = Raster.createWritableRaster(sm, db, null);
+        val db: DataBuffer = DataBufferByte(mData, mData.size)
+        val raster = Raster.createWritableRaster(sm, db, null)
 
         // produce buffered image
-
-        return new BufferedImage(indexedBLPColorModel, raster,
-                false, null);
+        return BufferedImage(
+            indexedBLPColorModel, raster,
+            false, null
+        )
     }
 
-    @Override
-    public Iterator<ImageTypeSpecifier> getSupportedImageTypes(int width,
-                                                               int height) {
-        return List.of(new ImageTypeSpecifier(indexedBLPColorModel,
-                        new BLPPackedSampleModel(width, height, bandSizes, null)))
-                .iterator();
+    override fun getSupportedImageTypes(
+        width: Int,
+        height: Int
+    ): Iterator<ImageTypeSpecifier?> {
+        return listOf(
+            ImageTypeSpecifier(
+                indexedBLPColorModel,
+                BLPPackedSampleModel(width, height, bandSizes, null)
+            )
+        )
+            .iterator()
     }
 
-    @Override
-    public void readObject(ImageInputStream src,
-                           Consumer<String> warning) throws IOException {
-        src.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        final int[] palette = new int[BLPIndexColorModel.MAX_PALETTE_LENGTH];
-        src.readFully(palette, 0, palette.length);
+    @Throws(IOException::class)
+    override fun readObject(
+        src: ImageInputStream?,
+        warning: Consumer<String?>?
+    ) {
+        checkNotNull(src)
+        src.byteOrder = ByteOrder.LITTLE_ENDIAN
+        val palette = IntArray(BLPIndexColorModel.MAX_PALETTE_LENGTH)
+        src.readFully(palette, 0, palette.size)
 
-        indexedBLPColorModel = new BLPIndexColorModel(palette,
-                bandSizes.length > 1 ? bandSizes[1] : 0);
-        canDecode = true;
+        indexedBLPColorModel = BLPIndexColorModel(
+            palette,
+            if (bandSizes.size > 1) bandSizes[1] else 0
+        )
+        canDecode = true
     }
 
-    @Override
-    public void writeObject(ImageOutputStream dst) throws IOException {
-        dst.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        final int[] palette = indexedBLPColorModel.getPalette();
-        dst.writeInts(palette, 0, palette.length);
+    @Throws(IOException::class)
+    override fun writeObject(dst: ImageOutputStream?) {
+        checkNotNull(dst)
+        dst.byteOrder = ByteOrder.LITTLE_ENDIAN
+        val palette = indexedBLPColorModel!!.palette
+        dst.writeInts(palette, 0, palette.size)
     }
-
 }

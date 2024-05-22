@@ -1,230 +1,204 @@
-package guru.xgm.image.blp;
+package guru.xgm.image.blp
 
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.SampleModel;
+import java.awt.image.DataBuffer
+import java.awt.image.DataBufferByte
+import java.awt.image.SampleModel
 
 /**
  * SampleModel to help process BLP indexed content. Acts like a multi banded non
  * standard MultiPixelPackedSampleModel.
- * <p>
+ *
+ *
  * All samples for each band are stored in a block. Band blocks are stored
  * sequentially in the same bank. Pixel packing occurs from least significant
  * bit towards most significant bit.
- * <p>
+ *
+ *
  * Although intended for use with samples with power of 2 bit length, other bit
  * lengths are supported. The only restriction is that sample bit length is less
  * than 8. Sample bit lengths that do not divide 8 by a whole number will pad
  * the most significant bits.
- * <p>
+ *
+ *
  * This SampleModel is not intended to be fast.
  *
  * @author Imperial Good
  */
-public class BLPPackedSampleModel extends SampleModel {
-	/**
-	 * Band sizes array.
-	 */
-	private final int[] bandSizes;
+class BLPPackedSampleModel(w: Int, h: Int, bandSizes: IntArray, bands: IntArray?) :
+    SampleModel(DataBuffer.TYPE_BYTE, w, h, bands?.size ?: bandSizes.size) {
+    /**
+     * Band sizes array.
+     */
+    private val bandSizes: IntArray
 
-	/**
-	 * Band offset array.
-	 */
-	private final int[] bandOffsets;
+    /**
+     * Band offset array.
+     */
+    private val bandOffsets: IntArray
 
-	/**
-	 * Bands redirection array used to determine the number of advertised bands.
-	 */
-	private final int[] bands;
+    /**
+     * Bands redirection array used to determine the number of advertised bands.
+     */
+    private val bands: IntArray
 
-	/**
-	 * Constructs a SampleModel for the given dimension with the specified bits
-	 * per band.
-	 * <p>
-	 * The bandSizes field determines the number of bits per band. Bands must be
-	 * between 1 and 8 bits.
-	 * <p>
-	 * The bands field allows band redirection, such as if only a subset of
-	 * bands or different ordering is required. Available band numbers to
-	 * reference is determined by the length of bandSizes. Due to the variable
-	 * packing density of this SampleModel it is not possible to forego a full
-	 * sequential set of bandSizes even if only a subset of the available bands
-	 * are used. Although bands does check if a band number is valid, it does
-	 * not check for duplicates. A value of null will automatically assign bands
-	 * in a natural way as determined by bandSizes.
-	 *
-	 * @param w
-	 *            width in pixels.
-	 * @param h
-	 *            height in pixels.
-	 * @param bandSizes
-	 *            array of bits per band.
-	 * @param bands
-	 *            band redirection array.
-	 * @throws IllegalArgumentException
-	 *             if w or h are not greater than 0.
-	 * @throws IllegalArgumentException
-	 *             if bandSizes contains an invalid value.
-	 * @throws IllegalArgumentException
-	 *             if bands contains an invalid band number.
-	 */
-	public BLPPackedSampleModel(int w, int h, int[] bandSizes, int[] bands) {
-		super(DataBuffer.TYPE_BYTE, w, h, bands != null ? bands.length : bandSizes.length);
+    init {
+        var myBands = bands
+        // validate arguments
+        for (bandSize in bandSizes) {
+            require(!(bandSize < 1 || 8 < bandSize)) { "Invalid bandSizes." }
+        }
 
-		// validate arguments
-		for (int i = 0; i < bandSizes.length; i += 1) {
-			final int bandSize = bandSizes[i];
-			if (bandSize < 1 || 8 < bandSize)
-				throw new IllegalArgumentException("Invalid bandSizes.");
-		}
+        this.bandSizes = bandSizes.clone()
 
-		this.bandSizes = bandSizes.clone();
+        // compute band offsets
+        bandOffsets = IntArray(bandSizes.size + 1)
+        var i = 0
+        while (i < bandSizes.size) {
+            val baseOffset = bandOffsets[i]
+            val bandSize = bandSizes[i]
+            bandOffsets[i + 1] = baseOffset + (w * h * bandSize + 7) / 8
+            i += 1
+        }
 
-		// compute band offsets
-		bandOffsets = new int[bandSizes.length + 1];
-		for (int i = 0; i < bandSizes.length; i += 1) {
-			final int baseOffset = bandOffsets[i];
-			final int bandSize = bandSizes[i];
-			bandOffsets[i + 1] = baseOffset + (w * h * bandSize + 7) / 8;
-		}
+        // process bands
+        if (myBands == null) {
+            myBands = IntArray(bandSizes.size)
+            i = 0
+            while (i < myBands.size) {
+                myBands[i] = i
+                i += 1
+            }
+        } else {
+            myBands = myBands.clone()
+            for (bandref in myBands) {
+                require(!(bandref < 0 || bandSizes.size <= bandref)) { "Invalid bands." }
+            }
+        }
+        this.bands = myBands
+    }
 
-		// process bands
-		if (bands == null) {
-			bands = new int[bandSizes.length];
-			for (int i = 0; i < bands.length; i += 1)
-				bands[i] = i;
-		} else {
-			bands = bands.clone();
-			for (int i = 0; i < bands.length; i += 1) {
-				final int bandref = bands[i];
-				if (bandref < 0 || bandSizes.length <= bandref)
-					throw new IllegalArgumentException("Invalid bands.");
-			}
-		}
-		this.bands = bands;
-	}
+    override fun getNumDataElements(): Int {
+        return numBands
+    }
 
-	@Override
-	public int getNumDataElements() {
-		return numBands;
-	}
+    override fun getDataElements(x: Int, y: Int, obj: Any?, data: DataBuffer): Any {
+        // process obj
+        var myObj: Any? = obj
+        if (myObj == null) myObj = ByteArray(numBands)
+        val pixel = myObj as ByteArray
 
-	@Override
-	public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
-		// process obj
-		if (obj == null)
-			obj = new byte[numBands];
-		byte[] pixel = (byte[]) (obj);
+        // get pixel
+        var i = 0
+        while (i < numBands) {
+            pixel[i] = getSample(x, y, i, data).toByte()
+            i += 1
+        }
 
-		// get pixel
-		for (int i = 0 ; i < numBands ; i+= 1) {
-			pixel[i] = (byte) getSample(x, y, i, data);
-		}
+        return myObj
+    }
 
-		return obj;
-	}
+    override fun setDataElements(x: Int, y: Int, obj: Any, data: DataBuffer) {
+        // process obj
+        val pixel = obj as ByteArray
 
-	@Override
-	public void setDataElements(int x, int y, Object obj, DataBuffer data) {
-		// process obj
-		byte[] pixel = (byte[]) (obj);
+        // set pixel
+        var i = 0
+        while (i < numBands) {
+            setSample(x, y, i, pixel[i].toInt(), data)
+            i += 1
+        }
+    }
 
-		// set pixel
-		for (int i = 0 ; i < numBands ; i+= 1) {
-			setSample(x, y, i, pixel[i], data);
-		}
-	}
+    private fun getPixelNumber(x: Int, y: Int): Int {
+        return x + width * y
+    }
 
-	private int getPixelNumber(int x, int y) {
-		return x + width * y;
-	}
+    private fun getSamplePacking(b: Int): Int {
+        return 8 / bandSizes[b]
+    }
 
-	private int getSamplePacking(int b) {
-		return 8 / bandSizes[b];
-	}
+    private fun getElementNumber(pixelNumber: Int, samplePacking: Int, b: Int): Int {
+        return bandOffsets[b] + pixelNumber / samplePacking
+    }
 
-	private int getElementNumber(int pixelNumber, int samplePacking, int b) {
-		return bandOffsets[b] + pixelNumber / samplePacking;
-	}
+    private fun getSampleOffset(pixelNumber: Int, samplePacking: Int, b: Int): Int {
+        return (pixelNumber % samplePacking) * bandSizes[b]
+    }
 
-	private int getSampleOffset(int pixelNumber, int samplePacking, int b) {
-		return (pixelNumber % samplePacking) * bandSizes[b];
-	}
+    private fun getSampleMask(b: Int): Int {
+        return (1 shl bandSizes[b]) - 1
+    }
 
-	private int getSampleMask(int b) {
-		return (1 << bandSizes[b]) - 1;
-	}
+    override fun getSample(x: Int, y: Int, b: Int, data: DataBuffer): Int {
+        var myB = b
+        myB = bands[myB]
+        val pixelNumber = getPixelNumber(x, y)
+        val samplePacking = getSamplePacking(myB)
+        return data.getElem(getElementNumber(pixelNumber, samplePacking, myB)) shr getSampleOffset(
+            pixelNumber, samplePacking, myB
+        ) and getSampleMask(myB)
+    }
 
-	@Override
-	public int getSample(int x, int y, int b, DataBuffer data) {
-		b = bands[b];
-		final int pixelNumber = getPixelNumber(x, y);
-		final int samplePacking = getSamplePacking(b);
-		return data.getElem(getElementNumber(pixelNumber, samplePacking, b)) >> getSampleOffset(
-				pixelNumber, samplePacking, b) & getSampleMask(b);
-	}
+    override fun setSample(x: Int, y: Int, b: Int, s: Int, data: DataBuffer) {
+        var myB = b
+        myB = bands[myB]
+        val pixelNumber = getPixelNumber(x, y)
+        val samplePacking = getSamplePacking(myB)
+        val elementNumber = getElementNumber(
+            pixelNumber, samplePacking,
+            myB
+        )
+        val sampleOff = getSampleOffset(pixelNumber, samplePacking, myB)
+        val sampleMask = getSampleMask(myB)
+        data.setElem(
+            elementNumber, (data.getElem(elementNumber)
+                    and (sampleMask shl sampleOff).inv()) or ((s and sampleMask) shl sampleOff)
+        )
+    }
 
-	@Override
-	public void setSample(int x, int y, int b, int s, DataBuffer data) {
-		b = bands[b];
-		final int pixelNumber = getPixelNumber(x, y);
-		final int samplePacking = getSamplePacking(b);
-		final int elementNumber = getElementNumber(pixelNumber, samplePacking,
-				b);
-		final int sampleOff = getSampleOffset(pixelNumber, samplePacking, b);
-		final int sampleMask = getSampleMask(b);
-		data.setElem(elementNumber, data.getElem(elementNumber)
-				& ~(sampleMask << sampleOff) | (s & sampleMask) << sampleOff);
-	}
+    override fun createCompatibleSampleModel(w: Int, h: Int): BLPPackedSampleModel {
+        return BLPPackedSampleModel(w, h, bandSizes, bands)
+    }
 
-	@Override
-	public BLPPackedSampleModel createCompatibleSampleModel(int w, int h) {
-		return new BLPPackedSampleModel(w, h, bandSizes, bands);
-	}
+    override fun createSubsetSampleModel(bands: IntArray): SampleModel {
+        // validation
+        require(bands.size <= numBands) { "Too many bands." }
 
-	@Override
-	public SampleModel createSubsetSampleModel(int[] bands) {
-		// validation
-		if (bands.length > numBands)
-			throw new IllegalArgumentException("Too many bands.");
+        // process band redirection
+        val bandUsed = BooleanArray(this.bands.size)
+        val destBands = IntArray(bands.size)
+        var i = 0
+        while (i < bands.size) {
+            val bandref = bands[i]
+            require(!(bandref < 0 || this.bands.size <= bandref || bandUsed[bandref])) { "Invalid bands." }
+            bandUsed[bandref] = true
+            destBands[i] = this.bands[bandref]
+            i += 1
+        }
 
-		// process band redirection
-		final boolean[] bandUsed = new boolean[this.bands.length];
-		final int[] destBands = new int[bands.length];
-		for (int i = 0 ; i < bands.length ; i+= 1) {
-			final int bandref = bands[i];
-			if (bandref < 0 || this.bands.length <= bandref || bandUsed[bandref])
-				throw new IllegalArgumentException("Invalid bands.");
-			bandUsed[bandref] = true;
-			destBands[i] = this.bands[bandref];
-		}
+        return BLPPackedSampleModel(width, height, bandSizes, destBands)
+    }
 
-		return new BLPPackedSampleModel(width, height, bandSizes, destBands);
-	}
+    val bufferSize: Int
+        get() = bandOffsets[bandOffsets.size - 1]
 
-	public int getBufferSize() {
-		return bandOffsets[bandOffsets.length - 1];
-	}
+    override fun createDataBuffer(): DataBuffer {
+        return DataBufferByte(bufferSize)
+    }
 
-	@Override
-	public DataBuffer createDataBuffer() {
-		return new DataBufferByte(getBufferSize());
-	}
+    override fun getSampleSize(): IntArray {
+        // generate band size array
+        val bandSizes = IntArray(numBands)
+        var i = 0
+        while (i < numBands) {
+            bandSizes[i] = this.bandSizes[bands[i]]
+            i += 1
+        }
 
-	@Override
-	public int[] getSampleSize() {
-		// generate band size array
-		final int[] bandSizes = new int[numBands];
-		for (int i = 0 ; i < numBands ; i+= 1) {
-			bandSizes[i] = this.bandSizes[bands[i]];
-		}
+        return bandSizes
+    }
 
-		return bandSizes;
-	}
-
-	@Override
-	public int getSampleSize(int band) {
-		return bandSizes[bands[band]];
-	}
-
+    override fun getSampleSize(band: Int): Int {
+        return bandSizes[bands[band]]
+    }
 }

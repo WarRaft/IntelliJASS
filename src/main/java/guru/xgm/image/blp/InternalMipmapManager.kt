@@ -1,44 +1,40 @@
-package guru.xgm.image.blp;
+package guru.xgm.image.blp
 
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.function.Consumer;
-
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-
-import guru.xgm.image.blp.intellij.BlpBundle;
+import guru.xgm.image.blp.intellij.BlpBundle.message
+import java.io.IOException
+import java.nio.ByteOrder
+import java.util.function.Consumer
+import javax.imageio.stream.ImageInputStream
+import javax.imageio.stream.ImageOutputStream
 
 /**
  * Object for managing internally stored BLP mipmap data chunks. This is used by
  * BLP version 1 and later.
- * <p>
+ *
+ *
  * The location and size of mipmap data chunks within a stream are managed.
  * Methods are provided to read or write mipmap data chunks in a stream. Methods
  * are provided to configure mipmap chunk management.
  *
  * @author ImperialGood
  */
-class InternalMipmapManager {
-    private final int[] chunkOffsets = new int[BLPCommon.MIPMAP_MAX];
-    private final int[] chunkSizes = new int[BLPCommon.MIPMAP_MAX];
-    private long chunkStreamPos = 0L;
-
-    public InternalMipmapManager() {
-
-    }
+internal class InternalMipmapManager {
+    private val chunkOffsets = IntArray(BlpCommon.MIPMAP_MAX)
+    private val chunkSizes = IntArray(BlpCommon.MIPMAP_MAX)
+    private var chunkStreamPos = 0L
 
     /**
      * Extracts a mipmap data chunk for the requested mipmap level from the
      * given stream and returns it as unprocessed data. A warning handler must
      * be provided to process any warnings that occur during extraction.
-     * <p>
+     *
+     *
      * If the chunk size is too big to process a warning will be emitted and as
      * much data as allowed will be returned. If the chunk extends beyond the
      * EOF a warning will be emitted and as much data as available be be
      * returned.
-     * <p>
+     *
+     *
      * Chunks with 0 size generate no I/O.
      *
      * @param src     stream to source mipmap data chunks from.
@@ -47,55 +43,59 @@ class InternalMipmapManager {
      * @return a byte array containing the mipmap data chunk.
      * @throws IOException if an IOException occurs.
      */
-    public byte[] getMipmapDataChunk(ImageInputStream src, int mipmap,
-                                     Consumer<String> warning) throws IOException {
-        final long offset = chunkOffsets[mipmap] & 0xFFFFFFFFL;
-        final long sizeLong = chunkSizes[mipmap] & 0xFFFFFFFFL;
+    @Throws(IOException::class)
+    fun getMipmapDataChunk(
+        src: ImageInputStream, mipmap: Int,
+        warning: Consumer<String?>
+    ): ByteArray {
+        val offset = chunkOffsets[mipmap].toLong() and 0xFFFFFFFFL
+        val sizeLong = chunkSizes[mipmap].toLong() and 0xFFFFFFFFL
 
         // process chunk size
-        final int size;
-        final int sizeMax = Integer.MAX_VALUE;
+        val size: Int
+        val sizeMax = Int.MAX_VALUE
         if (sizeLong > sizeMax) {
-            warning.accept(BlpBundle.message("BadChunkSize", sizeLong, sizeMax));
-            size = sizeMax;
+            warning.accept(message("BadChunkSize", sizeLong, sizeMax))
+            size = sizeMax
         } else {
-            size = (int) sizeLong;
+            size = sizeLong.toInt()
         }
 
         // allocate buffer
-        byte[] buff = new byte[size];
+        var buff = ByteArray(size)
 
         // set stream to correct position
-        if (size > 0)
-            src.seek(offset);
+        if (size > 0) src.seek(offset)
 
         // read data
-        int len = size;
-        int off = 0;
+        var len = size
+        var off = 0
         while (len > 0) {
-            final int read = src.read(buff, off, len);
+            val read = src.read(buff, off, len)
 
             // end of file before full read
             if (read == -1) {
-                warning.accept(BlpBundle.message("BadChunkPos", size, off));
-                buff = Arrays.copyOf(buff, off);
-                break;
+                warning.accept(message("BadChunkPos", size, off))
+                buff = buff.copyOf(off)
+                break
             }
 
-            len -= read;
-            off += read;
+            len -= read
+            off += read
         }
 
-        return buff;
+        return buff
     }
 
     /**
      * Inserts a mipmap data chunk for the requested mipmap level to the given
      * stream. An empty array can be used to remove chunks.
-     * <p>
+     *
+     *
      * The mipmap data chunk block offset must be set before calling this.
      * Failure to do so may cause file corruption.
-     * <p>
+     *
+     *
      * For best results the mipmaps should be set only once in rising numeric
      * order.
      *
@@ -104,32 +104,35 @@ class InternalMipmapManager {
      * @param chunk  a byte array containing the mipmap data chunk.
      * @throws IOException if an IOException occurs.
      */
-    public void setMipmapDataChunk(ImageOutputStream dst, int mipmap,
-                                   byte[] chunk) throws IOException {
-        final int len = chunk.length;
+    @Throws(IOException::class)
+    fun setMipmapDataChunk(
+        dst: ImageOutputStream, mipmap: Int,
+        chunk: ByteArray
+    ) {
+        val len = chunk.size
 
         // TODO compact/defragment stream
 
         // chunk logical position
-        chunkSizes[mipmap] = len;
-        final long offset = len > 0 ? chunkStreamPos : 0;
-        if (offset > 0xFFFFFFFFL)
-            throw new IOException("Stream offset too big.");
-        chunkOffsets[mipmap] = (int) offset;
+        chunkSizes[mipmap] = len
+        val offset = if (len > 0) chunkStreamPos else 0
+        if (offset > 0xFFFFFFFFL) throw IOException("Stream offset too big.")
+        chunkOffsets[mipmap] = offset.toInt()
 
         // write chunk
         if (len > 0) {
-            dst.seek(chunkStreamPos);
-            dst.write(chunk);
+            dst.seek(chunkStreamPos)
+            dst.write(chunk)
         }
 
-        chunkStreamPos += len;
+        chunkStreamPos += len.toLong()
     }
 
     /**
      * Set the offset of the mipmap data chunk block to the current stream
      * position.
-     * <p>
+     *
+     *
      * This method is intended to be called before any mipmap data chunks are
      * set. Calling it while any mipmap data chunks are set will result in
      * undefined behavior.
@@ -137,12 +140,11 @@ class InternalMipmapManager {
      * @param src stream to place mipmap data chunks to.
      * @throws IOException if an IOException occurs.
      */
-    public void setMipmapDataChunkBlockOffset(ImageInputStream src)
-            throws IOException {
-        final long offset = src.getStreamPosition();
-        if (offset > 0xFFFFFFFFL)
-            throw new IOException("Stream offset too big.");
-        chunkStreamPos = offset;
+    @Throws(IOException::class)
+    fun setMipmapDataChunkBlockOffset(src: ImageInputStream) {
+        val offset = src.streamPosition
+        if (offset > 0xFFFFFFFFL) throw IOException("Stream offset too big.")
+        chunkStreamPos = offset
     }
 
     /**
@@ -153,42 +155,46 @@ class InternalMipmapManager {
      * @param mipmap the mipmap level.
      * @throws IOException if an IOException occurs.
      */
-    public void flushToMipmap(ImageInputStream src, int mipmap)
-            throws IOException {
+    @Throws(IOException::class)
+    fun flushToMipmap(src: ImageInputStream, mipmap: Int) {
         // find lowest offset to allow the mipmaps to be read
-        long pos = Long.MAX_VALUE;
-        for (int i = mipmap + 1; i < BLPCommon.MIPMAP_MAX; i += 1) {
-            long newpos = chunkOffsets[i] & 0xFFFFFFFFL;
-            if (newpos < pos)
-                pos = newpos;
+        var pos = Long.MAX_VALUE
+        var i = mipmap + 1
+        while (i < BlpCommon.MIPMAP_MAX) {
+            val newpos = chunkOffsets[i].toLong() and 0xFFFFFFFFL
+            if (newpos < pos) pos = newpos
+            i += 1
         }
 
-        src.flushBefore(pos);
+        src.flushBefore(pos)
     }
 
-    public void readObject(ImageInputStream in) throws IOException {
-        in.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+    @Throws(IOException::class)
+    fun readObject(`in`: ImageInputStream) {
+        `in`.byteOrder = ByteOrder.LITTLE_ENDIAN
 
         // read mipmap chunk descriptions
-        in.readFully(chunkOffsets, 0, chunkOffsets.length);
-        in.readFully(chunkSizes, 0, chunkSizes.length);
+        `in`.readFully(chunkOffsets, 0, chunkOffsets.size)
+        `in`.readFully(chunkSizes, 0, chunkSizes.size)
 
         // find end of mipmap block
-        long pos = 0;
-        for (int i = 0; i < BLPCommon.MIPMAP_MAX; i += 1) {
-            long newpos = chunkOffsets[i] & 0xFFFFFFFFL;
-            if (chunkSizes[i] != 0 && newpos > pos)
-                pos = newpos;
+        var pos: Long = 0
+        var i = 0
+        while (i < BlpCommon.MIPMAP_MAX) {
+            val newpos = chunkOffsets[i].toLong() and 0xFFFFFFFFL
+            if (chunkSizes[i] != 0 && newpos > pos) pos = newpos
+            i += 1
         }
 
-        chunkStreamPos = pos;
+        chunkStreamPos = pos
     }
 
-    public void writeObject(ImageOutputStream out) throws IOException {
-        out.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+    @Throws(IOException::class)
+    fun writeObject(out: ImageOutputStream) {
+        out.byteOrder = ByteOrder.LITTLE_ENDIAN
 
         // write mipmap chunk descriptions
-        out.writeInts(chunkOffsets, 0, chunkOffsets.length);
-        out.writeInts(chunkSizes, 0, chunkSizes.length);
+        out.writeInts(chunkOffsets, 0, chunkOffsets.size)
+        out.writeInts(chunkSizes, 0, chunkSizes.size)
     }
 }

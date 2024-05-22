@@ -1,6 +1,6 @@
-package guru.xgm.image.blp;
+package guru.xgm.image.blp
 
-import guru.xgm.image.blp.legacy.MagicInt;
+import guru.xgm.image.blp.legacy.MagicInt
 
 /**
  * Class containing static constants and methods shared by various other classes
@@ -8,62 +8,50 @@ import guru.xgm.image.blp.legacy.MagicInt;
  *
  * @author ImperialGood
  */
-public abstract class BLPCommon {
-	// indexed content
+object BlpCommon {
+    /**
+     * Maximum number of mipmaps a BLP file can contain. Since version 1.
+     */
+    const val MIPMAP_MAX: Int = 16
 
-	/**
-	 * The number of bits for selecting indexed color.
-	 */
-	static final int INDEXED_PALETTE_BITS = 8;
+    /**
+     * Array containing all the BLP version magic numbers in chronological
+     * order.
+     */
+    private val BLP_VERSION_MAGIC = arrayOf(
+        MagicInt("BLP0"),
+        MagicInt("BLP1"), MagicInt("BLP2")
+    )
 
-	/**
-	 * The number of indexed colors for indexed content.
-	 */
-	public static final int INDEXED_PALETTE_SIZE = 1 << INDEXED_PALETTE_BITS;
+    /**
+     * Converts a BLP magic number into a version number. If the magic number is
+     * not a known BLP magic number then an invalid version of -1 is returned.
+     *
+     * @param magicint file magic number.
+     * @return the BLP version number or -1 if not known.
+     */
+    @JvmStatic
+    fun resolveVersion(magicint: MagicInt): Int {
+        // simple linear search
+        var i = 0
+        while (i < BLP_VERSION_MAGIC.size) {
+            if (magicint == BLP_VERSION_MAGIC[i]) return i
+            i += 1
+        }
 
-	// mipmap constants
+        // failure
+        return -1
+    }
 
-	/**
-	 * Maximum number of mipmaps a BLP file can contain. Since version 1.
-	 */
-	public static final int MIPMAP_MAX = 16;
-
-	/**
-	 * Array containing all the BLP version magic numbers in chronological
-	 * order.
-	 */
-	private static final MagicInt[] BLP_VERSION_MAGIC = { new MagicInt("BLP0"),
-			new MagicInt("BLP1"), new MagicInt("BLP2") };
-
-	/**
-	 * Converts a BLP magic number into a version number. If the magic number is
-	 * not a known BLP magic number then an invalid version of -1 is returned.
-	 *
-	 * @param magicint
-	 *            file magic number.
-	 * @return the BLP version number or -1 if not known.
-	 */
-	public static int resolveVersion(MagicInt magicint) {
-		// simple linear search
-		for (int i = 0; i < BLP_VERSION_MAGIC.length; i += 1) {
-			if (magicint.equals(BLP_VERSION_MAGIC[i]))
-				return i;
-		}
-
-		// failure
-		return -1;
-	}
-
-	/**
-	 * Converts a BLP version number into a magic number.
-	 *
-	 * @param ver
-	 *            the BLP version number.
-	 * @return the BLP file magic number in big-endian order.
-	 * @throws IndexOutOfBoundsException
-	 *             if ver is not a supported BLP version.
-	 */
-	public static MagicInt resolveMagic(int ver) {
-		return BLP_VERSION_MAGIC[ver];
-	}
+    /**
+     * Converts a BLP version number into a magic number.
+     *
+     * @param ver the BLP version number.
+     * @return the BLP file magic number in big-endian order.
+     * @throws IndexOutOfBoundsException if ver is not a supported BLP version.
+     */
+    @JvmStatic
+    fun resolveMagic(ver: Int): MagicInt {
+        return BLP_VERSION_MAGIC[ver]
+    }
 }
