@@ -9,7 +9,6 @@
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.platform.images</depends>
 
     <extensions defaultExtensionNs="com.intellij">
 
