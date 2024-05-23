@@ -24,7 +24,7 @@ public final class ZincFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "ZINC language file";
+        return "ZINC";
     }
 
     @NotNull

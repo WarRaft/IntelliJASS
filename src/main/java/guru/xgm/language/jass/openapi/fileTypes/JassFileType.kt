@@ -8,21 +8,13 @@ import javax.swing.Icon
 // https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html
 
 class JassFileType : LanguageFileType(JassLanguage.instance) {
-    override fun getName(): String {
-        return JassLanguage.NAME
-    }
+    override fun getName(): String = JassLanguage.NAME
 
-    override fun getDescription(): String {
-        return JassLanguage.NAME + " language file"
-    }
+    override fun getDescription(): String = JassLanguage.NAME
 
-    override fun getDefaultExtension(): String {
-        return EXTENSION
-    }
+    override fun getDefaultExtension(): String = EXTENSION
 
-    override fun getIcon(): Icon {
-        return JassIcons.FILE
-    }
+    override fun getIcon(): Icon = JassIcons.FILE
 
     @Suppress("CompanionObjectInExtension")
     companion object {

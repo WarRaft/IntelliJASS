@@ -1,55 +1,38 @@
-package guru.xgm.language.angelscript.formatting.panel;
+package guru.xgm.language.angelscript.formatting.panel
 
-import com.intellij.application.options.codeStyle.OptionTreeWithPreviewPanel;
-import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.util.NlsContexts;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
-import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
-import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.application.options.codeStyle.OptionTreeWithPreviewPanel
+import com.intellij.lang.Language
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.util.NlsContexts
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
+import guru.xgm.language.angelscript.lang.AngelScriptLanguage
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType
 
-public class AngelScriptAlignTokenPanel extends OptionTreeWithPreviewPanel {
-    public AngelScriptAlignTokenPanel(CodeStyleSettings settings) {
-        super(settings);
-        init();
+class AngelScriptAlignTokenPanel(settings: CodeStyleSettings?) : OptionTreeWithPreviewPanel(settings) {
+    init {
+        init()
     }
 
-    @NlsContexts.Label
-    public static String ENUM = "Enum";
+    override fun initTables() = initCustomOptions(ENUM)
 
-    @Override
-    protected void initTables() {
-        initCustomOptions(ENUM);
+    override fun getTabTitle(): @NlsContexts.TabTitle String = "Align Token"
+
+    override fun getSettingsType(): LanguageCodeStyleSettingsProvider.SettingsType {
+        return LanguageCodeStyleSettingsProvider.SettingsType.LANGUAGE_SPECIFIC
     }
 
-    @Override
-    protected @NlsContexts.TabTitle @NotNull String getTabTitle() {
-        return "Align Token";
+    override fun customizeSettings() {
+        val provider = LanguageCodeStyleSettingsProvider.forLanguage(AngelScriptLanguage.instance)
+        provider?.customizeSettings(this, settingsType)
     }
 
-    @Override
-    public LanguageCodeStyleSettingsProvider.SettingsType getSettingsType() {
-        return LanguageCodeStyleSettingsProvider.SettingsType.LANGUAGE_SPECIFIC;
-    }
+    override fun getFileType(): FileType = AngelScriptFileType.instance
 
-    @Override
-    protected void customizeSettings() {
-        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(AngelScriptLanguage.INSTANCE);
-        if (provider != null) provider.customizeSettings(this, getSettingsType());
-    }
+    override fun getDefaultLanguage(): Language = AngelScriptLanguage.instance
 
-    @Override
-    @NotNull
-    protected final FileType getFileType() {
-        return AngelScriptFileType.INSTANCE;
-    }
-
-    @Nullable
-    @Override
-    public Language getDefaultLanguage() {
-        return AngelScriptLanguage.INSTANCE;
+    companion object {
+        @JvmField
+        var ENUM: @NlsContexts.Label String? = "Enum"
     }
 }

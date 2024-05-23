@@ -24,7 +24,7 @@ public final class VjassFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "VJASS language file";
+        return "VJASS";
     }
 
     @NotNull

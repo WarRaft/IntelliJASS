@@ -28,7 +28,7 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @NotNull
     @Override
     public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
-        return new CodeStyleAbstractConfigurable(settings, modelSettings, AngelScriptLanguage.INSTANCE.getDisplayName()) {
+        return new CodeStyleAbstractConfigurable(settings, modelSettings, AngelScriptLanguage.Companion.getInstance().getDisplayName()) {
             @Override
             protected @NotNull CodeStyleAbstractPanel createPanel(final @NotNull CodeStyleSettings settings) {
                 return new AngelScriptCodeStyleMainPanel(getCurrentSettings(), settings);
@@ -44,7 +44,7 @@ final class AngelScriptLanguageCodeStyleSettingsProvider extends LanguageCodeSty
     @NotNull
     @Override
     public Language getLanguage() {
-        return AngelScriptLanguage.INSTANCE;
+        return AngelScriptLanguage.Companion.getInstance();
     }
 
     private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {

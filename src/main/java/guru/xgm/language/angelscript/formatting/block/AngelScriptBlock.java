@@ -104,7 +104,7 @@ public class AngelScriptBlock implements ASTBlock {
     }
 
     protected SpacingBuilder getSpacingBuilder() {
-        var sb = new SpacingBuilder(settings.code, AngelScriptLanguage.INSTANCE);
+        var sb = new SpacingBuilder(settings.code, AngelScriptLanguage.Companion.getInstance());
 
         final int saao = settings.common.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0;
         sb = sb.around(EQ).spacing(saao, saao, 0, false, 0)

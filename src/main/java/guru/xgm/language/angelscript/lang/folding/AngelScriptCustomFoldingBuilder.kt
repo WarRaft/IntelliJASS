@@ -13,17 +13,16 @@ import com.intellij.psi.util.elementType
 import com.intellij.refactoring.suggested.startOffset
 import guru.xgm.intellij.lang.injection.general.IntellijScriptInjector.Companion.INJECT_JASS
 import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase
-import guru.xgm.language.angelscript.lang.AngelScriptParserDefinition
+import guru.xgm.language.angelscript.lang.ANGELSCRIPT_FILE
 import guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings.Companion.instance
 import guru.xgm.language.angelscript.psi.AngelScriptEnums
-import guru.xgm.language.angelscript.psi.AngelScriptTypes
 import guru.xgm.language.angelscript.psi.AngelScriptTypes.ENUMS
 import guru.xgm.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT
 
 internal class AngelScriptCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun isCustomFoldingRoot(node: ASTNode): Boolean {
         val type = node.elementType
-        return type === AngelScriptParserDefinition.ANGELSCRIPT_FILE || type === ENUMS
+        return type === ANGELSCRIPT_FILE || type === ENUMS
     }
 
     override fun buildLanguageFoldRegions(

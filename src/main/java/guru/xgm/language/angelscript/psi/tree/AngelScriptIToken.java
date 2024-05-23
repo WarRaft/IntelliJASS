@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class AngelScriptIToken extends IElementType {
 
     public AngelScriptIToken(@NotNull @NonNls String debugName) {
-        super(debugName, AngelScriptLanguage.INSTANCE);
+        super(debugName, AngelScriptLanguage.Companion.getInstance());
     }
 
     @Override

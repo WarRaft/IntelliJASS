@@ -1,42 +1,22 @@
-package guru.xgm.language.angelscript.openapi.fileTypes;
+package guru.xgm.language.angelscript.openapi.fileTypes
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import guru.xgm.language.angelscript.icons.AngelScriptIcons;
-import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.LanguageFileType
+import guru.xgm.language.angelscript.icons.AngelScriptIcons
+import guru.xgm.language.angelscript.lang.AngelScriptLanguage
+import javax.swing.Icon
 
-import javax.swing.*;
+class AngelScriptFileType private constructor() : LanguageFileType(AngelScriptLanguage.instance) {
+    override fun getName(): String = AngelScriptLanguage.NAME
 
-public final class AngelScriptFileType extends LanguageFileType {
+    override fun getDescription(): String = AngelScriptLanguage.NAME
 
-    public static final AngelScriptFileType INSTANCE = new AngelScriptFileType();
+    override fun getDefaultExtension(): String = EXTENSION
 
-    public static final String EXTENSION = "as";
+    override fun getIcon(): Icon = AngelScriptIcons.FILE
 
-    private AngelScriptFileType() {
-        super(AngelScriptLanguage.INSTANCE);
-    }
-
-    @NotNull
-    @Override
-    public String getName() {
-        return "AngelScript";
-    }
-
-    @NotNull
-    @Override
-    public String getDescription() {
-        return "AngelScript";
-    }
-
-    @NotNull
-    @Override
-    public String getDefaultExtension() {
-        return AngelScriptFileType.EXTENSION;
-    }
-
-    @Override
-    public @NotNull Icon getIcon() {
-        return AngelScriptIcons.FILE;
+    @Suppress("CompanionObjectInExtension")
+    companion object {
+        val instance: AngelScriptFileType = AngelScriptFileType()
+        const val EXTENSION: String = "as"
     }
 }

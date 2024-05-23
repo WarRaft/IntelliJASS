@@ -1,66 +1,36 @@
-package guru.xgm.language.angelscript.lang;
+package guru.xgm.language.angelscript.lang
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiParser;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
-import guru.xgm.language.angelscript.psi.AngelScriptTokenSets;
-import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase;
-import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter;
-import guru.xgm.language.angelscript.parser.AngelScriptParser;
-import guru.xgm.language.angelscript.psi.AngelScriptTypes;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.ASTNode
+import com.intellij.lang.ParserDefinition
+import com.intellij.lang.PsiParser
+import com.intellij.lexer.Lexer
+import com.intellij.openapi.project.Project
+import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import com.intellij.psi.tree.IFileElementType
+import com.intellij.psi.tree.TokenSet
+import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase
+import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter
+import guru.xgm.language.angelscript.parser.AngelScriptParser
+import guru.xgm.language.angelscript.psi.AngelScriptTokenSets
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-public final class AngelScriptParserDefinition implements ParserDefinition {
+class AngelScriptParserDefinition : ParserDefinition {
+    override fun createLexer(project: Project): Lexer = AngelScriptFlexAdapter()
 
-    public static final IFileElementType ANGELSCRIPT_FILE = new IFileElementType(AngelScriptLanguage.INSTANCE);
+    override fun getCommentTokens(): TokenSet = AngelScriptTokenSets.COMMENTS
 
-    @NotNull
-    @Override
-    public Lexer createLexer(Project project) {
-        return new AngelScriptFlexAdapter();
-    }
+    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    @NotNull
-    @Override
-    public TokenSet getCommentTokens() {
-        return AngelScriptTokenSets.COMMENTS;
-    }
+    override fun createParser(project: Project): PsiParser = AngelScriptParser()
 
-    @NotNull
-    @Override
-    public TokenSet getStringLiteralElements() {
-        return TokenSet.EMPTY;
-    }
+    override fun getFileNodeType(): IFileElementType = ANGELSCRIPT_FILE
 
-    @NotNull
-    @Override
-    public PsiParser createParser(final Project project) {
-        return new AngelScriptParser();
-    }
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = AngelScriptPsiFileBase(viewProvider)
 
-    @NotNull
-    @Override
-    public IFileElementType getFileNodeType() {
-        return ANGELSCRIPT_FILE;
-    }
-
-    @NotNull
-    @Override
-    public PsiFile createFile(@NotNull FileViewProvider viewProvider) {
-        return new AngelScriptPsiFileBase(viewProvider);
-    }
-
-    @NotNull
-    @Override
-    public PsiElement createElement(ASTNode node) {
-        return AngelScriptTypes.Factory.createElement(node);
-    }
+    override fun createElement(node: ASTNode): PsiElement = AngelScriptTypes.Factory.createElement(node)
 
 }
+
+val ANGELSCRIPT_FILE: IFileElementType = IFileElementType(AngelScriptLanguage.instance)

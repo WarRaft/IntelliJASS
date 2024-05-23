@@ -24,7 +24,7 @@ public final class LniFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "LNI language file";
+        return "LNI";
     }
 
     @NotNull
