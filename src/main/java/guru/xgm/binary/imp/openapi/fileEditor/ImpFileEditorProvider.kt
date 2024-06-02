@@ -1,4 +1,4 @@
-package guru.xgm.binary.openapi.fileEditor
+package guru.xgm.binary.imp.openapi.fileEditor
 
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorPolicy
@@ -9,15 +9,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import org.jdom.Element
 
-class ImgFileEditorProvider : FileEditorProvider, DumbAware {
+class ImpFileEditorProvider : FileEditorProvider, DumbAware {
 
-    override fun accept(project: Project, file: VirtualFile): Boolean {
-        return file.extension == "blp"
-    }
+    override fun accept(project: Project, file: VirtualFile): Boolean = file.extension == EXTENSION
 
-    override fun createEditor(project: Project, file: VirtualFile): FileEditor = ImgFileEditor(file)
-
-    override fun disposeEditor(editor: FileEditor) = editor.dispose()
+    override fun createEditor(project: Project, file: VirtualFile): FileEditor = ImpFileEditor(project, file)
 
     override fun getEditorTypeId(): String = EDITOR_TYPE_ID
 
@@ -29,7 +25,9 @@ class ImgFileEditorProvider : FileEditorProvider, DumbAware {
     override fun writeState(state: FileEditorState, project: Project, targetElement: Element) {}
 
     companion object {
-        private const val EDITOR_TYPE_ID = "img"
+        const val EXTENSION: String = "imp"
+
+        private const val EDITOR_TYPE_ID = EXTENSION
     }
 
 }

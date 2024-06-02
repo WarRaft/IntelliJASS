@@ -59,7 +59,7 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
     @Override
     @NotNull
     protected final FileType getFileType() {
-        return LniFileType.INSTANCE;
+        return LniFileType.Companion.getInstance();
     }
 
     @Nullable

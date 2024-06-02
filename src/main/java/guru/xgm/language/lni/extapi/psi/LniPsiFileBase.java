@@ -16,7 +16,7 @@ public class LniPsiFileBase extends PsiFileBase {
     @NotNull
     @Override
     public FileType getFileType() {
-        return LniFileType.INSTANCE;
+        return LniFileType.Companion.getInstance();
     }
 
     @Override

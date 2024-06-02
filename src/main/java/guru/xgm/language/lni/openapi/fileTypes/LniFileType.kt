@@ -1,40 +1,23 @@
-package guru.xgm.language.lni.openapi.fileTypes;
+package guru.xgm.language.lni.openapi.fileTypes
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import guru.xgm.language.lni.icons.LniIcons;
-import guru.xgm.language.lni.lang.LniLanguage;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.LanguageFileType
+import guru.xgm.language.lni.icons.LniIcons
+import guru.xgm.language.lni.lang.LniLanguage
+import javax.swing.Icon
 
-import javax.swing.*;
+class LniFileType private constructor() : LanguageFileType(LniLanguage.INSTANCE) {
+    override fun getName(): String = "LNI"
 
-public final class LniFileType extends LanguageFileType {
+    override fun getDescription(): String = "LNI"
 
-    public static final LniFileType INSTANCE = new LniFileType();
+    override fun getDefaultExtension(): String = EXTENSION
 
-    private LniFileType() {
-        super(LniLanguage.INSTANCE);
-    }
+    override fun getIcon(): Icon = LniIcons.FILE
 
-    @NotNull
-    @Override
-    public String getName() {
-        return "LNI";
-    }
+    @Suppress("CompanionObjectInExtension")
+    companion object {
+        val instance: LniFileType = LniFileType()
 
-    @NotNull
-    @Override
-    public String getDescription() {
-        return "LNI";
-    }
-
-    @NotNull
-    @Override
-    public String getDefaultExtension() {
-        return "lni";
-    }
-
-    @Override
-    public @NotNull Icon getIcon() {
-        return LniIcons.FILE;
+        const val EXTENSION: String = "lni"
     }
 }

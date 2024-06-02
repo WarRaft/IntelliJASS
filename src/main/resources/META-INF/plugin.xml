@@ -207,10 +207,11 @@
         <!-- TODO:LNI -->
         <fileType name="LNI"
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
-                  fieldName="INSTANCE"
+                  fieldName="instance"
                   language="LNI"
-                  extensions="lni"
+                  extensions="lni;imp"
         />
+
         <lang.parserDefinition language="LNI"
                                implementationClass="guru.xgm.language.lni.lang.LniParserDefinition"/>
 
@@ -239,6 +240,8 @@
                 language="LNI"
                 implementationClass="guru.xgm.language.lni.lang.LniCommenter"/>
 
+        <!-- imp -->
+        <fileEditorProvider implementation="guru.xgm.binary.imp.openapi.fileEditor.ImpFileEditorProvider"/>
 
         <!-- TODO:WTS -->
         <fileType name="WTS"
