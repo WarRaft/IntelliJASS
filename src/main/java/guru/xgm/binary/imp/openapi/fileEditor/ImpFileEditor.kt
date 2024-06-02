@@ -7,10 +7,7 @@ import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.editor.highlighter.EditorHighlighter
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory
-import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.openapi.fileEditor.FileEditor
-import com.intellij.openapi.fileEditor.FileEditorState
-import com.intellij.openapi.fileEditor.FileEditorStateLevel
+import com.intellij.openapi.fileEditor.*
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
@@ -52,6 +49,8 @@ class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEdito
 
         val document = factory.createDocument(loadFileContent(file))
         editor = factory.createEditor(document, project, LniFileType.instance, false) as EditorEx
+
+        
     }
 
     private fun loadFileContent(file: VirtualFile): String {

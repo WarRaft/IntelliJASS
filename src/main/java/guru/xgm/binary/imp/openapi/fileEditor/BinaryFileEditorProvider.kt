@@ -9,13 +9,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import org.jdom.Element
 
-class ImpFileEditorProvider : FileEditorProvider, DumbAware {
+class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
 
-    override fun accept(project: Project, file: VirtualFile): Boolean = file.extension == EXTENSION
+    override fun accept(project: Project, file: VirtualFile): Boolean = file.extension in extensions
 
     override fun createEditor(project: Project, file: VirtualFile): FileEditor = ImpFileEditor(project, file)
 
-    override fun getEditorTypeId(): String = EDITOR_TYPE_ID
+    override fun getEditorTypeId(): String = "Warcraft Binary File Editor"
 
     override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 
@@ -24,10 +24,6 @@ class ImpFileEditorProvider : FileEditorProvider, DumbAware {
 
     override fun writeState(state: FileEditorState, project: Project, targetElement: Element) {}
 
-    companion object {
-        const val EXTENSION: String = "imp"
-
-        private const val EDITOR_TYPE_ID = EXTENSION
-    }
-
 }
+
+private val extensions = setOf("imp")
