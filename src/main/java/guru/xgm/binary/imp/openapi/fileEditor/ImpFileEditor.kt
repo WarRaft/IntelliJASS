@@ -49,8 +49,6 @@ class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEdito
 
         val document = factory.createDocument(loadFileContent(file))
         editor = factory.createEditor(document, project, LniFileType.instance, false) as EditorEx
-
-        
     }
 
     private fun loadFileContent(file: VirtualFile): String {
@@ -73,6 +71,7 @@ class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEdito
          */
     }
 
+
     override fun getBackgroundHighlighter(): BackgroundEditorHighlighter? {
         return editor.project?.let { TextEditorBackgroundHighlighter(it, editor) }
     }
@@ -87,7 +86,7 @@ class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEdito
 
     override fun <T : Any?> putUserData(key: Key<T>, value: T?) {}
 
-    override fun getName(): String = "Import"
+    override fun getName(): String = "Warcraft Binary File Editor"
 
     override fun setState(state: FileEditorState) {}
 

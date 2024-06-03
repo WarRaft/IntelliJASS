@@ -11,11 +11,11 @@ import javax.imageio.spi.ImageWriterSpi
 
 class BlpMetadataRegistrar : AppLifecycleListener, DynamicPluginListener {
     override fun appFrameCreated(commandLineArgs: List<String>) {
-        ensureQoiRegistered()
+        ensureBlpRegistered()
     }
 
     override fun pluginLoaded(pluginDescriptor: IdeaPluginDescriptor) {
-        ensureQoiRegistered()
+        ensureBlpRegistered()
     }
 
     override fun beforePluginUnload(pluginDescriptor: IdeaPluginDescriptor, isUpdate: Boolean) {
@@ -28,7 +28,7 @@ class BlpMetadataRegistrar : AppLifecycleListener, DynamicPluginListener {
         private val IMAGE_READER_PROVIDER: ImageReaderSpi = BlpReaderSpi()
         private val IMAGE_WRITER_PROVIDER: ImageWriterSpi = BlpWriterSpi()
 
-        fun ensureQoiRegistered() {
+        private fun ensureBlpRegistered() {
             val defaultInstance = IIORegistry.getDefaultInstance()
             defaultInstance.registerServiceProvider(IMAGE_READER_PROVIDER, ImageReaderSpi::class.java)
             defaultInstance.registerServiceProvider(IMAGE_WRITER_PROVIDER, ImageWriterSpi::class.java)
