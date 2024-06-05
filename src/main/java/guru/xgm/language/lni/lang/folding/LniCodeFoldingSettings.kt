@@ -1,34 +1,27 @@
-package guru.xgm.language.lni.lang.folding;
+package guru.xgm.language.lni.lang.folding
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.SettingsCategory;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.util.xmlb.XmlSerializerUtil;
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.SettingsCategory
+import com.intellij.openapi.components.State
+import com.intellij.openapi.components.Storage
+import com.intellij.util.xmlb.XmlSerializerUtil
 
-@Setter
-@Getter
-@State(name = "LniCodeFoldingSettings", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
-public class LniCodeFoldingSettings implements PersistentStateComponent<LniCodeFoldingSettings> {
-    private boolean foldItem = false;
-    private boolean foldList = false;
+@State(name = "LniCodeFoldingSettings", storages = [Storage("editor.xml")], category = SettingsCategory.CODE)
+class LniCodeFoldingSettings : PersistentStateComponent<LniCodeFoldingSettings> {
+    var isFoldItem: Boolean = false
+    var isFoldList: Boolean = false
 
-    public static LniCodeFoldingSettings getInstance() {
-        return ApplicationManager.getApplication().getService(LniCodeFoldingSettings.class);
+    override fun getState(): LniCodeFoldingSettings {
+        return this
     }
 
-    @Override
-    public LniCodeFoldingSettings getState() {
-        return this;
+    override fun loadState(state: LniCodeFoldingSettings) {
+        XmlSerializerUtil.copyBean(state, this)
     }
 
-    @Override
-    public void loadState(@NotNull final LniCodeFoldingSettings state) {
-        XmlSerializerUtil.copyBean(state, this);
+    companion object {
+        val instance: LniCodeFoldingSettings
+            get() = ApplicationManager.getApplication().getService(LniCodeFoldingSettings::class.java)
     }
-
 }

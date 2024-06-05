@@ -241,8 +241,9 @@
                 implementationClass="guru.xgm.language.lni.lang.LniCommenter"/>
 
         <!-- imp -->
-
+        <!--
         <fileEditorProvider implementation="guru.xgm.binary.imp.openapi.fileEditor.BinaryFileEditorProvider"/>
+        -->
 
         <!-- TODO:WTS -->
         <fileType name="WTS"

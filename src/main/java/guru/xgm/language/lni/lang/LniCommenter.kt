@@ -1,31 +1,15 @@
-package guru.xgm.language.lni.lang;
+package guru.xgm.language.lni.lang
 
-import com.intellij.lang.Commenter;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.Commenter
 
-public class LniCommenter implements Commenter {
-    @Override
-    public @Nullable String getLineCommentPrefix() {
-        return "//";
-    }
+class LniCommenter : Commenter {
+    override fun getLineCommentPrefix(): String = "//"
 
-    @Override
-    public @Nullable String getBlockCommentPrefix() {
-        return null;
-    }
+    override fun getBlockCommentPrefix(): String? = null
 
-    @Override
-    public @Nullable String getBlockCommentSuffix() {
-        return null;
-    }
+    override fun getBlockCommentSuffix(): String? = null
 
-    @Override
-    public @Nullable String getCommentedBlockCommentPrefix() {
-        return null;
-    }
+    override fun getCommentedBlockCommentPrefix(): String? = null
 
-    @Override
-    public @Nullable String getCommentedBlockCommentSuffix() {
-        return null;
-    }
+    override fun getCommentedBlockCommentSuffix(): String? = null
 }

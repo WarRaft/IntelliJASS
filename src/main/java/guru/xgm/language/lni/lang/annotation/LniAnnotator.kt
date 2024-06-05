@@ -1,12 +1,10 @@
-package guru.xgm.language.lni.lang.annotation;
+package guru.xgm.language.lni.lang.annotation
 
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
+import com.intellij.psi.PsiElement
 
-final class LniAnnotator implements Annotator {
-    @Override
-    public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
+internal class LniAnnotator : Annotator {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
     }
 }

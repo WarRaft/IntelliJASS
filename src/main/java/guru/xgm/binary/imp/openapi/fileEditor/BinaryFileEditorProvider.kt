@@ -15,7 +15,7 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
 
     override fun createEditor(project: Project, file: VirtualFile): FileEditor = ImpFileEditor(project, file)
 
-    override fun getEditorTypeId(): String = "Warcraft Binary File Editor"
+    override fun getEditorTypeId(): String = ID
 
     override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 
@@ -23,6 +23,10 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
         FileEditorState.INSTANCE
 
     override fun writeState(state: FileEditorState, project: Project, targetElement: Element) {}
+
+    companion object {
+        const val ID = "Warcraft Binary File Editor"
+    }
 
 }
 

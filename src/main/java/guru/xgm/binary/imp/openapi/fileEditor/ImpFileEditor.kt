@@ -11,6 +11,7 @@ import com.intellij.openapi.fileEditor.*
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
+import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
 import guru.xgm.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
@@ -20,7 +21,7 @@ import javax.swing.JComponent
 // EditorTextEditor
 
 // https://plugins.jetbrains.com/docs/intellij/editor-components.html#providing-completion
-class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEditor {
+class ImpFileEditor(project: Project, private val file: VirtualFile) : UserDataHolderBase(), FileEditor {
 
     //private val scrollPane: JScrollPane
     private val editor: EditorEx
@@ -86,7 +87,7 @@ class ImpFileEditor(project: Project, private val file: VirtualFile) : FileEdito
 
     override fun <T : Any?> putUserData(key: Key<T>, value: T?) {}
 
-    override fun getName(): String = "Warcraft Binary File Editor"
+    override fun getName(): String = BinaryFileEditorProvider.ID
 
     override fun setState(state: FileEditorState) {}
 

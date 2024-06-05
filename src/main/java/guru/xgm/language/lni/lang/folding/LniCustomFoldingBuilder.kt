@@ -1,96 +1,100 @@
-package guru.xgm.language.lni.lang.folding;
+package guru.xgm.language.lni.lang.folding
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.CustomFoldingBuilder;
-import com.intellij.lang.folding.FoldingDescriptor;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.lang.ASTNode
+import com.intellij.lang.folding.CustomFoldingBuilder
+import com.intellij.lang.folding.FoldingDescriptor
+import com.intellij.openapi.editor.Document
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
+import guru.xgm.language.lni.extapi.psi.LniPsiFileBase
+import guru.xgm.language.lni.lang.LniParserDefinition
+import guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings.Companion.instance
+import guru.xgm.language.lni.psi.*
 
-import guru.xgm.language.lni.extapi.psi.LniPsiFileBase;
-import guru.xgm.language.lni.lang.LniParserDefinition;
-import guru.xgm.language.lni.psi.*;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
-import java.util.List;
-
-final class LniCustomFoldingBuilder extends CustomFoldingBuilder implements DumbAware {
-
-    @Override
-    protected boolean isCustomFoldingRoot(@NotNull final ASTNode node) {
-        final IElementType type = node.getElementType();
-        return type == LniParserDefinition.LNI_FILE || type == LniTypes.HEAD;
+internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
+    override fun isCustomFoldingRoot(node: ASTNode): Boolean {
+        val type = node.elementType
+        return type === LniParserDefinition.LNI_FILE || type === LniTypes.HEAD
     }
 
-    @Override
-    protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> descriptors, @NotNull PsiElement root, @NotNull Document document, boolean quick) {
-        if (!(root instanceof LniPsiFileBase)) return;
+    override fun buildLanguageFoldRegions(
+        descriptors: MutableList<FoldingDescriptor>,
+        root: PsiElement,
+        document: Document,
+        quick: Boolean
+    ) {
+        if (root !is LniPsiFileBase) return
 
-        final Collection<PsiElement> psiElements = PsiTreeUtil.findChildrenOfAnyType(
-                root,
-                PsiComment.class,
-                LniItem.class,
-                LniList.class
-        );
+        val psiElements = PsiTreeUtil.findChildrenOfAnyType(
+            root,
+            PsiComment::class.java,
+            LniItem::class.java,
+            LniList::class.java
+        )
 
-        for (PsiElement element : psiElements) {
-            final int end = element.getTextOffset() + element.getTextLength();
+        for (element in psiElements) {
+            val end = element.textOffset + element.textLength
 
-            if (element instanceof LniItem item) {
-                int start;
-                final var head = item.getHead();
+            if (element is LniItem) {
+                var start: Int
+                val head: LniHead? = element.head
                 if (head == null) {
-                    final var list = item.getPropertyList();
-                    if (list.isEmpty()) continue;
-                    final var id = list.get(0).getId();
-                    start = id.getTextOffset() + id.getTextLength();
+                    val list: List<LniProperty> = element.propertyList
+                    if (list.isEmpty()) continue
+                    val id = list[0].id
+                    start = id.textOffset + id.textLength
                 } else {
-                    start = head.getTextOffset() + head.getTextLength();
+                    start = head.textOffset + head.textLength
                 }
 
-                if (start < 0) continue;
-                descriptors.add(new FoldingDescriptor(element, TextRange.create(start, end)));
-                continue;
+                if (start < 0) continue
+                descriptors.add(FoldingDescriptor(element, TextRange.create(start, end)))
+                continue
             }
 
-            if (element instanceof LniList list) {
-                final var lb = list.getLbrace();
-                final var rb = list.getRbrace();
-                descriptors.add(new FoldingDescriptor(element, TextRange.create(lb.getTextOffset() + lb.getTextLength(), rb.getTextOffset())));
+            /*
+            if (element is LniList) {
+                val lb: PsiElement = element.lbrace
+                val rb: PsiElement = element.rbrace
+
+                descriptors.add(
+                    FoldingDescriptor(
+                        element,
+                        TextRange.create(lb.textOffset + lb.textLength, rb.textOffset)
+                    )
+                )
             }
+
+             */
         }
     }
 
-    @Override
-    protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
-        final IElementType type = node.getElementType();
-        if (type == LniTypes.ITEM) {
-            final var psi = node.getPsi(LniItem.class);
-            final int size = psi.getPropertyList().size();
-            return size == 0 ? "..." : "...(" + size + ")";
+    override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String? {
+        val type = node.elementType
+        if (type === LniTypes.ITEM) {
+            val psi = node.getPsi(LniItem::class.java)
+            val size = psi.propertyList.size
+            return if (size == 0) "..." else "...($size)"
         }
 
-        if (type == LniTypes.LIST) {
-            final var psi = node.getPsi(LniList.class);
-            final int size = psi.getListItemList().size();
-            return size == 0 ? "..." : "(" + size + ")";
+        if (type === LniTypes.LIST) {
+            val psi = node.getPsi(LniList::class.java)
+            val size = psi.listItemList.size
+            return if (size == 0) "..." else "($size)"
         }
 
-        return null;
+        return null
     }
 
-    @Override
-    protected boolean isRegionCollapsedByDefault(@NotNull ASTNode node) {
-        final IElementType type = node.getElementType();
-        final var settings = LniCodeFoldingSettings.getInstance();
+    override fun isRegionCollapsedByDefault(node: ASTNode): Boolean {
+        val type = node.elementType
+        val settings = instance
 
-        if (type == LniTypes.ITEM) return settings.isFoldItem();
-        if (type == LniTypes.LIST) return settings.isFoldList();
-        return false;
+        if (type === LniTypes.ITEM) return settings.isFoldItem
+        if (type === LniTypes.LIST) return settings.isFoldList
+        return false
     }
 }
