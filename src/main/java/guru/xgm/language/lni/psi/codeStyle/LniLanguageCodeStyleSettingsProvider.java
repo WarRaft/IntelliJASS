@@ -27,7 +27,7 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     @NotNull
     @Override
     public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
-        return new CodeStyleAbstractConfigurable(settings, modelSettings, LniLanguage.INSTANCE.getDisplayName()) {
+        return new CodeStyleAbstractConfigurable(settings, modelSettings, LniLanguage.Companion.getInstance().getDisplayName()) {
             @Override
             protected @NotNull CodeStyleAbstractPanel createPanel(final @NotNull CodeStyleSettings settings) {
                 return new LniCodeStyleMainPanel(getCurrentSettings(), settings);
@@ -43,7 +43,7 @@ final class LniLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     @NotNull
     @Override
     public Language getLanguage() {
-        return LniLanguage.INSTANCE;
+        return LniLanguage.Companion.getInstance();
     }
 
     private static void addToGroup(@NotNull CodeStyleSettingsCustomizable consumer, Pair<String, String>[] list, String group) {

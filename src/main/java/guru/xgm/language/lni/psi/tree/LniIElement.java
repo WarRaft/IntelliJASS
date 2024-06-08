@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class LniIElement extends IElementType {
 
     public LniIElement(@NotNull @NonNls String debugName) {
-        super(debugName, LniLanguage.INSTANCE);
+        super(debugName, LniLanguage.Companion.getInstance());
     }
 
     @Override

@@ -1,10 +1,9 @@
-package guru.xgm.language.lni.icons;
+package guru.xgm.language.lni.icons
 
-import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import com.intellij.openapi.util.IconLoader.getIcon
+import javax.swing.Icon
 
 // https://www.svgrepo.com/collection/halloween-20/
-public class LniIcons {
-    public static final Icon FILE = IconLoader.getIcon("/icons/lni.svg", LniIcons.class);
+object LniIcons {
+    val FILE: Icon = getIcon("/icons/lni.svg", LniIcons::class.java)
 }

@@ -1,11 +1,10 @@
-package guru.xgm.language.lni.lang;
+package guru.xgm.language.lni.lang
 
-import com.intellij.lang.Language;
+import com.intellij.lang.Language
 
-public class LniLanguage extends Language {
-    public static final LniLanguage INSTANCE = new LniLanguage();
-
-    private LniLanguage() {
-        super("LNI");
+class LniLanguage : Language(NAME) {
+    companion object {
+        const val NAME = "LNI"
+        val instance = LniLanguage()
     }
 }

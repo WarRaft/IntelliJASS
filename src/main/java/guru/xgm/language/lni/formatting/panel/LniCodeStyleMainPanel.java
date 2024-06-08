@@ -7,7 +7,7 @@ import guru.xgm.language.lni.lang.LniLanguage;
 
 public class LniCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
     public LniCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
-        super(LniLanguage.INSTANCE, currentSettings, settings);
+        super(LniLanguage.Companion.getInstance(), currentSettings, settings);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class LniCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
         super.initTabs(settings);
         addTab(new LniAlignTokenPanel(settings));
         for (CodeStyleSettingsProvider provider : CodeStyleSettingsProvider.EXTENSION_POINT_NAME.getExtensionList()) {
-            if (provider.getLanguage() == LniLanguage.INSTANCE && !provider.hasSettingsPage()) {
+            if (provider.getLanguage() == LniLanguage.Companion.getInstance() && !provider.hasSettingsPage()) {
                 createTab(provider);
             }
         }

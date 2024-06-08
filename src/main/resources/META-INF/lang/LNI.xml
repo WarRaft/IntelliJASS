@@ -4,7 +4,7 @@
                   implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="instance"
                   language="LNI"
-                  extensions="lni;imp"
+                  extensions="ini;imp"
         />
 
         <lang.parserDefinition language="LNI"

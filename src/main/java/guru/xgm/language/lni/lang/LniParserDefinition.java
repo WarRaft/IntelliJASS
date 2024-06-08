@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class LniParserDefinition implements ParserDefinition {
 
-    public static final IFileElementType LNI_FILE = new IFileElementType(LniLanguage.INSTANCE);
+    public static final IFileElementType LNI_FILE = new IFileElementType(LniLanguage.Companion.getInstance());
 
     @NotNull
     @Override

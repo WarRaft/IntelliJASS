@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class LniIToken extends IElementType {
 
     public LniIToken(@NotNull @NonNls String debugName) {
-        super(debugName, LniLanguage.INSTANCE);
+        super(debugName, LniLanguage.Companion.getInstance());
     }
 
     @Override

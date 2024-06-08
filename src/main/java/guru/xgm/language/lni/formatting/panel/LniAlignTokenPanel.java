@@ -11,8 +11,6 @@ import guru.xgm.language.lni.openapi.fileTypes.LniFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
     public LniAlignTokenPanel(CodeStyleSettings settings) {
         super(settings);
@@ -36,11 +34,6 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
     }
 
     @Override
-    public JComponent getPanel() {
-        return myPanel;
-    }
-
-    @Override
     protected @NlsContexts.TabTitle @NotNull String getTabTitle() {
         return "Align Token";
     }
@@ -52,7 +45,7 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
 
     @Override
     protected void customizeSettings() {
-        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(LniLanguage.INSTANCE);
+        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(LniLanguage.Companion.getInstance());
         if (provider != null) provider.customizeSettings(this, getSettingsType());
     }
 
@@ -65,6 +58,6 @@ public class LniAlignTokenPanel extends OptionTreeWithPreviewPanel {
     @Nullable
     @Override
     public Language getDefaultLanguage() {
-        return LniLanguage.INSTANCE;
+        return LniLanguage.Companion.getInstance();
     }
 }
