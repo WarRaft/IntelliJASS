@@ -1,106 +1,63 @@
-package guru.xgm.language.lni.formatting.block;
+package guru.xgm.language.lni.formatting.block
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.formatter.FormatterUtil;
-import guru.xgm.language.lni.lang.LniLanguage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.formatting.*
+import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.lni.lang.LniLanguage
+import guru.xgm.language.lni.psi.LniTypes
 
-import java.util.ArrayList;
-import java.util.List;
+open class LniBlock(
+    protected val myNode: ASTNode,
+    protected val myAlignment: Alignment? = null,
+    protected val myIndent: Indent? = null,
+    protected val myCodeStyleSettings: CodeStyleSettings
+) : ASTBlock {
+    private val myWrap: Wrap? = null
+    private var mySubBlocks: MutableList<Block>? = null
+    private var mySpacingBuilder: SpacingBuilder? = null
 
-import static guru.xgm.language.lni.psi.LniTypes.EQ;
-
-public class LniBlock implements ASTBlock {
-
-    public LniBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
-        this.myNode = myNode;
-        this.myWrap = null;
-        this.myAlignment = myAlignment;
-        this.myIndent = myIndent;
-        this.myCodeStyleSettings = codeStyleSettings;
-    }
-
-    protected final ASTNode myNode;
-    protected final Wrap myWrap;
-    protected final Alignment myAlignment;
-    protected final Indent myIndent;
-    protected final CodeStyleSettings myCodeStyleSettings;
-    private List<Block> mySubBlocks = null;
-    private SpacingBuilder mySpacingBuilder = null;
-
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-        Indent indent = Indent.getNoneIndent();
+    open fun makeSubBlock(childNode: ASTNode): Block {
+        val indent = Indent.getNoneIndent()
         //if (isOneOf(childNode, STMT)) indent = Indent.getNormalIndent();
-        return new LniBlock(childNode, null, indent, myCodeStyleSettings);
+        return LniBlock(childNode, null, indent, myCodeStyleSettings)
     }
 
-    @Override
-    public @NotNull List<Block> getSubBlocks() {
-        if (mySubBlocks == null) {
-            ASTNode[] children = myNode.getChildren(null);
-            mySubBlocks = new ArrayList<>(children.length);
-            for (ASTNode child : children) {
-                if (FormatterUtil.isWhitespaceOrEmpty(child)) continue;
-                mySubBlocks.add(makeSubBlock(child));
-            }
+    override fun getSubBlocks(): List<Block> {
+        if (mySubBlocks != null) return mySubBlocks!!
+        val children = myNode.getChildren(null)
+        mySubBlocks = mutableListOf()
+        for (child in children) {
+            if (FormatterUtil.isWhitespaceOrEmpty(child)) continue
+            mySubBlocks!!.add(makeSubBlock(child))
         }
-        return mySubBlocks;
+        return mySubBlocks!!
     }
 
-    @Override
-    public @Nullable ASTNode getNode() {
-        return myNode;
-    }
+    override fun getNode(): ASTNode = myNode
 
-    @Override
-    public @NotNull TextRange getTextRange() {
-        return myNode.getTextRange();
-    }
+    override fun getTextRange(): TextRange = myNode.textRange
 
-    @Override
-    public @Nullable Wrap getWrap() {
-        return myWrap;
-    }
+    override fun getWrap(): Wrap? = myWrap
 
-    @Override
-    public @Nullable Indent getIndent() {
-        return myIndent;
-    }
+    override fun getIndent(): Indent? = myIndent
 
-    @Override
-    public @Nullable Alignment getAlignment() {
-        return myAlignment;
-    }
+    override fun getAlignment(): Alignment? = myAlignment
 
-    protected SpacingBuilder getSpacingBuilder() {
+    private val spacingBuilder: SpacingBuilder
         //final CommonCodeStyleSettings code = myCodeStyleSettings.getCommonSettings(AngelScriptLanguage.INSTANCE.getID());
-        return new SpacingBuilder(myCodeStyleSettings, LniLanguage.INSTANCE)
-                .around(EQ).spacing(1, 1, 0, false, 0)
-                ;
+        get() = SpacingBuilder(myCodeStyleSettings, LniLanguage.INSTANCE)
+            .around(LniTypes.EQ).spacing(1, 1, 0, false, 0)
+
+    override fun getSpacing(block1: Block?, block2: Block): Spacing? {
+        if (mySpacingBuilder == null) mySpacingBuilder = spacingBuilder
+        return mySpacingBuilder!!.getSpacing(this, block1, block2)
     }
 
-    @Override
-    public @Nullable Spacing getSpacing(@Nullable Block block1, @NotNull Block block2) {
-        if (mySpacingBuilder == null) mySpacingBuilder = getSpacingBuilder();
-        return mySpacingBuilder.getSpacing(this, block1, block2);
-    }
+    override fun getChildAttributes(i: Int): ChildAttributes = ChildAttributes(Indent.getNoneIndent(), null)
 
-    @Override
-    public @NotNull ChildAttributes getChildAttributes(int i) {
-        return new ChildAttributes(Indent.getNoneIndent(), null);
-    }
+    override fun isIncomplete(): Boolean = false
 
-    @Override
-    public boolean isIncomplete() {
-        return false;
-    }
-
-    @Override
-    public boolean isLeaf() {
-        return myNode.getFirstChildNode() == null;
-    }
+    override fun isLeaf(): Boolean = myNode.firstChildNode == null
 }
