@@ -1,0 +1,44 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="LNI"
+                  implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
+                  fieldName="instance"
+                  language="LNI"
+                  extensions="lni;imp"
+        />
+
+        <lang.parserDefinition language="LNI"
+                               implementationClass="guru.xgm.language.lni.lang.LniParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="LNI"
+                                       implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniSyntaxHighlighterFactory"/>
+
+        <!-- annotator -->
+        <annotator language="LNI"
+                   implementationClass="guru.xgm.language.lni.lang.annotation.LniAnnotator"/>
+
+        <!-- folding -->
+        <lang.foldingBuilder language="LNI"
+                             implementationClass="guru.xgm.language.lni.lang.folding.LniCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="guru.xgm.language.lni.lang.folding.LniCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings"/>
+
+        <!-- formatter -->
+        <lang.formatter language="LNI"
+                        implementationClass="guru.xgm.language.lni.formatting.LniFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"/>
+
+        <!-- commenter -->
+        <lang.commenter
+                language="LNI"
+                implementationClass="guru.xgm.language.lni.lang.LniCommenter"/>
+
+        <!-- imp -->
+
+        <fileEditorProvider implementation="guru.xgm.binary.imp.openapi.fileEditor.BinaryFileEditorProvider"/>
+
+
+    </extensions>
+</idea-plugin>

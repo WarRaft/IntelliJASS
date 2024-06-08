@@ -1,0 +1,31 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="ZINC"
+                  implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincFileType"
+                  fieldName="INSTANCE"
+                  language="ZINC"
+                  extensions="zn"
+        />
+
+        <!-- parser -->
+        <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.language.zinc.lang.ZincParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="ZINC"
+                                       implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
+
+        <!-- formatter -->
+        <lang.formatter language="ZINC"
+                        implementationClass="guru.xgm.language.zinc.formatting.ZincFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider
+                implementation="guru.xgm.language.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
+
+        <!-- annotator -->
+        <annotator language="ZINC" implementationClass="guru.xgm.language.zinc.lang.annotation.ZincAnnotator"/>
+
+        <!-- commenter -->
+        <lang.commenter
+                language="ZINC"
+                implementationClass="guru.xgm.language.zinc.lang.ZincCommenter"/>
+    </extensions>
+</idea-plugin>

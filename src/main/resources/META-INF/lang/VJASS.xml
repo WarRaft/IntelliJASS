@@ -1,0 +1,23 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="VJASS"
+                  implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassFileType"
+                  fieldName="INSTANCE"
+                  language="VJASS"
+                  extensions="vj"
+        />
+
+        <!-- parser -->
+        <lang.parserDefinition language="VJASS"
+                               implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
+
+        <!-- highlight -->
+        <lang.syntaxHighlighterFactory language="VJASS"
+                                       implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+
+        <!-- commenter -->
+        <lang.commenter
+                language="VJASS"
+                implementationClass="guru.xgm.language.vjass.lang.VjassCommenter"/>
+    </extensions>
+</idea-plugin>

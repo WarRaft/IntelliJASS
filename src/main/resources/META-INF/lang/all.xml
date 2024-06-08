@@ -1,0 +1,21 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- colors -->
+        <colorProvider implementation="guru.xgm.intellij.openapi.editor.IntellijElementColorProvider"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/Darcula.xml"/>
+
+        <!-- file nesting -->
+        <projectViewNestingRulesProvider
+                implementation="guru.xgm.intellij.ide.projectView.IntellijProjectViewNestingRulesProvider"/>
+
+        <!-- typing -->
+        <typedHandler implementation="guru.xgm.intellij.codeInsight.IntellijTypedHandlerDelegate"/>
+
+        <!-- sdk -->
+        <sdkType implementation="guru.xgm.intellij.openapi.projectRoots.IntellijSdkType"/>
+        <postStartupActivity implementation="guru.xgm.intellij.openapi.startup.IntellijProjectActivity"/>
+
+        <!-- injection -->
+        <multiHostInjector implementation="guru.xgm.intellij.lang.injection.general.IntellijScriptInjector"/>
+    </extensions>
+</idea-plugin>
