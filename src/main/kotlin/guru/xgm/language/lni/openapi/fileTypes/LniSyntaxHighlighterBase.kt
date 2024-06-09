@@ -1,65 +1,67 @@
-package guru.xgm.language.lni.openapi.fileTypes;
+package guru.xgm.language.lni.openapi.fileTypes
 
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import guru.xgm.language.lni.lexer.LniFlexAdapter;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lexer.Lexer
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.HighlighterColors
+import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.editor.colors.TextAttributesKey.*
+import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
+import com.intellij.psi.TokenType
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
+import guru.xgm.language.lni.lexer.LniFlexAdapter
+import guru.xgm.language.lni.psi.LniTypes
 
-import java.util.Arrays;
-import java.util.Objects;
+class LniSyntaxHighlighterBase : SyntaxHighlighterBase() {
+    override fun getHighlightingLexer(): Lexer = LniFlexAdapter()
 
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
-import static guru.xgm.language.lni.psi.LniTypes.*;
+    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> = pack(ATTRIBUTES[tokenType])
 
-public class LniSyntaxHighlighterBase extends SyntaxHighlighterBase {
-    public static final TextAttributesKey ID_KEY = createTextAttributesKey("LNI_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
-    private static final TextAttributesKey[] ID_KEYS = new TextAttributesKey[]{ID_KEY};
-    public static final TextAttributesKey KEYWORD_KEY = createTextAttributesKey("LNI_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD_KEY};
-    public static final TextAttributesKey LINE_COMMENT_KEY = createTextAttributesKey("LNI_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    private static final TextAttributesKey[] LINE_COMMENT_KEYS = new TextAttributesKey[]{LINE_COMMENT_KEY};
-    public static final TextAttributesKey BAD_CHARACTER_KEY = createTextAttributesKey("LNI_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
-    private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER_KEY};
-    private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
-    public static final TextAttributesKey NUMBER_KEY = createTextAttributesKey("LNI_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
-    private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER_KEY};
-    public static final TextAttributesKey STRING_KEY = createTextAttributesKey("LNI_STRING", DefaultLanguageHighlighterColors.STRING);
-    private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING_KEY};
+    companion object {
+        private val ATTRIBUTES: MutableMap<IElementType, TextAttributesKey> = HashMap()
 
-    @NotNull
-    @Override
-    public Lexer getHighlightingLexer() {
-        return new LniFlexAdapter();
-    }
+        private val LNI_ID: TextAttributesKey = createTextAttributesKey(
+            ::LNI_ID.name,
+            DefaultLanguageHighlighterColors.KEYWORD
+        )
 
-    @Override
-    public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (Objects.equals(HEADVAL, tokenType)) return ID_KEYS;
-        if (Objects.equals(ID, tokenType)) return KEYWORD_KEYS;
-        if (Objects.equals(LINE_COMMENT, tokenType)) return LINE_COMMENT_KEYS;
+        private val LNI_LINE_COMMENT: TextAttributesKey = createTextAttributesKey(
+            ::LNI_LINE_COMMENT.name,
+            DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
 
-        if (Arrays.asList(
-                INTVAL,
-                REALVAL,
-                HEXVAL
-        ).contains(tokenType)) {
-            return NUMBER_KEYS;
+        private val LNI_BAD_CHARACTER: TextAttributesKey = createTextAttributesKey(
+            ::LNI_BAD_CHARACTER.name,
+            HighlighterColors.BAD_CHARACTER
+        )
+
+        private val LNI_NUMBER: TextAttributesKey = createTextAttributesKey(
+            ::LNI_NUMBER.name,
+            DefaultLanguageHighlighterColors.NUMBER
+        )
+
+        private val LNI_STRING: TextAttributesKey = createTextAttributesKey(
+            ::LNI_STRING.name,
+            DefaultLanguageHighlighterColors.STRING
+        )
+
+        init {
+            fillMap(ATTRIBUTES, TokenSet.create(LniTypes.ID), LNI_ID)
+            fillMap(ATTRIBUTES, TokenSet.create(LniTypes.LINE_COMMENT), LNI_LINE_COMMENT)
+            fillMap(ATTRIBUTES, TokenSet.create(TokenType.BAD_CHARACTER), LNI_BAD_CHARACTER)
+            fillMap(
+                ATTRIBUTES, TokenSet.create(
+                    LniTypes.INTVAL,
+                    LniTypes.REALVAL,
+                    LniTypes.HEXVAL
+                ), LNI_NUMBER
+            )
+            fillMap(
+                ATTRIBUTES, TokenSet.create(
+                    LniTypes.STRVAL,
+                    LniTypes.STRVAL_MULT
+                ), LNI_STRING
+            )
         }
-
-        if (Arrays.asList(
-                STRVAL,
-                STRVAL_MULT
-        ).contains(tokenType)) {
-            return STRING_KEYS;
-        }
-
-        if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
-
-        return EMPTY_KEYS;
     }
 }

@@ -13,13 +13,8 @@ import guru.xgm.language.angelscript.lexer.AngelScriptFlexAdapter
 import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
 class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
-    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        return pack(ATTRIBUTES[tokenType])
-    }
-
-    override fun getHighlightingLexer(): Lexer {
-        return AngelScriptFlexAdapter()
-    }
+    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> = pack(ATTRIBUTES[tokenType])
+    override fun getHighlightingLexer(): Lexer = AngelScriptFlexAdapter()
 
     companion object {
 
