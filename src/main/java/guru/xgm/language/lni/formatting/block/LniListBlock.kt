@@ -7,12 +7,12 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 
 class LniListBlock(
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
-    codeStyleSettings: CodeStyleSettings?
+    codeStyleSettings: CodeStyleSettings
 ) : LniBlock(
-    myNode!!, myAlignment, myIndent!!, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block =
         LniBlock(childNode, myAlignment, Indent.getNormalIndent(), myCodeStyleSettings)

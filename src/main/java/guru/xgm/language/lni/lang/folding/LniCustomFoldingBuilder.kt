@@ -10,14 +10,14 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import guru.xgm.language.lni.extapi.psi.LniPsiFileBase
-import guru.xgm.language.lni.lang.LniParserDefinition
+import guru.xgm.language.lni.lang.LNI_FILE
 import guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings.Companion.instance
 import guru.xgm.language.lni.psi.*
 
 internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun isCustomFoldingRoot(node: ASTNode): Boolean {
         val type = node.elementType
-        return type === LniParserDefinition.LNI_FILE || type === LniTypes.HEAD
+        return type === LNI_FILE || type === LniTypes.HEAD
     }
 
     override fun buildLanguageFoldRegions(

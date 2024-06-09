@@ -1,26 +1,21 @@
-package guru.xgm.language.lni.formatting;
+package guru.xgm.language.lni.formatting
 
-import com.intellij.formatting.FormattingContext;
-import com.intellij.formatting.FormattingModel;
-import com.intellij.formatting.FormattingModelBuilder;
-import com.intellij.formatting.FormattingModelProvider;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.lni.formatting.block.LniRootBlock;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.FormattingContext
+import com.intellij.formatting.FormattingModel
+import com.intellij.formatting.FormattingModelBuilder
+import com.intellij.formatting.FormattingModelProvider
+import guru.xgm.language.lni.formatting.block.LniRootBlock
 
-final class LniFormattingModelBuilder implements FormattingModelBuilder {
+internal class LniFormattingModelBuilder : FormattingModelBuilder {
+    override fun createModel(formattingContext: FormattingContext): FormattingModel {
+        val code = formattingContext.codeStyleSettings
 
-    @Override
-    public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
-        final CodeStyleSettings code = formattingContext.getCodeStyleSettings();
-
-        final LniCodeStyleSettings settings = code.getCustomSettings(LniCodeStyleSettings.class);
+        //val settings = code.getCustomSettings(LniCodeStyleSettings::class.java)
         return FormattingModelProvider
-                .createFormattingModelForPsiFile(
-                        formattingContext.getContainingFile(),
-                        new LniRootBlock(formattingContext.getNode(), code),
-                        code
-                );
+            .createFormattingModelForPsiFile(
+                formattingContext.containingFile,
+                LniRootBlock(formattingContext.node, code),
+                code
+            )
     }
-
 }

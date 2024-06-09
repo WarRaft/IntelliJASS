@@ -1,11 +1,6 @@
-package guru.xgm.language.lni.lexer;
+package guru.xgm.language.lni.lexer
 
-import com.intellij.lexer.FlexAdapter;
-import guru.xgm.language.lni.parser._LniLexer;
+import com.intellij.lexer.FlexAdapter
+import guru.xgm.language.lni.parser._LniLexer
 
-public class LniFlexAdapter extends FlexAdapter {
-
-    public LniFlexAdapter() {
-        super(new _LniLexer(null));
-    }
-}
+class LniFlexAdapter : FlexAdapter(_LniLexer(null))

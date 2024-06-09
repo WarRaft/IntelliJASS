@@ -10,12 +10,12 @@ import guru.xgm.language.lni.psi.LniTypes
 
 class LniPropertyBlock(
     private var itemBlock: LniItemBlock,
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
-    codeStyleSettings: CodeStyleSettings?
+    codeStyleSettings: CodeStyleSettings
 ) : LniBlock(
-    myNode!!, myAlignment, myIndent!!, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null

@@ -1,18 +1,9 @@
-package guru.xgm.language.lni.psi.tree;
+package guru.xgm.language.lni.psi.tree
 
-import com.intellij.psi.tree.IElementType;
-import guru.xgm.language.lni.lang.LniLanguage;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.tree.IElementType
+import guru.xgm.language.lni.lang.LniLanguage.Companion.instance
+import org.jetbrains.annotations.NonNls
 
-public class LniIElement extends IElementType {
-
-    public LniIElement(@NotNull @NonNls String debugName) {
-        super(debugName, LniLanguage.Companion.getInstance());
-    }
-
-    @Override
-    public String toString() {
-        return "LniIElement." + super.toString();
-    }
+class LniIElement(debugName: @NonNls String) : IElementType(debugName, instance) {
+    override fun toString(): String = "LniIElement." + super.toString()
 }

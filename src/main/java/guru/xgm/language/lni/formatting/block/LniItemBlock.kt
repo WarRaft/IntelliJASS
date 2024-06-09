@@ -9,9 +9,9 @@ import com.intellij.psi.formatter.FormatterUtil
 import guru.xgm.language.lni.formatting.LniCodeStyleSettings
 import guru.xgm.language.lni.psi.LniTypes
 
-class LniItemBlock(myNode: ASTNode?, myAlignment: Alignment?, myIndent: Indent?, codeStyleSettings: CodeStyleSettings) :
+class LniItemBlock(myNode: ASTNode, myAlignment: Alignment?, myIndent: Indent?, codeStyleSettings: CodeStyleSettings) :
     LniBlock(
-        myNode!!, myAlignment, myIndent!!, codeStyleSettings
+        myNode, myAlignment, myIndent, codeStyleSettings
     ) {
     var propertyEqAlignment: Alignment?
 
