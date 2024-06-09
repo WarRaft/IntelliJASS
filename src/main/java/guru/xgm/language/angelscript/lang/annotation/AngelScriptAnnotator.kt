@@ -5,7 +5,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import guru.xgm.intellij.lang.injection.general.IntellijScriptInjector.Companion.INJECT_JASS
+import guru.xgm.plugin.lang.injection.general.PluginScriptInjector.Companion.INJECT_JASS
 import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase
 import guru.xgm.language.angelscript.psi.AngelScriptDataType
 import guru.xgm.language.angelscript.psi.AngelScriptStr

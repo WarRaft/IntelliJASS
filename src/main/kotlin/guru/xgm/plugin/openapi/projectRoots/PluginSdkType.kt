@@ -1,4 +1,4 @@
-package guru.xgm.intellij.openapi.projectRoots
+package guru.xgm.plugin.openapi.projectRoots
 
 import com.intellij.openapi.projectRoots.*
 import guru.xgm.language.jass.icons.JassIcons
@@ -9,7 +9,7 @@ import javax.swing.Icon
 
 // https://plugins.jetbrains.com/docs/intellij/sdk.html#working-with-a-custom-sdk
 // https://intellij-support.jetbrains.com/hc/en-us/community/posts/206773745-Custom-SDK-Setup
-class IntellijSdkType : SdkType("JASS SDK") {
+class PluginSdkType : SdkType("JASS SDK") {
     override fun suggestHomePath(): String? = null
 
     override fun isValidSdkHome(s: String): Boolean {

@@ -1,18 +1,18 @@
-package guru.xgm.intellij.ide.projectView;
+package guru.xgm.plugin.ide.projectView
 
-import com.intellij.ide.projectView.ProjectViewNestingRulesProvider;
-import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType
+import guru.xgm.language.jass.openapi.fileTypes.JassFileType
 
-public class IntellijProjectViewNestingRulesProvider implements ProjectViewNestingRulesProvider {
-    @Override
-    public void addFileNestingRules(@NotNull ProjectViewNestingRulesProvider.Consumer consumer) {
-        final var as = "." + AngelScriptFileType.EXTENSION;
+class PluginProjectViewNestingRulesProvider : ProjectViewNestingRulesProvider {
+    override fun addFileNestingRules(consumer: ProjectViewNestingRulesProvider.Consumer) {
+        val ass = "." + AngelScriptFileType.EXTENSION
+        val j = "." + JassFileType.EXTENSION
 
-        consumer.addNestingRule(".j", as);
+        consumer.addNestingRule(j, ass)
 
-        for (String e : new String[]{".j", as}) {
-            consumer.addNestingRule(e, ".wts");
+        for (e in arrayOf(j, ass)) {
+            consumer.addNestingRule(e, ".wts")
         }
     }
 }

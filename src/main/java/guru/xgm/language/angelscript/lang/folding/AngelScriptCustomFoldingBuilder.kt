@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.refactoring.suggested.startOffset
-import guru.xgm.intellij.lang.injection.general.IntellijScriptInjector.Companion.INJECT_JASS
+import guru.xgm.plugin.lang.injection.general.PluginScriptInjector.Companion.INJECT_JASS
 import guru.xgm.language.angelscript.extapi.psi.AngelScriptPsiFileBase
 import guru.xgm.language.angelscript.lang.ANGELSCRIPT_FILE
 import guru.xgm.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings.Companion.instance

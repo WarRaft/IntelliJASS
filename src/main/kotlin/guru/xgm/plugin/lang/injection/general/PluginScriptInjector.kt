@@ -1,4 +1,4 @@
-package guru.xgm.intellij.lang.injection.general
+package guru.xgm.plugin.lang.injection.general
 
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
@@ -13,7 +13,7 @@ import guru.xgm.language.jass.lang.JassLanguage
 
 // https://plugins.jetbrains.com/docs/intellij/language-injection.html#formatting
 
-internal class IntellijScriptInjector : MultiHostInjector {
+internal class PluginScriptInjector : MultiHostInjector {
     companion object {
         const val INJECT_JASS = "//\$jass"
     }
