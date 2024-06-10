@@ -1,4 +1,4 @@
-package guru.xgm.image.blp;
+package raft.war.image.blp;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -19,7 +19,7 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 
-import guru.xgm.image.blp.intellij.BlpBundle;
+import raft.war.image.blp.intellij.BlpBundle;
 
 /**
  * Implementation class for the BLP image reader.

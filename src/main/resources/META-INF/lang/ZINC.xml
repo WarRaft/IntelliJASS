@@ -1,31 +1,31 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="ZINC"
-                  implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincFileType"
+                  implementationClass="raft.war.language.zinc.openapi.fileTypes.ZincFileType"
                   fieldName="instance"
                   language="ZINC"
                   extensions="zn"
         />
 
         <!-- parser -->
-        <lang.parserDefinition language="ZINC" implementationClass="guru.xgm.language.zinc.lang.ZincParserDefinition"/>
+        <lang.parserDefinition language="ZINC" implementationClass="raft.war.language.zinc.lang.ZincParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="ZINC"
-                                       implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.zinc.openapi.fileTypes.ZincSyntaxHighlighterFactory"/>
 
         <!-- formatter -->
         <lang.formatter language="ZINC"
-                        implementationClass="guru.xgm.language.zinc.formatting.ZincFormattingModelBuilder"/>
+                        implementationClass="raft.war.language.zinc.formatting.ZincFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.language.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
+                implementation="raft.war.language.zinc.psi.codeStyle.ZincLanguageCodeStyleSettingsProvider"/>
 
         <!-- annotator -->
-        <annotator language="ZINC" implementationClass="guru.xgm.language.zinc.lang.annotation.ZincAnnotator"/>
+        <annotator language="ZINC" implementationClass="raft.war.language.zinc.lang.annotation.ZincAnnotator"/>
 
         <!-- commenter -->
         <lang.commenter
                 language="ZINC"
-                implementationClass="guru.xgm.language.zinc.lang.ZincCommenter"/>
+                implementationClass="raft.war.language.zinc.lang.ZincCommenter"/>
     </extensions>
 </idea-plugin>

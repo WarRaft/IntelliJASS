@@ -1,0 +1,13 @@
+package raft.war.language.angelscript.formatting.block.utils
+
+import com.intellij.formatting.FormattingContext
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings
+import raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings
+import raft.war.language.angelscript.lang.AngelScriptLanguage
+
+class AngelScriptBlockSettings(formattingContext: FormattingContext) {
+    val code: CodeStyleSettings = formattingContext.codeStyleSettings
+    val common: CommonCodeStyleSettings = code.getCommonSettings(AngelScriptLanguage.instance.id)
+    val custom: raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings = code.getCustomSettings(raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings::class.java)
+}

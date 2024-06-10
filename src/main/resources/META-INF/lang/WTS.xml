@@ -1,7 +1,7 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="WTS"
-                  implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsFileType"
+                  implementationClass="raft.war.language.wts.openapi.fileTypes.WtsFileType"
                   fieldName="instance"
                   language="WTS"
                   extensions="wts"
@@ -9,18 +9,18 @@
 
         <!-- parser -->
         <lang.parserDefinition language="WTS"
-                               implementationClass="guru.xgm.language.wts.lang.WtsParserDefinition"/>
+                               implementationClass="raft.war.language.wts.lang.WtsParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="WTS"
-                                       implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.wts.openapi.fileTypes.WtsSyntaxHighlighterFactory"/>
 
         <!-- annotator -->
-        <annotator language="WTS" implementationClass="guru.xgm.language.wts.lang.annotation.WtsAnnotator"/>
+        <annotator language="WTS" implementationClass="raft.war.language.wts.lang.annotation.WtsAnnotator"/>
 
         <!-- commenter -->
         <lang.commenter
                 language="WTS"
-                implementationClass="guru.xgm.language.wts.lang.WtsCommenter"/>
+                implementationClass="raft.war.language.wts.lang.WtsCommenter"/>
     </extensions>
 </idea-plugin>

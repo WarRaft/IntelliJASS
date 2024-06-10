@@ -25,15 +25,15 @@
 
     <applicationListeners>
         <!-- https://github.com/xiaozhuai/jetbrains-qoi -->
-        <listener class="guru.xgm.image.blp.intellij.BlpMetadataRegistrar"
+        <listener class="raft.war.image.blp.intellij.BlpMetadataRegistrar"
                   topic="com.intellij.ide.AppLifecycleListener"/>
     </applicationListeners>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#registering-actions-from-code -->
     <actions>
         <action
-                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
-                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
+                id="raft.war.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
+                class="raft.war.language.jass.openapi.actionSystem.convert.jass2angelscript.Jass2AngelScriptAction"
                 text="Convert to AngelScript"
                 description="Convert file to valid AngelScript"
         >
@@ -42,8 +42,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
-                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
+                id="raft.war.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
+                class="raft.war.language.jass.openapi.actionSystem.convert.jass2lua.Jass2LuaAction"
                 text="Convert to Lua"
                 description="Convert file to valid Lua"
         >
@@ -52,8 +52,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
-                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                id="raft.war.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
+                class="raft.war.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptAction"
                 text="Convert to JavaScript"
                 description="Convert file to valid JavaScript"
         >
@@ -62,8 +62,8 @@
             <add-to-group group-id="ProjectViewPopupMenu"/>
         </action>
         <action
-                id="guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
-                class="guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                id="raft.war.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
+                class="raft.war.language.jass.openapi.actionSystem.convert.jass2typescript.Jass2TypeScriptAction"
                 text="Convert to TypeScript"
                 description="Convert file to valid TypeScript"
         >

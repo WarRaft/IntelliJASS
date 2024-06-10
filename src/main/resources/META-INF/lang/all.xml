@@ -1,21 +1,21 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <!-- colors -->
-        <colorProvider implementation="guru.xgm.plugin.openapi.editor.PluginElementColorProvider"/>
+        <colorProvider implementation="raft.war.plugin.openapi.editor.PluginElementColorProvider"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/Darcula.xml"/>
 
         <!-- file nesting -->
         <projectViewNestingRulesProvider
-                implementation="guru.xgm.plugin.ide.projectView.PluginProjectViewNestingRulesProvider"/>
+                implementation="raft.war.plugin.ide.projectView.PluginProjectViewNestingRulesProvider"/>
 
         <!-- typing -->
-        <typedHandler implementation="guru.xgm.plugin.codeInsight.PluginTypedHandlerDelegate"/>
+        <typedHandler implementation="raft.war.plugin.codeInsight.PluginTypedHandlerDelegate"/>
 
         <!-- sdk -->
-        <sdkType implementation="guru.xgm.plugin.openapi.projectRoots.PluginSdkType"/>
-        <postStartupActivity implementation="guru.xgm.plugin.openapi.startup.PluginProjectActivity"/>
+        <sdkType implementation="raft.war.plugin.openapi.projectRoots.PluginSdkType"/>
+        <postStartupActivity implementation="raft.war.plugin.openapi.startup.PluginProjectActivity"/>
 
         <!-- injection -->
-        <multiHostInjector implementation="guru.xgm.plugin.lang.injection.general.PluginScriptInjector"/>
+        <multiHostInjector implementation="raft.war.plugin.lang.injection.general.PluginScriptInjector"/>
     </extensions>
 </idea-plugin>

@@ -1,7 +1,7 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="LNI"
-                  implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniFileType"
+                  implementationClass="raft.war.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="instance"
                   language="LNI"
                   extensions="ini;imp"
@@ -9,47 +9,47 @@
 
         <lang.parserDefinition
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.lang.LniParserDefinition"
+                implementationClass="raft.war.language.lni.lang.LniParserDefinition"
         />
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.openapi.fileTypes.LniSyntaxHighlighterFactory"
+                implementationClass="raft.war.language.lni.openapi.fileTypes.LniSyntaxHighlighterFactory"
         />
 
         <!-- annotator -->
         <annotator
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.lang.annotation.LniAnnotator"
+                implementationClass="raft.war.language.lni.lang.annotation.LniAnnotator"
         />
 
         <!-- folding -->
         <lang.foldingBuilder
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.lang.folding.LniCustomFoldingBuilder"
+                implementationClass="raft.war.language.lni.lang.folding.LniCustomFoldingBuilder"
         />
-        <codeFoldingOptionsProvider instance="guru.xgm.language.lni.lang.folding.LniCodeFoldingOptionsProvider"/>
-        <applicationService serviceImplementation="guru.xgm.language.lni.lang.folding.LniCodeFoldingSettings"/>
+        <codeFoldingOptionsProvider instance="raft.war.language.lni.lang.folding.LniCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="raft.war.language.lni.lang.folding.LniCodeFoldingSettings"/>
 
         <!-- formatter -->
         <lang.formatter
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.formatting.LniFormattingModelBuilder"
+                implementationClass="raft.war.language.lni.formatting.LniFormattingModelBuilder"
         />
 
         <langCodeStyleSettingsProvider
-                implementation="guru.xgm.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"
+                implementation="raft.war.language.lni.psi.codeStyle.LniLanguageCodeStyleSettingsProvider"
         />
 
         <!-- commenter -->
         <lang.commenter
                 language="LNI"
-                implementationClass="guru.xgm.language.lni.lang.LniCommenter"
+                implementationClass="raft.war.language.lni.lang.LniCommenter"
         />
 
         <!-- imp -->
-        <fileEditorProvider implementation="guru.xgm.binary.imp.openapi.fileEditor.BinaryFileEditorProvider"/>
+        <fileEditorProvider implementation="raft.war.binary.imp.openapi.fileEditor.BinaryFileEditorProvider"/>
 
     </extensions>
 </idea-plugin>

@@ -1,7 +1,7 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="VJASS"
-                  implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassFileType"
+                  implementationClass="raft.war.language.vjass.openapi.fileTypes.VjassFileType"
                   fieldName="instance"
                   language="VJASS"
                   extensions="vj"
@@ -9,15 +9,15 @@
 
         <!-- parser -->
         <lang.parserDefinition language="VJASS"
-                               implementationClass="guru.xgm.language.vjass.lang.VjassParserDefinition"/>
+                               implementationClass="raft.war.language.vjass.lang.VjassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
-                                       implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
 
         <!-- commenter -->
         <lang.commenter
                 language="VJASS"
-                implementationClass="guru.xgm.language.vjass.lang.VjassCommenter"/>
+                implementationClass="raft.war.language.vjass.lang.VjassCommenter"/>
     </extensions>
 </idea-plugin>

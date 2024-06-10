@@ -1,0 +1,54 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Lni"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "raft.war.language.lni.parser.LniParser"
+    psiPackage=               "raft.war.language.lni.psi"
+    psiImplPackage=           "raft.war.language.lni.psi.impl"
+    elementTypeHolderClass=   "raft.war.language.lni.psi.LniTypes"
+    elementTypeClass=         "raft.war.language.lni.psi.tree.LniIElement"
+    tokenTypeClass=           "raft.war.language.lni.psi.tree.LniIToken"
+
+    generateTokenAccessors=true
+
+    tokens=[
+        WHITE_SPACE='regexp:\s+'
+        LINE_COMMENT="regexp:--[^\n]*"
+
+        COMMA=','
+        EQ='='
+        LBRACE = '{'
+        RBRACE = '}'
+
+        MINUS = '-'
+
+        REALVAL='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        STRVAL='regexp:"([^"\\]|\\.)*"'
+        STRVAL_MULT='regexp:\[=\[[^(\]=)]*]=]'
+        HEADVAL="regexp:\[[^\\]]*]"
+        ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
+    ]
+
+}
+
+Root ::= Item*
+
+Item ::= (Head Property*)|(Head? Property) {recoverWhile=ItemRecovery}
+
+private ItemRecovery ::= !(HEADVAL)
+
+Head ::= HEADVAL
+Property ::= ID EQ (Prim|List)
+
+Prim::= String|Number
+String::=STRVAL|STRVAL_MULT
+Number::= MINUS* (INTVAL|REALVAL)
+
+ListItem ::= (INTVAL EQ Prim)|Prim
+List ::= LBRACE ListItem? (COMMA ListItem)* COMMA* RBRACE
+
+
