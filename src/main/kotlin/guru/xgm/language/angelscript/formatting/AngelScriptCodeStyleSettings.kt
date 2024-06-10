@@ -1,17 +1,14 @@
-package guru.xgm.language.angelscript.formatting;
+@file:Suppress("PropertyName")
 
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
-import lombok.experimental.FieldNameConstants;
-import org.jetbrains.annotations.NotNull;
+package guru.xgm.language.angelscript.formatting
 
-// https://projectlombok.org/features/experimental/FieldNameConstants
-@FieldNameConstants
-public class AngelScriptCodeStyleSettings extends CustomCodeStyleSettings {
-    public AngelScriptCodeStyleSettings(@NotNull CodeStyleSettings container) {
-        super("AngelScriptCodeStyleSettings", container);
-    }
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.CustomCodeStyleSettings
+import lombok.experimental.FieldNameConstants
 
-    public boolean AT_ENUM_EQ = false;
+class AngelScriptCodeStyleSettings(container: CodeStyleSettings) :
+    CustomCodeStyleSettings("AngelScriptCodeStyleSettings", container) {
+    @JvmField
+    var AT_ENUM_EQ: Boolean = false
 }
 

@@ -1,169 +1,185 @@
-package guru.xgm.language.angelscript.formatting.block;
+package guru.xgm.language.angelscript.formatting.block
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.formatter.FormatterUtil;
-import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings;
-import guru.xgm.language.angelscript.lang.AngelScriptLanguage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.formatting.*
+import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.formatter.FormatterUtil.isOneOf
+import com.intellij.psi.formatter.FormatterUtil.isWhitespaceOrEmpty
+import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
+import guru.xgm.language.angelscript.lang.AngelScriptLanguage
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import java.util.ArrayList;
-import java.util.List;
+open class AngelScriptBlock(
+    protected val myNode: ASTNode,
+    protected val myAlignment: Alignment?,
+    protected val myIndent: Indent?,
+    protected val settings: AngelScriptBlockSettings
+) : ASTBlock {
+    private val myWrap: Wrap? = null
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
+    private var mySubBlocks: MutableList<Block>? = null
+    private var mySpacingBuilder: SpacingBuilder? = null
 
-public class AngelScriptBlock implements ASTBlock {
+    open fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
+        if (isOneOf(childNode, AngelScriptTypes.FUN)) return AngelScriptBlockFun(
+            childNode,
+            null,
+            indent,
+            settings
+        )
 
-    public AngelScriptBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, AngelScriptBlockSettings settings) {
-        this.myNode = myNode;
-        this.myWrap = null;
-        this.myAlignment = myAlignment;
-        this.myIndent = myIndent;
-        this.settings = settings;
+        if (isOneOf(childNode, AngelScriptTypes.CLAZZ)) return AngelScriptBlockClazz(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.FOR_STMT)) return AngelScriptBlockFor(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.WHILE_STMT)) return AngelScriptBlockWhile(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.IF_STMT)) return AngelScriptBlockIf(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.ELSE_STMT)) return AngelScriptBlockElse(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.ENUMS)) return AngelScriptBlockEnum(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.SWITCH_STMT)) return AngelScriptBlockSwitch(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        if (isOneOf(childNode, AngelScriptTypes.NSPACE)) return AngelScriptBlockNamespace(
+            childNode,
+            null,
+            indent,
+            settings
+        )
+
+        return AngelScriptBlock(childNode, null, indent, settings)
     }
 
-    protected final ASTNode myNode;
-    protected final Wrap myWrap;
-    protected final Alignment myAlignment;
-    protected final Indent myIndent;
-    protected final AngelScriptBlockSettings settings;
-
-    private List<Block> mySubBlocks = null;
-    private SpacingBuilder mySpacingBuilder = null;
-
-    public Block makeSubBlock(@NotNull ASTNode childNode, Indent indent) {
-        if (isOneOf(childNode, FUN))
-            return new AngelScriptBlockFun(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, CLAZZ))
-            return new AngelScriptBlockClazz(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, FOR_STMT))
-            return new AngelScriptBlockFor(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, WHILE_STMT))
-            return new AngelScriptBlockWhile(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, IF_STMT))
-            return new AngelScriptBlockIf(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, ELSE_STMT))
-            return new AngelScriptBlockElse(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, ENUMS))
-            return new AngelScriptBlockEnum(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, SWITCH_STMT))
-            return new AngelScriptBlockSwitch(childNode, null, indent, settings);
-
-        if (isOneOf(childNode, NSPACE))
-            return new AngelScriptBlockNamespace(childNode, null, indent, settings);
-
-        return new AngelScriptBlock(childNode, null, indent, settings);
-    }
-
-    @Override
-    public @NotNull List<Block> getSubBlocks() {
+    override fun getSubBlocks(): List<Block> {
         if (mySubBlocks == null) {
-            ASTNode[] children = myNode.getChildren(null);
-            mySubBlocks = new ArrayList<>(children.length);
-            for (ASTNode child : children) {
-                if (FormatterUtil.isWhitespaceOrEmpty(child)) continue;
-                mySubBlocks.add(makeSubBlock(child, Indent.getNoneIndent()));
+            val children = myNode.getChildren(null)
+            mySubBlocks = ArrayList(children.size)
+            for (child in children) {
+                if (isWhitespaceOrEmpty(child)) continue
+                mySubBlocks!!.add(makeSubBlock(child, Indent.getNoneIndent()))
             }
         }
-        return mySubBlocks;
+        return mySubBlocks!!
     }
 
-    @Override
-    public @Nullable ASTNode getNode() {
-        return myNode;
+    override fun getNode(): ASTNode? {
+        return myNode
     }
 
-    @Override
-    public @NotNull TextRange getTextRange() {
-        return myNode.getTextRange();
+    override fun getTextRange(): TextRange {
+        return myNode.textRange
     }
 
-    @Override
-    public @Nullable Wrap getWrap() {
-        return myWrap;
+    override fun getWrap(): Wrap? {
+        return myWrap
     }
 
-    @Override
-    public @Nullable Indent getIndent() {
-        return myIndent;
+    override fun getIndent(): Indent? {
+        return myIndent
     }
 
-    @Override
-    public @Nullable Alignment getAlignment() {
-        return myAlignment;
+    override fun getAlignment(): Alignment? {
+        return myAlignment
     }
 
-    protected SpacingBuilder getSpacingBuilder() {
-        var sb = new SpacingBuilder(settings.code, AngelScriptLanguage.Companion.getInstance());
+    protected open val spacingBuilder: SpacingBuilder
+        get() {
+            var sb = SpacingBuilder(settings.code, AngelScriptLanguage.instance)
 
-        final int saao = settings.common.SPACE_AROUND_ASSIGNMENT_OPERATORS ? 1 : 0;
-        sb = sb.around(EQ).spacing(saao, saao, 0, false, 0)
-                .around(PLUS_EQ).spacing(saao, saao, 0, false, 0)
-                .around(MINUS_EQ).spacing(saao, saao, 0, false, 0)
-                .around(MUL_EQ).spacing(saao, saao, 0, false, 0)
-                .around(DIV_EQ).spacing(saao, saao, 0, false, 0);
+            val saao = if (settings.common.SPACE_AROUND_ASSIGNMENT_OPERATORS) 1 else 0
+            sb = sb.around(AngelScriptTypes.EQ).spacing(saao, saao, 0, false, 0)
+                .around(AngelScriptTypes.PLUS_EQ).spacing(saao, saao, 0, false, 0)
+                .around(AngelScriptTypes.MINUS_EQ).spacing(saao, saao, 0, false, 0)
+                .around(AngelScriptTypes.MUL_EQ).spacing(saao, saao, 0, false, 0)
+                .around(AngelScriptTypes.DIV_EQ).spacing(saao, saao, 0, false, 0)
 
 
-        //final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
-        //sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
+            //final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
+            //sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
 
-        //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
-        //sb = sb.after(COMMA).spacing(sac, sac, 0, false, 0);
+            //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
+            //sb = sb.after(COMMA).spacing(sac, sac, 0, false, 0);
+            return sb // generic
+                .between(AngelScriptTypes.LT, AngelScriptTypes.TYPE).spacing(0, 0, 0, false, 0)
+                .between(AngelScriptTypes.TYPE, AngelScriptTypes.GT).spacing(0, 0, 0, false, 0) // paren
 
-        return sb
-                // generic
-                .between(LT, TYPE).spacing(0, 0, 0, false, 0)
-                .between(TYPE, GT).spacing(0, 0, 0, false, 0)
+                .after(AngelScriptTypes.LPAREN).spacing(0, 1, 0, true, 0)
+                .before(AngelScriptTypes.RPAREN).spacing(0, 1, 0, true, 0)
+                .before(AngelScriptTypes.ARG_LIST).spacing(0, 1, 0, true, 0)
 
-                // paren
-                .after(LPAREN).spacing(0, 1, 0, true, 0)
-                .before(RPAREN).spacing(0, 1, 0, true, 0)
-                .before(ARG_LIST).spacing(0, 1, 0, true, 0)
-
-                .around(DOT).spacing(0, 0, 0, false, 0)
-                .around(MINUS_GT).spacing(1, 1, 0, false, 0);
-    }
-
-    @Override
-    public @Nullable Spacing getSpacing(@Nullable Block block1, @NotNull Block block2) {
-        if (mySpacingBuilder == null) mySpacingBuilder = getSpacingBuilder();
-
-        final var c2 = ASTBlock.getNode(block2);
-        if (isOneOf(c2, IF_STMT) && block1 != null) {
-            final var c1 = ASTBlock.getNode(block1);
-            return isOneOf(c1, ELSE)
-                    ? Spacing.createSpacing(1, 1, 0, false, 0)
-                    : Spacing.createSpacing(0, 99, 1, true, 99);
+                .around(AngelScriptTypes.DOT).spacing(0, 0, 0, false, 0)
+                .around(AngelScriptTypes.MINUS_GT).spacing(1, 1, 0, false, 0)
         }
 
-        return mySpacingBuilder.getSpacing(this, block1, block2);
+    override fun getSpacing(block1: Block?, block2: Block): Spacing? {
+        if (mySpacingBuilder == null) mySpacingBuilder = spacingBuilder
+
+        val c2 = ASTBlock.getNode(block2)
+        if (isOneOf(c2, AngelScriptTypes.IF_STMT) && block1 != null) {
+            val c1 = ASTBlock.getNode(block1)
+            return if (isOneOf(c1, AngelScriptTypes.ELSE)
+            ) Spacing.createSpacing(1, 1, 0, false, 0)
+            else Spacing.createSpacing(0, 99, 1, true, 99)
+        }
+
+        return mySpacingBuilder!!.getSpacing(this, block1, block2)
     }
 
-    @Override
-    public @NotNull ChildAttributes getChildAttributes(int i) {
-        var indent = Indent.getNoneIndent();
-        if (isOneOf(myNode, STAT_BLOCK, CLAZZ_STAT_BLOCK, ENUM_STAT_BLOCK, NSPACE_STAT_BLOCK))
-            indent = Indent.getNormalIndent();
-        return new ChildAttributes(indent, null);
+    override fun getChildAttributes(i: Int): ChildAttributes {
+        var indent = Indent.getNoneIndent()
+        if (isOneOf(
+                myNode,
+                AngelScriptTypes.STAT_BLOCK,
+                AngelScriptTypes.CLAZZ_STAT_BLOCK,
+                AngelScriptTypes.ENUM_STAT_BLOCK,
+                AngelScriptTypes.NSPACE_STAT_BLOCK
+            )
+        ) indent = Indent.getNormalIndent()
+        return ChildAttributes(indent, null)
     }
 
-    @Override
-    public boolean isIncomplete() {
-        return false;
+    override fun isIncomplete(): Boolean {
+        return false
     }
 
-    @Override
-    public boolean isLeaf() {
-        return myNode.getFirstChildNode() == null;
+    override fun isLeaf(): Boolean {
+        return myNode.firstChildNode == null
     }
 }

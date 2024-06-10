@@ -1,44 +1,49 @@
-package guru.xgm.language.angelscript.formatting.block;
+package guru.xgm.language.angelscript.formatting.block
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.SpacingBuilder;
-import com.intellij.lang.ASTNode;
-import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.COMMA;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.ENUM_ITEM;
+class AngelScriptBlockEnumStat(
+    myNode: ASTNode,
+    myAlignment: Alignment?,
+    myIndent: Indent?,
+    settings: AngelScriptBlockSettings,
+    braceStyle: Int
+) : AngelScriptBlockStat(myNode, myAlignment, myIndent, settings, braceStyle) {
 
-public class AngelScriptBlockEnumStat extends AngelScriptBlockStat {
-    public AngelScriptBlockEnumStat(ASTNode myNode, Alignment myAlignment, Indent myIndent, AngelScriptBlockSettings settings, int braceStyle) {
-        super(myNode, myAlignment, myIndent, settings, braceStyle);
-        if (settings.custom.AT_ENUM_EQ) eqAlignment = Alignment.createAlignment(true, Alignment.Anchor.LEFT);
+    var eqAlignment: Alignment? = null
+
+    init {
+        if (settings.custom.AT_ENUM_EQ) eqAlignment = Alignment.createAlignment(true, Alignment.Anchor.LEFT)
     }
 
-    @Nullable
-    public Alignment eqAlignment;
-
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode, Indent indent) {
-        if (isOneOf(childNode, ENUM_ITEM))
-            return new AngelScriptBlockEnumItem(childNode, null, Indent.getNormalIndent(), settings, this);
-        return super.makeSubBlock(childNode, indent);
+    override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
+        if (FormatterUtil.isOneOf(childNode, AngelScriptTypes.ENUM_ITEM)) return AngelScriptBlockEnumItem(
+            childNode,
+            null,
+            Indent.getNormalIndent(),
+            settings,
+            this
+        )
+        return super.makeSubBlock(childNode, indent)
     }
 
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        var sb = super.getSpacingBuilder();
+    override val spacingBuilder: SpacingBuilder
+        get() {
+            var sb = super.spacingBuilder
 
-        final int sbc = settings.common.SPACE_BEFORE_COMMA ? 1 : 0;
-        sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0);
+            val sbc = if (settings.common.SPACE_BEFORE_COMMA) 1 else 0
+            sb = sb.before(AngelScriptTypes.COMMA).spacing(sbc, sbc, 0, false, 0)
 
-        //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
-        sb = sb.after(COMMA).spacing(1, 1, 1, false, 0);
+            //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
+            sb = sb.after(AngelScriptTypes.COMMA).spacing(1, 1, 1, false, 0)
 
-        return sb;
-    }
+            return sb
+        }
 }

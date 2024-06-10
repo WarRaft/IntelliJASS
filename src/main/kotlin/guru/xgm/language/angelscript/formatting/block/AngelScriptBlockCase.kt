@@ -1,31 +1,34 @@
-package guru.xgm.language.angelscript.formatting.block;
+package guru.xgm.language.angelscript.formatting.block
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.SpacingBuilder;
-import com.intellij.lang.ASTNode;
-import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.formatter.FormatterUtil
+import com.intellij.psi.formatter.FormatterUtil.*
+import guru.xgm.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.CASE_STMT_LIST;
+class AngelScriptBlockCase(
+    myNode: ASTNode,
+    myAlignment: Alignment?,
+    myIndent: Indent?,
+    settings: AngelScriptBlockSettings
+) : AngelScriptBlock(myNode, myAlignment, myIndent, settings) {
+    override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
+        if (isOneOf(childNode, AngelScriptTypes.CASE_STMT_LIST)) return AngelScriptBlockCaseStmtList(
+            childNode,
+            null,
+            Indent.getNormalIndent(),
+            settings
+        )
 
-public class AngelScriptBlockCase extends AngelScriptBlock {
-    public AngelScriptBlockCase(ASTNode myNode, Alignment myAlignment, Indent myIndent, AngelScriptBlockSettings settings) {
-        super(myNode, myAlignment, myIndent, settings);
+        return super.makeSubBlock(childNode, indent)
     }
 
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode, Indent indent) {
-        if (isOneOf(childNode, CASE_STMT_LIST))
-            return new AngelScriptBlockCaseStmtList(childNode, null, Indent.getNormalIndent(), settings);
-
-        return super.makeSubBlock(childNode, indent);
-    }
-
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        return super.getSpacingBuilder().before(CASE_STMT_LIST).spacing(1, 1, 1, true, 1);
-    }
+    override val spacingBuilder: SpacingBuilder
+        get() {
+            return super.spacingBuilder.before(AngelScriptTypes.CASE_STMT_LIST).spacing(1, 1, 1, true, 1)
+        }
 }

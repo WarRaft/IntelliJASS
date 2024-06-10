@@ -1,48 +1,62 @@
-package guru.xgm.language.angelscript.formatting.block.utils;
+package guru.xgm.language.angelscript.formatting.block.utils
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import guru.xgm.language.angelscript.formatting.block.AngelScriptBlock;
-import guru.xgm.language.angelscript.formatting.block.AngelScriptBlockStat;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.angelscript.formatting.block.AngelScriptBlock
+import guru.xgm.language.angelscript.formatting.block.AngelScriptBlockStat
+import guru.xgm.language.angelscript.psi.AngelScriptTypes
 
-import static com.intellij.psi.codeStyle.CommonCodeStyleSettings.*;
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.angelscript.psi.AngelScriptTypes.*;
+abstract class AngelScriptBlockBraceParent(
+    myNode: ASTNode,
+    myAlignment: Alignment?,
+    myIndent: Indent?,
+    settings: AngelScriptBlockSettings
+) : AngelScriptBlock(myNode, myAlignment, myIndent, settings) {
+    protected var braceStyle: Int = 0
 
-public abstract class AngelScriptBlockBraceParent extends AngelScriptBlock {
-    public AngelScriptBlockBraceParent(ASTNode myNode, Alignment myAlignment, Indent myIndent, AngelScriptBlockSettings settings) {
-        super(myNode, myAlignment, myIndent, settings);
+    override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
+        if (FormatterUtil.isOneOf(
+                childNode,
+                AngelScriptTypes.STAT_BLOCK,
+                AngelScriptTypes.CLAZZ_STAT_BLOCK,
+                AngelScriptTypes.NSPACE_STAT_BLOCK
+            )
+        ) return AngelScriptBlockStat(childNode, null, null, settings, braceStyle)
+        return super.makeSubBlock(childNode, indent)
     }
 
-    protected int braceStyle;
+    override val spacingBuilder: SpacingBuilder
+        get() {
+            var sb = super.spacingBuilder
+            when (braceStyle) {
+                CommonCodeStyleSettings.END_OF_LINE -> {
+                    sb = sb
+                        .before(AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                    sb = sb
+                        .before(AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                }
 
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode, Indent indent) {
-        if (isOneOf(childNode, STAT_BLOCK, CLAZZ_STAT_BLOCK, NSPACE_STAT_BLOCK))
-            return new AngelScriptBlockStat(childNode, null, null, settings, braceStyle);
-        return super.makeSubBlock(childNode, indent);
-    }
-
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        var sb = super.getSpacingBuilder();
-        switch (braceStyle) {
-            case END_OF_LINE:
-                sb = sb
-                        .before(STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(CLAZZ_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(SWITCH_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(NSPACE_STAT_BLOCK).spacing(1, 1, 0, false, 0);
-            case NEXT_LINE, NEXT_LINE_IF_WRAPPED, NEXT_LINE_SHIFTED, NEXT_LINE_SHIFTED2:
-                sb = sb
-                        .before(STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0);
+                CommonCodeStyleSettings.NEXT_LINE, CommonCodeStyleSettings.NEXT_LINE_IF_WRAPPED, CommonCodeStyleSettings.NEXT_LINE_SHIFTED, CommonCodeStyleSettings.NEXT_LINE_SHIFTED2 -> sb =
+                    sb
+                        .before(AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+            }
+            return sb
         }
-        return sb;
-    }
 }
