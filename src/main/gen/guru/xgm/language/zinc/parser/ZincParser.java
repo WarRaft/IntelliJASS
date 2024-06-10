@@ -492,25 +492,33 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?
+  // STATIC? IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?
   public static boolean IfStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStmt")) return false;
-    if (!nextTokenIs(b, IF)) return false;
+    if (!nextTokenIs(b, "<if stmt>", IF, STATIC)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, IF_STMT, null);
-    r = consumeTokens(b, 1, IF, LPAREN);
-    p = r; // pin = 1
+    Marker m = enter_section_(b, l, _NONE_, IF_STMT, "<if stmt>");
+    r = IfStmt_0(b, l + 1);
+    r = r && consumeTokens(b, 1, IF, LPAREN);
+    p = r; // pin = 2
     r = r && report_error_(b, Expr(b, l + 1, -1));
     r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
-    r = p && report_error_(b, IfStmt_4(b, l + 1)) && r;
-    r = p && IfStmt_5(b, l + 1) && r;
+    r = p && report_error_(b, IfStmt_5(b, l + 1)) && r;
+    r = p && IfStmt_6(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
+  // STATIC?
+  private static boolean IfStmt_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStmt_0")) return false;
+    consumeToken(b, STATIC);
+    return true;
+  }
+
   // Stmt|BracedStmt
-  private static boolean IfStmt_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStmt_4")) return false;
+  private static boolean IfStmt_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStmt_5")) return false;
     boolean r;
     r = Stmt(b, l + 1);
     if (!r) r = BracedStmt(b, l + 1);
@@ -518,8 +526,8 @@ public class ZincParser implements PsiParser, LightPsiParser {
   }
 
   // ElseStmt?
-  private static boolean IfStmt_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStmt_5")) return false;
+  private static boolean IfStmt_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStmt_6")) return false;
     ElseStmt(b, l + 1);
     return true;
   }

@@ -2,7 +2,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="ZINC"
                   implementationClass="guru.xgm.language.zinc.openapi.fileTypes.ZincFileType"
-                  fieldName="INSTANCE"
+                  fieldName="instance"
                   language="ZINC"
                   extensions="zn"
         />

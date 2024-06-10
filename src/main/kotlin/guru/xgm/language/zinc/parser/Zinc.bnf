@@ -169,7 +169,7 @@ WhileStmt ::= WHILE LPAREN Expr RPAREN (Stmt|BracedStmt) {pin=1}
 ReturnStmt ::= RETURN Expr? SEMI? {pin=1}
 
 // -- if
-IfStmt ::= IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?  {pin=1}
+IfStmt ::= STATIC? IF LPAREN Expr RPAREN (Stmt|BracedStmt) ElseStmt?  {pin=2}
 ElseStmt ::= ELSE (Stmt|BracedStmt) {pin=1}
 
 // === EXPRESSION

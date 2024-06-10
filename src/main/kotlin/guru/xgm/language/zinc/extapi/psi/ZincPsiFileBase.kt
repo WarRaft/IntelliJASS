@@ -1,26 +1,13 @@
-package guru.xgm.language.zinc.extapi.psi;
+package guru.xgm.language.zinc.extapi.psi
 
-import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.psi.FileViewProvider;
-import guru.xgm.language.zinc.lang.ZincLanguage;
-import guru.xgm.language.zinc.openapi.fileTypes.ZincFileType;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.extapi.psi.PsiFileBase
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.psi.FileViewProvider
+import guru.xgm.language.zinc.lang.ZincLanguage
+import guru.xgm.language.zinc.openapi.fileTypes.ZincFileType
 
-public class ZincPsiFileBase extends PsiFileBase {
+class ZincPsiFileBase(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, ZincLanguage.instance) {
+    override fun getFileType(): FileType = ZincFileType.instance
 
-    public ZincPsiFileBase(@NotNull FileViewProvider viewProvider) {
-        super(viewProvider, ZincLanguage.INSTANCE);
-    }
-
-    @NotNull
-    @Override
-    public FileType getFileType() {
-        return ZincFileType.INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "ZINC";
-    }
+    override fun toString(): String = ZincLanguage.NAME
 }
