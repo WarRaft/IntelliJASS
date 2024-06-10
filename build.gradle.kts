@@ -21,11 +21,11 @@ sourceSets {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    //compileOnly("org.projectlombok:lombok:1.18.30")
+    //annotationProcessor("org.projectlombok:lombok:1.18.30")
 
-    testCompileOnly("org.projectlombok:lombok:1.18.30")
-    testCompileOnly("org.projectlombok:lombok:1.18.30")
+    //testCompileOnly("org.projectlombok:lombok:1.18.30")
+    //testCompileOnly("org.projectlombok:lombok:1.18.30")
     implementation(kotlin("stdlib-jdk8"))
 }
 
