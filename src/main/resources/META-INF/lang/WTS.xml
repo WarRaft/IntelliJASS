@@ -2,7 +2,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="WTS"
                   implementationClass="guru.xgm.language.wts.openapi.fileTypes.WtsFileType"
-                  fieldName="INSTANCE"
+                  fieldName="instance"
                   language="WTS"
                   extensions="wts"
         />
