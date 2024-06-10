@@ -1,374 +1,349 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert;
+package guru.xgm.language.jass.openapi.actionSystem.convert
 
-import com.intellij.psi.PsiElement;
-import guru.xgm.language.jass.codeInspection.number.JassRawcode;
-import guru.xgm.language.jass.psi.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.PsiElement
+import guru.xgm.language.jass.codeInspection.number.JassRawcode
+import guru.xgm.language.jass.psi.*
 
-import java.util.*;
-
-public abstract class Jass2AnyVisitor extends JassVisitor {
-    public Jass2AnyVisitor() {
-        keywords = new HashSet<>();
+abstract class Jass2AnyVisitor : JassVisitor() {
+    fun getSafeName(name: String): String {
+        if (keywords.contains(name)) return name + keywordSuffix
+        return name
     }
 
-    private static final String keywordSuffix = "_FUCKING_KEYWORD";
-
-    public String getSafeName(String name) {
-        if (keywords.contains(name)) return name + keywordSuffix;
-        return name;
+    fun appendSafeName(name: String) {
+        stringBuffer.append(name)
+        if (keywords.contains(name)) stringBuffer.append(keywordSuffix)
     }
 
-    public void appendSafeName(String name) {
-        stringBuffer.append(name);
-        if (keywords.contains(name)) stringBuffer.append(keywordSuffix);
+    @JvmField
+    var keywords: HashSet<String> = HashSet()
+
+    @JvmField
+    var stringBuffer: StringBuffer = StringBuffer()
+
+    open fun appendSingleLineComment(comment: String?) {
+        stringBuffer.append("//").append(comment).append("\n")
     }
 
-    public HashSet<String> keywords;
-
-    public StringBuffer stringBuffer = new StringBuffer();
-
-    public void appendSingleLineComment(String comment) {
-        stringBuffer.append("//").append(comment).append("\n");
+    open fun appendBlockLineComment(comment: String?) {
+        stringBuffer.append("/*").append(comment).append("*/")
     }
 
-    public void appendBlockLineComment(String comment) {
-        stringBuffer.append("/*").append(comment).append("*/");
+    open fun appendStatementLineEnd() {
+        stringBuffer.append(";\n")
     }
 
-    public void appendStatementLineEnd() {
-        stringBuffer.append(";\n");
+    fun appendString(str: String) {
+        stringBuffer.append(str)
     }
 
-    public void appendString(@NotNull String str) {
-        stringBuffer.append(str);
+    open fun appendReal(real: String) {
+        stringBuffer.append(real)
     }
 
-    public void appendReal(@NotNull String real) {
-        stringBuffer.append(real);
+    open fun appendNull() {
+        stringBuffer.append("null")
     }
 
-    public void appendNull() {
-        stringBuffer.append("null");
+    open fun appendFunctionAsCode(name: String) {
+        stringBuffer.append(name)
     }
 
-    public void appendFunctionAsCode(@NotNull String name) {
-        stringBuffer.append(name);
-    }
-
-    public @NotNull String getConvertedTypeName(@NotNull String type) {
-        return type;
+    open fun getConvertedTypeName(type: String): String {
+        return type
     }
 
     // --- typedef
-    public void appendTypeDef(String name, String base) {
-        appendSingleLineComment(name + " extends " + base);
+    open fun appendTypeDef(name: String, base: String) {
+        appendSingleLineComment("$name extends $base")
     }
 
-    @Override
-    public void visitTypeDef(@NotNull JassTypeDef o) {
-        final var name = o.getTypeName();
-        final var base = o.getTypeNameBase();
-        if (name == null || base == null) return;
-        appendTypeDef(name.getText(), base.getText());
+    override fun visitTypeDef(o: JassTypeDef) {
+        val name = o.typeName
+        val base = o.typeNameBase
+        if (name == null || base == null) return
+        appendTypeDef(name.text, base.text)
     }
 
     // --- globals
-    @Override
-    public void visitGlob(@NotNull JassGlob o) {
-        appendSingleLineComment("globals");
-        o.acceptChildren(this);
-        appendSingleLineComment("endglobals");
+    override fun visitGlob(o: JassGlob) {
+        appendSingleLineComment("globals")
+        o.acceptChildren(this)
+        appendSingleLineComment("endglobals")
     }
 
     // --- variable
-    public abstract void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr);
+    abstract fun appendVar(
+        constant: Boolean,
+        global: Boolean,
+        array: Boolean,
+        type: String,
+        name: String?,
+        expr: JassExpr?
+    )
 
-    private void appendVarPrepare(boolean constant, boolean global, @NotNull JassVar var) {
-        appendVar(constant, global, var.getArray() != null, getConvertedTypeName(var.getTypeName().getText()), getSafeName(var.getId().getText()), var.getExpr());
+    private fun appendVarPrepare(constant: Boolean, global: Boolean, `var`: JassVar) {
+        appendVar(
+            constant,
+            global,
+            `var`.array != null,
+            getConvertedTypeName(`var`.typeName.text),
+            getSafeName(`var`.id.text),
+            `var`.expr
+        )
     }
 
-    @Override
-    public void visitGvar(@NotNull JassGvar o) {
-        appendVarPrepare(o.getConstant() != null, true, o.getVar());
+    override fun visitGvar(o: JassGvar) {
+        appendVarPrepare(o.constant != null, true, o.getVar())
     }
 
-    @Override
-    public void visitLvarStmt(@NotNull JassLvarStmt o) {
-        appendVarPrepare(false, false, o.getVar());
+    override fun visitLvarStmt(o: JassLvarStmt) {
+        appendVarPrepare(false, false, o.getVar())
     }
 
     // --- function
-    public abstract void appendFunction(@Nullable String returns, String name, @NotNull List<JassParam> params, @NotNull List<JassStmt> statements);
+    abstract fun appendFunction(returns: String?, name: String?, params: List<JassParam?>, statements: List<JassStmt?>)
 
-    @Override
-    public void visitFun(@NotNull JassFun o) {
-        final JassFunRet ret = o.getFunRet();
-        final @Nullable var rettype = ret != null ? ret.getTypeName() : null;
+    override fun visitFun(o: JassFun) {
+        val ret = o.funRet
+        val rettype = ret?.typeName
 
-        final var name = o.getId();
+        val name = o.id
 
-        final var take = o.getFunTake();
-        List<JassParam> params = new ArrayList<>();
+        val take = o.funTake
+        var params: List<JassParam?> = ArrayList()
         if (take != null) {
-            final var list = take.getParamList();
-            if (list != null) params = list.getParamList();
+            val list = take.paramList
+            if (list != null) params = list.paramList
         }
 
         appendFunction(
-                ret == null || rettype == null || ret.getNothing() != null ? null : getConvertedTypeName(rettype.getText()),
-                name == null ? "" : getSafeName(name.getText()),
-                params,
-                o.getStmtList()
-        );
+            if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
+            if (name == null) "" else getSafeName(name.text),
+            params,
+            o.stmtList
+        )
     }
 
     // --- statement
-
     // stmt list
-    @Override
-    public void visitStmt(@NotNull JassStmt o) {
-        o.acceptChildren(this);
+    override fun visitStmt(o: JassStmt) {
+        o.acceptChildren(this)
     }
 
     // return
-    @Override
-    public void visitReturnStmt(@NotNull JassReturnStmt o) {
-        stringBuffer.append("return ");
-        acceptExpr(o.getExpr());
-        appendStatementLineEnd();
+    override fun visitReturnStmt(o: JassReturnStmt) {
+        stringBuffer.append("return ")
+        acceptExpr(o.expr)
+        appendStatementLineEnd()
     }
 
     // set
-    @Override
-    public void visitSetStmt(@NotNull JassSetStmt o) {
-        final var id = o.getId();
-        if (id != null) appendSafeName(id.getText());
-        final var arr = o.getArrayAccess();
-        if (arr != null) arr.accept(this);
-        final var expr = o.getExpr();
+    override fun visitSetStmt(o: JassSetStmt) {
+        val id = o.id
+        if (id != null) appendSafeName(id.text)
+        val arr = o.arrayAccess
+        arr?.accept(this)
+        val expr = o.expr
         if (expr != null) {
-            stringBuffer.append(" = ");
-            expr.accept(this);
+            stringBuffer.append(" = ")
+            expr.accept(this)
         }
-        appendStatementLineEnd();
+        appendStatementLineEnd()
     }
 
     // call
-    @Override
-    public void visitCallStmt(@NotNull JassCallStmt o) {
-        if (o.getDebug() != null) appendBlockLineComment("debug");
-        o.getFunCall().accept(this);
-        appendStatementLineEnd();
+    override fun visitCallStmt(o: JassCallStmt) {
+        if (o.debug != null) appendBlockLineComment("debug")
+        o.funCall.accept(this)
+        appendStatementLineEnd()
     }
 
-    @Override
-    public void visitFunCall(@NotNull JassFunCall o) {
-        final var name = o.getId().getText();
-        final var list = o.getArgList();
-        if (Objects.equals(name, "ExecuteFunc") && list != null) {
-            final var exprs = list.getExprList();
-            if (exprs.size() == 1) {
-                final var expr = exprs.get(0).getFirstChild();
-                if (expr.getNode().getElementType() == JassTypes.STRVAL) {
-                    String fn = expr.getText().replaceFirst("^\"", "").replaceFirst("\"$", "");
-                    if (fn.matches("^[a-zA-Z_][a-zA-Z_0-9]*$")) {
-                        stringBuffer.append(fn).append("()");
-                        return;
+    override fun visitFunCall(o: JassFunCall) {
+        val name = o.id.text
+        val list = o.argList
+        if (name == "ExecuteFunc" && list != null) {
+            val exprs = list.exprList
+            if (exprs.size == 1) {
+                val expr = exprs[0].firstChild
+                if (expr.node.elementType === JassTypes.STRVAL) {
+                    val fn = expr.text.replaceFirst("^\"".toRegex(), "").replaceFirst("\"$".toRegex(), "")
+                    if (fn.matches("^[a-zA-Z_][a-zA-Z_0-9]*$".toRegex())) {
+                        stringBuffer.append(fn).append("()")
+                        return
                     }
                 }
             }
         }
 
-        appendSafeName(name);
-        stringBuffer.append("(");
-        if (list != null) list.accept(this);
-        stringBuffer.append(")");
+        appendSafeName(name)
+        stringBuffer.append("(")
+        list?.accept(this)
+        stringBuffer.append(")")
     }
 
-    @Override
-    public void visitArgList(@NotNull JassArgList o) {
-        final var list = o.getExprList();
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).accept(this);
-            if (i < list.size() - 1) stringBuffer.append(", ");
+    override fun visitArgList(o: JassArgList) {
+        val list = o.exprList
+        for (i in list.indices) {
+            list[i].accept(this)
+            if (i < list.size - 1) stringBuffer.append(", ")
         }
     }
 
-    @Override
-    public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
-        appendFunctionAsCode(getSafeName(o.getId().getText()));
+    override fun visitFuncAsCode(o: JassFuncAsCode) {
+        appendFunctionAsCode(getSafeName(o.id.text))
     }
 
     // ===============
-
-    private boolean text(@Nullable PsiElement pe) {
-        if (pe == null) return false;
-        stringBuffer.append(pe.getText());
-        return true;
+    private fun text(pe: PsiElement?): Boolean {
+        if (pe == null) return false
+        stringBuffer.append(pe.text)
+        return true
     }
 
-    @Override
-    public void visitArrayAccess(@NotNull JassArrayAccess o) {
-        stringBuffer.append(o.getId().getText()).append("[");
-        final var expr = o.getExpr();
-        if (expr != null) expr.accept(this);
-        stringBuffer.append("]");
+    override fun visitArrayAccess(o: JassArrayAccess) {
+        stringBuffer.append(o.id.text).append("[")
+        val expr = o.expr
+        expr?.accept(this)
+        stringBuffer.append("]")
     }
 
     // --- expression
-    public void acceptExpr(@Nullable JassExpr expr) {
-        if (expr == null) return;
-        expr.accept(this);
+    fun acceptExpr(expr: JassExpr?) {
+        if (expr == null) return
+        expr.accept(this)
     }
 
-    public void appendExprWithPrefixOp(@Nullable JassExpr expr, String op) {
-        if (expr == null) return;
-        stringBuffer.append(" ").append(op).append(" ");
-        expr.accept(this);
+    fun appendExprWithPrefixOp(expr: JassExpr?, op: String?) {
+        if (expr == null) return
+        stringBuffer.append(" ").append(op).append(" ")
+        expr.accept(this)
     }
 
-    public void appendExprListConcatByOperator(List<JassExpr> list, String op) {
-        list.get(0).accept(this);
-        stringBuffer.append(" ").append(op).append(" ");
-        list.get(1).accept(this);
+    fun appendExprListConcatByOperator(list: List<JassExpr>, op: String?) {
+        list[0].accept(this)
+        stringBuffer.append(" ").append(op).append(" ")
+        list[1].accept(this)
     }
 
-    public void appendRawcode(JassRawcode raw) {
-        stringBuffer.append("FourCC(\"").append(raw.strval).append("\")");
+    open fun appendRawcode(raw: JassRawcode) {
+        stringBuffer.append("FourCC(\"").append(raw.strval).append("\")")
     }
 
     // primary
-    @Override
-    public void visitPrimExpr(@NotNull JassPrimExpr o) {
-        if (text(o.getTrue())) return;
-        if (text(o.getFalse())) return;
-        final var tnull = o.getNull();
+    override fun visitPrimExpr(o: JassPrimExpr) {
+        if (text(o.getTrue())) return
+        if (text(o.getFalse())) return
+        val tnull = o.getNull()
         if (tnull != null) {
-            appendNull();
-            return;
+            appendNull()
+            return
         }
-        final var id = o.getId();
+        val id = o.id
         if (id != null) {
-            appendSafeName(id.getText());
-            return;
+            appendSafeName(id.text)
+            return
         }
-        if (text(o.getIntval())) return;
-        final var str = o.getStrval();
+        if (text(o.intval)) return
+        val str = o.strval
         if (str != null) {
-            appendString(str.getText());
-            return;
+            appendString(str.text)
+            return
         }
-        final var raw = o.getRawval();
+        val raw = o.rawval
         if (raw != null) {
-            appendRawcode(new JassRawcode(raw));
-            return;
+            appendRawcode(JassRawcode(raw))
+            return
         }
-        final var hex = o.getHexval();
+        val hex = o.hexval
         if (hex != null) {
-            stringBuffer.append(hex.getText().replace("$", "0x"));
-            return;
+            stringBuffer.append(hex.text.replace("$", "0x"))
+            return
         }
-        final var real = o.getRealval();
+        val real = o.realval
         if (real != null) {
-            appendReal(real.getText());
-            return;
+            appendReal(real.text)
+            return
         }
-        o.acceptChildren(this);
+        o.acceptChildren(this)
     }
 
-    @Override
-    public void visitMulUnExpr(@NotNull JassMulUnExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "*");
+    override fun visitMulUnExpr(o: JassMulUnExpr) {
+        appendExprWithPrefixOp(o.expr, "*")
     }
 
-    @Override
-    public void visitDivUnExpr(@NotNull JassDivUnExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "/");
+    override fun visitDivUnExpr(o: JassDivUnExpr) {
+        appendExprWithPrefixOp(o.expr, "/")
     }
 
-    @Override
-    public void visitPlusUnExpr(@NotNull JassPlusUnExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "+");
+    override fun visitPlusUnExpr(o: JassPlusUnExpr) {
+        appendExprWithPrefixOp(o.expr, "+")
     }
 
-    @Override
-    public void visitMinusUnExpr(@NotNull JassMinusUnExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "-");
+    override fun visitMinusUnExpr(o: JassMinusUnExpr) {
+        appendExprWithPrefixOp(o.expr, "-")
     }
 
-    @Override
-    public void visitNotExpr(@NotNull JassNotExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "!");
+    override fun visitNotExpr(o: JassNotExpr) {
+        appendExprWithPrefixOp(o.expr, "!")
     }
 
-    @Override
-    public void visitEqExpr(@NotNull JassEqExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "==");
+    override fun visitEqExpr(o: JassEqExpr) {
+        appendExprListConcatByOperator(o.exprList, "==")
     }
 
-    @Override
-    public void visitNeqExpr(@NotNull JassNeqExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "!=");
+    override fun visitNeqExpr(o: JassNeqExpr) {
+        appendExprListConcatByOperator(o.exprList, "!=")
     }
 
-    @Override
-    public void visitLtExpr(@NotNull JassLtExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "<");
+    override fun visitLtExpr(o: JassLtExpr) {
+        appendExprListConcatByOperator(o.exprList, "<")
     }
 
-    @Override
-    public void visitLtEqExpr(@NotNull JassLtEqExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "<=");
+    override fun visitLtEqExpr(o: JassLtEqExpr) {
+        appendExprListConcatByOperator(o.exprList, "<=")
     }
 
-    @Override
-    public void visitGtExpr(@NotNull JassGtExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), ">");
+    override fun visitGtExpr(o: JassGtExpr) {
+        appendExprListConcatByOperator(o.exprList, ">")
     }
 
-    @Override
-    public void visitGtEqExpr(@NotNull JassGtEqExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), ">=");
+    override fun visitGtEqExpr(o: JassGtEqExpr) {
+        appendExprListConcatByOperator(o.exprList, ">=")
     }
 
-    @Override
-    public void visitParenExpr(@NotNull JassParenExpr o) {
-        stringBuffer.append("(");
-        acceptExpr(o.getExpr());
-        stringBuffer.append(")");
+    override fun visitParenExpr(o: JassParenExpr) {
+        stringBuffer.append("(")
+        acceptExpr(o.expr)
+        stringBuffer.append(")")
     }
 
-    @Override
-    public void visitAndExpr(@NotNull JassAndExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "&&");
+    override fun visitAndExpr(o: JassAndExpr) {
+        appendExprListConcatByOperator(o.exprList, "&&")
     }
 
-    @Override
-    public void visitOrExpr(@NotNull JassOrExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "||");
+    override fun visitOrExpr(o: JassOrExpr) {
+        appendExprListConcatByOperator(o.exprList, "||")
     }
 
-    @Override
-    public void visitPlusExpr(@NotNull JassPlusExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "+");
+    override fun visitPlusExpr(o: JassPlusExpr) {
+        appendExprListConcatByOperator(o.exprList, "+")
     }
 
-    @Override
-    public void visitMinusExpr(@NotNull JassMinusExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "-");
+    override fun visitMinusExpr(o: JassMinusExpr) {
+        appendExprListConcatByOperator(o.exprList, "-")
     }
 
-    @Override
-    public void visitMulExpr(@NotNull JassMulExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "*");
+    override fun visitMulExpr(o: JassMulExpr) {
+        appendExprListConcatByOperator(o.exprList, "*")
     }
 
-    @Override
-    public void visitDivExpr(@NotNull JassDivExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "/");
+    override fun visitDivExpr(o: JassDivExpr) {
+        appendExprListConcatByOperator(o.exprList, "/")
     }
 
 
+    companion object {
+        private const val keywordSuffix = "_FUCKING_KEYWORD"
+    }
 }

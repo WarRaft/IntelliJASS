@@ -1,22 +1,12 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua;
+package guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua
 
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction;
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
-import org.jetbrains.annotations.NotNull;
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
 
-public class Jass2LuaAction extends Jass2AnyAction {
+class Jass2LuaAction : Jass2AnyAction() {
+    override val visitor: Jass2AnyVisitor
+        get() = Jass2LuaVisitor()
 
-    public Jass2LuaAction() {
-        super();
-    }
-
-    @Override
-    public @NotNull Jass2AnyVisitor getVisitor() {
-        return new Jass2LuaVisitor();
-    }
-
-    @Override
-    public @NotNull String getTargetExtension() {
-        return "lua";
-    }
+    override val targetExtension: String
+        get() = "lua"
 }

@@ -1,38 +1,41 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.ChildAttributes;
-import com.intellij.formatting.Indent;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.ChildAttributes
+import com.intellij.formatting.Indent
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.jass.psi.JassTypes
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.jass.psi.JassTypes.*;
+class JassFunctionBlock(
+    myNode: ASTNode?,
+    myAlignment: Alignment?,
+    myIndent: Indent?,
+    codeStyleSettings: CodeStyleSettings?
+) : JassBlock(
+    myNode!!, myAlignment, myIndent, codeStyleSettings!!
+) {
+    override fun makeSubBlock(childNode: ASTNode): Block {
+        var indent = Indent.getNormalIndent()
 
-public class JassFunctionBlock extends JassBlock {
-    public JassFunctionBlock(ASTNode myNode, Alignment myAlignment, Indent myIndent, CodeStyleSettings codeStyleSettings) {
-        super(myNode, myAlignment, myIndent, codeStyleSettings);
+        if (FormatterUtil.isOneOf(childNode, JassTypes.FUNCTION, JassTypes.ENDFUNCTION)) indent = Indent.getNoneIndent()
+        if (FormatterUtil.isOneOf(childNode, JassTypes.STMT)) return JassStatementBlock(
+            childNode.firstChildNode,
+            null,
+            Indent.getNormalIndent(),
+            myCodeStyleSettings
+        )
+
+        return JassBlock(childNode, null, indent, myCodeStyleSettings)
     }
 
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-        Indent indent = Indent.getNormalIndent();
-
-        if (isOneOf(childNode, FUNCTION, ENDFUNCTION)) indent = Indent.getNoneIndent();
-        if (isOneOf(childNode, STMT)) return new JassStatementBlock(childNode.getFirstChildNode(), null, Indent.getNormalIndent(), myCodeStyleSettings);
-
-        return new JassBlock(childNode, null, indent, myCodeStyleSettings);
+    override fun getChildAttributes(i: Int): ChildAttributes {
+        return ChildAttributes(Indent.getNormalIndent(), null)
     }
 
-    @Override
-    public @NotNull ChildAttributes getChildAttributes(int i) {
-        return new ChildAttributes(Indent.getNormalIndent(), null);
-    }
-
-    @Override
-    public boolean isIncomplete() {
-        return !isOneOf(myNode.getLastChildNode(), ENDFUNCTION);
+    override fun isIncomplete(): Boolean {
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, JassTypes.ENDFUNCTION)
     }
 }

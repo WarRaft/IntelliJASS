@@ -15,8 +15,8 @@
     <depends config-file="lang/ZINC.xml">com.intellij.modules.platform</depends>
     <depends config-file="lang/VJASS.xml">com.intellij.modules.platform</depends>
     <depends config-file="lang/AngelScript.xml">com.intellij.modules.platform</depends>
-    <depends config-file="lang/LNI.xml">com.intellij.modules.platform</depends>
     <depends config-file="lang/WTS.xml">com.intellij.modules.platform</depends>
+    <depends config-file="lang/LNI.xml">com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- https://github.com/DrSuperGood/blp-iio-plugin -->

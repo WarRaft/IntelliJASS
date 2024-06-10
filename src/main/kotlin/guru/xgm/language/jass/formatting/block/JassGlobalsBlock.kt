@@ -1,43 +1,45 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.ChildAttributes
+import com.intellij.formatting.Indent
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings
+import guru.xgm.language.jass.formatting.block.JassGlobalVarBlock.Companion.getAlignments
+import guru.xgm.language.jass.psi.JassTypes
 
-import java.util.HashMap;
+class JassGlobalsBlock(myNode: ASTNode?, code: CodeStyleSettings) :
+    JassBlock(myNode!!, null, Indent.getNoneIndent(), code) {
+    private val gvarAlignments: HashMap<String, Alignment>
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.jass.psi.JassTypes.*;
-
-public class JassGlobalsBlock extends JassBlock {
-    public JassGlobalsBlock(ASTNode myNode, CodeStyleSettings code) {
-        super(myNode, null, Indent.getNoneIndent(), code);
-        final JassCodeStyleSettings jass = code.getCustomSettings(JassCodeStyleSettings.class);
-        gvarAlignments = JassGlobalVarBlock.getAlignments(jass);
+    init {
+        val jass = code.getCustomSettings(JassCodeStyleSettings::class.java)
+        gvarAlignments = getAlignments(jass)
     }
 
-    private final HashMap<String, Alignment> gvarAlignments;
+    override fun makeSubBlock(childNode: ASTNode): Block {
+        var indent = Indent.getNormalIndent()
 
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-        Indent indent = Indent.getNormalIndent();
+        if (FormatterUtil.isOneOf(childNode, JassTypes.GVAR)) return JassGlobalVarBlock(
+            childNode,
+            null,
+            Indent.getNormalIndent(),
+            myCodeStyleSettings,
+            gvarAlignments
+        )
+        if (FormatterUtil.isOneOf(childNode, JassTypes.GLOBALS, JassTypes.ENDGLOBALS)) indent = Indent.getNoneIndent()
 
-        if (isOneOf(childNode, GVAR))
-            return new JassGlobalVarBlock(childNode, null, Indent.getNormalIndent(), myCodeStyleSettings, gvarAlignments);
-        if (isOneOf(childNode, GLOBALS, ENDGLOBALS)) indent = Indent.getNoneIndent();
-
-        return new JassBlock(childNode, null, indent, myCodeStyleSettings);
+        return JassBlock(childNode, null, indent, myCodeStyleSettings)
     }
 
-    @Override
-    public @NotNull ChildAttributes getChildAttributes(int i) {
-        return new ChildAttributes(Indent.getNormalIndent(), null);
+    override fun getChildAttributes(i: Int): ChildAttributes {
+        return ChildAttributes(Indent.getNormalIndent(), null)
     }
 
-    @Override
-    public boolean isIncomplete() {
-        return !isOneOf(myNode.getLastChildNode(), ENDGLOBALS);
+    override fun isIncomplete(): Boolean {
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, JassTypes.ENDGLOBALS)
     }
 }

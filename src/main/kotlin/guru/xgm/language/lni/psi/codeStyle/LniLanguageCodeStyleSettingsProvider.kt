@@ -15,7 +15,7 @@ import guru.xgm.language.lni.formatting.panel.LniAlignTokenPanel
 import guru.xgm.language.lni.formatting.panel.LniCodeStyleMainPanel
 import guru.xgm.language.lni.lang.LniLanguage.Companion.instance
 
-internal class LniLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
+class LniLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
         return LniCodeStyleSettings(settings)
     }
@@ -86,23 +86,21 @@ internal class LniLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsP
         indentOptions.SMART_TABS = false
     }
 
-    override fun getCodeSample(settingsType: SettingsType): String {
-        return """
-                [ACac]
-                string = "value"
-                multiline_string = [=[
-                "a"
-                ]=]
-                intlist = {1,2,3,4,}
-                stringlist = {
-                    "a",
-                    "b",
-                    "c",
-                    "d",
-                }
-                
-                """.trimIndent()
-    }
+    override fun getCodeSample(settingsType: SettingsType): String = """
+            [ACac]
+            string = "value"
+            multiline_string = [=[
+            "a"
+            ]=]
+            intlist = {1,2,3,4,}
+            stringlist = {
+                "a",
+                "b",
+                "c",
+                "d",
+            }
+            
+            """.trimIndent()
 
 }
 

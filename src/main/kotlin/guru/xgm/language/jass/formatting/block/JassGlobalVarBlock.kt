@@ -1,62 +1,76 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings
+import guru.xgm.language.jass.psi.JassTypes
 
-import java.util.HashMap;
+class JassGlobalVarBlock(
+    myNode: ASTNode,
+    alignment: Alignment?,
+    indent: Indent?,
+    codeStyleSettings: CodeStyleSettings,
+    private val alignments: HashMap<String, Alignment>
+) : JassBlock(myNode, alignment, indent, codeStyleSettings) {
+    override fun makeSubBlock(childNode: ASTNode): Block {
+        var alignment: Alignment? = null
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.jass.formatting.JassCodeStyleSettings.Fields.*;
-import static guru.xgm.language.jass.psi.JassTypes.*;
+        if (FormatterUtil.isOneOf(childNode, JassTypes.TYPE_NAME)) alignment =
+            alignments[JassCodeStyleSettings::AT_GVAR_TYPE.name]
 
-public class JassGlobalVarBlock extends JassBlock {
-    public JassGlobalVarBlock(ASTNode myNode, Alignment alignment, Indent indent, CodeStyleSettings codeStyleSettings, HashMap<String, Alignment> alignments) {
-        super(myNode, alignment, indent, codeStyleSettings);
-        this.alignments = alignments;
+        if (FormatterUtil.isOneOf(childNode, JassTypes.ARRAY)) alignment =
+            alignments[JassCodeStyleSettings::AT_GVAR_ARRAY.name]
+
+        if (FormatterUtil.isOneOf(childNode, JassTypes.ID)) alignment =
+            alignments[JassCodeStyleSettings::AT_GVAR_NAME.name]
+
+        if (FormatterUtil.isOneOf(childNode, JassTypes.EQ)) alignment =
+            alignments[JassCodeStyleSettings::AT_GVAR_ASSIGN.name]
+
+        if (FormatterUtil.isOneOf(
+                childNode,
+                JassTypes.CONSTANT,
+                JassTypes.ARRAY,
+                JassTypes.TYPE_NAME,
+                JassTypes.EQ,
+                JassTypes.VAR
+            )
+        ) return JassGlobalVarBlock(childNode, alignment, null, myCodeStyleSettings, alignments)
+
+        return JassBlock(childNode, alignment, null, myCodeStyleSettings)
     }
 
-    private final HashMap<String, Alignment> alignments;
+    override val spacingBuilder: SpacingBuilder?
+        get() = super.spacingBuilder
+            ?.around(JassTypes.ARRAY)?.spacing(1, 1, 0, false, 0)
+            ?.around(JassTypes.TYPE_NAME)?.spacing(1, 1, 0, false, 0)
+            ?.around(JassTypes.ID)?.spacing(1, 1, 0, false, 0)
 
-    static HashMap<String, Alignment> getAlignments(JassCodeStyleSettings jass) {
-        final HashMap<String, Alignment> map = new HashMap<>();
 
-        if (jass.AT_GVAR_TYPE || jass.AT_GVAR_TYPE_RIGHT)
-            map.put(AT_GVAR_TYPE, Alignment.createAlignment(true, jass.AT_GVAR_TYPE_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
-        if (jass.AT_GVAR_ARRAY) map.put(AT_GVAR_ARRAY, Alignment.createAlignment(true));
-        if (jass.AT_GVAR_NAME || jass.AT_GVAR_NAME_RIGHT)
-            map.put(AT_GVAR_NAME, Alignment.createAlignment(true, jass.AT_GVAR_NAME_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
-        if (jass.AT_GVAR_ASSIGN) map.put(AT_GVAR_ASSIGN, Alignment.createAlignment(true));
+    companion object {
+        @JvmStatic
+        fun getAlignments(jass: JassCodeStyleSettings): HashMap<String, Alignment> {
+            val map = HashMap<String, Alignment>()
 
-        return map;
-    }
+            if (jass.AT_GVAR_TYPE || jass.AT_GVAR_TYPE_RIGHT) map[JassCodeStyleSettings::AT_GVAR_TYPE.name] =
+                Alignment.createAlignment(
+                    true,
+                    if (jass.AT_GVAR_TYPE_RIGHT) Alignment.Anchor.RIGHT else Alignment.Anchor.LEFT
+                )
+            if (jass.AT_GVAR_ARRAY) map[JassCodeStyleSettings::AT_GVAR_ARRAY.name] = Alignment.createAlignment(true)
+            if (jass.AT_GVAR_NAME || jass.AT_GVAR_NAME_RIGHT) map[JassCodeStyleSettings::AT_GVAR_NAME.name] =
+                Alignment.createAlignment(
+                    true,
+                    if (jass.AT_GVAR_NAME_RIGHT) Alignment.Anchor.RIGHT else Alignment.Anchor.LEFT
+                )
+            if (jass.AT_GVAR_ASSIGN) map[JassCodeStyleSettings::AT_GVAR_ASSIGN.name] = Alignment.createAlignment(true)
 
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-        Alignment alignment = null;
-
-        if (isOneOf(childNode, TYPE_NAME)) alignment = alignments.get(AT_GVAR_TYPE);
-
-        if (isOneOf(childNode, ARRAY)) alignment = alignments.get(AT_GVAR_ARRAY);
-
-        if (isOneOf(childNode, ID)) alignment = alignments.get(AT_GVAR_NAME);
-
-        if (isOneOf(childNode, EQ)) alignment = alignments.get(AT_GVAR_ASSIGN);
-
-        if (isOneOf(childNode, CONSTANT, ARRAY, TYPE_NAME, EQ, VAR))
-            return new JassGlobalVarBlock(childNode, alignment, null, myCodeStyleSettings, alignments);
-
-        return new JassBlock(childNode, alignment, null, myCodeStyleSettings);
-    }
-
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        return super.getSpacingBuilder()
-                .around(ARRAY).spacing(1, 1, 0, false, 0)
-                .around(TYPE_NAME).spacing(1, 1, 0, false, 0)
-                .around(ID).spacing(1, 1, 0, false, 0)
-                ;
+            return map
+        }
     }
 }

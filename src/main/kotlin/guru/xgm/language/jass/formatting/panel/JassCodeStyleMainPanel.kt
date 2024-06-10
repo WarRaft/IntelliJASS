@@ -1,22 +1,20 @@
-package guru.xgm.language.jass.formatting.panel;
+package guru.xgm.language.jass.formatting.panel
 
-import com.intellij.application.options.TabbedLanguageCodeStylePanel;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
-import guru.xgm.language.jass.lang.JassLanguage;
+import com.intellij.application.options.TabbedLanguageCodeStylePanel
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
+import guru.xgm.language.jass.lang.JassLanguage.Companion.instance
 
-public class JassCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
-    public JassCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
-        super(JassLanguage.Companion.getInstance(), currentSettings, settings);
-    }
-
-    @Override
-    protected void initTabs(CodeStyleSettings settings) {
-        super.initTabs(settings);
-        addTab(new JassAlignTokenPanel(settings));
-        for (CodeStyleSettingsProvider provider : CodeStyleSettingsProvider.EXTENSION_POINT_NAME.getExtensionList()) {
-            if (provider.getLanguage() == JassLanguage.Companion.getInstance() && !provider.hasSettingsPage()) {
-                createTab(provider);
+class JassCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
+    TabbedLanguageCodeStylePanel(
+        instance, currentSettings, settings!!
+    ) {
+    override fun initTabs(settings: CodeStyleSettings) {
+        super.initTabs(settings)
+        addTab(JassAlignTokenPanel(settings))
+        for (provider in CodeStyleSettingsProvider.EXTENSION_POINT_NAME.extensionList) {
+            if (provider.language === instance && !provider.hasSettingsPage()) {
+                createTab(provider)
             }
         }
     }

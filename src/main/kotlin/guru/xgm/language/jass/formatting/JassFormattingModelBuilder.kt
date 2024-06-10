@@ -1,26 +1,21 @@
-package guru.xgm.language.jass.formatting;
+package guru.xgm.language.jass.formatting
 
-import com.intellij.formatting.FormattingContext;
-import com.intellij.formatting.FormattingModel;
-import com.intellij.formatting.FormattingModelBuilder;
-import com.intellij.formatting.FormattingModelProvider;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.jass.formatting.block.JassRootBlock;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.FormattingContext
+import com.intellij.formatting.FormattingModel
+import com.intellij.formatting.FormattingModelBuilder
+import com.intellij.formatting.FormattingModelProvider
+import guru.xgm.language.jass.formatting.block.JassRootBlock
 
-final class JassFormattingModelBuilder implements FormattingModelBuilder {
+internal class JassFormattingModelBuilder : FormattingModelBuilder {
+    override fun createModel(formattingContext: FormattingContext): FormattingModel {
+        val code = formattingContext.codeStyleSettings
 
-    @Override
-    public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
-        final CodeStyleSettings code = formattingContext.getCodeStyleSettings();
-
-        final JassCodeStyleSettings jass = code.getCustomSettings(JassCodeStyleSettings.class);
+        val jass = code.getCustomSettings(JassCodeStyleSettings::class.java)
         return FormattingModelProvider
-                .createFormattingModelForPsiFile(
-                        formattingContext.getContainingFile(),
-                        new JassRootBlock(formattingContext.getNode(), code, jass),
-                        code
-                );
+            .createFormattingModelForPsiFile(
+                formattingContext.containingFile,
+                JassRootBlock(formattingContext.node, code, jass),
+                code
+            )
     }
-
 }

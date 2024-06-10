@@ -1,74 +1,45 @@
-package guru.xgm.language.jass.openapi.options.colors;
+package guru.xgm.language.jass.openapi.colors
 
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.options.colors.AttributesDescriptor;
-import com.intellij.openapi.options.colors.ColorDescriptor;
-import com.intellij.openapi.options.colors.ColorSettingsPage;
-import guru.xgm.language.jass.icons.JassIcons;
-import guru.xgm.language.jass.lang.JassLanguage;
-import guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterBase;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.fileTypes.SyntaxHighlighter
+import com.intellij.openapi.options.colors.AttributesDescriptor
+import com.intellij.openapi.options.colors.ColorDescriptor
+import com.intellij.openapi.options.colors.ColorSettingsPage
+import guru.xgm.language.jass.icons.JassIcons.FILE
+import guru.xgm.language.jass.lang.JassLanguage
+import guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterBase
+import javax.swing.Icon
 
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
+internal class JassColorSettingsPage : ColorSettingsPage {
+    override fun getIcon(): Icon = FILE
 
-final class JassColorSettingsPage implements ColorSettingsPage {
+    override fun getHighlighter(): SyntaxHighlighter = JassSyntaxHighlighterBase()
 
-    private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Identifier", JassSyntaxHighlighterBase.ID_KEY),
-            new AttributesDescriptor("Type", JassSyntaxHighlighterBase.TYPE_NAME_KEY),
-            new AttributesDescriptor("Keyword", JassSyntaxHighlighterBase.KEYWORD_KEY),
-            new AttributesDescriptor("Comment", JassSyntaxHighlighterBase.LINE_COMMENT_KEY),
-            new AttributesDescriptor("Bad character", JassSyntaxHighlighterBase.BAD_CHARACTER_KEY),
-    };
+    override fun getDemoText(): String = """
+            ${'$'} // bad character
+            type <TYPE_NAME>agent</TYPE_NAME> extends <TYPE_NAME>handle</TYPE_NAME>
+            
+            """.trimIndent()
 
-    @Override
-    public @NotNull Icon getIcon() {
-        return JassIcons.INSTANCE.getFILE();
-    }
+    override fun getAdditionalHighlightingTagToDescriptorMap(): HashMap<String, TextAttributesKey?> = ourTags
 
-    @NotNull
-    @Override
-    public SyntaxHighlighter getHighlighter() {
-        return new JassSyntaxHighlighterBase();
-    }
+    override fun getAttributeDescriptors(): Array<AttributesDescriptor> = DESCRIPTORS
 
-    @NotNull
-    @Override
-    public String getDemoText() {
-        return """
-                $ // bad character
-                type <TYPE_NAME>agent</TYPE_NAME> extends <TYPE_NAME>handle</TYPE_NAME>
-                """;
-    }
+    override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-    @NonNls
-    private static final Map<String, TextAttributesKey> ourTags = new HashMap<>() {{
-        put("TYPE_NAME", JassSyntaxHighlighterBase.TYPE_NAME_KEY);
-    }};
-
-    @Override
-    public @NotNull Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-        return ourTags;
-    }
-
-    @Override
-    public AttributesDescriptor @NotNull [] getAttributeDescriptors() {
-        return DESCRIPTORS;
-    }
-
-    @Override
-    public ColorDescriptor @NotNull [] getColorDescriptors() {
-        return ColorDescriptor.EMPTY_ARRAY;
-    }
-
-    @NotNull
-    @Override
-    public String getDisplayName() {
-        return JassLanguage.NAME;
-    }
-
+    override fun getDisplayName(): String = JassLanguage.NAME
 }
+
+private val DESCRIPTORS = arrayOf(
+    AttributesDescriptor("Identifier", JassSyntaxHighlighterBase.JASS_ID),
+    AttributesDescriptor("Type", JassSyntaxHighlighterBase.JASS_TYPE_NAME),
+    AttributesDescriptor("Keyword", JassSyntaxHighlighterBase.JASS_KEYWORD),
+    AttributesDescriptor("Comment", JassSyntaxHighlighterBase.JASS_LINE_COMMENT),
+    AttributesDescriptor("Bad character", JassSyntaxHighlighterBase.JASS_BAD_CHARACTER),
+)
+private val ourTags: HashMap<String, TextAttributesKey?> =
+    object : HashMap<String, TextAttributesKey?>() {
+        init {
+            put("TYPE_NAME", JassSyntaxHighlighterBase.JASS_TYPE_NAME)
+        }
+    }

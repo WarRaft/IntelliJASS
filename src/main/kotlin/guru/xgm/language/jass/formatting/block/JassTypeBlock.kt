@@ -1,74 +1,66 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import guru.xgm.language.jass.lang.JassLanguage;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.jass.formatting.JassCodeStyleSettings.Fields.*;
-import static guru.xgm.language.jass.psi.JassTypes.*;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings
+import guru.xgm.language.jass.lang.JassLanguage
+import guru.xgm.language.jass.psi.JassTypes
 
 /**
  * https://plugins.jetbrains.com/docs/intellij/code-formatting.html
  */
-public class JassTypeBlock extends JassBlock {
-    public JassTypeBlock(
-            ASTNode myNode,
-            CodeStyleSettings myCodeStyleSettings,
-            HashMap<String, Alignment> alignments
-    ) {
-        super(myNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
-        this.aligments = alignments;
-    }
+class JassTypeBlock(
+    myNode: ASTNode?,
+    myCodeStyleSettings: CodeStyleSettings,
+    private val aligments: HashMap<String, Alignment>
+) : JassBlock(myNode!!, null, Indent.getNoneIndent(), myCodeStyleSettings) {
+    override fun makeSubBlock(childNode: ASTNode): Block {
+        var node = childNode
+        var alignment: Alignment? = null
 
-    private final HashMap<String, Alignment> aligments;
-
-    static HashMap<String, Alignment> getAlignments(JassCodeStyleSettings jass) {
-        final HashMap<String, Alignment> map = new HashMap<>();
-
-        if (jass.AT_TYPE_DECL_TYPE_RIGHT) map.put(AT_TYPE_DECL_TYPE_RIGHT, Alignment.createAlignment(true, Alignment.Anchor.RIGHT));
-        if (jass.AT_TYPE_DECL_EXTENDS) map.put(AT_TYPE_DECL_EXTENDS, Alignment.createAlignment(true));
-        if (jass.AT_TYPE_DECL_TYPE_BASE_RIGHT) map.put(AT_TYPE_DECL_TYPE_BASE_RIGHT, Alignment.createAlignment(true, Alignment.Anchor.RIGHT));
-
-        return map;
-    }
-
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-        Alignment alignment = null;
-
-        if (isOneOf(childNode, TYPE_NAME)) {
-            alignment = aligments.get(AT_TYPE_DECL_TYPE_RIGHT);
-            childNode = childNode.getFirstChildNode();
+        if (FormatterUtil.isOneOf(node, JassTypes.TYPE_NAME)) {
+            alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_RIGHT.name]
+            node = node.firstChildNode
         }
 
-        if (isOneOf(childNode, EXTENDS)) {
-            alignment = aligments.get(AT_TYPE_DECL_EXTENDS);
+        if (FormatterUtil.isOneOf(node, JassTypes.EXTENDS)) {
+            alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name]
         }
 
-        if (isOneOf(childNode, TYPE_NAME_BASE)) {
-            alignment = aligments.get(AT_TYPE_DECL_TYPE_BASE_RIGHT);
-            childNode = childNode.getFirstChildNode().getFirstChildNode();
+        if (FormatterUtil.isOneOf(node, JassTypes.TYPE_NAME_BASE)) {
+            alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name]
+            node = node.firstChildNode.firstChildNode
         }
 
-        return new JassBlock(childNode, alignment, null, myCodeStyleSettings);
+        return JassBlock(node, alignment, null, myCodeStyleSettings)
     }
 
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.Companion.getInstance())
-                .after(TYPE).spacing(1, 1, 0, false, 0)
-                .around(EXTENDS).spacing(1, 1, 0, false, 0)
-                ;
+    override val spacingBuilder: SpacingBuilder
+        get() = SpacingBuilder(myCodeStyleSettings, JassLanguage.instance)
+            .after(JassTypes.TYPE).spacing(1, 1, 0, false, 0)
+            .around(JassTypes.EXTENDS).spacing(1, 1, 0, false, 0)
+
+    override fun isIncomplete(): Boolean {
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, JassTypes.TYPE_NAME_BASE)
     }
 
-    @Override
-    public boolean isIncomplete() {
-        return !isOneOf(myNode.getLastChildNode(), TYPE_NAME_BASE);
+    companion object {
+        fun getAlignments(jass: JassCodeStyleSettings): HashMap<String, Alignment> {
+            val map = HashMap<String, Alignment>()
+
+            if (jass.AT_TYPE_DECL_TYPE_RIGHT) map[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_RIGHT.name] =
+                Alignment.createAlignment(true, Alignment.Anchor.RIGHT)
+            if (jass.AT_TYPE_DECL_EXTENDS) map[JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name] =
+                Alignment.createAlignment(true)
+            if (jass.AT_TYPE_DECL_TYPE_BASE_RIGHT) map[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name] =
+                Alignment.createAlignment(true, Alignment.Anchor.RIGHT)
+
+            return map
+        }
     }
 }

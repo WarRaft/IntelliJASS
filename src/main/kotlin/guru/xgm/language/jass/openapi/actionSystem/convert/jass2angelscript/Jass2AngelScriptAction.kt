@@ -1,23 +1,13 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript;
+package guru.xgm.language.jass.openapi.actionSystem.convert.jass2angelscript
 
-import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType;
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction;
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
-import org.jetbrains.annotations.NotNull;
+import guru.xgm.language.angelscript.openapi.fileTypes.AngelScriptFileType
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
 
-public class Jass2AngelScriptAction extends Jass2AnyAction {
+class Jass2AngelScriptAction : Jass2AnyAction() {
+    override val visitor: Jass2AnyVisitor
+        get() = Jass2AngelScriptVisitor()
 
-    public Jass2AngelScriptAction() {
-        super();
-    }
-
-    @Override
-    public @NotNull Jass2AnyVisitor getVisitor() {
-        return new Jass2AngelScriptVisitor();
-    }
-
-    @Override
-    public @NotNull String getTargetExtension() {
-        return AngelScriptFileType.EXTENSION;
-    }
+    override val targetExtension: String
+        get() = AngelScriptFileType.EXTENSION
 }

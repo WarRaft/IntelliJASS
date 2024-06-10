@@ -1,38 +1,39 @@
-package guru.xgm.language.jass.psi;
+package guru.xgm.language.jass.psi
 
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileFactory;
-import guru.xgm.language.jass.extapi.psi.JassPsiFileBase;
-import guru.xgm.language.jass.lang.JassLanguage;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFileFactory
+import guru.xgm.language.jass.psi.JassPsiFileBase
+import guru.xgm.language.jass.lang.JassLanguage.Companion.instance
 
-public class JassElementFactory {
-    private static JassPsiFileBase createFile(Project project, String text) {
-        String name = "dummy.j";
-        return (JassPsiFileBase) PsiFileFactory.getInstance(project).createFileFromText(name, JassLanguage.Companion.getInstance(), text);
+object JassElementFactory {
+    private fun createFile(project: Project, text: String): JassPsiFileBase {
+        val name = "dummy.j"
+        return PsiFileFactory.getInstance(project).createFileFromText(name, instance, text) as JassPsiFileBase
     }
 
-    public static PsiElement createToken(Project project, String text) {
-        final JassPsiFileBase file = createFile(project, text);
-        return file.getFirstChild();
+    @JvmStatic
+    fun createToken(project: Project, text: String): PsiElement {
+        val file = createFile(project, text)
+        return file.firstChild
     }
 
-    public static JassCallStmt recreateCallStmt(Project project, JassCallStmt callStmt) {
-        final JassPsiFileBase file = createFile(project, "function fuckingCrutch " + callStmt.getText() + " endfunction");
-        final JassFun funcDecl = (JassFun) file.getFirstChild();
-        final JassStmt stmtNew = funcDecl.getStmtList().get(0);
-        return stmtNew.getCallStmt();
+    @JvmStatic
+    fun recreateCallStmt(project: Project, callStmt: JassCallStmt): JassCallStmt? {
+        val file = createFile(project, "function fuckingCrutch " + callStmt.text + " endfunction")
+        val funcDecl = file.firstChild as JassFun
+        val stmtNew = funcDecl.stmtList[0]
+        return stmtNew.callStmt
     }
 
-    public static JassExpr recreateExpr(Project project, String value) {
-        final JassPsiFileBase file = createFile(project, "globals int fuckingCrutch = " + value + " endglobals");
-        return ((JassGlob) file.getFirstChild()).getGvarList().get(0).getVar().getExpr();
+    @JvmStatic
+    fun recreateExpr(project: Project, value: String): JassExpr? {
+        val file = createFile(project, "globals int fuckingCrutch = $value endglobals")
+        return (file.firstChild as JassGlob).gvarList[0].getVar().expr
     }
 
-    public static void replaceExprChild(@NotNull Project project, @NotNull PsiElement target, @NotNull String value) {
-        final var child = recreateExpr(project, value).getFirstChild();
-        if (child == null) return;
-        target.replace(child);
+    fun replaceExprChild(project: Project, target: PsiElement, value: String) {
+        val child = recreateExpr(project, value)!!.firstChild ?: return
+        target.replace(child)
     }
 }

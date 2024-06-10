@@ -4,13 +4,13 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.editor.colors.TextAttributesKey.*
+import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import guru.xgm.language.lni.lexer.LniFlexAdapter
-import guru.xgm.language.lni.psi.LniTypes
+import guru.xgm.language.lni.psi.LniTypes.*
 
 class LniSyntaxHighlighterBase : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = LniFlexAdapter()
@@ -46,20 +46,20 @@ class LniSyntaxHighlighterBase : SyntaxHighlighterBase() {
         )
 
         init {
-            fillMap(ATTRIBUTES, TokenSet.create(LniTypes.ID), LNI_ID)
-            fillMap(ATTRIBUTES, TokenSet.create(LniTypes.LINE_COMMENT), LNI_LINE_COMMENT)
+            fillMap(ATTRIBUTES, TokenSet.create(ID), LNI_ID)
+            fillMap(ATTRIBUTES, TokenSet.create(LINE_COMMENT), LNI_LINE_COMMENT)
             fillMap(ATTRIBUTES, TokenSet.create(TokenType.BAD_CHARACTER), LNI_BAD_CHARACTER)
             fillMap(
                 ATTRIBUTES, TokenSet.create(
-                    LniTypes.INTVAL,
-                    LniTypes.REALVAL,
-                    LniTypes.HEXVAL
+                    INTVAL,
+                    REALVAL,
+                    HEXVAL
                 ), LNI_NUMBER
             )
             fillMap(
                 ATTRIBUTES, TokenSet.create(
-                    LniTypes.STRVAL,
-                    LniTypes.STRVAL_MULT
+                    STRVAL,
+                    STRVAL_MULT
                 ), LNI_STRING
             )
         }

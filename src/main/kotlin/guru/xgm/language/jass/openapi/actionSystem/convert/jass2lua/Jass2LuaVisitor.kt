@@ -1,177 +1,159 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua;
+package guru.xgm.language.jass.openapi.actionSystem.convert.jass2lua
 
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
-import guru.xgm.language.jass.psi.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
+import guru.xgm.language.jass.psi.*
 
-import java.util.HashSet;
-import java.util.List;
-
-import static guru.xgm.language.jass.psi.JassTypes.*;
-
-public class Jass2LuaVisitor extends Jass2AnyVisitor {
-
-    Jass2LuaVisitor() {
+class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
+    init {
         //https://www.lua.org/manual/5.1/manual.html
-        keywords = new HashSet<>() {{
-            add("break");
-            add("do");
-            add("end");
-            add("for");
-            add("in");
-            add("nil");
-            add("repeat");
-            add("until");
-            add("while");
-        }};
+        keywords = object : HashSet<String>() {
+            init {
+                add("break")
+                add("do")
+                add("end")
+                add("for")
+                add("in")
+                add("nil")
+                add("repeat")
+                add("until")
+                add("while")
+            }
+        }
     }
 
-    @Override
-    public void appendStatementLineEnd() {
-        stringBuffer.append("\n");
+    override fun appendStatementLineEnd() {
+        stringBuffer.append("\n")
     }
 
-    @Override
-    public void appendSingleLineComment(String comment) {
-        stringBuffer.append("--").append(comment).append("\n");
+    override fun appendSingleLineComment(comment: String?) {
+        stringBuffer.append("--").append(comment).append("\n")
     }
 
-    @Override
-    public void appendBlockLineComment(String comment) {
-        stringBuffer.append("--[[").append(comment).append("--]]");
+    override fun appendBlockLineComment(comment: String?) {
+        stringBuffer.append("--[[").append(comment).append("--]]")
     }
 
-    @Override
-    public void appendNull() {
-        stringBuffer.append("nil");
+    override fun appendNull() {
+        stringBuffer.append("nil")
     }
 
     // -- typedef
-    @Override
-    public void appendTypeDef(String name, String base) {
-        stringBuffer.append("---@class ").append(name).append(":").append(base);
-        appendStatementLineEnd();
+    override fun appendTypeDef(name: String, base: String) {
+        stringBuffer.append("---@class ").append(name).append(":").append(base)
+        appendStatementLineEnd()
     }
 
     // -- variable
-    @Override
-    public void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr) {
-        stringBuffer.append("---@type ").append(type);
-        if (global) stringBuffer.append(" @global");
-        if (constant) stringBuffer.append(" constant");
-        stringBuffer.append("\n");
+    override fun appendVar(
+        constant: Boolean,
+        global: Boolean,
+        array: Boolean,
+        type: String,
+        name: String?,
+        expr: JassExpr?
+    ) {
+        stringBuffer.append("---@type ").append(type)
+        if (global) stringBuffer.append(" @global")
+        if (constant) stringBuffer.append(" constant")
+        stringBuffer.append("\n")
 
-        if (!global) stringBuffer.append("local ");
-        stringBuffer.append(name);
+        if (!global) stringBuffer.append("local ")
+        stringBuffer.append(name)
 
-        stringBuffer.append(" = ");
-        if (expr == null) {
-            if (array) stringBuffer.append("{}");
-            else stringBuffer.append("nil");
-        } else {
-            expr.accept(this);
-        }
-        appendStatementLineEnd();
+        stringBuffer.append(" = ")
+        expr?.accept(this) ?: if (array) stringBuffer.append("{}")
+        else stringBuffer.append("nil")
+        appendStatementLineEnd()
     }
 
     // --- function
-    @Override
-    public void appendFunction(@Nullable String returns, String name, @NotNull List<JassParam> params, @NotNull List<JassStmt> statements) {
-        for (JassParam param : params) {
-            stringBuffer.append("---@param ");
-            appendSafeName(param.getId().getText());
-            stringBuffer.append(" ").append(getConvertedTypeName(param.getTypeName().getText())).append("\n");
+    override fun appendFunction(
+        returns: String?,
+        name: String?,
+        params: List<JassParam?>,
+        statements: List<JassStmt?>
+    ) {
+        for (param in params) {
+            stringBuffer.append("---@param ")
+            appendSafeName(param!!.id.text)
+            stringBuffer.append(" ").append(getConvertedTypeName(param.typeName.text)).append("\n")
         }
-        if (returns != null) stringBuffer.append("---@return ").append(returns).append("\n");
+        if (returns != null) stringBuffer.append("---@return ").append(returns).append("\n")
 
-        stringBuffer.append("function ").append(name).append("(");
-        for (int i = 0; i < params.size(); i++) {
-            appendSafeName(params.get(i).getId().getText());
-            if (i < params.size() - 1) stringBuffer.append(", ");
+        stringBuffer.append("function ").append(name).append("(")
+        for (i in params.indices) {
+            appendSafeName(params[i]!!.id.text)
+            if (i < params.size - 1) stringBuffer.append(", ")
         }
-        stringBuffer.append(")\n");
-        for (JassStmt stmt : statements) stmt.accept(this);
-        stringBuffer.append("end\n");
+        stringBuffer.append(")\n")
+        for (stmt in statements) stmt!!.accept(this)
+        stringBuffer.append("end\n")
     }
 
     // --- statement
-
     // if
-    @Override
-    public void visitIfStmt(@NotNull JassIfStmt o) {
-        stringBuffer.append("if ");
-        acceptExpr(o.getExpr());
-        stringBuffer.append(" then\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        for (JassElseIfStmt stmt : o.getElseIfStmtList()) stmt.accept(this);
-        for (JassElseStmt stmt : o.getElseStmtList()) stmt.accept(this);
-        stringBuffer.append("end\n");
+    override fun visitIfStmt(o: JassIfStmt) {
+        stringBuffer.append("if ")
+        acceptExpr(o.expr)
+        stringBuffer.append(" then\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        for (stmt in o.elseIfStmtList) stmt.accept(this)
+        for (stmt in o.elseStmtList) stmt.accept(this)
+        stringBuffer.append("end\n")
     }
 
-    @Override
-    public void visitElseIfStmt(@NotNull JassElseIfStmt o) {
-        stringBuffer.append("elseif ");
-        acceptExpr(o.getExpr());
-        stringBuffer.append(" then\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
+    override fun visitElseIfStmt(o: JassElseIfStmt) {
+        stringBuffer.append("elseif ")
+        acceptExpr(o.expr)
+        stringBuffer.append(" then\n")
+        for (stmt in o.stmtList) stmt.accept(this)
     }
 
-    @Override
-    public void visitElseStmt(@NotNull JassElseStmt o) {
-        stringBuffer.append("else\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
+    override fun visitElseStmt(o: JassElseStmt) {
+        stringBuffer.append("else\n")
+        for (stmt in o.stmtList) stmt.accept(this)
     }
 
     // loop
-    @Override
-    public void visitLoopStmt(@NotNull JassLoopStmt o) {
-        stringBuffer.append("while (true) do\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("end\n");
+    override fun visitLoopStmt(o: JassLoopStmt) {
+        stringBuffer.append("while (true) do\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        stringBuffer.append("end\n")
     }
 
-    @Override
-    public void visitExitWhenStmt(@NotNull JassExitWhenStmt o) {
-        final var expr = o.getExpr();
-        if (expr == null) return;
-        stringBuffer.append("if ");
-        expr.accept(this);
-        stringBuffer.append(" then break end\n");
+    override fun visitExitWhenStmt(o: JassExitWhenStmt) {
+        val expr = o.expr ?: return
+        stringBuffer.append("if ")
+        expr.accept(this)
+        stringBuffer.append(" then break end\n")
     }
 
     // --- expression
-
-    @Override
-    public void visitNeqExpr(@NotNull JassNeqExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "~=");
+    override fun visitNeqExpr(o: JassNeqExpr) {
+        appendExprListConcatByOperator(o.exprList, "~=")
     }
 
-    @Override
-    public void visitAndExpr(@NotNull JassAndExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "and");
+    override fun visitAndExpr(o: JassAndExpr) {
+        appendExprListConcatByOperator(o.exprList, "and")
     }
 
-    @Override
-    public void visitOrExpr(@NotNull JassOrExpr o) {
-        appendExprListConcatByOperator(o.getExprList(), "or");
+    override fun visitOrExpr(o: JassOrExpr) {
+        appendExprListConcatByOperator(o.exprList, "or")
     }
 
-    @Override
-    public void visitNotExpr(@NotNull JassNotExpr o) {
-        appendExprWithPrefixOp(o.getExpr(), "not");
+    override fun visitNotExpr(o: JassNotExpr) {
+        appendExprWithPrefixOp(o.expr, "not")
     }
 
-    @Override
-    public void visitPlusExpr(@NotNull JassPlusExpr o) {
-        final var list = o.getExprList();
-        for (JassExpr expr : list) {
-            final var c = expr.getFirstChild();
-            if (c.getNode().getElementType() == STRVAL) {
-                appendExprListConcatByOperator(list, "..");
-                return;
+    override fun visitPlusExpr(o: JassPlusExpr) {
+        val list = o.exprList
+        for (expr in list) {
+            val c = expr.firstChild
+            if (c.node.elementType === JassTypes.STRVAL) {
+                appendExprListConcatByOperator(list, "..")
+                return
             }
         }
-        appendExprListConcatByOperator(list, "+");
+        appendExprListConcatByOperator(list, "+")
     }
 }

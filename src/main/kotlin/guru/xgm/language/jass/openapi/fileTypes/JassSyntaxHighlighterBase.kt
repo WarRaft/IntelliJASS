@@ -1,107 +1,120 @@
-package guru.xgm.language.jass.openapi.fileTypes;
+package guru.xgm.language.jass.openapi.fileTypes
 
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import guru.xgm.language.jass.lexer.JassFlexAdapter;
-import guru.xgm.language.jass.psi.JassTypes;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lexer.Lexer
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.HighlighterColors
+import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.editor.colors.TextAttributesKey.*
+import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
+import com.intellij.psi.TokenType
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
+import guru.xgm.language.jass.lexer.JassFlexAdapter
+import guru.xgm.language.jass.psi.JassTypes.*
+import java.util.*
 
-import java.util.Arrays;
+class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
+    override fun getHighlightingLexer(): Lexer = JassFlexAdapter()
 
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
-import static guru.xgm.language.jass.psi.JassTypes.*;
+    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> = pack(ATTRIBUTES[tokenType])
 
-public class JassSyntaxHighlighterBase extends SyntaxHighlighterBase {
-    public static final TextAttributesKey ID_KEY = createTextAttributesKey("JASS_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
-    private static final TextAttributesKey[] ID_KEYS = new TextAttributesKey[]{ID_KEY};
-    public static final TextAttributesKey KEYWORD_KEY = createTextAttributesKey("JASS_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD_KEY};
-    public static final TextAttributesKey TYPE_NAME_KEY = createTextAttributesKey("JASS_TYPE_NAME", DefaultLanguageHighlighterColors.KEYWORD);
-    private static final TextAttributesKey[] TYPE_NAME_KEYS = new TextAttributesKey[]{TYPE_NAME_KEY};
-    public static final TextAttributesKey LINE_COMMENT_KEY = createTextAttributesKey("JASS_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    private static final TextAttributesKey[] LINE_COMMENT_KEYS = new TextAttributesKey[]{LINE_COMMENT_KEY};
-    public static final TextAttributesKey BAD_CHARACTER_KEY = createTextAttributesKey("JASS_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
-    private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER_KEY};
-    private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
-    public static final TextAttributesKey COMMA_KEY = createTextAttributesKey("JASS_COMMA", DefaultLanguageHighlighterColors.COMMA);
-    private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{COMMA_KEY};
-    public static final TextAttributesKey NUMBER_KEY = createTextAttributesKey("JASS_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
-    private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER_KEY};
-    public static final TextAttributesKey STRING_KEY = createTextAttributesKey("JASS_STRING", DefaultLanguageHighlighterColors.STRING);
-    private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING_KEY};
+    companion object {
+        private val ATTRIBUTES: MutableMap<IElementType, TextAttributesKey> = HashMap()
 
-    @NotNull
-    @Override
-    public Lexer getHighlightingLexer() {
-        return new JassFlexAdapter();
-    }
+        val JASS_ID: TextAttributesKey = createTextAttributesKey(
+            ::JASS_ID.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
 
-    @Override
-    public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType == JassTypes.ID) return ID_KEYS;
+        val JASS_KEYWORD: TextAttributesKey = createTextAttributesKey(
+            ::JASS_KEYWORD.name,
+            DefaultLanguageHighlighterColors.KEYWORD
+        )
 
-        if (Arrays.asList(
-                NOT,
-                AND,
-                ARRAY,
-                CALL,
-                CONSTANT,
-                DEBUG,
-                ELSE,
-                ELSEIF,
-                ENDGLOBALS,
-                ENDLOOP,
-                ENDIF,
-                EXTENDS,
-                EXITWHEN,
-                FALSE,
-                GLOBALS,
-                IF,
-                LOCAL,
-                LOOP,
-                NATIVE,
-                NULL,
-                OR,
-                RETURN,
-                RETURNS,
-                SET,
-                TAKES,
-                THEN,
-                TRUE,
-                TYPE,
-                // function
-                FUNCTION,
-                ENDFUNCTION
-        ).contains(tokenType)) {
-            return KEYWORD_KEYS;
+        val JASS_TYPE_NAME: TextAttributesKey = createTextAttributesKey(
+            ::JASS_TYPE_NAME.name,
+            DefaultLanguageHighlighterColors.KEYWORD
+        )
+
+        val JASS_LINE_COMMENT: TextAttributesKey = createTextAttributesKey(
+            ::JASS_LINE_COMMENT.name,
+            DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
+
+        val JASS_BAD_CHARACTER: TextAttributesKey = createTextAttributesKey(
+            ::JASS_BAD_CHARACTER.name,
+            HighlighterColors.BAD_CHARACTER
+        )
+
+        private val JASS_COMMA: TextAttributesKey = createTextAttributesKey(
+            ::JASS_COMMA.name,
+            DefaultLanguageHighlighterColors.COMMA
+        )
+
+        private val JASS_NUMBER: TextAttributesKey = createTextAttributesKey(
+            ::JASS_NUMBER.name,
+            DefaultLanguageHighlighterColors.NUMBER
+        )
+
+        private val JASS_STRING: TextAttributesKey = createTextAttributesKey(
+            ::JASS_STRING.name,
+            DefaultLanguageHighlighterColors.STRING
+        )
+
+        init {
+            fillMap(ATTRIBUTES, TokenSet.create(TokenType.BAD_CHARACTER), JASS_BAD_CHARACTER)
+            fillMap(ATTRIBUTES, TokenSet.create(ID), JASS_ID)
+            fillMap(ATTRIBUTES, TokenSet.create(LINE_COMMENT), JASS_LINE_COMMENT)
+            fillMap(ATTRIBUTES, TokenSet.create(COMMA), JASS_COMMA)
+            fillMap(ATTRIBUTES, TokenSet.create(STRVAL), JASS_STRING)
+            fillMap(
+                ATTRIBUTES, TokenSet.create(
+                    INTVAL,
+                    REALVAL,
+                    RAWVAL,
+                    HEXVAL
+                ), JASS_NUMBER
+            )
+            fillMap(
+                ATTRIBUTES, TokenSet.create(
+                    NOTHING,
+                    TYPE_NAME
+                ), JASS_TYPE_NAME
+            )
+            fillMap(
+                ATTRIBUTES, TokenSet.create(
+                    NOT,
+                    AND,
+                    ARRAY,
+                    CALL,
+                    CONSTANT,
+                    DEBUG,
+                    ELSE,
+                    ELSEIF,
+                    ENDGLOBALS,
+                    ENDLOOP,
+                    ENDIF,
+                    EXTENDS,
+                    EXITWHEN,
+                    FALSE,
+                    GLOBALS,
+                    IF,
+                    LOCAL,
+                    LOOP,
+                    NATIVE,
+                    NULL,
+                    OR,
+                    RETURN,
+                    RETURNS,
+                    SET,
+                    TAKES,
+                    THEN,
+                    TRUE,
+                    TYPE,
+                    FUNCTION,
+                    ENDFUNCTION
+                ), JASS_KEYWORD
+            )
         }
-
-        if (Arrays.asList(
-                INTVAL,
-                REALVAL,
-                RAWVAL,
-                HEXVAL
-        ).contains(tokenType)) {
-            return NUMBER_KEYS;
-        }
-
-        if (Arrays.asList(
-                NOTHING,
-                TYPE_NAME
-        ).contains(tokenType)) {
-            return TYPE_NAME_KEYS;
-        }
-
-        if (tokenType == LINE_COMMENT) return LINE_COMMENT_KEYS;
-        if (tokenType == TokenType.BAD_CHARACTER) return BAD_CHARACTER_KEYS;
-        if (tokenType == COMMA) return COMMA_KEYS;
-        if (tokenType == STRVAL) return STRING_KEYS;
-
-        return EMPTY_KEYS;
     }
 }

@@ -16,7 +16,7 @@
                                        implementationClass="guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="guru.xgm.language.jass.openapi.options.colors.JassColorSettingsPage"/>
+        <colorSettingsPage implementation="guru.xgm.language.jass.openapi.colors.JassColorSettingsPage"/>
 
         <!-- annotator -->
         <annotator language="JASS" implementationClass="guru.xgm.language.jass.lang.annotation.JassAnnotator"/>

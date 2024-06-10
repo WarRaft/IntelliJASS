@@ -1,23 +1,13 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript;
+package guru.xgm.language.jass.openapi.actionSystem.convert.jass2typescript
 
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction;
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
-import guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptVisitor;
-import org.jetbrains.annotations.NotNull;
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyAction
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
+import guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript.Jass2JavaScriptVisitor
 
-public class Jass2TypeScriptAction extends Jass2AnyAction {
+class Jass2TypeScriptAction : Jass2AnyAction() {
+    override val visitor: Jass2AnyVisitor
+        get() = Jass2JavaScriptVisitor(true)
 
-    public Jass2TypeScriptAction() {
-        super();
-    }
-
-    @Override
-    public @NotNull Jass2AnyVisitor getVisitor() {
-        return new Jass2JavaScriptVisitor(true);
-    }
-
-    @Override
-    public @NotNull String getTargetExtension() {
-        return "ts";
-    }
+    override val targetExtension: String
+        get() = "ts"
 }

@@ -1,4 +1,4 @@
-package guru.xgm.language.jass.extapi.psi
+package guru.xgm.language.jass.psi
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType

@@ -1,8 +1,10 @@
-package guru.xgm.language.jass.psi;
+package guru.xgm.language.jass.psi
 
-import com.intellij.psi.tree.TokenSet;
-import guru.xgm.language.jass.psi.JassTypes;
+import com.intellij.psi.tree.TokenSet
 
-public interface JassTokenSets {
-    TokenSet COMMENTS = TokenSet.create(JassTypes.LINE_COMMENT);
+interface JassTokenSets {
+    companion object {
+        @JvmField
+        val COMMENTS: TokenSet = TokenSet.create(JassTypes.LINE_COMMENT)
+    }
 }

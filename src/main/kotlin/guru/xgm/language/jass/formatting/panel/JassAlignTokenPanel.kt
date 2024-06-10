@@ -1,63 +1,45 @@
-package guru.xgm.language.jass.formatting.panel;
+package guru.xgm.language.jass.formatting.panel
 
-import com.intellij.application.options.codeStyle.OptionTreeWithPreviewPanel;
-import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.util.NlsContexts;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
-import guru.xgm.language.jass.lang.JassLanguage;
-import guru.xgm.language.jass.openapi.fileTypes.JassFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.application.options.codeStyle.OptionTreeWithPreviewPanel
+import com.intellij.lang.Language
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.util.NlsContexts
+import com.intellij.openapi.util.NlsContexts.TabTitle
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
+import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider.SettingsType
+import guru.xgm.language.jass.lang.JassLanguage
+import guru.xgm.language.jass.openapi.fileTypes.JassFileType
 
-public class JassAlignTokenPanel extends OptionTreeWithPreviewPanel {
-    public JassAlignTokenPanel(CodeStyleSettings settings) {
-        super(settings);
-        init();
+class JassAlignTokenPanel(settings: CodeStyleSettings?) : OptionTreeWithPreviewPanel(settings) {
+    init {
+        init()
     }
 
-    @NlsContexts.Label
-    public static String GROUP_TYPE_DECL = "Type declaration";
-
-    @NlsContexts.Label
-    public static String GROUP_NATIVE_DECL = "Native declaration";
-
-    @NlsContexts.Label
-    public static String GROUP_GVAR = "Global variable";
-
-    @Override
-    protected void initTables() {
-        initCustomOptions(GROUP_TYPE_DECL);
-        initCustomOptions(GROUP_NATIVE_DECL);
-        initCustomOptions(GROUP_GVAR);
+    override fun initTables() {
+        initCustomOptions(GROUP_TYPE_DECL)
+        initCustomOptions(GROUP_NATIVE_DECL)
+        initCustomOptions(GROUP_GVAR)
     }
 
-    @Override
-    protected @NlsContexts.TabTitle @NotNull String getTabTitle() {
-        return "Align Token";
+    override fun getTabTitle(): @TabTitle String = "Align Token"
+
+    override fun getSettingsType(): SettingsType = SettingsType.LANGUAGE_SPECIFIC
+
+    override fun customizeSettings() {
+        val provider = LanguageCodeStyleSettingsProvider.forLanguage(JassLanguage.instance)
+        provider?.customizeSettings(this, settingsType)
     }
 
-    @Override
-    public LanguageCodeStyleSettingsProvider.SettingsType getSettingsType() {
-        return LanguageCodeStyleSettingsProvider.SettingsType.LANGUAGE_SPECIFIC;
-    }
+    override fun getFileType(): FileType = JassFileType.instance
 
-    @Override
-    protected void customizeSettings() {
-        LanguageCodeStyleSettingsProvider provider = LanguageCodeStyleSettingsProvider.forLanguage(JassLanguage.Companion.getInstance());
-        if (provider != null) provider.customizeSettings(this, getSettingsType());
-    }
+    override fun getDefaultLanguage(): Language = JassLanguage.instance
 
-    @Override
-    @NotNull
-    protected final FileType getFileType() {
-        return JassFileType.Companion.getInstance();
-    }
+    companion object {
+        var GROUP_TYPE_DECL: @NlsContexts.Label String = "Type declaration"
 
-    @Nullable
-    @Override
-    public Language getDefaultLanguage() {
-        return JassLanguage.Companion.getInstance();
+        var GROUP_NATIVE_DECL: @NlsContexts.Label String = "Native declaration"
+
+        var GROUP_GVAR: @NlsContexts.Label String = "Global variable"
     }
 }

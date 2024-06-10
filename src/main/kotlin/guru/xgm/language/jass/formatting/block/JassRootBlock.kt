@@ -1,48 +1,49 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.SpacingBuilder;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import guru.xgm.language.jass.lang.JassLanguage;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.formatting.Alignment
+import com.intellij.formatting.Block
+import com.intellij.formatting.Indent
+import com.intellij.formatting.SpacingBuilder
+import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.formatter.FormatterUtil
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings
+import guru.xgm.language.jass.lang.JassLanguage.Companion.instance
+import guru.xgm.language.jass.psi.JassTypes
 
-import java.util.HashMap;
+class JassRootBlock(myNode: ASTNode, code: CodeStyleSettings, jass: JassCodeStyleSettings) : JassBlock(
+    myNode, null, Indent.getNoneIndent(), code
+) {
+    private val typeAlignments: HashMap<String, Alignment> = JassTypeBlock.getAlignments(jass)
+    private val nativeAligner = JassNativeBlockAligner(jass)
 
-import static com.intellij.psi.formatter.FormatterUtil.isOneOf;
-import static guru.xgm.language.jass.psi.JassTypes.*;
+    override fun makeSubBlock(childNode: ASTNode): Block {
+        if (FormatterUtil.isOneOf(childNode, JassTypes.TYPE_DEF)) return JassTypeBlock(
+            childNode,
+            myCodeStyleSettings,
+            typeAlignments
+        )
+        if (FormatterUtil.isOneOf(childNode, JassTypes.NATIV)) return JassNativeBlock(
+            childNode,
+            Indent.getNoneIndent(),
+            myCodeStyleSettings,
+            nativeAligner
+        )
+        if (FormatterUtil.isOneOf(childNode, JassTypes.GLOB)) return JassGlobalsBlock(childNode, myCodeStyleSettings)
+        if (FormatterUtil.isOneOf(childNode, JassTypes.FUN)) return JassFunctionBlock(
+            childNode,
+            null,
+            Indent.getNoneIndent(),
+            myCodeStyleSettings
+        )
 
-public class JassRootBlock extends JassBlock {
-    public JassRootBlock(ASTNode myNode, CodeStyleSettings code, JassCodeStyleSettings jass) {
-        super(myNode, null, Indent.getNoneIndent(), code);
-        typeAlignments = JassTypeBlock.getAlignments(jass);
-        nativeAligner = new JassNativeBlockAligner(jass);
+        return JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings)
     }
 
-    private final HashMap<String, Alignment> typeAlignments;
-    private final JassNativeBlockAligner nativeAligner;
-
-    @Override
-    public Block makeSubBlock(@NotNull ASTNode childNode) {
-
-        if (isOneOf(childNode, TYPE_DEF)) return new JassTypeBlock(childNode, myCodeStyleSettings, typeAlignments);
-        if (isOneOf(childNode, NATIV)) return new JassNativeBlock(childNode, Indent.getNoneIndent(), myCodeStyleSettings, nativeAligner);
-        if (isOneOf(childNode, GLOB)) return new JassGlobalsBlock(childNode, myCodeStyleSettings);
-        if (isOneOf(childNode, FUN)) return new JassFunctionBlock(childNode, null, Indent.getNoneIndent(), myCodeStyleSettings);
-
-        return new JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings);
-    }
-
-    @Override
-    protected SpacingBuilder getSpacingBuilder() {
-        return new SpacingBuilder(myCodeStyleSettings, JassLanguage.Companion.getInstance())
-                .between(TYPE_DEF, TYPE_DEF).spacing(0, 0, 1, true, 2)
-                .between(TYPE_DEF, LINE_COMMENT).spacing(1, 1, 0, true, 100)
-                .between(NATIV, NATIV).spacing(0, 0, 1, true, 2)
-                .between(NATIV, LINE_COMMENT).spacing(1, 1, 0, true, 100)
-                ;
-    }
+    override val spacingBuilder: SpacingBuilder
+        get() = SpacingBuilder(myCodeStyleSettings, instance)
+            .between(JassTypes.TYPE_DEF, JassTypes.TYPE_DEF).spacing(0, 0, 1, true, 2)
+            .between(JassTypes.TYPE_DEF, JassTypes.LINE_COMMENT).spacing(1, 1, 0, true, 100)
+            .between(JassTypes.NATIV, JassTypes.NATIV).spacing(0, 0, 1, true, 2)
+            .between(JassTypes.NATIV, JassTypes.LINE_COMMENT).spacing(1, 1, 0, true, 100)
 }

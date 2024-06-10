@@ -1,36 +1,28 @@
-package guru.xgm.language.jass.lang.folding;
+package guru.xgm.language.jass.lang.folding
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.SettingsCategory;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.util.xmlb.XmlSerializerUtil;
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.SettingsCategory
+import com.intellij.openapi.components.State
+import com.intellij.openapi.components.Storage
+import com.intellij.util.xmlb.XmlSerializerUtil
 
-@Setter
-@Getter
-@State(name = "JassCodeFoldingSettings", storages = @Storage("editor.xml"), category = SettingsCategory.CODE)
-public class JassCodeFoldingSettings implements PersistentStateComponent<JassCodeFoldingSettings> {
-    private boolean foldGlobals = false;
-    private boolean foldFunction = false;
-    private boolean foldIf = false;
-    private boolean foldLoop = false;
+@State(name = "JassCodeFoldingSettings", storages = [Storage("editor.xml")], category = SettingsCategory.CODE)
+class JassCodeFoldingSettings : PersistentStateComponent<JassCodeFoldingSettings> {
+    var isFoldGlobals: Boolean = false
+    var isFoldFunction: Boolean = false
+    var isFoldIf: Boolean = false
+    var isFoldLoop: Boolean = false
 
-    public static JassCodeFoldingSettings getInstance() {
-        return ApplicationManager.getApplication().getService(JassCodeFoldingSettings.class);
+    override fun getState(): JassCodeFoldingSettings = this
+
+    override fun loadState(state: JassCodeFoldingSettings) = XmlSerializerUtil.copyBean(state, this)
+
+    companion object {
+        @JvmStatic
+        val instance: JassCodeFoldingSettings
+            get() = ApplicationManager.getApplication().getService(
+                JassCodeFoldingSettings::class.java
+            )
     }
-
-    @Override
-    public JassCodeFoldingSettings getState() {
-        return this;
-    }
-
-    @Override
-    public void loadState(@NotNull final JassCodeFoldingSettings state) {
-        XmlSerializerUtil.copyBean(state, this);
-    }
-
 }

@@ -6,7 +6,7 @@ import com.intellij.formatting.FormattingModelBuilder
 import com.intellij.formatting.FormattingModelProvider
 import guru.xgm.language.lni.formatting.block.LniRootBlock
 
-internal class LniFormattingModelBuilder : FormattingModelBuilder {
+class LniFormattingModelBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val code = formattingContext.codeStyleSettings
 

@@ -1,38 +1,35 @@
-package guru.xgm.language.jass.formatting.block;
+package guru.xgm.language.jass.formatting.block
 
-import com.intellij.formatting.Alignment;
-import guru.xgm.language.jass.formatting.JassCodeStyleSettings;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.formatting.Alignment
+import guru.xgm.language.jass.formatting.JassCodeStyleSettings
 
-import java.util.ArrayList;
-import java.util.HashMap;
+class JassNativeBlockAligner internal constructor(private val jass: JassCodeStyleSettings) {
+    private val map = HashMap<String, Alignment>()
+    private val list = ArrayList<Alignment>()
 
-import static guru.xgm.language.jass.formatting.JassCodeStyleSettings.Fields.*;
-
-public class JassNativeBlockAligner {
-    JassNativeBlockAligner(JassCodeStyleSettings jass) {
-        this.jass = jass;
-        if (jass.AT_NATIVE_DECL_NATIVE) map.put(AT_NATIVE_DECL_NATIVE, Alignment.createAlignment(true));
-        if (jass.AT_NATIVE_DECL_NAME || jass.AT_NATIVE_DECL_NAME_RIGHT) map.put(AT_NATIVE_DECL_NAME, Alignment.createAlignment(true, jass.AT_NATIVE_DECL_NAME_RIGHT ? Alignment.Anchor.RIGHT : Alignment.Anchor.LEFT));
-        if (jass.AT_NATIVE_DECL_TAKES) map.put(AT_NATIVE_DECL_TAKES, Alignment.createAlignment(true));
-        if (jass.AT_NATIVE_DECL_RETURNS) map.put(AT_NATIVE_DECL_RETURNS, Alignment.createAlignment(true));
+    init {
+        if (jass.AT_NATIVE_DECL_NATIVE) map[JassCodeStyleSettings::AT_NATIVE_DECL_NATIVE.name] =
+            Alignment.createAlignment(true)
+        if (jass.AT_NATIVE_DECL_NAME || jass.AT_NATIVE_DECL_NAME_RIGHT) map[JassCodeStyleSettings::AT_NATIVE_DECL_NAME.name] =
+            Alignment.createAlignment(
+                true,
+                if (jass.AT_NATIVE_DECL_NAME_RIGHT) Alignment.Anchor.RIGHT else Alignment.Anchor.LEFT
+            )
+        if (jass.AT_NATIVE_DECL_TAKES) map[JassCodeStyleSettings::AT_NATIVE_DECL_TAKES.name] =
+            Alignment.createAlignment(true)
+        if (jass.AT_NATIVE_DECL_RETURNS) map[JassCodeStyleSettings::AT_NATIVE_DECL_RETURNS.name] =
+            Alignment.createAlignment(true)
     }
 
-    private final HashMap<String, Alignment> map = new HashMap<>();
-    private final ArrayList<Alignment> list = new ArrayList<>();
-
-    private final JassCodeStyleSettings jass;
-
-    @Nullable Alignment named(String name) {
-        return map.get(name);
+    fun named(name: String): Alignment? {
+        return map[name]
     }
 
-    @Nullable Alignment argument(int index) {
-        if (!jass.AT_NATIVE_DECL_ARGUMENT) return null;
-        while (list.size() <= index) {
-            list.add(Alignment.createAlignment(true));
+    fun argument(index: Int): Alignment? {
+        if (!jass.AT_NATIVE_DECL_ARGUMENT) return null
+        while (list.size <= index) {
+            list.add(Alignment.createAlignment(true))
         }
-        return list.get(index);
+        return list[index]
     }
-
 }

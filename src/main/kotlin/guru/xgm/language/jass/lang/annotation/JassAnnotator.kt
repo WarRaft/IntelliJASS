@@ -1,23 +1,19 @@
-package guru.xgm.language.jass.lang.annotation;
+package guru.xgm.language.jass.lang.annotation
 
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
-import com.intellij.psi.PsiElement;
-import guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterBase;
-import guru.xgm.language.jass.psi.JassTypeName;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.psi.PsiElement
+import guru.xgm.language.jass.openapi.fileTypes.JassSyntaxHighlighterBase
+import guru.xgm.language.jass.psi.JassTypeName
 
-final class JassAnnotator implements Annotator {
-
-    @Override
-    public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-
-        if (element instanceof JassTypeName type) {
+internal class JassAnnotator : Annotator {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        if (element is JassTypeName) {
             holder
-                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(type.getTextRange())
-                    .textAttributes(JassSyntaxHighlighterBase.TYPE_NAME_KEY).create();
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(element.getTextRange())
+                .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
         }
 
         /*
@@ -49,5 +45,4 @@ final class JassAnnotator implements Annotator {
 
          */
     }
-
 }

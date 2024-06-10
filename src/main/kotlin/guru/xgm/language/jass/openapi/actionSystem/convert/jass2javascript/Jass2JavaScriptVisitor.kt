@@ -1,213 +1,201 @@
-package guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript;
+package guru.xgm.language.jass.openapi.actionSystem.convert.jass2javascript
 
-import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor;
-import guru.xgm.language.jass.psi.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import guru.xgm.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
+import guru.xgm.language.jass.psi.*
 
-import java.util.HashSet;
-import java.util.List;
-
-public class Jass2JavaScriptVisitor extends Jass2AnyVisitor {
-
-    public Jass2JavaScriptVisitor(boolean typescript) {
-        this.typescript = typescript;
-
+class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
+    init {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
-        keywords = new HashSet<>() {{
-            add("break");
-            add("case");
-            add("catch");
-            add("class");
-            add("const");
-            add("continue");
-            add("debugger");
-            add("default");
-            add("delete");
-            add("do");
-            add("else");
-            add("export");
-            add("extends");
-            add("false");
-            add("finally");
-            add("for");
-            add("function");
-            add("if");
-            add("import");
-            add("in");
-            add("instanceof");
-            add("new");
-            add("null");
-            add("return");
-            add("super");
-            add("switch");
-            add("this");
-            add("throw");
-            add("true");
-            add("try");
-            add("typeof");
-            add("var");
-            add("void");
-            add("while");
-            add("with");
-            // The following are only reserved when they are found in strict mode code:
-            add("let");
-            add("static");
-            add("yield");
-            // The following are only reserved when they are found in module code or async function bodies:
-            add("await");
-            // These are always reserved:
-            add("enum");
-            // Future reserved words in older standards
-            add("abstract");
-            add("boolean");
-            add("byte");
-            add("char");
-            add("double");
-            add("final");
-            add("float");
-            add("goto");
-            add("int");
-            add("long");
-            add("native");
-            add("short");
-            add("synchronized");
-            add("throws");
-            add("transient");
-            add("volatile");
-            // Identifiers with special meanings
-            add("arguments");
-            add("as");
-            add("async");
-            add("eval");
-            add("from");
-            add("get");
-            add("of");
-            add("set");
-        }};
+        keywords = object : HashSet<String>() {
+            init {
+                add("break")
+                add("case")
+                add("catch")
+                add("class")
+                add("const")
+                add("continue")
+                add("debugger")
+                add("default")
+                add("delete")
+                add("do")
+                add("else")
+                add("export")
+                add("extends")
+                add("false")
+                add("finally")
+                add("for")
+                add("function")
+                add("if")
+                add("import")
+                add("in")
+                add("instanceof")
+                add("new")
+                add("null")
+                add("return")
+                add("super")
+                add("switch")
+                add("this")
+                add("throw")
+                add("true")
+                add("try")
+                add("typeof")
+                add("var")
+                add("void")
+                add("while")
+                add("with")
+                // The following are only reserved when they are found in strict mode code:
+                add("let")
+                add("static")
+                add("yield")
+                // The following are only reserved when they are found in module code or async function bodies:
+                add("await")
+                // These are always reserved:
+                add("enum")
+                // Future reserved words in older standards
+                add("abstract")
+                add("boolean")
+                add("byte")
+                add("char")
+                add("double")
+                add("final")
+                add("float")
+                add("goto")
+                add("int")
+                add("long")
+                add("native")
+                add("short")
+                add("synchronized")
+                add("throws")
+                add("transient")
+                add("volatile")
+                // Identifiers with special meanings
+                add("arguments")
+                add("as")
+                add("async")
+                add("eval")
+                add("from")
+                add("get")
+                add("of")
+                add("set")
+            }
+        }
     }
 
-    boolean typescript;
-
-    @Override
-    public void appendStatementLineEnd() {
-        stringBuffer.append("\n");
+    override fun appendStatementLineEnd() {
+        stringBuffer.append("\n")
     }
 
     // -- typedef
-    @Override
-    public void appendTypeDef(String name, String base) {
+    override fun appendTypeDef(name: String, base: String) {
         if (typescript) {
-            stringBuffer.append("declare interface ").append(name).append(" extends ").append(base).append(" {}");
+            stringBuffer.append("declare interface ").append(name).append(" extends ").append(base).append(" {}")
         } else {
-            stringBuffer.append("/** @typedef {").append(base).append("} ").append(name).append(" */");
+            stringBuffer.append("/** @typedef {").append(base).append("} ").append(name).append(" */")
         }
-        stringBuffer.append("\n");
+        stringBuffer.append("\n")
     }
 
     // -- variable
-    @Override
-    public void appendVar(boolean constant, boolean global, boolean array, @NotNull String type, String name, @Nullable JassExpr expr) {
+    override fun appendVar(
+        constant: Boolean,
+        global: Boolean,
+        array: Boolean,
+        type: String,
+        name: String?,
+        expr: JassExpr?
+    ) {
         if (!typescript) {
-            stringBuffer.append("/** @type {").append(type);
-            if (array) stringBuffer.append("[]");
-            stringBuffer.append("}");
-            if (global) stringBuffer.append("\n *  @global\n");
-            stringBuffer.append(" */\n");
+            stringBuffer.append("/** @type {").append(type)
+            if (array) stringBuffer.append("[]")
+            stringBuffer.append("}")
+            if (global) stringBuffer.append("\n *  @global\n")
+            stringBuffer.append(" */\n")
         }
-        stringBuffer.append(constant ? "const" : "let").append(" ").append(name);
+        stringBuffer.append(if (constant) "const" else "let").append(" ").append(name)
 
         if (typescript) {
-            stringBuffer.append(":").append(type);
-            if (array) stringBuffer.append("[]");
+            stringBuffer.append(":").append(type)
+            if (array) stringBuffer.append("[]")
         }
 
-        stringBuffer.append(" = ");
-        if (expr == null) {
-            if (array) stringBuffer.append("[]");
-            else stringBuffer.append("null");
-        } else {
-            expr.accept(this);
-        }
+        stringBuffer.append(" = ")
+        expr?.accept(this) ?: if (array) stringBuffer.append("[]")
+        else stringBuffer.append("null")
 
-        appendStatementLineEnd();
+        appendStatementLineEnd()
     }
 
     // --- function
-    @Override
-    public void appendFunction(@Nullable String returns, String name, @NotNull List<JassParam> params, @NotNull List<JassStmt> statements) {
+    override fun appendFunction(
+        returns: String?,
+        name: String?,
+        params: List<JassParam?>,
+        statements: List<JassStmt?>
+    ) {
         if (!typescript) {
-            stringBuffer.append("/**\n");
-            for (JassParam param : params) {
-                stringBuffer.append(" *  @param {").append(getConvertedTypeName(param.getTypeName().getText())).append("} ");
-                appendSafeName(param.getId().getText());
-                stringBuffer.append("\n");
+            stringBuffer.append("/**\n")
+            for (param in params) {
+                stringBuffer.append(" *  @param {").append(getConvertedTypeName(param!!.typeName.text)).append("} ")
+                appendSafeName(param.id.text)
+                stringBuffer.append("\n")
             }
-            if (returns != null) stringBuffer.append(" *  @returns {").append(returns).append("}\n");
-            stringBuffer.append(" */\n");
+            if (returns != null) stringBuffer.append(" *  @returns {").append(returns).append("}\n")
+            stringBuffer.append(" */\n")
         }
 
-        stringBuffer.append("function ").append(name).append("(");
-        for (int i = 0; i < params.size(); i++) {
-            final var param = params.get(i);
+        stringBuffer.append("function ").append(name).append("(")
+        for (i in params.indices) {
+            val param = params[i]
 
-            appendSafeName(param.getId().getText());
+            appendSafeName(param!!.id.text)
             if (typescript) {
-                final var type = param.getTypeName();
-                stringBuffer.append(":").append(getConvertedTypeName(type.getText()));
+                val type = param.typeName
+                stringBuffer.append(":").append(getConvertedTypeName(type.text))
             }
-            if (i < params.size() - 1) stringBuffer.append(", ");
+            if (i < params.size - 1) stringBuffer.append(", ")
         }
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : statements) stmt.accept(this);
-        stringBuffer.append("}\n");
+        stringBuffer.append("){\n")
+        for (stmt in statements) stmt!!.accept(this)
+        stringBuffer.append("}\n")
     }
 
     // --- statement
-
     // if
-    @Override
-    public void visitIfStmt(@NotNull JassIfStmt o) {
-        stringBuffer.append("if (");
-        acceptExpr(o.getExpr());
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
-        for (JassElseIfStmt stmt : o.getElseIfStmtList()) stmt.accept(this);
-        for (JassElseStmt stmt : o.getElseStmtList()) stmt.accept(this);
+    override fun visitIfStmt(o: JassIfStmt) {
+        stringBuffer.append("if (")
+        acceptExpr(o.expr)
+        stringBuffer.append("){\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        stringBuffer.append("}\n")
+        for (stmt in o.elseIfStmtList) stmt.accept(this)
+        for (stmt in o.elseStmtList) stmt.accept(this)
     }
 
-    @Override
-    public void visitElseIfStmt(@NotNull JassElseIfStmt o) {
-        stringBuffer.append("else if (");
-        acceptExpr(o.getExpr());
-        stringBuffer.append("){\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
+    override fun visitElseIfStmt(o: JassElseIfStmt) {
+        stringBuffer.append("else if (")
+        acceptExpr(o.expr)
+        stringBuffer.append("){\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        stringBuffer.append("}\n")
     }
 
-    @Override
-    public void visitElseStmt(@NotNull JassElseStmt o) {
-        stringBuffer.append("else {\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
+    override fun visitElseStmt(o: JassElseStmt) {
+        stringBuffer.append("else {\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        stringBuffer.append("}\n")
     }
 
     // loop
-    @Override
-    public void visitLoopStmt(@NotNull JassLoopStmt o) {
-        stringBuffer.append("while (true) {\n");
-        for (JassStmt stmt : o.getStmtList()) stmt.accept(this);
-        stringBuffer.append("}\n");
+    override fun visitLoopStmt(o: JassLoopStmt) {
+        stringBuffer.append("while (true) {\n")
+        for (stmt in o.stmtList) stmt.accept(this)
+        stringBuffer.append("}\n")
     }
 
-    @Override
-    public void visitExitWhenStmt(@NotNull JassExitWhenStmt o) {
-        final var expr = o.getExpr();
-        if (expr == null) return;
-        stringBuffer.append("if (");
-        expr.accept(this);
-        stringBuffer.append(") break;\n");
+    override fun visitExitWhenStmt(o: JassExitWhenStmt) {
+        val expr = o.expr ?: return
+        stringBuffer.append("if (")
+        expr.accept(this)
+        stringBuffer.append(") break;\n")
     }
-
 }
