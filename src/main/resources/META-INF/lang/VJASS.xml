@@ -2,7 +2,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="VJASS"
                   implementationClass="guru.xgm.language.vjass.openapi.fileTypes.VjassFileType"
-                  fieldName="INSTANCE"
+                  fieldName="instance"
                   language="VJASS"
                   extensions="vj"
         />
