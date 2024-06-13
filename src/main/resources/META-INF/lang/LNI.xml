@@ -4,7 +4,7 @@
                   implementationClass="raft.war.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="instance"
                   language="LNI"
-                  extensions="ini;imp"
+                  extensions="ini;imp;w3u"
         />
 
         <lang.parserDefinition
@@ -49,7 +49,7 @@
         />
 
         <!-- imp -->
-        <fileEditorProvider implementation="raft.war.binary.imp.openapi.fileEditor.BinaryFileEditorProvider"/>
+        <fileEditorProvider implementation="raft.war.binary.openapi.fileEditor.BinaryFileEditorProvider"/>
 
     </extensions>
 </idea-plugin>

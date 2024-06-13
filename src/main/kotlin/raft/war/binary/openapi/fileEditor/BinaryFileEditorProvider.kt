@@ -1,4 +1,4 @@
-package raft.war.binary.imp.openapi.fileEditor
+package raft.war.binary.openapi.fileEditor
 
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorPolicy
@@ -13,7 +13,7 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
 
     override fun accept(project: Project, file: VirtualFile): Boolean = file.extension in extensions
 
-    override fun createEditor(project: Project, file: VirtualFile): FileEditor = ImpFileEditor(project, file)
+    override fun createEditor(project: Project, file: VirtualFile): FileEditor = BinaryFileEditor(project, file)
 
     override fun getEditorTypeId(): String = ID
 
@@ -27,7 +27,8 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
     companion object {
         const val ID = "Warcraft Binary File Editor"
     }
-
 }
 
-private val extensions = setOf("imp")
+private val extensions = setOf("imp", "w3u")
+
+//

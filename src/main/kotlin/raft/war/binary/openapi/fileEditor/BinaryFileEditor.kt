@@ -1,18 +1,22 @@
-package raft.war.binary.imp.openapi.fileEditor
+package raft.war.binary.openapi.fileEditor
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter
 import com.intellij.codeInsight.daemon.impl.TextEditorBackgroundHighlighter
-import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.ex.EditorEx
-import com.intellij.openapi.editor.highlighter.EditorHighlighter
-import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory
-import com.intellij.openapi.fileEditor.*
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.fileEditor.FileEditor
+import com.intellij.openapi.fileEditor.FileEditorState
+import com.intellij.openapi.fileEditor.FileEditorStateLevel
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.codeStyle.CodeStyleManager
+import com.intellij.testFramework.LightVirtualFile
+import raft.war.binary.parser.Parser
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
 import javax.swing.JComponent
@@ -21,55 +25,42 @@ import javax.swing.JComponent
 // EditorTextEditor
 
 // https://plugins.jetbrains.com/docs/intellij/editor-components.html#providing-completion
-class ImpFileEditor(project: Project, private val file: VirtualFile) : UserDataHolderBase(), FileEditor {
+class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDataHolderBase(), FileEditor {
 
     //private val scrollPane: JScrollPane
     private val editor: EditorEx
 
     init {
-        //print(file.extension)
-        /*
-        val panel = JPanel()
-        panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
-        //panel.border = JBUI.Borders.empty(10)
-
-        val l = JLabel("U")
-        l.isOpaque = true
-        l.background = JBColor.CYAN
-        l.maximumSize = Dimension(Int.MAX_VALUE, l.preferredSize.height)
-        l.border = JBUI.Borders.empty(10)
-
-
-        panel.add(l)
-        panel.add(JLabel("I"))
-
-        scrollPane = JBScrollPane(panel)
-         */
-
         val factory = EditorFactory.getInstance()
 
-        val document = factory.createDocument(loadFileContent(file))
+        val document = factory.createDocument(loadFileContent(project, file))
         editor = factory.createEditor(document, project, LniFileType.instance, false) as EditorEx
     }
 
-    private fun loadFileContent(file: VirtualFile): String {
-        return "import = {\n" +
-                "\"characters\\\\akainu\\\\akainu.mdx\",\n" +
-                "\"characters\\\\akainu\\\\akainu_portrait.mdx\",\n" +
-                "\"characters\\\\akainu\\\\akainubody.blp\",\n}"
+    private fun loadFileContent(project: Project, file: VirtualFile): String {
 
-        /*
-        return try {
-            val bytes = file.contentsToByteArray()
+        val bytes = file.contentsToByteArray()
+
+        if (file.extension == null) {
             val sb = StringBuilder()
             for (b in bytes) {
                 sb.append(String.format("%02X ", b))
             }
-            sb.toString()
-        } catch (e: IOException) {
-            "Failed to load file: ${e.message}"
+            return sb.toString()
         }
-         */
+
+        val p = Parser.fromExtension(file.extension!!, bytes)
+
+        val s = p.lni
+        val virtualFile: VirtualFile = LightVirtualFile("dummy.lni", LniFileType.instance, s)
+        val psiFile: PsiFile =
+            PsiFileFactory.getInstance(project).createFileFromText(virtualFile.name, LniFileType.instance, s)
+
+        ApplicationManager.getApplication().runWriteAction {
+            CodeStyleManager.getInstance(project).reformat(psiFile)
+        }
+
+        return psiFile.text
     }
 
 
