@@ -27,8 +27,8 @@ class W3abdhqtuMod {
 
         when (type) {
             0u -> ivalue = buffer.uint32le.toInt()
-            //1u, 2u -> fvalue = buffer.float32le
-            1u, 2u -> ivalue = buffer.uint32le.toInt()
+            1u, 2u -> fvalue = buffer.float32le
+            //1u, 2u -> ivalue = buffer.uint32le.toInt()
             3u -> svalue = buffer.string
         }
 

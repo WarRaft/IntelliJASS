@@ -3,6 +3,7 @@ package raft.war.binary.reader
 // https://github.com/mvysny/kotlin-unsigned-jvm/blob/master/src/main/kotlin/Endian.kt
 
 class ByteBufferWrap(val bytes: ByteArray) {
+    @Suppress("MemberVisibilityCanBePrivate")
     var cursor: Int = -1
 
     var skip: Int
@@ -11,32 +12,20 @@ class ByteBufferWrap(val bytes: ByteArray) {
             cursor += value
         }
 
-    val uint8: UInt
-        get() = bytes[++cursor].toUByte().toUInt()
+    private inline val ub: UByte get() = bytes[++cursor].toUByte()
+    private inline val i: Int get() = ub.toInt()
+    private inline val ui: UInt get() = ub.toUInt()
+
+    val uint8: UInt get() = ub.toUInt()
 
     val uint32le: UInt
-        get() =
-            bytes[++cursor].toUByte().toUInt() +
-                    bytes[++cursor].toUByte().toUInt().shl(8) +
-                    bytes[++cursor].toUByte().toUInt().shl(16) +
-                    bytes[++cursor].toUByte().toUInt().shl(24)
+        get() = ui + ui.shl(8) + ui.shl(16) + ui.shl(24)
 
     val uint32be: UInt
-        get() =
-            bytes[++cursor].toUByte().toUInt().shl(24) +
-                    bytes[++cursor].toUByte().toUInt().shl(16) +
-                    bytes[++cursor].toUByte().toUInt().shl(8) +
-                    bytes[++cursor].toUByte().toUInt()
+        get() = ui.shl(24) + ui.shl(16) + ui.shl(8) + ui
 
     val float32le: Float
-        get() =
-            Float.fromBits(
-                bytes[++cursor].toInt() or
-                        bytes[++cursor].toInt().shl(8) or
-                        bytes[++cursor].toInt().shl(16) or
-                        bytes[++cursor].toInt().shl(24)
-            )
-
+        get() = Float.fromBits(i or i.shl(8) or i.shl(16) or i.shl(24))
 
     val string: String
         get() {
