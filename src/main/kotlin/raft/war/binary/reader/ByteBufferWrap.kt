@@ -17,16 +17,25 @@ class ByteBufferWrap(val bytes: ByteArray) {
     val uint32le: UInt
         get() =
             bytes[++cursor].toUByte().toUInt() +
-                    bytes[++cursor].toUInt().shl(8) +
-                    bytes[++cursor].toUInt().shl(16) +
-                    bytes[++cursor].toUInt().shl(24)
+                    bytes[++cursor].toUByte().toUInt().shl(8) +
+                    bytes[++cursor].toUByte().toUInt().shl(16) +
+                    bytes[++cursor].toUByte().toUInt().shl(24)
 
     val uint32be: UInt
         get() =
-            bytes[++cursor].toUInt().shl(24) +
-                    bytes[++cursor].toUInt().shl(16) +
-                    bytes[++cursor].toUInt().shl(8) +
-                    bytes[++cursor].toUInt()
+            bytes[++cursor].toUByte().toUInt().shl(24) +
+                    bytes[++cursor].toUByte().toUInt().shl(16) +
+                    bytes[++cursor].toUByte().toUInt().shl(8) +
+                    bytes[++cursor].toUByte().toUInt()
+
+    val float32le: Float
+        get() =
+            Float.fromBits(
+                bytes[++cursor].toInt() or
+                        bytes[++cursor].toInt().shl(8) or
+                        bytes[++cursor].toInt().shl(16) or
+                        bytes[++cursor].toInt().shl(24)
+            )
 
 
     val string: String

@@ -1,11 +1,10 @@
 package raft.war.binary.parser.w3abdhqtu
 
-import com.intellij.openapi.diagnostic.Logger
 import raft.war.binary.parser.Parser
 import raft.war.binary.reader.ByteBufferWrap.Companion.uint2id
 
 
-open class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes) {
+abstract class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes) {
 
     val version: UInt = buffer.uint32le
 
@@ -25,51 +24,39 @@ open class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes) {
             }
         }
 
-        logger.warn("${buffer.cursor}|${bytes.size}\n")
+        //print("${buffer.cursor}|${bytes.size}\n")
     }
 
     override val lni: String
         get() {
-            val sb = StringBuilder().append("units {\n")
-
-            sb.append("-- version: ").append(version).append("\n")
+            val sb = StringBuilder().append("-- version: ").append(version).append("\n")
 
             for (item in items) {
-                sb.append("-- original:").append(uint2id(item.original)).append("\n")
-                sb.append("-- modified: ").append(uint2id(item.modified)).append("\n")
-                sb.append("-- count: ").append(item.count).append("\n")
+                sb.append("\n")
 
-                for (set in item.sets) {
-                    sb.append("-- flag: ").append(set.flag).append("\n")
-                    sb.append("-- count: ").append(set.count).append("\n\n")
-
-                    for (mod in set.mods) {
-                        sb
-                            .append("-- ")
-                            .append(uint2id(mod.modification))
-                            .append(", type: ")
-                            .append(mod.type)
-                            .append(", value: ")
-                        when (mod.type) {
-                            0u -> sb.append(mod.ivalue)
-                            1u -> sb.append(mod.ivalue)
-                            2u -> sb.append(mod.ivalue)
-                            3u -> sb.append(mod.svalue)
-                        }
-                        sb
-                            .append(", end: ")
-                            .append(uint2id(mod.end))
-                            .append("\n")
-
-                    }
+                if (item.custom == 0u) {
+                    sb.append("[").append(uint2id(item.default)).append("]\n")
+                } else {
+                    sb.append("[").append(uint2id(item.custom)).append("]\n")
+                    sb.append("_parent = \"").append(uint2id(item.default)).append("\"\n")
                 }
 
-            }
+                for (set in item.sets) {
+                    for (mod in set.mods) {
+                        sb.append(uint2id(mod.modification)).append(" = ")
 
+                        when (mod.type) {
+                            0u -> sb.append(mod.ivalue)
+                            1u, 2u -> sb.append(mod.fvalue)
+                            3u -> sb.append("\"").append(mod.svalue).append("\"")
+                        }
+                        sb
+                            .append(" -- ")
+                            .append(mod.type)
+                            .append("\n")
+                    }
+                }
+            }
             return sb.append("}").toString()
         }
-
-    companion object {
-        private val logger = Logger.getInstance(W3abdhqtu::class.java)
-    }
 }

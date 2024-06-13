@@ -4,7 +4,7 @@
                   implementationClass="raft.war.language.lni.openapi.fileTypes.LniFileType"
                   fieldName="instance"
                   language="LNI"
-                  extensions="ini;imp;w3u"
+                  extensions="ini;imp;w3a;w3b;w3d;w3h;w3q;w3t;w3u"
         />
 
         <lang.parserDefinition

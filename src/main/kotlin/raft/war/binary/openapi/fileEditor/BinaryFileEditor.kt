@@ -49,9 +49,16 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
             return sb.toString()
         }
 
-        val p = Parser.fromExtension(file.extension!!, bytes)
+        var s: String
 
-        val s = p.lni
+        try {
+            val p = Parser.fromExtension(file.extension!!, bytes)
+            s = p.lni
+        } catch (e: Exception) {
+            s = "-- " + e.message.toString()
+            e.printStackTrace()
+        }
+
         val virtualFile: VirtualFile = LightVirtualFile("dummy.lni", LniFileType.instance, s)
         val psiFile: PsiFile =
             PsiFileFactory.getInstance(project).createFileFromText(virtualFile.name, LniFileType.instance, s)

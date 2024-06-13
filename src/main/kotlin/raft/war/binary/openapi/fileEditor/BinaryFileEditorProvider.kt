@@ -29,6 +29,4 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
     }
 }
 
-private val extensions = setOf("imp", "w3u")
-
-//
+private val extensions = setOf("imp", "w3a", "w3b", "w3d", "w3h", "w3q", "w3t", "w3u")
