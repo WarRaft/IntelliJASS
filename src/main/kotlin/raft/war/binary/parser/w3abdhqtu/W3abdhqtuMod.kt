@@ -14,6 +14,15 @@ class W3abdhqtuMod {
 
     var end = 0u
 
+    fun appendValue(sb: StringBuilder): StringBuilder {
+        when (type) {
+            0u -> sb.append(ivalue)
+            1u, 2u -> sb.append(fvalue)
+            3u -> sb.append("\"").append(svalue).append("\"")
+        }
+        return sb
+    }
+
     @Suppress("ConvertSecondaryConstructorToPrimary")
     constructor(buffer: ByteBufferWrap, parent: MutableList<W3abdhqtuMod>, optional: Boolean) {
         parent.add(this)
@@ -28,7 +37,6 @@ class W3abdhqtuMod {
         when (type) {
             0u -> ivalue = buffer.uint32le.toInt()
             1u, 2u -> fvalue = buffer.float32le
-            //1u, 2u -> ivalue = buffer.uint32le.toInt()
             3u -> svalue = buffer.string
         }
 

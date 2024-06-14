@@ -1,6 +1,7 @@
 package raft.war.binary.parser.w3abdhqtu
 
 import raft.war.binary.parser.Parser
+import raft.war.binary.parser.data.MetaData
 import raft.war.binary.reader.ByteBufferWrap.Companion.uint2id
 
 
@@ -27,6 +28,9 @@ abstract class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes
         //print("${buffer.cursor}|${bytes.size}\n")
     }
 
+    open val datamap: HashMap<String, MetaData>?
+        get() = null
+
     override val lni: String
         get() {
             val sb = StringBuilder().append("-- version: ").append(version).append("\n")
@@ -43,17 +47,25 @@ abstract class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes
 
                 for (set in item.sets) {
                     for (mod in set.mods) {
-                        sb.append(uint2id(mod.modification)).append(" = ")
-
-                        when (mod.type) {
-                            0u -> sb.append(mod.ivalue)
-                            1u, 2u -> sb.append(mod.fvalue)
-                            3u -> sb.append("\"").append(mod.svalue).append("\"")
+                        val key = uint2id(mod.modification)
+                        var name = key
+                        val map = datamap
+                        if (map != null) {
+                            val data = map[name]
+                            if (data != null) {
+                                name = data.field
+                                sb
+                                    .append("-- ")
+                                    .append(data.type)
+                                    .append(" (")
+                                    .append(key)
+                                    .append(") ")
+                                    .append(data.displayName)
+                                    .append("\n")
+                            }
                         }
-                        sb
-                            .append(" -- ")
-                            .append(mod.type)
-                            .append("\n")
+                        sb.append(name).append(" = ")
+                        mod.appendValue(sb).append("\n")
                     }
                 }
             }
