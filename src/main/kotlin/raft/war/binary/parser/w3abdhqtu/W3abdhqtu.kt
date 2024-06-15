@@ -24,12 +24,13 @@ abstract class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes
                 }
             }
         }
-
         //print("${buffer.cursor}|${bytes.size}\n")
     }
 
-    open val datamap: HashMap<String, MetaData>?
+    open val levelField: String?
         get() = null
+
+    abstract val datamap: HashMap<String, MetaData>
 
     override val lni: String
         get() {
@@ -46,26 +47,60 @@ abstract class W3abdhqtu(bytes: ByteArray, val optional: Boolean) : Parser(bytes
                 }
 
                 for (set in item.sets) {
-                    for (mod in set.mods) {
-                        val key = uint2id(mod.modification)
-                        var name = key
-                        val map = datamap
-                        if (map != null) {
-                            val data = map[name]
-                            if (data != null) {
-                                name = data.field
-                                sb
-                                    .append("-- ")
-                                    .append(data.type)
-                                    .append(" (")
-                                    .append(key)
-                                    .append(") ")
-                                    .append(data.displayName)
-                                    .append("\n")
+                    val map = datamap
+
+                    val mods = set.mods.toMutableList()
+                    var levels = 0
+                    val modmap: MutableMap<UInt, W3abdhqtuMod> = mutableMapOf()
+
+                    if (levelField != null) {
+                        val iterator = mods.iterator()
+                        while (iterator.hasNext()) {
+                            val mod = iterator.next()
+                            val data = map[mod.modificationString] ?: continue
+                            if (data.field == levelField) {
+                                levels = mod.ivalue
+                                continue
+                            }
+                            if (data.repeat > 0) {
+                                if (modmap.containsKey(mod.modification)) {
+                                    modmap[mod.modification]!!.levels.add(mod)
+                                    iterator.remove()
+                                } else {
+                                    modmap[mod.modification] = mod
+                                    mod.levels.add(mod)
+                                }
                             }
                         }
+                    }
+
+                    for (mod in mods) {
+                        var name = mod.modificationString
+                        val data = map[name]
+                        if (data != null) {
+                            name = data.field
+                            sb
+                                .append("-- ")
+                                .append(data.type)
+                                .append(" (")
+                                .append(mod.modificationString)
+                                .append(") ")
+                                .append(data.displayName)
+                                .append("\n")
+                        }
                         sb.append(name).append(" = ")
-                        mod.appendValue(sb).append("\n")
+
+                        if (data != null && data.repeat > 0) {
+                            val list: MutableList<String> = MutableList(levels) { "" }
+                            for (lmod in mod.levels) {
+                                val l = lmod.level.toInt() - 1
+                                while (list.size <= l) list.add("")
+                                list[l] = lmod.value
+                            }
+                            sb.append("{").append(list.joinToString(separator = ", ")).append("}\n")
+                        } else {
+                            sb.append(mod.value).append("\n")
+                        }
                     }
                 }
             }
