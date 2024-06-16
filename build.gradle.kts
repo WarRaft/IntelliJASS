@@ -21,11 +21,6 @@ sourceSets {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
-    //compileOnly("org.projectlombok:lombok:1.18.30")
-    //annotationProcessor("org.projectlombok:lombok:1.18.30")
-
-    //testCompileOnly("org.projectlombok:lombok:1.18.30")
-    //testCompileOnly("org.projectlombok:lombok:1.18.30")
     implementation(kotlin("stdlib-jdk8"))
 }
 
@@ -46,7 +41,7 @@ tasks {
 
     // https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html?from=jetbrains.org
     patchPluginXml {
-        version.set("${project.version}")
+        //version.set("${project.version}")
     }
 }
 kotlin {

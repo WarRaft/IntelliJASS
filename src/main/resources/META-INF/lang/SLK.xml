@@ -1,0 +1,12 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="SLK"
+                  implementationClass="raft.war.table.openapi.fileTypes.SlkFileType"
+                  fieldName="instance"
+                  language="SLK"
+                  extensions="slk"
+        />
+
+        <fileEditorProvider implementation="raft.war.table.openapi.fileEditor.TableFileEditorProvider"/>
+    </extensions>
+</idea-plugin>
