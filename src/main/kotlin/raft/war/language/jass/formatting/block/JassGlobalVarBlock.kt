@@ -8,7 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 class JassGlobalVarBlock(
     myNode: ASTNode,
@@ -20,25 +20,25 @@ class JassGlobalVarBlock(
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.TYPE_NAME)) alignment =
+        if (FormatterUtil.isOneOf(childNode, TYPE_NAME)) alignment =
             alignments[JassCodeStyleSettings::AT_GVAR_TYPE.name]
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.ARRAY)) alignment =
+        if (FormatterUtil.isOneOf(childNode, ARRAY)) alignment =
             alignments[JassCodeStyleSettings::AT_GVAR_ARRAY.name]
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.ID)) alignment =
+        if (FormatterUtil.isOneOf(childNode, ID)) alignment =
             alignments[JassCodeStyleSettings::AT_GVAR_NAME.name]
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.EQ)) alignment =
+        if (FormatterUtil.isOneOf(childNode, EQ)) alignment =
             alignments[JassCodeStyleSettings::AT_GVAR_ASSIGN.name]
 
         if (FormatterUtil.isOneOf(
                 childNode,
-                raft.war.language.jass.psi.JassTypes.CONSTANT,
-                raft.war.language.jass.psi.JassTypes.ARRAY,
-                raft.war.language.jass.psi.JassTypes.TYPE_NAME,
-                raft.war.language.jass.psi.JassTypes.EQ,
-                raft.war.language.jass.psi.JassTypes.VAR
+                CONSTANT,
+                ARRAY,
+                TYPE_NAME,
+                EQ,
+                VAR
             )
         ) return JassGlobalVarBlock(childNode, alignment, null, myCodeStyleSettings, alignments)
 
@@ -47,9 +47,9 @@ class JassGlobalVarBlock(
 
     override val spacingBuilder: SpacingBuilder?
         get() = super.spacingBuilder
-            ?.around(raft.war.language.jass.psi.JassTypes.ARRAY)?.spacing(1, 1, 0, false, 0)
-            ?.around(raft.war.language.jass.psi.JassTypes.TYPE_NAME)?.spacing(1, 1, 0, false, 0)
-            ?.around(raft.war.language.jass.psi.JassTypes.ID)?.spacing(1, 1, 0, false, 0)
+            ?.around(ARRAY)?.spacing(1, 1, 0, false, 0)
+            ?.around(TYPE_NAME)?.spacing(1, 1, 0, false, 0)
+            ?.around(ID)?.spacing(1, 1, 0, false, 0)
 
 
     companion object {

@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.lang.JassLanguage.Companion.instance
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 open class JassBlock(
     @JvmField protected val myNode: ASTNode,
@@ -64,14 +64,14 @@ open class JassBlock(
             val saao = if (code.SPACE_AROUND_ASSIGNMENT_OPERATORS) 1 else 0
 
             return SpacingBuilder(myCodeStyleSettings, instance)
-                .after(raft.war.language.jass.psi.JassTypes.COMMA).spacing(sac, sac, 0, false, 0)
-                .before(raft.war.language.jass.psi.JassTypes.COMMA).spacing(sbc, sbc, 0, false, 0)
-                .around(raft.war.language.jass.psi.JassTypes.EQ).spacing(saao, saao, 0, false, 0)
-                .between(raft.war.language.jass.psi.JassTypes.TYPE_NAME, raft.war.language.jass.psi.JassTypes.ID).spacing(1, 1, 0, false, 0)
-                .around(raft.war.language.jass.psi.JassTypes.NATIVE).spacing(1, 1, 0, false, 0)
-                .around(raft.war.language.jass.psi.JassTypes.FUN_TAKE).spacing(1, 1, 0, false, 0)
-                .around(raft.war.language.jass.psi.JassTypes.TAKES).spacing(1, 1, 0, false, 0)
-                .after(raft.war.language.jass.psi.JassTypes.RETURNS).spacing(1, 1, 0, false, 0)
+                .after(COMMA).spacing(sac, sac, 0, false, 0)
+                .before(COMMA).spacing(sbc, sbc, 0, false, 0)
+                .around(EQ).spacing(saao, saao, 0, false, 0)
+                .between(TYPE_NAME, ID).spacing(1, 1, 0, false, 0)
+                .around(NATIVE).spacing(1, 1, 0, false, 0)
+                .around(FUN_TAKE).spacing(1, 1, 0, false, 0)
+                .around(TAKES).spacing(1, 1, 0, false, 0)
+                .after(RETURNS).spacing(1, 1, 0, false, 0)
         }
 
     override fun getSpacing(block1: Block?, block2: Block): Spacing? {

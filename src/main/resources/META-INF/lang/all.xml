@@ -11,8 +11,7 @@
         <!-- typing -->
         <typedHandler implementation="raft.war.plugin.codeInsight.PluginTypedHandlerDelegate"/>
 
-        <!-- sdk -->
-        <sdkType implementation="raft.war.plugin.openapi.projectRoots.PluginSdkType"/>
+        <!-- startup -->
         <postStartupActivity implementation="raft.war.plugin.openapi.startup.PluginProjectActivity"/>
 
         <!-- injection -->

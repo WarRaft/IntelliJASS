@@ -13,8 +13,8 @@ class JassRawcodeUnsafeInspection : LocalInspectionTool(), CleanupLocalInspectio
     private val toIntQuickFix = ToIntQuickFix()
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-        return object : raft.war.language.jass.psi.JassVisitor() {
-            override fun visitPrimExpr(o: raft.war.language.jass.psi.JassPrimExpr) {
+        return object : JassVisitor() {
+            override fun visitPrimExpr(o: JassPrimExpr) {
                 super.visitPrimExpr(o)
                 val psiraw = o.rawval ?: return
                 val raw = JassRawcode(psiraw)

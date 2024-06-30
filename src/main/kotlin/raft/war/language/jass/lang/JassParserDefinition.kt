@@ -10,10 +10,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import raft.war.language.jass.psi.JassPsiFileBase
 import raft.war.language.jass.lang.JassLanguage.Companion.instance
 import raft.war.language.jass.lexer.JassFlexAdapter
 import raft.war.language.jass.parser.JassParser
+import raft.war.language.jass.psi.JassPsiFileBase
 import raft.war.language.jass.psi.JassTokenSets
 import raft.war.language.jass.psi.JassTypes
 
@@ -24,14 +24,14 @@ class JassParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun createParser(project: Project): PsiParser =
-        raft.war.language.jass.parser.JassParser()
+    override fun createParser(project: Project): PsiParser = JassParser()
 
     override fun getFileNodeType(): IFileElementType = JASS_FILE
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = JassPsiFileBase(viewProvider)
 
-    override fun createElement(node: ASTNode): PsiElement = raft.war.language.jass.psi.JassTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode): PsiElement =
+        JassTypes.Factory.createElement(node)
 }
 
 val JASS_FILE: IFileElementType = IFileElementType(instance)

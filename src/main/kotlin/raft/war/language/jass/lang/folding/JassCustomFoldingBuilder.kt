@@ -17,7 +17,7 @@ import raft.war.language.jass.psi.*
 internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun isCustomFoldingRoot(node: ASTNode): Boolean {
         val type = node.elementType
-        return type === JASS_FILE || type === raft.war.language.jass.psi.JassTypes.GLOB || type === raft.war.language.jass.psi.JassTypes.FUN
+        return type === JASS_FILE || type === JassTypes.GLOB || type === JassTypes.FUN
     }
 
     override fun buildLanguageFoldRegions(
@@ -31,20 +31,20 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         val psiElements = PsiTreeUtil.findChildrenOfAnyType(
             root,
             PsiComment::class.java,
-            raft.war.language.jass.psi.JassGlob::class.java,
-            raft.war.language.jass.psi.JassFun::class.java,
-            raft.war.language.jass.psi.JassIfStmt::class.java,
-            raft.war.language.jass.psi.JassLoopStmt::class.java
+            JassGlob::class.java,
+            JassFun::class.java,
+            JassIfStmt::class.java,
+            JassLoopStmt::class.java
         )
 
         for (element in psiElements) {
-            if (element is raft.war.language.jass.psi.JassFun) {
+            if (element is JassFun) {
                 val start: PsiElement? = if (element.funRet != null) element.funRet else element.funTake
 
                 if (start == null) continue
 
                 val s = start.node
-                val e = element.getNode().findChildByType(raft.war.language.jass.psi.JassTypes.ENDFUNCTION, s)
+                val e = element.getNode().findChildByType(JassTypes.ENDFUNCTION, s)
                 if (s == null || e == null) continue
 
                 descriptors.add(
@@ -56,11 +56,11 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
                 continue
             }
 
-            if (element is raft.war.language.jass.psi.JassIfStmt) {
-                val expr: raft.war.language.jass.psi.JassExpr = element.expr ?: continue
+            if (element is JassIfStmt) {
+                val expr: JassExpr = element.expr ?: continue
 
                 val s = expr.node
-                val e = element.getNode().findChildByType(raft.war.language.jass.psi.JassTypes.ENDIF, s)
+                val e = element.getNode().findChildByType(JassTypes.ENDIF, s)
                 if (s == null || e == null) continue
 
                 descriptors.add(
@@ -72,13 +72,13 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
                 continue
             }
 
-            if (element is raft.war.language.jass.psi.JassLoopStmt) {
-                foldSimple(element, raft.war.language.jass.psi.JassTypes.LOOP, raft.war.language.jass.psi.JassTypes.ENDLOOP, descriptors)
+            if (element is JassLoopStmt) {
+                foldSimple(element, JassTypes.LOOP, JassTypes.ENDLOOP, descriptors)
                 continue
             }
 
-            if (element is raft.war.language.jass.psi.JassGlob) {
-                foldSimple(element, raft.war.language.jass.psi.JassTypes.GLOBALS, raft.war.language.jass.psi.JassTypes.ENDGLOBALS, descriptors)
+            if (element is JassGlob) {
+                foldSimple(element, JassTypes.GLOBALS, JassTypes.ENDGLOBALS, descriptors)
             }
         }
     }
@@ -86,13 +86,13 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String? {
         val type = node.elementType
 
-        if (type === raft.war.language.jass.psi.JassTypes.GLOB) {
-            val psi = node.getPsi(raft.war.language.jass.psi.JassGlob::class.java)
+        if (type === JassTypes.GLOB) {
+            val psi = node.getPsi(JassGlob::class.java)
             val size = psi.gvarList.size
             return if (size == 0) " ... " else " ($size) "
         }
 
-        if (type === raft.war.language.jass.psi.JassTypes.FUN || type === raft.war.language.jass.psi.JassTypes.IF_STMT || type === raft.war.language.jass.psi.JassTypes.LOOP_STMT
+        if (type === JassTypes.FUN || type === JassTypes.IF_STMT || type === JassTypes.LOOP_STMT
         ) return " ... "
 
         return null
@@ -103,10 +103,10 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         //final CodeFoldingSettings settings = CodeFoldingSettings.getInstance();
         val jass = JassCodeFoldingSettings.instance
 
-        if (type === raft.war.language.jass.psi.JassTypes.GLOB) return jass.isFoldGlobals
-        if (type === raft.war.language.jass.psi.JassTypes.FUN) return jass.isFoldFunction
-        if (type === raft.war.language.jass.psi.JassTypes.IF_STMT) return jass.isFoldIf
-        if (type === raft.war.language.jass.psi.JassTypes.LOOP_STMT) return jass.isFoldLoop
+        if (type === JassTypes.GLOB) return jass.isFoldGlobals
+        if (type === JassTypes.FUN) return jass.isFoldFunction
+        if (type === JassTypes.IF_STMT) return jass.isFoldIf
+        if (type === JassTypes.LOOP_STMT) return jass.isFoldLoop
 
         return false
     }

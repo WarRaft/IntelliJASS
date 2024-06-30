@@ -3,7 +3,7 @@ package raft.war.language.jass.openapi.actionSystem.convert.jass2javascript
 import raft.war.language.jass.openapi.actionSystem.convert.Jass2AnyVisitor
 import raft.war.language.jass.psi.*
 
-class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
+class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor() {
     init {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
         keywords = object : HashSet<String>() {
@@ -102,7 +102,7 @@ class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
         array: Boolean,
         type: String,
         name: String?,
-        expr: raft.war.language.jass.psi.JassExpr?
+        expr: JassExpr?
     ) {
         if (!typescript) {
             stringBuffer.append("/** @type {").append(type)
@@ -129,8 +129,8 @@ class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
     override fun appendFunction(
         returns: String?,
         name: String?,
-        params: List<raft.war.language.jass.psi.JassParam?>,
-        statements: List<raft.war.language.jass.psi.JassStmt?>
+        params: List<JassParam?>,
+        statements: List<JassStmt?>
     ) {
         if (!typescript) {
             stringBuffer.append("/**\n")
@@ -161,7 +161,7 @@ class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
 
     // --- statement
     // if
-    override fun visitIfStmt(o: raft.war.language.jass.psi.JassIfStmt) {
+    override fun visitIfStmt(o: JassIfStmt) {
         stringBuffer.append("if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
@@ -171,7 +171,7 @@ class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
         for (stmt in o.elseStmtList) stmt.accept(this)
     }
 
-    override fun visitElseIfStmt(o: raft.war.language.jass.psi.JassElseIfStmt) {
+    override fun visitElseIfStmt(o: JassElseIfStmt) {
         stringBuffer.append("else if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
@@ -179,20 +179,20 @@ class Jass2JavaScriptVisitor(var typescript: Boolean) : Jass2AnyVisitor() {
         stringBuffer.append("}\n")
     }
 
-    override fun visitElseStmt(o: raft.war.language.jass.psi.JassElseStmt) {
+    override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else {\n")
         for (stmt in o.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
     // loop
-    override fun visitLoopStmt(o: raft.war.language.jass.psi.JassLoopStmt) {
+    override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) {\n")
         for (stmt in o.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
-    override fun visitExitWhenStmt(o: raft.war.language.jass.psi.JassExitWhenStmt) {
+    override fun visitExitWhenStmt(o: JassExitWhenStmt) {
         val expr = o.expr ?: return
         stringBuffer.append("if (")
         expr.accept(this)

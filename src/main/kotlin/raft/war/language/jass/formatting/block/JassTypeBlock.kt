@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.lang.JassLanguage
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 /**
  * https://plugins.jetbrains.com/docs/intellij/code-formatting.html
@@ -23,16 +23,16 @@ class JassTypeBlock(
         var node = childNode
         var alignment: Alignment? = null
 
-        if (FormatterUtil.isOneOf(node, raft.war.language.jass.psi.JassTypes.TYPE_NAME)) {
+        if (FormatterUtil.isOneOf(node, TYPE_NAME)) {
             alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_RIGHT.name]
             node = node.firstChildNode
         }
 
-        if (FormatterUtil.isOneOf(node, raft.war.language.jass.psi.JassTypes.EXTENDS)) {
+        if (FormatterUtil.isOneOf(node, EXTENDS)) {
             alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name]
         }
 
-        if (FormatterUtil.isOneOf(node, raft.war.language.jass.psi.JassTypes.TYPE_NAME_BASE)) {
+        if (FormatterUtil.isOneOf(node, TYPE_NAME_BASE)) {
             alignment = aligments[JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name]
             node = node.firstChildNode.firstChildNode
         }
@@ -42,11 +42,11 @@ class JassTypeBlock(
 
     override val spacingBuilder: SpacingBuilder
         get() = SpacingBuilder(myCodeStyleSettings, JassLanguage.instance)
-            .after(raft.war.language.jass.psi.JassTypes.TYPE).spacing(1, 1, 0, false, 0)
-            .around(raft.war.language.jass.psi.JassTypes.EXTENDS).spacing(1, 1, 0, false, 0)
+            .after(TYPE).spacing(1, 1, 0, false, 0)
+            .around(EXTENDS).spacing(1, 1, 0, false, 0)
 
     override fun isIncomplete(): Boolean {
-        return !FormatterUtil.isOneOf(myNode.lastChildNode, raft.war.language.jass.psi.JassTypes.TYPE_NAME_BASE)
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, TYPE_NAME_BASE)
     }
 
     companion object {

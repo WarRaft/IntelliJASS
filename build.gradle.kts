@@ -1,7 +1,7 @@
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.17.3"
+    id("org.jetbrains.intellij") version "1.17.4"
     kotlin("jvm")
 }
 
@@ -29,7 +29,7 @@ java {
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2024.1")
+    version.set("2024.1.4")
     //type.set("IU")
     //plugins.set(listOf("com.tang:1.4.11-IDEA231"))
 }

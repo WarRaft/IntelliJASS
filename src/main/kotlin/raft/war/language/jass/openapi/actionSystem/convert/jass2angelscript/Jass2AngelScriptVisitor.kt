@@ -89,7 +89,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
     }
 
     // --- variable
-    private fun appendVarExpr(expr: raft.war.language.jass.psi.JassExpr?) {
+    private fun appendVarExpr(expr: JassExpr?) {
         if (expr == null) return
         if (expr.text == "null") return
         stringBuffer.append(" = ")
@@ -102,7 +102,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         array: Boolean,
         type: String,
         name: String?,
-        expr: raft.war.language.jass.psi.JassExpr?
+        expr: JassExpr?
     ) {
         if (constant) stringBuffer.append("const ")
         if (array) {
@@ -118,8 +118,8 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
     override fun appendFunction(
         returns: String?,
         name: String?,
-        params: List<raft.war.language.jass.psi.JassParam?>,
-        statements: List<raft.war.language.jass.psi.JassStmt?>
+        params: List<JassParam?>,
+        statements: List<JassStmt?>
     ) {
         if (returns == null) {
             stringBuffer.append("void")
@@ -155,7 +155,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
     }
 
     // if
-    override fun visitIfStmt(o: raft.war.language.jass.psi.JassIfStmt) {
+    override fun visitIfStmt(o: JassIfStmt) {
         stringBuffer.append("if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
@@ -165,7 +165,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         for (stmt in o.elseStmtList) stmt.accept(this)
     }
 
-    override fun visitElseIfStmt(o: raft.war.language.jass.psi.JassElseIfStmt) {
+    override fun visitElseIfStmt(o: JassElseIfStmt) {
         stringBuffer.append("else if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
@@ -173,14 +173,14 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("}\n")
     }
 
-    override fun visitElseStmt(o: raft.war.language.jass.psi.JassElseStmt) {
+    override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else {\n")
         for (stmt in o.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
     // set
-    override fun visitSetStmt(o: raft.war.language.jass.psi.JassSetStmt) {
+    override fun visitSetStmt(o: JassSetStmt) {
         val id = o.id
         if (id != null) appendSafeName(id.text)
         val arr = o.arrayAccess
@@ -199,13 +199,13 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
     }
 
     // loop
-    override fun visitLoopStmt(o: raft.war.language.jass.psi.JassLoopStmt) {
+    override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) {\n")
         for (stmt in o.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
-    override fun visitExitWhenStmt(o: raft.war.language.jass.psi.JassExitWhenStmt) {
+    override fun visitExitWhenStmt(o: JassExitWhenStmt) {
         val expr = o.expr ?: return
         stringBuffer.append("if (")
         expr.accept(this)

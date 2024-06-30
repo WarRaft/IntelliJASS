@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.JassTypeName
 
 internal class JassAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element is raft.war.language.jass.psi.JassTypeName) {
+        if (element is JassTypeName) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(element.getTextRange())

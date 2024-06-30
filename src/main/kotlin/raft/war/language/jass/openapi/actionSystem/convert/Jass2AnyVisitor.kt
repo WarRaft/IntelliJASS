@@ -4,15 +4,15 @@ import com.intellij.psi.PsiElement
 import raft.war.language.jass.codeInspection.number.JassRawcode
 import raft.war.language.jass.psi.*
 
-abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
-    fun getSafeName(name: String): String {
-        if (keywords.contains(name)) return name + keywordSuffix
+abstract class Jass2AnyVisitor : JassVisitor() {
+    private fun getSafeName(name: String): String {
+        if (keywords.contains(name)) return name + KEYWORD_SUFFIX
         return name
     }
 
     fun appendSafeName(name: String) {
         stringBuffer.append(name)
-        if (keywords.contains(name)) stringBuffer.append(keywordSuffix)
+        if (keywords.contains(name)) stringBuffer.append(KEYWORD_SUFFIX)
     }
 
     @JvmField
@@ -33,7 +33,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         stringBuffer.append(";\n")
     }
 
-    fun appendString(str: String) {
+    private fun appendString(str: String) {
         stringBuffer.append(str)
     }
 
@@ -58,7 +58,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         appendSingleLineComment("$name extends $base")
     }
 
-    override fun visitTypeDef(o: raft.war.language.jass.psi.JassTypeDef) {
+    override fun visitTypeDef(o: JassTypeDef) {
         val name = o.typeName
         val base = o.typeNameBase
         if (name == null || base == null) return
@@ -66,7 +66,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
     }
 
     // --- globals
-    override fun visitGlob(o: raft.war.language.jass.psi.JassGlob) {
+    override fun visitGlob(o: JassGlob) {
         appendSingleLineComment("globals")
         o.acceptChildren(this)
         appendSingleLineComment("endglobals")
@@ -79,10 +79,10 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         array: Boolean,
         type: String,
         name: String?,
-        expr: raft.war.language.jass.psi.JassExpr?
+        expr: JassExpr?
     )
 
-    private fun appendVarPrepare(constant: Boolean, global: Boolean, `var`: raft.war.language.jass.psi.JassVar) {
+    private fun appendVarPrepare(constant: Boolean, global: Boolean, `var`: JassVar) {
         appendVar(
             constant,
             global,
@@ -93,25 +93,25 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         )
     }
 
-    override fun visitGvar(o: raft.war.language.jass.psi.JassGvar) {
+    override fun visitGvar(o: JassGvar) {
         appendVarPrepare(o.constant != null, true, o.getVar())
     }
 
-    override fun visitLvarStmt(o: raft.war.language.jass.psi.JassLvarStmt) {
-        appendVarPrepare(false, false, o.getVar())
+    override fun visitLvarStmt(o: JassLvarStmt) {
+        appendVarPrepare(constant = false, global = false, `var` = o.getVar())
     }
 
     // --- function
-    abstract fun appendFunction(returns: String?, name: String?, params: List<raft.war.language.jass.psi.JassParam?>, statements: List<raft.war.language.jass.psi.JassStmt?>)
+    abstract fun appendFunction(returns: String?, name: String?, params: List<JassParam?>, statements: List<JassStmt?>)
 
-    override fun visitFun(o: raft.war.language.jass.psi.JassFun) {
+    override fun visitFun(o: JassFun) {
         val ret = o.funRet
         val rettype = ret?.typeName
 
         val name = o.id
 
         val take = o.funTake
-        var params: List<raft.war.language.jass.psi.JassParam?> = ArrayList()
+        var params: List<JassParam?> = ArrayList()
         if (take != null) {
             val list = take.paramList
             if (list != null) params = list.paramList
@@ -127,19 +127,19 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
 
     // --- statement
     // stmt list
-    override fun visitStmt(o: raft.war.language.jass.psi.JassStmt) {
+    override fun visitStmt(o: JassStmt) {
         o.acceptChildren(this)
     }
 
     // return
-    override fun visitReturnStmt(o: raft.war.language.jass.psi.JassReturnStmt) {
+    override fun visitReturnStmt(o: JassReturnStmt) {
         stringBuffer.append("return ")
         acceptExpr(o.expr)
         appendStatementLineEnd()
     }
 
     // set
-    override fun visitSetStmt(o: raft.war.language.jass.psi.JassSetStmt) {
+    override fun visitSetStmt(o: JassSetStmt) {
         val id = o.id
         if (id != null) appendSafeName(id.text)
         val arr = o.arrayAccess
@@ -153,20 +153,20 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
     }
 
     // call
-    override fun visitCallStmt(o: raft.war.language.jass.psi.JassCallStmt) {
+    override fun visitCallStmt(o: JassCallStmt) {
         if (o.debug != null) appendBlockLineComment("debug")
         o.funCall.accept(this)
         appendStatementLineEnd()
     }
 
-    override fun visitFunCall(o: raft.war.language.jass.psi.JassFunCall) {
+    override fun visitFunCall(o: JassFunCall) {
         val name = o.id.text
         val list = o.argList
         if (name == "ExecuteFunc" && list != null) {
             val exprs = list.exprList
             if (exprs.size == 1) {
                 val expr = exprs[0].firstChild
-                if (expr.node.elementType === raft.war.language.jass.psi.JassTypes.STRVAL) {
+                if (expr.node.elementType === JassTypes.STRVAL) {
                     val fn = expr.text.replaceFirst("^\"".toRegex(), "").replaceFirst("\"$".toRegex(), "")
                     if (fn.matches("^[a-zA-Z_][a-zA-Z_0-9]*$".toRegex())) {
                         stringBuffer.append(fn).append("()")
@@ -182,7 +182,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         stringBuffer.append(")")
     }
 
-    override fun visitArgList(o: raft.war.language.jass.psi.JassArgList) {
+    override fun visitArgList(o: JassArgList) {
         val list = o.exprList
         for (i in list.indices) {
             list[i].accept(this)
@@ -190,7 +190,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         }
     }
 
-    override fun visitFuncAsCode(o: raft.war.language.jass.psi.JassFuncAsCode) {
+    override fun visitFuncAsCode(o: JassFuncAsCode) {
         appendFunctionAsCode(getSafeName(o.id.text))
     }
 
@@ -201,7 +201,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         return true
     }
 
-    override fun visitArrayAccess(o: raft.war.language.jass.psi.JassArrayAccess) {
+    override fun visitArrayAccess(o: JassArrayAccess) {
         stringBuffer.append(o.id.text).append("[")
         val expr = o.expr
         expr?.accept(this)
@@ -209,18 +209,18 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
     }
 
     // --- expression
-    fun acceptExpr(expr: raft.war.language.jass.psi.JassExpr?) {
+    fun acceptExpr(expr: JassExpr?) {
         if (expr == null) return
         expr.accept(this)
     }
 
-    fun appendExprWithPrefixOp(expr: raft.war.language.jass.psi.JassExpr?, op: String?) {
+    fun appendExprWithPrefixOp(expr: JassExpr?, op: String?) {
         if (expr == null) return
         stringBuffer.append(" ").append(op).append(" ")
         expr.accept(this)
     }
 
-    fun appendExprListConcatByOperator(list: List<raft.war.language.jass.psi.JassExpr>, op: String?) {
+    fun appendExprListConcatByOperator(list: List<JassExpr>, op: String?) {
         list[0].accept(this)
         stringBuffer.append(" ").append(op).append(" ")
         list[1].accept(this)
@@ -231,7 +231,7 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
     }
 
     // primary
-    override fun visitPrimExpr(o: raft.war.language.jass.psi.JassPrimExpr) {
+    override fun visitPrimExpr(o: JassPrimExpr) {
         if (text(o.getTrue())) return
         if (text(o.getFalse())) return
         val tnull = o.getNull()
@@ -268,82 +268,81 @@ abstract class Jass2AnyVisitor : raft.war.language.jass.psi.JassVisitor() {
         o.acceptChildren(this)
     }
 
-    override fun visitMulUnExpr(o: raft.war.language.jass.psi.JassMulUnExpr) {
+    override fun visitMulUnExpr(o: JassMulUnExpr) {
         appendExprWithPrefixOp(o.expr, "*")
     }
 
-    override fun visitDivUnExpr(o: raft.war.language.jass.psi.JassDivUnExpr) {
+    override fun visitDivUnExpr(o: JassDivUnExpr) {
         appendExprWithPrefixOp(o.expr, "/")
     }
 
-    override fun visitPlusUnExpr(o: raft.war.language.jass.psi.JassPlusUnExpr) {
+    override fun visitPlusUnExpr(o: JassPlusUnExpr) {
         appendExprWithPrefixOp(o.expr, "+")
     }
 
-    override fun visitMinusUnExpr(o: raft.war.language.jass.psi.JassMinusUnExpr) {
+    override fun visitMinusUnExpr(o: JassMinusUnExpr) {
         appendExprWithPrefixOp(o.expr, "-")
     }
 
-    override fun visitNotExpr(o: raft.war.language.jass.psi.JassNotExpr) {
+    override fun visitNotExpr(o: JassNotExpr) {
         appendExprWithPrefixOp(o.expr, "!")
     }
 
-    override fun visitEqExpr(o: raft.war.language.jass.psi.JassEqExpr) {
+    override fun visitEqExpr(o: JassEqExpr) {
         appendExprListConcatByOperator(o.exprList, "==")
     }
 
-    override fun visitNeqExpr(o: raft.war.language.jass.psi.JassNeqExpr) {
+    override fun visitNeqExpr(o: JassNeqExpr) {
         appendExprListConcatByOperator(o.exprList, "!=")
     }
 
-    override fun visitLtExpr(o: raft.war.language.jass.psi.JassLtExpr) {
+    override fun visitLtExpr(o: JassLtExpr) {
         appendExprListConcatByOperator(o.exprList, "<")
     }
 
-    override fun visitLtEqExpr(o: raft.war.language.jass.psi.JassLtEqExpr) {
+    override fun visitLtEqExpr(o: JassLtEqExpr) {
         appendExprListConcatByOperator(o.exprList, "<=")
     }
 
-    override fun visitGtExpr(o: raft.war.language.jass.psi.JassGtExpr) {
+    override fun visitGtExpr(o: JassGtExpr) {
         appendExprListConcatByOperator(o.exprList, ">")
     }
 
-    override fun visitGtEqExpr(o: raft.war.language.jass.psi.JassGtEqExpr) {
+    override fun visitGtEqExpr(o: JassGtEqExpr) {
         appendExprListConcatByOperator(o.exprList, ">=")
     }
 
-    override fun visitParenExpr(o: raft.war.language.jass.psi.JassParenExpr) {
+    override fun visitParenExpr(o: JassParenExpr) {
         stringBuffer.append("(")
         acceptExpr(o.expr)
         stringBuffer.append(")")
     }
 
-    override fun visitAndExpr(o: raft.war.language.jass.psi.JassAndExpr) {
+    override fun visitAndExpr(o: JassAndExpr) {
         appendExprListConcatByOperator(o.exprList, "&&")
     }
 
-    override fun visitOrExpr(o: raft.war.language.jass.psi.JassOrExpr) {
+    override fun visitOrExpr(o: JassOrExpr) {
         appendExprListConcatByOperator(o.exprList, "||")
     }
 
-    override fun visitPlusExpr(o: raft.war.language.jass.psi.JassPlusExpr) {
+    override fun visitPlusExpr(o: JassPlusExpr) {
         appendExprListConcatByOperator(o.exprList, "+")
     }
 
-    override fun visitMinusExpr(o: raft.war.language.jass.psi.JassMinusExpr) {
+    override fun visitMinusExpr(o: JassMinusExpr) {
         appendExprListConcatByOperator(o.exprList, "-")
     }
 
-    override fun visitMulExpr(o: raft.war.language.jass.psi.JassMulExpr) {
+    override fun visitMulExpr(o: JassMulExpr) {
         appendExprListConcatByOperator(o.exprList, "*")
     }
 
-    override fun visitDivExpr(o: raft.war.language.jass.psi.JassDivExpr) {
+    override fun visitDivExpr(o: JassDivExpr) {
         appendExprListConcatByOperator(o.exprList, "/")
     }
 
-
     companion object {
-        private const val keywordSuffix = "_FUCKING_KEYWORD"
+        private const val KEYWORD_SUFFIX = "_FUCKING_KEYWORD"
     }
 }

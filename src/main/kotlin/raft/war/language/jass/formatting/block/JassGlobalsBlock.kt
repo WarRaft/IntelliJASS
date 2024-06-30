@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.formatting.block.JassGlobalVarBlock.Companion.getAlignments
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 class JassGlobalsBlock(myNode: ASTNode?, code: CodeStyleSettings) :
     JassBlock(myNode!!, null, Indent.getNoneIndent(), code) {
@@ -23,14 +23,14 @@ class JassGlobalsBlock(myNode: ASTNode?, code: CodeStyleSettings) :
     override fun makeSubBlock(childNode: ASTNode): Block {
         var indent = Indent.getNormalIndent()
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.GVAR)) return JassGlobalVarBlock(
+        if (FormatterUtil.isOneOf(childNode, GVAR)) return JassGlobalVarBlock(
             childNode,
             null,
             Indent.getNormalIndent(),
             myCodeStyleSettings,
             gvarAlignments
         )
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.GLOBALS, raft.war.language.jass.psi.JassTypes.ENDGLOBALS)) indent = Indent.getNoneIndent()
+        if (FormatterUtil.isOneOf(childNode, GLOBALS, ENDGLOBALS)) indent = Indent.getNoneIndent()
 
         return JassBlock(childNode, null, indent, myCodeStyleSettings)
     }
@@ -40,6 +40,6 @@ class JassGlobalsBlock(myNode: ASTNode?, code: CodeStyleSettings) :
     }
 
     override fun isIncomplete(): Boolean {
-        return !FormatterUtil.isOneOf(myNode.lastChildNode, raft.war.language.jass.psi.JassTypes.ENDGLOBALS)
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, ENDGLOBALS)
     }
 }

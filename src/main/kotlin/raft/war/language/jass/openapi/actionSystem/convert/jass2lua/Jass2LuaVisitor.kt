@@ -50,7 +50,7 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
         array: Boolean,
         type: String,
         name: String?,
-        expr: raft.war.language.jass.psi.JassExpr?
+        expr: JassExpr?
     ) {
         stringBuffer.append("---@type ").append(type)
         if (global) stringBuffer.append(" @global")
@@ -70,8 +70,8 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
     override fun appendFunction(
         returns: String?,
         name: String?,
-        params: List<raft.war.language.jass.psi.JassParam?>,
-        statements: List<raft.war.language.jass.psi.JassStmt?>
+        params: List<JassParam?>,
+        statements: List<JassStmt?>
     ) {
         for (param in params) {
             stringBuffer.append("---@param ")
@@ -92,7 +92,7 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
 
     // --- statement
     // if
-    override fun visitIfStmt(o: raft.war.language.jass.psi.JassIfStmt) {
+    override fun visitIfStmt(o: JassIfStmt) {
         stringBuffer.append("if ")
         acceptExpr(o.expr)
         stringBuffer.append(" then\n")
@@ -102,26 +102,26 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("end\n")
     }
 
-    override fun visitElseIfStmt(o: raft.war.language.jass.psi.JassElseIfStmt) {
+    override fun visitElseIfStmt(o: JassElseIfStmt) {
         stringBuffer.append("elseif ")
         acceptExpr(o.expr)
         stringBuffer.append(" then\n")
         for (stmt in o.stmtList) stmt.accept(this)
     }
 
-    override fun visitElseStmt(o: raft.war.language.jass.psi.JassElseStmt) {
+    override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else\n")
         for (stmt in o.stmtList) stmt.accept(this)
     }
 
     // loop
-    override fun visitLoopStmt(o: raft.war.language.jass.psi.JassLoopStmt) {
+    override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) do\n")
         for (stmt in o.stmtList) stmt.accept(this)
         stringBuffer.append("end\n")
     }
 
-    override fun visitExitWhenStmt(o: raft.war.language.jass.psi.JassExitWhenStmt) {
+    override fun visitExitWhenStmt(o: JassExitWhenStmt) {
         val expr = o.expr ?: return
         stringBuffer.append("if ")
         expr.accept(this)
@@ -129,27 +129,27 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
     }
 
     // --- expression
-    override fun visitNeqExpr(o: raft.war.language.jass.psi.JassNeqExpr) {
+    override fun visitNeqExpr(o: JassNeqExpr) {
         appendExprListConcatByOperator(o.exprList, "~=")
     }
 
-    override fun visitAndExpr(o: raft.war.language.jass.psi.JassAndExpr) {
+    override fun visitAndExpr(o: JassAndExpr) {
         appendExprListConcatByOperator(o.exprList, "and")
     }
 
-    override fun visitOrExpr(o: raft.war.language.jass.psi.JassOrExpr) {
+    override fun visitOrExpr(o: JassOrExpr) {
         appendExprListConcatByOperator(o.exprList, "or")
     }
 
-    override fun visitNotExpr(o: raft.war.language.jass.psi.JassNotExpr) {
+    override fun visitNotExpr(o: JassNotExpr) {
         appendExprWithPrefixOp(o.expr, "not")
     }
 
-    override fun visitPlusExpr(o: raft.war.language.jass.psi.JassPlusExpr) {
+    override fun visitPlusExpr(o: JassPlusExpr) {
         val list = o.exprList
         for (expr in list) {
             val c = expr.firstChild
-            if (c.node.elementType === raft.war.language.jass.psi.JassTypes.STRVAL) {
+            if (c.node.elementType === JassTypes.STRVAL) {
                 appendExprListConcatByOperator(list, "..")
                 return
             }

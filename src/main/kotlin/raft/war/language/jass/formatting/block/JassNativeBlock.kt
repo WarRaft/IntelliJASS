@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 class JassNativeBlock(
     myNode: ASTNode,
@@ -17,16 +17,16 @@ class JassNativeBlock(
 ) : JassBlock(myNode, null, myIndent, myCodeStyleSettings) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.NATIVE)) alignment =
+        if (FormatterUtil.isOneOf(childNode, NATIVE)) alignment =
             aligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NATIVE.name)
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.ID)) alignment =
+        if (FormatterUtil.isOneOf(childNode, ID)) alignment =
             aligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NAME.name)
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.TAKES)) alignment =
+        if (FormatterUtil.isOneOf(childNode, TAKES)) alignment =
             aligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_TAKES.name)
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.RETURNS)) alignment =
+        if (FormatterUtil.isOneOf(childNode, RETURNS)) alignment =
             aligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_RETURNS.name)
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.PARAM)) {
+        if (FormatterUtil.isOneOf(childNode, PARAM)) {
             val children = childNode.treeParent.getChildren(null)
 
             var index = -1
@@ -42,9 +42,9 @@ class JassNativeBlock(
 
         if (FormatterUtil.isOneOf(
                 childNode,
-                raft.war.language.jass.psi.JassTypes.FUN_TAKE,
-                raft.war.language.jass.psi.JassTypes.FUN_RET,
-                raft.war.language.jass.psi.JassTypes.PARAM_LIST
+                FUN_TAKE,
+                FUN_RET,
+                PARAM_LIST
             )
         ) return JassNativeBlock(childNode, null, myCodeStyleSettings, aligner)
 

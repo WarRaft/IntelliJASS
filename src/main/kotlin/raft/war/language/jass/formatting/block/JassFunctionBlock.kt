@@ -7,7 +7,7 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
-import raft.war.language.jass.psi.JassTypes
+import raft.war.language.jass.psi.JassTypes.*
 
 class JassFunctionBlock(
     myNode: ASTNode?,
@@ -20,8 +20,8 @@ class JassFunctionBlock(
     override fun makeSubBlock(childNode: ASTNode): Block {
         var indent = Indent.getNormalIndent()
 
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.FUNCTION, raft.war.language.jass.psi.JassTypes.ENDFUNCTION)) indent = Indent.getNoneIndent()
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.jass.psi.JassTypes.STMT)) return JassStatementBlock(
+        if (FormatterUtil.isOneOf(childNode, FUNCTION, ENDFUNCTION)) indent = Indent.getNoneIndent()
+        if (FormatterUtil.isOneOf(childNode, STMT)) return JassStatementBlock(
             childNode.firstChildNode,
             null,
             Indent.getNormalIndent(),
@@ -36,6 +36,6 @@ class JassFunctionBlock(
     }
 
     override fun isIncomplete(): Boolean {
-        return !FormatterUtil.isOneOf(myNode.lastChildNode, raft.war.language.jass.psi.JassTypes.ENDFUNCTION)
+        return !FormatterUtil.isOneOf(myNode.lastChildNode, ENDFUNCTION)
     }
 }

@@ -1,8 +1,6 @@
 package raft.war.table.parser
 
 class Slk(text: String) {
-    var width: Int = 0
-    var height: Int = 0
     val list: MutableList<MutableList<Any>> = mutableListOf()
 
     private fun cell(x: Int, y: Int, value: Any?) {
