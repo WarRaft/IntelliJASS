@@ -29,6 +29,12 @@ public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
 
   @Override
   @Nullable
+  public JassFunName getFunName() {
+    return findChildByClass(JassFunName.class);
+  }
+
+  @Override
+  @Nullable
   public JassFunRet getFunRet() {
     return findChildByClass(JassFunRet.class);
   }
@@ -61,12 +67,6 @@ public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
   @NotNull
   public PsiElement getFunction() {
     return findNotNullChildByType(FUNCTION);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
   }
 
 }

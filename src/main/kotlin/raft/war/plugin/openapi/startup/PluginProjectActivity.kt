@@ -12,6 +12,7 @@ import java.io.File
 
 class PluginProjectActivity : ProjectActivity {
     override suspend fun execute(project: Project) {
+        /*
         val jarPath = PathUtil.getJarPathForClass(PluginProjectActivity::class.java)
         val dir = if (jarPath.endsWith(".jar")) {
             VfsUtil.findFileByURL(URLUtil.getJarEntryURL(File(jarPath), "sdk"))
@@ -30,5 +31,7 @@ class PluginProjectActivity : ProjectActivity {
                 }
             }
         }
+
+         */
     }
 }

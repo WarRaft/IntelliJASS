@@ -24,6 +24,7 @@ public interface JassTypes {
   IElementType FUN = new JassIElement("FUN");
   IElementType FUNC_AS_CODE = new JassIElement("FUNC_AS_CODE");
   IElementType FUN_CALL = new JassIElement("FUN_CALL");
+  IElementType FUN_NAME = new JassIElement("FUN_NAME");
   IElementType FUN_RET = new JassIElement("FUN_RET");
   IElementType FUN_TAKE = new JassIElement("FUN_TAKE");
   IElementType GLOB = new JassIElement("GLOB");
@@ -159,6 +160,9 @@ public interface JassTypes {
       }
       else if (type == FUN_CALL) {
         return new JassFunCallImpl(node);
+      }
+      else if (type == FUN_NAME) {
+        return new JassFunNameImpl(node);
       }
       else if (type == FUN_RET) {
         return new JassFunRetImpl(node);

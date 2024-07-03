@@ -11,6 +11,8 @@
     elementTypeClass=         "raft.war.language.jass.psi.tree.JassIElement"
     tokenTypeClass=           "raft.war.language.jass.psi.tree.JassIToken"
 
+    psiImplUtilClass = "raft.war.language.jass.psi.JassPsiImplUtil"
+
     generateTokenAccessors=true
 
     extends(".*Expr")=Expr
@@ -114,7 +116,13 @@ private ParamListRecover ::= !(RETURNS)
 
 FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
-Fun ::= CONSTANT? FUNCTION ID FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
+Fun ::= CONSTANT? FUNCTION FunName FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
+FunName ::= ID {
+    mixin="raft.war.language.jass.extapi.psi.JassASTWrapperPsiElement"
+    implements="raft.war.language.jass.psi.JassPsiNameIdentifierOwner"
+    methods=[getKey getName setName getNameIdentifier getPresentation]
+}
+
 Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
 
 // === STATEMENT

@@ -5,7 +5,5 @@ import raft.war.language.jass.lang.JassLanguage.Companion.instance
 import org.jetbrains.annotations.NonNls
 
 class JassIToken(debugName: @NonNls String) : IElementType(debugName, instance) {
-    override fun toString(): String {
-        return "JassIToken." + super.toString()
-    }
+    override fun toString(): String = "JassIToken." + super.toString()
 }

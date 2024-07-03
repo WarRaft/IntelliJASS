@@ -199,16 +199,17 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? FUNCTION ID FunTake? FunRet? Stmt* ENDFUNCTION
+  // CONSTANT? FUNCTION FunName FunTake? FunRet? Stmt* ENDFUNCTION
   public static boolean Fun(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun")) return false;
     if (!nextTokenIs(b, "<fun>", CONSTANT, FUNCTION)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FUN, "<fun>");
     r = Fun_0(b, l + 1);
-    r = r && consumeTokens(b, 1, FUNCTION, ID);
+    r = r && consumeToken(b, FUNCTION);
     p = r; // pin = 2
-    r = r && report_error_(b, Fun_3(b, l + 1));
+    r = r && report_error_(b, FunName(b, l + 1));
+    r = p && report_error_(b, Fun_3(b, l + 1)) && r;
     r = p && report_error_(b, Fun_4(b, l + 1)) && r;
     r = p && report_error_(b, Fun_5(b, l + 1)) && r;
     r = p && consumeToken(b, ENDFUNCTION) && r;
@@ -268,6 +269,18 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "FunCall_2")) return false;
     ArgList(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // ID
+  public static boolean FunName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunName")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    exit_section_(b, m, FUN_NAME, r);
+    return r;
   }
 
   /* ********************************************************** */

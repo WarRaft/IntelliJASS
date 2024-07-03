@@ -7,11 +7,6 @@ import raft.war.language.jass.lang.JassLanguage
 import raft.war.language.jass.openapi.fileTypes.JassFileType
 
 class JassPsiFileBase(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, JassLanguage.instance) {
-    override fun getFileType(): FileType {
-        return JassFileType.instance
-    }
-
-    override fun toString(): String {
-        return JassLanguage.NAME
-    }
+    override fun getFileType(): FileType = JassFileType.instance
+    override fun toString(): String = JassLanguage.NAME
 }

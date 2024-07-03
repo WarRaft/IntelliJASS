@@ -33,6 +33,11 @@
         <langCodeStyleSettingsProvider
                 implementation="raft.war.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
+        <!-- find usages -->
+        <lang.findUsagesProvider
+                language="JASS"
+                implementationClass="raft.war.language.jass.lang.findUsages.JassFindUsagesProvider"/>
+
         <!-- commenter -->
         <lang.commenter
                 language="JASS"

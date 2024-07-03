@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import raft.war.language.jass.lang.JassLanguage.Companion.instance
-import raft.war.language.jass.psi.*
 
 object JassElementFactory {
     private fun createFile(project: Project, text: String): JassPsiFileBase {
@@ -19,17 +18,20 @@ object JassElementFactory {
     }
 
     @JvmStatic
-    fun recreateCallStmt(project: Project, callStmt: raft.war.language.jass.psi.JassCallStmt): raft.war.language.jass.psi.JassCallStmt? {
+    fun recreateCallStmt(
+        project: Project,
+        callStmt: JassCallStmt
+    ): JassCallStmt? {
         val file = createFile(project, "function fuckingCrutch " + callStmt.text + " endfunction")
-        val funcDecl = file.firstChild as raft.war.language.jass.psi.JassFun
+        val funcDecl = file.firstChild as JassFun
         val stmtNew = funcDecl.stmtList[0]
         return stmtNew.callStmt
     }
 
     @JvmStatic
-    fun recreateExpr(project: Project, value: String): raft.war.language.jass.psi.JassExpr? {
+    fun recreateExpr(project: Project, value: String): JassExpr? {
         val file = createFile(project, "globals int fuckingCrutch = $value endglobals")
-        return (file.firstChild as raft.war.language.jass.psi.JassGlob).gvarList[0].getVar().expr
+        return (file.firstChild as JassGlob).gvarList[0].getVar().expr
     }
 
     fun replaceExprChild(project: Project, target: PsiElement, value: String) {

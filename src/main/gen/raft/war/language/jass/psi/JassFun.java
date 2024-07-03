@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface JassFun extends PsiElement {
 
   @Nullable
+  JassFunName getFunName();
+
+  @Nullable
   JassFunRet getFunRet();
 
   @Nullable
@@ -24,8 +27,5 @@ public interface JassFun extends PsiElement {
 
   @NotNull
   PsiElement getFunction();
-
-  @Nullable
-  PsiElement getId();
 
 }

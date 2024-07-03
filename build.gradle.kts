@@ -1,6 +1,6 @@
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
-    id("java")
+    //id("java")
     id("org.jetbrains.intellij") version "1.17.4"
     kotlin("jvm")
 }
