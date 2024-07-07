@@ -1,6 +1,6 @@
 @file:Suppress("UseJBColor")
 
-package raft.war.plugin.openapi.editor
+package raft.war.ide.openapi.editor
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
@@ -67,14 +67,14 @@ class PluginElementColorProvider : ElementColorProvider {
         // native SetLightningColor takes lightning whichBolt, real r, real g, real b, real a returns boolean
     )
 
-    private fun fromFuncArgRGBA(argList: raft.war.language.jass.psi.JassArgList?, start: Int): Color? {
+    private fun fromFuncArgRGBA(argList: JassArgList?, start: Int): Color? {
         if (argList == null) return null
         val exprs = argList.exprList
         if (exprs.size < start + 4) return null
         val color = intArrayOf(-1, -1, -1, -1)
 
         for (i in 0..3) {
-            val prim = exprs[i + start] as? raft.war.language.jass.psi.JassPrimExpr ?: return null
+            val prim = exprs[i + start] as? JassPrimExpr ?: return null
             val intval = prim.intval
             if (intval != null) {
                 color[i] = cIntFromString(intval.text)
@@ -99,21 +99,21 @@ class PluginElementColorProvider : ElementColorProvider {
 
     override fun getColorFrom(psiElement: PsiElement): Color? {
         // AngelScript - hexval
-        if (psiElement is raft.war.language.angelscript.psi.AngelScriptPrimExpr) {
+        if (psiElement is AngelScriptPrimExpr) {
             val hexval = psiElement.hexval
             if (hexval != null) return fromHex(hexval.text)
             return null
         }
 
         // JASS - hexval
-        if (psiElement is raft.war.language.jass.psi.JassPrimExpr) {
+        if (psiElement is JassPrimExpr) {
             val hexval = psiElement.hexval
             if (hexval != null) return fromHex(hexval.text)
             return null
         }
 
-        if (psiElement is raft.war.language.jass.psi.JassFunCall) {
-            val name: String = psiElement.id.text
+        if (psiElement is JassFunCall) {
+            val name: String = psiElement.funName.text
             if (funcCallRgb.containsKey(name)) return fromFuncArgRGBA(psiElement.argList, funcCallRgb[name]!!)
             return null
         }
@@ -128,7 +128,7 @@ class PluginElementColorProvider : ElementColorProvider {
         val project = psiElement.project
 
         // AngelScript - hexval
-        if (psiElement is raft.war.language.angelscript.psi.AngelScriptPrimExpr) {
+        if (psiElement is AngelScriptPrimExpr) {
             val hexval = psiElement.hexval
             if (hexval != null) {
                 AngelScriptElementFactory.replaceExprChild(project, hexval, hex)
@@ -137,7 +137,7 @@ class PluginElementColorProvider : ElementColorProvider {
         }
 
         // JASS - hexval
-        if (psiElement is raft.war.language.jass.psi.JassPrimExpr) {
+        if (psiElement is JassPrimExpr) {
             val hexval = psiElement.hexval
             if (hexval != null) {
                 JassElementFactory.replaceExprChild(project, hexval, hex)
@@ -146,10 +146,10 @@ class PluginElementColorProvider : ElementColorProvider {
         }
 
         // JASS - func call
-        if (psiElement is raft.war.language.jass.psi.JassFunCall) {
-            val name: String = psiElement.id.text
+        if (psiElement is JassFunCall) {
+            val name: String = psiElement.funName.text
             if (funcCallRgb.containsKey(name)) {
-                val args: raft.war.language.jass.psi.JassArgList = psiElement.argList ?: return
+                val args: JassArgList = psiElement.argList ?: return
                 val exprlist = args.exprList
                 val start = funcCallRgb[name]!!
                 if (exprlist.size < start + 4) return

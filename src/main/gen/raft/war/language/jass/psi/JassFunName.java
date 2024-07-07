@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.navigation.ItemPresentation;
 
-public interface JassFunName extends JassPsiNameIdentifierOwner {
+public interface JassFunName extends JassPsiElementImpl {
 
   @NotNull
   PsiElement getId();

@@ -42,7 +42,7 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
                 super.visitPsiElement(callStmt)
 
                 val funcCall = callStmt.funCall
-                val funcCallName = funcCall.id
+                val funcCallName = funcCall.funName
 
                 val callToken = callStmt.node.findChildByType(raft.war.language.jass.psi.JassTypes.CALL)
                 if (callToken == null) {

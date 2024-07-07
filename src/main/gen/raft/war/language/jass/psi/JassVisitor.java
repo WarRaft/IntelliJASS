@@ -60,7 +60,7 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitFunName(@NotNull JassFunName o) {
-    visitPsiNameIdentifierOwner(o);
+    visitPsiElementImpl(o);
   }
 
   public void visitFunRet(@NotNull JassFunRet o) {
@@ -195,7 +195,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPsiNameIdentifierOwner(@NotNull JassPsiNameIdentifierOwner o) {
+  public void visitPsiElementImpl(@NotNull JassPsiElementImpl o) {
     visitPsiElement(o);
   }
 

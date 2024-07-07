@@ -35,15 +35,15 @@ internal class JassFindUsagesProvider : FindUsagesProvider {
 
     override fun getDescriptiveName(element: PsiElement): String {
         if (element is JassFunName) {
-            return element.key.toString()
+            return element.key
         }
-        return "A"
+        return ""
     }
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
         if (element is JassFunName) {
             return "${element.key} QQQ"
         }
-        return "A"
+        return ""
     }
 }

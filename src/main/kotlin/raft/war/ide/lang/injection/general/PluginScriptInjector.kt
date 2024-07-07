@@ -1,4 +1,4 @@
-package raft.war.plugin.lang.injection.general
+package raft.war.ide.lang.injection.general
 
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar

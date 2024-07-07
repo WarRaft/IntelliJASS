@@ -250,13 +250,14 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ID LPAREN ArgList? RPAREN
+  // FunName LPAREN ArgList? RPAREN
   public static boolean FunCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunCall")) return false;
     if (!nextTokenIs(b, ID)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FUN_CALL, null);
-    r = consumeTokens(b, 2, ID, LPAREN);
+    r = FunName(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
     p = r; // pin = 2
     r = r && report_error_(b, FunCall_2(b, l + 1));
     r = p && consumeToken(b, RPAREN) && r;

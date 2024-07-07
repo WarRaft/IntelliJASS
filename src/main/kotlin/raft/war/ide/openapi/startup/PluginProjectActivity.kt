@@ -1,14 +1,7 @@
-package raft.war.plugin.openapi.startup
+package raft.war.ide.openapi.startup
 
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
-import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.psi.PsiManager
-import com.intellij.util.PathUtil
-import com.intellij.util.io.URLUtil
-import raft.war.language.jass.lang.JassLanguage
-import java.io.File
 
 class PluginProjectActivity : ProjectActivity {
     override suspend fun execute(project: Project) {

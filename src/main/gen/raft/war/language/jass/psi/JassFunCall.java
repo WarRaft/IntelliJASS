@@ -11,7 +11,7 @@ public interface JassFunCall extends PsiElement {
   JassArgList getArgList();
 
   @NotNull
-  PsiElement getId();
+  JassFunName getFunName();
 
   @NotNull
   PsiElement getLparen();

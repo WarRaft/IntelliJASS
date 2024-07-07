@@ -108,7 +108,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         val ret = o.funRet
         val rettype = ret?.typeName
 
-        val name = o.id
+        val name = o.funName
 
         val take = o.funTake
         var params: List<JassParam?> = ArrayList()
@@ -160,7 +160,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     }
 
     override fun visitFunCall(o: JassFunCall) {
-        val name = o.id.text
+        val name = o.funName.text
         val list = o.argList
         if (name == "ExecuteFunc" && list != null) {
             val exprs = list.exprList

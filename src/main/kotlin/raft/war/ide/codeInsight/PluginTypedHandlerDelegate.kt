@@ -1,4 +1,4 @@
-package raft.war.plugin.codeInsight
+package raft.war.ide.codeInsight
 
 import com.intellij.codeInsight.AutoPopupController
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate

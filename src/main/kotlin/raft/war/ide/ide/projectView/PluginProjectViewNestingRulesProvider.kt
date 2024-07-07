@@ -1,4 +1,4 @@
-package raft.war.plugin.ide.projectView
+package raft.war.ide.ide.projectView
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
 import raft.war.language.angelscript.openapi.fileTypes.AngelScriptFileType

@@ -1,20 +1,20 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <!-- colors -->
-        <colorProvider implementation="raft.war.plugin.openapi.editor.PluginElementColorProvider"/>
+        <colorProvider implementation="raft.war.ide.openapi.editor.PluginElementColorProvider"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/Darcula.xml"/>
 
         <!-- file nesting -->
         <projectViewNestingRulesProvider
-                implementation="raft.war.plugin.ide.projectView.PluginProjectViewNestingRulesProvider"/>
+                implementation="raft.war.ide.ide.projectView.PluginProjectViewNestingRulesProvider"/>
 
         <!-- typing -->
-        <typedHandler implementation="raft.war.plugin.codeInsight.PluginTypedHandlerDelegate"/>
+        <typedHandler implementation="raft.war.ide.codeInsight.PluginTypedHandlerDelegate"/>
 
         <!-- startup -->
-        <postStartupActivity implementation="raft.war.plugin.openapi.startup.PluginProjectActivity"/>
+        <postStartupActivity implementation="raft.war.ide.openapi.startup.PluginProjectActivity"/>
 
         <!-- injection -->
-        <multiHostInjector implementation="raft.war.plugin.lang.injection.general.PluginScriptInjector"/>
+        <multiHostInjector implementation="raft.war.ide.lang.injection.general.PluginScriptInjector"/>
     </extensions>
 </idea-plugin>

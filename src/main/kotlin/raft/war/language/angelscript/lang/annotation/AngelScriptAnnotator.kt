@@ -5,11 +5,8 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import raft.war.plugin.lang.injection.general.PluginScriptInjector.Companion.INJECT_JASS
+import raft.war.ide.lang.injection.general.PluginScriptInjector.Companion.INJECT_JASS
 import raft.war.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase
-import raft.war.language.angelscript.psi.AngelScriptDataType
-import raft.war.language.angelscript.psi.AngelScriptStr
-import raft.war.language.angelscript.psi.AngelScriptTypes
 
 internal class AngelScriptAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

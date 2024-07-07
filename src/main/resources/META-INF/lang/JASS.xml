@@ -33,10 +33,15 @@
         <langCodeStyleSettingsProvider
                 implementation="raft.war.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
-        <!-- find usages -->
+        <!-- find usage -->
         <lang.findUsagesProvider
                 language="JASS"
                 implementationClass="raft.war.language.jass.lang.findUsages.JassFindUsagesProvider"/>
+
+        <!-- refactor support -->
+        <lang.refactoringSupport
+                language="JASS"
+                implementationClass="raft.war.language.jass.lang.refactoring.JassRefactoringSupportProvider"/>
 
         <!-- commenter -->
         <lang.commenter
