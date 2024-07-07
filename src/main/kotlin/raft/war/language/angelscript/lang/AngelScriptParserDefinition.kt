@@ -12,9 +12,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.angelscript.extapi.psi.AngelScriptPsiFileBase
 import raft.war.language.angelscript.lexer.AngelScriptFlexAdapter
-import raft.war.language.angelscript.parser.AngelScriptParser
 import raft.war.language.angelscript.psi.AngelScriptTokenSets
-import raft.war.language.angelscript.psi.AngelScriptTypes
 
 class AngelScriptParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = AngelScriptFlexAdapter()
@@ -24,7 +22,7 @@ class AngelScriptParserDefinition : ParserDefinition {
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
     override fun createParser(project: Project): PsiParser =
-        raft.war.language.angelscript.parser.AngelScriptParser()
+        raft.war.language.angelscript.grammar.AngelScriptParser()
 
     override fun getFileNodeType(): IFileElementType = ANGELSCRIPT_FILE
 

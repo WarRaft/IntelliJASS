@@ -1,0 +1,28 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Wts"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "raft.war.language.wts.grammar.WtsParser"
+    psiPackage=               "raft.war.language.wts.psi"
+    psiImplPackage=           "raft.war.language.wts.psi.impl"
+    elementTypeHolderClass=   "raft.war.language.wts.psi.WtsTypes"
+    elementTypeClass=         "raft.war.language.wts.psi.tree.WtsIElement"
+    tokenTypeClass=           "raft.war.language.wts.psi.tree.WtsIToken"
+
+    generateTokenAccessors=true
+
+    tokens = [
+        WHITE_SPACE='regexp:\s+'
+        LINE_COMMENT="regexp://[^\n]*"
+        ID='regexp:\d+'
+
+        STRING='STRING'
+        VALUE="regexp:\{[^}]*}"
+    ]
+}
+
+Root ::= Item*
+
+Item ::= STRING ID VALUE

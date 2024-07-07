@@ -13,9 +13,7 @@ import com.intellij.psi.tree.TokenSet
 import raft.war.language.lni.extapi.psi.LniPsiFileBase
 import raft.war.language.lni.lang.LniLanguage.Companion.instance
 import raft.war.language.lni.lexer.LniFlexAdapter
-import raft.war.language.lni.parser.LniParser
 import raft.war.language.lni.psi.LniTokenSets
-import raft.war.language.lni.psi.LniTypes
 
 class LniParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = LniFlexAdapter()
@@ -24,7 +22,7 @@ class LniParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun createParser(project: Project): PsiParser = raft.war.language.lni.parser.LniParser()
+    override fun createParser(project: Project): PsiParser = raft.war.language.lni.grammar.LniParser()
 
     override fun getFileNodeType(): IFileElementType = LNI_FILE
 

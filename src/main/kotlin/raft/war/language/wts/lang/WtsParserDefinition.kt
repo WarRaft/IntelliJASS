@@ -12,9 +12,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.wts.extapi.psi.WtsPsiFileBase
 import raft.war.language.wts.lexer.WtsFlexAdapter
-import raft.war.language.wts.parser.WtsParser
 import raft.war.language.wts.psi.WtsTokenSets
-import raft.war.language.wts.psi.WtsTypes
 
 class WtsParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = WtsFlexAdapter()
@@ -23,7 +21,7 @@ class WtsParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun createParser(project: Project): PsiParser = raft.war.language.wts.parser.WtsParser()
+    override fun createParser(project: Project): PsiParser = raft.war.language.wts.grammar.WtsParser()
 
     override fun getFileNodeType(): IFileElementType = WTS_FILE
 

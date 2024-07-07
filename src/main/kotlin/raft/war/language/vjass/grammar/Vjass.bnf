@@ -1,0 +1,265 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Vjass"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "raft.war.language.vjass.grammar.VjassParser"
+    psiPackage=               "raft.war.language.vjass.psi"
+    psiImplPackage=           "raft.war.language.vjass.psi.impl"
+    elementTypeHolderClass=   "raft.war.language.vjass.psi.VjassTypes"
+    elementTypeClass=         "raft.war.language.vjass.psi.tree.VjassIElement"
+    tokenTypeClass=           "raft.war.language.vjass.psi.tree.VjassIToken"
+
+    extends(".*Expr")=Expr
+
+    tokens = [
+        WHITE_SPACE='regexp:\s+'
+        LINE_COMMENT="regexp://[^\n]*"
+        BLOCK_COMMENT="regexp:FUCK_GEN"
+
+        AND='and'
+        ARRAY='array'
+        BOOLEAN='boolean'
+        CODE='code'
+        CALL='call'
+        CONSTANT='constant'
+        DEBUG='debug'
+        ELSE='else'
+        ELSEIF='elseif'
+        ENDFUNCTION='endfunction'
+        ENDIF='endif'
+        ENDLOOP='endloop'
+        ENDGLOBALS='endglobals'
+        ENDMODULE='endmodule'
+        ENDSTRUCT='endstruct'
+        ENDLIBRARY='endlibrary'
+        EXTENDS='extends'
+        ENDMETHOD='endmethod'
+        EXTENDS='extends'
+        EXITWHEN='exitwhen'
+        FALSE='false'
+        FUNCTION='function'
+        GLOBALS='globals'
+        HANDLE='handle'
+        HOOK='hook'
+        IF='if'
+        IMPLEMENT='implement'
+        INTEGER='integer'
+        INITIALIZER='initializer'
+        LIBRARY='library'
+        LOCAL='local'
+        LOOP='loop'
+        METHOD='method'
+        MODULE='module'
+        NATIVE='native'
+        NEEDS='needs'
+        NOT='not'
+        NOTHING='nothing'
+        NULL='null'
+        OR='or'
+        OPTIONAL='optional'
+        PRIVATE='private'
+        PUBLIC='public'
+        REAL='real'
+        RETURNS='returns'
+        RETURN='return'
+        REQUIRES='requires'
+        STATIC='static'
+        SET='set'
+        STRING='string'
+        STRUCT='struct'
+        USES='uses'
+        TAKES='takes'
+        THEN='then'
+        TRUE='true'
+        TYPE='type'
+
+        DOT='.'
+        COMMA=','
+        EQ_EQ='=='
+        EQ='='
+        NEQ='!='
+        LT_EQ='<='
+        LT='<'
+        GT_EQ='>='
+        GT='>'
+        PLUS='+'
+        MINUS='-'
+        MUL='*'
+        DIV='/'
+        LPAREN='('
+        RPAREN=')'
+        LBRACK='['
+        RBRACK=']'
+
+        REALVAL='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        RAWVAL="regexp:'[^']*'"
+        STRVAL="regexp:\"([^\"\\]|\\.)*\""
+
+        ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
+    ]
+}
+
+Root ::= (
+    TypeDef |
+    NativeDef |
+    Glob |
+    Fun |
+    Lib |
+    HookDef |
+    StructDef |
+    ModuleDef
+    )* {recoverWhile=rootRecover}
+private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+
+// === VISIBILITY
+Vis ::= (PUBLIC|PRIVATE)
+IdDot ::= ID (DOT ID)*
+
+// === LIBRARY
+Lib ::= LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)* ENDLIBRARY {pin=1}
+LibReq ::= (REQUIRES|NEEDS|USES) LibReqItem (COMMA LibReqItem)* {pin=1}
+LibReqItem ::= OPTIONAL? ID {pin=2}
+
+// === TYPE
+TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
+TypeName ::= ID|HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|KEY
+TypeNameBase ::= TypeName
+
+// === VARIABLE
+TypedVar ::= TypeName ID
+TypedVarList ::= TypedVar (COMMA TypedVar)* {pin=1 recoverWhile=TypedVarListRecover}
+private TypedVarListRecover ::= !(RETURNS)
+
+// === FUNCTION
+Arg ::= Expr|FuncAsCode
+ArgList ::= Arg (COMMA Arg)*
+FuncCall ::= FuncCallName LPAREN ArgList? RPAREN {pin=2}
+FuncCallName ::= ID
+FuncDefName ::= ID
+FuncTakes ::= TAKES (NOTHING|TypedVarList)
+FuncReturns ::= RETURNS (NOTHING|TypeName)
+NativeDef ::= CONSTANT? NATIVE FuncDefName FuncTakes? FuncReturns? {pin=2}
+Fun ::= Vis? CONSTANT? FUNCTION FuncDefName FuncTakes? FuncReturns? FuncBody* ENDFUNCTION {pin=3}
+private FuncBody ::= Stmt
+
+// === HOOK
+HookDef ::= HOOK ID ID {pin=1}
+
+// === GLOBALS
+Glob ::= GLOBALS GvarDef* ENDGLOBALS {pin=1}
+GvarName ::= ID
+GvarDef ::= Vis? CONSTANT? TypeName ARRAY? GvarName (EQ Expr)? {pin=3 recoverWhile=GvarDefRecover}
+private GvarDefRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName|Vis)
+
+// === STRUCT
+StructDef ::= Vis? STRUCT StructName (EXTENDS (ID|ARRAY))? (MethodDef|ImplementDef)* ENDSTRUCT {pin=2}
+StructName ::= ID
+MethodDef ::= Vis? STATIC? METHOD ID FuncTakes? FuncReturns? Stmt* ENDMETHOD {pin=3}
+ImplementDef ::= IMPLEMENT ID
+
+// === MODULE
+ModuleDef ::= Vis? MODULE ID MethodDef* ENDMODULE {pin=2}
+
+// === STATEMENT
+Stmt ::=
+    CallSetStmt |
+    LVarStmt |
+    ReturnStmt |
+    IfStmt |
+    LoopStmt |
+    ExitWhenStmt
+
+CallSetId ::= FuncCall|ArrayAccess|ID
+CallSetStmt ::= (CALL|SET)? CallSetId (DOT CallSetId)* (EQ Expr)?
+
+LVarStmt ::= LOCAL? TypeName ARRAY? ID (EQ Expr)? {pin=4}
+
+ReturnStmt ::= RETURN Expr? {pin=1}
+
+IfStmt ::= STATIC? IF Expr THEN? (FuncBody|ElseIfStmt|ElseStmt)* ENDIF {pin=2}
+
+ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
+ElseStmt ::= ELSE Stmt* {pin=1}
+
+LoopStmt ::= LOOP Stmt* ENDLOOP {pin=1}
+ExitWhenStmt ::= EXITWHEN Expr {pin=1}
+
+// === EXPRESSION
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+// https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+// https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
+// https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+
+Expr ::=
+    DotExpr |
+    AddGroup |
+    MulGroup |
+    UnaryGroup |
+    CmpGroup |
+    OrExpr |
+    AndExpr |
+    PrimaryExpr
+
+DotExpr ::= Expr DOT Expr
+
+private AddGroup ::= PlusExpr | MinusExpr
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
+
+private MulGroup ::= MulExpr | DivExpr
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
+
+private UnaryGroup ::=
+    MulUnaryExpr |
+    DivUnaryExpr |
+    PlusUnaryExpr |
+    MinusUnaryExpr |
+    NotExpr
+
+MulUnaryExpr ::= MUL Expr
+DivUnaryExpr ::= DIV Expr
+PlusUnaryExpr ::= PLUS Expr
+MinusUnaryExpr ::= MINUS Expr
+NotExpr ::= NOT Expr
+
+private CmpGroup ::=
+    EqExpr |
+    NeqExpr |
+    LtExpr |
+    LtEqExpr |
+    GtExpr |
+    GtEqExpr
+
+EqExpr ::= Expr EQ_EQ Expr
+NeqExpr ::= Expr NEQ Expr
+LtExpr ::= Expr LT Expr
+LtEqExpr ::= Expr LT_EQ Expr
+GtExpr ::= Expr GT Expr
+GtEqExpr ::= Expr GT_EQ Expr
+
+OrExpr ::= Expr OR Expr
+AndExpr ::= Expr AND Expr
+ParenExpr ::= LPAREN Expr RPAREN
+
+PrimaryExpr ::=
+    FALSE |
+    NULL |
+    TRUE |
+    REALVAL |
+    HEXVAL |
+    INTVAL |
+    RAWVAL |
+    STRVAL |
+    ParenExpr |
+    FuncCall |
+    ArrayAccess |
+    FuncAsCode |
+    ID
+
+ArrayAccess ::= IdDot LBRACK Expr? RBRACK {pin=2}
+FuncAsCode ::= FUNCTION FuncCallName {pin=1}

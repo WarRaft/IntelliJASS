@@ -12,7 +12,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.jass.lang.JassLanguage.Companion.instance
 import raft.war.language.jass.lexer.JassFlexAdapter
-import raft.war.language.jass.parser.JassParser
+import raft.war.language.jass.grammar.JassParser
 import raft.war.language.jass.psi.JassPsiFileBase
 import raft.war.language.jass.psi.JassTokenSets
 import raft.war.language.jass.psi.JassTypes

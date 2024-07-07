@@ -37,14 +37,14 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
     }
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-        return object : raft.war.language.jass.psi.JassVisitor() {
-            override fun visitCallStmt(callStmt: raft.war.language.jass.psi.JassCallStmt) {
+        return object : JassVisitor() {
+            override fun visitCallStmt(callStmt: JassCallStmt) {
                 super.visitPsiElement(callStmt)
 
                 val funcCall = callStmt.funCall
                 val funcCallName = funcCall.funName
 
-                val callToken = callStmt.node.findChildByType(raft.war.language.jass.psi.JassTypes.CALL)
+                val callToken = callStmt.node.findChildByType(JassTypes.CALL)
                 if (callToken == null) {
                     if (errorWhen == ErrorWhen.MISSING) {
                         holder.registerProblem(
@@ -77,10 +77,10 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val funcCallName = descriptor.psiElement
-            val funcCall = funcCallName.parent as raft.war.language.jass.psi.JassFunCall
-            val callStmt = funcCall.parent as raft.war.language.jass.psi.JassCallStmt
+            val funcCall = funcCallName.parent as JassFunCall
+            val callStmt = funcCall.parent as JassCallStmt
 
-            val callStmtClone = callStmt.copy() as raft.war.language.jass.psi.JassCallStmt
+            val callStmtClone = callStmt.copy() as JassCallStmt
             val funcCallCopy = callStmtClone.funCall
 
             callStmtClone.addBefore(createToken(project, "call"), funcCallCopy)
@@ -101,10 +101,10 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val funcCallName = descriptor.psiElement
-            val funcCall = funcCallName.parent as raft.war.language.jass.psi.JassFunCall
+            val funcCall = funcCallName.parent as JassFunCall
             val ws = funcCall.prevSibling
             val call = ws.prevSibling
-            if (ws !is PsiWhiteSpace || call.node.elementType !== raft.war.language.jass.psi.JassTypes.CALL) return
+            if (ws !is PsiWhiteSpace || call.node.elementType !== JassTypes.CALL) return
             ws.delete()
             call.delete()
         }

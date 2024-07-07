@@ -1,0 +1,207 @@
+{
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Jass"
+    psiImplClassSuffix="Impl"
+
+    parserClass=              "raft.war.language.jass.grammar.JassParser"
+    psiPackage=               "raft.war.language.jass.psi"
+    psiImplPackage=           "raft.war.language.jass.psi.impl"
+    elementTypeHolderClass=   "raft.war.language.jass.psi.JassTypes"
+    elementTypeClass=         "raft.war.language.jass.psi.tree.JassIElement"
+    tokenTypeClass=           "raft.war.language.jass.psi.tree.JassIToken"
+
+    psiImplUtilClass = "raft.war.language.jass.psi.JassPsiImplUtil"
+
+    generateTokenAccessors=true
+
+    extends(".*Expr")=Expr
+
+    tokens = [
+        WHITE_SPACE='regexp:\s+'
+        LINE_COMMENT="regexp://[^\n]*"
+
+        AND='and'
+        ARRAY='array'
+        BOOLEAN='boolean'
+        CODE='code'
+        CALL='call'
+        CONSTANT='constant'
+        DEBUG='debug'
+        ELSE='else'
+        ELSEIF='elseif'
+        ENDFUNCTION='endfunction'
+        ENDIF='endif'
+        ENDLOOP='endloop'
+        ENDGLOBALS='endglobals'
+        EXTENDS='extends'
+        EXITWHEN='exitwhen'
+        FALSE='false'
+        FUNCTION='function'
+        GLOBALS='globals'
+        HANDLE='handle'
+        IF='if'
+        INTEGER='integer'
+        LOCAL='local'
+        LOOP='loop'
+        NATIVE='native'
+        NOT='not'
+        NOTHING='nothing'
+        NULL='null'
+        OR='or'
+        REAL='real'
+        RETURNS='returns'
+        RETURN='return'
+        SET='set'
+        STRING='string'
+        TAKES='takes'
+        THEN='then'
+        TRUE='true'
+        TYPE='type'
+
+        COMMA=','
+        EQ_EQ='=='
+        EQ='='
+        NEQ='!='
+        LT_EQ='<='
+        LT='<'
+        GT_EQ='>='
+        GT='>'
+        PLUS='+'
+        MINUS='-'
+        MUL='*'
+        DIV='/'
+        LPAREN='('
+        RPAREN=')'
+        LBRACK='['
+        RBRACK=']'
+
+        REALVAL='regexp:\d+\.\d*|\.\d+'
+        HEXVAL='regexp:(0x|\$)[0-9a-fA-F]+'
+        INTVAL='regexp:\d+'
+        RAWVAL="regexp:'[^']*'"
+        STRVAL="regexp:\"([^\"\\]|\\.)*\""
+
+        ID='regexp:[A-Za-z_][_0-9A-Za-z]*'
+    ]
+}
+
+Root ::= (
+    TypeDef |
+    Nativ |
+    Glob |
+    Fun
+    )* {recoverWhile=rootRecover}
+private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+
+// === type
+TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
+TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
+TypeNameBase ::= TypeName
+
+// === globals
+Var ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
+
+Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
+Gvar ::= CONSTANT? Var {pin=2 recoverWhile=GvarRecover}
+private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+
+// === function
+ArgList ::= Expr (COMMA Expr)*
+FunCall ::= FunName LPAREN ArgList? RPAREN {pin=2}
+
+Param ::= TypeName ID
+ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
+private ParamListRecover ::= !(RETURNS)
+
+FunTake ::= TAKES (NOTHING|ParamList)
+FunRet ::= RETURNS (NOTHING|TypeName)
+Fun ::= CONSTANT? FUNCTION FunName FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
+FunName ::= ID {
+    mixin="raft.war.language.jass.extapi.psi.JassASTWrapperPsiElement"
+    implements="raft.war.language.jass.psi.JassPsiElementImpl"
+    methods=[getKey getName setName getNameIdentifier getPresentation]
+}
+
+Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
+
+// === STATEMENT
+Stmt ::=
+    SetStmt |
+    CallStmt |
+    LvarStmt |
+    ReturnStmt |
+    IfStmt |
+    LoopStmt |
+    ExitWhenStmt
+
+LvarStmt ::= LOCAL? Var {pin=2}
+
+SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
+
+CallStmt ::= DEBUG? CALL? FunCall
+
+ReturnStmt ::= RETURN Expr? {pin=1}
+
+IfStmt ::= IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF {pin=1}
+ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
+ElseStmt ::= ELSE Stmt* {pin=1}
+
+LoopStmt ::= LOOP Stmt* ENDLOOP {pin=1}
+ExitWhenStmt ::=EXITWHEN Expr {pin=1}
+
+// === EXPRESSION
+// https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
+// https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf
+// https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000094104-Expression-handling-in-grammar-kit-issue-with-deep-trees
+// https://gist.github.com/FatalCatharsis/aad0b72c3ffed144c3d61ee73dcb283f
+
+Expr ::=
+    PlusExpr|MinusExpr|
+    MulExpr|DivExpr|
+    MulUnExpr|DivUnExpr|PlusUnExpr|MinusUnExpr|
+    NotExpr |
+    EqExpr|NeqExpr|LtExpr|LtEqExpr|GtExpr|GtEqExpr|
+    OrExpr|AndExpr|
+    PrimExpr
+
+PlusExpr ::= Expr PLUS Expr
+MinusExpr ::= Expr MINUS Expr
+
+MulExpr ::= Expr MUL Expr
+DivExpr ::= Expr DIV Expr
+
+MulUnExpr ::= MUL Expr
+DivUnExpr ::= DIV Expr
+PlusUnExpr ::= PLUS Expr
+MinusUnExpr ::= MINUS Expr
+NotExpr ::= NOT Expr
+
+EqExpr ::= Expr EQ_EQ Expr
+NeqExpr ::= Expr NEQ Expr
+LtExpr ::= Expr LT Expr
+LtEqExpr ::= Expr LT_EQ Expr
+GtExpr ::= Expr GT Expr
+GtEqExpr ::= Expr GT_EQ Expr
+
+OrExpr ::= Expr OR Expr
+AndExpr ::= Expr AND Expr
+ParenExpr ::= LPAREN Expr RPAREN
+
+PrimExpr ::=
+    ParenExpr |
+    ArrayAccess |
+    FunCall |
+    FuncAsCode |
+    FALSE|
+    NULL|
+    TRUE|
+    HEXVAL |
+    REALVAL |
+    INTVAL |
+    RAWVAL |
+    STRVAL |
+    ID
+
+ArrayAccess ::= ID LBRACK Expr? RBRACK
+FuncAsCode ::= FUNCTION ID {pin=2}
