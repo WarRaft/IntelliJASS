@@ -4,6 +4,7 @@ package raft.war.language.jass.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import raft.war.language.jass.psi.funName.JassFunNameEl;
 
 public class JassVisitor extends PsiElementVisitor {
 
@@ -60,7 +61,7 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitFunName(@NotNull JassFunName o) {
-    visitPsiElementImpl(o);
+    visitFunNameEl(o);
   }
 
   public void visitFunRet(@NotNull JassFunRet o) {
@@ -195,7 +196,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPsiElementImpl(@NotNull JassPsiElementImpl o) {
+  public void visitFunNameEl(@NotNull JassFunNameEl o) {
     visitPsiElement(o);
   }
 

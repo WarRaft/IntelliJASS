@@ -1,4 +1,4 @@
-package raft.war.language.jass.lang
+package raft.war.language.jass.parser
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -10,17 +10,16 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
+import raft.war.language.jass.grammar.JassParser
 import raft.war.language.jass.lang.JassLanguage.Companion.instance
 import raft.war.language.jass.lexer.JassFlexAdapter
-import raft.war.language.jass.grammar.JassParser
 import raft.war.language.jass.psi.JassPsiFileBase
-import raft.war.language.jass.psi.JassTokenSets
 import raft.war.language.jass.psi.JassTypes
 
 class JassParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = JassFlexAdapter()
 
-    override fun getCommentTokens(): TokenSet = JassTokenSets.COMMENTS
+    override fun getCommentTokens(): TokenSet = COMMENTS
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
@@ -32,6 +31,8 @@ class JassParserDefinition : ParserDefinition {
 
     override fun createElement(node: ASTNode): PsiElement =
         JassTypes.Factory.createElement(node)
+
 }
 
 val JASS_FILE: IFileElementType = IFileElementType(instance)
+val COMMENTS: TokenSet = TokenSet.create(JassTypes.LINE_COMMENT)

@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 import raft.war.language.jass.psi.JassPsiFileBase
-import raft.war.language.jass.lang.JASS_FILE
+import raft.war.language.jass.parser.JASS_FILE
 import raft.war.language.jass.psi.*
 
 internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {

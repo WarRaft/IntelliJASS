@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.jass.lexer.JassFlexAdapter
-import raft.war.language.jass.psi.JassFunName
+import raft.war.language.jass.psi.funName.JassFunNameEl
 import raft.war.language.jass.psi.JassTypes.*
 
 // https://plugins.jetbrains.com/docs/intellij/find-usages.html
@@ -27,23 +27,18 @@ internal class JassFindUsagesProvider : FindUsagesProvider {
     override fun getHelpId(psiElement: PsiElement): String? = null
 
     override fun getType(element: PsiElement): String {
-        if (element is JassFunName) {
+        if (element is JassFunNameEl) {
             return "function name"
         }
         return "A"
     }
 
     override fun getDescriptiveName(element: PsiElement): String {
-        if (element is JassFunName) {
-            return element.key
-        }
+
         return ""
     }
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
-        if (element is JassFunName) {
-            return "${element.key} QQQ"
-        }
         return ""
     }
 }

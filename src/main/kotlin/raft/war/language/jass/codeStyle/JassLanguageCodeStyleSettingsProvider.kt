@@ -1,4 +1,4 @@
-package raft.war.language.jass.psi.codeStyle
+package raft.war.language.jass.codeStyle
 
 import com.ibm.icu.impl.Pair
 import com.intellij.application.options.CodeStyleAbstractConfigurable

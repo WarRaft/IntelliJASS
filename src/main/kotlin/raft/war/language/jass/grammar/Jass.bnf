@@ -8,8 +8,8 @@
     psiPackage=               "raft.war.language.jass.psi"
     psiImplPackage=           "raft.war.language.jass.psi.impl"
     elementTypeHolderClass=   "raft.war.language.jass.psi.JassTypes"
-    elementTypeClass=         "raft.war.language.jass.psi.tree.JassIElement"
-    tokenTypeClass=           "raft.war.language.jass.psi.tree.JassIToken"
+    elementTypeClass=         "raft.war.language.jass.psi.JassElementType"
+    tokenTypeClass=           "raft.war.language.jass.psi.JassTokenType"
 
     psiImplUtilClass = "raft.war.language.jass.psi.JassPsiImplUtil"
 
@@ -118,9 +118,8 @@ FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
 Fun ::= CONSTANT? FUNCTION FunName FunTake? FunRet? Stmt* ENDFUNCTION {pin=2}
 FunName ::= ID {
-    mixin="raft.war.language.jass.extapi.psi.JassASTWrapperPsiElement"
-    implements="raft.war.language.jass.psi.JassPsiElementImpl"
-    methods=[getKey getName setName getNameIdentifier getPresentation]
+    implements="raft.war.language.jass.psi.funName.JassFunNameEl"
+    mixin="raft.war.language.jass.psi.funName.JassFunNameImpl"
 }
 
 Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}

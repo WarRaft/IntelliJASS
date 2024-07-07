@@ -2,4 +2,4 @@ package raft.war.language.jass.psi
 
 import com.intellij.psi.PsiNameIdentifierOwner
 
-interface JassPsiElementImpl : PsiNameIdentifierOwner
+interface JassNamedElement : PsiNameIdentifierOwner

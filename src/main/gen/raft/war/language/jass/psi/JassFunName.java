@@ -4,26 +4,11 @@ package raft.war.language.jass.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.navigation.ItemPresentation;
+import raft.war.language.jass.psi.funName.JassFunNameEl;
 
-public interface JassFunName extends JassPsiElementImpl {
+public interface JassFunName extends JassFunNameEl {
 
   @NotNull
   PsiElement getId();
-
-  @NotNull
-  String getKey();
-
-  @NotNull
-  String getName();
-
-  @NotNull
-  PsiElement setName(@Nullable String newName);
-
-  @Nullable
-  PsiElement getNameIdentifier();
-
-  @NotNull
-  ItemPresentation getPresentation();
 
 }

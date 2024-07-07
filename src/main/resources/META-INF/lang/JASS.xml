@@ -9,7 +9,7 @@
         />
 
         <!-- parser -->
-        <lang.parserDefinition language="JASS" implementationClass="raft.war.language.jass.lang.JassParserDefinition"/>
+        <lang.parserDefinition language="JASS" implementationClass="raft.war.language.jass.parser.JassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="JASS"
@@ -31,7 +31,7 @@
         <lang.formatter language="JASS"
                         implementationClass="raft.war.language.jass.formatting.JassFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="raft.war.language.jass.psi.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
+                implementation="raft.war.language.jass.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
 
         <!-- find usage -->
         <lang.findUsagesProvider
