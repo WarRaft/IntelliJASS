@@ -18,6 +18,7 @@ class JassFunNameRef(element: PsiNamedElement, textRange: TextRange) :
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val out: MutableList<PsiElementResolveResult> = mutableListOf();
 
+
         for (virtualFile in FileTypeIndex.getFiles(
             JassFileType.instance,
             GlobalSearchScope.allScope(element.project)
@@ -26,7 +27,6 @@ class JassFunNameRef(element: PsiNamedElement, textRange: TextRange) :
             val psifuns = PsiTreeUtil.getChildrenOfType(psifile, JassFun::class.java) ?: continue
             for (psifun in psifuns) {
                 val funname = psifun.funName ?: continue
-                print("|${element.text}|${funname.text}\n")
                 if (element.text != funname.text) continue
                 out.add(PsiElementResolveResult(funname))
             }
