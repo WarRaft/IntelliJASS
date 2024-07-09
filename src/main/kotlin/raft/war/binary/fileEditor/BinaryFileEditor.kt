@@ -1,4 +1,4 @@
-package raft.war.binary.openapi.fileEditor
+package raft.war.binary.fileEditor
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter
 import com.intellij.codeInsight.daemon.impl.TextEditorBackgroundHighlighter
@@ -17,8 +17,11 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.testFramework.LightVirtualFile
 import raft.war.binary.parser.Parser
+import raft.war.binary.parser.w3g.parser.replay.ReplayParser
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
+import java.io.File
+import java.io.FileInputStream
 import javax.swing.JComponent
 
 
@@ -33,8 +36,18 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
     init {
         val factory = EditorFactory.getInstance()
 
-        val document = factory.createDocument(loadFileContent(project, file))
-        editor = factory.createEditor(document, project, LniFileType.instance, false) as EditorEx
+        print(file.extension)
+
+        if (file.extension == "w3g") {
+            ReplayParser().parsePacked(FileInputStream(File("D:\\Downloads\\bnet.w3g")));
+
+
+            val document = factory.createDocument("w3g!")
+            editor = factory.createEditor(document, project) as EditorEx
+        } else {
+            val document = factory.createDocument(loadFileContent(project, file))
+            editor = factory.createEditor(document, project, LniFileType.instance, false) as EditorEx
+        }
     }
 
     private fun loadFileContent(project: Project, file: VirtualFile): String {
@@ -58,6 +71,7 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
             s = "-- " + e.message.toString()
             e.printStackTrace()
         }
+
 
         val virtualFile: VirtualFile = LightVirtualFile("dummy.lni", LniFileType.instance, s)
         val psiFile: PsiFile =

@@ -1,4 +1,4 @@
-package raft.war.binary.openapi.fileEditor
+package raft.war.binary.fileEditor
 
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorPolicy
@@ -29,4 +29,4 @@ class BinaryFileEditorProvider : FileEditorProvider, DumbAware {
     }
 }
 
-private val extensions = setOf("imp", "w3a", "w3b", "w3d", "w3h", "w3q", "w3t", "w3u")
+private val extensions = setOf("imp", "w3a", "w3b", "w3d", "w3h", "w3q", "w3t", "w3u", "w3g")

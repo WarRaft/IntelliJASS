@@ -65,38 +65,40 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
                     print("paren | $parent | ${parent.text} \n\n")
                 }
 
-                while (parent != null && parent !is JassPsiFileBase) {
-                    if (parent is JassFunCall) {
-                        val name = parent.funName
-                        //print("✅ ${name.text} | $myText")
+                if (false) {
+                    while (parent != null && parent !is JassPsiFileBase) {
+                        if (parent is JassFunCall) {
+                            val name = parent.funName
+                            //print("✅ ${name.text} | $myText")
 
-                        if (incompleteCode || name.textMatches(myText)) {
-                            myResult.add(name)
-                        }
-                    }
-
-                    var parentNext = parent.prevSibling
-                    while (parentNext != null) {
-                        val firstChild = parentNext.firstChild
-                        if (firstChild is JassFunCall) {
-                            val name = firstChild.funName
                             if (incompleteCode || name.textMatches(myText)) {
                                 myResult.add(name)
                             }
                         }
 
-                        /*
-                        if (parentNext is MonkeyParamGroup) {
-                            parentNext.varDefinitionList.forEach {
-                                if (incompleteCode || it.ident.text == myText) {
-                                    myResult.add(it)
+                        var parentNext = parent.prevSibling
+                        while (parentNext != null) {
+                            val firstChild = parentNext.firstChild
+                            if (firstChild is JassFunCall) {
+                                val name = firstChild.funName
+                                if (incompleteCode || name.textMatches(myText)) {
+                                    myResult.add(name)
                                 }
                             }
+
+                            /*
+                            if (parentNext is MonkeyParamGroup) {
+                                parentNext.varDefinitionList.forEach {
+                                    if (incompleteCode || it.ident.text == myText) {
+                                        myResult.add(it)
+                                    }
+                                }
+                            }
+                             */
+                            parentNext = parentNext.prevSibling
                         }
-                         */
-                        parentNext = parentNext.prevSibling
+                        parent = parent.parent
                     }
-                    parent = parent.parent
                 }
                 return myResult
             }
