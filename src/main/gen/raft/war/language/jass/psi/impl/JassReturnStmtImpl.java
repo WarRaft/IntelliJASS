@@ -30,13 +30,13 @@ public class JassReturnStmtImpl extends ASTWrapperPsiElement implements JassRetu
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
   @NotNull
   public PsiElement getReturn() {
-    return findNotNullChildByType(RETURN);
+    return notNullChild(findChildByType(RETURN));
   }
 
 }

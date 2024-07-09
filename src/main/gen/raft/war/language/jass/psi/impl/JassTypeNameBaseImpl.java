@@ -30,7 +30,7 @@ public class JassTypeNameBaseImpl extends ASTWrapperPsiElement implements JassTy
   @Override
   @NotNull
   public JassTypeName getTypeName() {
-    return findNotNullChildByClass(JassTypeName.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
   }
 
 }

@@ -30,7 +30,7 @@ public class JassGvarImpl extends ASTWrapperPsiElement implements JassGvar {
   @Override
   @NotNull
   public JassVar getVar() {
-    return findNotNullChildByClass(JassVar.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVar.class));
   }
 
   @Override

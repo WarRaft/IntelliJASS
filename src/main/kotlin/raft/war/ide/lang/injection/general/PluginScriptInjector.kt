@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLanguageInjectionHost
 import com.intellij.psi.util.elementType
 import raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT
-import raft.war.language.jass.lang.JassLanguage
+import raft.war.language.jass.JassLanguage
 
 
 // https://plugins.jetbrains.com/docs/intellij/language-injection.html#formatting

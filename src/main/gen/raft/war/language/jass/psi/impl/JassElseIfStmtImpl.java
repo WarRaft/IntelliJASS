@@ -30,7 +30,7 @@ public class JassElseIfStmtImpl extends ASTWrapperPsiElement implements JassElse
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
@@ -42,7 +42,7 @@ public class JassElseIfStmtImpl extends ASTWrapperPsiElement implements JassElse
   @Override
   @NotNull
   public PsiElement getElseif() {
-    return findNotNullChildByType(ELSEIF);
+    return notNullChild(findChildByType(ELSEIF));
   }
 
   @Override

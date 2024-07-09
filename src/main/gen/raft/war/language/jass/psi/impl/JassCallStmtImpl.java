@@ -30,7 +30,7 @@ public class JassCallStmtImpl extends ASTWrapperPsiElement implements JassCallSt
   @Override
   @NotNull
   public JassFunCall getFunCall() {
-    return findNotNullChildByClass(JassFunCall.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunCall.class));
   }
 
   @Override

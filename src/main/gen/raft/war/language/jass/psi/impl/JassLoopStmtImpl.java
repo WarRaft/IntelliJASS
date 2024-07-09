@@ -42,7 +42,7 @@ public class JassLoopStmtImpl extends ASTWrapperPsiElement implements JassLoopSt
   @Override
   @NotNull
   public PsiElement getLoop() {
-    return findNotNullChildByType(LOOP);
+    return notNullChild(findChildByType(LOOP));
   }
 
 }

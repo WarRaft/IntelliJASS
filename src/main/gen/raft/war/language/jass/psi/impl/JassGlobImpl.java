@@ -42,7 +42,7 @@ public class JassGlobImpl extends ASTWrapperPsiElement implements JassGlob {
   @Override
   @NotNull
   public PsiElement getGlobals() {
-    return findNotNullChildByType(GLOBALS);
+    return notNullChild(findChildByType(GLOBALS));
   }
 
 }

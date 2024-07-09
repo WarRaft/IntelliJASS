@@ -30,13 +30,13 @@ public class JassTypeDefImpl extends ASTWrapperPsiElement implements JassTypeDef
   @Override
   @Nullable
   public JassTypeName getTypeName() {
-    return findChildByClass(JassTypeName.class);
+    return PsiTreeUtil.getChildOfType(this, JassTypeName.class);
   }
 
   @Override
   @Nullable
   public JassTypeNameBase getTypeNameBase() {
-    return findChildByClass(JassTypeNameBase.class);
+    return PsiTreeUtil.getChildOfType(this, JassTypeNameBase.class);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class JassTypeDefImpl extends ASTWrapperPsiElement implements JassTypeDef
   @Override
   @NotNull
   public PsiElement getType() {
-    return findNotNullChildByType(TYPE);
+    return notNullChild(findChildByType(TYPE));
   }
 
 }

@@ -30,43 +30,43 @@ public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
   @Override
   @Nullable
   public JassCallStmt getCallStmt() {
-    return findChildByClass(JassCallStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassCallStmt.class);
   }
 
   @Override
   @Nullable
   public JassExitWhenStmt getExitWhenStmt() {
-    return findChildByClass(JassExitWhenStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassExitWhenStmt.class);
   }
 
   @Override
   @Nullable
   public JassIfStmt getIfStmt() {
-    return findChildByClass(JassIfStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassIfStmt.class);
   }
 
   @Override
   @Nullable
   public JassLoopStmt getLoopStmt() {
-    return findChildByClass(JassLoopStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassLoopStmt.class);
   }
 
   @Override
   @Nullable
   public JassLvarStmt getLvarStmt() {
-    return findChildByClass(JassLvarStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassLvarStmt.class);
   }
 
   @Override
   @Nullable
   public JassReturnStmt getReturnStmt() {
-    return findChildByClass(JassReturnStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassReturnStmt.class);
   }
 
   @Override
   @Nullable
   public JassSetStmt getSetStmt() {
-    return findChildByClass(JassSetStmt.class);
+    return PsiTreeUtil.getChildOfType(this, JassSetStmt.class);
   }
 
 }

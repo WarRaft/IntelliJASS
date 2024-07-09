@@ -30,19 +30,19 @@ public class JassSetStmtImpl extends ASTWrapperPsiElement implements JassSetStmt
   @Override
   @Nullable
   public JassArrayAccess getArrayAccess() {
-    return findChildByClass(JassArrayAccess.class);
+    return PsiTreeUtil.getChildOfType(this, JassArrayAccess.class);
   }
 
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
   @NotNull
   public PsiElement getEq() {
-    return findNotNullChildByType(EQ);
+    return notNullChild(findChildByType(EQ));
   }
 
   @Override

@@ -3,8 +3,7 @@ package raft.war.language.jass.psi;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiElement;
-import raft.war.language.jass.psi.funName.JassFunNameEl;
+import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public class JassVisitor extends PsiElementVisitor {
 
@@ -13,15 +12,15 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitArgList(@NotNull JassArgList o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitArrayAccess(@NotNull JassArrayAccess o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitCallStmt(@NotNull JassCallStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitDivExpr(@NotNull JassDivExpr o) {
@@ -33,11 +32,11 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitElseIfStmt(@NotNull JassElseIfStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitElseStmt(@NotNull JassElseStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitEqExpr(@NotNull JassEqExpr o) {
@@ -45,39 +44,39 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitExitWhenStmt(@NotNull JassExitWhenStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitExpr(@NotNull JassExpr o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitFun(@NotNull JassFun o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitFunCall(@NotNull JassFunCall o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitFunName(@NotNull JassFunName o) {
-    visitFunNameEl(o);
+    visitNamedElement(o);
   }
 
   public void visitFunRet(@NotNull JassFunRet o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitFunTake(@NotNull JassFunTake o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitFuncAsCode(@NotNull JassFuncAsCode o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitGlob(@NotNull JassGlob o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitGtEqExpr(@NotNull JassGtEqExpr o) {
@@ -89,15 +88,15 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitGvar(@NotNull JassGvar o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitIfStmt(@NotNull JassIfStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitLoopStmt(@NotNull JassLoopStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitLtEqExpr(@NotNull JassLtEqExpr o) {
@@ -109,7 +108,7 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitLvarStmt(@NotNull JassLvarStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitMinusExpr(@NotNull JassMinusExpr o) {
@@ -129,7 +128,7 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitNativ(@NotNull JassNativ o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitNeqExpr(@NotNull JassNeqExpr o) {
@@ -145,11 +144,11 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitParam(@NotNull JassParam o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitParamList(@NotNull JassParamList o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitParenExpr(@NotNull JassParenExpr o) {
@@ -169,38 +168,38 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitReturnStmt(@NotNull JassReturnStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitSetStmt(@NotNull JassSetStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitStmt(@NotNull JassStmt o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitTypeDef(@NotNull JassTypeDef o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitTypeName(@NotNull JassTypeName o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitTypeNameBase(@NotNull JassTypeNameBase o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
   public void visitVar(@NotNull JassVar o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
-  public void visitFunNameEl(@NotNull JassFunNameEl o) {
-    visitPsiElement(o);
+  public void visitNamedElement(@NotNull JassNamedElement o) {
+    visitCompositeElement(o);
   }
 
-  public void visitPsiElement(@NotNull PsiElement o) {
+  public void visitCompositeElement(@NotNull JassCompositeElement o) {
     visitElement(o);
   }
 

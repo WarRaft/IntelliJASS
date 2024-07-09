@@ -22,7 +22,7 @@ public interface JassTypes {
   IElementType FUN = new JassElementType("FUN");
   IElementType FUNC_AS_CODE = new JassElementType("FUNC_AS_CODE");
   IElementType FUN_CALL = new JassElementType("FUN_CALL");
-  IElementType FUN_NAME = new JassElementType("FUN_NAME");
+  IElementType FUN_NAME = JassElementTypeFactory.factory("FUN_NAME");
   IElementType FUN_RET = new JassElementType("FUN_RET");
   IElementType FUN_TAKE = new JassElementType("FUN_TAKE");
   IElementType GLOB = new JassElementType("GLOB");

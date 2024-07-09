@@ -30,13 +30,13 @@ public class JassPlusUnExprImpl extends JassExprImpl implements JassPlusUnExpr {
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
   @NotNull
   public PsiElement getPlus() {
-    return findNotNullChildByType(PLUS);
+    return notNullChild(findChildByType(PLUS));
   }
 
 }

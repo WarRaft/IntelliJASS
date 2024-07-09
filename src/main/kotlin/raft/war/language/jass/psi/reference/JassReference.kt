@@ -1,15 +1,8 @@
 package raft.war.language.jass.psi.reference
 
 import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
-import raft.war.language.jass.openapi.fileTypes.JassFileType.Companion.instance
-import raft.war.language.jass.psi.funName.JassFunNameEl
-import raft.war.language.jass.psi.JassPsiFileBase
 import java.util.*
 
 // https://plugins.jetbrains.com/docs/intellij/psi-references.html
@@ -59,28 +52,8 @@ internal class JassReference(element: PsiElement, textRange: TextRange) :
     }
 
     override fun getVariants(): Array<Any> {
-        print("getVariants\n")
-        val project = myElement!!.project
-        val properties = findProperties(project)
         val variants: MutableList<LookupElement> = ArrayList()
         return variants.toTypedArray()
     }
 
-    companion object {
-        private fun findProperties(project: Project): List<JassFunNameEl> {
-            val result: MutableList<JassFunNameEl> = ArrayList()
-            val virtualFiles =
-                FileTypeIndex.getFiles(instance, GlobalSearchScope.allScope(project))
-            for (virtualFile in virtualFiles) {
-                val simpleFile = PsiManager.getInstance(project).findFile(virtualFile) as JassPsiFileBase?
-                if (simpleFile != null) {
-                    val properties = PsiTreeUtil.getChildrenOfType(simpleFile, JassFunNameEl::class.java)
-                    if (properties != null) {
-                        Collections.addAll(result, *properties)
-                    }
-                }
-            }
-            return result
-        }
-    }
 }

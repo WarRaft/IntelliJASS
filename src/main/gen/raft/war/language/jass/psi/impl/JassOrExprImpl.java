@@ -36,7 +36,7 @@ public class JassOrExprImpl extends JassExprImpl implements JassOrExpr {
   @Override
   @NotNull
   public PsiElement getOr() {
-    return findNotNullChildByType(OR);
+    return notNullChild(findChildByType(OR));
   }
 
 }

@@ -8,8 +8,8 @@ import com.intellij.openapi.util.NlsContexts.TabTitle
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider.SettingsType
-import raft.war.language.jass.lang.JassLanguage
-import raft.war.language.jass.openapi.fileTypes.JassFileType
+import raft.war.language.jass.JassLanguage
+import raft.war.language.jass.JassFileType
 
 class JassAlignTokenPanel(settings: CodeStyleSettings?) : OptionTreeWithPreviewPanel(settings) {
     init {

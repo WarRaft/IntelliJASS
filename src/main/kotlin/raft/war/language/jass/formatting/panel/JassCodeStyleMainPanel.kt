@@ -3,7 +3,7 @@ package raft.war.language.jass.formatting.panel
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
-import raft.war.language.jass.lang.JassLanguage.Companion.instance
+import raft.war.language.jass.JassLanguage.Companion.instance
 
 class JassCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
     TabbedLanguageCodeStylePanel(

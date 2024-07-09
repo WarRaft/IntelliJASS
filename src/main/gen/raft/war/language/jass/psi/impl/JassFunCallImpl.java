@@ -30,19 +30,19 @@ public class JassFunCallImpl extends ASTWrapperPsiElement implements JassFunCall
   @Override
   @Nullable
   public JassArgList getArgList() {
-    return findChildByClass(JassArgList.class);
+    return PsiTreeUtil.getChildOfType(this, JassArgList.class);
   }
 
   @Override
   @NotNull
   public JassFunName getFunName() {
-    return findNotNullChildByClass(JassFunName.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunName.class));
   }
 
   @Override
   @NotNull
   public PsiElement getLparen() {
-    return findNotNullChildByType(LPAREN);
+    return notNullChild(findChildByType(LPAREN));
   }
 
   @Override

@@ -3,7 +3,8 @@ package raft.war.language.jass.psi
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import raft.war.language.jass.lang.JassLanguage.Companion.instance
+import raft.war.language.jass.JassLanguage.Companion.instance
+import raft.war.language.jass.psi.file.JassPsiFileBase
 
 object JassElementFactory {
     private fun createFile(project: Project, text: String): JassPsiFileBase {

@@ -36,7 +36,7 @@ public class JassGtExprImpl extends JassExprImpl implements JassGtExpr {
   @Override
   @NotNull
   public PsiElement getGt() {
-    return findNotNullChildByType(GT);
+    return notNullChild(findChildByType(GT));
   }
 
 }

@@ -30,7 +30,7 @@ public class JassFunRetImpl extends ASTWrapperPsiElement implements JassFunRet {
   @Override
   @Nullable
   public JassTypeName getTypeName() {
-    return findChildByClass(JassTypeName.class);
+    return PsiTreeUtil.getChildOfType(this, JassTypeName.class);
   }
 
   @Override
@@ -42,7 +42,7 @@ public class JassFunRetImpl extends ASTWrapperPsiElement implements JassFunRet {
   @Override
   @NotNull
   public PsiElement getReturns() {
-    return findNotNullChildByType(RETURNS);
+    return notNullChild(findChildByType(RETURNS));
   }
 
 }

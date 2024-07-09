@@ -2,51 +2,55 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- https://plugins.jetbrains.com/docs/intellij/registering-file-type.html#registration -->
         <fileType name="JASS"
-                  implementationClass="raft.war.language.jass.openapi.fileTypes.JassFileType"
+                  implementationClass="raft.war.language.jass.JassFileType"
                   fieldName="instance"
                   language="JASS"
                   extensions="j;ai;pld"
         />
 
         <!-- parser -->
-        <lang.parserDefinition language="JASS" implementationClass="raft.war.language.jass.parser.JassParserDefinition"/>
+        <lang.parserDefinition language="JASS"
+                               implementationClass="raft.war.language.jass.JassParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="JASS"
-                                       implementationClass="raft.war.language.jass.openapi.fileTypes.JassSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.jass.highlighter.JassSyntaxHighlighterFactory"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="raft.war.language.jass.openapi.colors.JassColorSettingsPage"/>
+        <colorSettingsPage implementation="raft.war.language.jass.JassColorSettingsPage"/>
 
         <!-- annotator -->
-        <annotator language="JASS" implementationClass="raft.war.language.jass.lang.annotation.JassAnnotator"/>
+        <annotator language="JASS" implementationClass="raft.war.language.jass.JassAnnotator"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="JASS"
-                             implementationClass="raft.war.language.jass.lang.folding.JassCustomFoldingBuilder"/>
-        <codeFoldingOptionsProvider instance="raft.war.language.jass.lang.folding.JassCodeFoldingOptionsProvider"/>
-        <applicationService serviceImplementation="raft.war.language.jass.lang.folding.JassCodeFoldingSettings"/>
+                             implementationClass="raft.war.language.jass.folding.JassCustomFoldingBuilder"/>
+        <codeFoldingOptionsProvider instance="raft.war.language.jass.folding.JassCodeFoldingOptionsProvider"/>
+        <applicationService serviceImplementation="raft.war.language.jass.folding.JassCodeFoldingSettings"/>
 
         <!-- formatter -->
         <lang.formatter language="JASS"
                         implementationClass="raft.war.language.jass.formatting.JassFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="raft.war.language.jass.codeStyle.JassLanguageCodeStyleSettingsProvider"/>
+                implementation="raft.war.language.jass.JassLanguageCodeStyleSettingsProvider"/>
 
         <!-- find usage -->
         <lang.findUsagesProvider
                 language="JASS"
-                implementationClass="raft.war.language.jass.lang.findUsages.JassFindUsagesProvider"/>
+                implementationClass="raft.war.language.jass.JassFindUsagesProvider"/>
 
         <!-- refactor support -->
         <lang.refactoringSupport
                 language="JASS"
-                implementationClass="raft.war.language.jass.lang.refactoring.JassRefactoringSupportProvider"/>
+                implementationClass="raft.war.language.jass.JassRefactoringSupportProvider"/>
 
         <!-- commenter -->
         <lang.commenter
                 language="JASS"
-                implementationClass="raft.war.language.jass.lang.JassCommenter"/>
+                implementationClass="raft.war.language.jass.JassCommenter"/>
+
+        <!-- index -->
+        <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
 
         <!-- inspections -->
         <localInspection language="JASS"

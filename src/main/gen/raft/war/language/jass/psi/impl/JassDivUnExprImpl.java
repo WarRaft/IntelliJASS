@@ -30,13 +30,13 @@ public class JassDivUnExprImpl extends JassExprImpl implements JassDivUnExpr {
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
   @NotNull
   public PsiElement getDiv() {
-    return findNotNullChildByType(DIV);
+    return notNullChild(findChildByType(DIV));
   }
 
 }

@@ -36,7 +36,7 @@ public class JassAndExprImpl extends JassExprImpl implements JassAndExpr {
   @Override
   @NotNull
   public PsiElement getAnd() {
-    return findNotNullChildByType(AND);
+    return notNullChild(findChildByType(AND));
   }
 
 }

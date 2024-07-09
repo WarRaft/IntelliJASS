@@ -4,9 +4,10 @@ package raft.war.language.jass.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import raft.war.language.jass.psi.funName.JassFunNameEl;
+import com.intellij.psi.StubBasedPsiElement;
+import raft.war.language.jass.psi.funName.JassFunNameStub;
 
-public interface JassFunName extends JassFunNameEl {
+public interface JassFunName extends JassNamedElement, StubBasedPsiElement<JassFunNameStub> {
 
   @NotNull
   PsiElement getId();

@@ -30,19 +30,19 @@ public class JassParenExprImpl extends JassExprImpl implements JassParenExpr {
   @Override
   @NotNull
   public JassExpr getExpr() {
-    return findNotNullChildByClass(JassExpr.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassExpr.class));
   }
 
   @Override
   @NotNull
   public PsiElement getLparen() {
-    return findNotNullChildByType(LPAREN);
+    return notNullChild(findChildByType(LPAREN));
   }
 
   @Override
   @NotNull
   public PsiElement getRparen() {
-    return findNotNullChildByType(RPAREN);
+    return notNullChild(findChildByType(RPAREN));
   }
 
 }

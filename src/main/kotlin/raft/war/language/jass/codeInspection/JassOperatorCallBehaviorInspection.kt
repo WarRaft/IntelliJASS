@@ -39,7 +39,7 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         return object : JassVisitor() {
             override fun visitCallStmt(callStmt: JassCallStmt) {
-                super.visitPsiElement(callStmt)
+                super.visitCallStmt(callStmt)
 
                 val funcCall = callStmt.funCall
                 val funcCallName = funcCall.funName

@@ -30,13 +30,13 @@ public class JassNativImpl extends ASTWrapperPsiElement implements JassNativ {
   @Override
   @Nullable
   public JassFunRet getFunRet() {
-    return findChildByClass(JassFunRet.class);
+    return PsiTreeUtil.getChildOfType(this, JassFunRet.class);
   }
 
   @Override
   @Nullable
   public JassFunTake getFunTake() {
-    return findChildByClass(JassFunTake.class);
+    return PsiTreeUtil.getChildOfType(this, JassFunTake.class);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class JassNativImpl extends ASTWrapperPsiElement implements JassNativ {
   @Override
   @NotNull
   public PsiElement getNative() {
-    return findNotNullChildByType(NATIVE);
+    return notNullChild(findChildByType(NATIVE));
   }
 
 }

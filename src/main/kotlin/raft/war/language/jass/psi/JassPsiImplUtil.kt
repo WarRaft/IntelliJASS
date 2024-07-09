@@ -1,74 +1,90 @@
 package raft.war.language.jass.psi
 
-import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
-import raft.war.language.jass.psi.JassTypes.ID
-import raft.war.language.jass.psi.funName.JassFunNameEl
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.containers.OrderedSet
 import raft.war.language.jass.psi.reference.JassReference
-import javax.swing.Icon
+import raft.war.language.jass.psi.reference.JassReferenceBase
 
 object JassPsiImplUtil {
 
     @JvmStatic
-    fun getKey(element: JassFunNameEl): String {
-        val text = element.node.findChildByType(ID)?.text
-        return text ?: return ""
+    fun resolve(o: JassNamedElement): PsiElement? {
+        print("resolve $o ${o.text} \n")
+        return o.reference?.resolve()
     }
 
     @JvmStatic
-    fun getName(element: JassFunNameEl): String = element.text
+    fun getReference(o: PsiElement): JassReferenceBase {
+        print("getReference $o ${o.text} \n")
 
-    @JvmStatic
-    fun setName(element: JassFunNameEl, newName: String?): PsiElement = element
-
-    @JvmStatic
-    fun getNameIdentifier(element: JassFunNameEl): PsiElement? = element.node.findChildByType(ID)?.psi
-
-    @JvmStatic
-    fun getPresentation(element: JassFunNameEl): ItemPresentation = object : ItemPresentation {
-        override fun getPresentableText(): String = element.text
-        override fun getLocationString(): String = element.containingFile.name
-        override fun getIcon(unused: Boolean): Icon? = element.getIcon(0)
+        return object : JassReferenceBase(o, TextRange(0, o.textLength)) {
+            override fun resolveInner(incompleteCode: Boolean): List<PsiElement> {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
-    @JvmStatic
-    fun getReference(element: JassFunNameEl): PsiReference {
-        print("💋 getReference ${element.text} | ${element.textRange} \n")
-        return JassReference(element, element.textRange)
-    }
 
     /*
-    PsiReference @NotNull [] getReferences(@NotNull PsiReferenceService.Hints hints);
-
-
     @JvmStatic
-    fun getReferences(element: JassFunName): Array<PsiReference> {
-        print("🍒 getReferences $element | ${element.textRange} \n")
-        val results = mutableListOf<PsiReference>()
-
-        for (virtualFile in FileTypeIndex.getFiles(instance, GlobalSearchScope.allScope(element.project))) {
-            val jfile = PsiManager.getInstance(element.project).findFile(virtualFile) ?: continue
-            val namelist = PsiTreeUtil.getChildrenOfType(jfile, JassFunName::class.java)
-
-            print("namelist $namelist \n")
-
-            if (namelist == null) continue
-
-
-
-            if (namelist != null) {
-                for (property in namelist) {
-                    print("item | ${property.textRange}")
-                    if (element.key == property.key) {
-                        //results.add(JassReference(property, property.textRange))
-                    }
+    fun getReference(o: MonkeySimpleRefExpr): MonkeyReferenceBase {
+        val myText = o.ident.text
+        val myResult = OrderedSet<PsiElement>()
+        return object : MonkeyReferenceBase(o, TextRange(0, o.textLength)) {
+            override fun handleElementRename(newElementName: String): PsiElement? {
+                return when (val currentElement = element) {
+                    is MonkeySimpleRefExpr -> setName(currentElement, newElementName)
+                    else -> return null
                 }
             }
 
-        }
+            override fun isReferenceTo(element: PsiElement): Boolean {
+                val resolved = resolve()
+                val manager = getElement().manager
+                return manager.areElementsEquivalent(resolved, element)
+                        || manager.areElementsEquivalent(resolved?.parent, element)
+            }
 
-        return results.toTypedArray();
+            override fun resolveInner(incompleteCode: Boolean): List<PsiElement> {
+                var parent: PsiElement? = PsiTreeUtil.getParentOfType(o, MonkeyStatement::class.java)
+                while (parent !is MonkeyAll && parent != null) {
+
+                    if (parent is MonkeyLetStatement) {
+                        val ident = parent.varDefinition?.ident
+                        if (incompleteCode || ident?.textMatches(myText) == true) {
+                            myResult.add(parent.varDefinition)
+                        }
+                    }
+
+                    var parentNext = parent.prevSibling
+                    while (parentNext != null) {
+                        val firstChild = parentNext.firstChild
+                        if (firstChild is MonkeyLetStatement) {
+                            val ident = firstChild.varDefinition?.ident
+                            if (incompleteCode || ident?.textMatches(myText) == true) {
+                                myResult.add(firstChild.varDefinition)
+                            }
+                        }
+
+                        if (parentNext is MonkeyParamGroup) {
+                            parentNext.varDefinitionList.forEach {
+                                if (incompleteCode || it.ident.text == myText) {
+                                    myResult.add(it)
+                                }
+                            }
+                        }
+                        parentNext = parentNext.prevSibling
+                    }
+                    parent = parent.parent
+                }
+                return myResult
+            }
+        }
     }
+
+
      */
+
 }

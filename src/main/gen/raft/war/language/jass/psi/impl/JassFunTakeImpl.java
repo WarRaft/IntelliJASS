@@ -30,7 +30,7 @@ public class JassFunTakeImpl extends ASTWrapperPsiElement implements JassFunTake
   @Override
   @Nullable
   public JassParamList getParamList() {
-    return findChildByClass(JassParamList.class);
+    return PsiTreeUtil.getChildOfType(this, JassParamList.class);
   }
 
   @Override
@@ -42,7 +42,7 @@ public class JassFunTakeImpl extends ASTWrapperPsiElement implements JassFunTake
   @Override
   @NotNull
   public PsiElement getTakes() {
-    return findNotNullChildByType(TAKES);
+    return notNullChild(findChildByType(TAKES));
   }
 
 }

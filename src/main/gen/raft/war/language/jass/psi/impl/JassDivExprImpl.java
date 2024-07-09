@@ -36,7 +36,7 @@ public class JassDivExprImpl extends JassExprImpl implements JassDivExpr {
   @Override
   @NotNull
   public PsiElement getDiv() {
-    return findNotNullChildByType(DIV);
+    return notNullChild(findChildByType(DIV));
   }
 
 }

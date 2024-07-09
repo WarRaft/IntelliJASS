@@ -30,19 +30,19 @@ public class JassPrimExprImpl extends JassExprImpl implements JassPrimExpr {
   @Override
   @Nullable
   public JassArrayAccess getArrayAccess() {
-    return findChildByClass(JassArrayAccess.class);
+    return PsiTreeUtil.getChildOfType(this, JassArrayAccess.class);
   }
 
   @Override
   @Nullable
   public JassFunCall getFunCall() {
-    return findChildByClass(JassFunCall.class);
+    return PsiTreeUtil.getChildOfType(this, JassFunCall.class);
   }
 
   @Override
   @Nullable
   public JassFuncAsCode getFuncAsCode() {
-    return findChildByClass(JassFuncAsCode.class);
+    return PsiTreeUtil.getChildOfType(this, JassFuncAsCode.class);
   }
 
   @Override

@@ -4,8 +4,9 @@ package raft.war.language.jass.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
-public interface JassIfStmt extends PsiElement {
+public interface JassIfStmt extends JassCompositeElement {
 
   @NotNull
   List<JassElseIfStmt> getElseIfStmtList();

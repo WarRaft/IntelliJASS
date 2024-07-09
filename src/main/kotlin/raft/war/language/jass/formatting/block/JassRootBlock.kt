@@ -8,7 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
-import raft.war.language.jass.lang.JassLanguage.Companion.instance
+import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.psi.JassTypes.*
 
 class JassRootBlock(myNode: ASTNode, code: CodeStyleSettings, jass: JassCodeStyleSettings) : JassBlock(

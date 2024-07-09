@@ -36,7 +36,7 @@ public class JassNeqExprImpl extends JassExprImpl implements JassNeqExpr {
   @Override
   @NotNull
   public PsiElement getNeq() {
-    return findNotNullChildByType(NEQ);
+    return notNullChild(findChildByType(NEQ));
   }
 
 }

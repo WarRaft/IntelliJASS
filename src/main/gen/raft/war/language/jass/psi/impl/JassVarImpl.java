@@ -30,13 +30,13 @@ public class JassVarImpl extends ASTWrapperPsiElement implements JassVar {
   @Override
   @Nullable
   public JassExpr getExpr() {
-    return findChildByClass(JassExpr.class);
+    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
   }
 
   @Override
   @NotNull
   public JassTypeName getTypeName() {
-    return findNotNullChildByClass(JassTypeName.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
   }
 
   @Override
@@ -54,7 +54,7 @@ public class JassVarImpl extends ASTWrapperPsiElement implements JassVar {
   @Override
   @NotNull
   public PsiElement getId() {
-    return findNotNullChildByType(ID);
+    return notNullChild(findChildByType(ID));
   }
 
 }

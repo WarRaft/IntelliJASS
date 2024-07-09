@@ -5,7 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
-import raft.war.language.jass.lang.JassLanguage.Companion.instance
+import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.psi.JassTypes.*
 
 open class JassBlock(

@@ -30,13 +30,13 @@ public class JassFuncAsCodeImpl extends ASTWrapperPsiElement implements JassFunc
   @Override
   @NotNull
   public PsiElement getFunction() {
-    return findNotNullChildByType(FUNCTION);
+    return notNullChild(findChildByType(FUNCTION));
   }
 
   @Override
   @NotNull
   public PsiElement getId() {
-    return findNotNullChildByType(ID);
+    return notNullChild(findChildByType(ID));
   }
 
 }
