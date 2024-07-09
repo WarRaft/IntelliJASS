@@ -12,4 +12,12 @@ public interface JassFunName extends JassNamedElement, StubBasedPsiElement<JassF
   @NotNull
   PsiElement getId();
 
+  //WARNING: getReference(...) is skipped
+  //matching getReference(JassFunName, ...)
+  //methods are not found in JassPsiImplUtil
+
+  //WARNING: resolve(...) is skipped
+  //matching resolve(JassFunName, ...)
+  //methods are not found in JassPsiImplUtil
+
 }

@@ -49,6 +49,10 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.JassCommenter"/>
 
+        <!-- brace -->
+        <lang.braceMatcher language="JASS"
+                           implementationClass="raft.war.language.jass.JassBraceMatcher"/>
+
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
 

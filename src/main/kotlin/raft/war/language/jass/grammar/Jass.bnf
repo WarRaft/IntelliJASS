@@ -16,8 +16,6 @@
     elementTypeClass="raft.war.language.jass.psi.JassElementType"
     tokenTypeClass="raft.war.language.jass.psi.JassTokenType"
 
-    elementTypeFactory("FunName")="raft.war.language.jass.psi.JassElementTypeFactory.factory"
-
     generateTokenAccessors=true
 
     extends(".*Expr")=Expr
@@ -127,6 +125,8 @@ FunName ::= ID {
     implements="raft.war.language.jass.psi.JassNamedElement"
     extends="raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
+    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+    methods=[getReference resolve]
 }
 
 Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
