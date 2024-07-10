@@ -39,13 +39,8 @@ public class ReplayParser extends PackedParser<ReplayParserResult> {
     }
 
     @Override
-    public PackedResult<ReplayParserResult> parsePacked(InputStream fileData) throws IOException, PackedFormatException, DataFormatException {
-        return super.parsePacked(fileData);
-    }
-
-    @Override
-    public void streamPacked(InputStream fileData, Predicate<Object> dataConsumer) throws IOException, PackedFormatException, DataFormatException {
-        super.streamPacked(fileData, dataConsumer);
+    public PackedResult<ReplayParserResult> parsePacked(byte[] bytes) throws IOException, PackedFormatException, DataFormatException {
+        return super.parsePacked(bytes);
     }
 
     private static class ReplayParserParser implements IRecordParser<ReplayParserResult> {

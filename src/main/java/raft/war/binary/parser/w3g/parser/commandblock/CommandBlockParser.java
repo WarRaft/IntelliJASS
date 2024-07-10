@@ -11,7 +11,7 @@ import java.util.*;
 
 public class CommandBlockParser {
 
-    private Map<Byte, Class<? extends IAction>> actionParsers;
+    private final Map<Byte, Class<? extends IAction>> actionParsers;
 
     private static final Map<Byte, Class<? extends IAction>> defaultActionParsers = new HashMap<>();
 
@@ -120,17 +120,15 @@ public class CommandBlockParser {
                 } catch (Exception ignored) {
                 }
 
-                if(action == null)
-                {
+                if (action == null) {
                     byteBuffer.position(actionStartPosition);
                     break;
                 }
 
                 action.parse(byteBuffer);
 
-                if(action instanceof UjapiAction ujapiAction)
-                {
-                    if(ujapiAction.getSubAction() == null) // unknown subAction
+                if (action instanceof UjapiAction ujapiAction) {
+                    if (ujapiAction.getSubAction() == null) // unknown subAction
                     {
                         byteBuffer.position(actionStartPosition);
                         break;
@@ -149,10 +147,4 @@ public class CommandBlockParser {
 
         return result;
     }
-
-    public ByteBuffer assembly(List<ActionCommandBlock> blocks)
-    {
-        return null;
-    }
-
 }

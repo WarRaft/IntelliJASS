@@ -17,15 +17,15 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.testFramework.LightVirtualFile
 import raft.war.binary.parser.Parser
+import raft.war.binary.parser.w3g.parser.commandblock.CommandBlockParser
+import raft.war.binary.parser.w3g.parser.packed.PackedResult
 import raft.war.binary.parser.w3g.parser.replay.ReplayParser
+import raft.war.binary.parser.w3g.parser.replay.ReplayParserResult
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
-import java.io.File
-import java.io.FileInputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import javax.swing.JComponent
-
-
-// EditorTextEditor
 
 // https://plugins.jetbrains.com/docs/intellij/editor-components.html#providing-completion
 class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDataHolderBase(), FileEditor {
@@ -36,13 +36,30 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
     init {
         val factory = EditorFactory.getInstance()
 
-        print(file.extension)
-
         if (file.extension == "w3g") {
-            ReplayParser().parsePacked(FileInputStream(File("D:\\Downloads\\bnet.w3g")));
+            val b = file.contentsToByteArray()
+            val sb = StringBuilder()
 
 
-            val document = factory.createDocument("w3g!")
+            val r: PackedResult<ReplayParserResult> = ReplayParser().parsePacked(b)
+
+            val commandBlockParser = CommandBlockParser()
+
+            print(r.header)
+
+            r.payload.actions.forEach { i ->
+                val cbp = commandBlockParser.parse(
+                    ByteBuffer.wrap(i.record.rawData).order(
+                        ByteOrder.LITTLE_ENDIAN
+                    )
+                )
+
+                for (block in cbp) {
+                    sb.append(block.toString()).append("\n");
+                }
+            }
+
+            val document = factory.createDocument(sb.toString())
             editor = factory.createEditor(document, project) as EditorEx
         } else {
             val document = factory.createDocument(loadFileContent(project, file))

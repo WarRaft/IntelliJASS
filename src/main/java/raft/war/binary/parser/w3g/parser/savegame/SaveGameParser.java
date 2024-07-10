@@ -1,29 +1,19 @@
 package raft.war.binary.parser.w3g.parser.savegame;
 
-import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException;
 import raft.war.binary.parser.w3g.parser.packed.IRecord;
 import raft.war.binary.parser.w3g.parser.packed.IRecordParser;
 import raft.war.binary.parser.w3g.parser.packed.PackedParser;
-import raft.war.binary.parser.w3g.parser.packed.PackedResult;
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil;
 import raft.war.binary.parser.w3g.parser.utils.SlotInfo;
 import raft.war.binary.parser.w3g.parser.utils.StatString;
 
 import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.zip.DataFormatException;
 
 public class SaveGameParser extends PackedParser<SaveGameResult> {
     @Override
     protected IRecordParser<SaveGameResult> createRecordParser() {
         return new SaveGameRecordParser();
-    }
-
-    @Override
-    public PackedResult<SaveGameResult> parsePacked(InputStream fileData) throws IOException, PackedFormatException, DataFormatException {
-        return super.parsePacked(fileData);
     }
 
     private static class SaveGameRecordParser implements IRecordParser<SaveGameResult> {

@@ -2,7 +2,7 @@ package raft.war.binary.parser.w3g.parser.packed;
 
 import java.util.List;
 
-public class PackedResult<P extends Object> {
+public class PackedResult<P> {
     private Header header;
 
     private SubHeader subHeader;

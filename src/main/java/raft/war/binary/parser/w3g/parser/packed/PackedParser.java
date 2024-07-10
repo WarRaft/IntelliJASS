@@ -3,10 +3,7 @@ package raft.war.binary.parser.w3g.parser.packed;
 import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException;
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -31,21 +28,19 @@ public abstract class PackedParser<P> {
         return data;
     }
 
-    protected PackedResult<P> parsePacked(InputStream fileData) throws IOException, PackedFormatException, DataFormatException {
-        return this.parsePackedInternal(fileData, null);
+    protected PackedResult<P> parsePacked(byte[] bytes) throws IOException, PackedFormatException, DataFormatException {
+        return this.parsePackedInternal(bytes, null);
     }
 
-    protected void streamPacked(InputStream fileData, Predicate<Object> dataConsumer) throws IOException, PackedFormatException, DataFormatException {
-        this.parsePackedInternal(fileData, dataConsumer);
-    }
-
-
-    private PackedResult<P> parsePackedInternal(InputStream fileData, Predicate<Object> dataConsumer) throws IOException, PackedFormatException,
+    private PackedResult<P> parsePackedInternal(byte[] bytes, Predicate<Object> dataConsumer) throws IOException, PackedFormatException,
             DataFormatException {
         ByteBuffer readBuffer = ByteBuffer.allocate(0xFFFF).order(ByteOrder.LITTLE_ENDIAN);
 
         // Packed header data
         readBuffer.limit(REPLAY_MAGIC_HEADER_LENGTH + 41);
+
+        InputStream fileData = new ByteArrayInputStream(bytes);
+
         refillBuffer(fileData, readBuffer);
 
         if (!REPLAY_MAGIC_HEADER.equals(ByteBufferUtil.readUtf8CString(readBuffer)))
@@ -99,7 +94,6 @@ public abstract class PackedParser<P> {
                     throw new PackedFormatException("Compressed header invalid");
             }
 
-
             while (true) {
                 try {
                     IRecord result = recordParser.processDecompressedData(decompressedDataBuffer);
@@ -130,10 +124,6 @@ public abstract class PackedParser<P> {
             return null;
 
         return new PackedResult<P>().setHeader(header).setSubHeader(subHeader).setPayload(recordParser.getPayload()).setRecords(records);
-    }
-
-    protected void assemblyPacked(PackedResult<P> inputResult, OutputStream outputStream) throws IOException {
-        throw new UnsupportedOperationException();
     }
 
     private static byte[] decompress(byte[] data, int decompressedSize) throws DataFormatException, PackedFormatException {

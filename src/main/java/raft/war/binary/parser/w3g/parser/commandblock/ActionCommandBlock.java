@@ -11,9 +11,6 @@ public class ActionCommandBlock {
 
     private ByteBuffer remainingBuffer;
 
-    public ActionCommandBlock() {
-    }
-
     public ActionCommandBlock(int playerId, List<IAction> actions, ByteBuffer remainingBuffer) {
         this.playerId = playerId;
         this.actions = actions;
@@ -45,5 +42,10 @@ public class ActionCommandBlock {
     public ActionCommandBlock setRemainingBuffer(ByteBuffer remainingBuffer) {
         this.remainingBuffer = remainingBuffer;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "ActionCommandBlock [playerId=" + playerId + ", actions=" + actions + "]";
     }
 }
