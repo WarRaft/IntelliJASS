@@ -19,7 +19,6 @@ import com.intellij.testFramework.LightVirtualFile
 import raft.war.binary.parser.Parser
 import raft.war.binary.parser.w3g.W3g
 import raft.war.binary.parser.w3g.commandBlock.CommandBlockParser
-import raft.war.binary.parser.w3g.parser.packed.PackedResult
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
 import java.nio.ByteBuffer
@@ -39,7 +38,7 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
             val sb = StringBuilder()
             val w3g = W3g()
 
-            val r: PackedResult = w3g.parse(file.contentsToByteArray())
+            w3g.parse(file.contentsToByteArray())
 
             sb.append("=".repeat(20)).append(" Header").append("\n")
             sb.append("Version: ").append(w3g.header.version).append("\n")
@@ -52,7 +51,7 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
             sb.append("=".repeat(20)).append(" Actions").append("\n")
 
 
-            r.payload.actions.forEach { i ->
+            w3g.actions.forEach { i ->
                 sb.append("Time: ${i.time} \n")
 
                 val blocks = commandBlockParser.parse(ByteBuffer.wrap(i.record.rawData).order(ByteOrder.LITTLE_ENDIAN))

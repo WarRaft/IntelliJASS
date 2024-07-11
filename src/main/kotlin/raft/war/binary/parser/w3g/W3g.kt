@@ -18,8 +18,37 @@ import kotlin.math.min
 open class W3g {
     lateinit var header: Header
     lateinit var subheader: SubHeader
+    lateinit var gameInfo: GameRecord
+    lateinit var startInfo: StartRecord
 
-    fun parse(bytes: ByteArray): PackedResult {
+    val playerRecords: MutableList<PlayerRecord> = mutableListOf()
+    val playerLeave: MutableList<TimeRecord<LeaveRecord>> = mutableListOf()
+    val chatMessages: MutableList<TimeRecord<ChatRecord>> = mutableListOf()
+    val actions: MutableList<TimeRecord<TimeSlotRecord>> = mutableListOf()
+    val others: MutableList<IRecord> = mutableListOf()
+    val records: MutableList<IRecord> = LinkedList()
+
+    private var time: Long = 0
+
+    private fun processDecompressedData(data: ByteBuffer): IRecord? {
+        data.mark()
+
+        try {
+            val recordId = data.get().toInt()
+            val recordClass = recordParsers[recordId]
+                ?: throw PackedFormatException("Unknown record type $recordId")
+
+            val record = recordClass.getConstructor().newInstance()
+            record?.parse(data)
+
+            return record
+        } catch (e: BufferUnderflowException) {
+            data.reset()
+            return null // Need More
+        }
+    }
+
+    fun parse(bytes: ByteArray) {
         val readBuffer = ByteBuffer.allocate(0xFFFF).order(ByteOrder.LITTLE_ENDIAN)
 
         readBuffer.limit(REPLAY_MAGIC_HEADER_LENGTH + 41)
@@ -39,9 +68,6 @@ open class W3g {
         readBuffer.compact().flip()
 
         val decompressedDataBuffer = ByteBuffer.allocate(0xFFFF * 2).order(ByteOrder.LITTLE_ENDIAN).flip()
-        val records: MutableList<IRecord> = LinkedList()
-
-        val recordParser = ReplayParserParser()
 
         blockDecoder@ for (i in 0 until header.blockCount) {
             val block = Block(subheader.buildNumber >= 6089 && subheader.buildNumber != 52240)
@@ -69,11 +95,21 @@ open class W3g {
 
             while (true) {
                 try {
-                    val result = recordParser.processDecompressedData(decompressedDataBuffer) ?: break
+                    val record = processDecompressedData(decompressedDataBuffer) ?: break
+                    records.add(record)
+                    when (record) {
+                        is ChatRecord -> chatMessages.add(TimeRecord(record, time))
+                        is GameRecord -> gameInfo = record
+                        is LeaveRecord -> playerLeave.add(TimeRecord(record, time))
+                        is PlayerRecord -> playerRecords.add(record)
+                        is StartRecord -> startInfo = record
+                        is TimeSlotRecord -> {
+                            actions.add(TimeRecord(record, time))
+                            time += record.timeIncrement.toLong()
+                        }
 
-                    records.add(result)
-
-                    recordParser.saveRecord(result)
+                        else -> others.add(record)
+                    }
                 } catch (e: EOFException) {
                     break@blockDecoder
                 } catch (e: Exception) {
@@ -85,52 +121,6 @@ open class W3g {
             decompressedDataBuffer.compact().flip().limit(oldRemaining)
         }
 
-        val pr = PackedResult()
-        pr.payload = recordParser.replayParserResult
-        pr.records = records
-
-        return pr
-    }
-
-
-    class ReplayParserParser {
-        val replayParserResult = ReplayParserResult()
-
-        private var time: Long = 0
-
-        fun processDecompressedData(data: ByteBuffer): IRecord? {
-            data.mark()
-
-            try {
-                val recordId = data.get().toInt()
-                val recordClass = recordParsers[recordId]
-                    ?: throw PackedFormatException("Unknown record type $recordId")
-
-                val record = recordClass.getConstructor().newInstance()
-                record?.parse(data)
-
-                return record
-            } catch (e: BufferUnderflowException) {
-                data.reset()
-                return null // Need More
-            }
-        }
-
-        fun saveRecord(record: IRecord) {
-            when (record) {
-                is ChatRecord -> replayParserResult.chatMessages.add(TimeRecord(record, time))
-                is GameRecord -> replayParserResult.setGameInfo(record)
-                is LeaveRecord -> replayParserResult.playerLeave.add(TimeRecord(record, time))
-                is PlayerRecord -> replayParserResult.playerRecords.add(record)
-                is StartRecord -> replayParserResult.setStartInfo(record)
-                is TimeSlotRecord -> {
-                    replayParserResult.actions.add(TimeRecord(record, time))
-                    time += record.timeIncrement.toLong()
-                }
-
-                else -> replayParserResult.others.add(record)
-            }
-        }
     }
 
     companion object {
@@ -165,7 +155,6 @@ open class W3g {
 
             try {
                 val count = inflater.inflate(decompressedData)
-
                 if (count != decompressedSize) throw PackedFormatException("")
             } finally {
                 inflater.end()
