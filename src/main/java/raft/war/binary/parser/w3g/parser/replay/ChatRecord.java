@@ -34,31 +34,6 @@ public class ChatRecord implements IRecord {
         message = ByteBufferUtil.readUtf8CString(inBuffer);
     }
 
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-        int totalLength = 5 + ByteBufferUtil.utf8CStringLength(message) + ((chatMode != null) ? 4 : 0);
-
-        if (outBuffer == null) {
-            outBuffer = ByteBuffer.allocate(totalLength).order(ByteOrder.LITTLE_ENDIAN);
-        }
-
-        outBuffer.put(playerId);
-
-        int lengthPosition = outBuffer.position();
-        outBuffer.putShort((short) 0); // Ignore the next 2 bytes
-
-        outBuffer.put(flags);
-
-        if (chatMode != null) {
-            outBuffer.putInt(chatMode);
-        }
-        ByteBufferUtil.writeUtf8CString(outBuffer, message);
-
-        // Update the length field
-        outBuffer.putShort(lengthPosition, (short) (totalLength - 3));
-
-        return outBuffer;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
