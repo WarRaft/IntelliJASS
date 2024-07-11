@@ -1,6 +1,5 @@
 package raft.war.binary.parser.w3g
 
-import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException
 import raft.war.binary.parser.w3g.parser.packed.Block
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil
 import raft.war.binary.parser.w3g.record.*
@@ -63,7 +62,7 @@ open class W3g {
 
         refillBuffer(fileData, readBuffer)
 
-        if (REPLAY_MAGIC_HEADER != ByteBufferUtil.readUtf8CString(readBuffer)) throw PackedFormatException("Invalid file header")
+        if (REPLAY_MAGIC_HEADER != ByteBufferUtil.readUtf8CString(readBuffer)) throw Exception("Invalid file header")
 
         header = Header()
         header.parse(readBuffer)
@@ -96,7 +95,7 @@ open class W3g {
             decompressedDataBuffer.put(currentLimit, data)
 
             if (i == 0) {
-                if (decompressedDataBuffer.getInt() != REPLAY_COMPRESSED_MAGIC_NUMBER) throw PackedFormatException("Compressed header invalid")
+                if (decompressedDataBuffer.getInt() != REPLAY_COMPRESSED_MAGIC_NUMBER) throw Exception("Compressed header invalid")
             }
 
             while (true) {
@@ -111,7 +110,7 @@ open class W3g {
                 } catch (e: EOFException) {
                     break@blockDecoder
                 } catch (e: Exception) {
-                    throw PackedFormatException(e)
+                    throw Exception(e)
                 }
             }
 
@@ -135,7 +134,7 @@ open class W3g {
 
             try {
                 val count = inflater.inflate(decompressedData)
-                if (count != decompressedSize) throw PackedFormatException("")
+                if (count != decompressedSize) throw Exception("fuck")
             } finally {
                 inflater.end()
             }
