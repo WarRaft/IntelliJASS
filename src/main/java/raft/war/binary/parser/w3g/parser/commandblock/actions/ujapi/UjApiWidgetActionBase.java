@@ -1,9 +1,11 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi;
 
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiSubActionBase;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class UjApiWidgetAction implements IUjapiSubAction {
+public class UjApiWidgetActionBase implements UjapiSubActionBase {
 
     public static final byte UJAPI_ACTION_ID = (byte) 0x12;
 
@@ -23,7 +25,6 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return UJAPI_ACTION_ID;
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.eventType = inBuffer.get();
         this.selectionType = inBuffer.get();
@@ -37,7 +38,6 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         this.widgetHash = inBuffer.getLong();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
 
         if (outBuffer == null) {
@@ -62,7 +62,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return eventType;
     }
 
-    public UjApiWidgetAction setEventType(byte eventType) {
+    public UjApiWidgetActionBase setEventType(byte eventType) {
         this.eventType = eventType;
         return this;
     }
@@ -71,7 +71,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return selectionType;
     }
 
-    public UjApiWidgetAction setSelectionType(byte selectionType) {
+    public UjApiWidgetActionBase setSelectionType(byte selectionType) {
         this.selectionType = selectionType;
         return this;
     }
@@ -80,7 +80,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return key;
     }
 
-    public UjApiWidgetAction setKey(byte key) {
+    public UjApiWidgetActionBase setKey(byte key) {
         this.key = key;
         return this;
     }
@@ -89,7 +89,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return metaKey;
     }
 
-    public UjApiWidgetAction setMetaKey(byte metaKey) {
+    public UjApiWidgetActionBase setMetaKey(byte metaKey) {
         this.metaKey = metaKey;
         return this;
     }
@@ -98,7 +98,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return x;
     }
 
-    public UjApiWidgetAction setX(float x) {
+    public UjApiWidgetActionBase setX(float x) {
         this.x = x;
         return this;
     }
@@ -107,7 +107,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return y;
     }
 
-    public UjApiWidgetAction setY(float y) {
+    public UjApiWidgetActionBase setY(float y) {
         this.y = y;
         return this;
     }
@@ -116,7 +116,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return z;
     }
 
-    public UjApiWidgetAction setZ(float z) {
+    public UjApiWidgetActionBase setZ(float z) {
         this.z = z;
         return this;
     }
@@ -125,7 +125,7 @@ public class UjApiWidgetAction implements IUjapiSubAction {
         return widgetHash;
     }
 
-    public UjApiWidgetAction setWidgetHash(long widgetHash) {
+    public UjApiWidgetActionBase setWidgetHash(long widgetHash) {
         this.widgetHash = widgetHash;
         return this;
     }

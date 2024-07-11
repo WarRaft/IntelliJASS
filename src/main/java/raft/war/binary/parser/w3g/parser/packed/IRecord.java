@@ -1,8 +1,10 @@
 package raft.war.binary.parser.w3g.parser.packed;
 
-import raft.war.binary.parser.w3g.parser.IBinaryStructure;
+import java.nio.ByteBuffer;
 
-public interface IRecord extends IBinaryStructure {
+public interface IRecord {
 
-    int getRecordId( );
+    int getRecordId();
+
+    void parse(ByteBuffer inBuffer);
 }

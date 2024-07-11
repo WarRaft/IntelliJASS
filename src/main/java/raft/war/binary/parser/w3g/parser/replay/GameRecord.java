@@ -39,7 +39,6 @@ public class GameRecord implements IRecord {
         languageId = inBuffer.getInt();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         ByteBuffer statStringData = statString.assembly(null).flip();
         ByteBuffer hostPlayerData = hostPlayer.assembly(null).flip();

@@ -1,12 +1,12 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class SinglePlayerCheatTimeAction implements IAction {
+public class SinglePlayerCheatTimeAction implements CommandBlockAction {
 
     private final byte type;
     private float count;
@@ -15,12 +15,10 @@ public class SinglePlayerCheatTimeAction implements IAction {
         this.type = type;
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         count = inBuffer.getFloat();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(4);

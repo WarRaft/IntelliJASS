@@ -1,8 +1,10 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi;
 
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiSubActionBase;
+
 import java.nio.ByteBuffer;
 
-public class UjApiFrameAction implements IUjapiSubAction {
+public class UjApiFrameActionBase implements UjapiSubActionBase {
 
     public static final byte UJAPI_ACTION_ID = (byte) 0x13;
 
@@ -15,7 +17,6 @@ public class UjApiFrameAction implements IUjapiSubAction {
 
     private byte[] data;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.frameEventType = inBuffer.get();
         this.dataType = inBuffer.get();
@@ -29,7 +30,6 @@ public class UjApiFrameAction implements IUjapiSubAction {
         inBuffer.get(this.data);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(24 + data.length).order(java.nio.ByteOrder.LITTLE_ENDIAN);
@@ -55,7 +55,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return frameEventType;
     }
 
-    public UjApiFrameAction setFrameEventType(byte frameEventType) {
+    public UjApiFrameActionBase setFrameEventType(byte frameEventType) {
         this.frameEventType = frameEventType;
         return this;
     }
@@ -64,7 +64,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return dataType;
     }
 
-    public UjApiFrameAction setDataType(byte dataType) {
+    public UjApiFrameActionBase setDataType(byte dataType) {
         this.dataType = dataType;
         return this;
     }
@@ -73,7 +73,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return frameHash;
     }
 
-    public UjApiFrameAction setFrameHash(long frameHash) {
+    public UjApiFrameActionBase setFrameHash(long frameHash) {
         this.frameHash = frameHash;
         return this;
     }
@@ -82,7 +82,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return targetHash;
     }
 
-    public UjApiFrameAction setTargetHash(long targetHash) {
+    public UjApiFrameActionBase setTargetHash(long targetHash) {
         this.targetHash = targetHash;
         return this;
     }
@@ -91,7 +91,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return frameEventId;
     }
 
-    public UjApiFrameAction setFrameEventId(int frameEventId) {
+    public UjApiFrameActionBase setFrameEventId(int frameEventId) {
         this.frameEventId = frameEventId;
         return this;
     }
@@ -100,7 +100,7 @@ public class UjApiFrameAction implements IUjapiSubAction {
         return data;
     }
 
-    public UjApiFrameAction setData(byte[] data) {
+    public UjApiFrameActionBase setData(byte[] data) {
         this.data = data;
         return this;
     }

@@ -1,12 +1,10 @@
 package raft.war.binary.parser.w3g.parser.utils;
 
-import raft.war.binary.parser.w3g.parser.IBinaryStructure;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class PlayerInfo implements IBinaryStructure {
+public class PlayerInfo {
 
     protected int playerId;
     protected String playerName;
@@ -14,7 +12,6 @@ public class PlayerInfo implements IBinaryStructure {
     protected Integer race;
     protected byte[] skippedBytes;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.playerId = inBuffer.get();
         this.playerName = ByteBufferUtil.readUtf8CString(inBuffer);
@@ -32,11 +29,10 @@ public class PlayerInfo implements IBinaryStructure {
         }
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int additionalSize = (runtimeOfPlayers != null ? 1 : 0) + (race != null ? 1 : 0) + (skippedBytes != null ? skippedBytes.length : 0);
 
-        if(outBuffer == null)
+        if (outBuffer == null)
             outBuffer = ByteBuffer.allocate(2 + ByteBufferUtil.utf8CStringLength(playerName) + additionalSize);
 
         outBuffer.put((byte) playerId);
@@ -111,7 +107,7 @@ public class PlayerInfo implements IBinaryStructure {
             return false;
         PlayerInfo that = (PlayerInfo) o;
         return playerId == that.playerId && Objects.equals(playerName, that.playerName) && Objects.equals(runtimeOfPlayers,
-                                                                                                          that.runtimeOfPlayers
+                that.runtimeOfPlayers
         ) && Objects.equals(race, that.race) && Arrays.equals(skippedBytes, that.skippedBytes);
     }
 

@@ -1,22 +1,20 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class CancelHeroRevivalAction implements IAction {
+public class CancelHeroRevivalAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x1d;
     private long unitId;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         unitId = inBuffer.getLong();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);

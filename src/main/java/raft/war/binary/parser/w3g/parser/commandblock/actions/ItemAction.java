@@ -1,12 +1,12 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class ItemAction implements IAction {
+public class ItemAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x13;
 
@@ -19,7 +19,6 @@ public class ItemAction implements IAction {
     private long objectId;
     private long itemObjectId;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         flags = inBuffer.getShort();
         itemId = inBuffer.getInt();
@@ -31,7 +30,6 @@ public class ItemAction implements IAction {
         itemObjectId = inBuffer.getLong();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(32).order(ByteOrder.LITTLE_ENDIAN);

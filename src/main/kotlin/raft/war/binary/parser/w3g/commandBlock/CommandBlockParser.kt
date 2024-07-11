@@ -1,150 +1,141 @@
-package raft.war.binary.parser.w3g.parser.commandblock;
+package raft.war.binary.parser.w3g.commandBlock
 
-import raft.war.binary.parser.w3g.parser.commandblock.actions.*;
-import raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi.UjapiAction;
+import raft.war.binary.parser.w3g.commandBlock.action.SyncIntegerAction
+import raft.war.binary.parser.w3g.commandBlock.action.Unknown62Action
+import raft.war.binary.parser.w3g.parser.commandblock.actions.*
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiAction
+import java.lang.reflect.Modifier
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.*;
+class CommandBlockParser {
+    private val actionParsers: Map<Byte, Class<out CommandBlockAction>> = defaultActionParsers
 
-public class CommandBlockParser {
-
-    private final Map<Byte, Class<? extends IAction>> actionParsers;
-
-    private static final Map<Byte, Class<? extends IAction>> defaultActionParsers = new HashMap<>();
-
-    static {
-        defaultActionParsers.put((byte) 0x01, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x02, NoBodyAction.class);
-        defaultActionParsers.put(SetGameSpeedAction.ACTION_ID, SetGameSpeedAction.class);
-        defaultActionParsers.put((byte) 0x04, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x05, NoBodyAction.class);
-        defaultActionParsers.put(SaveGameAction.ACTION_ID, SaveGameAction.class);
-        defaultActionParsers.put(SaveGameFinishedAction.ACTION_ID, SaveGameFinishedAction.class);
-        defaultActionParsers.put(AbilityAction.ACTION_ID, AbilityAction.class);
-        defaultActionParsers.put(PositionAbilityAction.ACTION_ID, PositionAbilityAction.class);
-        defaultActionParsers.put(PositionAndObjectAbilityAction.ACTION_ID, PositionAndObjectAbilityAction.class);
-        defaultActionParsers.put(ItemAction.ACTION_ID, ItemAction.class);
-        defaultActionParsers.put(AbilityTwoTargetTwoItemAction.ACTION_ID, AbilityTwoTargetTwoItemAction.class);
-        defaultActionParsers.put(ChangeSelectionAction.ACTION_ID, ChangeSelectionAction.class);
-        defaultActionParsers.put(AssignGroupHotkeyAction.ACTION_ID, AssignGroupHotkeyAction.class);
-        defaultActionParsers.put(SelectGroupHotkeyAction.ACTION_ID, SelectGroupHotkeyAction.class);
-        defaultActionParsers.put(SelectSubGroupAction.ACTION_ID, SelectSubGroupAction.class);
-        defaultActionParsers.put((byte) 0x1a, NoBodyAction.class);
-        defaultActionParsers.put(Unknown1bAction.ACTION_ID, Unknown1bAction.class);
-        defaultActionParsers.put(SelectGroundItemAction.ACTION_ID, SelectGroundItemAction.class);
-        defaultActionParsers.put(CancelHeroRevivalAction.ACTION_ID, CancelHeroRevivalAction.class);
-        defaultActionParsers.put(RemoveQueuedUnitAction.ACTION_ID, RemoveQueuedUnitAction.class);
-        defaultActionParsers.put((byte) 0x27, SinglePlayerCheatResourceAction.class);
-        defaultActionParsers.put(Unknown21Action.ACTION_ID, Unknown21Action.class);
-        defaultActionParsers.put((byte) 0x28, SinglePlayerCheatResourceAction.class);
-        defaultActionParsers.put((byte) 0x2d, SinglePlayerCheatResourceAction.class);
-        defaultActionParsers.put((byte) 0x2e, SinglePlayerCheatTimeAction.class);
-        defaultActionParsers.put((byte) 0x20, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x22, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x23, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x24, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x25, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x26, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x2a, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x2b, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x2c, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x2f, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x30, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x31, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x32, NoBodyAction.class);
-        defaultActionParsers.put(AllyOptionsAction.ACTION_ID, AllyOptionsAction.class);
-        defaultActionParsers.put(ResourceTransferAction.ACTION_ID, ResourceTransferAction.class);
-        defaultActionParsers.put(ChatCommandAction.ACTION_ID, ChatCommandAction.class);
-        defaultActionParsers.put((byte) 0x61, NoBodyAction.class);
-        defaultActionParsers.put(Unknown62Action.ACTION_ID, Unknown62Action.class);
-        defaultActionParsers.put((byte) 0x65, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x66, NoBodyAction.class);
-        defaultActionParsers.put((byte) 0x67, NoBodyAction.class);
-        defaultActionParsers.put(MinimapPingAction.ACTION_ID, MinimapPingAction.class);
-        defaultActionParsers.put(Unknown69Action.ACTION_ID, Unknown69Action.class);
-        defaultActionParsers.put(Unknown6aAction.ACTION_ID, Unknown6aAction.class);
-        defaultActionParsers.put(SyncIntegerAction.ACTION_ID, SyncIntegerAction.class);
-        defaultActionParsers.put(ArrowKeyAction.ACTION_ID, ArrowKeyAction.class);
-        defaultActionParsers.put(UjapiAction.ACTION_ID, UjapiAction.class);
-    }
-
-    public CommandBlockParser() {
-        this.actionParsers = defaultActionParsers;
-    }
-
-    public CommandBlockParser(Map<Byte, Class<? extends IAction>> actionParsers) {
-        this.actionParsers = defaultActionParsers;
-        this.actionParsers.putAll(actionParsers);
-    }
-
-    public List<ActionCommandBlock> parse(ByteBuffer byteBuffer) {
-        List<ActionCommandBlock> result = new LinkedList<>();
+    fun parse(byteBuffer: ByteBuffer): List<ActionCommandBlock> {
+        val result: MutableList<ActionCommandBlock> = LinkedList()
 
         while (byteBuffer.remaining() > 0) {
-            int playerId = Byte.toUnsignedInt(byteBuffer.get());
-            int actionsLength = Short.toUnsignedInt(byteBuffer.getShort());
+            val playerId = java.lang.Byte.toUnsignedInt(byteBuffer.get())
+            val actionsLength = java.lang.Short.toUnsignedInt(byteBuffer.getShort())
 
-            int actionsStartIndex = byteBuffer.position();
-            int actionsEndIndex = byteBuffer.position() + actionsLength;
+            val actionsEndIndex = byteBuffer.position() + actionsLength
 
-            List<IAction> actions = new LinkedList<>();
+            val actions: MutableList<CommandBlockAction> = LinkedList()
 
             while (byteBuffer.position() < actionsEndIndex) {
-                int actionStartPosition = byteBuffer.position();
+                val actionStartPosition = byteBuffer.position()
 
-                byte actionId = byteBuffer.get();
-                Class<? extends IAction> actionParser = actionParsers.get(actionId);
+                val actionId = byteBuffer.get()
+                val actionParser = actionParsers[actionId]
 
                 if (actionParser == null) {
-                    byteBuffer.position(actionStartPosition);
-                    break;
+                    byteBuffer.position(actionStartPosition)
+                    break
                 }
 
-                IAction action = null;
+                var action: CommandBlockAction? = null
 
                 try {
-                    for (Constructor<?> constructor : actionParser.getConstructors()) {
-                        if (Modifier.isPublic(constructor.getModifiers())) {
-                            Class<?>[] parameterTypes = constructor.getParameterTypes();
+                    for (constructor in actionParser.constructors) {
+                        if (Modifier.isPublic(constructor.modifiers)) {
+                            val parameterTypes = constructor.parameterTypes
 
-                            if (parameterTypes.length == 1 && parameterTypes[0] == byte.class) {
-                                action = (IAction) constructor.newInstance(actionId);
-                            } else if (parameterTypes.length == 0) {
-                                action = (IAction) constructor.newInstance();
+                            if (parameterTypes.size == 1 && parameterTypes[0] == Byte::class.javaPrimitiveType) {
+                                action = constructor.newInstance(actionId) as CommandBlockAction
+                            } else if (parameterTypes.isEmpty()) {
+                                action = constructor.newInstance() as CommandBlockAction
                             }
                         }
                     }
-                } catch (Exception ignored) {
+                } catch (ignored: Exception) {
                 }
 
                 if (action == null) {
-                    byteBuffer.position(actionStartPosition);
-                    break;
+                    byteBuffer.position(actionStartPosition)
+                    break
                 }
 
-                action.parse(byteBuffer);
+                action.parse(byteBuffer)
 
-                if (action instanceof UjapiAction ujapiAction) {
-                    if (ujapiAction.getSubAction() == null) // unknown subAction
+                if (action is UjapiAction) {
+                    if (action.subAction == null) // unknown subAction
                     {
-                        byteBuffer.position(actionStartPosition);
-                        break;
+                        byteBuffer.position(actionStartPosition)
+                        break
                     }
                 }
 
-                actions.add(action);
-
+                actions.add(action)
             }
+            result.add(ActionCommandBlock(playerId, actions))
 
-            ByteBuffer remainingBuffer = byteBuffer.slice(byteBuffer.position(), actionsEndIndex - byteBuffer.position()).order(ByteOrder.LITTLE_ENDIAN);
-            result.add(new ActionCommandBlock(playerId, actions, remainingBuffer));
-
-            byteBuffer.position(actionsEndIndex);
+            byteBuffer.position(actionsEndIndex)
         }
 
-        return result;
+        return result
+    }
+
+    companion object {
+        private val defaultActionParsers: MutableMap<Byte, Class<out CommandBlockAction>> = HashMap()
+
+        init {
+            defaultActionParsers[0x01.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x02.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[SetGameSpeedAction.ACTION_ID] = SetGameSpeedAction::class.java
+            defaultActionParsers[0x04.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x05.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[SaveGameAction.ACTION_ID] = SaveGameAction::class.java
+            defaultActionParsers[SaveGameFinishedAction.ACTION_ID] = SaveGameFinishedAction::class.java
+            defaultActionParsers[AbilityAction.ACTION_ID] = AbilityAction::class.java
+            defaultActionParsers[PositionAbilityAction.ACTION_ID] = PositionAbilityAction::class.java
+            defaultActionParsers[PositionAndObjectAbilityAction.ACTION_ID] = PositionAndObjectAbilityAction::class.java
+            defaultActionParsers[ItemAction.ACTION_ID] = ItemAction::class.java
+            defaultActionParsers[AbilityTwoTargetTwoItemAction.ACTION_ID] =
+                AbilityTwoTargetTwoItemAction::class.java
+            defaultActionParsers[ChangeSelectionAction.ACTION_ID] = ChangeSelectionAction::class.java
+            defaultActionParsers[AssignGroupHotkeyAction.ACTION_ID] = AssignGroupHotkeyAction::class.java
+            defaultActionParsers[SelectGroupHotkeyAction.ACTION_ID] =
+                SelectGroupHotkeyAction::class.java
+            defaultActionParsers[SelectSubGroupAction.ACTION_ID] = SelectSubGroupAction::class.java
+            defaultActionParsers[0x1a.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[Unknown1bAction.ACTION_ID] = Unknown1bAction::class.java
+            defaultActionParsers[SelectGroundItemAction.ACTION_ID] =
+                SelectGroundItemAction::class.java
+            defaultActionParsers[CancelHeroRevivalAction.ACTION_ID] =
+                CancelHeroRevivalAction::class.java
+            defaultActionParsers[RemoveQueuedUnitAction.ACTION_ID] = RemoveQueuedUnitAction::class.java
+            defaultActionParsers[0x27.toByte()] = SinglePlayerCheatResourceAction::class.java
+            defaultActionParsers[Unknown21Action.ACTION_ID] = Unknown21Action::class.java
+            defaultActionParsers[0x28.toByte()] = SinglePlayerCheatResourceAction::class.java
+            defaultActionParsers[0x2d.toByte()] = SinglePlayerCheatResourceAction::class.java
+            defaultActionParsers[0x2e.toByte()] = SinglePlayerCheatTimeAction::class.java
+            defaultActionParsers[0x20.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x22.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x23.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x24.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x25.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x26.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x2a.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x2b.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x2c.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x2f.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x30.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x31.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x32.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[AllyOptionsAction.ACTION_ID] = AllyOptionsAction::class.java
+            defaultActionParsers[ResourceTransferAction.ACTION_ID] = ResourceTransferAction::class.java
+            defaultActionParsers[ChatCommandAction.ACTION_ID] = ChatCommandAction::class.java
+            defaultActionParsers[0x61.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[Unknown62Action.ACTION_ID] = Unknown62Action::class.java
+            defaultActionParsers[0x65.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x66.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[0x67.toByte()] = NoBodyAction::class.java
+            defaultActionParsers[MinimapPingAction.ACTION_ID] = MinimapPingAction::class.java
+            defaultActionParsers[Unknown69Action.ACTION_ID] = Unknown69Action::class.java
+            defaultActionParsers[Unknown6aAction.ACTION_ID] = Unknown6aAction::class.java
+            defaultActionParsers[SyncIntegerAction.ACTION_ID] = SyncIntegerAction::class.java
+            defaultActionParsers[ArrowKeyAction.ACTION_ID] = ArrowKeyAction::class.java
+            defaultActionParsers[UjapiAction.ACTION_ID] = UjapiAction::class.java
+        }
     }
 }

@@ -19,7 +19,7 @@ public class TimeSlotRecord implements IRecord {
         return TYPE;
     }
 
-    @Override
+
     public void parse(ByteBuffer inBuffer) {
         int length = inBuffer.getShort() - 2;
         timeIncrement = inBuffer.getShort() & 0xFFFF;
@@ -27,11 +27,10 @@ public class TimeSlotRecord implements IRecord {
         inBuffer.get(rawData);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int dataSize = 4 + rawData.length;
 
-        if(outBuffer == null)
+        if (outBuffer == null)
             outBuffer = ByteBuffer.allocate(dataSize).order(ByteOrder.LITTLE_ENDIAN);
 
         outBuffer.putShort((short) (rawData.length + 2));

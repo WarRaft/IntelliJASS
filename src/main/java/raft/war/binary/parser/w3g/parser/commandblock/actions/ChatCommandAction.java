@@ -1,13 +1,13 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class ChatCommandAction implements IAction {
+public class ChatCommandAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x60;
 
@@ -15,14 +15,12 @@ public class ChatCommandAction implements IAction {
     private int unknownB;
     private String command;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.unknownA = inBuffer.getInt();
         this.unknownB = inBuffer.getInt();
         this.command = ByteBufferUtil.readUtf8CString(inBuffer);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(8 + ByteBufferUtil.utf8CStringLength(command));

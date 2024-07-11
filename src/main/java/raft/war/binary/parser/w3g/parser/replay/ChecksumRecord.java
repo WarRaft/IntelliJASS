@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ChecksumRecord implements IRecord {
 
-    public static final  int TYPE = 0x22;
+    public static final int TYPE = 0x22;
 
     private int checksum;
 
@@ -30,7 +30,7 @@ public class ChecksumRecord implements IRecord {
         inBuffer.get(unknown);
     }
 
-    @Override
+
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int unknownLength = unknown.length; // Calculate the length of the 'unknown' data
 

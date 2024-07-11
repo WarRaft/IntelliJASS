@@ -1,24 +1,22 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class SaveGameAction implements IAction {
+public class SaveGameAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x06;
 
     private String fileName;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.fileName = ByteBufferUtil.readUtf8CString(inBuffer);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(ByteBufferUtil.utf8CStringLength(fileName));

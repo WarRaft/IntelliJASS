@@ -1,83 +1,33 @@
-package raft.war.binary.parser.w3g.parser.commandblock.actions;
+package raft.war.binary.parser.w3g.commandBlock.action
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
+class Unknown62Action : CommandBlockAction {
+    var unknownA: Int = 0
+    var unknownB: Int = 0
+    var unknownC: Int = 0
 
-public class Unknown62Action implements IAction {
-
-    public static final byte ACTION_ID = 0x62;
-
-    private int unknownA;
-    private int unknownB;
-    private int unknownC;
-
-
-    @Override
-    public void parse(ByteBuffer inBuffer) {
-        unknownA = inBuffer.getInt();
-        unknownB = inBuffer.getInt();
-        unknownC = inBuffer.getInt();
+    override fun parse(inBuffer: ByteBuffer) {
+        unknownA = inBuffer.getInt()
+        unknownB = inBuffer.getInt()
+        unknownC = inBuffer.getInt()
     }
 
-    @Override
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-        if (outBuffer == null) {
-            outBuffer = ByteBuffer.allocate(12).order(ByteOrder.LITTLE_ENDIAN);
-        }
+    override fun actionId(): Byte = ACTION_ID
 
-        outBuffer.putInt(unknownA);
-        outBuffer.putInt(unknownB);
-        outBuffer.putInt(unknownC);
-
-        return outBuffer;
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Unknown62Action) return false
+        return unknownA == other.unknownA && unknownB == other.unknownB && unknownC == other.unknownC
     }
 
-    @Override
-    public byte actionId() {
-        return ACTION_ID;
+    override fun hashCode(): Int = Objects.hash(unknownA, unknownB, unknownC)
+
+    companion object {
+        const val ACTION_ID: Byte = 0x62
     }
 
-    public int getUnknownA() {
-        return unknownA;
-    }
-
-    public Unknown62Action setUnknownA(int unknownA) {
-        this.unknownA = unknownA;
-        return this;
-    }
-
-    public int getUnknownB() {
-        return unknownB;
-    }
-
-    public Unknown62Action setUnknownB(int unknownB) {
-        this.unknownB = unknownB;
-        return this;
-    }
-
-    public int getUnknownC() {
-        return unknownC;
-    }
-
-    public Unknown62Action setUnknownC(int unknownC) {
-        this.unknownC = unknownC;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Unknown62Action that))
-            return false;
-        return unknownA == that.unknownA && unknownB == that.unknownB && unknownC == that.unknownC;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(unknownA, unknownB, unknownC);
-    }
+    override fun toString(): String = "Unknown62Action"
 }

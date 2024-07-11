@@ -1,7 +1,7 @@
 package raft.war.binary.parser.w3g.parser.test;
 
-import raft.war.binary.parser.w3g.parser.commandblock.ActionCommandBlock;
-import raft.war.binary.parser.w3g.parser.commandblock.actions.SyncIntegerAction;
+import raft.war.binary.parser.w3g.commandBlock.ActionCommandBlock;
+import raft.war.binary.parser.w3g.commandBlock.action.SyncIntegerAction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,9 +14,9 @@ public class DotaStatsParser {
 
     public void processActions(List<ActionCommandBlock> commandBlocks, int time) {
         for (ActionCommandBlock i : commandBlocks) {
-            for (Object actionObj : i.getActions()) {
+            for (Object actionObj : i.actions) {
                 if (actionObj instanceof SyncIntegerAction syncIntegerAction) {
-                    processAction(syncIntegerAction, i.getPlayerId(), time);
+                    processAction(syncIntegerAction, i.playerId, time);
                 }
             }
         }

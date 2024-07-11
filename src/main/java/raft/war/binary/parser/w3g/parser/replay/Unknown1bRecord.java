@@ -22,7 +22,6 @@ public class Unknown1bRecord implements IRecord {
         unknown = inBuffer.getInt();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null)
             outBuffer = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);

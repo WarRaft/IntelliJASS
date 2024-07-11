@@ -1,23 +1,21 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class SetGameSpeedAction implements IAction {
+public class SetGameSpeedAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x03;
 
     private byte speed;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         speed = inBuffer.get();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(1).order(ByteOrder.LITTLE_ENDIAN);

@@ -7,7 +7,7 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ReforgedRecord  implements IRecord {
+public class ReforgedRecord implements IRecord {
 
     public static final int TYPE = 0x39;
 
@@ -27,7 +27,7 @@ public class ReforgedRecord  implements IRecord {
         inBuffer.get(this.unknown);
     }
 
-    @Override
+
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int totalLength = 3 + unknown.length;
 

@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class ChatRecord implements IRecord {
 
-    public static final  int TYPE = 0x20;
+    public static final int TYPE = 0x20;
 
     private byte playerId;
 
@@ -34,7 +34,6 @@ public class ChatRecord implements IRecord {
         message = ByteBufferUtil.readUtf8CString(inBuffer);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int totalLength = 5 + ByteBufferUtil.utf8CStringLength(message) + ((chatMode != null) ? 4 : 0);
 

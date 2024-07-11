@@ -27,10 +27,10 @@ public class LeaveRecord implements IRecord {
         unknown = inBuffer.getInt();
     }
 
-    @Override
+
     public ByteBuffer assembly(ByteBuffer outBuffer) {
 
-        if(outBuffer == null)
+        if (outBuffer == null)
             outBuffer = ByteBuffer.allocate(14).order(ByteOrder.LITTLE_ENDIAN);
 
         outBuffer.putInt(reason);

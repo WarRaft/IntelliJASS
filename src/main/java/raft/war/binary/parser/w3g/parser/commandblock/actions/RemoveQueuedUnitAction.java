@@ -1,12 +1,12 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class RemoveQueuedUnitAction implements IAction {
+public class RemoveQueuedUnitAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x1e;
 
@@ -14,13 +14,11 @@ public class RemoveQueuedUnitAction implements IAction {
     private int itemId;
 
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         slot = inBuffer.get();
         itemId = inBuffer.getInt();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(5).order(ByteOrder.LITTLE_ENDIAN);

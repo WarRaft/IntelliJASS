@@ -1,12 +1,10 @@
 package raft.war.binary.parser.w3g.parser.packed;
 
 
-import raft.war.binary.parser.w3g.parser.IBinaryStructure;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class Block implements IBinaryStructure {
+public class Block  {
 
     private int decompressedBlockSize;
 
@@ -48,13 +46,11 @@ public class Block implements IBinaryStructure {
         inBuffer.get(data);
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         parseHeader(inBuffer);
         parsePayload(inBuffer);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         int bufferCapacity = data.length + 8 + (isReforged ? 4 : 0);
         ByteBuffer byteBuffer = outBuffer != null ? outBuffer : ByteBuffer.allocate(bufferCapacity).order(ByteOrder.LITTLE_ENDIAN);

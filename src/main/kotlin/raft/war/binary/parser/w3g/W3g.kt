@@ -1,100 +1,194 @@
-package raft.war.binary.parser.w3g.parser.replay;
+package raft.war.binary.parser.w3g
 
-import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException;
-import raft.war.binary.parser.w3g.parser.packed.IRecord;
-import raft.war.binary.parser.w3g.parser.packed.IRecordParser;
-import raft.war.binary.parser.w3g.parser.packed.PackedParser;
-import raft.war.binary.parser.w3g.parser.packed.PackedResult;
+import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException
+import raft.war.binary.parser.w3g.parser.packed.*
+import raft.war.binary.parser.w3g.parser.replay.*
+import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil
+import java.io.ByteArrayInputStream
+import java.io.EOFException
+import java.io.InputStream
+import java.nio.BufferUnderflowException
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.charset.StandardCharsets
+import java.util.*
+import java.util.zip.Inflater
+import kotlin.math.min
 
+open class W3g {
+    lateinit var header: Header
+    lateinit var subheader: SubHeader
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.BufferUnderflowException;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.zip.DataFormatException;
+    fun parse(bytes: ByteArray): PackedResult {
+        val readBuffer = ByteBuffer.allocate(0xFFFF).order(ByteOrder.LITTLE_ENDIAN)
 
-public class ReplayParser extends PackedParser<ReplayParserResult> {
+        readBuffer.limit(REPLAY_MAGIC_HEADER_LENGTH + 41)
 
-    private static final Map<Integer, Class<? extends IRecord>> recordParsers = new HashMap<>() {{
-        put(GameRecord.TYPE, GameRecord.class);
-        put(ChatRecord.TYPE, ChatRecord.class);
-        put(ChecksumRecord.TYPE, ChecksumRecord.class);
-        put(LeaveRecord.TYPE, LeaveRecord.class);
-        put(PlayerRecord.TYPE, PlayerRecord.class);
-        put(StartRecord.TYPE, StartRecord.class);
-        put(ReforgedRecord.TYPE, ReforgedRecord.class);
-        put(TimeSlotRecord.TYPE, TimeSlotRecord.class);
-        put(TimeSlot2Record.TYPE, TimeSlot2Record.class);
-        put(Unknown1aRecord.TYPE, Unknown1aRecord.class);
-        put(Unknown1bRecord.TYPE, Unknown1bRecord.class);
-        put(Unknown1cRecord.TYPE, Unknown1cRecord.class);
-    }};
+        val fileData: InputStream = ByteArrayInputStream(bytes)
 
-    @Override
-    protected IRecordParser<ReplayParserResult> createRecordParser() {
-        return new ReplayParserParser();
+        refillBuffer(fileData, readBuffer)
+
+        if (REPLAY_MAGIC_HEADER != ByteBufferUtil.readUtf8CString(readBuffer)) throw PackedFormatException("Invalid file header")
+
+        header = Header()
+        header.parse(readBuffer)
+
+        subheader = SubHeader()
+        subheader.parse(readBuffer)
+
+        readBuffer.compact().flip()
+
+        val decompressedDataBuffer = ByteBuffer.allocate(0xFFFF * 2).order(ByteOrder.LITTLE_ENDIAN).flip()
+        val records: MutableList<IRecord> = LinkedList()
+
+        val recordParser = ReplayParserParser()
+
+        blockDecoder@ for (i in 0 until header.blockCount) {
+            val block = Block(subheader.buildNumber >= 6089 && subheader.buildNumber != 52240)
+            readBuffer.limit(block.headerSize)
+
+            refillBuffer(fileData, readBuffer)
+            block.parseHeader(readBuffer)
+
+            readBuffer.limit(readBuffer.limit() + block.dataLength)
+            refillBuffer(fileData, readBuffer)
+            block.parsePayload(readBuffer)
+
+            // Remove read block from memory
+            readBuffer.compact().flip()
+
+            val data = decompress(block.data, block.decompressedBlockSize)
+
+            val currentLimit = decompressedDataBuffer.limit()
+            decompressedDataBuffer.limit(currentLimit + data.size)
+            decompressedDataBuffer.put(currentLimit, data)
+
+            if (i == 0) {
+                if (decompressedDataBuffer.getInt() != REPLAY_COMPRESSED_MAGIC_NUMBER) throw PackedFormatException("Compressed header invalid")
+            }
+
+            while (true) {
+                try {
+                    val result = recordParser.processDecompressedData(decompressedDataBuffer) ?: break
+
+                    records.add(result)
+
+                    recordParser.saveRecord(result)
+                } catch (e: EOFException) {
+                    break@blockDecoder
+                } catch (e: Exception) {
+                    throw PackedFormatException(e)
+                }
+            }
+
+            val oldRemaining = decompressedDataBuffer.remaining()
+            decompressedDataBuffer.compact().flip().limit(oldRemaining)
+        }
+
+        val pr = PackedResult()
+        pr.payload = recordParser.replayParserResult
+        pr.records = records
+
+        return pr
     }
 
-    @Override
-    public PackedResult<ReplayParserResult> parsePacked(byte[] bytes) throws IOException, PackedFormatException, DataFormatException {
-        return super.parsePacked(bytes);
-    }
 
-    private static class ReplayParserParser implements IRecordParser<ReplayParserResult> {
-        private final ReplayParserResult replayParserResult = new ReplayParserResult();
+    class ReplayParserParser {
+        val replayParserResult = ReplayParserResult()
 
-        private long time = 0;
+        private var time: Long = 0
 
-        @Override
-        public IRecord processDecompressedData(ByteBuffer data) throws Exception {
-            data.mark();
+        fun processDecompressedData(data: ByteBuffer): IRecord? {
+            data.mark()
 
             try {
-                Integer recordId = (int) data.get();
-                Class<? extends IRecord> recordClass = recordParsers.get(recordId);
+                val recordId = data.get().toInt()
+                val recordClass = recordParsers[recordId]
+                    ?: throw PackedFormatException("Unknown record type $recordId")
 
-                if(recordClass == null)
-                    throw new PackedFormatException("Unknown record type " + recordId);
+                val record = recordClass.getConstructor().newInstance()
+                record?.parse(data)
 
-                IRecord record = recordClass.getConstructor().newInstance();
-                record.parse(data);
-
-                return record;
-            }
-            catch (BufferUnderflowException e)
-            {
-                data.reset();
-                return null; // Need More
+                return record
+            } catch (e: BufferUnderflowException) {
+                data.reset()
+                return null // Need More
             }
         }
 
-        public void saveRecord(IRecord record)
-        {
-            if(record instanceof ChatRecord)
-                replayParserResult.getChatMessages().add(new TimeRecord<>((ChatRecord) record, time));
-            else if(record instanceof GameRecord)
-                replayParserResult.setGameInfo((GameRecord) record);
-            else if(record instanceof LeaveRecord)
-                replayParserResult.getPlayerLeave().add(new TimeRecord<>((LeaveRecord) record, time));
-            else if(record instanceof PlayerRecord)
-                replayParserResult.getPlayerRecords().add((PlayerRecord) record);
-            else if(record instanceof StartRecord)
-                replayParserResult.setStartInfo((StartRecord) record);
-            else if(record instanceof TimeSlotRecord)
-            {
-                replayParserResult.getActions().add(new TimeRecord<>((TimeSlotRecord) record, time));
-                time += ((TimeSlotRecord) record).getTimeIncrement();
+        fun saveRecord(record: IRecord) {
+            when (record) {
+                is ChatRecord -> replayParserResult.chatMessages.add(TimeRecord(record, time))
+                is GameRecord -> replayParserResult.setGameInfo(record)
+                is LeaveRecord -> replayParserResult.playerLeave.add(TimeRecord(record, time))
+                is PlayerRecord -> replayParserResult.playerRecords.add(record)
+                is StartRecord -> replayParserResult.setStartInfo(record)
+                is TimeSlotRecord -> {
+                    replayParserResult.actions.add(TimeRecord(record, time))
+                    time += record.timeIncrement.toLong()
+                }
+
+                else -> replayParserResult.others.add(record)
             }
-            else
-                replayParserResult.getOthers().add(record);
+        }
+    }
+
+    companion object {
+        private val recordParsers: HashMap<Int?, Class<out IRecord?>?> =
+            object : HashMap<Int?, Class<out IRecord?>?>() {
+                init {
+                    put(GameRecord.TYPE, GameRecord::class.java)
+                    put(ChatRecord.TYPE, ChatRecord::class.java)
+                    put(ChecksumRecord.TYPE, ChecksumRecord::class.java)
+                    put(LeaveRecord.TYPE, LeaveRecord::class.java)
+                    put(PlayerRecord.TYPE, PlayerRecord::class.java)
+                    put(StartRecord.TYPE, StartRecord::class.java)
+                    put(ReforgedRecord.TYPE, ReforgedRecord::class.java)
+                    put(TimeSlotRecord.TYPE, TimeSlotRecord::class.java)
+                    put(TimeSlot2Record.TYPE, TimeSlot2Record::class.java)
+                    put(Unknown1aRecord.TYPE, Unknown1aRecord::class.java)
+                    put(Unknown1bRecord.TYPE, Unknown1bRecord::class.java)
+                    put(Unknown1cRecord.TYPE, Unknown1cRecord::class.java)
+                }
+            }
+
+        private const val REPLAY_MAGIC_HEADER = "Warcraft III recorded game\u001A"
+        private val REPLAY_MAGIC_HEADER_LENGTH = REPLAY_MAGIC_HEADER.toByteArray(StandardCharsets.UTF_8).size
+
+        private const val REPLAY_COMPRESSED_MAGIC_NUMBER = 272
+
+        private fun decompress(data: ByteArray, decompressedSize: Int): ByteArray {
+            val inflater = Inflater()
+            inflater.setInput(data)
+
+            val decompressedData = ByteArray(decompressedSize)
+
+            try {
+                val count = inflater.inflate(decompressedData)
+
+                if (count != decompressedSize) throw PackedFormatException("")
+            } finally {
+                inflater.end()
+            }
+
+            return decompressedData
         }
 
-        @Override
-        public ReplayParserResult getPayload() {
-            return replayParserResult;
+
+        private fun refillBuffer(stream: InputStream, byteBuffer: ByteBuffer) {
+            val streamReadBuffer = ByteArray(1024)
+
+            val startPosition = byteBuffer.position()
+
+            while (byteBuffer.remaining() > 0) {
+                val bytesRead = stream.read(
+                    streamReadBuffer, 0, min(streamReadBuffer.size.toDouble(), byteBuffer.remaining().toDouble())
+                        .toInt()
+                )
+                byteBuffer.put(streamReadBuffer, 0, bytesRead)
+            }
+
+            byteBuffer.position(startPosition)
         }
     }
 }

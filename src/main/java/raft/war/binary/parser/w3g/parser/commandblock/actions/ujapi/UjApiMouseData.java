@@ -1,9 +1,11 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi;
 
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiSubActionBase;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class UjApiMouseData implements IUjapiSubAction {
+public class UjApiMouseData implements UjapiSubActionBase {
 
     public static final byte UJAPI_ACTION_ID = (byte) 0x06;
 
@@ -23,25 +25,21 @@ public class UjApiMouseData implements IUjapiSubAction {
         return UJAPI_ACTION_ID;
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.mode = inBuffer.get();
 
-        if((mode & 1) == 1)
-        {
+        if ((mode & 1) == 1) {
             this.screenX = inBuffer.getFloat();
             this.screenY = inBuffer.getFloat();
         }
 
-        if((mode & 2) == 2)
-        {
+        if ((mode & 2) == 2) {
             this.worldX = inBuffer.getFloat();
             this.worldY = inBuffer.getFloat();
             this.worldZ = inBuffer.getFloat();
         }
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
 
         if (outBuffer == null) {

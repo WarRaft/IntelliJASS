@@ -1,12 +1,10 @@
 package raft.war.binary.parser.w3g.parser.utils;
 
-import raft.war.binary.parser.w3g.parser.IBinaryStructure;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
 
-public class SlotInfo implements IBinaryStructure {
+public class SlotInfo  {
 
     private int playerId;
     private int downloadStatus;
@@ -18,7 +16,7 @@ public class SlotInfo implements IBinaryStructure {
     private int computerType;
     private int handicap;
 
-    @Override
+
     public void parse(ByteBuffer inBuffer) {
         this.playerId = inBuffer.get();
         this.downloadStatus = inBuffer.get();
@@ -31,7 +29,6 @@ public class SlotInfo implements IBinaryStructure {
         this.handicap = inBuffer.get();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(9).order(ByteOrder.LITTLE_ENDIAN);

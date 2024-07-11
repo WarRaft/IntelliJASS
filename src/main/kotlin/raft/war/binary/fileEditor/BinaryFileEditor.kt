@@ -17,10 +17,9 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.testFramework.LightVirtualFile
 import raft.war.binary.parser.Parser
-import raft.war.binary.parser.w3g.parser.commandblock.CommandBlockParser
+import raft.war.binary.parser.w3g.W3g
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockParser
 import raft.war.binary.parser.w3g.parser.packed.PackedResult
-import raft.war.binary.parser.w3g.parser.replay.ReplayParser
-import raft.war.binary.parser.w3g.parser.replay.ReplayParserResult
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
 import java.nio.ByteBuffer
@@ -37,25 +36,32 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
         val factory = EditorFactory.getInstance()
 
         if (file.extension == "w3g") {
-            val b = file.contentsToByteArray()
             val sb = StringBuilder()
+            val w3g = W3g()
 
+            val r: PackedResult = w3g.parse(file.contentsToByteArray())
 
-            val r: PackedResult<ReplayParserResult> = ReplayParser().parsePacked(b)
+            sb.append("=".repeat(20)).append(" Header").append("\n")
+            sb.append("Version: ").append(w3g.header.version).append("\n")
+
+            sb.append("=".repeat(20)).append(" SubHeader").append("\n")
+            sb.append("Version: ").append(w3g.subheader.version).append("\n")
 
             val commandBlockParser = CommandBlockParser()
 
-            print(r.header)
+            sb.append("=".repeat(20)).append(" Actions").append("\n")
+
 
             r.payload.actions.forEach { i ->
-                val cbp = commandBlockParser.parse(
-                    ByteBuffer.wrap(i.record.rawData).order(
-                        ByteOrder.LITTLE_ENDIAN
-                    )
-                )
+                sb.append("Time: ${i.time} \n")
 
-                for (block in cbp) {
-                    sb.append(block.toString()).append("\n");
+                val blocks = commandBlockParser.parse(ByteBuffer.wrap(i.record.rawData).order(ByteOrder.LITTLE_ENDIAN))
+                for (block in blocks) {
+                    sb.append("\t Player Id: ${block.playerId} \n")
+
+                    block.actions.forEach { a ->
+                        sb.append("\t\t ID: ${a.actionId()},\t$a\n")
+                    }
                 }
             }
 

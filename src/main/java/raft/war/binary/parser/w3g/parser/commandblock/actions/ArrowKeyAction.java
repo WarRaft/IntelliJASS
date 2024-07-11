@@ -1,21 +1,19 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions;
 
-import raft.war.binary.parser.w3g.parser.commandblock.IAction;
+import raft.war.binary.parser.w3g.commandBlock.CommandBlockAction;
 
 import java.nio.ByteBuffer;
 import java.util.Objects;
 
-public class ArrowKeyAction implements IAction {
+public class ArrowKeyAction implements CommandBlockAction {
 
     public static final byte ACTION_ID = 0x75;
     private int arrowKey;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         arrowKey = inBuffer.get() & 0xFF;
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(1).order(java.nio.ByteOrder.LITTLE_ENDIAN);

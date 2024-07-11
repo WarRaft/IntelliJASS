@@ -39,14 +39,12 @@ public class StartRecord implements IRecord {
         startSpotCount = inBuffer.get() & 0xFF;
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
 
         int slotDataSize = 0;
         ByteBuffer[] slotsData = new ByteBuffer[slots.length];
 
-        for(int i = 0; i < slots.length; ++i)
-        {
+        for (int i = 0; i < slots.length; ++i) {
             slotsData[i] = slots[i].assembly(null).flip();
             slotDataSize += slotsData[i].remaining();
         }

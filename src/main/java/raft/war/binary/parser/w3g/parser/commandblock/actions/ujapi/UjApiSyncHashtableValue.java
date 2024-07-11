@@ -1,9 +1,11 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi;
 
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiSubActionBase;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class UjApiSyncHashtableValue implements IUjapiSubAction {
+public class UjApiSyncHashtableValue implements UjapiSubActionBase {
 
     public static final byte UJAPI_ACTION_ID = (byte) 0x0B;
 
@@ -20,7 +22,6 @@ public class UjApiSyncHashtableValue implements IUjapiSubAction {
         return UJAPI_ACTION_ID;
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
 
         this.varType = inBuffer.get();
@@ -35,7 +36,6 @@ public class UjApiSyncHashtableValue implements IUjapiSubAction {
 
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(15 + data.length).order(ByteOrder.LITTLE_ENDIAN);

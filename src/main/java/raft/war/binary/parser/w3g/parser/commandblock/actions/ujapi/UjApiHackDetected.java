@@ -1,8 +1,10 @@
 package raft.war.binary.parser.w3g.parser.commandblock.actions.ujapi;
 
+import raft.war.binary.parser.w3g.commandBlock.action.ujapi.UjapiSubActionBase;
+
 import java.nio.ByteBuffer;
 
-public class UjApiHackDetected implements IUjapiSubAction{
+public class UjApiHackDetected implements UjapiSubActionBase {
 
     public static final byte UJAPI_ACTION_ID = (byte) 0x14;
 
@@ -13,7 +15,6 @@ public class UjApiHackDetected implements IUjapiSubAction{
 
     private long playerHash;
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         this.id = inBuffer.getShort();
         this.type = inBuffer.getShort();
@@ -23,7 +24,6 @@ public class UjApiHackDetected implements IUjapiSubAction{
         this.playerHash = inBuffer.getLong();
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         if (outBuffer == null) {
             outBuffer = ByteBuffer.allocate(17).order(java.nio.ByteOrder.LITTLE_ENDIAN);

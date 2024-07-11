@@ -1,13 +1,11 @@
 package raft.war.binary.parser.w3g.parser.utils;
 
-import raft.war.binary.parser.w3g.parser.IBinaryStructure;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class StatString implements IBinaryStructure {
+public class StatString {
 
     private int speed;
     private boolean hideTerrain;
@@ -158,14 +156,12 @@ public class StatString implements IBinaryStructure {
         return outBuffer;
     }
 
-    @Override
     public void parse(ByteBuffer inBuffer) {
         byte[] encodedStatString = ByteBufferUtil.readCStringBytes(inBuffer);
         ByteBuffer decoded = decode(ByteBuffer.wrap(encodedStatString)).order(ByteOrder.LITTLE_ENDIAN);
         parseDecoded(decoded);
     }
 
-    @Override
     public ByteBuffer assembly(ByteBuffer outBuffer) {
         ByteBuffer encodedStatString = encode(assemblyDecoded().flip());
 
@@ -355,14 +351,14 @@ public class StatString implements IBinaryStructure {
         StatString that = (StatString) o;
         return speed == that.speed && hideTerrain == that.hideTerrain && mapExplored == that.mapExplored && alwaysVisible == that.alwaysVisible && isDefault == that.isDefault && observerMode == that.observerMode && teamsTogether == that.teamsTogether && fixedTeams == that.fixedTeams && fullSharedUnitControl == that.fullSharedUnitControl && randomHero == that.randomHero && randomRaces == that.randomRaces && referees == that.referees && mapWidth == that.mapWidth && mapHeight == that.mapHeight && Arrays.equals(
                 mapChecksum, that.mapChecksum) && Arrays.equals(mapChecksumSha1, that.mapChecksumSha1) && Objects.equals(mapPath,
-                                                                                                                         that.mapPath
+                that.mapPath
         ) && Objects.equals(creator, that.creator);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(speed, hideTerrain, mapExplored, alwaysVisible, isDefault, observerMode, teamsTogether, fixedTeams, fullSharedUnitControl,
-                                  randomHero, randomRaces, referees, mapPath, creator, mapWidth, mapHeight
+                randomHero, randomRaces, referees, mapPath, creator, mapWidth, mapHeight
         );
         result = 31 * result + Arrays.hashCode(mapChecksum);
         result = 31 * result + Arrays.hashCode(mapChecksumSha1);
