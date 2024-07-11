@@ -1,57 +1,33 @@
-package raft.war.binary.parser.w3g.parser.replay;
+package raft.war.binary.parser.w3g.record
 
-import raft.war.binary.parser.w3g.parser.packed.IRecord;
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
+class Unknown1bRecord : RecordBase {
+    override var timestamp: Long = 0
 
-public class Unknown1bRecord implements IRecord {
+    private var unknown = 0
 
-    public static final int TYPE = 0x1B;
+    override fun getRecordId(): Int = TYPE
 
-    private int unknown;
-
-    @Override
-    public int getRecordId() {
-        return TYPE;
+    override fun parse(inBuffer: ByteBuffer) {
+        unknown = inBuffer.getInt()
     }
 
-    @Override
-    public void parse(ByteBuffer inBuffer) {
-        unknown = inBuffer.getInt();
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as Unknown1bRecord
+        return unknown == that.unknown
     }
 
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-        if (outBuffer == null)
-            outBuffer = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
-
-        outBuffer.putInt(unknown);
-
-        return outBuffer;
+    override fun hashCode(): Int {
+        return Objects.hash(unknown)
     }
 
-    public int getUnknown() {
-        return unknown;
+    companion object {
+        const val TYPE: Int = 0x1B
     }
 
-    public Unknown1bRecord setUnknown(int unknown) {
-        this.unknown = unknown;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Unknown1bRecord that = (Unknown1bRecord) o;
-        return unknown == that.unknown;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(unknown);
-    }
+    override fun toString(): String = "Time: $timestamp,\tUnknown1bRecord\n"
 }

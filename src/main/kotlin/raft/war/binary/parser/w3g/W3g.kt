@@ -2,8 +2,8 @@ package raft.war.binary.parser.w3g
 
 import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException
 import raft.war.binary.parser.w3g.parser.packed.*
-import raft.war.binary.parser.w3g.parser.replay.*
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil
+import raft.war.binary.parser.w3g.record.*
 import java.io.ByteArrayInputStream
 import java.io.EOFException
 import java.io.InputStream
@@ -18,25 +18,18 @@ import kotlin.math.min
 open class W3g {
     lateinit var header: Header
     lateinit var subheader: SubHeader
-    lateinit var gameInfo: GameRecord
-    lateinit var startInfo: StartRecord
 
-    val playerRecords: MutableList<PlayerRecord> = mutableListOf()
-    val playerLeave: MutableList<TimeRecord<LeaveRecord>> = mutableListOf()
-    val chatMessages: MutableList<TimeRecord<ChatRecord>> = mutableListOf()
-    val actions: MutableList<TimeRecord<TimeSlotRecord>> = mutableListOf()
-    val others: MutableList<IRecord> = mutableListOf()
-    val records: MutableList<IRecord> = LinkedList()
+    val records: MutableList<RecordBase> = LinkedList()
 
     private var time: Long = 0
 
-    private fun processDecompressedData(data: ByteBuffer): IRecord? {
+    private fun processDecompressedData(data: ByteBuffer): RecordBase? {
         data.mark()
 
         try {
             val recordId = data.get().toInt()
             val recordClass = recordParsers[recordId]
-                ?: throw PackedFormatException("Unknown record type $recordId")
+                ?: throw Exception("Unknown record type $recordId")
 
             val record = recordClass.getConstructor().newInstance()
             record?.parse(data)
@@ -97,19 +90,8 @@ open class W3g {
                 try {
                     val record = processDecompressedData(decompressedDataBuffer) ?: break
                     records.add(record)
-                    when (record) {
-                        is ChatRecord -> chatMessages.add(TimeRecord(record, time))
-                        is GameRecord -> gameInfo = record
-                        is LeaveRecord -> playerLeave.add(TimeRecord(record, time))
-                        is PlayerRecord -> playerRecords.add(record)
-                        is StartRecord -> startInfo = record
-                        is TimeSlotRecord -> {
-                            actions.add(TimeRecord(record, time))
-                            time += record.timeIncrement.toLong()
-                        }
-
-                        else -> others.add(record)
-                    }
+                    record.timestamp = time
+                    
                 } catch (e: EOFException) {
                     break@blockDecoder
                 } catch (e: Exception) {
@@ -124,8 +106,8 @@ open class W3g {
     }
 
     companion object {
-        private val recordParsers: HashMap<Int?, Class<out IRecord?>?> =
-            object : HashMap<Int?, Class<out IRecord?>?>() {
+        private val recordParsers: HashMap<Int?, Class<out RecordBase?>?> =
+            object : HashMap<Int?, Class<out RecordBase?>?>() {
                 init {
                     put(GameRecord.TYPE, GameRecord::class.java)
                     put(ChatRecord.TYPE, ChatRecord::class.java)
@@ -135,7 +117,7 @@ open class W3g {
                     put(StartRecord.TYPE, StartRecord::class.java)
                     put(ReforgedRecord.TYPE, ReforgedRecord::class.java)
                     put(TimeSlotRecord.TYPE, TimeSlotRecord::class.java)
-                    put(TimeSlot2Record.TYPE, TimeSlot2Record::class.java)
+                    put(TimeSlotRecordEx.TYPE, TimeSlotRecordEx::class.java)
                     put(Unknown1aRecord.TYPE, Unknown1aRecord::class.java)
                     put(Unknown1bRecord.TYPE, Unknown1bRecord::class.java)
                     put(Unknown1cRecord.TYPE, Unknown1cRecord::class.java)

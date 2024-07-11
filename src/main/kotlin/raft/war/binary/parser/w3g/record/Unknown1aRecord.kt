@@ -1,58 +1,35 @@
-package raft.war.binary.parser.w3g.parser.replay;
+package raft.war.binary.parser.w3g.record
 
-import raft.war.binary.parser.w3g.parser.packed.IRecord;
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
+class Unknown1aRecord : RecordBase {
+    override var timestamp: Long = 0
 
-public class Unknown1aRecord implements IRecord {
+    private var unknown = 0
 
-    public static final int TYPE = 0x1A;
-
-    private int unknown;
-
-    @Override
-    public int getRecordId() {
-        return TYPE;
+    override fun getRecordId(): Int {
+        return TYPE
     }
 
-    @Override
-    public void parse(ByteBuffer inBuffer) {
-        unknown = inBuffer.getInt();
+    override fun parse(inBuffer: ByteBuffer) {
+        unknown = inBuffer.getInt()
     }
 
-
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-        if (outBuffer == null)
-            outBuffer = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
-
-        outBuffer.putInt(unknown);
-
-        return outBuffer;
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as Unknown1aRecord
+        return unknown == that.unknown
     }
 
-    public int getUnknown() {
-        return unknown;
+    override fun hashCode(): Int {
+        return Objects.hash(unknown)
     }
 
-    public Unknown1aRecord setUnknown(int unknown) {
-        this.unknown = unknown;
-        return this;
+    companion object {
+        const val TYPE: Int = 0x1A
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Unknown1aRecord that = (Unknown1aRecord) o;
-        return unknown == that.unknown;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(unknown);
-    }
+    override fun toString(): String = "Time: $timestamp,\tUnknown1aRecord\n"
 }

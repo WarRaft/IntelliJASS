@@ -1,93 +1,43 @@
-package raft.war.binary.parser.w3g.parser.replay;
+package raft.war.binary.parser.w3g.record
 
-import raft.war.binary.parser.w3g.parser.packed.IRecord;
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
+class LeaveRecord : RecordBase {
+    override var timestamp: Long = 0
 
-public class LeaveRecord implements IRecord {
-    public static final int TYPE = 0x17;
+    var reason: Int = 0
+    var playerId: Int = 0
+    var result: Int = 0
+    var unknown: Int = 0
 
-    private int reason;
-    private int playerId;
-    private int result;
-    private int unknown;
+    override fun getRecordId(): Int = TYPE
 
-    @Override
-    public int getRecordId() {
-        return TYPE;
+    override fun parse(inBuffer: ByteBuffer) {
+        reason = inBuffer.getInt()
+        playerId = inBuffer.get().toInt() and 0xFF
+        result = inBuffer.getInt()
+        unknown = inBuffer.getInt()
     }
 
-    @Override
-    public void parse(ByteBuffer inBuffer) {
-        reason = inBuffer.getInt();
-        playerId = inBuffer.get() & 0xFF;
-        result = inBuffer.getInt();
-        unknown = inBuffer.getInt();
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as LeaveRecord
+        return reason == that.reason && playerId == that.playerId && result == that.result && unknown == that.unknown
     }
 
-
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-
-        if (outBuffer == null)
-            outBuffer = ByteBuffer.allocate(14).order(ByteOrder.LITTLE_ENDIAN);
-
-        outBuffer.putInt(reason);
-        outBuffer.put((byte) playerId);
-        outBuffer.putInt(result);
-        outBuffer.putInt(unknown);
-        return outBuffer;
+    override fun hashCode(): Int {
+        return Objects.hash(reason, playerId, result, unknown)
     }
 
-    public int getReason() {
-        return reason;
+    companion object {
+        const val TYPE: Int = 0x17
     }
 
-    public LeaveRecord setReason(int reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public LeaveRecord setPlayerId(int playerId) {
-        this.playerId = playerId;
-        return this;
-    }
-
-    public int getResult() {
-        return result;
-    }
-
-    public LeaveRecord setResult(int result) {
-        this.result = result;
-        return this;
-    }
-
-    public int getUnknown() {
-        return unknown;
-    }
-
-    public LeaveRecord setUnknown(int unknown) {
-        this.unknown = unknown;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        LeaveRecord that = (LeaveRecord) o;
-        return reason == that.reason && playerId == that.playerId && result == that.result && unknown == that.unknown;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(reason, playerId, result, unknown);
-    }
+    override fun toString(): String = "☠️Time: $timestamp,\tLeaveRecord\n" +
+            "\treason: $reason\n" +
+            "\tplayerId: $playerId\n" +
+            "\tresult: $result\n" +
+            "\tunknown: $unknown\n"
 }

@@ -19,6 +19,7 @@ import com.intellij.testFramework.LightVirtualFile
 import raft.war.binary.parser.Parser
 import raft.war.binary.parser.w3g.W3g
 import raft.war.binary.parser.w3g.commandBlock.CommandBlockParser
+import raft.war.binary.parser.w3g.record.TimeSlotRecord
 import raft.war.language.lni.openapi.fileTypes.LniFileType
 import java.beans.PropertyChangeListener
 import java.nio.ByteBuffer
@@ -48,18 +49,19 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
 
             val commandBlockParser = CommandBlockParser()
 
-            sb.append("=".repeat(20)).append(" Actions").append("\n")
+            sb.append("=".repeat(20)).append(" Records").append("\n")
+            w3g.records.forEach { record ->
+                sb.append("$record\n")
+                if (record is TimeSlotRecord) {
+                    //sb.append("Time: ${record.time} \n")
+                    val blocks =
+                        commandBlockParser.parse(ByteBuffer.wrap(record.rawData).order(ByteOrder.LITTLE_ENDIAN))
+                    for (block in blocks) {
+                        sb.append("\t Player Id: ${block.playerId} \n")
 
-
-            w3g.actions.forEach { i ->
-                sb.append("Time: ${i.time} \n")
-
-                val blocks = commandBlockParser.parse(ByteBuffer.wrap(i.record.rawData).order(ByteOrder.LITTLE_ENDIAN))
-                for (block in blocks) {
-                    sb.append("\t Player Id: ${block.playerId} \n")
-
-                    block.actions.forEach { a ->
-                        sb.append("\t\t ID: ${a.actionId()},\t$a\n")
+                        block.actions.forEach { a ->
+                            sb.append("\t\t ID: ${a.actionId()},\t$a\n")
+                        }
                     }
                 }
             }

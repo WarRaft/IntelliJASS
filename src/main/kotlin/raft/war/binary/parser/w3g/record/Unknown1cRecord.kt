@@ -1,57 +1,31 @@
-package raft.war.binary.parser.w3g.parser.replay;
+package raft.war.binary.parser.w3g.record
 
-import raft.war.binary.parser.w3g.parser.packed.IRecord;
+import java.nio.ByteBuffer
+import java.util.*
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Objects;
+class Unknown1cRecord : RecordBase {
+    override var timestamp: Long = 0
 
-public class Unknown1cRecord implements IRecord {
+    var unknown: Int = 0
 
-    public static final int TYPE = 0x1C;
+    override fun getRecordId(): Int = TYPE
 
-    private int unknown;
-
-    @Override
-    public int getRecordId() {
-        return TYPE;
+    override fun parse(inBuffer: ByteBuffer) {
+        unknown = inBuffer.getInt()
     }
 
-    @Override
-    public void parse(ByteBuffer inBuffer) {
-        unknown = inBuffer.getInt();
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as Unknown1cRecord
+        return unknown == that.unknown
     }
 
-    public ByteBuffer assembly(ByteBuffer outBuffer) {
-        if (outBuffer == null)
-            outBuffer = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
-
-        outBuffer.putInt(unknown);
-
-        return outBuffer;
+    override fun hashCode(): Int {
+        return Objects.hash(unknown)
     }
 
-    public int getUnknown() {
-        return unknown;
-    }
-
-    public Unknown1cRecord setUnknown(int unknown) {
-        this.unknown = unknown;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Unknown1cRecord that = (Unknown1cRecord) o;
-        return unknown == that.unknown;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(unknown);
+    companion object {
+        const val TYPE: Int = 0x1C
     }
 }
