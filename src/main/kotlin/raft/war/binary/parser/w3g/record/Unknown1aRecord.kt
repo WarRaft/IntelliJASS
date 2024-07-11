@@ -8,10 +8,6 @@ class Unknown1aRecord : RecordBase {
 
     private var unknown = 0
 
-    override fun getRecordId(): Int {
-        return TYPE
-    }
-
     override fun parse(inBuffer: ByteBuffer) {
         unknown = inBuffer.getInt()
     }
@@ -28,7 +24,7 @@ class Unknown1aRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x1A
+        const val ID: Int = 0x1A
     }
 
     override fun toString(): String = "Time: $timestamp,\tUnknown1aRecord\n"

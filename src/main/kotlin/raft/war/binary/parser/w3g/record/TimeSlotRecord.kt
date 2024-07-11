@@ -9,8 +9,6 @@ open class TimeSlotRecord : RecordBase {
     var timeIncrement: Int = 0
     lateinit var rawData: ByteArray
 
-    override fun getRecordId(): Int = TYPE
-
     override fun parse(inBuffer: ByteBuffer) {
         val length = inBuffer.getShort() - 2
         timeIncrement = inBuffer.getShort().toInt() and 0xFFFF
@@ -34,6 +32,6 @@ open class TimeSlotRecord : RecordBase {
     override fun toString(): String = "⏰Time: $timestamp -> ${timestamp + timeIncrement},\tTimeSlotRecord\n"
 
     companion object {
-        const val TYPE: Int = 0x1F
+        const val ID: Int = 0x1F
     }
 }

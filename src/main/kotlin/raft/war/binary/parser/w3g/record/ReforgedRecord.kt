@@ -9,8 +9,6 @@ class ReforgedRecord : RecordBase {
     var subType: Int = 0
     lateinit var unknown: ByteArray
 
-    override fun getRecordId(): Int = TYPE
-
     override fun parse(inBuffer: ByteBuffer) {
         subType = inBuffer.get().toInt() and 0xFF
         val unknownLength = Integer.toUnsignedLong(inBuffer.getInt())
@@ -32,7 +30,7 @@ class ReforgedRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x39
+        const val ID: Int = 0x39
     }
 
     override fun toString(): String = "Time: $timestamp,\tReforgedRecord\n"

@@ -1,20 +1,15 @@
 package raft.war.binary.parser.w3g.record
 
-import raft.war.binary.parser.w3g.parser.utils.SlotInfo
 import java.nio.ByteBuffer
 import java.util.*
 
 class StartRecord : RecordBase {
     override var timestamp: Long = 0
 
-    lateinit var slots: Array<SlotInfo?>
+    lateinit var slots: Array<StartRecordSlot?>
     private var randomSeed = 0
     private var gameMode = 0
     private var startSpotCount = 0
-
-    override fun getRecordId(): Int {
-        return TYPE
-    }
 
     override fun parse(inBuffer: ByteBuffer) {
         inBuffer.getShort()
@@ -23,7 +18,7 @@ class StartRecord : RecordBase {
         slots = arrayOfNulls(slotCount)
 
         for (i in 0 until slotCount) {
-            slots[i] = SlotInfo()
+            slots[i] = StartRecordSlot()
             slots[i]!!.parse(inBuffer)
         }
 
@@ -48,11 +43,14 @@ class StartRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x19
+        const val ID: Int = 0x19
     }
 
     override fun toString(): String = "🏁Time: $timestamp,\tStartRecord\n" +
-            "\tslots: $slots\n" +
+            "\tslots:\n${
+                slots.map { "\t\t$it\n" }
+                    .reduce { result, nr -> "$result$nr" }
+            }\n" +
             "\trandomSeed: $randomSeed\n" +
             "\tgameMode: $gameMode\n" +
             "\tstartSpotCount: ${startSpotCount}\n"

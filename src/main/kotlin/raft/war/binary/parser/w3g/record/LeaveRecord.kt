@@ -11,8 +11,6 @@ class LeaveRecord : RecordBase {
     var result: Int = 0
     var unknown: Int = 0
 
-    override fun getRecordId(): Int = TYPE
-
     override fun parse(inBuffer: ByteBuffer) {
         reason = inBuffer.getInt()
         playerId = inBuffer.get().toInt() and 0xFF
@@ -32,7 +30,7 @@ class LeaveRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x17
+        const val ID: Int = 0x17
     }
 
     override fun toString(): String = "☠️Time: $timestamp,\tLeaveRecord\n" +

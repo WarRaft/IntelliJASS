@@ -1,16 +1,14 @@
 package raft.war.binary.parser.w3g.record
 
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil
-import raft.war.binary.parser.w3g.parser.utils.PlayerInfo
-import raft.war.binary.parser.w3g.parser.utils.StatString
 import java.nio.ByteBuffer
 import java.util.*
 
 class GameRecord : RecordBase {
     override var timestamp: Long = 0
 
-    var statString: StatString? = null
-    var hostPlayer: PlayerInfo? = null
+    var statString: GameRecordStat? = null
+    var hostPlayer: PlayerRecordData? = null
     var gameName: String? = null
     private var privateString: String? = null
     var playersCount: Int = 0
@@ -18,8 +16,8 @@ class GameRecord : RecordBase {
     var languageId: Int = 0
 
     override fun parse(inBuffer: ByteBuffer) {
-        statString = StatString()
-        hostPlayer = PlayerInfo()
+        statString = GameRecordStat()
+        hostPlayer = PlayerRecordData()
 
         hostPlayer!!.parse(inBuffer)
 
@@ -34,8 +32,6 @@ class GameRecord : RecordBase {
         languageId = inBuffer.getInt()
     }
 
-    override fun getRecordId(): Int = TYPE
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -48,7 +44,7 @@ class GameRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x00
+        const val ID: Int = 0x00
     }
 
     override fun toString(): String = "☢️Time: $timestamp,\tGameRecord\n" +

@@ -1,7 +1,7 @@
 package raft.war.binary.parser.w3g
 
 import raft.war.binary.parser.w3g.parser.exceptions.PackedFormatException
-import raft.war.binary.parser.w3g.parser.packed.*
+import raft.war.binary.parser.w3g.parser.packed.Block
 import raft.war.binary.parser.w3g.parser.utils.ByteBufferUtil
 import raft.war.binary.parser.w3g.record.*
 import java.io.ByteArrayInputStream
@@ -21,19 +21,32 @@ open class W3g {
 
     val records: MutableList<RecordBase> = LinkedList()
 
-    private var time: Long = 0
+    private var timestamp: Long = 0
 
     private fun processDecompressedData(data: ByteBuffer): RecordBase? {
         data.mark()
 
         try {
-            val recordId = data.get().toInt()
-            val recordClass = recordParsers[recordId]
-                ?: throw Exception("Unknown record type $recordId")
+            val record: RecordBase?
+            when (val recordId = data.get().toInt()) {
+                GameRecord.ID -> record = GameRecord()
+                ChatRecord.ID -> record = ChatRecord()
+                ChecksumRecord.ID -> record = ChecksumRecord()
+                LeaveRecord.ID -> record = LeaveRecord()
+                PlayerRecord.ID -> record = PlayerRecord()
+                StartRecord.ID -> record = StartRecord()
+                ReforgedRecord.ID -> record = ReforgedRecord()
+                TimeSlotRecord.ID -> record = TimeSlotRecord()
+                TimeSlotRecordEx.ID -> record = TimeSlotRecordEx()
+                Unknown1aRecord.ID -> record = Unknown1aRecord()
+                Unknown1bRecord.ID -> record = Unknown1bRecord()
+                Unknown1cRecord.ID -> record = Unknown1cRecord()
+                else -> {
+                    throw Exception("Unknown record type $recordId")
+                }
+            }
 
-            val record = recordClass.getConstructor().newInstance()
-            record?.parse(data)
-
+            record.parse(data)
             return record
         } catch (e: BufferUnderflowException) {
             data.reset()
@@ -90,8 +103,11 @@ open class W3g {
                 try {
                     val record = processDecompressedData(decompressedDataBuffer) ?: break
                     records.add(record)
-                    record.timestamp = time
-                    
+                    record.timestamp = timestamp
+
+                    if (record is TimeSlotRecord) {
+                        timestamp += record.timeIncrement.toLong()
+                    }
                 } catch (e: EOFException) {
                     break@blockDecoder
                 } catch (e: Exception) {
@@ -106,24 +122,6 @@ open class W3g {
     }
 
     companion object {
-        private val recordParsers: HashMap<Int?, Class<out RecordBase?>?> =
-            object : HashMap<Int?, Class<out RecordBase?>?>() {
-                init {
-                    put(GameRecord.TYPE, GameRecord::class.java)
-                    put(ChatRecord.TYPE, ChatRecord::class.java)
-                    put(ChecksumRecord.TYPE, ChecksumRecord::class.java)
-                    put(LeaveRecord.TYPE, LeaveRecord::class.java)
-                    put(PlayerRecord.TYPE, PlayerRecord::class.java)
-                    put(StartRecord.TYPE, StartRecord::class.java)
-                    put(ReforgedRecord.TYPE, ReforgedRecord::class.java)
-                    put(TimeSlotRecord.TYPE, TimeSlotRecord::class.java)
-                    put(TimeSlotRecordEx.TYPE, TimeSlotRecordEx::class.java)
-                    put(Unknown1aRecord.TYPE, Unknown1aRecord::class.java)
-                    put(Unknown1bRecord.TYPE, Unknown1bRecord::class.java)
-                    put(Unknown1cRecord.TYPE, Unknown1cRecord::class.java)
-                }
-            }
-
         private const val REPLAY_MAGIC_HEADER = "Warcraft III recorded game\u001A"
         private val REPLAY_MAGIC_HEADER_LENGTH = REPLAY_MAGIC_HEADER.toByteArray(StandardCharsets.UTF_8).size
 

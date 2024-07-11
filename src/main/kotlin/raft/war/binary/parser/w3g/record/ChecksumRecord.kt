@@ -9,8 +9,6 @@ class ChecksumRecord : RecordBase {
     var checksum: Int = 0
     lateinit var unknown: ByteArray
 
-    override fun getRecordId(): Int = TYPE
-
     override fun parse(inBuffer: ByteBuffer) {
         val followingLength = inBuffer.get()
 
@@ -34,7 +32,7 @@ class ChecksumRecord : RecordBase {
     }
 
     companion object {
-        const val TYPE: Int = 0x22
+        const val ID: Int = 0x22
     }
 
     override fun toString(): String = "✅Time: $timestamp,\tChecksumRecord [$checksum]\n"

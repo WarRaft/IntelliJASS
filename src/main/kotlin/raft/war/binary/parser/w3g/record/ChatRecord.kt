@@ -12,8 +12,6 @@ class ChatRecord : RecordBase {
     var flags: Byte = 0
     var message: String? = null
 
-    override fun getRecordId(): Int = TYPE
-
     override fun parse(inBuffer: ByteBuffer) {
         playerId = inBuffer.get()
         inBuffer.getShort() // length
@@ -32,7 +30,7 @@ class ChatRecord : RecordBase {
     override fun hashCode(): Int = Objects.hash(playerId, chatMode, flags, message)
 
     companion object {
-        const val TYPE: Int = 0x20
+        const val ID: Int = 0x20
     }
 
     override fun toString(): String = "Time: $timestamp,\tChatRecord" +
