@@ -11,7 +11,5 @@ abstract class JassStubbedPsiElementBase<T : StubElement<*>> : StubBasedPsiEleme
     constructor(stub: T, nodeType: IStubElementType<*, *>) : super(stub, nodeType)
     constructor(node: ASTNode) : super(node)
 
-    override fun toString(): String {
-        return elementType.toString()
-    }
+    override fun toString(): String = elementType.toString()
 }

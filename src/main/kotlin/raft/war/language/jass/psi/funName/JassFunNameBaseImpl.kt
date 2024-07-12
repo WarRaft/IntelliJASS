@@ -11,7 +11,7 @@ import com.intellij.psi.stubs.StubIndex
 import com.intellij.util.containers.OrderedSet
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassNamedStubbedPsiElementBase
-import raft.war.language.jass.psi.reference.JassReferenceBase
+import raft.war.language.jass.psi.JassReferenceBase
 
 abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameStub>,
     JassFunName {

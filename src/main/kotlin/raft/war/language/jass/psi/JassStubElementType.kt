@@ -8,7 +8,5 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement
 abstract class JassStubElementType<S : StubElement<T>, T : JassCompositeElement?>
     (debugName: String) :
     IStubElementType<S, T>(debugName, JassLanguage.instance) {
-    override fun getExternalId(): String {
-        return "jass." + super.toString()
-    }
+    override fun getExternalId(): String = "jass.${super.toString()}"
 }
