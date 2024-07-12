@@ -331,15 +331,17 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION ID
+  // FUNCTION FunName
   public static boolean FuncAsCode(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncAsCode")) return false;
     if (!nextTokenIs(b, FUNCTION)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 2, FUNCTION, ID);
-    exit_section_(b, m, FUNC_AS_CODE, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNC_AS_CODE, null);
+    r = consumeToken(b, FUNCTION);
+    p = r; // pin = 1
+    r = r && FunName(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

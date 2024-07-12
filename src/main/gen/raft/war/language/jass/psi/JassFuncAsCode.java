@@ -8,10 +8,10 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public interface JassFuncAsCode extends JassCompositeElement {
 
-  @NotNull
-  PsiElement getFunction();
+  @Nullable
+  JassFunName getFunName();
 
   @NotNull
-  PsiElement getId();
+  PsiElement getFunction();
 
 }

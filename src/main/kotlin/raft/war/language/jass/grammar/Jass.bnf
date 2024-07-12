@@ -126,7 +126,6 @@ FunName ::= ID {
     extends="raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
     elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
-    methods=[getReference resolve]
 }
 
 Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
@@ -210,4 +209,4 @@ PrimExpr ::=
     ID
 
 ArrayAccess ::= ID LBRACK Expr? RBRACK
-FuncAsCode ::= FUNCTION ID {pin=2}
+FuncAsCode ::= FUNCTION FunName {pin=1}

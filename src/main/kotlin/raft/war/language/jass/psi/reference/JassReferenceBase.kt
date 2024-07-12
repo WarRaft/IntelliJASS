@@ -25,15 +25,10 @@ abstract class JassReferenceBase(@JvmField protected val psiElement: PsiElement,
         return if (resolveResults.size == 1) resolveResults[0].element else null
     }
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is JassReferenceBase) psiElement == other.psiElement else false
-    }
+    override fun equals(other: Any?): Boolean =
+        if (other is JassReferenceBase) psiElement == other.psiElement else false
 
-    override fun getVariants(): Array<Any> {
-        return resolveInner(true).toTypedArray()
-    }
+    override fun getVariants(): Array<Any> = resolveInner(true).toTypedArray()
 
-    override fun hashCode(): Int {
-        return psiElement.hashCode()
-    }
+    override fun hashCode(): Int = psiElement.hashCode()
 }
