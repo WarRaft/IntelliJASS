@@ -9,25 +9,23 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.util.containers.OrderedSet
+import raft.war.language.jass.psi.JassFun
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassNamedStubbedPsiElementBase
 import raft.war.language.jass.psi.JassReferenceBase
 
-abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameStub>,
-    JassFunName {
+abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameStub>, JassFunName {
     constructor(stub: JassFunNameStub, nodeType: IStubElementType<*, *>) : super(stub, nodeType)
     constructor(node: ASTNode) : super(node)
 
     override fun getName(): String {
         val stub = stub
-        return if (stub != null) StringUtil.notNullize(stub.name) else this.nameIdentifier!!.text
+        return if (stub != null) StringUtil.notNullize(stub.name) else this.nameIdentifier.text
     }
 
-    override fun getNameIdentifier(): PsiElement? = this.node.psi
+    override fun getNameIdentifier(): PsiElement = this.node.psi
 
     override fun setName(name: String): PsiElement = this
-
-    //fun resolve(): PsiElement? = reference.resolve()
 
     override fun getReference(): PsiReference {
         val myText = this.text
@@ -44,14 +42,9 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
                 return setName(newElementName)
             }
 
-            override fun isReferenceTo(element: PsiElement): Boolean {
-                val resolved = resolve()
-                val manager = getElement().manager
-                return manager.areElementsEquivalent(resolved, element)
-                        || manager.areElementsEquivalent(resolved?.parent, element)
-            }
+            override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
 
-            override fun resolveInner(incompleteCode: Boolean): List<PsiElement> {
+            override fun resolveDeclaration(incompleteCode: Boolean): List<PsiElement> {
                 val scope = GlobalSearchScope.allScope(project)
                 StubIndex.getElements(
                     KEY,
@@ -60,7 +53,7 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
                     scope,
                     JassFunName::class.java,
                 ).forEach { name ->
-                    result.add(name)
+                    if (name.parent is JassFun) result.add(name)
                 }
                 return result
             }

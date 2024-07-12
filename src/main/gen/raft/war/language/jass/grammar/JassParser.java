@@ -199,7 +199,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? FUNCTION FunName FunTake? FunRet? Stmt* ENDFUNCTION
+  // CONSTANT? FUNCTION FunName FunTake? FunRet? FunStmt ENDFUNCTION
   public static boolean Fun(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun")) return false;
     if (!nextTokenIs(b, "<fun>", CONSTANT, FUNCTION)) return false;
@@ -211,7 +211,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = r && report_error_(b, FunName(b, l + 1));
     r = p && report_error_(b, Fun_3(b, l + 1)) && r;
     r = p && report_error_(b, Fun_4(b, l + 1)) && r;
-    r = p && report_error_(b, Fun_5(b, l + 1)) && r;
+    r = p && report_error_(b, FunStmt(b, l + 1)) && r;
     r = p && consumeToken(b, ENDFUNCTION) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
@@ -235,17 +235,6 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean Fun_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun_4")) return false;
     FunRet(b, l + 1);
-    return true;
-  }
-
-  // Stmt*
-  private static boolean Fun_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Fun_5")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!Stmt(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "Fun_5", c)) break;
-    }
     return true;
   }
 
@@ -304,6 +293,20 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, NOTHING);
     if (!r) r = TypeName(b, l + 1);
     return r;
+  }
+
+  /* ********************************************************** */
+  // Stmt*
+  public static boolean FunStmt(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunStmt")) return false;
+    Marker m = enter_section_(b, l, _NONE_, FUN_STMT, "<fun stmt>");
+    while (true) {
+      int c = current_position_(b);
+      if (!Stmt(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "FunStmt", c)) break;
+    }
+    exit_section_(b, l, m, true, false, null);
+    return true;
   }
 
   /* ********************************************************** */

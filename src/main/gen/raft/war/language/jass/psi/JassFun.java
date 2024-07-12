@@ -15,10 +15,10 @@ public interface JassFun extends JassCompositeElement {
   JassFunRet getFunRet();
 
   @Nullable
-  JassFunTake getFunTake();
+  JassFunStmt getFunStmt();
 
-  @NotNull
-  List<JassStmt> getStmtList();
+  @Nullable
+  JassFunTake getFunTake();
 
   @Nullable
   PsiElement getConstant();

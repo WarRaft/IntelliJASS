@@ -13,12 +13,12 @@ import com.intellij.psi.impl.source.resolve.ResolveCache
 abstract class JassReferenceBase(@JvmField protected val psiElement: PsiElement, rangeInParent: TextRange) :
     PsiReferenceBase<PsiElement?>(psiElement, rangeInParent), PsiPolyVariantReference {
 
-    protected abstract fun resolveInner(incompleteCode: Boolean): List<PsiElement>
+    protected abstract fun resolveDeclaration(incompleteCode: Boolean): List<PsiElement>
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
         ResolveCache.getInstance(psiElement.project).resolveWithCaching(
             this, { referenceBase, _ ->
-                referenceBase.resolveInner(false)
+                referenceBase.resolveDeclaration(false)
                     .map { PsiElementResolveResult(it) }
                     .toTypedArray()
             },
@@ -33,7 +33,7 @@ abstract class JassReferenceBase(@JvmField protected val psiElement: PsiElement,
     override fun equals(other: Any?): Boolean =
         if (other is JassReferenceBase) psiElement == other.psiElement else false
 
-    override fun getVariants(): Array<Any> = resolveInner(true).toTypedArray()
+    override fun getVariants(): Array<Any> = resolveDeclaration(true).toTypedArray()
 
     override fun hashCode(): Int = psiElement.hashCode()
 }
