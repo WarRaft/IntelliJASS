@@ -9,10 +9,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.util.containers.OrderedSet
-import raft.war.language.jass.psi.JassFun
-import raft.war.language.jass.psi.JassFunName
-import raft.war.language.jass.psi.JassNamedStubbedPsiElementBase
-import raft.war.language.jass.psi.JassReferenceBase
+import raft.war.language.jass.psi.*
 
 abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameStub>, JassFunName {
     constructor(stub: JassFunNameStub, nodeType: IStubElementType<*, *>) : super(stub, nodeType)
@@ -25,22 +22,17 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
 
     override fun getNameIdentifier(): PsiElement = this.node.psi
 
-    override fun setName(name: String): PsiElement = this
+    override fun setName(name: String): PsiElement {
+        this.firstChild.replace(JassElementTextFactory.getId(project, name))
+        return this
+    }
 
     override fun getReference(): PsiReference {
         val myText = this.text
         val result = OrderedSet<PsiElement>()
 
         return object : JassReferenceBase(this, TextRange(0, textLength)) {
-            override fun handleElementRename(newElementName: String): PsiElement {
-                /*
-                return when (val currentElement = element) {
-                    is MonkeySimpleRefExpr -> setName(currentElement, newElementName)
-                    else -> return null
-                }
-                 */
-                return setName(newElementName)
-            }
+            override fun handleElementRename(newElementName: String): PsiElement = setName(newElementName)
 
             override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
 

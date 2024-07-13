@@ -4,7 +4,7 @@ import com.intellij.codeInspection.*
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElementVisitor
 import raft.war.language.jass.codeInspection.JassInspectionBundle.message
-import raft.war.language.jass.psi.JassElementFactory.recreateExpr
+import raft.war.language.jass.psi.JassElementTextFactory.Companion.recreateExpr
 import raft.war.language.jass.psi.JassPrimExpr
 import raft.war.language.jass.psi.JassVisitor
 

@@ -117,12 +117,14 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             if (list != null) params = list.paramList
         }
 
-        appendFunction(
-            if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
-            if (name == null) "" else getSafeName(name.text),
-            params,
-            o.stmtList
-        )
+        o.funStmt?.let {
+            appendFunction(
+                if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
+                if (name == null) "" else getSafeName(name.text),
+                params,
+                it.stmtList
+            )
+        }
     }
 
     // --- statement
@@ -191,7 +193,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     }
 
     override fun visitFuncAsCode(o: JassFuncAsCode) {
-        appendFunctionAsCode(getSafeName(o.id.text))
+        appendFunctionAsCode(getSafeName(o.funName!!.text))
     }
 
     // ===============

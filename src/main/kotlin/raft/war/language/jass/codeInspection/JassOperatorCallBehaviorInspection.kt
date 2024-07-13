@@ -8,8 +8,8 @@ import com.intellij.psi.PsiParserFacade
 import com.intellij.psi.PsiWhiteSpace
 import raft.war.language.jass.codeInspection.JassInspectionBundle.message
 import raft.war.language.jass.psi.JassCallStmt
-import raft.war.language.jass.psi.JassElementFactory.createToken
-import raft.war.language.jass.psi.JassElementFactory.recreateCallStmt
+import raft.war.language.jass.psi.JassElementTextFactory.Companion.createToken
+import raft.war.language.jass.psi.JassElementTextFactory.Companion.recreateCallStmt
 import raft.war.language.jass.psi.JassFunCall
 import raft.war.language.jass.psi.JassTypes
 import raft.war.language.jass.psi.JassVisitor

@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement
 import raft.war.language.angelscript.psi.AngelScriptElementFactory
 import raft.war.language.angelscript.psi.AngelScriptPrimExpr
 import raft.war.language.jass.psi.JassArgList
-import raft.war.language.jass.psi.JassElementFactory
+import raft.war.language.jass.psi.JassElementTextFactory
 import raft.war.language.jass.psi.JassFunCall
 import raft.war.language.jass.psi.JassPrimExpr
 import java.awt.Color
@@ -140,7 +140,7 @@ class PluginElementColorProvider : ElementColorProvider {
         if (psiElement is JassPrimExpr) {
             val hexval = psiElement.hexval
             if (hexval != null) {
-                JassElementFactory.replaceExprChild(project, hexval, hex)
+                JassElementTextFactory.replaceExprChild(project, hexval, hex)
                 return
             }
         }
@@ -156,7 +156,7 @@ class PluginElementColorProvider : ElementColorProvider {
                 val ints = intArrayOf(color.red, color.green, color.blue, color.alpha)
                 for (i in 0..3) {
                     val child = exprlist[start + i].firstChild ?: continue
-                    JassElementFactory.replaceExprChild(project, child, ints[i].toString())
+                    JassElementTextFactory.replaceExprChild(project, child, ints[i].toString())
                 }
             }
         }

@@ -39,10 +39,11 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.JassFindUsagesProvider"/>
 
-        <!-- refactor support -->
+        <!-- refactor -->
         <lang.refactoringSupport
                 language="JASS"
-                implementationClass="raft.war.language.jass.JassRefactoringSupportProvider"/>
+                implementationClass="raft.war.language.jass.refactor.JassRefactoringSupportProvider"/>
+        <renameInputValidator implementation="raft.war.language.jass.refactor.JassRenameInputValidator"/>
 
         <!-- commenter -->
         <lang.commenter

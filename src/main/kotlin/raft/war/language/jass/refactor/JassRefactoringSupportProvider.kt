@@ -1,4 +1,4 @@
-package raft.war.language.jass
+package raft.war.language.jass.refactor
 
 import com.intellij.lang.refactoring.RefactoringSupportProvider
 import com.intellij.psi.PsiElement
