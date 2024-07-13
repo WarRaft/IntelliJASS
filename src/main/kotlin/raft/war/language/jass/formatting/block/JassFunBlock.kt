@@ -7,9 +7,10 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
+import com.intellij.psi.formatter.FormatterUtil.*
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassFunctionBlock(
+class JassFunBlock(
     myNode: ASTNode?,
     myAlignment: Alignment?,
     myIndent: Indent?,
@@ -20,22 +21,19 @@ class JassFunctionBlock(
     override fun makeSubBlock(childNode: ASTNode): Block {
         var indent = Indent.getNormalIndent()
 
-        if (FormatterUtil.isOneOf(childNode, FUNCTION, ENDFUNCTION)) indent = Indent.getNoneIndent()
-        if (FormatterUtil.isOneOf(childNode, STMT)) return JassStatementBlock(
-            childNode.firstChildNode,
+        if (isOneOf(childNode, FUN_STMT)) return JassFunStmtBlock(
+            childNode,
             null,
-            Indent.getNormalIndent(),
+            Indent.getNoneIndent(),
             myCodeStyleSettings
         )
+
+        if (isOneOf(childNode, FUNCTION, ENDFUNCTION)) indent = Indent.getNoneIndent()
 
         return JassBlock(childNode, null, indent, myCodeStyleSettings)
     }
 
-    override fun getChildAttributes(i: Int): ChildAttributes {
-        return ChildAttributes(Indent.getNormalIndent(), null)
-    }
+    override fun getChildAttributes(i: Int): ChildAttributes = ChildAttributes(Indent.getNormalIndent(), null)
 
-    override fun isIncomplete(): Boolean {
-        return !FormatterUtil.isOneOf(myNode.lastChildNode, ENDFUNCTION)
-    }
+    override fun isIncomplete(): Boolean = !isOneOf(myNode.lastChildNode, ENDFUNCTION)
 }

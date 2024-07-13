@@ -19,7 +19,12 @@ open class JassBlock(
     private var mySpacingBuilder: SpacingBuilder? = null
 
     open fun makeSubBlock(childNode: ASTNode): Block {
-        //final IElementType type = childNode.getElementType();
+        if (FormatterUtil.isOneOf(childNode, STMT)) return JassStmtBlock(
+            childNode.firstChildNode,
+            null,
+            Indent.getNormalIndent(),
+            myCodeStyleSettings
+        )
         return JassBlock(childNode, null, null, myCodeStyleSettings)
     }
 

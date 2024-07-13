@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassStatementBlock(
+class JassStmtBlock(
     myNode: ASTNode?,
     myAlignment: Alignment?,
     myIndent: Indent?,
@@ -33,7 +33,7 @@ class JassStatementBlock(
                 ELSE_STMT,
                 LOOP_STMT
             )
-        ) return JassStatementBlock(child, null, indent, myCodeStyleSettings)
+        ) return JassStmtBlock(child, null, indent, myCodeStyleSettings)
 
         if (FormatterUtil.isOneOf(child, ENDIF, ENDLOOP)) indent = Indent.getNoneIndent()
 
