@@ -723,6 +723,18 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // STRVAL
+  public static boolean Str(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Str")) return false;
+    if (!nextTokenIs(b, STRVAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, STRVAL);
+    exit_section_(b, m, STR, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // TYPE TypeName EXTENDS TypeNameBase
   public static boolean TypeDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeDef")) return false;
@@ -999,7 +1011,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   //     REALVAL |
   //     INTVAL |
   //     RAWVAL |
-  //     STRVAL |
+  //     Str |
   //     ID
   public static boolean PrimExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PrimExpr")) return false;
@@ -1016,7 +1028,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, REALVAL);
     if (!r) r = consumeTokenSmart(b, INTVAL);
     if (!r) r = consumeTokenSmart(b, RAWVAL);
-    if (!r) r = consumeTokenSmart(b, STRVAL);
+    if (!r) r = Str(b, l + 1);
     if (!r) r = consumeTokenSmart(b, ID);
     exit_section_(b, l, m, r, false, null);
     return r;

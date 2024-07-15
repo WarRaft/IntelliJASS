@@ -194,6 +194,10 @@ OrExpr ::= Expr OR Expr
 AndExpr ::= Expr AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
+Str ::= STRVAL {
+    extends="raft.war.language.jass.psi.JassStrBaseImpl"
+}
+
 PrimExpr ::=
     ParenExpr |
     ArrayAccess |
@@ -206,7 +210,7 @@ PrimExpr ::=
     REALVAL |
     INTVAL |
     RAWVAL |
-    STRVAL |
+    Str |
     ID
 
 ArrayAccess ::= ID LBRACK Expr? RBRACK

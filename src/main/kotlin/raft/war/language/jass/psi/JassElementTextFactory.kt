@@ -39,5 +39,10 @@ class JassElementTextFactory {
             val child = recreateExpr(project, value)!!.firstChild ?: return
             target.replace(child)
         }
+
+        fun getStrVal(project: Project, text: String): PsiElement {
+            val file = createFile(project, "globals int a = \"$text\" endglobals")
+            return ((file.firstChild as JassGlob).gvarList[0].getVar().expr as JassPrimExpr).str!!.strval
+        }
     }
 }

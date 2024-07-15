@@ -47,6 +47,12 @@ public class JassPrimExprImpl extends JassExprImpl implements JassPrimExpr {
 
   @Override
   @Nullable
+  public JassStr getStr() {
+    return PsiTreeUtil.getChildOfType(this, JassStr.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getFalse() {
     return findChildByType(FALSE);
   }
@@ -85,12 +91,6 @@ public class JassPrimExprImpl extends JassExprImpl implements JassPrimExpr {
   @Nullable
   public PsiElement getRealval() {
     return findChildByType(REALVAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getStrval() {
-    return findChildByType(STRVAL);
   }
 
   @Override

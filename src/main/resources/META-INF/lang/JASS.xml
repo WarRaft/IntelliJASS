@@ -45,6 +45,10 @@
                 implementationClass="raft.war.language.jass.refactor.JassRefactoringSupportProvider"/>
         <renameInputValidator implementation="raft.war.language.jass.refactor.JassRenameInputValidator"/>
 
+        <!-- reference -->
+        <psi.referenceContributor language="JASS"
+                                  implementation="raft.war.language.jass.JassReferenceContributor"/>
+
         <!-- commenter -->
         <lang.commenter
                 language="JASS"

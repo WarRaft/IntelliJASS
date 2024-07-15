@@ -52,6 +52,7 @@ public interface JassTypes {
   IElementType RETURN_STMT = new JassElementType("RETURN_STMT");
   IElementType SET_STMT = new JassElementType("SET_STMT");
   IElementType STMT = new JassElementType("STMT");
+  IElementType STR = new JassElementType("STR");
   IElementType TYPE_DEF = new JassElementType("TYPE_DEF");
   IElementType TYPE_NAME = new JassElementType("TYPE_NAME");
   IElementType TYPE_NAME_BASE = new JassElementType("TYPE_NAME_BASE");
@@ -249,6 +250,9 @@ public interface JassTypes {
       }
       else if (type == STMT) {
         return new JassStmtImpl(node);
+      }
+      else if (type == STR) {
+        return new JassStrImpl(node);
       }
       else if (type == TYPE_DEF) {
         return new JassTypeDefImpl(node);
