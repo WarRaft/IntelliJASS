@@ -305,8 +305,19 @@ public class JassParser implements PsiParser, LightPsiParser {
       if (!Stmt(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "FunStmt", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
+    exit_section_(b, l, m, true, false, JassParser::FunStmtRecover);
     return true;
+  }
+
+  /* ********************************************************** */
+  // !(ENDFUNCTION)
+  static boolean FunStmtRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunStmtRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, ENDFUNCTION);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -649,7 +660,7 @@ public class JassParser implements PsiParser, LightPsiParser {
       if (!Root_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "Root", c)) break;
     }
-    exit_section_(b, l, m, true, false, JassParser::rootRecover);
+    exit_section_(b, l, m, true, false, JassParser::RootRecover);
     return true;
   }
 
@@ -664,6 +675,29 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = Nativ(b, l + 1);
     if (!r) r = Glob(b, l + 1);
     if (!r) r = Fun(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+  static boolean RootRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RootRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !RootRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION
+  private static boolean RootRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RootRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, TYPE);
+    if (!r) r = consumeToken(b, CONSTANT);
+    if (!r) r = consumeToken(b, GLOBALS);
+    if (!r) r = consumeToken(b, NATIVE);
+    if (!r) r = consumeToken(b, FUNCTION);
     return r;
   }
 
@@ -815,29 +849,6 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, EQ);
     r = r && Expr(b, l + 1, -1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
-  static boolean rootRecover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "rootRecover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !rootRecover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION
-  private static boolean rootRecover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "rootRecover_0")) return false;
-    boolean r;
-    r = consumeToken(b, TYPE);
-    if (!r) r = consumeToken(b, CONSTANT);
-    if (!r) r = consumeToken(b, GLOBALS);
-    if (!r) r = consumeToken(b, NATIVE);
-    if (!r) r = consumeToken(b, FUNCTION);
     return r;
   }
 

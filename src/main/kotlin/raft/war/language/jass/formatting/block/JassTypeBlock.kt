@@ -15,10 +15,10 @@ import raft.war.language.jass.psi.JassTypes.*
  * https://plugins.jetbrains.com/docs/intellij/code-formatting.html
  */
 class JassTypeBlock(
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myCodeStyleSettings: CodeStyleSettings,
     private val aligments: HashMap<String, Alignment>
-) : JassBlock(myNode!!, null, Indent.getNoneIndent(), myCodeStyleSettings) {
+) : JassBlock(myNode, null, Indent.getNoneIndent(), myCodeStyleSettings) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var node = childNode
         var alignment: Alignment? = null

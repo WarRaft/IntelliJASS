@@ -86,7 +86,7 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
             callStmtClone.addBefore(createToken(project, "call"), funcCallCopy)
             callStmtClone.addBefore(PsiParserFacade.getInstance(project).createWhiteSpaceFromText(" "), funcCallCopy)
 
-            callStmt.replace(recreateCallStmt(project, callStmtClone)!!)
+            callStmt.replace(recreateCallStmt(project, callStmtClone))
         }
     }
 

@@ -10,12 +10,12 @@ import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.psi.JassTypes.*
 
 class JassStmtBlock(
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
     codeStyleSettings: CodeStyleSettings?
 ) : JassBlock(
-    myNode!!, myAlignment, myIndent, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings!!
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var child = childNode

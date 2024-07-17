@@ -3,7 +3,6 @@ package raft.war.binary.reader
 // https://github.com/mvysny/kotlin-unsigned-jvm/blob/master/src/main/kotlin/Endian.kt
 
 class ByteBufferWrap(val bytes: ByteArray) {
-    @Suppress("MemberVisibilityCanBePrivate")
     var cursor: Int = -1
 
     var skip: Int

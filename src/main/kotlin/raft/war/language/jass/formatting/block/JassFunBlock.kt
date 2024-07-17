@@ -6,7 +6,6 @@ import com.intellij.formatting.ChildAttributes
 import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
-import com.intellij.psi.formatter.FormatterUtil
 import com.intellij.psi.formatter.FormatterUtil.*
 import raft.war.language.jass.psi.JassTypes.*
 

@@ -94,8 +94,8 @@ Root ::= (
     Nativ |
     Glob |
     Fun
-    )* {recoverWhile=rootRecover}
-private rootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+    )* {recoverWhile=RootRecover}
+private RootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
 
 // === type
 TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
@@ -120,7 +120,11 @@ private ParamListRecover ::= !(RETURNS)
 FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
 Fun ::= CONSTANT? FUNCTION FunName FunTake? FunRet? FunStmt ENDFUNCTION {pin=2}
-FunStmt ::= Stmt*
+FunStmt ::= Stmt* {recoverWhile=FunStmtRecover}
+
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
+
+private FunStmtRecover ::= !(ENDFUNCTION)
 
 FunName ::= ID {
     implements="raft.war.language.jass.psi.JassNamedElement"

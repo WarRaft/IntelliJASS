@@ -11,8 +11,8 @@ import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.formatting.block.JassGlobalVarBlock.Companion.getAlignments
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassGlobalsBlock(myNode: ASTNode?, code: CodeStyleSettings) :
-    JassBlock(myNode!!, null, Indent.getNoneIndent(), code) {
+class JassGlobalsBlock(myNode: ASTNode, code: CodeStyleSettings) :
+    JassBlock(myNode, null, Indent.getNoneIndent(), code) {
     private val gvarAlignments: HashMap<String, Alignment>
 
     init {

@@ -49,6 +49,12 @@
         <psi.referenceContributor language="JASS"
                                   implementation="raft.war.language.jass.JassReferenceContributor"/>
 
+        <!-- completion -->
+        <completion.contributor
+                language="JASS"
+                implementationClass="raft.war.language.jass.JassCompletionContributor"/>
+
+
         <!-- commenter -->
         <lang.commenter
                 language="JASS"

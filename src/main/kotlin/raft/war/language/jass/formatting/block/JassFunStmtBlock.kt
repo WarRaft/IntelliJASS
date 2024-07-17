@@ -8,12 +8,12 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 
 class JassFunStmtBlock(
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
     codeStyleSettings: CodeStyleSettings?
 ) : JassBlock(
-    myNode!!, myAlignment, myIndent, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings!!
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         return JassStmtBlock(childNode, null, Indent.getNormalIndent(), myCodeStyleSettings)

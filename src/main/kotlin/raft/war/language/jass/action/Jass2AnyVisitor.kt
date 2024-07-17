@@ -247,7 +247,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             return
         }
         if (text(o.intval)) return
-        val str = o.strval
+        val str = o.str
         if (str != null) {
             appendString(str.text)
             return

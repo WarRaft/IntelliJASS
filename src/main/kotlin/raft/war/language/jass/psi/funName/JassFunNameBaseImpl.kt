@@ -37,12 +37,11 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
             override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
 
             override fun resolveDeclaration(incompleteCode: Boolean): List<PsiElement> {
-                val scope = GlobalSearchScope.allScope(project)
                 StubIndex.getElements(
                     KEY,
                     myText,
                     project,
-                    scope,
+                    GlobalSearchScope.allScope(project),
                     JassFunName::class.java,
                 ).forEach { name ->
                     if (name.parent is JassFun) result.add(name)

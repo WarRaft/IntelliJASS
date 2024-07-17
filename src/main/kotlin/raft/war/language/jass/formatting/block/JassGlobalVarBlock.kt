@@ -45,11 +45,11 @@ class JassGlobalVarBlock(
         return JassBlock(childNode, alignment, null, myCodeStyleSettings)
     }
 
-    override val spacingBuilder: SpacingBuilder?
+    override val spacingBuilder: SpacingBuilder
         get() = super.spacingBuilder
-            ?.around(ARRAY)?.spacing(1, 1, 0, false, 0)
-            ?.around(TYPE_NAME)?.spacing(1, 1, 0, false, 0)
-            ?.around(ID)?.spacing(1, 1, 0, false, 0)
+            .around(ARRAY).spacing(1, 1, 0, false, 0)
+            .around(TYPE_NAME).spacing(1, 1, 0, false, 0)
+            .around(ID).spacing(1, 1, 0, false, 0)
 
 
     companion object {
