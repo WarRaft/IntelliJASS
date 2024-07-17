@@ -67,6 +67,8 @@
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
 
+        <additionalLibraryRootsProvider implementation="raft.war.language.jass.JassAdditionalLibraryRootsProvider"/>
+
         <!-- inspections -->
         <localInspection language="JASS"
                          bundle="messages.JassInspectionsBundle"

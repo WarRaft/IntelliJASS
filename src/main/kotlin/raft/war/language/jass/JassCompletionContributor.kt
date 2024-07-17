@@ -37,6 +37,7 @@ internal class JassCompletionContributor : CompletionContributor() {
                                 val fn = name.parent
                                 if (fn !is JassFun) return@forEach
 
+
                                 resultSet.addElement(
                                     LookupElementBuilder
                                         .create(name)
