@@ -8,7 +8,7 @@ class JassCodeStyleSettings(container: CodeStyleSettings) :
     CustomCodeStyleSettings("JassCodeStyleSettings", container) {
 
     @JvmField
-    var AT_TYPE_DECL_EXTENDS: Boolean = true
+    var AT_TYPE_DECL_EXTENDS: Boolean = false
 
     @JvmField
     var AT_TYPE_DECL_TYPE_RIGHT: Boolean = false
