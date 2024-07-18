@@ -28,12 +28,10 @@ class JassAdditionalLibraryRootsProvider : AdditionalLibraryRootsProvider() {
         val files: MutableList<VirtualFile> = mutableListOf()
 
         dir?.children?.forEach {
+            if (it == null) return@forEach
             val psiFile = psiManager.findFile(it)
-            if (psiFile != null) {
-                if (psiFile.language !is JassLanguage) return@forEach
-                if (it == null) return@forEach
-                files.add(it)
-            }
+            if (psiFile == null || psiFile.language !is JassLanguage) return@forEach
+            files.add(it)
         }
 
         return if (files.isNotEmpty()) {
