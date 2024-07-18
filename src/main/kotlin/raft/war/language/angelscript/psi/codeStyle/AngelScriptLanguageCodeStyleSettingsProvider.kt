@@ -16,7 +16,7 @@ import raft.war.language.angelscript.lang.AngelScriptLanguage.Companion.instance
 
 internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings =
-        raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings(settings)
+        AngelScriptCodeStyleSettings(settings)
 
     override fun createConfigurable(
         settings: CodeStyleSettings,
@@ -59,7 +59,7 @@ internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleS
             SettingsType.LANGUAGE_SPECIFIC -> {
                 addToGroup(
                     consumer, arrayOf(
-                        Pair.of(raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings::AT_ENUM_EQ.name, "'=' token"),
+                        Pair.of(AngelScriptCodeStyleSettings::AT_ENUM_EQ.name, "'=' token"),
                     ), AngelScriptAlignTokenPanel.ENUM
                 )
             }
@@ -154,6 +154,6 @@ private fun addToGroup(
     group: String?
 ) {
     for (pair in list) {
-        consumer.showCustomOption(raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings::class.java, pair.first, pair.second, group)
+        consumer.showCustomOption(AngelScriptCodeStyleSettings::class.java, pair.first, pair.second, group)
     }
 }

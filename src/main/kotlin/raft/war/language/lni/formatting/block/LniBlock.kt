@@ -48,7 +48,7 @@ open class LniBlock(
     private val spacingBuilder: SpacingBuilder
         //final CommonCodeStyleSettings code = myCodeStyleSettings.getCommonSettings(AngelScriptLanguage.INSTANCE.getID());
         get() = SpacingBuilder(myCodeStyleSettings, LniLanguage.instance)
-            .around(raft.war.language.lni.psi.LniTypes.EQ).spacing(1, 1, 0, false, 0)
+            .around(LniTypes.EQ).spacing(1, 1, 0, false, 0)
 
     override fun getSpacing(block1: Block?, block2: Block): Spacing? {
         if (mySpacingBuilder == null) mySpacingBuilder = spacingBuilder

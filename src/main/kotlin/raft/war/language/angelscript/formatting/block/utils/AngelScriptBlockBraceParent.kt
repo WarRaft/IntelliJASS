@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.AngelScriptBlock
 import raft.war.language.angelscript.formatting.block.AngelScriptBlockStat
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.*
 
 abstract class AngelScriptBlockBraceParent(
     myNode: ASTNode,
@@ -22,9 +22,9 @@ abstract class AngelScriptBlockBraceParent(
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
         if (FormatterUtil.isOneOf(
                 childNode,
-                raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK,
-                raft.war.language.angelscript.psi.AngelScriptTypes.CLAZZ_STAT_BLOCK,
-                raft.war.language.angelscript.psi.AngelScriptTypes.NSPACE_STAT_BLOCK
+                STAT_BLOCK,
+                CLAZZ_STAT_BLOCK,
+                NSPACE_STAT_BLOCK
             )
         ) return AngelScriptBlockStat(childNode, null, null, settings, braceStyle)
         return super.makeSubBlock(childNode, indent)
@@ -36,26 +36,26 @@ abstract class AngelScriptBlockBraceParent(
             when (braceStyle) {
                 CommonCodeStyleSettings.END_OF_LINE -> {
                     sb = sb
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 0, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(CLAZZ_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(SWITCH_STAT_BLOCK).spacing(1, 1, 0, false, 0)
+                        .before(NSPACE_STAT_BLOCK).spacing(1, 1, 0, false, 0)
                     sb = sb
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
                 }
 
                 CommonCodeStyleSettings.NEXT_LINE, CommonCodeStyleSettings.NEXT_LINE_IF_WRAPPED, CommonCodeStyleSettings.NEXT_LINE_SHIFTED, CommonCodeStyleSettings.NEXT_LINE_SHIFTED2 -> sb =
                     sb
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
-                        .before(raft.war.language.angelscript.psi.AngelScriptTypes.NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(CLAZZ_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(ENUM_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(SWITCH_STAT_BLOCK).spacing(1, 1, 1, false, 0)
+                        .before(NSPACE_STAT_BLOCK).spacing(1, 1, 1, false, 0)
             }
             return sb
         }

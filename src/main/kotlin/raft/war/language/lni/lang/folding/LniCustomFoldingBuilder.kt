@@ -13,11 +13,12 @@ import raft.war.language.lni.extapi.psi.LniPsiFileBase
 import raft.war.language.lni.lang.LNI_FILE
 import raft.war.language.lni.lang.folding.LniCodeFoldingSettings.Companion.instance
 import raft.war.language.lni.psi.*
+import raft.war.language.lni.psi.LniTypes.*
 
 internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
     override fun isCustomFoldingRoot(node: ASTNode): Boolean {
         val type = node.elementType
-        return type === LNI_FILE || type === raft.war.language.lni.psi.LniTypes.HEAD
+        return type === LNI_FILE || type === HEAD
     }
 
     override fun buildLanguageFoldRegions(
@@ -31,18 +32,18 @@ internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         val psiElements = PsiTreeUtil.findChildrenOfAnyType(
             root,
             PsiComment::class.java,
-            raft.war.language.lni.psi.LniItem::class.java,
+            LniItem::class.java,
             raft.war.language.lni.psi.LniList::class.java
         )
 
         for (element in psiElements) {
             val end = element.textOffset + element.textLength
 
-            if (element is raft.war.language.lni.psi.LniItem) {
+            if (element is LniItem) {
                 var start: Int
-                val head: raft.war.language.lni.psi.LniHead? = element.head
+                val head: LniHead? = element.head
                 if (head == null) {
-                    val list: List<raft.war.language.lni.psi.LniProperty> = element.propertyList
+                    val list: List<LniProperty> = element.propertyList
                     if (list.isEmpty()) continue
                     val id = list[0].id
                     start = id.textOffset + id.textLength
@@ -74,13 +75,13 @@ internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange): String? {
         val type = node.elementType
-        if (type === raft.war.language.lni.psi.LniTypes.ITEM) {
-            val psi = node.getPsi(raft.war.language.lni.psi.LniItem::class.java)
+        if (type === ITEM) {
+            val psi = node.getPsi(LniItem::class.java)
             val size = psi.propertyList.size
             return if (size == 0) "..." else "...($size)"
         }
 
-        if (type === raft.war.language.lni.psi.LniTypes.LIST) {
+        if (type === LIST) {
             val psi = node.getPsi(raft.war.language.lni.psi.LniList::class.java)
             val size = psi.listItemList.size
             return if (size == 0) "..." else "($size)"
@@ -93,8 +94,8 @@ internal class LniCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         val type = node.elementType
         val settings = instance
 
-        if (type === raft.war.language.lni.psi.LniTypes.ITEM) return settings.isFoldItem
-        if (type === raft.war.language.lni.psi.LniTypes.LIST) return settings.isFoldList
+        if (type === ITEM) return settings.isFoldItem
+        if (type === LIST) return settings.isFoldList
         return false
     }
 }

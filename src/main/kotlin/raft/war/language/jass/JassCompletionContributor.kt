@@ -68,9 +68,6 @@ internal class JassCompletionContributor : CompletionContributor() {
                                         while (before is PsiWhiteSpace) {
                                             before = before.prevSibling
                                         }
-
-                                        //print("p: ${before?.parent} \n")
-
                                         if (before.elementType != CALL && (before?.parent is JassFunStmt || before?.parent is JassFun)) {
                                             document.insertString(context.startOffset, "call ")
                                         }

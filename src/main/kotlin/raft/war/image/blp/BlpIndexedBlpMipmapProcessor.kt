@@ -39,7 +39,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
     /**
      * The BLP indexed color model used to process mipmaps.
      */
-    private var indexedBLPColorModel: raft.war.image.blp.BlpIndexColorModel? = null
+    private var indexedBLPColorModel: BlpIndexColorModel? = null
 
     /**
      * The bandSizes to use.
@@ -74,7 +74,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
         if (!canDecode) {
             // get a color model
             when (srcCM) {
-                is raft.war.image.blp.BlpIndexColorModel -> {
+                is BlpIndexColorModel -> {
                     indexedBLPColorModel = BlpIndexColorModel(
                         srcCM.palette,
                         if (bandSizes.size > 1) bandSizes[1] else 0
@@ -89,7 +89,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
                     // color space conversion
                     val srcCMapCM = ColorModel.getRGBdefault()
                     val destCMapCM =
-                        raft.war.image.blp.BlpIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
+                        BlpIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
                     val destCMap = IntArray(srcCMap.size)
                     val components = IntArray(
                         srcCMapCM
@@ -207,7 +207,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
     ) {
         checkNotNull(src)
         src.byteOrder = ByteOrder.LITTLE_ENDIAN
-        val palette = IntArray(raft.war.image.blp.BlpIndexColorModel.MAX_PALETTE_LENGTH)
+        val palette = IntArray(BlpIndexColorModel.MAX_PALETTE_LENGTH)
         src.readFully(palette, 0, palette.size)
 
         indexedBLPColorModel = BlpIndexColorModel(

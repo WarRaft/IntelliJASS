@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockBraceParent
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH_STAT_BLOCK
 
 class AngelScriptBlockSwitch(
     myNode: ASTNode,
@@ -20,7 +20,7 @@ class AngelScriptBlockSwitch(
     }
 
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH_STAT_BLOCK)) return AngelScriptBlockSwitchStat(
+        if (FormatterUtil.isOneOf(childNode, SWITCH_STAT_BLOCK)) return AngelScriptBlockSwitchStat(
             childNode,
             null,
             null,

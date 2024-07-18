@@ -18,7 +18,7 @@ class JassElementTextFactory {
         private fun createFun(project: Project, name: String): JassFun =
             createFile(project, "function $name endfunction").firstChild as JassFun
 
-        fun getId(project: Project, name: String): PsiElement = createFun(project, name).funName!!.id
+        fun getId(project: Project, name: String): PsiElement = createFun(project, name).funHead!!.funName.id
 
         fun recreateCallStmt(
             project: Project,

@@ -10,7 +10,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.squareup.wire.internal.JvmField
 import raft.war.language.angelscript.lexer.AngelScriptFlexAdapter
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.*
 
 class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> = pack(ATTRIBUTES[tokenType])
@@ -31,74 +31,74 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
 
         private val ID_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_ID", DefaultLanguageHighlighterColors.IDENTIFIER)
-        private val ID_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.ID)
+        private val ID_SET = TokenSet.create(ID)
 
         @JvmField
         val LINE_COMMENT_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "ANGELSCRIPT_LINE_COMMENT",
             DefaultLanguageHighlighterColors.LINE_COMMENT
         )
-        private val LINE_COMMENT_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT)
+        private val LINE_COMMENT_SET = TokenSet.create(LINE_COMMENT)
 
         @JvmField
         val BLOCK_COMMENT_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "ANGELSCRIPT_BLOCK_COMMENT",
             DefaultLanguageHighlighterColors.LINE_COMMENT
         )
-        private val BLOCK_COMMENT_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.BLOCK_COMMENT)
+        private val BLOCK_COMMENT_SET = TokenSet.create(BLOCK_COMMENT)
 
         @JvmField
         val KEYWORD_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
         private val KEYWORD_SET = TokenSet.create(
-            raft.war.language.angelscript.psi.AngelScriptTypes.ABSTRACT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.ARRAY,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AUTO,
-            raft.war.language.angelscript.psi.AngelScriptTypes.BREAK,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CASE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CONST,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CLASSS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.DEFAULT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.DO,
-            raft.war.language.angelscript.psi.AngelScriptTypes.ELSE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.ENUM,
-            raft.war.language.angelscript.psi.AngelScriptTypes.EXTERNAL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.EXPLICIT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FINAL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FOR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FUNCDEF,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FUNCTION,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GET,
-            raft.war.language.angelscript.psi.AngelScriptTypes.IF,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INCLUDE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.IN,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INOUT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NAMESPACE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NULL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NIL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.OVERRIDE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.OUT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PRIVATE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PROPERTY,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PROTECTED,
-            raft.war.language.angelscript.psi.AngelScriptTypes.RETURN,
-            raft.war.language.angelscript.psi.AngelScriptTypes.SET,
-            raft.war.language.angelscript.psi.AngelScriptTypes.SHARED,
-            raft.war.language.angelscript.psi.AngelScriptTypes.STATIC,
-            raft.war.language.angelscript.psi.AngelScriptTypes.SWITCH,
-            raft.war.language.angelscript.psi.AngelScriptTypes.WHILE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.TRUE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FALSE
+            ABSTRACT,
+            ARRAY,
+            AUTO,
+            BREAK,
+            CASE,
+            CONST,
+            CLASSS,
+            DEFAULT,
+            DO,
+            ELSE,
+            ENUM,
+            EXTERNAL,
+            EXPLICIT,
+            FINAL,
+            FOR,
+            FUNCDEF,
+            FUNCTION,
+            GET,
+            IF,
+            INCLUDE,
+            IN,
+            INOUT,
+            NAMESPACE,
+            NULL,
+            NIL,
+            OVERRIDE,
+            OUT,
+            PRIVATE,
+            PROPERTY,
+            PROTECTED,
+            RETURN,
+            SET,
+            SHARED,
+            STATIC,
+            SWITCH,
+            WHILE,
+            TRUE,
+            FALSE
         )
 
         @JvmField
         val NUMBER_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_NUMBER", DefaultLanguageHighlighterColors.NUMBER)
         private val NUMBER_SET = TokenSet.create(
-            raft.war.language.angelscript.psi.AngelScriptTypes.RAWVAL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INTVAL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.REALVAL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.HEXVAL
+            RAWVAL,
+            INTVAL,
+            REALVAL,
+            HEXVAL
         )
 
         @JvmField
@@ -106,34 +106,34 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
             "ANGELSCRIPT_PARENTHESES",
             DefaultLanguageHighlighterColors.PARENTHESES
         )
-        private val PARENTHESES_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.LPAREN, raft.war.language.angelscript.psi.AngelScriptTypes.RPAREN)
+        private val PARENTHESES_SET = TokenSet.create(LPAREN, RPAREN)
 
         @JvmField
         val BRACES_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_BRACES", DefaultLanguageHighlighterColors.BRACES)
-        private val BRACES_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.LBRACE, raft.war.language.angelscript.psi.AngelScriptTypes.RBRACE)
+        private val BRACES_SET = TokenSet.create(LBRACE, RBRACE)
 
         @JvmField
         val BRACKETS_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS)
-        private val BRACKETS_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.LBRACK, raft.war.language.angelscript.psi.AngelScriptTypes.RBRACK)
+        private val BRACKETS_SET = TokenSet.create(LBRACK, RBRACK)
 
         @JvmField
         val COMMA_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_COMMA", DefaultLanguageHighlighterColors.COMMA)
-        private val COMMA_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.COMMA)
+        private val COMMA_SET = TokenSet.create(COMMA)
 
         @JvmField
         val SEMICOLON_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "ANGELSCRIPT_SEMICOLON",
             DefaultLanguageHighlighterColors.SEMICOLON
         )
-        private val SEMICOLON_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.SEMI)
+        private val SEMICOLON_SET = TokenSet.create(SEMI)
 
         @JvmField
         val DOT_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_DOT", DefaultLanguageHighlighterColors.DOT)
-        private val DOT_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.DOT)
+        private val DOT_SET = TokenSet.create(DOT)
 
         @JvmField
         val OPERATION_SIGN_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
@@ -141,60 +141,60 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.OPERATION_SIGN
         )
         private val OPERATION_SIGN_SET = TokenSet.create(
-            raft.war.language.angelscript.psi.AngelScriptTypes.COLON_COLON,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PLUS_PLUS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MINUS_MINUS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.TILDE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.EXCL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NOT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MINUS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PLUS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CAST,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MUL_MUL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MUL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.DIV,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PERCENT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.LT_LT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GT_GT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GT_GT_GT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.LT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.LT_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GT_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.EQ_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NEQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CAR_CAR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.XOR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.IS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.NIS,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AMP,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CAR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.VBAR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AMP_AMP,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AND,
-            raft.war.language.angelscript.psi.AngelScriptTypes.VBAR_VBAR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.OR,
-            raft.war.language.angelscript.psi.AngelScriptTypes.QUEST,
-            raft.war.language.angelscript.psi.AngelScriptTypes.COLON,
-            raft.war.language.angelscript.psi.AngelScriptTypes.EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MUL_MUL_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MUL_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.DIV_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PERCENT_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.PLUS_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.MINUS_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.LT_LT_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.GT_GT_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.AMP_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CAR_EQ,
-            raft.war.language.angelscript.psi.AngelScriptTypes.VBAR_EQ
+            COLON_COLON,
+            PLUS_PLUS,
+            MINUS_MINUS,
+            TILDE,
+            EXCL,
+            NOT,
+            MINUS,
+            PLUS,
+            AT,
+            CAST,
+            MUL_MUL,
+            MUL,
+            DIV,
+            PERCENT,
+            LT_LT,
+            GT_GT,
+            GT_GT_GT,
+            LT,
+            GT,
+            LT_EQ,
+            GT_EQ,
+            EQ_EQ,
+            NEQ,
+            CAR_CAR,
+            XOR,
+            IS,
+            NIS,
+            AMP,
+            CAR,
+            VBAR,
+            AMP_AMP,
+            AND,
+            VBAR_VBAR,
+            OR,
+            QUEST,
+            COLON,
+            EQ,
+            MUL_MUL_EQ,
+            MUL_EQ,
+            DIV_EQ,
+            PERCENT_EQ,
+            PLUS_EQ,
+            MINUS_EQ,
+            LT_LT_EQ,
+            GT_GT_EQ,
+            AMP_EQ,
+            CAR_EQ,
+            VBAR_EQ
         )
 
         @JvmField
         val STRING_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_STRING", DefaultLanguageHighlighterColors.STRING)
-        private val STRING_SET = TokenSet.create(raft.war.language.angelscript.psi.AngelScriptTypes.STRING_ONE, raft.war.language.angelscript.psi.AngelScriptTypes.STRING_THREE)
+        private val STRING_SET = TokenSet.create(STRING_ONE, STRING_THREE)
 
         @JvmField
         val VALID_STRING_ESCAPE_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
@@ -212,23 +212,23 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
         val TYPE_NAME_KEY: TextAttributesKey =
             TextAttributesKey.createTextAttributesKey("ANGELSCRIPT_TYPE_NAME", DefaultLanguageHighlighterColors.KEYWORD)
         private val TYPE_NAME_SET = TokenSet.create(
-            raft.war.language.angelscript.psi.AngelScriptTypes.ARRAY,
-            raft.war.language.angelscript.psi.AngelScriptTypes.BOOL,
-            raft.war.language.angelscript.psi.AngelScriptTypes.CODE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.DOUBLE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.FLOAT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.HANDLE,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INT8,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INT16,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INT32,
-            raft.war.language.angelscript.psi.AngelScriptTypes.INT64,
-            raft.war.language.angelscript.psi.AngelScriptTypes.STRING,
-            raft.war.language.angelscript.psi.AngelScriptTypes.UINT,
-            raft.war.language.angelscript.psi.AngelScriptTypes.UINT16,
-            raft.war.language.angelscript.psi.AngelScriptTypes.UINT32,
-            raft.war.language.angelscript.psi.AngelScriptTypes.UINT64,
-            raft.war.language.angelscript.psi.AngelScriptTypes.VOID
+            ARRAY,
+            BOOL,
+            CODE,
+            DOUBLE,
+            FLOAT,
+            HANDLE,
+            INT,
+            INT8,
+            INT16,
+            INT32,
+            INT64,
+            STRING,
+            UINT,
+            UINT16,
+            UINT32,
+            UINT64,
+            VOID
         )
 
         init {

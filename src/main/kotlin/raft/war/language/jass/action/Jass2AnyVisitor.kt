@@ -105,12 +105,14 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     abstract fun appendFunction(returns: String?, name: String?, params: List<JassParam?>, statements: List<JassStmt?>)
 
     override fun visitFun(o: JassFun) {
-        val ret = o.funRet
+        val head = o.funHead
+
+        val ret = head?.funRet
         val rettype = ret?.typeName
 
-        val name = o.funName
+        val name = head?.funName
 
-        val take = o.funTake
+        val take = head?.funTake
         var params: List<JassParam?> = ArrayList()
         if (take != null) {
             val list = take.paramList

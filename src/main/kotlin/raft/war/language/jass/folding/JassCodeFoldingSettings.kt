@@ -19,7 +19,6 @@ class JassCodeFoldingSettings : PersistentStateComponent<JassCodeFoldingSettings
     override fun loadState(state: JassCodeFoldingSettings) = XmlSerializerUtil.copyBean(state, this)
 
     companion object {
-        @JvmStatic
         val instance: JassCodeFoldingSettings
             get() = ApplicationManager.getApplication().getService(
                 JassCodeFoldingSettings::class.java

@@ -39,11 +39,7 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         for (element in psiElements) {
             if (element is JassFun) {
                 val head = element.funHead
-                val start: PsiElement? = if (head?.funRet != null) head.funRet else head?.funTake
-
-                if (start == null) continue
-
-                val s = start.node
+                val s = head?.node
                 val e = element.getNode().findChildByType(JassTypes.ENDFUNCTION, s)
                 if (s == null || e == null) continue
 

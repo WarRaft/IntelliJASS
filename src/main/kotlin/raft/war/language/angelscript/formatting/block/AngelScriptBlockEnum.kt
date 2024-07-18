@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockBraceParent
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK
 
 class AngelScriptBlockEnum(
     myNode: ASTNode,
@@ -20,7 +20,7 @@ class AngelScriptBlockEnum(
     }
 
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_STAT_BLOCK)) {
+        if (FormatterUtil.isOneOf(childNode, ENUM_STAT_BLOCK)) {
             return AngelScriptBlockEnumStat(childNode, null, null, settings, braceStyle)
         }
         return super.makeSubBlock(childNode, indent)

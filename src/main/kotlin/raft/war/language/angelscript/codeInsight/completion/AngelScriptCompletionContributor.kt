@@ -3,7 +3,7 @@ package raft.war.language.angelscript.codeInsight.completion
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import raft.war.language.angelscript.codeInsight.completion.FilePathMatcher.aggregateFilePaths
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.INCLUDE_STMT
 
 class AngelScriptCompletionContributor : CompletionContributor() {
     private fun fillCompletionVariantsInclude(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -32,7 +32,7 @@ class AngelScriptCompletionContributor : CompletionContributor() {
         do {
             val parent = child.treeParent ?: break
             val type = parent.elementType
-            if (type === raft.war.language.angelscript.psi.AngelScriptTypes.INCLUDE_STMT) {
+            if (type === INCLUDE_STMT) {
                 fillCompletionVariantsInclude(parameters, result)
             }
             child = parent

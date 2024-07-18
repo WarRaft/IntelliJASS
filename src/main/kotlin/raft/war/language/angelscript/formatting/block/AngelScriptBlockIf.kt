@@ -7,7 +7,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockBraceParent
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.ELSE_STMT
+import raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK
 
 class AngelScriptBlockIf(
     myNode: ASTNode,
@@ -22,7 +23,7 @@ class AngelScriptBlockIf(
     override val spacingBuilder: SpacingBuilder
         get() {
             return super.spacingBuilder
-                .between(raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK, raft.war.language.angelscript.psi.AngelScriptTypes.ELSE_STMT)
+                .between(STAT_BLOCK, ELSE_STMT)
                 .spacing(1, 1, if (braceStyle == CommonCodeStyleSettings.END_OF_LINE) 0 else 1, false, 0)
         }
 }

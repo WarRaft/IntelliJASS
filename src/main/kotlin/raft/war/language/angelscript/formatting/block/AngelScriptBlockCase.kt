@@ -5,10 +5,9 @@ import com.intellij.formatting.Block
 import com.intellij.formatting.Indent
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.lang.ASTNode
-import com.intellij.psi.formatter.FormatterUtil
-import com.intellij.psi.formatter.FormatterUtil.*
+import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.CASE_STMT_LIST
 
 class AngelScriptBlockCase(
     myNode: ASTNode,
@@ -17,7 +16,7 @@ class AngelScriptBlockCase(
     settings: AngelScriptBlockSettings
 ) : AngelScriptBlock(myNode, myAlignment, myIndent, settings) {
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.CASE_STMT_LIST)) return AngelScriptBlockCaseStmtList(
+        if (isOneOf(childNode, CASE_STMT_LIST)) return AngelScriptBlockCaseStmtList(
             childNode,
             null,
             Indent.getNormalIndent(),
@@ -29,6 +28,6 @@ class AngelScriptBlockCase(
 
     override val spacingBuilder: SpacingBuilder
         get() {
-            return super.spacingBuilder.before(raft.war.language.angelscript.psi.AngelScriptTypes.CASE_STMT_LIST).spacing(1, 1, 1, true, 1)
+            return super.spacingBuilder.before(CASE_STMT_LIST).spacing(1, 1, 1, true, 1)
         }
 }

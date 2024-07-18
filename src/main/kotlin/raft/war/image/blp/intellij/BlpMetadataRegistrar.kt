@@ -25,8 +25,8 @@ class BlpMetadataRegistrar : AppLifecycleListener, DynamicPluginListener {
     }
 
     companion object {
-        private val IMAGE_READER_PROVIDER: ImageReaderSpi = raft.war.image.blp.BlpReaderSpi()
-        private val IMAGE_WRITER_PROVIDER: ImageWriterSpi = raft.war.image.blp.BlpWriterSpi()
+        private val IMAGE_READER_PROVIDER: ImageReaderSpi = BlpReaderSpi()
+        private val IMAGE_WRITER_PROVIDER: ImageWriterSpi = BlpWriterSpi()
 
         private fun ensureBlpRegistered() {
             val defaultInstance = IIORegistry.getDefaultInstance()

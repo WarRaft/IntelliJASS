@@ -9,5 +9,5 @@ import raft.war.language.angelscript.lang.AngelScriptLanguage
 class AngelScriptBlockSettings(formattingContext: FormattingContext) {
     val code: CodeStyleSettings = formattingContext.codeStyleSettings
     val common: CommonCodeStyleSettings = code.getCommonSettings(AngelScriptLanguage.instance.id)
-    val custom: raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings = code.getCustomSettings(raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings::class.java)
+    val custom: AngelScriptCodeStyleSettings = code.getCustomSettings(AngelScriptCodeStyleSettings::class.java)
 }

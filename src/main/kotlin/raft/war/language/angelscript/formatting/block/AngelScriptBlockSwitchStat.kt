@@ -6,7 +6,7 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.CASE_STMT
 
 class AngelScriptBlockSwitchStat(
     myNode: ASTNode,
@@ -16,7 +16,7 @@ class AngelScriptBlockSwitchStat(
     braceStyle: Int
 ) : AngelScriptBlockStat(myNode, myAlignment, myIndent, settings, braceStyle) {
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.CASE_STMT)) return AngelScriptBlockCase(
+        if (FormatterUtil.isOneOf(childNode, CASE_STMT)) return AngelScriptBlockCase(
             childNode,
             null,
             null,

@@ -7,7 +7,8 @@ import com.intellij.formatting.SpacingBuilder
 import com.intellij.lang.ASTNode
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.COMMA
+import raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_ITEM
 
 class AngelScriptBlockEnumStat(
     myNode: ASTNode,
@@ -24,7 +25,7 @@ class AngelScriptBlockEnumStat(
     }
 
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.ENUM_ITEM)) return AngelScriptBlockEnumItem(
+        if (FormatterUtil.isOneOf(childNode, ENUM_ITEM)) return AngelScriptBlockEnumItem(
             childNode,
             null,
             Indent.getNormalIndent(),
@@ -39,10 +40,10 @@ class AngelScriptBlockEnumStat(
             var sb = super.spacingBuilder
 
             val sbc = if (settings.common.SPACE_BEFORE_COMMA) 1 else 0
-            sb = sb.before(raft.war.language.angelscript.psi.AngelScriptTypes.COMMA).spacing(sbc, sbc, 0, false, 0)
+            sb = sb.before(COMMA).spacing(sbc, sbc, 0, false, 0)
 
             //final int sac = settings.common.SPACE_AFTER_COMMA ? 1 : 0;
-            sb = sb.after(raft.war.language.angelscript.psi.AngelScriptTypes.COMMA).spacing(1, 1, 1, false, 0)
+            sb = sb.after(COMMA).spacing(1, 1, 1, false, 0)
 
             return sb
         }

@@ -8,7 +8,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.LBRACE
+import raft.war.language.angelscript.psi.AngelScriptTypes.RBRACE
 
 open class AngelScriptBlockStat(
     myNode: ASTNode,
@@ -18,7 +19,7 @@ open class AngelScriptBlockStat(
     private val braceStyle: Int
 ) : AngelScriptBlock(myNode, myAlignment, myIndent, settings) {
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.LBRACE, raft.war.language.angelscript.psi.AngelScriptTypes.RBRACE)) {
+        if (isOneOf(childNode, LBRACE, RBRACE)) {
             return AngelScriptBlockStatBrace(childNode, null, null, settings, braceStyle)
         }
         return super.makeSubBlock(childNode, Indent.getNormalIndent())
@@ -34,6 +35,6 @@ open class AngelScriptBlockStat(
 
     override val spacingBuilder: SpacingBuilder
         get() = super.spacingBuilder
-            .after(raft.war.language.angelscript.psi.AngelScriptTypes.LBRACE).spacing(1, 1, 1, false, 1)
-            .before(raft.war.language.angelscript.psi.AngelScriptTypes.RBRACE).spacing(1, 1, 1, false, 1)
+            .after(LBRACE).spacing(1, 1, 1, false, 1)
+            .before(RBRACE).spacing(1, 1, 1, false, 1)
 }

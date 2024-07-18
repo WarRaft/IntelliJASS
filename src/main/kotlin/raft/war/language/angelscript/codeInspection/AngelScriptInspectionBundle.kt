@@ -1,8 +1,6 @@
 package raft.war.language.angelscript.codeInspection
 
 import com.intellij.DynamicBundle
-import raft.war.language.angelscript.codeInspection.AngelScriptInspectionBundle
-import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 

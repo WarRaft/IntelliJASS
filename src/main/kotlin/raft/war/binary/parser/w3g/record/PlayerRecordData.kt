@@ -14,8 +14,7 @@ open class PlayerRecordData {
     open fun parse(inBuffer: ByteBuffer) {
         this.playerId = inBuffer.get().toInt()
         this.playerName = ByteBufferUtil.readUtf8CString(inBuffer)
-        val additionalSize = inBuffer.get().toInt()
-        when (additionalSize) {
+        when (val additionalSize = inBuffer.get().toInt()) {
             8 -> {
                 this.runtimeOfPlayers = inBuffer.get().toInt()
                 this.race = inBuffer.get().toInt()

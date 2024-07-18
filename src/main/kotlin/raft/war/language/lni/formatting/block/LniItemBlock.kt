@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.lni.formatting.LniCodeStyleSettings
-import raft.war.language.lni.psi.LniTypes
+import raft.war.language.lni.psi.LniTypes.PROPERTY
 
 class LniItemBlock(myNode: ASTNode, myAlignment: Alignment?, myIndent: Indent?, codeStyleSettings: CodeStyleSettings) :
     LniBlock(
@@ -21,7 +21,7 @@ class LniItemBlock(myNode: ASTNode, myAlignment: Alignment?, myIndent: Indent?, 
     }
 
     override fun makeSubBlock(childNode: ASTNode): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.lni.psi.LniTypes.PROPERTY)) return LniPropertyBlock(
+        if (FormatterUtil.isOneOf(childNode, PROPERTY)) return LniPropertyBlock(
             this,
             childNode,
             myAlignment,

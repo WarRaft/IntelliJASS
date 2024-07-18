@@ -8,7 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.psi.AngelScriptTypes
+import raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK
 
 class AngelScriptBlockCaseStmtList(
     myNode: ASTNode,
@@ -17,7 +17,7 @@ class AngelScriptBlockCaseStmtList(
     settings: AngelScriptBlockSettings
 ) : AngelScriptBlock(myNode, myAlignment, myIndent, settings) {
     override fun makeSubBlock(childNode: ASTNode, indent: Indent): Block {
-        if (FormatterUtil.isOneOf(childNode, raft.war.language.angelscript.psi.AngelScriptTypes.STAT_BLOCK)) return AngelScriptBlockStat(
+        if (FormatterUtil.isOneOf(childNode, STAT_BLOCK)) return AngelScriptBlockStat(
             childNode,
             null,
             Indent.getNormalIndent(),

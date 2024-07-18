@@ -1,3 +1,6 @@
+// https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html
+
+
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
     //id("java")

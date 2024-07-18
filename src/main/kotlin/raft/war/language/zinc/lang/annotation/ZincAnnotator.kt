@@ -9,7 +9,7 @@ import raft.war.language.zinc.psi.ZincTypeName
 
 internal class ZincAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element is raft.war.language.zinc.psi.ZincTypeName) {
+        if (element is ZincTypeName) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(element.getTextRange())
