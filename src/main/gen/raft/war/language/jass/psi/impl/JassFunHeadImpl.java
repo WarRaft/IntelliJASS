@@ -11,14 +11,14 @@ import static raft.war.language.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.jass.psi.*;
 
-public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
+public class JassFunHeadImpl extends ASTWrapperPsiElement implements JassFunHead {
 
-  public JassFunImpl(@NotNull ASTNode node) {
+  public JassFunHeadImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitFun(this);
+    visitor.visitFunHead(this);
   }
 
   @Override
@@ -28,33 +28,21 @@ public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
   }
 
   @Override
-  @Nullable
-  public JassFunHead getFunHead() {
-    return PsiTreeUtil.getChildOfType(this, JassFunHead.class);
-  }
-
-  @Override
-  @Nullable
-  public JassFunStmt getFunStmt() {
-    return PsiTreeUtil.getChildOfType(this, JassFunStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getConstant() {
-    return findChildByType(CONSTANT);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEndfunction() {
-    return findChildByType(ENDFUNCTION);
-  }
-
-  @Override
   @NotNull
-  public PsiElement getFunction() {
-    return notNullChild(findChildByType(FUNCTION));
+  public JassFunName getFunName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunName.class));
+  }
+
+  @Override
+  @Nullable
+  public JassFunRet getFunRet() {
+    return PsiTreeUtil.getChildOfType(this, JassFunRet.class);
+  }
+
+  @Override
+  @Nullable
+  public JassFunTake getFunTake() {
+    return PsiTreeUtil.getChildOfType(this, JassFunTake.class);
   }
 
 }

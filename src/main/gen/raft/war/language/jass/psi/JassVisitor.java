@@ -59,6 +59,10 @@ public class JassVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitFunHead(@NotNull JassFunHead o) {
+    visitCompositeElement(o);
+  }
+
   public void visitFunName(@NotNull JassFunName o) {
     visitNamedElement(o);
   }

@@ -9,6 +9,12 @@ import raft.war.language.jass.JassIcons.FILE
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
 import javax.swing.Icon
 
+/*
+Юзер функции - жёлтые.
+Нативки - розовые/фиолетовые.
+БЖ - красные.
+ */
+
 internal class JassColorSettingsPage : ColorSettingsPage {
     override fun getIcon(): Icon = FILE
 

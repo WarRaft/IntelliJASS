@@ -44,7 +44,7 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
                     GlobalSearchScope.allScope(project),
                     JassFunName::class.java,
                 ).forEach { name ->
-                    if (name.parent is JassFun) result.add(name)
+                    if (name.parent is JassFunHead) result.add(name)
                 }
                 return result
             }

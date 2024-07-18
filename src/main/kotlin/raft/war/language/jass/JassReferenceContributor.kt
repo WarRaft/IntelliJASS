@@ -29,7 +29,6 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                     val callName = call.funName.text
                     if (callName != "ExecuteFunc" && callName != "ExecuteFuncEx") return PsiReference.EMPTY_ARRAY
 
-
                     val result = OrderedSet<PsiElement>()
                     val ref = object : JassReferenceBase(element, TextRange(1, element.textLength - 1)) {
                         override fun handleElementRename(newElementName: String): PsiElement {
@@ -48,7 +47,7 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                                 scope,
                                 JassFunName::class.java,
                             ).forEach { name ->
-                                if (name.parent is JassFun) result.add(name)
+                                if (name.parent is JassFunHead) result.add(name)
                             }
                             return result
                         }

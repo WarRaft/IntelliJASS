@@ -6,21 +6,15 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
-public interface JassFun extends JassCompositeElement {
-
-  @Nullable
-  JassFunHead getFunHead();
-
-  @Nullable
-  JassFunStmt getFunStmt();
-
-  @Nullable
-  PsiElement getConstant();
-
-  @Nullable
-  PsiElement getEndfunction();
+public interface JassFunHead extends JassCompositeElement {
 
   @NotNull
-  PsiElement getFunction();
+  JassFunName getFunName();
+
+  @Nullable
+  JassFunRet getFunRet();
+
+  @Nullable
+  JassFunTake getFunTake();
 
 }

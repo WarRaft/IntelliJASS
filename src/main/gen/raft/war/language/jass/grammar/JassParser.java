@@ -199,7 +199,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? FUNCTION FunName FunTake? FunRet? FunStmt ENDFUNCTION
+  // CONSTANT? FUNCTION FunHead FunStmt ENDFUNCTION
   public static boolean Fun(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun")) return false;
     if (!nextTokenIs(b, "<fun>", CONSTANT, FUNCTION)) return false;
@@ -208,9 +208,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = Fun_0(b, l + 1);
     r = r && consumeToken(b, FUNCTION);
     p = r; // pin = 2
-    r = r && report_error_(b, FunName(b, l + 1));
-    r = p && report_error_(b, Fun_3(b, l + 1)) && r;
-    r = p && report_error_(b, Fun_4(b, l + 1)) && r;
+    r = r && report_error_(b, FunHead(b, l + 1));
     r = p && report_error_(b, FunStmt(b, l + 1)) && r;
     r = p && consumeToken(b, ENDFUNCTION) && r;
     exit_section_(b, l, m, r, p, null);
@@ -221,20 +219,6 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean Fun_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun_0")) return false;
     consumeToken(b, CONSTANT);
-    return true;
-  }
-
-  // FunTake?
-  private static boolean Fun_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Fun_3")) return false;
-    FunTake(b, l + 1);
-    return true;
-  }
-
-  // FunRet?
-  private static boolean Fun_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Fun_4")) return false;
-    FunRet(b, l + 1);
     return true;
   }
 
@@ -258,6 +242,34 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean FunCall_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunCall_2")) return false;
     ArgList(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // FunName FunTake? FunRet?
+  public static boolean FunHead(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = FunName(b, l + 1);
+    r = r && FunHead_1(b, l + 1);
+    r = r && FunHead_2(b, l + 1);
+    exit_section_(b, m, FUN_HEAD, r);
+    return r;
+  }
+
+  // FunTake?
+  private static boolean FunHead_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_1")) return false;
+    FunTake(b, l + 1);
+    return true;
+  }
+
+  // FunRet?
+  private static boolean FunHead_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_2")) return false;
+    FunRet(b, l + 1);
     return true;
   }
 
@@ -516,17 +528,16 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? NATIVE ID FunTake? FunRet?
+  // CONSTANT? NATIVE FunHead
   public static boolean Nativ(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Nativ")) return false;
     if (!nextTokenIs(b, "<nativ>", CONSTANT, NATIVE)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, NATIV, "<nativ>");
     r = Nativ_0(b, l + 1);
-    r = r && consumeTokens(b, 1, NATIVE, ID);
+    r = r && consumeToken(b, NATIVE);
     p = r; // pin = 2
-    r = r && report_error_(b, Nativ_3(b, l + 1));
-    r = p && Nativ_4(b, l + 1) && r;
+    r = r && FunHead(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -535,20 +546,6 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean Nativ_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Nativ_0")) return false;
     consumeToken(b, CONSTANT);
-    return true;
-  }
-
-  // FunTake?
-  private static boolean Nativ_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Nativ_3")) return false;
-    FunTake(b, l + 1);
-    return true;
-  }
-
-  // FunRet?
-  private static boolean Nativ_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Nativ_4")) return false;
-    FunRet(b, l + 1);
     return true;
   }
 

@@ -22,6 +22,7 @@ public interface JassTypes {
   IElementType FUN = new JassElementType("FUN");
   IElementType FUNC_AS_CODE = new JassElementType("FUNC_AS_CODE");
   IElementType FUN_CALL = new JassElementType("FUN_CALL");
+  IElementType FUN_HEAD = new JassElementType("FUN_HEAD");
   IElementType FUN_NAME = JassElementTypeFactory.factory("FUN_NAME");
   IElementType FUN_RET = new JassElementType("FUN_RET");
   IElementType FUN_STMT = new JassElementType("FUN_STMT");
@@ -160,6 +161,9 @@ public interface JassTypes {
       }
       else if (type == FUN_CALL) {
         return new JassFunCallImpl(node);
+      }
+      else if (type == FUN_HEAD) {
+        return new JassFunHeadImpl(node);
       }
       else if (type == FUN_NAME) {
         return new JassFunNameImpl(node);

@@ -119,7 +119,8 @@ private ParamListRecover ::= !(RETURNS)
 
 FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
-Fun ::= CONSTANT? FUNCTION FunName FunTake? FunRet? FunStmt ENDFUNCTION {pin=2}
+Fun ::= CONSTANT? FUNCTION FunHead FunStmt ENDFUNCTION {pin=2}
+FunHead ::= FunName FunTake? FunRet?
 FunStmt ::= Stmt* {recoverWhile=FunStmtRecover}
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
@@ -133,7 +134,7 @@ FunName ::= ID {
     elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
 
-Nativ ::= CONSTANT? NATIVE ID FunTake? FunRet? {pin=2}
+Nativ ::= CONSTANT? NATIVE FunHead {pin=2}
 
 // === STATEMENT
 Stmt ::=
