@@ -1,4 +1,4 @@
-package raft.war.language.jass
+package raft.war.ide
 
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.project.Project
@@ -9,14 +9,15 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.util.PathUtil
 import com.intellij.util.io.URLUtil
-import raft.war.ide.openapi.startup.PluginProjectActivity
+import raft.war.language.jass.JassIcons
+import raft.war.language.jass.JassLanguage
 import java.io.File
 import javax.swing.Icon
 
-class JassAdditionalLibraryRootsProvider : AdditionalLibraryRootsProvider() {
+class IdeAdditionalLibraryRootsProvider : AdditionalLibraryRootsProvider() {
 
     override fun getAdditionalProjectLibraries(project: Project): Collection<SyntheticLibrary> {
-        val jarPath = PathUtil.getJarPathForClass(PluginProjectActivity::class.java)
+        val jarPath = PathUtil.getJarPathForClass(IdeProjectActivity::class.java)
         val dir = if (jarPath.endsWith(".jar")) {
             VfsUtil.findFileByURL(URLUtil.getJarEntryURL(File(jarPath), "sdk"))
         } else {

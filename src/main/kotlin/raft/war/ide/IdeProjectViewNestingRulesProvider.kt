@@ -1,10 +1,10 @@
-package raft.war.ide.ide.projectView
+package raft.war.ide
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
 import raft.war.language.angelscript.openapi.fileTypes.AngelScriptFileType
 import raft.war.language.jass.JassFileType
 
-class PluginProjectViewNestingRulesProvider : ProjectViewNestingRulesProvider {
+class IdeProjectViewNestingRulesProvider : ProjectViewNestingRulesProvider {
     override fun addFileNestingRules(consumer: ProjectViewNestingRulesProvider.Consumer) {
         val ass = "." + AngelScriptFileType.EXTENSION
         val j = "." + JassFileType.EXTENSION

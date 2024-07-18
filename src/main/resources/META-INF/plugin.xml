@@ -23,6 +23,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- https://github.com/DrSuperGood/blp-iio-plugin -->
         <fileType name="Image" extensions="blp"/>
+
+        <additionalLibraryRootsProvider implementation="raft.war.ide.IdeAdditionalLibraryRootsProvider"/>
     </extensions>
 
     <applicationListeners>

@@ -1,4 +1,4 @@
-package raft.war.ide.codeInsight
+package raft.war.ide
 
 import com.intellij.codeInsight.AutoPopupController
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
@@ -8,7 +8,7 @@ import com.intellij.psi.PsiFile
 import raft.war.language.angelscript.lang.AngelScriptLanguage
 import java.io.File
 
-class PluginTypedHandlerDelegate : TypedHandlerDelegate() {
+class IdeTypedHandlerDelegate : TypedHandlerDelegate() {
     override fun checkAutoPopup(charTyped: Char, project: Project, editor: Editor, file: PsiFile): Result {
         if (file.language is AngelScriptLanguage) {
             if (charTyped == '#') {

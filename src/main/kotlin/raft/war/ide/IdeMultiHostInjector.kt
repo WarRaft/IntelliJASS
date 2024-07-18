@@ -1,4 +1,4 @@
-package raft.war.ide.lang.injection.general
+package raft.war.ide
 
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
@@ -13,7 +13,7 @@ import raft.war.language.jass.JassLanguage
 
 // https://plugins.jetbrains.com/docs/intellij/language-injection.html#formatting
 
-internal class PluginScriptInjector : MultiHostInjector {
+internal class IdeMultiHostInjector : MultiHostInjector {
     companion object {
         const val INJECT_JASS = "//\$jass"
     }

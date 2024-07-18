@@ -1,6 +1,6 @@
 @file:Suppress("UseJBColor")
 
-package raft.war.ide.openapi.editor
+package raft.war.ide
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
@@ -15,7 +15,7 @@ import java.util.*
 
 
 // AARRGGBB
-class PluginElementColorProvider : ElementColorProvider {
+class IdeElementColorProvider : ElementColorProvider {
     private fun fromHex(hex: String): Color? {
         val `val` = hex.replaceFirst("\\$|0x".toRegex(), "")
         if (!`val`.matches("[0-9a-fA-F]{8}".toRegex())) return null

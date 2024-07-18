@@ -5,7 +5,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import raft.war.ide.lang.injection.general.PluginScriptInjector.Companion.INJECT_JASS
+import raft.war.ide.IdeMultiHostInjector.Companion.INJECT_JASS
 import raft.war.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase
 
 internal class AngelScriptAnnotator : Annotator {
