@@ -107,7 +107,7 @@ Var ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
 
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
 Gvar ::= CONSTANT? Var {pin=2 recoverWhile=GvarRecover}
-private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName)
 
 // === function
 ArgList ::= Expr (COMMA Expr)*

@@ -3,6 +3,7 @@ package raft.war.language.jass
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.AutoCompletionPolicy
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.codeInsight.template.TemplateManager
 import com.intellij.icons.AllIcons
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiWhiteSpace
@@ -12,19 +13,40 @@ import com.intellij.psi.util.elementType
 import com.intellij.util.ProcessingContext
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.JassTypes.CALL
+import raft.war.language.jass.psi.file.JassFile
 import raft.war.language.jass.psi.funName.KEY
 
 // https://intellij-icons.jetbrains.design/
 
 internal class JassCompletionContributor : CompletionContributor() {
     init {
+
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement().withSuperParent(2, JassFile::class.java),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    result.addElement(
+                        LookupElementBuilder.create("globals").withInsertHandler { ctx, _ ->
+                            val templateManager = TemplateManager.getInstance(parameters.position.project)
+                            val tpl = templateManager.createTemplate("", "", "\n\$END\$\nendglobals")
+                            tpl.isToReformat = true
+                            templateManager.startTemplate(ctx.editor, tpl)
+                        }
+                    )
+                }
+            })
+
+
         extend(
             CompletionType.BASIC, PlatformPatterns.psiElement(),
             object : CompletionProvider<CompletionParameters>() {
                 public override fun addCompletions(
                     parameters: CompletionParameters,
                     context: ProcessingContext,
-                    resultSet: CompletionResultSet
+                    result: CompletionResultSet
                 ) {
                     val project = parameters.position.project
                     val scope = GlobalSearchScope.allScope(project)
@@ -78,7 +100,7 @@ internal class JassCompletionContributor : CompletionContributor() {
 
                                 b.withAutoCompletionPolicy(AutoCompletionPolicy.ALWAYS_AUTOCOMPLETE)
 
-                                resultSet.addElement(b)
+                                result.addElement(b)
                             }
                             true
                         },

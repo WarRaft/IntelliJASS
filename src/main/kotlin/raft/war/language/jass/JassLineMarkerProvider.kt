@@ -10,32 +10,45 @@ import raft.war.language.jass.psi.JassFun
 import raft.war.language.jass.psi.JassNativ
 
 class JassLineMarkerProvider : LineMarkerProvider {
+
+    override fun collectSlowLineMarkers(
+        elements: MutableList<out PsiElement>,
+        result: MutableCollection<in LineMarkerInfo<*>>
+    ) {
+        //for (element in elements) {
+        //val info = getLineMarkerInfo(element)
+        //if (info != null) result.add(info)
+        //}
+    }
+
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? {
-        if (element is JassFun) {
-            val desc = "Function definition"
-            return LineMarkerInfo<PsiElement>(
-                element.function,
-                element.textRange,
-                JassIcons.function,
-                FunctionUtil.constant(desc),
-                null,
-                GutterIconRenderer.Alignment.RIGHT
-            ) { desc }
-        }
+        when (element) {
+            is JassFun -> {
+                val desc = "Function definition"
+                return LineMarkerInfo(
+                    element.function,
+                    element.function.textRange,
+                    JassIcons.function,
+                    FunctionUtil.constant(desc),
+                    null,
+                    GutterIconRenderer.Alignment.RIGHT
+                ) { desc }
+            }
 
-        if (element is JassNativ) {
-            val desc = "Native definition"
-            return LineMarkerInfo<PsiElement>(
-                element.native,
-                element.textRange,
-                JassIcons.native,
-                FunctionUtil.constant(desc),
-                null,
-                GutterIconRenderer.Alignment.RIGHT
-            ) { desc }
-        }
+            is JassNativ -> {
+                val desc = "Native definition"
+                return LineMarkerInfo(
+                    element.native,
+                    element.native.textRange,
+                    JassIcons.native,
+                    FunctionUtil.constant(desc),
+                    null,
+                    GutterIconRenderer.Alignment.RIGHT
+                ) { desc }
+            }
 
-        return null
+            else -> return null
+        }
     }
 }
 

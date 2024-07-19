@@ -416,7 +416,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(CONSTANT|GLOBALS|ENDGLOBALS|TypeName)
+  // !(CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName)
   static boolean GvarRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GvarRecover")) return false;
     boolean r;
@@ -426,13 +426,14 @@ public class JassParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // CONSTANT|GLOBALS|ENDGLOBALS|TypeName
+  // CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName
   private static boolean GvarRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GvarRecover_0")) return false;
     boolean r;
     r = consumeToken(b, CONSTANT);
     if (!r) r = consumeToken(b, GLOBALS);
     if (!r) r = consumeToken(b, ENDGLOBALS);
+    if (!r) r = consumeToken(b, FUNCTION);
     if (!r) r = TypeName(b, l + 1);
     return r;
   }

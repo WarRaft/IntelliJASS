@@ -21,6 +21,9 @@
         <lang.braceMatcher language="JASS" implementationClass="raft.war.language.jass.JassBraceMatcher"/>
         <lang.quoteHandler language="JASS" implementationClass="raft.war.language.jass.JassQuoteHandler"/>
 
+        <!-- type handler -->
+        <enterHandlerDelegate implementation="raft.war.language.jass.JassEnterHandlerDelegate"/>
+
         <!-- color -->
         <colorSettingsPage implementation="raft.war.language.jass.JassColorSettingsPage"/>
 
@@ -74,6 +77,12 @@
                 implementationClass="raft.war.language.jass.structureView.JassStructureViewFactory"/>
         <navbar implementation="raft.war.language.jass.structureView.JassStructureAwareNavbar"/>
         <breadcrumbsInfoProvider implementation="raft.war.language.jass.structureView.JassBreadcrumbsProvider"/>
+
+        <!-- live template -->
+        <liveTemplateContext
+                contextId="JASS"
+                implementation="raft.war.language.jass.JassTemplateContextType"/>
+
 
         <!-- inspections -->
         <localInspection language="JASS"

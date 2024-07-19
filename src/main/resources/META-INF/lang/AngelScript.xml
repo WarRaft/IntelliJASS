@@ -49,10 +49,9 @@
                                order="first"/>
 
         <!-- live template -->
-        <defaultLiveTemplates file="/liveTemplates/AngelScript.xml"/>
         <liveTemplateContext
                 contextId="AngelScript"
-                implementation="raft.war.language.angelscript.codeInsight.template.AngelScriptTemplateContextType"/>
+                implementation="raft.war.language.angelscript.AngelScriptTemplateContextType"/>
 
         <!-- commenter -->
         <lang.commenter

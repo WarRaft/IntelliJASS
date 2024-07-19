@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.codeInsight.template
+package raft.war.language.angelscript
 
 import com.intellij.codeInsight.template.TemplateActionContext
 import com.intellij.codeInsight.template.TemplateContextType

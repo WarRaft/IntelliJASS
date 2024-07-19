@@ -27,6 +27,8 @@
         <fileType name="Image" extensions="blp"/>
 
         <additionalLibraryRootsProvider implementation="raft.war.ide.IdeAdditionalLibraryRootsProvider"/>
+
+        <defaultLiveTemplates file="/liveTemplates/main.xml"/>
     </extensions>
 
     <applicationListeners>
