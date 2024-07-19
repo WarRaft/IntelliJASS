@@ -37,7 +37,9 @@
         <!-- find usage -->
         <lang.findUsagesProvider
                 language="JASS"
-                implementationClass="raft.war.language.jass.JassFindUsagesProvider"/>
+                implementationClass="raft.war.language.jass.findUsages.JassFindUsagesProvider"/>
+        <gotoSymbolContributor implementation="raft.war.language.jass.findUsages.JassChooseByNameContributorEx"/>
+        <elementDescriptionProvider implementation="raft.war.language.jass.findUsages.JassElementDescriptionProvider"/>
 
         <!-- refactor -->
         <lang.refactoringSupport
@@ -54,6 +56,9 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.JassCompletionContributor"/>
 
+        <!-- line marker -->
+        <codeInsight.lineMarkerProvider language="JASS"
+                                        implementationClass="raft.war.language.jass.JassLineMarkerProvider"/>
 
         <!-- commenter -->
         <lang.commenter
@@ -66,6 +71,12 @@
 
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
+
+        <!-- structure -->
+        <lang.psiStructureViewFactory
+                language="JASS"
+                implementationClass="raft.war.language.jass.structureView.JassStructureViewFactory"/>
+        <navbar implementation="raft.war.language.jass.structureView.JassStructureAwareNavbar"/>
 
         <!-- inspections -->
         <localInspection language="JASS"

@@ -10,10 +10,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.psi.util.elementType
 import com.intellij.util.ProcessingContext
-import raft.war.language.jass.psi.JassFun
-import raft.war.language.jass.psi.JassFunHead
-import raft.war.language.jass.psi.JassFunName
-import raft.war.language.jass.psi.JassFunStmt
+import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.JassTypes.CALL
 import raft.war.language.jass.psi.funName.KEY
 
@@ -40,7 +37,7 @@ internal class JassCompletionContributor : CompletionContributor() {
                                 stubKey,
                                 project,
                                 scope,
-                                JassFunName::class.java,
+                                JassNamedElement::class.java,
                             ).forEach { name ->
                                 val head = name.parent
                                 if (head !is JassFunHead) return@forEach

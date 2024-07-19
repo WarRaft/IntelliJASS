@@ -1,4 +1,4 @@
-package raft.war.language.jass
+package raft.war.language.jass.findUsages
 
 import com.intellij.lang.HelpID
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.TokenSet
 import com.intellij.usageView.UsageViewLongNameLocation
 import com.intellij.usageView.UsageViewShortNameLocation
+import raft.war.language.jass.JassFlexAdapter
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.JassTypes.FUN_NAME

@@ -20,6 +20,8 @@
     <xi:include href="lang/LNI.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/SLK.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
+    <!-- https://plugins.jetbrains.com/docs/intellij/intellij-platform-extension-point-list.html#intellij-platform-listeners -->
+
     <extensions defaultExtensionNs="com.intellij">
         <!-- https://github.com/DrSuperGood/blp-iio-plugin -->
         <fileType name="Image" extensions="blp"/>

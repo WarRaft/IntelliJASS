@@ -45,7 +45,7 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                                 myText,
                                 element.project,
                                 scope,
-                                JassFunName::class.java,
+                                JassNamedElement::class.java,
                             ).forEach { name ->
                                 if (name.parent is JassFunHead) result.add(name)
                             }
