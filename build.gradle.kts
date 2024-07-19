@@ -34,7 +34,7 @@ java {
 intellij {
     version.set("2024.1.4")
     //type.set("IU")
-    //plugins.set(listOf("com.tang:1.4.11-IDEA231"))
+    //plugins.set(listOf("com.tang:1.4.13-IDEA241"))
 }
 
 tasks {

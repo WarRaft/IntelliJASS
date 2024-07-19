@@ -16,6 +16,11 @@
         <lang.syntaxHighlighterFactory language="JASS"
                                        implementationClass="raft.war.language.jass.highlighter.JassSyntaxHighlighterFactory"/>
 
+        <!-- editor -->
+        <lang.commenter language="JASS" implementationClass="raft.war.language.jass.JassCommenter"/>
+        <lang.braceMatcher language="JASS" implementationClass="raft.war.language.jass.JassBraceMatcher"/>
+        <lang.quoteHandler language="JASS" implementationClass="raft.war.language.jass.JassQuoteHandler"/>
+
         <!-- color -->
         <colorSettingsPage implementation="raft.war.language.jass.JassColorSettingsPage"/>
 
@@ -60,15 +65,6 @@
         <codeInsight.lineMarkerProvider language="JASS"
                                         implementationClass="raft.war.language.jass.JassLineMarkerProvider"/>
 
-        <!-- commenter -->
-        <lang.commenter
-                language="JASS"
-                implementationClass="raft.war.language.jass.JassCommenter"/>
-
-        <!-- brace -->
-        <lang.braceMatcher language="JASS"
-                           implementationClass="raft.war.language.jass.JassBraceMatcher"/>
-
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
 
@@ -77,6 +73,7 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.structureView.JassStructureViewFactory"/>
         <navbar implementation="raft.war.language.jass.structureView.JassStructureAwareNavbar"/>
+        <breadcrumbsInfoProvider implementation="raft.war.language.jass.structureView.JassBreadcrumbsProvider"/>
 
         <!-- inspections -->
         <localInspection language="JASS"

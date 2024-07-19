@@ -1,6 +1,5 @@
 package raft.war.language.jass.structureView
 
-import com.intellij.icons.AllIcons
 import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension
 import com.intellij.lang.Language
 import raft.war.language.jass.JassIcons

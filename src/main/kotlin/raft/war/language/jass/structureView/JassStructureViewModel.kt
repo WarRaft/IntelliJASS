@@ -20,7 +20,7 @@ class JassStructureViewModel(editor: Editor?, psiFile: PsiFile) : StructureViewM
     override fun isAlwaysShowsPlus(element: StructureViewTreeElement): Boolean = false
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean = element.value is JassExpr
-
+    
     /**
      * Suitable class for [JassStructureAwareNavbar].
      */
