@@ -10,7 +10,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
-import raft.war.language.jass.psi.file.JassPsiFileBase
+import raft.war.language.jass.psi.file.JassFile
 import raft.war.language.jass.psi.*
 
 internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
@@ -25,7 +25,7 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         document: Document,
         quick: Boolean
     ) {
-        if (root !is JassPsiFileBase) return
+        if (root !is JassFile) return
 
         val psiElements = PsiTreeUtil.findChildrenOfAnyType(
             root,

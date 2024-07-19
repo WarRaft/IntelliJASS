@@ -4,13 +4,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import raft.war.language.jass.JassLanguage.Companion.instance
-import raft.war.language.jass.psi.file.JassPsiFileBase
+import raft.war.language.jass.psi.file.JassFile
 
 class JassElementTextFactory {
     companion object {
-        private fun createFile(project: Project, text: String): JassPsiFileBase {
+        private fun createFile(project: Project, text: String): JassFile {
             val name = "dummy.j"
-            return PsiFileFactory.getInstance(project).createFileFromText(name, instance, text) as JassPsiFileBase
+            return PsiFileFactory.getInstance(project).createFileFromText(name, instance, text) as JassFile
         }
 
         fun createToken(project: Project, text: String): PsiElement = createFile(project, text).firstChild

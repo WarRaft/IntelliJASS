@@ -15,7 +15,7 @@ import raft.war.language.jass.psi.JassTypes
 import raft.war.language.jass.psi.JassTypes.LINE_COMMENT
 import raft.war.language.jass.psi.JassTypes.STRING
 import raft.war.language.jass.psi.file.JassFileElementType
-import raft.war.language.jass.psi.file.JassPsiFileBase
+import raft.war.language.jass.psi.file.JassFile
 
 class JassParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = JassFlexAdapter()
@@ -24,7 +24,7 @@ class JassParserDefinition : ParserDefinition {
 
     override fun getFileNodeType(): IFileElementType = JassFileElementType.INSTANCE
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = JassPsiFileBase(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = JassFile(viewProvider)
 
     override fun createElement(node: ASTNode): PsiElement =
         JassTypes.Factory.createElement(node)

@@ -6,7 +6,7 @@ import com.intellij.psi.FileViewProvider
 import raft.war.language.jass.JassLanguage
 import raft.war.language.jass.JassFileType
 
-class JassPsiFileBase(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, JassLanguage.instance) {
+class JassFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, JassLanguage.instance) {
     override fun getFileType(): FileType = JassFileType.instance
     override fun toString(): String = JassLanguage.NAME
 }
