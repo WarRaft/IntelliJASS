@@ -42,7 +42,7 @@ internal class JassOperatorCallBehaviorInspection : LocalInspectionTool(), Clean
                 super.visitCallStmt(callStmt)
 
                 val funcCall = callStmt.funCall
-                val funcCallName = funcCall.funName
+                val funcCallName = funcCall?.funName ?: return
 
                 val callToken = callStmt.node.findChildByType(JassTypes.CALL)
                 if (callToken == null) {

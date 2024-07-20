@@ -1,5 +1,6 @@
 package raft.war.language.jass
 
+import com.intellij.codeInsight.AutoPopupController
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.AutoCompletionPolicy
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -9,10 +10,8 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
-import com.intellij.psi.util.elementType
 import com.intellij.util.ProcessingContext
 import raft.war.language.jass.psi.*
-import raft.war.language.jass.psi.JassTypes.CALL
 import raft.war.language.jass.psi.file.JassFile
 import raft.war.language.jass.psi.funName.KEY
 
@@ -30,15 +29,34 @@ internal class JassCompletionContributor : CompletionContributor() {
                 ) {
                     result.addElement(
                         LookupElementBuilder.create("globals").withInsertHandler { ctx, _ ->
-                            val templateManager = TemplateManager.getInstance(parameters.position.project)
-                            val tpl = templateManager.createTemplate("", "", "\n\$END\$\nendglobals")
+                            val manager = TemplateManager.getInstance(parameters.position.project)
+                            val tpl = manager.createTemplate("", "", "\n\$END\$\nendglobals")
                             tpl.isToReformat = true
-                            templateManager.startTemplate(ctx.editor, tpl)
+                            manager.startTemplate(ctx.editor, tpl)
                         }
                     )
                 }
             })
 
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement()
+            .withParent(JassFunStmt::class.java)
+            .andNot(
+                PlatformPatterns.psiElement().afterLeaf("call")
+            ),
+            object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    result.addElement(
+                        LookupElementBuilder.create("call ").withInsertHandler { ctx, _ ->
+                            AutoPopupController.getInstance(parameters.position.project)
+                                .scheduleAutoPopup(ctx.editor)
+                        }
+                    )
+                }
+            })
 
         extend(
             CompletionType.BASIC, PlatformPatterns.psiElement(),
@@ -87,7 +105,16 @@ internal class JassCompletionContributor : CompletionContributor() {
                                         while (before is PsiWhiteSpace) {
                                             before = before.prevSibling
                                         }
-                                        if (before.elementType != CALL && (before?.parent is JassFunStmt || before?.parent is JassFun)) {
+
+                                        run {
+                                            val bp = before?.parent
+                                            if (bp is JassFunStmt) {
+                                                print("before $before \n")
+                                                if (before is JassStmt) {
+                                                    val call = before.callStmt
+                                                    if (call != null && call.funCall == null) return@run
+                                                }
+                                            } else if (bp !is JassFun) return@run
                                             document.insertString(context.startOffset, "call ")
                                         }
 
@@ -98,7 +125,7 @@ internal class JassCompletionContributor : CompletionContributor() {
 
                                     }
 
-                                b.withAutoCompletionPolicy(AutoCompletionPolicy.ALWAYS_AUTOCOMPLETE)
+                                b.withAutoCompletionPolicy(AutoCompletionPolicy.SETTINGS_DEPENDENT)
 
                                 result.addElement(b)
                             }

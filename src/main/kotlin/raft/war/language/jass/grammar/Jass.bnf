@@ -95,7 +95,7 @@ Root ::= (
     Glob |
     Fun
     )* {recoverWhile=RootRecover}
-private RootRecover ::= !(TYPE|CONSTANT|GLOBALS|NATIVE|FUNCTION)
+private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
 
 // === type
 TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
@@ -123,9 +123,9 @@ Fun ::= CONSTANT? FUNCTION FunHead FunStmt ENDFUNCTION {pin=2}
 FunHead ::= FunName FunTake? FunRet?
 FunStmt ::= Stmt* {recoverWhile=FunStmtRecover}
 
-// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
-
 private FunStmtRecover ::= !(ENDFUNCTION)
+
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
 FunName ::= ID {
     implements="raft.war.language.jass.psi.JassNamedElement"
@@ -144,13 +144,19 @@ Stmt ::=
     ReturnStmt |
     IfStmt |
     LoopStmt |
-    ExitWhenStmt
+    ExitWhenStmt {recoverWhile=StmtRecover}
+
+    private StmtRecover ::= !(ID|
+    FUNCTION|ENDFUNCTION|RETURN|
+    SET|CALL|LOCAL|
+    LOOP|ENDLOOP|EXITWHEN|
+    IF|ELSEIF|ENDIF|ELSE)
 
 LvarStmt ::= LOCAL? Var {pin=2}
 
 SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 
-CallStmt ::= DEBUG? CALL? FunCall
+CallStmt ::= DEBUG? ((CALL? FunCall)|(CALL FunCall?))
 
 ReturnStmt ::= RETURN Expr? {pin=1}
 
