@@ -14,7 +14,7 @@ public interface JassPrimExpr extends JassExpr {
   JassFunCall getFunCall();
 
   @Nullable
-  JassFuncAsCode getFuncAsCode();
+  JassFunRef getFunRef();
 
   @Nullable
   JassStr getStr();

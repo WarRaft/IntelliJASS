@@ -20,10 +20,10 @@ public interface JassTypes {
   IElementType EXIT_WHEN_STMT = new JassElementType("EXIT_WHEN_STMT");
   IElementType EXPR = new JassElementType("EXPR");
   IElementType FUN = new JassElementType("FUN");
-  IElementType FUNC_AS_CODE = new JassElementType("FUNC_AS_CODE");
   IElementType FUN_CALL = new JassElementType("FUN_CALL");
   IElementType FUN_HEAD = new JassElementType("FUN_HEAD");
   IElementType FUN_NAME = JassElementTypeFactory.factory("FUN_NAME");
+  IElementType FUN_REF = new JassElementType("FUN_REF");
   IElementType FUN_RET = new JassElementType("FUN_RET");
   IElementType FUN_STMT = new JassElementType("FUN_STMT");
   IElementType FUN_TAKE = new JassElementType("FUN_TAKE");
@@ -57,7 +57,7 @@ public interface JassTypes {
   IElementType TYPE_DEF = new JassElementType("TYPE_DEF");
   IElementType TYPE_NAME = new JassElementType("TYPE_NAME");
   IElementType TYPE_NAME_BASE = new JassElementType("TYPE_NAME_BASE");
-  IElementType VAR = new JassElementType("VAR");
+  IElementType VAR_DEF = new JassElementType("VAR_DEF");
 
   IElementType AND = new JassTokenType("and");
   IElementType ARRAY = new JassTokenType("array");
@@ -156,9 +156,6 @@ public interface JassTypes {
       else if (type == FUN) {
         return new JassFunImpl(node);
       }
-      else if (type == FUNC_AS_CODE) {
-        return new JassFuncAsCodeImpl(node);
-      }
       else if (type == FUN_CALL) {
         return new JassFunCallImpl(node);
       }
@@ -167,6 +164,9 @@ public interface JassTypes {
       }
       else if (type == FUN_NAME) {
         return new JassFunNameImpl(node);
+      }
+      else if (type == FUN_REF) {
+        return new JassFunRefImpl(node);
       }
       else if (type == FUN_RET) {
         return new JassFunRetImpl(node);
@@ -267,8 +267,8 @@ public interface JassTypes {
       else if (type == TYPE_NAME_BASE) {
         return new JassTypeNameBaseImpl(node);
       }
-      else if (type == VAR) {
-        return new JassVarImpl(node);
+      else if (type == VAR_DEF) {
+        return new JassVarDefImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

@@ -103,10 +103,10 @@ TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
 TypeNameBase ::= TypeName
 
 // === globals
-Var ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
+VarDef ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
 
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
-Gvar ::= CONSTANT? Var {pin=2 recoverWhile=GvarRecover}
+Gvar ::= CONSTANT? VarDef {pin=2 recoverWhile=GvarRecover}
 private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName)
 
 // === function
@@ -122,7 +122,6 @@ FunRet ::= RETURNS (NOTHING|TypeName)
 Fun ::= CONSTANT? FUNCTION FunHead FunStmt ENDFUNCTION {pin=2}
 FunHead ::= FunName FunTake? FunRet?
 FunStmt ::= Stmt* {recoverWhile=FunStmtRecover}
-
 private FunStmtRecover ::= !(ENDFUNCTION)
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
@@ -137,22 +136,23 @@ FunName ::= ID {
 Nativ ::= CONSTANT? NATIVE FunHead {pin=2}
 
 // === STATEMENT
-Stmt ::=
-    SetStmt |
-    CallStmt |
-    LvarStmt |
-    ReturnStmt |
-    IfStmt |
-    LoopStmt |
-    ExitWhenStmt {recoverWhile=StmtRecover}
+Stmt
+    ::= SetStmt
+    | CallStmt
+    | LvarStmt
+    | ReturnStmt
+    | IfStmt
+    | LoopStmt
+    | ExitWhenStmt
+    {recoverWhile=StmtRecover}
 
-    private StmtRecover ::= !(ID|
+private StmtRecover ::= !(ID|
     FUNCTION|ENDFUNCTION|RETURN|
     SET|CALL|LOCAL|
     LOOP|ENDLOOP|EXITWHEN|
     IF|ELSEIF|ENDIF|ELSE)
 
-LvarStmt ::= LOCAL? Var {pin=2}
+LvarStmt ::= LOCAL? VarDef {pin=2}
 
 SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
 
@@ -213,7 +213,7 @@ PrimExpr ::=
     ParenExpr |
     ArrayAccess |
     FunCall |
-    FuncAsCode |
+    FunRef |
     FALSE|
     NULL|
     TRUE|
@@ -225,4 +225,4 @@ PrimExpr ::=
     ID
 
 ArrayAccess ::= ID LBRACK Expr? RBRACK
-FuncAsCode ::= FUNCTION FunName {pin=1}
+FunRef ::= FUNCTION FunName {pin=1}

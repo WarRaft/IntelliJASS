@@ -41,8 +41,8 @@ public class JassPrimExprImpl extends JassExprImpl implements JassPrimExpr {
 
   @Override
   @Nullable
-  public JassFuncAsCode getFuncAsCode() {
-    return PsiTreeUtil.getChildOfType(this, JassFuncAsCode.class);
+  public JassFunRef getFunRef() {
+    return PsiTreeUtil.getChildOfType(this, JassFunRef.class);
   }
 
   @Override

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
-public interface JassVar extends JassCompositeElement {
+public interface JassVarDef extends JassCompositeElement {
 
   @Nullable
   JassExpr getExpr();

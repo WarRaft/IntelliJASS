@@ -38,7 +38,7 @@ class JassGlobalVarBlock(
                 ARRAY,
                 TYPE_NAME,
                 EQ,
-                VAR
+                VAR_DEF
             )
         ) return JassGlobalVarBlock(childNode, alignment, null, myCodeStyleSettings, alignments)
 

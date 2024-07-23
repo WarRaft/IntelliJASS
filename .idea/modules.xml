@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intellijass.iml" filepath="$PROJECT_DIR$/.idea/modules/intellijass.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/intellijass.test.iml" filepath="$PROJECT_DIR$/.idea/modules/intellijass.test.iml" />
     </modules>
   </component>

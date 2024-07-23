@@ -82,24 +82,21 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         expr: JassExpr?
     )
 
-    private fun appendVarPrepare(constant: Boolean, global: Boolean, `var`: JassVar) {
+    private fun appendVarPrepare(constant: Boolean, global: Boolean, varDef: JassVarDef) {
         appendVar(
             constant,
             global,
-            `var`.array != null,
-            getConvertedTypeName(`var`.typeName.text),
-            getSafeName(`var`.id.text),
-            `var`.expr
+            varDef.array != null,
+            getConvertedTypeName(varDef.typeName.text),
+            getSafeName(varDef.id.text),
+            varDef.expr
         )
     }
 
-    override fun visitGvar(o: JassGvar) {
-        appendVarPrepare(o.constant != null, true, o.getVar())
-    }
+    override fun visitGvar(o: JassGvar) = appendVarPrepare(o.constant != null, true, o.getVarDef())
 
-    override fun visitLvarStmt(o: JassLvarStmt) {
-        appendVarPrepare(constant = false, global = false, `var` = o.getVar())
-    }
+    override fun visitLvarStmt(o: JassLvarStmt) =
+        appendVarPrepare(constant = false, global = false, varDef = o.getVarDef())
 
     // --- function
     abstract fun appendFunction(returns: String?, name: String?, params: List<JassParam?>, statements: List<JassStmt?>)
@@ -131,9 +128,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
     // --- statement
     // stmt list
-    override fun visitStmt(o: JassStmt) {
-        o.acceptChildren(this)
-    }
+    override fun visitStmt(o: JassStmt) = o.acceptChildren(this)
 
     // return
     override fun visitReturnStmt(o: JassReturnStmt) {
@@ -159,7 +154,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     // call
     override fun visitCallStmt(o: JassCallStmt) {
         if (o.debug != null) appendBlockLineComment("debug")
-        o.funCall.accept(this)
+        o.funCall?.accept(this)
         appendStatementLineEnd()
     }
 
@@ -194,7 +189,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         }
     }
 
-    override fun visitFuncAsCode(o: JassFuncAsCode) {
+    override fun visitFunRef(o: JassFunRef) {
         appendFunctionAsCode(getSafeName(o.funName!!.text))
     }
 
@@ -272,79 +267,29 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         o.acceptChildren(this)
     }
 
-    override fun visitMulUnExpr(o: JassMulUnExpr) {
-        appendExprWithPrefixOp(o.expr, "*")
-    }
-
-    override fun visitDivUnExpr(o: JassDivUnExpr) {
-        appendExprWithPrefixOp(o.expr, "/")
-    }
-
-    override fun visitPlusUnExpr(o: JassPlusUnExpr) {
-        appendExprWithPrefixOp(o.expr, "+")
-    }
-
-    override fun visitMinusUnExpr(o: JassMinusUnExpr) {
-        appendExprWithPrefixOp(o.expr, "-")
-    }
-
-    override fun visitNotExpr(o: JassNotExpr) {
-        appendExprWithPrefixOp(o.expr, "!")
-    }
-
-    override fun visitEqExpr(o: JassEqExpr) {
-        appendExprListConcatByOperator(o.exprList, "==")
-    }
-
-    override fun visitNeqExpr(o: JassNeqExpr) {
-        appendExprListConcatByOperator(o.exprList, "!=")
-    }
-
-    override fun visitLtExpr(o: JassLtExpr) {
-        appendExprListConcatByOperator(o.exprList, "<")
-    }
-
-    override fun visitLtEqExpr(o: JassLtEqExpr) {
-        appendExprListConcatByOperator(o.exprList, "<=")
-    }
-
-    override fun visitGtExpr(o: JassGtExpr) {
-        appendExprListConcatByOperator(o.exprList, ">")
-    }
-
-    override fun visitGtEqExpr(o: JassGtEqExpr) {
-        appendExprListConcatByOperator(o.exprList, ">=")
-    }
-
+    override fun visitMulUnExpr(o: JassMulUnExpr) = appendExprWithPrefixOp(o.expr, "*")
+    override fun visitDivUnExpr(o: JassDivUnExpr) = appendExprWithPrefixOp(o.expr, "/")
+    override fun visitPlusUnExpr(o: JassPlusUnExpr) = appendExprWithPrefixOp(o.expr, "+")
+    override fun visitMinusUnExpr(o: JassMinusUnExpr) = appendExprWithPrefixOp(o.expr, "-")
+    override fun visitNotExpr(o: JassNotExpr) = appendExprWithPrefixOp(o.expr, "!")
+    override fun visitEqExpr(o: JassEqExpr) = appendExprListConcatByOperator(o.exprList, "==")
+    override fun visitNeqExpr(o: JassNeqExpr) = appendExprListConcatByOperator(o.exprList, "!=")
+    override fun visitLtExpr(o: JassLtExpr) = appendExprListConcatByOperator(o.exprList, "<")
+    override fun visitLtEqExpr(o: JassLtEqExpr) = appendExprListConcatByOperator(o.exprList, "<=")
+    override fun visitGtExpr(o: JassGtExpr) = appendExprListConcatByOperator(o.exprList, ">")
+    override fun visitGtEqExpr(o: JassGtEqExpr) = appendExprListConcatByOperator(o.exprList, ">=")
     override fun visitParenExpr(o: JassParenExpr) {
         stringBuffer.append("(")
         acceptExpr(o.expr)
         stringBuffer.append(")")
     }
 
-    override fun visitAndExpr(o: JassAndExpr) {
-        appendExprListConcatByOperator(o.exprList, "&&")
-    }
-
-    override fun visitOrExpr(o: JassOrExpr) {
-        appendExprListConcatByOperator(o.exprList, "||")
-    }
-
-    override fun visitPlusExpr(o: JassPlusExpr) {
-        appendExprListConcatByOperator(o.exprList, "+")
-    }
-
-    override fun visitMinusExpr(o: JassMinusExpr) {
-        appendExprListConcatByOperator(o.exprList, "-")
-    }
-
-    override fun visitMulExpr(o: JassMulExpr) {
-        appendExprListConcatByOperator(o.exprList, "*")
-    }
-
-    override fun visitDivExpr(o: JassDivExpr) {
-        appendExprListConcatByOperator(o.exprList, "/")
-    }
+    override fun visitAndExpr(o: JassAndExpr) = appendExprListConcatByOperator(o.exprList, "&&")
+    override fun visitOrExpr(o: JassOrExpr) = appendExprListConcatByOperator(o.exprList, "||")
+    override fun visitPlusExpr(o: JassPlusExpr) = appendExprListConcatByOperator(o.exprList, "+")
+    override fun visitMinusExpr(o: JassMinusExpr) = appendExprListConcatByOperator(o.exprList, "-")
+    override fun visitMulExpr(o: JassMulExpr) = appendExprListConcatByOperator(o.exprList, "*")
+    override fun visitDivExpr(o: JassDivExpr) = appendExprListConcatByOperator(o.exprList, "/")
 
     companion object {
         private const val KEYWORD_SUFFIX = "_FUCKING_KEYWORD"

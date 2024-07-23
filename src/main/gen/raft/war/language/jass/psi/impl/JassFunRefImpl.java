@@ -11,14 +11,14 @@ import static raft.war.language.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.jass.psi.*;
 
-public class JassVarImpl extends ASTWrapperPsiElement implements JassVar {
+public class JassFunRefImpl extends ASTWrapperPsiElement implements JassFunRef {
 
-  public JassVarImpl(@NotNull ASTNode node) {
+  public JassFunRefImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitVar(this);
+    visitor.visitFunRef(this);
   }
 
   @Override
@@ -29,32 +29,14 @@ public class JassVarImpl extends ASTWrapperPsiElement implements JassVar {
 
   @Override
   @Nullable
-  public JassExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
+  public JassFunName getFunName() {
+    return PsiTreeUtil.getChildOfType(this, JassFunName.class);
   }
 
   @Override
   @NotNull
-  public JassTypeName getTypeName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getArray() {
-    return findChildByType(ARRAY);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEq() {
-    return findChildByType(EQ);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getId() {
-    return notNullChild(findChildByType(ID));
+  public PsiElement getFunction() {
+    return notNullChild(findChildByType(FUNCTION));
   }
 
 }
