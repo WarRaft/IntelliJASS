@@ -109,7 +109,7 @@ internal class JassCompletionContributor : CompletionContributor() {
                                         run {
                                             val bp = before?.parent
                                             if (bp is JassFunStmt) {
-                                                print("before $before \n")
+                                                //print("before $before \n")
                                                 if (before is JassStmt) {
                                                     val call = before.callStmt
                                                     if (call != null && call.funCall == null) return@run

@@ -1,24 +1,22 @@
 package raft.war.language.jass.formatting.block
 
-import com.intellij.formatting.Alignment
-import com.intellij.formatting.Block
-import com.intellij.formatting.ChildAttributes
-import com.intellij.formatting.Indent
+import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil.*
+import raft.war.language.jass.psi.JassFunStmt
 import raft.war.language.jass.psi.JassTypes.*
 
 class JassFunBlock(
-    myNode: ASTNode?,
+    myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
-    codeStyleSettings: CodeStyleSettings?
+    codeStyleSettings: CodeStyleSettings
 ) : JassBlock(
-    myNode!!, myAlignment, myIndent, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block {
-        var indent = Indent.getNormalIndent()
+        var indent = Indent.getNoneIndent()
 
         if (isOneOf(childNode, FUN_STMT)) return JassFunStmtBlock(
             childNode,
@@ -27,6 +25,7 @@ class JassFunBlock(
             myCodeStyleSettings
         )
 
+        if (isOneOf(childNode, FUN_STMT)) indent = Indent.getNormalIndent()
         if (isOneOf(childNode, FUNCTION, ENDFUNCTION)) indent = Indent.getNoneIndent()
 
         return JassBlock(childNode, null, indent, myCodeStyleSettings)
@@ -35,4 +34,10 @@ class JassFunBlock(
     override fun getChildAttributes(i: Int): ChildAttributes = ChildAttributes(Indent.getNormalIndent(), null)
 
     override fun isIncomplete(): Boolean = !isOneOf(myNode.lastChildNode, ENDFUNCTION)
+
+    override val spacingBuilder: SpacingBuilder
+        get() = super.spacingBuilder
+            .between(FUNCTION, FUN_HEAD).spacing(1, 1, 0, false, 0)
+            .between(FUN_HEAD, FUN_STMT).spacing(1, 1, 1, false, 5)
+
 }

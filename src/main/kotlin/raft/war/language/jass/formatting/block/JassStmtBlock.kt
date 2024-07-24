@@ -1,9 +1,6 @@
 package raft.war.language.jass.formatting.block
 
-import com.intellij.formatting.Alignment
-import com.intellij.formatting.Block
-import com.intellij.formatting.ChildAttributes
-import com.intellij.formatting.Indent
+import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
@@ -13,9 +10,9 @@ class JassStmtBlock(
     myNode: ASTNode,
     myAlignment: Alignment?,
     myIndent: Indent?,
-    codeStyleSettings: CodeStyleSettings?
+    codeStyleSettings: CodeStyleSettings
 ) : JassBlock(
-    myNode, myAlignment, myIndent, codeStyleSettings!!
+    myNode, myAlignment, myIndent, codeStyleSettings
 ) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var child = childNode
@@ -55,4 +52,12 @@ class JassStmtBlock(
         )
         return false
     }
+
+    override val spacingBuilder: SpacingBuilder
+        get() = super.spacingBuilder
+            .after(IF).spacing(1, 1, 0, false, 0)
+            .before(THEN).spacing(1, 1, 0, false, 0)
+            .after(THEN).spacing(1, 1, 1, false, 5)
+            .before(LOOP).spacing(1, 1, 0, false, 0)
+            .after(LOOP).spacing(1, 1, 1, false, 5)
 }
