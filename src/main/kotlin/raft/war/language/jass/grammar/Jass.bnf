@@ -122,7 +122,7 @@ FunRet ::= RETURNS (NOTHING|TypeName)
 Fun ::= CONSTANT? FUNCTION FunHead FunStmt ENDFUNCTION {pin=2}
 FunHead ::= FunName FunTake? FunRet?
 FunStmt ::= Stmt* {recoverWhile=FunStmtRecover}
-private FunStmtRecover ::= !(ENDFUNCTION)
+private FunStmtRecover ::= !(ENDFUNCTION|LOOP|ENDLOOP|ELSE|ELSEIF|ENDIF)
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
@@ -160,11 +160,11 @@ CallStmt ::= DEBUG? ((CALL? FunCall)|(CALL FunCall?))
 
 ReturnStmt ::= RETURN Expr? {pin=1}
 
-IfStmt ::= IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF {pin=1}
-ElseIfStmt ::= ELSEIF Expr THEN? Stmt* {pin=1}
-ElseStmt ::= ELSE Stmt* {pin=1}
+IfStmt ::= IF Expr THEN? FunStmt (ElseIfStmt|ElseStmt)* ENDIF {pin=1}
+ElseIfStmt ::= ELSEIF Expr THEN? FunStmt {pin=1}
+ElseStmt ::= ELSE FunStmt {pin=1}
 
-LoopStmt ::= LOOP Stmt* ENDLOOP {pin=1}
+LoopStmt ::= LOOP FunStmt ENDLOOP {pin=1}
 ExitWhenStmt ::=EXITWHEN Expr {pin=1}
 
 // === EXPRESSION

@@ -8,8 +8,8 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public interface JassElseStmt extends JassCompositeElement {
 
-  @NotNull
-  List<JassStmt> getStmtList();
+  @Nullable
+  JassFunStmt getFunStmt();
 
   @NotNull
   PsiElement getElse();

@@ -10,6 +10,7 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.file.JassFile
@@ -101,22 +102,24 @@ internal class JassCompletionContributor : CompletionContributor() {
                                         val document = context.document
 
                                         // add call
-                                        var before = parameters.originalFile.findElementAt(context.startOffset - 1)
-                                        while (before is PsiWhiteSpace) {
-                                            before = before.prevSibling
-                                        }
-
+                                        val prevElem = parameters.originalFile.findElementAt(context.startOffset - 1)
+                                        val prev = PsiTreeUtil.skipWhitespacesBackward(prevElem)
+                                        val next = PsiTreeUtil.skipWhitespacesForward(prevElem)
                                         run {
-                                            val bp = before?.parent
+                                            if (next is JassFunStmt) {
+                                                document.insertString(context.startOffset, "call ")
+                                                return@run
+                                            }
+                                            val bp = prev?.parent
                                             if (bp is JassFunStmt) {
-                                                //print("before $before \n")
-                                                if (before is JassStmt) {
-                                                    val call = before.callStmt
+                                                if (prev is JassStmt) {
+                                                    val call = prev.callStmt
                                                     if (call != null && call.funCall == null) return@run
                                                 }
                                             } else if (bp !is JassFun) return@run
                                             document.insertString(context.startOffset, "call ")
                                         }
+
 
                                         // tail
                                         val s = "(${takes.joinToString()})"

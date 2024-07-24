@@ -30,12 +30,6 @@ class JassRootBlock(myNode: ASTNode, code: CodeStyleSettings, jass: JassCodeStyl
             nativeAligner
         )
         if (FormatterUtil.isOneOf(childNode, GLOB)) return JassGlobalsBlock(childNode, myCodeStyleSettings)
-        if (FormatterUtil.isOneOf(childNode, FUN)) return JassFunBlock(
-            childNode,
-            null,
-            Indent.getNoneIndent(),
-            myCodeStyleSettings
-        )
 
         return JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings)
     }

@@ -165,7 +165,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ELSEIF Expr THEN? Stmt*
+  // ELSEIF Expr THEN? FunStmt
   public static boolean ElseIfStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ElseIfStmt")) return false;
     if (!nextTokenIs(b, ELSEIF)) return false;
@@ -175,7 +175,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     p = r; // pin = 1
     r = r && report_error_(b, Expr(b, l + 1, -1));
     r = p && report_error_(b, ElseIfStmt_2(b, l + 1)) && r;
-    r = p && ElseIfStmt_3(b, l + 1) && r;
+    r = p && FunStmt(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -187,19 +187,8 @@ public class JassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // Stmt*
-  private static boolean ElseIfStmt_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElseIfStmt_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!Stmt(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ElseIfStmt_3", c)) break;
-    }
-    return true;
-  }
-
   /* ********************************************************** */
-  // ELSE Stmt*
+  // ELSE FunStmt
   public static boolean ElseStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ElseStmt")) return false;
     if (!nextTokenIs(b, ELSE)) return false;
@@ -207,20 +196,9 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, ELSE_STMT, null);
     r = consumeToken(b, ELSE);
     p = r; // pin = 1
-    r = r && ElseStmt_1(b, l + 1);
+    r = r && FunStmt(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  // Stmt*
-  private static boolean ElseStmt_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElseStmt_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!Stmt(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ElseStmt_1", c)) break;
-    }
-    return true;
   }
 
   /* ********************************************************** */
@@ -375,13 +353,25 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(ENDFUNCTION)
+  // !(ENDFUNCTION|ENDLOOP|ELSE|ELSEIF|ENDIF)
   static boolean FunStmtRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunStmtRecover")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NOT_);
-    r = !consumeToken(b, ENDFUNCTION);
+    r = !FunStmtRecover_0(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ENDFUNCTION|ENDLOOP|ELSE|ELSEIF|ENDIF
+  private static boolean FunStmtRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunStmtRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, ENDFUNCTION);
+    if (!r) r = consumeToken(b, ENDLOOP);
+    if (!r) r = consumeToken(b, ELSE);
+    if (!r) r = consumeToken(b, ELSEIF);
+    if (!r) r = consumeToken(b, ENDIF);
     return r;
   }
 
@@ -478,7 +468,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF Expr THEN? (Stmt|ElseIfStmt|ElseStmt)* ENDIF
+  // IF Expr THEN? FunStmt (ElseIfStmt|ElseStmt)* ENDIF
   public static boolean IfStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStmt")) return false;
     if (!nextTokenIs(b, IF)) return false;
@@ -488,7 +478,8 @@ public class JassParser implements PsiParser, LightPsiParser {
     p = r; // pin = 1
     r = r && report_error_(b, Expr(b, l + 1, -1));
     r = p && report_error_(b, IfStmt_2(b, l + 1)) && r;
-    r = p && report_error_(b, IfStmt_3(b, l + 1)) && r;
+    r = p && report_error_(b, FunStmt(b, l + 1)) && r;
+    r = p && report_error_(b, IfStmt_4(b, l + 1)) && r;
     r = p && consumeToken(b, ENDIF) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
@@ -501,31 +492,28 @@ public class JassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // (Stmt|ElseIfStmt|ElseStmt)*
-  private static boolean IfStmt_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStmt_3")) return false;
+  // (ElseIfStmt|ElseStmt)*
+  private static boolean IfStmt_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStmt_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!IfStmt_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "IfStmt_3", c)) break;
+      if (!IfStmt_4_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "IfStmt_4", c)) break;
     }
     return true;
   }
 
-  // Stmt|ElseIfStmt|ElseStmt
-  private static boolean IfStmt_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStmt_3_0")) return false;
+  // ElseIfStmt|ElseStmt
+  private static boolean IfStmt_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStmt_4_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = Stmt(b, l + 1);
-    if (!r) r = ElseIfStmt(b, l + 1);
+    r = ElseIfStmt(b, l + 1);
     if (!r) r = ElseStmt(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // LOOP Stmt* ENDLOOP
+  // LOOP FunStmt ENDLOOP
   public static boolean LoopStmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LoopStmt")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
@@ -533,21 +521,10 @@ public class JassParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, LOOP_STMT, null);
     r = consumeToken(b, LOOP);
     p = r; // pin = 1
-    r = r && report_error_(b, LoopStmt_1(b, l + 1));
+    r = r && report_error_(b, FunStmt(b, l + 1));
     r = p && consumeToken(b, ENDLOOP) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  // Stmt*
-  private static boolean LoopStmt_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "LoopStmt_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!Stmt(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "LoopStmt_1", c)) break;
-    }
-    return true;
   }
 
   /* ********************************************************** */
@@ -772,13 +749,13 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SetStmt |
-  //     CallStmt |
-  //     LvarStmt |
-  //     ReturnStmt |
-  //     IfStmt |
-  //     LoopStmt |
-  //     ExitWhenStmt
+  // SetStmt
+  //     | CallStmt
+  //     | LvarStmt
+  //     | ReturnStmt
+  //     | IfStmt
+  //     | LoopStmt
+  //     | ExitWhenStmt
   public static boolean Stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Stmt")) return false;
     boolean r;

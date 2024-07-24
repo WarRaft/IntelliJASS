@@ -5,6 +5,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
+import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.psi.JassTypes.*
 
@@ -19,12 +20,6 @@ open class JassBlock(
     private var mySpacingBuilder: SpacingBuilder? = null
 
     open fun makeSubBlock(childNode: ASTNode): Block {
-        if (FormatterUtil.isOneOf(childNode, STMT)) return JassStmtBlock(
-            childNode.firstChildNode,
-            null,
-            Indent.getNormalIndent(),
-            myCodeStyleSettings
-        )
         return JassBlock(childNode, null, null, myCodeStyleSettings)
     }
 
@@ -46,7 +41,17 @@ open class JassBlock(
 
     override fun getWrap(): Wrap? = myWrap
 
-    override fun getIndent(): Indent? = myIndent
+    override fun getIndent(): Indent? {
+        if (isOneOf(myNode, STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF)) {
+            return Indent.getNoneIndent()
+        }
+
+        if (isOneOf(myNode, FUN_STMT)) {
+            return Indent.getNormalIndent()
+        }
+
+        return myIndent
+    }
 
     override fun getAlignment(): Alignment? = myAlignment
 
@@ -59,6 +64,16 @@ open class JassBlock(
             val saao = if (code.SPACE_AROUND_ASSIGNMENT_OPERATORS) 1 else 0
 
             return SpacingBuilder(myCodeStyleSettings, instance)
+                // Fun
+                .between(FUNCTION, FUN_HEAD).spacing(1, 1, 0, false, 0)
+                .between(FUN_HEAD, FUN_STMT).spacing(1, 1, 1, false, 5)
+                // STMT
+                .around(STMT).spacing(1, 1, 1, false, 5)
+                .after(IF).spacing(1, 1, 0, false, 0)
+                .before(THEN).spacing(1, 1, 0, false, 0)
+                .after(THEN).spacing(1, 1, 1, false, 5)
+                .before(LOOP).spacing(1, 1, 0, false, 0)
+                .after(LOOP).spacing(1, 1, 1, false, 5)
                 // CallStmt
                 .between(CALL, FUN_CALL).spacing(1, 1, 0, false, 0)
                 // FunCall
@@ -78,9 +93,19 @@ open class JassBlock(
     override fun getSpacing(block1: Block?, block2: Block): Spacing? =
         (mySpacingBuilder ?: spacingBuilder).getSpacing(this, block1, block2)
 
-    override fun getChildAttributes(i: Int): ChildAttributes = ChildAttributes(Indent.getNoneIndent(), null)
+    override fun getChildAttributes(i: Int): ChildAttributes {
+        if (isOneOf(myNode, FUN, LOOP_STMT, IF_STMT, ELSE_STMT, ELSE_IF_STMT)) {
+            return ChildAttributes(Indent.getNormalIndent(), null)
+        }
+        return ChildAttributes(Indent.getNoneIndent(), null)
+    }
 
-    override fun isIncomplete(): Boolean = false
+    override fun isIncomplete(): Boolean {
+        if (isOneOf(myNode, IF_STMT)) return !isOneOf(myNode.lastChildNode, ENDIF)
+        if (isOneOf(myNode, LOOP_STMT)) return !isOneOf(myNode.lastChildNode, ENDLOOP)
+        if (isOneOf(myNode, FUN)) return !isOneOf(myNode.lastChildNode, ENDFUNCTION)
+        return false
+    }
 
     override fun isLeaf(): Boolean = myNode.firstChildNode == null
 }

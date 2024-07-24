@@ -11,8 +11,8 @@ public interface JassElseIfStmt extends JassCompositeElement {
   @Nullable
   JassExpr getExpr();
 
-  @NotNull
-  List<JassStmt> getStmtList();
+  @Nullable
+  JassFunStmt getFunStmt();
 
   @NotNull
   PsiElement getElseif();
