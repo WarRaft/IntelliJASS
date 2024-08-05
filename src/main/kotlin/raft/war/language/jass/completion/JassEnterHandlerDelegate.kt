@@ -1,4 +1,4 @@
-package raft.war.language.jass
+package raft.war.language.jass.completion
 
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegate
 import com.intellij.openapi.actionSystem.DataContext
@@ -8,6 +8,7 @@ import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.elementType
+import raft.war.language.jass.JassLanguage
 import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassTypes.GLOBALS
 

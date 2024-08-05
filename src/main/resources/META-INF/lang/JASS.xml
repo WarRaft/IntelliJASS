@@ -22,7 +22,7 @@
         <lang.quoteHandler language="JASS" implementationClass="raft.war.language.jass.JassQuoteHandler"/>
 
         <!-- type handler -->
-        <enterHandlerDelegate implementation="raft.war.language.jass.JassEnterHandlerDelegate"/>
+        <enterHandlerDelegate implementation="raft.war.language.jass.completion.JassEnterHandlerDelegate"/>
 
         <!-- color -->
         <colorSettingsPage implementation="raft.war.language.jass.JassColorSettingsPage"/>
@@ -62,7 +62,7 @@
         <!-- completion -->
         <completion.contributor
                 language="JASS"
-                implementationClass="raft.war.language.jass.JassCompletionContributor"/>
+                implementationClass="raft.war.language.jass.completion.JassCompletionContributor"/>
 
         <!-- line marker -->
         <codeInsight.lineMarkerProvider language="JASS"
