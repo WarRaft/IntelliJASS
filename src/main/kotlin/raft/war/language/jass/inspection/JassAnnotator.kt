@@ -19,7 +19,8 @@ internal class JassAnnotator : Annotator {
         }
 
         if (element is JassFunName) {
-            //print("${element.reference} \n\n")
+            //print("🍒 ${element.text} \n")
+            //print("💋 ${element.reference?.resolve()?.containingFile} \n\n")
         }
 
         /*

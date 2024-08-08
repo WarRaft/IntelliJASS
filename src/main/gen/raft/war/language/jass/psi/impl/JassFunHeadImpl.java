@@ -45,4 +45,16 @@ public class JassFunHeadImpl extends ASTWrapperPsiElement implements JassFunHead
     return PsiTreeUtil.getChildOfType(this, JassFunTake.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getConstant() {
+    return findChildByType(CONSTANT);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getFunction() {
+    return notNullChild(findChildByType(FUNCTION));
+  }
+
 }

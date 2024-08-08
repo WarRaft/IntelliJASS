@@ -18,7 +18,7 @@ class JassElementTextFactory {
         private fun createFun(project: Project, name: String): JassFun =
             createFile(project, "function $name endfunction").firstChild as JassFun
 
-        fun getId(project: Project, name: String): PsiElement = createFun(project, name).funHead!!.funName.id
+        fun getId(project: Project, name: String): PsiElement = createFun(project, name).funHead.funName!!.id
 
         fun recreateCallStmt(
             project: Project,
@@ -26,7 +26,7 @@ class JassElementTextFactory {
         ): JassCallStmt {
             val file = createFile(project, "function a " + callStmt.text + " endfunction")
             val jfun = file.firstChild as JassFun
-            val stmtNew = jfun.funBody!!.stmtList[0]
+            val stmtNew = jfun.funBody.stmtList[0]
             return stmtNew.callStmt!!
         }
 

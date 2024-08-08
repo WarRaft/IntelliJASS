@@ -9,7 +9,13 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassNativ extends JassCompositeElement {
 
   @Nullable
-  JassFunHead getFunHead();
+  JassFunName getFunName();
+
+  @Nullable
+  JassFunRet getFunRet();
+
+  @Nullable
+  JassFunTake getFunTake();
 
   @Nullable
   PsiElement getConstant();

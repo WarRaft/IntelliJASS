@@ -216,27 +216,17 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? FUNCTION FunHead FunBody ENDFUNCTION
+  // FunHead FunBody ENDFUNCTION
   public static boolean Fun(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun")) return false;
     if (!nextTokenIs(b, "<fun>", CONSTANT, FUNCTION)) return false;
-    boolean r, p;
+    boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUN, "<fun>");
-    r = Fun_0(b, l + 1);
-    r = r && consumeToken(b, FUNCTION);
-    p = r; // pin = 2
-    r = r && report_error_(b, FunHead(b, l + 1));
-    r = p && report_error_(b, FunBody(b, l + 1)) && r;
-    r = p && consumeToken(b, ENDFUNCTION) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // CONSTANT?
-  private static boolean Fun_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Fun_0")) return false;
-    consumeToken(b, CONSTANT);
-    return true;
+    r = FunHead(b, l + 1);
+    r = r && FunBody(b, l + 1);
+    r = r && consumeToken(b, ENDFUNCTION);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -301,35 +291,46 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FunName? FunTake? FunRet?
+  // CONSTANT? FUNCTION FunName? FunTake? FunRet?
   public static boolean FunHead(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunHead")) return false;
-    boolean r;
+    if (!nextTokenIs(b, "<fun head>", CONSTANT, FUNCTION)) return false;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FUN_HEAD, "<fun head>");
     r = FunHead_0(b, l + 1);
-    r = r && FunHead_1(b, l + 1);
-    r = r && FunHead_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    r = r && consumeToken(b, FUNCTION);
+    p = r; // pin = 2
+    r = r && report_error_(b, FunHead_2(b, l + 1));
+    r = p && report_error_(b, FunHead_3(b, l + 1)) && r;
+    r = p && FunHead_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // CONSTANT?
+  private static boolean FunHead_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_0")) return false;
+    consumeToken(b, CONSTANT);
+    return true;
   }
 
   // FunName?
-  private static boolean FunHead_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunHead_0")) return false;
+  private static boolean FunHead_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_2")) return false;
     FunName(b, l + 1);
     return true;
   }
 
   // FunTake?
-  private static boolean FunHead_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunHead_1")) return false;
+  private static boolean FunHead_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_3")) return false;
     FunTake(b, l + 1);
     return true;
   }
 
   // FunRet?
-  private static boolean FunHead_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunHead_2")) return false;
+  private static boolean FunHead_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_4")) return false;
     FunRet(b, l + 1);
     return true;
   }
@@ -554,7 +555,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CONSTANT? NATIVE FunHead
+  // CONSTANT? NATIVE FunName? FunTake? FunRet?
   public static boolean Nativ(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Nativ")) return false;
     if (!nextTokenIs(b, "<nativ>", CONSTANT, NATIVE)) return false;
@@ -563,7 +564,9 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = Nativ_0(b, l + 1);
     r = r && consumeToken(b, NATIVE);
     p = r; // pin = 2
-    r = r && FunHead(b, l + 1);
+    r = r && report_error_(b, Nativ_2(b, l + 1));
+    r = p && report_error_(b, Nativ_3(b, l + 1)) && r;
+    r = p && Nativ_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -572,6 +575,27 @@ public class JassParser implements PsiParser, LightPsiParser {
   private static boolean Nativ_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Nativ_0")) return false;
     consumeToken(b, CONSTANT);
+    return true;
+  }
+
+  // FunName?
+  private static boolean Nativ_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Nativ_2")) return false;
+    FunName(b, l + 1);
+    return true;
+  }
+
+  // FunTake?
+  private static boolean Nativ_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Nativ_3")) return false;
+    FunTake(b, l + 1);
+    return true;
+  }
+
+  // FunRet?
+  private static boolean Nativ_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Nativ_4")) return false;
+    FunRet(b, l + 1);
     return true;
   }
 

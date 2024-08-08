@@ -120,9 +120,10 @@ private ParamListRecover ::= !(RETURNS)
 FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
 
-Fun ::= CONSTANT? FUNCTION FunHead FunBody ENDFUNCTION {pin=2}
-Nativ ::= CONSTANT? NATIVE FunHead {pin=2}
-FunHead ::= FunName? FunTake? FunRet?
+Fun ::= FunHead FunBody ENDFUNCTION
+FunHead ::= CONSTANT? FUNCTION FunName? FunTake? FunRet? {pin=2}
+
+Nativ ::= CONSTANT? NATIVE FunName? FunTake? FunRet? {pin=2}
 FunBody ::= Stmt* {recoverWhile=FunBodyRecover}
 private FunBodyRecover ::= !(ENDFUNCTION|LOOP|ENDLOOP|ELSE|ELSEIF|ENDIF)
 

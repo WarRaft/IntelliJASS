@@ -130,7 +130,7 @@ internal class JassCompletionContributor : CompletionContributor() {
 
         // functions
         var isFunList = parent !is JassFile
-        print(parent)
+        if (isFunList && PsiTreeUtil.findFirstParent(parent) { it is JassFunHead } != null) isFunList = false
 
         if (isFunList) {
             val scope = GlobalSearchScope.allScope(project)
@@ -147,16 +147,29 @@ internal class JassCompletionContributor : CompletionContributor() {
                         ProgressManager.checkCanceled()
 
                         val head = name.parent
-                        if (head !is JassFunHead) return@forEach
 
-                        val take = head.funTake
+                        val take: JassFunTake?
+                        val ret: JassFunRet?
+                        when (val p = name.parent) {
+                            is JassFunHead -> {
+                                take = p.funTake
+                                ret = p.funRet
+                            }
+
+                            is JassNativ -> {
+                                take = p.funTake
+                                ret = p.funRet
+                            }
+
+                            else -> return@forEach
+                        }
 
                         result.addElement(LookupElementBuilder
                             .create(name)
                             .withTypeText("function", AllIcons.Ide.HectorOn, false)
                             .withTypeIconRightAligned(true)
                             .withPsiElement(head)
-                            .withTailText(" ${take?.text} ${head.funRet?.text}")
+                            .withTailText(" ${take?.text} ${ret?.text}")
                             .withIcon(AllIcons.Nodes.Function)
                             .withInsertHandler { ctx, _ ->
                                 val document = ctx.document

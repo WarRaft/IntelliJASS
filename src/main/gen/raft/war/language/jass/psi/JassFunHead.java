@@ -17,4 +17,10 @@ public interface JassFunHead extends JassCompositeElement {
   @Nullable
   JassFunTake getFunTake();
 
+  @Nullable
+  PsiElement getConstant();
+
+  @NotNull
+  PsiElement getFunction();
+
 }

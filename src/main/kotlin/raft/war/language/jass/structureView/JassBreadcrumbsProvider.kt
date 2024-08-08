@@ -14,7 +14,7 @@ class JassBreadcrumbsProvider : BreadcrumbsProvider {
 
     override fun getElementInfo(element: PsiElement): String {
         return when (element) {
-            is JassFun -> "function ${element.funHead?.funName?.text}"
+            is JassFun -> "function ${element.funHead.funName?.text}"
             is JassLoopStmt -> "loop"
 
             /*

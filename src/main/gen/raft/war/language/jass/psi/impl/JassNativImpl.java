@@ -29,8 +29,20 @@ public class JassNativImpl extends ASTWrapperPsiElement implements JassNativ {
 
   @Override
   @Nullable
-  public JassFunHead getFunHead() {
-    return PsiTreeUtil.getChildOfType(this, JassFunHead.class);
+  public JassFunName getFunName() {
+    return PsiTreeUtil.getChildOfType(this, JassFunName.class);
+  }
+
+  @Override
+  @Nullable
+  public JassFunRet getFunRet() {
+    return PsiTreeUtil.getChildOfType(this, JassFunRet.class);
+  }
+
+  @Override
+  @Nullable
+  public JassFunTake getFunTake() {
+    return PsiTreeUtil.getChildOfType(this, JassFunTake.class);
   }
 
   @Override

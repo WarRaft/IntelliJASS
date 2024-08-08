@@ -28,33 +28,21 @@ public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
   }
 
   @Override
-  @Nullable
+  @NotNull
   public JassFunBody getFunBody() {
-    return PsiTreeUtil.getChildOfType(this, JassFunBody.class);
-  }
-
-  @Override
-  @Nullable
-  public JassFunHead getFunHead() {
-    return PsiTreeUtil.getChildOfType(this, JassFunHead.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getConstant() {
-    return findChildByType(CONSTANT);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEndfunction() {
-    return findChildByType(ENDFUNCTION);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunBody.class));
   }
 
   @Override
   @NotNull
-  public PsiElement getFunction() {
-    return notNullChild(findChildByType(FUNCTION));
+  public JassFunHead getFunHead() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunHead.class));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getEndfunction() {
+    return notNullChild(findChildByType(ENDFUNCTION));
   }
 
 }

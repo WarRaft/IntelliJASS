@@ -43,7 +43,6 @@ class JassNativeBlock(
 
         if (FormatterUtil.isOneOf(
                 childNode,
-                FUN_HEAD,
                 FUN_NAME,
                 FUN_TAKE,
                 FUN_RET,

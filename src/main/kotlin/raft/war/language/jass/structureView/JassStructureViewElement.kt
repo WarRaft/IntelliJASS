@@ -36,10 +36,10 @@ class JassStructureViewElement(private val element: NavigatablePsiElement) : Str
         return presentation ?: object : PresentationData() {
             override fun getPresentableText(): String {
                 if (element is JassFun) {
-                    return element.funHead?.funName?.text ?: "Undefined"
+                    return element.funHead.funName?.text ?: "Undefined"
                 }
                 if (element is JassNativ) {
-                    return element.funHead?.funName?.text ?: "Undefined"
+                    return element.funName?.text ?: "Undefined"
                 }
                 return "Undefined"
             }

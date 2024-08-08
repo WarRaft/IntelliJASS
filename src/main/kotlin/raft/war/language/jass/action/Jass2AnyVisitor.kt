@@ -104,26 +104,24 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     override fun visitFun(o: JassFun) {
         val head = o.funHead
 
-        val ret = head?.funRet
+        val ret = head.funRet
         val rettype = ret?.typeName
 
-        val name = head?.funName
+        val name = head.funName
 
-        val take = head?.funTake
+        val take = head.funTake
         var params: List<JassParam?> = ArrayList()
         if (take != null) {
             val list = take.paramList
             if (list != null) params = list.paramList
         }
 
-        o.funBody?.let {
-            appendFunction(
-                if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
-                if (name == null) "" else getSafeName(name.text),
-                params,
-                it.stmtList
-            )
-        }
+        appendFunction(
+            if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
+            if (name == null) "" else getSafeName(name.text),
+            params,
+            o.funBody.stmtList
+        )
     }
 
     // --- statement

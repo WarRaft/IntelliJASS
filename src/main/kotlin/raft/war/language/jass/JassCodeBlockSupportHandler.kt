@@ -36,10 +36,10 @@ class JassCodeBlockSupportHandler : CodeBlockSupportHandler {
         if (isOneOf(node, FUNCTION, TAKES, RETURNS, RETURN, ENDFUNCTION)) {
             val func = PsiTreeUtil.findFirstParent(elementAtCursor) { it is JassFun }
             if (func is JassFun) {
-                add(func.function)
+                add(func.funHead.function)
                 add(func.endfunction)
-                add(func.funHead?.funTake?.takes)
-                add(func.funHead?.funRet?.returns)
+                add(func.funHead.funTake?.takes)
+                add(func.funHead.funRet?.returns)
 
                 val funcs: Collection<JassReturnStmt> =
                     PsiTreeUtil.collectElementsOfType(func, JassReturnStmt::class.java)

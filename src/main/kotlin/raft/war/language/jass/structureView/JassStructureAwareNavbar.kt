@@ -13,8 +13,8 @@ internal class JassStructureAwareNavbar : StructureAwareNavBarModelExtension() {
         get() = instance
 
     override fun getPresentableText(obj: Any): String? {
-        if (obj is JassFun) return obj.funHead?.funName?.text ?: "Undefined"
-        if (obj is JassNativ) return obj.funHead?.funName?.text ?: "Undefined"
+        if (obj is JassFun) return obj.funHead.funName?.text ?: "Undefined"
+        if (obj is JassNativ) return obj.funName?.text ?: "Undefined"
         return null
     }
 
