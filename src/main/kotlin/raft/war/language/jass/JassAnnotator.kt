@@ -5,6 +5,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
+import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassTypeName
 
 internal class JassAnnotator : Annotator {
@@ -12,8 +13,12 @@ internal class JassAnnotator : Annotator {
         if (element is JassTypeName) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(element.getTextRange())
+                .range(element.textRange)
                 .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
+        }
+
+        if (element is JassFunName) {
+            //print("${element.reference} \n\n")
         }
 
         /*

@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassLoopStmt extends JassCompositeElement {
 
   @Nullable
-  JassFunStmt getFunStmt();
+  JassFunBody getFunBody();
 
   @Nullable
   PsiElement getEndloop();

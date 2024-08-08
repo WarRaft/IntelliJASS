@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.openapi.fileTypes
+package raft.war.language.angelscript.highlighter
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory

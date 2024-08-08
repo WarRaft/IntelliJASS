@@ -1,7 +1,7 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AngelScript"
-                  implementationClass="raft.war.language.angelscript.openapi.fileTypes.AngelScriptFileType"
+                  implementationClass="raft.war.language.angelscript.AngelScriptFileType"
                   fieldName="instance"
                   language="AngelScript"
                   extensions="as"
@@ -13,11 +13,11 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
-                                       implementationClass="raft.war.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.angelscript.highlighter.AngelScriptSyntaxHighlighterFactory"/>
 
         <!-- color -->
         <colorSettingsPage
-                implementation="raft.war.language.angelscript.openapi.options.colors.AngelScriptColorSettingsPage"/>
+                implementation="raft.war.language.angelscript.highlighter.AngelScriptColorSettingsPage"/>
 
         <!-- formatter -->
         <lang.formatter language="AngelScript"

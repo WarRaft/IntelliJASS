@@ -1,6 +1,6 @@
 @file:Suppress("DialogTitleCapitalization")
 
-package raft.war.language.angelscript.openapi.options.colors
+package raft.war.language.angelscript.highlighter
 
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
@@ -10,7 +10,6 @@ import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import raft.war.language.angelscript.icons.AngelScriptIcons
 import raft.war.language.angelscript.lang.AngelScriptLanguage
-import raft.war.language.angelscript.openapi.fileTypes.AngelScriptSyntaxHighlighterBase
 import javax.swing.Icon
 
 internal class AngelScriptColorSettingsPage : ColorSettingsPage {
@@ -37,7 +36,15 @@ internal class AngelScriptColorSettingsPage : ColorSettingsPage {
                 """.trimIndent()
     }
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): HashMap<String, TextAttributesKey?> = ourTags
+    override fun getAdditionalHighlightingTagToDescriptorMap(): HashMap<String, TextAttributesKey?> =
+        object : HashMap<String, TextAttributesKey?>() {
+            init {
+                put("BAD_CHARACTER", AngelScriptSyntaxHighlighterBase.BAD_CHARACTER_KEY)
+                put("TYPE_NAME", AngelScriptSyntaxHighlighterBase.TYPE_NAME_KEY)
+                put("VALID_STRING_ESCAPE", AngelScriptSyntaxHighlighterBase.VALID_STRING_ESCAPE_KEY)
+                put("INVALID_STRING_ESCAPE", AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY)
+            }
+        }
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = DESCRIPTORS
 
@@ -118,12 +125,4 @@ private val DESCRIPTORS = arrayOf(
         AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY
     ),
 )
-private val ourTags: HashMap<String, TextAttributesKey?> =
-    object : HashMap<String, TextAttributesKey?>() {
-        init {
-            put("BAD_CHARACTER", AngelScriptSyntaxHighlighterBase.BAD_CHARACTER_KEY)
-            put("TYPE_NAME", AngelScriptSyntaxHighlighterBase.TYPE_NAME_KEY)
-            put("VALID_STRING_ESCAPE", AngelScriptSyntaxHighlighterBase.VALID_STRING_ESCAPE_KEY)
-            put("INVALID_STRING_ESCAPE", AngelScriptSyntaxHighlighterBase.INVALID_STRING_ESCAPE_KEY)
-        }
-    }
+

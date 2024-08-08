@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import raft.war.language.angelscript.extapi.psi.AngelScriptPsiFileBase
+import raft.war.language.angelscript.psi.AngelScriptPsiFileBase
 import raft.war.language.angelscript.lexer.AngelScriptFlexAdapter
 import raft.war.language.angelscript.psi.AngelScriptTokenSets
 

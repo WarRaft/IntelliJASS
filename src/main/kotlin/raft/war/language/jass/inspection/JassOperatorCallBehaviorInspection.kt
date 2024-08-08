@@ -1,4 +1,4 @@
-package raft.war.language.jass.codeInspection
+package raft.war.language.jass.inspection
 
 import com.intellij.codeInspection.*
 import com.intellij.codeInspection.options.OptPane
@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiParserFacade
 import com.intellij.psi.PsiWhiteSpace
-import raft.war.language.jass.codeInspection.JassInspectionBundle.message
+import raft.war.language.jass.inspection.JassInspectionBundle.message
 import raft.war.language.jass.psi.JassCallStmt
 import raft.war.language.jass.psi.JassElementTextFactory.Companion.createToken
 import raft.war.language.jass.psi.JassElementTextFactory.Companion.recreateCallStmt

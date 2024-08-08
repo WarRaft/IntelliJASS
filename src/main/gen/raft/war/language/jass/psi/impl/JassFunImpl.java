@@ -29,14 +29,14 @@ public class JassFunImpl extends ASTWrapperPsiElement implements JassFun {
 
   @Override
   @Nullable
-  public JassFunHead getFunHead() {
-    return PsiTreeUtil.getChildOfType(this, JassFunHead.class);
+  public JassFunBody getFunBody() {
+    return PsiTreeUtil.getChildOfType(this, JassFunBody.class);
   }
 
   @Override
   @Nullable
-  public JassFunStmt getFunStmt() {
-    return PsiTreeUtil.getChildOfType(this, JassFunStmt.class);
+  public JassFunHead getFunHead() {
+    return PsiTreeUtil.getChildOfType(this, JassFunHead.class);
   }
 
   @Override

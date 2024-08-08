@@ -1,6 +1,6 @@
 package raft.war.language.jass.action.jass2angelscript
 
-import raft.war.language.angelscript.openapi.fileTypes.AngelScriptFileType
+import raft.war.language.angelscript.AngelScriptFileType
 import raft.war.language.jass.action.Jass2AnyAction
 import raft.war.language.jass.action.Jass2AnyVisitor
 

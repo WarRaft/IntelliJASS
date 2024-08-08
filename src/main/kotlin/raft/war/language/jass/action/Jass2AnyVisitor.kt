@@ -1,7 +1,7 @@
 package raft.war.language.jass.action
 
 import com.intellij.psi.PsiElement
-import raft.war.language.jass.codeInspection.number.JassRawcode
+import raft.war.language.jass.inspection.number.JassRawcode
 import raft.war.language.jass.psi.*
 
 abstract class Jass2AnyVisitor : JassVisitor() {
@@ -116,7 +116,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             if (list != null) params = list.paramList
         }
 
-        o.funStmt?.let {
+        o.funBody?.let {
             appendFunction(
                 if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
                 if (name == null) "" else getSafeName(name.text),

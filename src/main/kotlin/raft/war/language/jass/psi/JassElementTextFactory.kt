@@ -26,7 +26,7 @@ class JassElementTextFactory {
         ): JassCallStmt {
             val file = createFile(project, "function a " + callStmt.text + " endfunction")
             val jfun = file.firstChild as JassFun
-            val stmtNew = jfun.funStmt!!.stmtList[0]
+            val stmtNew = jfun.funBody!!.stmtList[0]
             return stmtNew.callStmt!!
         }
 

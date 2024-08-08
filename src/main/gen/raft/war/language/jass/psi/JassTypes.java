@@ -20,12 +20,12 @@ public interface JassTypes {
   IElementType EXIT_WHEN_STMT = new JassElementType("EXIT_WHEN_STMT");
   IElementType EXPR = new JassElementType("EXPR");
   IElementType FUN = new JassElementType("FUN");
+  IElementType FUN_BODY = new JassElementType("FUN_BODY");
   IElementType FUN_CALL = new JassElementType("FUN_CALL");
   IElementType FUN_HEAD = new JassElementType("FUN_HEAD");
   IElementType FUN_NAME = JassElementTypeFactory.factory("FUN_NAME");
   IElementType FUN_REF = new JassElementType("FUN_REF");
   IElementType FUN_RET = new JassElementType("FUN_RET");
-  IElementType FUN_STMT = new JassElementType("FUN_STMT");
   IElementType FUN_TAKE = new JassElementType("FUN_TAKE");
   IElementType GLOB = new JassElementType("GLOB");
   IElementType GT_EQ_EXPR = new JassElementType("GT_EQ_EXPR");
@@ -156,6 +156,9 @@ public interface JassTypes {
       else if (type == FUN) {
         return new JassFunImpl(node);
       }
+      else if (type == FUN_BODY) {
+        return new JassFunBodyImpl(node);
+      }
       else if (type == FUN_CALL) {
         return new JassFunCallImpl(node);
       }
@@ -170,9 +173,6 @@ public interface JassTypes {
       }
       else if (type == FUN_RET) {
         return new JassFunRetImpl(node);
-      }
-      else if (type == FUN_STMT) {
-        return new JassFunStmtImpl(node);
       }
       else if (type == FUN_TAKE) {
         return new JassFunTakeImpl(node);

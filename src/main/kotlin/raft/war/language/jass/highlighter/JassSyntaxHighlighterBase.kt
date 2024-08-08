@@ -51,7 +51,7 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.COMMA
         )
 
-        private val JASS_NUMBER: TextAttributesKey = createTextAttributesKey(
+        val JASS_NUMBER: TextAttributesKey = createTextAttributesKey(
             Companion::JASS_NUMBER.name,
             DefaultLanguageHighlighterColors.NUMBER
         )

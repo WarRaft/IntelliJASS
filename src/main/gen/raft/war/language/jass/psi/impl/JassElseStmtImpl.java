@@ -29,8 +29,8 @@ public class JassElseStmtImpl extends ASTWrapperPsiElement implements JassElseSt
 
   @Override
   @Nullable
-  public JassFunStmt getFunStmt() {
-    return PsiTreeUtil.getChildOfType(this, JassFunStmt.class);
+  public JassFunBody getFunBody() {
+    return PsiTreeUtil.getChildOfType(this, JassFunBody.class);
   }
 
   @Override

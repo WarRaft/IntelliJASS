@@ -1,6 +1,6 @@
 package raft.war.language.jass.action.jass2angelscript
 
-import raft.war.language.jass.codeInspection.number.JassRawcode
+import raft.war.language.jass.inspection.number.JassRawcode
 import raft.war.language.jass.action.Jass2AnyVisitor
 import raft.war.language.jass.psi.*
 
@@ -159,7 +159,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
         for (stmt in o.elseIfStmtList) stmt.accept(this)
         for (stmt in o.elseStmtList) stmt.accept(this)
@@ -169,13 +169,13 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("else if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
     override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else {\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
@@ -201,7 +201,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
     // loop
     override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) {\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 

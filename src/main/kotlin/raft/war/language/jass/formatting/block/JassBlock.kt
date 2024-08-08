@@ -46,7 +46,7 @@ open class JassBlock(
             return Indent.getNoneIndent()
         }
 
-        if (isOneOf(myNode, FUN_STMT)) {
+        if (isOneOf(myNode, FUN_BODY)) {
             return Indent.getNormalIndent()
         }
 
@@ -66,7 +66,7 @@ open class JassBlock(
             return SpacingBuilder(myCodeStyleSettings, instance)
                 // Fun
                 .between(FUNCTION, FUN_HEAD).spacing(1, 1, 0, false, 0)
-                .between(FUN_HEAD, FUN_STMT).spacing(1, 1, 1, false, 5)
+                .between(FUN_HEAD, FUN_BODY).spacing(1, 1, 1, false, 5)
                 // STMT
                 .around(STMT).spacing(1, 1, 1, false, 5)
                 .after(IF).spacing(1, 1, 0, false, 0)

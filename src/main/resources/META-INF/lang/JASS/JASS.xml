@@ -25,7 +25,7 @@
         <enterHandlerDelegate implementation="raft.war.language.jass.completion.JassEnterHandlerDelegate"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="raft.war.language.jass.JassColorSettingsPage"/>
+        <colorSettingsPage implementation="raft.war.language.jass.highlighter.JassColorSettingsPage"/>
 
         <!-- annotator -->
         <annotator language="JASS" implementationClass="raft.war.language.jass.JassAnnotator"/>
@@ -77,35 +77,12 @@
                 implementationClass="raft.war.language.jass.structureView.JassStructureViewFactory"/>
         <navbar implementation="raft.war.language.jass.structureView.JassStructureAwareNavbar"/>
         <breadcrumbsInfoProvider implementation="raft.war.language.jass.structureView.JassBreadcrumbsProvider"/>
-        <codeBlockSupportHandler language="JASS" implementationClass="raft.war.language.jass.JassCodeBlockSupportHandler"/>
+        <codeBlockSupportHandler language="JASS"
+                                 implementationClass="raft.war.language.jass.JassCodeBlockSupportHandler"/>
 
         <!-- live template -->
         <liveTemplateContext
                 contextId="JASS"
                 implementation="raft.war.language.jass.JassTemplateContextType"/>
-
-        <!-- inspections -->
-        <localInspection language="JASS"
-                         bundle="messages.JassInspectionsBundle"
-                         key="operator.call.display.name"
-                         groupPath="JASS"
-                         groupBundle="messages.JassInspectionsBundle"
-                         groupKey="group.names.operator"
-                         enabledByDefault="true"
-                         level="WARNING"
-                         implementationClass="raft.war.language.jass.codeInspection.JassOperatorCallBehaviorInspection"
-        />
-
-        <localInspection language="JASS"
-                         bundle="messages.JassInspectionsBundle"
-                         key="number.rawcode.unsafe.key"
-                         groupPath="JASS"
-                         groupBundle="messages.JassInspectionsBundle"
-                         groupKey="group.names.number"
-                         enabledByDefault="true"
-                         level="WARNING"
-                         implementationClass="raft.war.language.jass.codeInspection.number.JassRawcodeUnsafeInspection"
-        />
-
     </extensions>
 </idea-plugin>

@@ -52,7 +52,7 @@ class JassEnterHandlerDelegate : EnterHandlerDelegate {
         editor: Editor,
         dataContext: DataContext
     ): EnterHandlerDelegate.Result {
-        if (file.language !is JassLanguage) return EnterHandlerDelegate.Result.Continue;
+        if (file.language !is JassLanguage) return EnterHandlerDelegate.Result.Continue
         return EnterHandlerDelegate.Result.Continue
     }
 }

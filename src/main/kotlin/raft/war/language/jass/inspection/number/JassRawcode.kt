@@ -1,4 +1,4 @@
-package raft.war.language.jass.codeInspection.number
+package raft.war.language.jass.inspection.number
 
 import com.intellij.psi.PsiElement
 import java.nio.charset.StandardCharsets

@@ -76,7 +76,7 @@ internal class JassCompletionContributor : CompletionContributor() {
 
         // --
         val next = PsiTreeUtil.skipWhitespacesForward(current)
-        val inFunStmt = (parent is JassFunStmt || next is JassFunStmt) && !isCallPrev
+        val inFunStmt = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
 
         // if
         if (inFunStmt || current.elementType == IF) {
@@ -160,7 +160,7 @@ internal class JassCompletionContributor : CompletionContributor() {
                             val document = ctx.document
 
                             // add call
-                            val addCall = (parent is JassFunStmt || next is JassFunStmt) && !isCallPrev
+                            val addCall = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
                             if (addCall) document.insertString(ctx.startOffset, "call ")
 
                             val tslist: MutableList<String> = mutableListOf()

@@ -12,14 +12,14 @@
     <depends>com.intellij.modules.platform</depends>
 
     <xi:include href="lang/all.xml" xpointer="xpointer(/idea-plugin/*)"/>
-    <xi:include href="lang/JASS.xml" xpointer="xpointer(/idea-plugin/*)"/>
+    <xi:include href="lang/JASS/JASS.xml" xpointer="xpointer(/idea-plugin/*)"/>
+    <xi:include href="lang/JASS/inspections.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/ZINC.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/VJASS.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/AngelScript.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/WTS.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/LNI.xml" xpointer="xpointer(/idea-plugin/*)"/>
     <xi:include href="lang/SLK.xml" xpointer="xpointer(/idea-plugin/*)"/>
-
 
     <!-- https://plugins.jetbrains.com/docs/intellij/intellij-platform-extension-point-list.html#intellij-platform-listeners -->
 

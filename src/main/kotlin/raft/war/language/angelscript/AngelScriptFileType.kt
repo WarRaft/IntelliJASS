@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.openapi.fileTypes
+package raft.war.language.angelscript
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import raft.war.language.angelscript.icons.AngelScriptIcons

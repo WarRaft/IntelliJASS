@@ -3,7 +3,6 @@ package raft.war.language.angelscript.psi
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import raft.war.language.angelscript.extapi.psi.AngelScriptPsiFileBase
 import raft.war.language.angelscript.lang.AngelScriptLanguage.Companion.instance
 
 object AngelScriptElementFactory {

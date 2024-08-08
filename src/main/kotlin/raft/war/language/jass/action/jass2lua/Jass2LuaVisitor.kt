@@ -96,7 +96,7 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("if ")
         acceptExpr(o.expr)
         stringBuffer.append(" then\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         for (stmt in o.elseIfStmtList) stmt.accept(this)
         for (stmt in o.elseStmtList) stmt.accept(this)
         stringBuffer.append("end\n")
@@ -106,18 +106,18 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
         stringBuffer.append("elseif ")
         acceptExpr(o.expr)
         stringBuffer.append(" then\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
     }
 
     override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
     }
 
     // loop
     override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) do\n")
-        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
+        for (stmt in o.funBody!!.stmtList) stmt.accept(this)
         stringBuffer.append("end\n")
     }
 

@@ -18,7 +18,7 @@ public interface JassIfStmt extends JassCompositeElement {
   JassExpr getExpr();
 
   @Nullable
-  JassFunStmt getFunStmt();
+  JassFunBody getFunBody();
 
   @Nullable
   PsiElement getEndif();

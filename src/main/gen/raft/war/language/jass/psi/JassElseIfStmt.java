@@ -12,7 +12,7 @@ public interface JassElseIfStmt extends JassCompositeElement {
   JassExpr getExpr();
 
   @Nullable
-  JassFunStmt getFunStmt();
+  JassFunBody getFunBody();
 
   @NotNull
   PsiElement getElseif();

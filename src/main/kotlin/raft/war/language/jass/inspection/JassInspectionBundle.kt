@@ -1,4 +1,4 @@
-package raft.war.language.jass.codeInspection
+package raft.war.language.jass.inspection
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
