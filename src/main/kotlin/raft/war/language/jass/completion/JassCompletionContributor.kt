@@ -128,61 +128,64 @@ internal class JassCompletionContributor : CompletionContributor() {
             })
         }
 
-        if (parent is JassFile) return
+        // functions
+        var isFunList = parent !is JassFile
+        print(parent)
 
-        // function
-        val scope = GlobalSearchScope.allScope(project)
-        StubIndex.getInstance().processAllKeys(
-            KEY,
-            { stubKey ->
-                StubIndex.getElements(
-                    KEY,
-                    stubKey,
-                    project,
-                    scope,
-                    JassNamedElement::class.java,
-                ).forEach { name ->
-                    ProgressManager.checkCanceled()
+        if (isFunList) {
+            val scope = GlobalSearchScope.allScope(project)
+            StubIndex.getInstance().processAllKeys(
+                KEY,
+                { stubKey ->
+                    StubIndex.getElements(
+                        KEY,
+                        stubKey,
+                        project,
+                        scope,
+                        JassNamedElement::class.java,
+                    ).forEach { name ->
+                        ProgressManager.checkCanceled()
 
-                    val head = name.parent
-                    if (head !is JassFunHead) return@forEach
+                        val head = name.parent
+                        if (head !is JassFunHead) return@forEach
 
-                    val take = head.funTake
+                        val take = head.funTake
 
-                    result.addElement(LookupElementBuilder
-                        .create(name)
-                        .withTypeText("function", AllIcons.Ide.HectorOn, false)
-                        .withTypeIconRightAligned(true)
-                        .withPsiElement(head)
-                        .withTailText(" ${take?.text} ${head.funRet?.text}")
-                        .withIcon(AllIcons.Nodes.Function)
-                        .withInsertHandler { ctx, _ ->
-                            val document = ctx.document
+                        result.addElement(LookupElementBuilder
+                            .create(name)
+                            .withTypeText("function", AllIcons.Ide.HectorOn, false)
+                            .withTypeIconRightAligned(true)
+                            .withPsiElement(head)
+                            .withTailText(" ${take?.text} ${head.funRet?.text}")
+                            .withIcon(AllIcons.Nodes.Function)
+                            .withInsertHandler { ctx, _ ->
+                                val document = ctx.document
 
-                            // add call
-                            val addCall = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
-                            if (addCall) document.insertString(ctx.startOffset, "call ")
+                                // add call
+                                val addCall = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
+                                if (addCall) document.insertString(ctx.startOffset, "call ")
 
-                            val tslist: MutableList<String> = mutableListOf()
-                            val tvlist: MutableList<Variable> = mutableListOf()
+                                val tslist: MutableList<String> = mutableListOf()
+                                val tvlist: MutableList<Variable> = mutableListOf()
 
-                            // add variables
-                            if (take != null) take.paramList?.paramList?.forEach {
-                                val vname = "P${it.id.text}"
-                                tslist.add("\$$vname\$")
-                                tvlist.add(Variable(vname, it.id.text))
-                            }
+                                // add variables
+                                if (take != null) take.paramList?.paramList?.forEach {
+                                    val vname = "P${it.id.text}"
+                                    tslist.add("\$$vname\$")
+                                    tvlist.add(Variable(vname, it.id.text))
+                                }
 
-                            val tpl = manager.createTemplate("", "", "(${tslist.joinToString(", ")})\n\$END\$")
-                            for (vr in tvlist) tpl.addVariable(vr.name, TextExpression(vr.expr), true)
+                                val tpl = manager.createTemplate("", "", "(${tslist.joinToString(", ")})\n\$END\$")
+                                for (vr in tvlist) tpl.addVariable(vr.name, TextExpression(vr.expr), true)
 
-                            tpl.isToReformat = true
-                            manager.startTemplate(ctx.editor, tpl)
-                        })
-                }
-                true
-            },
-            scope
-        )
+                                tpl.isToReformat = true
+                                manager.startTemplate(ctx.editor, tpl)
+                            })
+                    }
+                    true
+                },
+                scope
+            )
+        }
     }
 }

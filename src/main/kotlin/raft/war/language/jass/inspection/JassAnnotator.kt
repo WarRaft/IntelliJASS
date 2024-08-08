@@ -1,10 +1,11 @@
-package raft.war.language.jass
+package raft.war.language.jass.inspection
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
+import raft.war.language.jass.psi.JassFun
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassTypeName
 

@@ -28,7 +28,7 @@
         <colorSettingsPage implementation="raft.war.language.jass.highlighter.JassColorSettingsPage"/>
 
         <!-- annotator -->
-        <annotator language="JASS" implementationClass="raft.war.language.jass.JassAnnotator"/>
+        <annotator language="JASS" implementationClass="raft.war.language.jass.inspection.JassAnnotator"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="JASS"
