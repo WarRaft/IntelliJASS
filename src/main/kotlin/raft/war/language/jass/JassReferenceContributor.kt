@@ -38,7 +38,7 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                         }
 
                         override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
-                        override fun resolveDeclaration(incompleteCode: Boolean): List<PsiElement> {
+                        override fun resolveDeclaration(): List<PsiElement> {
                             val scope = GlobalSearchScope.allScope(element.project)
                             StubIndex.getElements(
                                 KEY,

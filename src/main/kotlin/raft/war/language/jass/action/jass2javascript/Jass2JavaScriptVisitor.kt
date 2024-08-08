@@ -165,7 +165,7 @@ class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor(
         stringBuffer.append("if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
-        for (stmt in o.stmtList) stmt.accept(this)
+        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
         for (stmt in o.elseIfStmtList) stmt.accept(this)
         for (stmt in o.elseStmtList) stmt.accept(this)
@@ -175,20 +175,20 @@ class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor(
         stringBuffer.append("else if (")
         acceptExpr(o.expr)
         stringBuffer.append("){\n")
-        for (stmt in o.stmtList) stmt.accept(this)
+        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
     override fun visitElseStmt(o: JassElseStmt) {
         stringBuffer.append("else {\n")
-        for (stmt in o.stmtList) stmt.accept(this)
+        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 
     // loop
     override fun visitLoopStmt(o: JassLoopStmt) {
         stringBuffer.append("while (true) {\n")
-        for (stmt in o.stmtList) stmt.accept(this)
+        for (stmt in o.funStmt!!.stmtList) stmt.accept(this)
         stringBuffer.append("}\n")
     }
 

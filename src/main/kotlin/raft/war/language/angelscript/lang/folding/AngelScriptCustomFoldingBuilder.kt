@@ -10,7 +10,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import com.intellij.refactoring.suggested.startOffset
+import com.intellij.psi.util.startOffset
 import raft.war.ide.IdeMultiHostInjector.Companion.INJECT_JASS
 import raft.war.language.angelscript.extapi.psi.AngelScriptPsiFileBase
 import raft.war.language.angelscript.lang.ANGELSCRIPT_FILE

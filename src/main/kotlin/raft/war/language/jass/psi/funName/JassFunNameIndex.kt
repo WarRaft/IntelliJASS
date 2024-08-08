@@ -2,7 +2,6 @@ package raft.war.language.jass.psi.funName
 
 import com.intellij.psi.stubs.StringStubIndexExtension
 import com.intellij.psi.stubs.StubIndexKey
-import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassNamedElement
 
 class JassFunNameIndex : StringStubIndexExtension<JassNamedElement>() {
@@ -11,8 +10,7 @@ class JassFunNameIndex : StringStubIndexExtension<JassNamedElement>() {
     override fun getKey(): StubIndexKey<String, JassNamedElement> = KEY
 
     companion object {
-        const val VERSION = 0
-
+        private const val VERSION = 1
     }
 }
 

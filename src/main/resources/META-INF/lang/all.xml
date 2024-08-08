@@ -11,6 +11,7 @@
         <!-- typing -->
         <typedHandler implementation="raft.war.ide.IdeTypedHandlerDelegate"/>
 
+
         <!-- startup -->
         <postStartupActivity implementation="raft.war.ide.IdeProjectActivity"/>
 

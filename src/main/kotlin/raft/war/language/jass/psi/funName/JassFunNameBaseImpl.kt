@@ -36,7 +36,7 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
 
             override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
 
-            override fun resolveDeclaration(incompleteCode: Boolean): List<PsiElement> {
+            override fun resolveDeclaration(): List<PsiElement> {
                 StubIndex.getElements(
                     KEY,
                     myText,

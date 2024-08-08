@@ -3,3 +3,4 @@
 /gradle/
 /src/test/testData/.idea/
 /.kotlin/
+/.intellijPlatform/

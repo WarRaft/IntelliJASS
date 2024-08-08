@@ -1,10 +1,14 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+
 // https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html
 
 
-// https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 plugins {
     //id("java")
-    id("org.jetbrains.intellij") version "1.17.4"
+
+    //https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#usage
+    id("org.jetbrains.intellij.platform") version "2.0.0"
+
     kotlin("jvm")
 }
 
@@ -12,6 +16,10 @@ group = "org.intellij.sdk"
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 sourceSets {
@@ -25,17 +33,28 @@ sourceSets {
 dependencies {
     testImplementation("junit:junit:4.13.2")
     implementation(kotlin("stdlib-jdk8"))
+    intellijPlatform {
+        // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
+        intellijIdeaCommunity("2024.2")
+
+        instrumentationTools()
+
+        // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html#intellijPlatform-pluginVerification
+        pluginVerifier()
+
+    }
 }
 
-java {
+// https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html#intellijPlatform-pluginVerification-ides
+intellijPlatform {
+    pluginVerification {
+        ides {
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2")
+            recommended()
+        }
+    }
 }
 
-// See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("2024.1.4")
-    //type.set("IU")
-    //plugins.set(listOf("com.tang:1.4.13-IDEA241"))
-}
 
 tasks {
     buildSearchableOptions {
