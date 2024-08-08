@@ -15,6 +15,7 @@ class JassNativeBlock(
     myCodeStyleSettings: CodeStyleSettings,
     private val aligner: JassNativeBlockAligner
 ) : JassBlock(myNode, null, myIndent, myCodeStyleSettings) {
+
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null
         if (FormatterUtil.isOneOf(childNode, NATIVE)) alignment =
@@ -42,6 +43,8 @@ class JassNativeBlock(
 
         if (FormatterUtil.isOneOf(
                 childNode,
+                FUN_HEAD,
+                FUN_NAME,
                 FUN_TAKE,
                 FUN_RET,
                 PARAM_LIST
