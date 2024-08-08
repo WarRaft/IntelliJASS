@@ -121,7 +121,8 @@ FunTake ::= TAKES (NOTHING|ParamList)
 FunRet ::= RETURNS (NOTHING|TypeName)
 
 Fun ::= CONSTANT? FUNCTION FunHead FunBody ENDFUNCTION {pin=2}
-FunHead ::= FunName FunTake? FunRet?
+Nativ ::= CONSTANT? NATIVE FunHead {pin=2}
+FunHead ::= FunName? FunTake? FunRet?
 FunBody ::= Stmt* {recoverWhile=FunBodyRecover}
 private FunBodyRecover ::= !(ENDFUNCTION|LOOP|ENDLOOP|ELSE|ELSEIF|ENDIF)
 
@@ -133,8 +134,6 @@ FunName ::= ID {
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
     elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
-
-Nativ ::= CONSTANT? NATIVE FunHead {pin=2}
 
 // === STATEMENT
 Stmt

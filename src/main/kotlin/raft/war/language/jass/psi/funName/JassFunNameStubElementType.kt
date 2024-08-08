@@ -5,7 +5,7 @@ import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
 import raft.war.language.jass.psi.JassFunName
-import raft.war.language.jass.psi.JassNamedStubElementType
+import raft.war.language.jass.psi.stub.JassNamedStubElementType
 import raft.war.language.jass.psi.impl.JassFunNameImpl
 
 class JassFunNameStubElementType(debugName: String) :

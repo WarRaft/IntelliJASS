@@ -1,7 +1,8 @@
-package raft.war.language.jass.psi
+package raft.war.language.jass.psi.stub
 
 import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.NamedStubBase
+import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.funName.KEY
 
 abstract class JassNamedStubElementType<S : NamedStubBase<T>, T : JassNamedElement>

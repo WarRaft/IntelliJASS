@@ -1,4 +1,4 @@
-package raft.war.language.jass.psi
+package raft.war.language.jass.psi.stub
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode

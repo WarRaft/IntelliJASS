@@ -8,7 +8,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public interface JassFunHead extends JassCompositeElement {
 
-  @NotNull
+  @Nullable
   JassFunName getFunName();
 
   @Nullable

@@ -10,6 +10,7 @@ import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.util.containers.OrderedSet
 import raft.war.language.jass.psi.*
+import raft.war.language.jass.psi.stub.JassNamedStubbedPsiElementBase
 
 abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameStub>, JassFunName {
     constructor(stub: JassFunNameStub, nodeType: IStubElementType<*, *>) : super(stub, nodeType)

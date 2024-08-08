@@ -301,17 +301,23 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FunName FunTake? FunRet?
+  // FunName? FunTake? FunRet?
   public static boolean FunHead(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunHead")) return false;
-    if (!nextTokenIs(b, ID)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = FunName(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FUN_HEAD, "<fun head>");
+    r = FunHead_0(b, l + 1);
     r = r && FunHead_1(b, l + 1);
     r = r && FunHead_2(b, l + 1);
-    exit_section_(b, m, FUN_HEAD, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // FunName?
+  private static boolean FunHead_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunHead_0")) return false;
+    FunName(b, l + 1);
+    return true;
   }
 
   // FunTake?

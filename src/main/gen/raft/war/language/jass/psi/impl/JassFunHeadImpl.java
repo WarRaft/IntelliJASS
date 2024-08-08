@@ -28,9 +28,9 @@ public class JassFunHeadImpl extends ASTWrapperPsiElement implements JassFunHead
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JassFunName getFunName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassFunName.class));
+    return PsiTreeUtil.getChildOfType(this, JassFunName.class);
   }
 
   @Override
