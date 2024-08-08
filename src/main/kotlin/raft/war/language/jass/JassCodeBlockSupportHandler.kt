@@ -43,7 +43,7 @@ class JassCodeBlockSupportHandler : CodeBlockSupportHandler {
 
                 val funcs: Collection<JassReturnStmt> =
                     PsiTreeUtil.collectElementsOfType(func, JassReturnStmt::class.java)
-                funcs.forEach { add(it) }
+                funcs.forEach { add(it.`return`) }
             }
             return list
         }

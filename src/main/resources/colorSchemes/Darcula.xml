@@ -7,12 +7,29 @@
             <option name="FOREGROUND" value="008000"/>
         </value>
     </option>
+    <option name="JASS_FUN_NATIVE">
+        <value>
+            <option name="FOREGROUND" value="C77DBB"/>
+        </value>
+    </option>
+    <option name="JASS_FUN_BLIZZARD">
+        <value>
+            <option name="FOREGROUND" value="E73A62"/>
+        </value>
+    </option>
+    <option name="JASS_FUN_USER">
+        <value>
+            <option name="FOREGROUND" value="C7B61A"/>
+        </value>
+    </option>
+
     <!-- ZINC -->
     <option name="ZINC_TYPE_NAME">
         <value>
             <option name="FOREGROUND" value="008000"/>
         </value>
     </option>
+
     <!-- ANGELSCRIPT -->
     <option name="ANGELSCRIPT_TYPE_NAME">
         <value>

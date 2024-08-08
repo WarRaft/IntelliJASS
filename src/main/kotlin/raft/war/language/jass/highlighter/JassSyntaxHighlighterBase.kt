@@ -56,9 +56,24 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.NUMBER
         )
 
-        private val JASS_STRING: TextAttributesKey = createTextAttributesKey(
+        val JASS_STRING: TextAttributesKey = createTextAttributesKey(
             Companion::JASS_STRING.name,
             DefaultLanguageHighlighterColors.STRING
+        )
+
+        val JASS_FUN_NATIVE: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_FUN_NATIVE.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+
+        val JASS_FUN_BLIZZARD: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_FUN_BLIZZARD.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+
+        val JASS_FUN_USER: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_FUN_USER.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
         )
 
         init {

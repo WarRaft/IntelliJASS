@@ -43,7 +43,25 @@ internal class JassColorSettingsPage : ColorSettingsPage {
             OptionsBundle.messagePointer("options.java.attribute.descriptor.number"),
             JassSyntaxHighlighterBase.JASS_NUMBER
         ),
-    )
+        AttributesDescriptor(
+            OptionsBundle.messagePointer("options.java.attribute.descriptor.string"),
+            JassSyntaxHighlighterBase.JASS_STRING
+        ),
+
+        AttributesDescriptor(
+            "Functions//Native",
+            JassSyntaxHighlighterBase.JASS_FUN_NATIVE
+        ),
+        AttributesDescriptor(
+            "Functions//Blizzard",
+            JassSyntaxHighlighterBase.JASS_FUN_BLIZZARD
+        ),
+        AttributesDescriptor(
+            "Functions//User",
+            JassSyntaxHighlighterBase.JASS_FUN_USER
+        ),
+
+        )
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
@@ -51,16 +69,26 @@ internal class JassColorSettingsPage : ColorSettingsPage {
 
     override fun getDemoText(): String = """
             ${'$'} // bad character
-            type <TYPE_NAME>agent</TYPE_NAME> extends <TYPE_NAME>handle</TYPE_NAME>
-            function myFunc takes nothing returns nothing
-                local <TYPE_NAME>real</TYPE_NAME> myInt = 1 * 2. + 'cUnt' 
+            type <TN>agent</TN> extends <TN>handle</TN>
+            
+            native <FN>UnitAlive</FN> takes unit id returns boolean 
+            
+            function <FU>myFunc</FU> takes nothing returns nothing
+                local <TN>real</TN> myInt = 1 * 2. + 'cUnt' 
+            endfunction
+            
+            function <FB>SinBJ</FB> takes real degrees returns real
+                return <FN>Sin</FN>(degrees * bj_DEGTORAD)
             endfunction
             """.trimIndent()
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): HashMap<String, TextAttributesKey?> =
         object : HashMap<String, TextAttributesKey?>() {
             init {
-                put("TYPE_NAME", JassSyntaxHighlighterBase.JASS_TYPE_NAME)
+                put("TN", JassSyntaxHighlighterBase.JASS_TYPE_NAME)
+                put("FN", JassSyntaxHighlighterBase.JASS_FUN_NATIVE)
+                put("FB", JassSyntaxHighlighterBase.JASS_FUN_BLIZZARD)
+                put("FU", JassSyntaxHighlighterBase.JASS_FUN_USER)
             }
         }
 }

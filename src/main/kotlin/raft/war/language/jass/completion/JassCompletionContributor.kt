@@ -130,7 +130,8 @@ internal class JassCompletionContributor : CompletionContributor() {
 
         // functions
         var isFunList = parent !is JassFile
-        if (isFunList && PsiTreeUtil.findFirstParent(parent) { it is JassFunHead } != null) isFunList = false
+        if (isFunList && PsiTreeUtil.findFirstParent(parent) { it is JassFunHead || it is JassNativ } != null) isFunList =
+            false
 
         if (isFunList) {
             val scope = GlobalSearchScope.allScope(project)

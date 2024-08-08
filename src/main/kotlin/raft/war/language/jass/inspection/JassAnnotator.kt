@@ -4,13 +4,24 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.stubs.StubIndex
+import raft.war.ide.library.JassSyntheticLibrary
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
+import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_BLIZZARD
+import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_NATIVE
+import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_USER
 import raft.war.language.jass.psi.JassFun
-import raft.war.language.jass.psi.JassFunName
+import raft.war.language.jass.psi.JassNamedElement
+import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassTypeName
+import raft.war.language.jass.psi.funName.KEY
+
 
 internal class JassAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        val lib = JassSyntheticLibrary.fromProject(element.project)
+
         if (element is JassTypeName) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
@@ -18,38 +29,60 @@ internal class JassAnnotator : Annotator {
                 .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
         }
 
-        if (element is JassFunName) {
-            //print("🍒 ${element.text} \n")
-            //print("💋 ${element.reference?.resolve()?.containingFile} \n\n")
+        fun inSdkFunIndex(elem: PsiElement): Boolean {
+            if (lib == null) return false
+
+            for (fn in StubIndex.getElements(
+                KEY,
+                elem.text,
+                element.project,
+                GlobalSearchScope.allScope(element.project),
+                JassNamedElement::class.java,
+            )) {
+                if (lib.contains(fn.containingFile.virtualFile)) return true
+            }
+            return false
         }
 
-        /*
-        TextRange prefixRange = TextRange.from(element.getTextRange().getStartOffset(), SIMPLE_PREFIX_STR.length() + 1);
-        TextRange separatorRange = TextRange.from(prefixRange.getEndOffset(), SIMPLE_SEPARATOR_STR.length());
-        TextRange keyRange = new TextRange(separatorRange.getEndOffset(), element.getTextRange().getEndOffset() - 1);
+        if (element is JassNativ) {
+            val name = element.funName
+            if (name != null) {
+                val inSdkElem = lib?.contains(element.containingFile.virtualFile) ?: false
+                val inSdkDecl = inSdkFunIndex(name)
 
-        // highlight "simple" prefix and ":" separator
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(name.textRange)
+                    .textAttributes(JASS_FUN_NATIVE).create()
 
-        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(separatorRange).textAttributes(SimpleSyntaxHighlighter.SEPARATOR).create();
-
-
-        // Get the list of properties for given key
-        String key = value.substring(SIMPLE_PREFIX_STR.length() + SIMPLE_SEPARATOR_STR.length());
-        List<SimpleProperty> properties = SimpleUtil.findProperties(element.getProject(), key);
-        if (properties.isEmpty()) {
-            holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved property")
-                    .range(keyRange)
-                    .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                    // ** Tutorial step 19. - Add a quick fix for the string containing possible properties
-                    .withFix(new SimpleCreatePropertyQuickFix(key))
-                    .create();
-        } else {
-            // Found at least one property, force the text attributes to Simple syntax value character
-            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(keyRange).textAttributes(SimpleSyntaxHighlighter.VALUE).create();
+                if (!inSdkElem && inSdkDecl) {
+                    holder
+                        .newAnnotation(HighlightSeverity.ERROR, "Native function overriden")
+                        .range(name.textRange)
+                        .create()
+                }
+            }
         }
 
-         */
+        if (element is JassFun) {
+            val name = element.funHead.funName
+            if (name != null) {
+                val inSdkElem = lib?.contains(element.containingFile.virtualFile) ?: false
+                val inSdkDecl = inSdkFunIndex(name)
+
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(name.textRange)
+                    .textAttributes(if (inSdkDecl) JASS_FUN_BLIZZARD else JASS_FUN_USER).create()
+
+                if (!inSdkElem && inSdkDecl) {
+                    holder
+                        .newAnnotation(HighlightSeverity.ERROR, "Blizzard function overriden")
+                        .range(name.textRange)
+                        .create()
+                }
+            }
+        }
+
     }
 }

@@ -27,7 +27,7 @@
         <!-- https://github.com/DrSuperGood/blp-iio-plugin -->
         <fileType name="Image" extensions="blp"/>
 
-        <additionalLibraryRootsProvider implementation="raft.war.ide.IdeAdditionalLibraryRootsProvider"/>
+        <additionalLibraryRootsProvider implementation="raft.war.ide.library.IdeAdditionalLibraryRootsProvider"/>
 
         <defaultLiveTemplates file="/liveTemplates/main.xml"/>
     </extensions>
