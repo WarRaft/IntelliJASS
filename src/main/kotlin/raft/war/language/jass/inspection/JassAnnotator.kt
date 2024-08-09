@@ -3,7 +3,10 @@ package raft.war.language.jass.inspection
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiPolyVariantReference
+import com.intellij.psi.ResolveResult
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import raft.war.ide.library.JassSyntheticLibrary
@@ -12,6 +15,7 @@ import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JA
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_NATIVE
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_USER
 import raft.war.language.jass.psi.JassFun
+import raft.war.language.jass.psi.JassFunCall
 import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassTypeName
@@ -77,10 +81,40 @@ internal class JassAnnotator : Annotator {
 
                 if (!inSdkElem && inSdkDecl) {
                     holder
-                        .newAnnotation(HighlightSeverity.ERROR, "Blizzard function overriden")
+                        .newAnnotation(HighlightSeverity.ERROR, "SDK function overriden")
                         .range(name.textRange)
                         .create()
                 }
+            }
+        }
+
+        if (element is JassFunCall) {
+            val name = element.funName
+            val ref = name.reference
+            val refElems: Array<out ResolveResult> =
+                if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
+
+            if (refElems.isEmpty()) {
+                holder
+                    .newAnnotation(HighlightSeverity.ERROR, "Function not exists")
+                    .range(name.textRange)
+                    .create()
+            }
+
+            if (refElems.size == 1) {
+                val refElem = refElems.first().element
+
+                val tk: TextAttributesKey = if (refElem?.parent is JassNativ) {
+                    JASS_FUN_NATIVE
+                } else {
+                    if (inSdkFunIndex(name)) JASS_FUN_BLIZZARD else JASS_FUN_USER
+                }
+
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(name.textRange)
+                    .textAttributes(tk).create()
+
             }
         }
 

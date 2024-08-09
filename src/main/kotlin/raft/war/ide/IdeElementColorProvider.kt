@@ -136,6 +136,8 @@ class IdeElementColorProvider : ElementColorProvider {
             }
         }
 
+
+
         // JASS - hexval
         if (psiElement is JassPrimExpr) {
             val hexval = psiElement.hexval
