@@ -4,6 +4,8 @@ package raft.war.ide
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.util.elementType
 import raft.war.language.angelscript.psi.AngelScriptElementFactory
 import raft.war.language.angelscript.psi.AngelScriptPrimExpr
 import raft.war.language.jass.psi.*
@@ -13,18 +15,6 @@ import java.util.*
 
 // AARRGGBB
 class IdeElementColorProvider : ElementColorProvider {
-    private fun fromHex(hex: String): Color? {
-        val `val` = hex.replaceFirst("\\$|0x".toRegex(), "")
-        if (!`val`.matches("[0-9a-fA-F]{8}".toRegex())) return null
-
-        return Color(
-            `val`.substring(2, 4).toInt(16),
-            `val`.substring(4, 6).toInt(16),
-            `val`.substring(6, 8).toInt(16),
-            `val`.substring(0, 2).toInt(16)
-        )
-    }
-
     private fun cIntFromString(str: String): Int {
         try {
             val i = str.toInt()
@@ -103,12 +93,11 @@ class IdeElementColorProvider : ElementColorProvider {
         }
 
         // JASS - hexval
-        if (psiElement is JassNum) {
-            val hexval = psiElement.hexval
-            if (hexval != null) return fromHex(hexval.text)
-            return null
+        if (psiElement.elementType == JassTypes.HEXVAL) {
+            return fromHex(psiElement.text)
         }
 
+        // JASS - funcall
         if (psiElement is JassFunCall) {
             val name: String = psiElement.funName.text
             if (funcCallRgb.containsKey(name)) return fromFuncArgRGBA(psiElement.argList, funcCallRgb[name]!!)
@@ -118,6 +107,7 @@ class IdeElementColorProvider : ElementColorProvider {
         return null
     }
 
+    // https://plugins.jetbrains.com/docs/intellij/modifying-psi.html#creating-the-new-psi
     override fun setColorTo(psiElement: PsiElement, color: Color) {
         val hex = "0x" + String.format("%02x%02x%02x%02x", color.alpha, color.red, color.green, color.blue).uppercase(
             Locale.getDefault()
@@ -133,14 +123,10 @@ class IdeElementColorProvider : ElementColorProvider {
             }
         }
 
-
         // JASS - hexval
-        if (psiElement is JassNum) {
-            val hexval = psiElement.hexval
-            if (hexval != null) {
-                JassElementTextFactory.replaceExprChild(project, hexval, hex)
-                return
-            }
+        if (psiElement.elementType == JassTypes.HEXVAL) {
+            JassElementTextFactory.replaceExprChildChild(project, psiElement, hex)
+            return
         }
 
         // JASS - func call
@@ -159,4 +145,17 @@ class IdeElementColorProvider : ElementColorProvider {
             }
         }
     }
+
+}
+
+private fun fromHex(hex: String): Color? {
+    val `val` = hex.replaceFirst("\\$|0x".toRegex(), "")
+    if (!`val`.matches("[0-9a-fA-F]{8}".toRegex())) return null
+
+    return Color(
+        `val`.substring(2, 4).toInt(16),
+        `val`.substring(4, 6).toInt(16),
+        `val`.substring(6, 8).toInt(16),
+        `val`.substring(0, 2).toInt(16)
+    )
 }
