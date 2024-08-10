@@ -6,10 +6,7 @@ import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
 import raft.war.language.angelscript.psi.AngelScriptElementFactory
 import raft.war.language.angelscript.psi.AngelScriptPrimExpr
-import raft.war.language.jass.psi.JassArgList
-import raft.war.language.jass.psi.JassElementTextFactory
-import raft.war.language.jass.psi.JassFunCall
-import raft.war.language.jass.psi.JassPrimExpr
+import raft.war.language.jass.psi.*
 import java.awt.Color
 import java.util.*
 
@@ -75,12 +72,12 @@ class IdeElementColorProvider : ElementColorProvider {
 
         for (i in 0..3) {
             val prim = exprs[i + start] as? JassPrimExpr ?: return null
-            val intval = prim.intval
+            val intval = prim.num?.intval
             if (intval != null) {
                 color[i] = cIntFromString(intval.text)
                 continue
             }
-            val hexval = prim.hexval
+            val hexval = prim.num?.hexval
             if (hexval != null) color[i] = cHexFromString(hexval.text)
         }
 
@@ -106,7 +103,7 @@ class IdeElementColorProvider : ElementColorProvider {
         }
 
         // JASS - hexval
-        if (psiElement is JassPrimExpr) {
+        if (psiElement is JassNum) {
             val hexval = psiElement.hexval
             if (hexval != null) return fromHex(hexval.text)
             return null
@@ -137,9 +134,8 @@ class IdeElementColorProvider : ElementColorProvider {
         }
 
 
-
         // JASS - hexval
-        if (psiElement is JassPrimExpr) {
+        if (psiElement is JassNum) {
             val hexval = psiElement.hexval
             if (hexval != null) {
                 JassElementTextFactory.replaceExprChild(project, hexval, hex)

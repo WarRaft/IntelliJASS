@@ -16,7 +16,7 @@ class JassRawcodeUnsafeInspection : LocalInspectionTool(), CleanupLocalInspectio
         return object : JassVisitor() {
             override fun visitPrimExpr(o: JassPrimExpr) {
                 super.visitPrimExpr(o)
-                val psiraw = o.rawval ?: return
+                val psiraw = o.num?.rawval ?: return
                 val raw = JassRawcode(psiraw)
                 if (raw.error || !raw.validLength || raw.safe) return
                 //holder.registerProblem(psiraw, "Rawcode must contain 1 or 4 symbols");

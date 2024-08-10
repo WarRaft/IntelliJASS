@@ -227,26 +227,9 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         stringBuffer.append("FourCC(\"").append(raw.strval).append("\")")
     }
 
-    // primary
-    override fun visitPrimExpr(o: JassPrimExpr) {
-        if (text(o.getTrue())) return
-        if (text(o.getFalse())) return
-        val tnull = o.getNull()
-        if (tnull != null) {
-            appendNull()
-            return
-        }
-        val id = o.id
-        if (id != null) {
-            appendSafeName(id.text)
-            return
-        }
+    override fun visitNum(o: JassNum) {
         if (text(o.intval)) return
-        val str = o.str
-        if (str != null) {
-            appendString(str.text)
-            return
-        }
+
         val raw = o.rawval
         if (raw != null) {
             appendRawcode(JassRawcode(raw))
@@ -262,6 +245,29 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             appendReal(real.text)
             return
         }
+    }
+
+    // primary
+    override fun visitPrimExpr(o: JassPrimExpr) {
+        if (text(o.getTrue())) return
+        if (text(o.getFalse())) return
+        val tnull = o.getNull()
+        if (tnull != null) {
+            appendNull()
+            return
+        }
+        val id = o.id
+        if (id != null) {
+            appendSafeName(id.text)
+            return
+        }
+
+        val str = o.str
+        if (str != null) {
+            appendString(str.text)
+            return
+        }
+
         o.acceptChildren(this)
     }
 
