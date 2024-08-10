@@ -1,16 +1,6 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-        <localInspection language="JASS"
-                         bundle="messages.JassInspectionsBundle"
-                         key="operator.call.display.name"
-                         groupPath="JASS"
-                         groupBundle="messages.JassInspectionsBundle"
-                         groupKey="group.names.operator"
-                         enabledByDefault="true"
-                         level="WARNING"
-                         implementationClass="raft.war.language.jass.inspection.JassOperatorCallBehaviorInspection"
-        />
-
+        <!-- Number -->
         <localInspection language="JASS"
                          bundle="messages.JassInspectionsBundle"
                          key="number.rawcode.unsafe.key"
@@ -20,6 +10,18 @@
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="raft.war.language.jass.inspection.number.JassRawcodeUnsafeInspection"
+        />
+
+        <!-- Operator -->
+        <localInspection language="JASS"
+                         bundle="messages.JassInspectionsBundle"
+                         key="operator.call.display.name"
+                         groupPath="JASS"
+                         groupBundle="messages.JassInspectionsBundle"
+                         groupKey="group.names.operator"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="raft.war.language.jass.inspection.JassOperatorCallBehaviorInspection"
         />
 
     </extensions>

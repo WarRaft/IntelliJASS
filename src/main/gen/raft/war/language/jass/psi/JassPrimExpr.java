@@ -17,28 +17,19 @@ public interface JassPrimExpr extends JassExpr {
   JassFunRef getFunRef();
 
   @Nullable
+  JassNum getNum();
+
+  @Nullable
   JassStr getStr();
 
   @Nullable
   PsiElement getFalse();
 
   @Nullable
-  PsiElement getHexval();
-
-  @Nullable
   PsiElement getId();
 
   @Nullable
-  PsiElement getIntval();
-
-  @Nullable
   PsiElement getNull();
-
-  @Nullable
-  PsiElement getRawval();
-
-  @Nullable
-  PsiElement getRealval();
 
   @Nullable
   PsiElement getTrue();

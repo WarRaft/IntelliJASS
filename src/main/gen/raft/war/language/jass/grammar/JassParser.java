@@ -600,6 +600,20 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // INTVAL | REALVAL | HEXVAL | RAWVAL
+  public static boolean Num(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Num")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NUM, "<num>");
+    r = consumeToken(b, INTVAL);
+    if (!r) r = consumeToken(b, REALVAL);
+    if (!r) r = consumeToken(b, HEXVAL);
+    if (!r) r = consumeToken(b, RAWVAL);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // TypeName ID
   public static boolean Param(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Param")) return false;
@@ -1104,10 +1118,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   //     FALSE|
   //     NULL|
   //     TRUE|
-  //     HEXVAL |
-  //     REALVAL |
-  //     INTVAL |
-  //     RAWVAL |
+  //     Num |
   //     Str |
   //     ID
   public static boolean PrimExpr(PsiBuilder b, int l) {
@@ -1121,10 +1132,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeTokenSmart(b, FALSE);
     if (!r) r = consumeTokenSmart(b, NULL);
     if (!r) r = consumeTokenSmart(b, TRUE);
-    if (!r) r = consumeTokenSmart(b, HEXVAL);
-    if (!r) r = consumeTokenSmart(b, REALVAL);
-    if (!r) r = consumeTokenSmart(b, INTVAL);
-    if (!r) r = consumeTokenSmart(b, RAWVAL);
+    if (!r) r = Num(b, l + 1);
     if (!r) r = Str(b, l + 1);
     if (!r) r = consumeTokenSmart(b, ID);
     exit_section_(b, l, m, r, false, null);

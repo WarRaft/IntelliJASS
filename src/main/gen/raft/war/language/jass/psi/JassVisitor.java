@@ -147,6 +147,10 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitNum(@NotNull JassNum o) {
+    visitCompositeElement(o);
+  }
+
   public void visitOrExpr(@NotNull JassOrExpr o) {
     visitExpr(o);
   }

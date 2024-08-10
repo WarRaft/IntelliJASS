@@ -43,6 +43,7 @@ public interface JassTypes {
   IElementType NATIV = new JassElementType("NATIV");
   IElementType NEQ_EXPR = new JassElementType("NEQ_EXPR");
   IElementType NOT_EXPR = new JassElementType("NOT_EXPR");
+  IElementType NUM = new JassElementType("NUM");
   IElementType OR_EXPR = new JassElementType("OR_EXPR");
   IElementType PARAM = new JassElementType("PARAM");
   IElementType PARAM_LIST = new JassElementType("PARAM_LIST");
@@ -224,6 +225,9 @@ public interface JassTypes {
       }
       else if (type == NOT_EXPR) {
         return new JassNotExprImpl(node);
+      }
+      else if (type == NUM) {
+        return new JassNumImpl(node);
       }
       else if (type == OR_EXPR) {
         return new JassOrExprImpl(node);

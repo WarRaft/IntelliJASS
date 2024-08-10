@@ -210,6 +210,8 @@ Str ::= STRVAL {
     extends="raft.war.language.jass.psi.JassStrBaseImpl"
 }
 
+Num ::= INTVAL | REALVAL | HEXVAL | RAWVAL
+
 PrimExpr ::=
     ParenExpr |
     ArrayAccess |
@@ -218,10 +220,7 @@ PrimExpr ::=
     FALSE|
     NULL|
     TRUE|
-    HEXVAL |
-    REALVAL |
-    INTVAL |
-    RAWVAL |
+    Num |
     Str |
     ID
 
