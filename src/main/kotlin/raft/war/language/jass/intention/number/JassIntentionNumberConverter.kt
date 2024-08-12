@@ -37,6 +37,8 @@ abstract class JassIntentionNumberConverter : IntentionAction {
                 else -> return false
             }
 
+            if (!raw.safe && to() == RAWVAL) return false
+
             if (!invoke) return raw.valid
             if (ApplicationManager.getApplication().isWriteAccessAllowed) {
                 val s = when (to()) {
