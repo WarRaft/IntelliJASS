@@ -5,37 +5,37 @@
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionIntToRawCode</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionIntToRawCode</className>
             <category>JASS/Number</category>
         </intentionAction>
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionIntToHex</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionIntToHex</className>
             <category>JASS/Number</category>
         </intentionAction>
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionHexToInt</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionHexToInt</className>
             <category>JASS/Number</category>
         </intentionAction>
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionHexToRawCode</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionHexToRawCode</className>
             <category>JASS/Number</category>
         </intentionAction>
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionRawCodeToInt</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionRawCodeToInt</className>
             <category>JASS/Number</category>
         </intentionAction>
 
         <intentionAction>
             <language>JASS</language>
-            <className>raft.war.language.jass.intention.number.JassIntentionRawCodeToHex</className>
+            <className>raft.war.language.jass.intention.number.converter.JassIntentionRawCodeToHex</className>
             <category>JASS/Number</category>
         </intentionAction>
 
