@@ -8,11 +8,16 @@ import raft.war.language.jass.psi.file.JassFile
 
 class JassElementTextFactory {
     companion object {
-        private fun createFile(project: Project, text: String): JassFile {
-            val name = "dummy.j"
-            return PsiFileFactory.getInstance(project).createFileFromText(name, instance, text) as JassFile
+        private fun createFile(project: Project, text: String): JassFile =
+            PsiFileFactory.getInstance(project).createFileFromText("anal.j", instance, text) as JassFile
+
+        fun replacePrimText(target: PsiElement, value: String) {
+            val file = createFile(target.project, "globals int a = $value endglobals")
+            val child = (file.firstChild as JassGlob).gvarList[0].getVarDef().expr!!.firstChild.firstChild
+            target.replace(child)
         }
 
+        // --- deprecated
         fun createToken(project: Project, text: String): PsiElement = createFile(project, text).firstChild
 
         private fun createFun(project: Project, name: String): JassFun =

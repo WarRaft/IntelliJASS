@@ -1,3 +1,5 @@
+<!-- https://plugins.jetbrains.com/docs/intellij/intellij-platform-extension-point-list.html -->
+
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <!-- https://plugins.jetbrains.com/docs/intellij/registering-file-type.html#registration -->

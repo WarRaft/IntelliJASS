@@ -4,14 +4,12 @@ package raft.war.ide
 
 import com.intellij.openapi.editor.ElementColorProvider
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.elementType
 import raft.war.language.angelscript.psi.AngelScriptElementFactory
 import raft.war.language.angelscript.psi.AngelScriptPrimExpr
 import raft.war.language.jass.psi.*
 import java.awt.Color
 import java.util.*
-
 
 // AARRGGBB
 class IdeElementColorProvider : ElementColorProvider {

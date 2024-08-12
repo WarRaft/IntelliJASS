@@ -1,0 +1,3 @@
+globals
+    integer i = 0x68666f6f
+endglobals

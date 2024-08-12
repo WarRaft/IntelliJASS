@@ -6,8 +6,8 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.elementType
+import raft.war.ide.utils.IdePsiTreeUtil
 import raft.war.language.jass.JassLanguage
 import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassTypes.GLOBALS
@@ -25,10 +25,7 @@ class JassEnterHandlerDelegate : EnterHandlerDelegate {
 
         val caret = caretOffset.get()
 
-        var element = file.findElementAt(caret - 1)
-        while (element is PsiWhiteSpace) {
-            element = element.prevSibling
-        }
+        val element = IdePsiTreeUtil.skipWhitespacesBackward(file.findElementAt(caret - 1))
 
         val parent = element?.parent
 

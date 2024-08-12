@@ -1,0 +1,43 @@
+<!-- https://plugins.jetbrains.com/docs/intellij/code-intentions.html#running-the-plugin -->
+
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionIntToRawCode</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionIntToHex</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionHexToInt</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionHexToRawCode</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionRawCodeToInt</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JASS</language>
+            <className>raft.war.language.jass.intention.number.JassIntentionRawCodeToHex</className>
+            <category>JASS/Number</category>
+        </intentionAction>
+
+    </extensions>
+</idea-plugin>
