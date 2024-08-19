@@ -10,4 +10,7 @@ public interface AngelScriptBitNotUnExpr extends AngelScriptExpr {
   @Nullable
   AngelScriptExpr getExpr();
 
+  @NotNull
+  PsiElement getTilde();
+
 }

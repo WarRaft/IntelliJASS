@@ -19,7 +19,28 @@ public interface AngelScriptFun extends PsiElement {
   @Nullable
   AngelScriptType getType();
 
+  @Nullable
+  PsiElement getAmp();
+
+  @Nullable
+  PsiElement getAt();
+
+  @Nullable
+  PsiElement getConst();
+
   @NotNull
   PsiElement getId();
+
+  @Nullable
+  PsiElement getPrivate();
+
+  @Nullable
+  PsiElement getProtected();
+
+  @Nullable
+  PsiElement getSemi();
+
+  @Nullable
+  PsiElement getTilde();
 
 }

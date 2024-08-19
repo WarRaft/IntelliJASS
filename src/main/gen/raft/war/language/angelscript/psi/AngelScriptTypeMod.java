@@ -7,4 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptTypeMod extends PsiElement {
 
+  @NotNull
+  PsiElement getAmp();
+
+  @Nullable
+  PsiElement getIn();
+
+  @Nullable
+  PsiElement getInout();
+
+  @Nullable
+  PsiElement getOut();
+
 }

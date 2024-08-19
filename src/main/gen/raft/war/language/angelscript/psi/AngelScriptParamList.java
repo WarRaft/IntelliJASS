@@ -10,4 +10,13 @@ public interface AngelScriptParamList extends PsiElement {
   @NotNull
   List<AngelScriptParam> getParamList();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
+  @Nullable
+  PsiElement getVoid();
+
 }

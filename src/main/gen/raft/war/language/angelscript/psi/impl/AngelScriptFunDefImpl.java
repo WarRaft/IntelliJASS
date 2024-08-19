@@ -40,9 +40,27 @@ public class AngelScriptFunDefImpl extends ASTWrapperPsiElement implements Angel
   }
 
   @Override
+  @Nullable
+  public PsiElement getAmp() {
+    return findChildByType(AMP);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getFuncdef() {
+    return findNotNullChildByType(FUNCDEF);
+  }
+
+  @Override
   @NotNull
   public PsiElement getId() {
     return findNotNullChildByType(ID);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
   }
 
 }

@@ -28,4 +28,10 @@ public interface AngelScriptNspaceStatBlock extends PsiElement {
   @NotNull
   List<AngelScriptVar> getVarList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

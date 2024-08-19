@@ -33,4 +33,10 @@ public class AngelScriptMulUnExprImpl extends AngelScriptExprImpl implements Ang
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMul() {
+    return findNotNullChildByType(MUL);
+  }
+
 }

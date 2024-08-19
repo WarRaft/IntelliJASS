@@ -33,4 +33,10 @@ public class AngelScriptDivExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getDiv() {
+    return findNotNullChildByType(DIV);
+  }
+
 }

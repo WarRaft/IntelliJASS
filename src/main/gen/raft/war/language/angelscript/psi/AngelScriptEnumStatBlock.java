@@ -10,4 +10,10 @@ public interface AngelScriptEnumStatBlock extends PsiElement {
   @NotNull
   List<AngelScriptEnumItem> getEnumItemList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

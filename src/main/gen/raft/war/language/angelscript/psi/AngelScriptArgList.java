@@ -10,4 +10,10 @@ public interface AngelScriptArgList extends PsiElement {
   @NotNull
   List<AngelScriptAssign> getAssignList();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
 }

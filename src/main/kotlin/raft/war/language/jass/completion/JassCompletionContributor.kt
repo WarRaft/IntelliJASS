@@ -1,17 +1,18 @@
 package raft.war.language.jass.completion
 
 import com.intellij.codeInsight.AutoPopupController
-import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.completion.CompletionContributor
+import com.intellij.codeInsight.completion.CompletionParameters
+import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.codeInsight.template.TemplateManager
-import com.intellij.codeInsight.template.impl.TextExpression
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.progress.ProgressManager
-import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
+import raft.war.ide.utils.IdeCompletionData
+import raft.war.ide.utils.IdeCompletionData.TemplateVariable
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
@@ -21,179 +22,170 @@ import raft.war.language.jass.psi.funName.KEY
 
 internal class JassCompletionContributor : CompletionContributor() {
 
-    private data class Variable(val name: String, val expr: String)
-
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
         // ---
-        val current = parameters.originalPosition
+        val data = IdeCompletionData(parameters, result)
 
-        if (parameters.isAutoPopup && current.elementType != ID) return
-
-        var parent = current?.parent
-        if (parent is PsiErrorElement) parent = parent.parent
-
-        val project = parameters.position.project
-
-        val manager = TemplateManager.getInstance(project)
-
-        // ---
-        fun template(ctx: InsertionContext, text: String, vararg vrs: Variable) {
-            ctx.document.deleteString(ctx.startOffset, ctx.tailOffset)
-            val tpl = manager.createTemplate("", "", text)
-            tpl.isToReformat = true
-            for (vr in vrs) tpl.addVariable(vr.name, TextExpression(vr.expr), true)
-            manager.startTemplate(ctx.editor, tpl)
-        }
+        if (parameters.isAutoPopup && data.current.elementType != ID) return
 
         // globals, function
-        if (parent is JassFile) {
+        if (data.parent is JassFile) {
             result.addElement(LookupElementBuilder.create("globals").withInsertHandler { ctx, _ ->
-                template(ctx, "globals\n\$END\$\nendglobals")
+                data.templateInsert(ctx, "globals\n\$END\$\nendglobals")
             })
             result.addElement(LookupElementBuilder.create("function").withInsertHandler { ctx, _ ->
-                template(
+                data.templateInsert(
                     ctx, "function \$NAME\$ takes \$TAKES\$ returns \$RETURNS\$\n\$END\$\nendfunction",
-                    Variable("NAME", "name"),
-                    Variable("TAKES", "nothing"),
-                    Variable("RETURNS", "nothing")
+                    TemplateVariable("NAME", "name"),
+                    TemplateVariable("TAKES", "nothing"),
+                    TemplateVariable("RETURNS", "nothing")
                 )
             })
         }
 
         // ---
-        fun atStart(builder: LookupElementBuilder) =
-            result.addElement(PrioritizedLookupElement.withPriority(builder, 10.0))
-
-
-        // ---
-        val prev = PsiTreeUtil.skipWhitespacesBackward(current)
         var isCallPrev = false
-        if (prev is JassStmt && prev.callStmt != null) {
-            if (prev.callStmt!!.funCall == null) {
+        if (data.prev is JassStmt && data.prev.callStmt != null) {
+            if (data.prev.callStmt!!.funCall == null) {
                 isCallPrev = true
             }
         }
 
         // --
-        val next = PsiTreeUtil.skipWhitespacesForward(current)
-        val inFunStmt = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
+        val inFunStmt = (data.parent is JassFunBody || data.next is JassFunBody) && !isCallPrev
 
         // if
-        if (inFunStmt || current.elementType == IF) {
-            atStart(LookupElementBuilder.create("if")
+        if (inFunStmt || data.current.elementType == IF) {
+            data.addStart(LookupElementBuilder.create("if")
                 .withTailText(" ... endif")
                 .withInsertHandler { ctx, _ ->
-                    template(ctx, "if \$EXPR\$ then\n\$END\$\nendif", Variable("EXPR", "true"))
+                    data.templateInsert(
+                        ctx,
+                        "if \$EXPR\$ then\n\$END\$\nendif",
+                        TemplateVariable("EXPR", "true")
+                    )
                 })
         }
 
         // else
-        if (parent!!.parent is JassIfStmt) {
-            atStart(LookupElementBuilder.create("else")
+        if (data.parent!!.parent is JassIfStmt) {
+            data.addStart(LookupElementBuilder.create("else")
                 .withInsertHandler { ctx, _ ->
-                    template(ctx, "else\n\$END\$")
+                    data.templateInsert(ctx, "else\n\$END\$")
                 })
         }
 
         // elseif
-        if (current.elementType == ELSE || when (parent.parent) {
+        if (data.current.elementType == ELSE || when (data.parent.parent) {
                 is JassIfStmt, is JassElseStmt, is JassElseIfStmt -> true
                 else -> false
             }
         ) {
-            atStart(LookupElementBuilder.create("elseif")
+            data.addStart(LookupElementBuilder.create("elseif")
                 .withInsertHandler { ctx, _ ->
-                    template(ctx, "elseif \$EXPR\$ then\n\$END\$", Variable("EXPR", "true"))
+                    data.templateInsert(
+                        ctx,
+                        "elseif \$EXPR\$ then\n\$END\$",
+                        TemplateVariable("EXPR", "true")
+                    )
                 })
         }
 
         if (inFunStmt) {
             // loop
-            atStart(LookupElementBuilder.create("loop")
+            data.addStart(LookupElementBuilder.create("loop")
                 .withTailText(" ... endloop")
                 .withInsertHandler { ctx, _ ->
-                    template(ctx, "loop\n\$END\$\nendloop")
+                    data.templateInsert(ctx, "loop\n\$END\$\nendloop")
                 })
 
             // exitwhen
-            if (PsiTreeUtil.findFirstParent(parent) { it is JassLoopStmt } != null) {
-                atStart(LookupElementBuilder.create("exitwhen").withInsertHandler { ctx, _ ->
-                    template(ctx, "exitwhen \$EXPR\$\n\$END\$", Variable("EXPR", "true"))
+            if (PsiTreeUtil.findFirstParent(data.parent) { it is JassLoopStmt } != null) {
+                data.addStart(LookupElementBuilder.create("exitwhen").withInsertHandler { ctx, _ ->
+                    data.templateInsert(
+                        ctx,
+                        "exitwhen \$EXPR\$\n\$END\$",
+                        TemplateVariable("EXPR", "true")
+                    )
                 })
             }
 
             // call
-            atStart(LookupElementBuilder.create("call ").withInsertHandler { ctx, _ ->
+            data.addStart(LookupElementBuilder.create("call ").withInsertHandler { ctx, _ ->
                 AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
             })
         }
 
         // functions
-        var isFunList = parent !is JassFile
-        if (isFunList && PsiTreeUtil.findFirstParent(parent) { it is JassFunHead || it is JassNativ } != null) isFunList =
+        var isFunList = data.parent !is JassFile
+        if (isFunList && PsiTreeUtil.findFirstParent(data.parent) { it is JassFunHead || it is JassNativ } != null) isFunList =
             false
 
         if (isFunList) {
-            val scope = GlobalSearchScope.allScope(project)
+            val scope = GlobalSearchScope.allScope(data.project)
             StubIndex.getInstance().processAllKeys(
                 KEY,
                 { stubKey ->
                     StubIndex.getElements(
                         KEY,
                         stubKey,
-                        project,
+                        data.project,
                         scope,
                         JassNamedElement::class.java,
-                    ).forEach { name ->
+                    ).forEach { func ->
                         ProgressManager.checkCanceled()
 
-                        val head = name.parent
+                        val head = func.parent
 
                         val take: JassFunTake?
                         val ret: JassFunRet?
-                        when (val p = name.parent) {
+                        val name: String
+
+                        when (val p = func.parent) {
                             is JassFunHead -> {
                                 take = p.funTake
                                 ret = p.funRet
+                                name = p.funName!!.text
                             }
 
                             is JassNativ -> {
                                 take = p.funTake
                                 ret = p.funRet
+                                name = p.funName!!.text
                             }
 
                             else -> return@forEach
                         }
 
                         result.addElement(LookupElementBuilder
-                            .create(name)
+                            .create(func)
                             .withTypeText("function", AllIcons.Ide.HectorOn, false)
                             .withTypeIconRightAligned(true)
                             .withPsiElement(head)
                             .withTailText(" ${take?.text} ${ret?.text}")
                             .withIcon(AllIcons.Nodes.Function)
                             .withInsertHandler { ctx, _ ->
-                                val document = ctx.document
-
                                 // add call
-                                val addCall = (parent is JassFunBody || next is JassFunBody) && !isCallPrev
-                                if (addCall) document.insertString(ctx.startOffset, "call ")
-
-                                val tslist: MutableList<String> = mutableListOf()
-                                val tvlist: MutableList<Variable> = mutableListOf()
+                                val call =
+                                    if ((data.parent is JassFunBody || data.next is JassFunBody || data.prev is JassFunBody) && !isCallPrev) "call " else ""
 
                                 // add variables
+                                val tslist: MutableList<String> = mutableListOf()
+                                val tvlist: MutableList<TemplateVariable> = mutableListOf()
+
                                 if (take != null) take.paramList?.paramList?.forEach {
                                     val vname = "P${it.id.text}"
                                     tslist.add("\$$vname\$")
-                                    tvlist.add(Variable(vname, it.id.text))
+                                    tvlist.add(TemplateVariable(vname, it.id.text))
                                 }
 
-                                val tpl = manager.createTemplate("", "", "(${tslist.joinToString(", ")})\n\$END\$")
-                                for (vr in tvlist) tpl.addVariable(vr.name, TextExpression(vr.expr), true)
+                                val eol = if (call.isEmpty()) "" else "\n"
 
-                                tpl.isToReformat = true
-                                manager.startTemplate(ctx.editor, tpl)
+                                data.templateInsert(
+                                    ctx,
+                                    "$call$name(${tslist.joinToString(", ")})$eol\$END\$",
+                                    *tvlist.toTypedArray()
+                                )
                             })
                     }
                     true

@@ -27,4 +27,16 @@ public class AngelScriptBreakStmtImpl extends ASTWrapperPsiElement implements An
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getBreak() {
+    return findNotNullChildByType(BREAK);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
+  }
+
 }

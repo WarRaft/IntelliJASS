@@ -10,4 +10,7 @@ public interface AngelScriptLTExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @NotNull
+  PsiElement getLt();
+
 }

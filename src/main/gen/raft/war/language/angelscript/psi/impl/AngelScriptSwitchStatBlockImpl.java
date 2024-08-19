@@ -33,4 +33,16 @@ public class AngelScriptSwitchStatBlockImpl extends ASTWrapperPsiElement impleme
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptCaseStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
+  }
+
 }

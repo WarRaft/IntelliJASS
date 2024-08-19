@@ -33,4 +33,10 @@ public class AngelScriptMinusExprImpl extends AngelScriptExprImpl implements Ang
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMinus() {
+    return findNotNullChildByType(MINUS);
+  }
+
 }

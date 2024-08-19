@@ -29,8 +29,110 @@ public class AngelScriptPrimTypeImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @Nullable
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBool() {
+    return findChildByType(BOOL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCode() {
+    return findChildByType(CODE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDouble() {
+    return findChildByType(DOUBLE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getFloat() {
+    return findChildByType(FLOAT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHandle() {
+    return findChildByType(HANDLE);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt() {
+    return findChildByType(INT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt16() {
+    return findChildByType(INT16);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt32() {
+    return findChildByType(INT32);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt64() {
+    return findChildByType(INT64);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt8() {
+    return findChildByType(INT8);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getString() {
+    return findChildByType(STRING);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUint() {
+    return findChildByType(UINT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUint16() {
+    return findChildByType(UINT16);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUint32() {
+    return findChildByType(UINT32);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUint64() {
+    return findChildByType(UINT64);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVoid() {
+    return findChildByType(VOID);
   }
 
 }

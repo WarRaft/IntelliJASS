@@ -27,4 +27,28 @@ public class AngelScriptTypeModImpl extends ASTWrapperPsiElement implements Ange
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getAmp() {
+    return findNotNullChildByType(AMP);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIn() {
+    return findChildByType(IN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInout() {
+    return findChildByType(INOUT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOut() {
+    return findChildByType(OUT);
+  }
+
 }

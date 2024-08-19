@@ -39,4 +39,22 @@ public class AngelScriptSwitchStmtImpl extends ASTWrapperPsiElement implements A
     return findNotNullChildByClass(AngelScriptSwitchStatBlock.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSwitch() {
+    return findNotNullChildByType(SWITCH);
+  }
+
 }

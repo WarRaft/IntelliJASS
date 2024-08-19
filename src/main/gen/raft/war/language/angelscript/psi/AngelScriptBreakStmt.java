@@ -7,4 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptBreakStmt extends PsiElement {
 
+  @NotNull
+  PsiElement getBreak();
+
+  @NotNull
+  PsiElement getSemi();
+
 }

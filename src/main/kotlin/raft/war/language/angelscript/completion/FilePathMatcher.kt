@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.codeInsight.completion
+package raft.war.language.angelscript.completion
 
 import java.io.File
 import java.io.IOException

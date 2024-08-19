@@ -35,8 +35,20 @@ public class AngelScriptDataTypeImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @Nullable
+  public PsiElement getAuto() {
+    return findChildByType(AUTO);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getQuest() {
+    return findChildByType(QUEST);
   }
 
 }

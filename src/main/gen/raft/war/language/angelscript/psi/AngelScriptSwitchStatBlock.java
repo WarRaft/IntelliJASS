@@ -10,4 +10,10 @@ public interface AngelScriptSwitchStatBlock extends PsiElement {
   @NotNull
   List<AngelScriptCaseStmt> getCaseStmtList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

@@ -13,4 +13,10 @@ public interface AngelScriptCondition extends PsiElement {
   @NotNull
   AngelScriptExpr getExpr();
 
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getQuest();
+
 }

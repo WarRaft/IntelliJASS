@@ -37,4 +37,19 @@ public interface AngelScriptDoWhileStmt extends PsiElement {
   @Nullable
   AngelScriptWhileStmt getWhileStmt();
 
+  @NotNull
+  PsiElement getDo();
+
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
+  @NotNull
+  PsiElement getSemi();
+
+  @NotNull
+  PsiElement getWhile();
+
 }

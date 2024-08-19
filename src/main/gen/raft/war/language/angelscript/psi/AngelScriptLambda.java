@@ -16,4 +16,13 @@ public interface AngelScriptLambda extends PsiElement {
   @NotNull
   List<AngelScriptTypeMod> getTypeModList();
 
+  @NotNull
+  PsiElement getFunction();
+
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
 }

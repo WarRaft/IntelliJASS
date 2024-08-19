@@ -20,6 +20,12 @@ public interface AngelScriptPrimExpr extends AngelScriptExpr {
   AngelScriptStr getStr();
 
   @Nullable
+  PsiElement getAt();
+
+  @Nullable
+  PsiElement getFalse();
+
+  @Nullable
   PsiElement getHexval();
 
   @Nullable
@@ -29,9 +35,18 @@ public interface AngelScriptPrimExpr extends AngelScriptExpr {
   PsiElement getIntval();
 
   @Nullable
+  PsiElement getNil();
+
+  @Nullable
+  PsiElement getNull();
+
+  @Nullable
   PsiElement getRawval();
 
   @Nullable
   PsiElement getRealval();
+
+  @Nullable
+  PsiElement getTrue();
 
 }

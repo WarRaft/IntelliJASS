@@ -33,4 +33,10 @@ public class AngelScriptBitNotUnExprImpl extends AngelScriptExprImpl implements 
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getTilde() {
+    return findNotNullChildByType(TILDE);
+  }
+
 }

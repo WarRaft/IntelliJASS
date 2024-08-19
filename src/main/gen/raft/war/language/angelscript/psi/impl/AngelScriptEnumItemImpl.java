@@ -34,6 +34,12 @@ public class AngelScriptEnumItemImpl extends ASTWrapperPsiElement implements Ang
   }
 
   @Override
+  @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
   @NotNull
   public PsiElement getId() {
     return findNotNullChildByType(ID);

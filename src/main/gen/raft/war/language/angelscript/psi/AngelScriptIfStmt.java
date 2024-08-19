@@ -40,4 +40,13 @@ public interface AngelScriptIfStmt extends PsiElement {
   @Nullable
   AngelScriptWhileStmt getWhileStmt();
 
+  @NotNull
+  PsiElement getIf();
+
+  @Nullable
+  PsiElement getLparen();
+
+  @Nullable
+  PsiElement getRparen();
+
 }

@@ -46,9 +46,33 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
   }
 
   @Override
+  @Nullable
+  public PsiElement getAmp() {
+    return findChildByType(AMP);
+  }
+
+  @Override
   @NotNull
   public PsiElement getId() {
     return findNotNullChildByType(ID);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getPrivate() {
+    return findChildByType(PRIVATE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getProtected() {
+    return findChildByType(PROTECTED);
   }
 
 }

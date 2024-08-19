@@ -39,4 +39,22 @@ public class AngelScriptCaseStmtImpl extends ASTWrapperPsiElement implements Ang
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getCase() {
+    return findChildByType(CASE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getColon() {
+    return findNotNullChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDefault() {
+    return findChildByType(DEFAULT);
+  }
+
 }

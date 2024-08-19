@@ -81,4 +81,10 @@ public class AngelScriptElseStmtImpl extends ASTWrapperPsiElement implements Ang
     return findChildByClass(AngelScriptWhileStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getElse() {
+    return findNotNullChildByType(ELSE);
+  }
+
 }

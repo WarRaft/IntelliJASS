@@ -47,6 +47,12 @@ public class AngelScriptParamImpl extends ASTWrapperPsiElement implements AngelS
 
   @Override
   @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getId() {
     return findChildByType(ID);
   }

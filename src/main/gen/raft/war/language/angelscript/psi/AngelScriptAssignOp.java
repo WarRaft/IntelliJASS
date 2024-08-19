@@ -7,4 +7,43 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptAssignOp extends PsiElement {
 
+  @Nullable
+  PsiElement getAmpEq();
+
+  @Nullable
+  PsiElement getCarEq();
+
+  @Nullable
+  PsiElement getDivEq();
+
+  @Nullable
+  PsiElement getEq();
+
+  @Nullable
+  PsiElement getGtGtEq();
+
+  @Nullable
+  PsiElement getGtGtGtEq();
+
+  @Nullable
+  PsiElement getLtLtEq();
+
+  @Nullable
+  PsiElement getMinusEq();
+
+  @Nullable
+  PsiElement getMulEq();
+
+  @Nullable
+  PsiElement getMulMulEq();
+
+  @Nullable
+  PsiElement getPercentEq();
+
+  @Nullable
+  PsiElement getPlusEq();
+
+  @Nullable
+  PsiElement getVbarEq();
+
 }

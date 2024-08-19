@@ -33,4 +33,10 @@ public class AngelScriptNEqExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getNeq() {
+    return findNotNullChildByType(NEQ);
+  }
+
 }

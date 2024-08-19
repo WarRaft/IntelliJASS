@@ -10,4 +10,10 @@ public interface AngelScriptXorExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @Nullable
+  PsiElement getCarCar();
+
+  @Nullable
+  PsiElement getXor();
+
 }

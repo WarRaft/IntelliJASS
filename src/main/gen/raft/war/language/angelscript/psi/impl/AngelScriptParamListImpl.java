@@ -33,4 +33,22 @@ public class AngelScriptParamListImpl extends ASTWrapperPsiElement implements An
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptParam.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVoid() {
+    return findChildByType(VOID);
+  }
+
 }

@@ -1,5 +1,6 @@
 package raft.war.language.angelscript.grammar;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
@@ -50,7 +51,7 @@ int peek() {
    "cast"                      { return CAST; }
    "code"                      { return CODE; }
    "const"                     { return CONST; }
-   "class"                     { return CLASSS; }
+   "class"                     { return CLAS; }
    "double"                    { return DOUBLE; }
    "default"                   { return DEFAULT; }
    "do"                        { return DO; }

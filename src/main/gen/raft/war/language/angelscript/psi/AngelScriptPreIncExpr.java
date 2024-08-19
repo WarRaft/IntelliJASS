@@ -10,4 +10,7 @@ public interface AngelScriptPreIncExpr extends AngelScriptExpr {
   @Nullable
   AngelScriptExpr getExpr();
 
+  @NotNull
+  PsiElement getPlusPlus();
+
 }

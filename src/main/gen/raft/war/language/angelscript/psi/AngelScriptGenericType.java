@@ -10,4 +10,10 @@ public interface AngelScriptGenericType extends PsiElement {
   @NotNull
   List<AngelScriptType> getTypeList();
 
+  @NotNull
+  PsiElement getGt();
+
+  @NotNull
+  PsiElement getLt();
+
 }

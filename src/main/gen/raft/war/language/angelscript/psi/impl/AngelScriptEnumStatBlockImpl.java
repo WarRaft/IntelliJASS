@@ -33,4 +33,16 @@ public class AngelScriptEnumStatBlockImpl extends ASTWrapperPsiElement implement
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptEnumItem.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
+  }
+
 }

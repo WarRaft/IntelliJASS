@@ -10,4 +10,7 @@ public interface AngelScriptExprStat extends PsiElement {
   @Nullable
   AngelScriptAssign getAssign();
 
+  @NotNull
+  PsiElement getSemi();
+
 }

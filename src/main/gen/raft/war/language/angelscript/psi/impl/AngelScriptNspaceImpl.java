@@ -33,4 +33,10 @@ public class AngelScriptNspaceImpl extends ASTWrapperPsiElement implements Angel
     return findChildByClass(AngelScriptNspaceStatBlock.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getNamespace() {
+    return findNotNullChildByType(NAMESPACE);
+  }
+
 }

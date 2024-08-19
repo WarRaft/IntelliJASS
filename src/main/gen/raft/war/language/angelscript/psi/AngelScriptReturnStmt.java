@@ -10,4 +10,10 @@ public interface AngelScriptReturnStmt extends PsiElement {
   @Nullable
   AngelScriptAssign getAssign();
 
+  @NotNull
+  PsiElement getReturn();
+
+  @NotNull
+  PsiElement getSemi();
+
 }

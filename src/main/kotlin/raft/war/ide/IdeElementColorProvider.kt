@@ -82,7 +82,10 @@ class IdeElementColorProvider : ElementColorProvider {
         )
     }
 
+    //@Suppress("SENSELESS_COMPARISON", "USELESS_IS_CHECK", "UNREACHABLE_CODE")
     override fun getColorFrom(psiElement: PsiElement): Color? {
+        //if (psiElement != null) return null
+
         // AngelScript - hexval
         if (psiElement is AngelScriptPrimExpr) {
             val hexval = psiElement.hexval

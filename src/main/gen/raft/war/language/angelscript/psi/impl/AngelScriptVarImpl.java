@@ -51,4 +51,22 @@ public class AngelScriptVarImpl extends ASTWrapperPsiElement implements AngelScr
     return findNotNullChildByClass(AngelScriptType.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getPrivate() {
+    return findChildByType(PRIVATE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getProtected() {
+    return findChildByType(PROTECTED);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
+  }
+
 }

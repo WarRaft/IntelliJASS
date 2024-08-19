@@ -16,7 +16,19 @@ public interface AngelScriptVirtProp extends PsiElement {
   @NotNull
   AngelScriptType getType();
 
+  @Nullable
+  PsiElement getAmp();
+
   @NotNull
   PsiElement getId();
+
+  @NotNull
+  PsiElement getLbrace();
+
+  @Nullable
+  PsiElement getPrivate();
+
+  @Nullable
+  PsiElement getProtected();
 
 }

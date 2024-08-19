@@ -35,8 +35,32 @@ public class AngelScriptEnumsImpl extends ASTWrapperPsiElement implements AngelS
 
   @Override
   @NotNull
+  public PsiElement getEnum() {
+    return findNotNullChildByType(ENUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getExternal() {
+    return findChildByType(EXTERNAL);
+  }
+
+  @Override
+  @NotNull
   public PsiElement getId() {
     return findNotNullChildByType(ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemi() {
+    return findChildByType(SEMI);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getShared() {
+    return findChildByType(SHARED);
   }
 
 }

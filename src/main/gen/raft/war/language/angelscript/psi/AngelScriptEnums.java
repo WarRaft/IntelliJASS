@@ -11,6 +11,18 @@ public interface AngelScriptEnums extends PsiElement {
   AngelScriptEnumStatBlock getEnumStatBlock();
 
   @NotNull
+  PsiElement getEnum();
+
+  @Nullable
+  PsiElement getExternal();
+
+  @NotNull
   PsiElement getId();
+
+  @Nullable
+  PsiElement getSemi();
+
+  @Nullable
+  PsiElement getShared();
 
 }

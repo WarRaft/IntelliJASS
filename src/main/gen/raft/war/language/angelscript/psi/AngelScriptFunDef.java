@@ -13,7 +13,16 @@ public interface AngelScriptFunDef extends PsiElement {
   @NotNull
   AngelScriptType getType();
 
+  @Nullable
+  PsiElement getAmp();
+
+  @NotNull
+  PsiElement getFuncdef();
+
   @NotNull
   PsiElement getId();
+
+  @NotNull
+  PsiElement getSemi();
 
 }

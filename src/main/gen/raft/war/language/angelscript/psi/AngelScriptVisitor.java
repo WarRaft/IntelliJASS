@@ -79,11 +79,19 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClazzItem(@NotNull AngelScriptClazzItem o) {
+    visitPsiElement(o);
+  }
+
   public void visitClazzStatBlock(@NotNull AngelScriptClazzStatBlock o) {
     visitPsiElement(o);
   }
 
   public void visitCondition(@NotNull AngelScriptCondition o) {
+    visitPsiElement(o);
+  }
+
+  public void visitConstructor(@NotNull AngelScriptConstructor o) {
     visitPsiElement(o);
   }
 

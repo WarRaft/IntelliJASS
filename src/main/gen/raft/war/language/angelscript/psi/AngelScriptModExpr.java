@@ -10,4 +10,7 @@ public interface AngelScriptModExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @NotNull
+  PsiElement getPercent();
+
 }

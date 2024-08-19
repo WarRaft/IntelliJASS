@@ -13,4 +13,10 @@ public interface AngelScriptInitList extends PsiElement {
   @NotNull
   List<AngelScriptInitList> getInitListList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

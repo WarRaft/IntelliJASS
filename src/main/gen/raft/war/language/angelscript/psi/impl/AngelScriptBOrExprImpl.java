@@ -33,4 +33,10 @@ public class AngelScriptBOrExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getVbar() {
+    return findNotNullChildByType(VBAR);
+  }
+
 }

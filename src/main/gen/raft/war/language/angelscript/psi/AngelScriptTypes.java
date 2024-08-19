@@ -28,8 +28,10 @@ public interface AngelScriptTypes {
   IElementType CASE_STMT = new AngelScriptIElement("CASE_STMT");
   IElementType CASE_STMT_LIST = new AngelScriptIElement("CASE_STMT_LIST");
   IElementType CLAZZ = new AngelScriptIElement("CLAZZ");
+  IElementType CLAZZ_ITEM = new AngelScriptIElement("CLAZZ_ITEM");
   IElementType CLAZZ_STAT_BLOCK = new AngelScriptIElement("CLAZZ_STAT_BLOCK");
   IElementType CONDITION = new AngelScriptIElement("CONDITION");
+  IElementType CONSTRUCTOR = new AngelScriptIElement("CONSTRUCTOR");
   IElementType DATA_TYPE = new AngelScriptIElement("DATA_TYPE");
   IElementType DIV_EXPR = new AngelScriptIElement("DIV_EXPR");
   IElementType DIV_UN_EXPR = new AngelScriptIElement("DIV_UN_EXPR");
@@ -110,7 +112,7 @@ public interface AngelScriptTypes {
   IElementType CAR_EQ = new AngelScriptIToken("^=");
   IElementType CASE = new AngelScriptIToken("case");
   IElementType CAST = new AngelScriptIToken("cast");
-  IElementType CLASSS = new AngelScriptIToken("class");
+  IElementType CLAS = new AngelScriptIToken("class");
   IElementType CODE = new AngelScriptIToken("code");
   IElementType COLON = new AngelScriptIToken(":");
   IElementType COLON_COLON = new AngelScriptIToken("::");
@@ -276,11 +278,17 @@ public interface AngelScriptTypes {
       else if (type == CLAZZ) {
         return new AngelScriptClazzImpl(node);
       }
+      else if (type == CLAZZ_ITEM) {
+        return new AngelScriptClazzItemImpl(node);
+      }
       else if (type == CLAZZ_STAT_BLOCK) {
         return new AngelScriptClazzStatBlockImpl(node);
       }
       else if (type == CONDITION) {
         return new AngelScriptConditionImpl(node);
+      }
+      else if (type == CONSTRUCTOR) {
+        return new AngelScriptConstructorImpl(node);
       }
       else if (type == DATA_TYPE) {
         return new AngelScriptDataTypeImpl(node);

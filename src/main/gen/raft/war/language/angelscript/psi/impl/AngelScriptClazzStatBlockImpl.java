@@ -29,26 +29,20 @@ public class AngelScriptClazzStatBlockImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
-  public List<AngelScriptFun> getFunList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFun.class);
+  public AngelScriptClazzItem getClazzItem() {
+    return findNotNullChildByClass(AngelScriptClazzItem.class);
   }
 
   @Override
   @NotNull
-  public List<AngelScriptFunDef> getFunDefList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFunDef.class);
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
   }
 
   @Override
   @NotNull
-  public List<AngelScriptVar> getVarList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVar.class);
-  }
-
-  @Override
-  @NotNull
-  public List<AngelScriptVirtProp> getVirtPropList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVirtProp.class);
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
   }
 
 }

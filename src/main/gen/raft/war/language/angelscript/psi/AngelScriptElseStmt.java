@@ -34,4 +34,7 @@ public interface AngelScriptElseStmt extends PsiElement {
   @Nullable
   AngelScriptWhileStmt getWhileStmt();
 
+  @NotNull
+  PsiElement getElse();
+
 }

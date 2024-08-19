@@ -10,4 +10,10 @@ public interface AngelScriptTernarExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @Nullable
+  PsiElement getColon();
+
+  @NotNull
+  PsiElement getQuest();
+
 }

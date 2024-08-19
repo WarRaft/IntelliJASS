@@ -33,4 +33,10 @@ public class AngelScriptDivUnExprImpl extends AngelScriptExprImpl implements Ang
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getDiv() {
+    return findNotNullChildByType(DIV);
+  }
+
 }

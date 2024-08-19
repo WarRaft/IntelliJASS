@@ -33,4 +33,16 @@ public class AngelScriptAndExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getAmpAmp() {
+    return findChildByType(AMP_AMP);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getAnd() {
+    return findChildByType(AND);
+  }
+
 }

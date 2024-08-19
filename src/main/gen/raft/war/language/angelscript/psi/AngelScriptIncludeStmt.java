@@ -10,4 +10,10 @@ public interface AngelScriptIncludeStmt extends PsiElement {
   @Nullable
   AngelScriptStr getStr();
 
+  @Nullable
+  PsiElement getHash();
+
+  @NotNull
+  PsiElement getInclude();
+
 }

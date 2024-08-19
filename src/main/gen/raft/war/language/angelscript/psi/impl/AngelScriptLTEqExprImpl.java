@@ -33,4 +33,10 @@ public class AngelScriptLTEqExprImpl extends AngelScriptExprImpl implements Ange
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLtEq() {
+    return findNotNullChildByType(LT_EQ);
+  }
+
 }

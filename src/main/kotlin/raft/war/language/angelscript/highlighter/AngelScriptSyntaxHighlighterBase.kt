@@ -57,7 +57,7 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
             BREAK,
             CASE,
             CONST,
-            CLASSS,
+            CLAS,
             DEFAULT,
             DO,
             ELSE,

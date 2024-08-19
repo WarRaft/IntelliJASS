@@ -33,4 +33,16 @@ public class AngelScriptParenExprImpl extends AngelScriptExprImpl implements Ang
     return findNotNullChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
 }

@@ -10,4 +10,7 @@ public interface AngelScriptNspace extends PsiElement {
   @Nullable
   AngelScriptNspaceStatBlock getNspaceStatBlock();
 
+  @NotNull
+  PsiElement getNamespace();
+
 }

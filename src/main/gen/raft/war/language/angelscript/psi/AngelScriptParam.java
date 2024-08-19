@@ -17,6 +17,9 @@ public interface AngelScriptParam extends PsiElement {
   AngelScriptTypeMod getTypeMod();
 
   @Nullable
+  PsiElement getEq();
+
+  @Nullable
   PsiElement getId();
 
 }

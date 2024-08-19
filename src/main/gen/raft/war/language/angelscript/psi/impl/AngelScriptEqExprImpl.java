@@ -33,4 +33,10 @@ public class AngelScriptEqExprImpl extends AngelScriptExprImpl implements AngelS
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getEqEq() {
+    return findNotNullChildByType(EQ_EQ);
+  }
+
 }

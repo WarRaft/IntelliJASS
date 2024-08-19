@@ -33,4 +33,16 @@ public class AngelScriptArrayAccessItemImpl extends ASTWrapperPsiElement impleme
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrack() {
+    return findNotNullChildByType(LBRACK);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRbrack() {
+    return findChildByType(RBRACK);
+  }
+
 }

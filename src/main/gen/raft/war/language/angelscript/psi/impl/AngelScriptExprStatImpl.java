@@ -33,4 +33,10 @@ public class AngelScriptExprStatImpl extends ASTWrapperPsiElement implements Ang
     return findChildByClass(AngelScriptAssign.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
+  }
+
 }

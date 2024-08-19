@@ -32,12 +32,12 @@ abstract class JassIntentionNumberConverter : IntentionAction {
         if (element.elementType == from()) {
             val raw = when (from()) {
                 INTVAL -> RawCode.fromIntString(element.text, RawCodeLanguage.AngelScript)
-                HEXVAL -> RawCode.fromHexString(element.text, RawCodeLanguage.AngelScript)
+                HEXVAL -> RawCode.fromHexStringOrNull(element.text, RawCodeLanguage.AngelScript)
                 RAWVAL -> RawCode.fromString(element.text, RawCodeLanguage.AngelScript, true)
                 else -> return false
             }
 
-            if (!raw.safe && to() == RAWVAL) return false
+            if (raw == null || (!raw.safe && to() == RAWVAL)) return false
 
             if (!invoke) return raw.valid
             if (ApplicationManager.getApplication().isWriteAccessAllowed) {

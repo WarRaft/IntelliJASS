@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.codeInsight.completion
+package raft.war.language.angelscript.completion
 
 import com.intellij.codeInsight.completion.CompletionConfidence
 import com.intellij.psi.PsiElement

@@ -45,4 +45,22 @@ public class AngelScriptLambdaImpl extends ASTWrapperPsiElement implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptTypeMod.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getFunction() {
+    return findNotNullChildByType(FUNCTION);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
 }

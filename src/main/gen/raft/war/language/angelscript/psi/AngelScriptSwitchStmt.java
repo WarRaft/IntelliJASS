@@ -13,4 +13,13 @@ public interface AngelScriptSwitchStmt extends PsiElement {
   @NotNull
   AngelScriptSwitchStatBlock getSwitchStatBlock();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
+  @NotNull
+  PsiElement getSwitch();
+
 }

@@ -27,4 +27,82 @@ public class AngelScriptAssignOpImpl extends ASTWrapperPsiElement implements Ang
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getAmpEq() {
+    return findChildByType(AMP_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCarEq() {
+    return findChildByType(CAR_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDivEq() {
+    return findChildByType(DIV_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getGtGtEq() {
+    return findChildByType(GT_GT_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getGtGtGtEq() {
+    return findChildByType(GT_GT_GT_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLtLtEq() {
+    return findChildByType(LT_LT_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getMinusEq() {
+    return findChildByType(MINUS_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getMulEq() {
+    return findChildByType(MUL_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getMulMulEq() {
+    return findChildByType(MUL_MUL_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getPercentEq() {
+    return findChildByType(PERCENT_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getPlusEq() {
+    return findChildByType(PLUS_EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVbarEq() {
+    return findChildByType(VBAR_EQ);
+  }
+
 }

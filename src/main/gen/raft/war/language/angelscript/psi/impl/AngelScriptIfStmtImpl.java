@@ -93,4 +93,22 @@ public class AngelScriptIfStmtImpl extends ASTWrapperPsiElement implements Angel
     return findChildByClass(AngelScriptWhileStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getIf() {
+    return findNotNullChildByType(IF);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLparen() {
+    return findChildByType(LPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRparen() {
+    return findChildByType(RPAREN);
+  }
+
 }

@@ -33,4 +33,10 @@ public class AngelScriptPreIncExprImpl extends AngelScriptExprImpl implements An
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getPlusPlus() {
+    return findNotNullChildByType(PLUS_PLUS);
+  }
+
 }

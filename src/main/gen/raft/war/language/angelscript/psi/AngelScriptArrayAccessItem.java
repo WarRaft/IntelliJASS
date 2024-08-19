@@ -10,4 +10,10 @@ public interface AngelScriptArrayAccessItem extends PsiElement {
   @Nullable
   AngelScriptExpr getExpr();
 
+  @NotNull
+  PsiElement getLbrack();
+
+  @Nullable
+  PsiElement getRbrack();
+
 }

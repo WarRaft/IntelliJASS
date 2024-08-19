@@ -10,4 +10,7 @@ public interface AngelScriptGTExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @NotNull
+  PsiElement getGt();
+
 }

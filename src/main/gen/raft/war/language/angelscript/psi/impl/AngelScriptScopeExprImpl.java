@@ -33,4 +33,10 @@ public class AngelScriptScopeExprImpl extends AngelScriptExprImpl implements Ang
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getColonColon() {
+    return findNotNullChildByType(COLON_COLON);
+  }
+
 }

@@ -33,4 +33,16 @@ public class AngelScriptNotExprImpl extends AngelScriptExprImpl implements Angel
     return findChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getExcl() {
+    return findChildByType(EXCL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNot() {
+    return findChildByType(NOT);
+  }
+
 }

@@ -16,4 +16,10 @@ public interface AngelScriptFuncCall extends PsiElement {
   @NotNull
   PsiElement getId();
 
+  @Nullable
+  PsiElement getLparen();
+
+  @Nullable
+  PsiElement getRparen();
+
 }

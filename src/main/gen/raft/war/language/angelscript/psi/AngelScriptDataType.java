@@ -11,6 +11,12 @@ public interface AngelScriptDataType extends PsiElement {
   AngelScriptPrimType getPrimType();
 
   @Nullable
+  PsiElement getAuto();
+
+  @Nullable
   PsiElement getId();
+
+  @Nullable
+  PsiElement getQuest();
 
 }

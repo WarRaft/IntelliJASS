@@ -10,4 +10,13 @@ public interface AngelScriptClazz extends PsiElement {
   @Nullable
   AngelScriptClazzStatBlock getClazzStatBlock();
 
+  @NotNull
+  PsiElement getClas();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getSemi();
+
 }

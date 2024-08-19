@@ -19,4 +19,13 @@ public interface AngelScriptVar extends PsiElement {
   @NotNull
   AngelScriptType getType();
 
+  @Nullable
+  PsiElement getPrivate();
+
+  @Nullable
+  PsiElement getProtected();
+
+  @NotNull
+  PsiElement getSemi();
+
 }

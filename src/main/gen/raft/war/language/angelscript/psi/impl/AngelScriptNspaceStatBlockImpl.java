@@ -69,4 +69,16 @@ public class AngelScriptNspaceStatBlockImpl extends ASTWrapperPsiElement impleme
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptVar.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
+  }
+
 }

@@ -10,6 +10,9 @@ public interface AngelScriptEnumItem extends PsiElement {
   @Nullable
   AngelScriptExpr getExpr();
 
+  @Nullable
+  PsiElement getEq();
+
   @NotNull
   PsiElement getId();
 

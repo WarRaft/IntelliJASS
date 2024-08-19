@@ -33,4 +33,16 @@ public class AngelScriptXorExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getCarCar() {
+    return findChildByType(CAR_CAR);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getXor() {
+    return findChildByType(XOR);
+  }
+
 }

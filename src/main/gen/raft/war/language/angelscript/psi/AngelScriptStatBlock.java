@@ -37,4 +37,10 @@ public interface AngelScriptStatBlock extends PsiElement {
   @NotNull
   List<AngelScriptWhileStmt> getWhileStmtList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

@@ -13,4 +13,13 @@ public interface AngelScriptCaseStmt extends PsiElement {
   @Nullable
   AngelScriptExpr getExpr();
 
+  @Nullable
+  PsiElement getCase();
+
+  @NotNull
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getDefault();
+
 }

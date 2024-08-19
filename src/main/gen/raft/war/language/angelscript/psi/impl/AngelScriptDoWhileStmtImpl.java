@@ -87,4 +87,34 @@ public class AngelScriptDoWhileStmtImpl extends ASTWrapperPsiElement implements 
     return findChildByClass(AngelScriptWhileStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getDo() {
+    return findNotNullChildByType(DO);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getWhile() {
+    return findNotNullChildByType(WHILE);
+  }
+
 }

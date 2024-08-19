@@ -12,7 +12,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.startOffset
 import raft.war.ide.IdeMultiHostInjector.Companion.INJECT_JASS
-import raft.war.language.angelscript.psi.AngelScriptPsiFileBase
+import raft.war.language.angelscript.psi.file.AngelScriptFile
 import raft.war.language.angelscript.lang.ANGELSCRIPT_FILE
 import raft.war.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings.Companion.instance
 import raft.war.language.angelscript.psi.AngelScriptTypes.ENUMS
@@ -30,7 +30,7 @@ internal class AngelScriptCustomFoldingBuilder : CustomFoldingBuilder(), DumbAwa
         document: Document,
         quick: Boolean
     ) {
-        if (root !is AngelScriptPsiFileBase) return
+        if (root !is AngelScriptFile) return
 
         val psiElements = PsiTreeUtil.findChildrenOfAnyType(
             root,

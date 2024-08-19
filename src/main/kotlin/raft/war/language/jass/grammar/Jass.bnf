@@ -89,12 +89,7 @@
     ]
 }
 
-Root ::= (
-    TypeDef |
-    Nativ |
-    Glob |
-    Fun
-    )* {recoverWhile=RootRecover}
+Root ::= (TypeDef|Nativ|Glob|Fun)* {recoverWhile=RootRecover}
 private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
 
 // === type

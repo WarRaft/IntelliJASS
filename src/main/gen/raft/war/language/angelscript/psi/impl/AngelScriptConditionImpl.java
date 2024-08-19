@@ -39,4 +39,16 @@ public class AngelScriptConditionImpl extends ASTWrapperPsiElement implements An
     return findNotNullChildByClass(AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getQuest() {
+    return findChildByType(QUEST);
+  }
+
 }

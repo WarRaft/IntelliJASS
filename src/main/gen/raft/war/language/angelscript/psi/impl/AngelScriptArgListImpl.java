@@ -33,4 +33,16 @@ public class AngelScriptArgListImpl extends ASTWrapperPsiElement implements Ange
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptAssign.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLparen() {
+    return findNotNullChildByType(LPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRparen() {
+    return findNotNullChildByType(RPAREN);
+  }
+
 }

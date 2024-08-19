@@ -33,4 +33,16 @@ public class AngelScriptReturnStmtImpl extends ASTWrapperPsiElement implements A
     return findChildByClass(AngelScriptAssign.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getReturn() {
+    return findNotNullChildByType(RETURN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
+  }
+
 }

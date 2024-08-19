@@ -10,4 +10,7 @@ public interface AngelScriptBShiftRAExpr extends AngelScriptExpr {
   @NotNull
   List<AngelScriptExpr> getExprList();
 
+  @NotNull
+  PsiElement getGtGtGt();
+
 }

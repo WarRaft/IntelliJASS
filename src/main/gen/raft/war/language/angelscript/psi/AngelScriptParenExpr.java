@@ -10,4 +10,10 @@ public interface AngelScriptParenExpr extends AngelScriptExpr {
   @NotNull
   AngelScriptExpr getExpr();
 
+  @NotNull
+  PsiElement getLparen();
+
+  @NotNull
+  PsiElement getRparen();
+
 }

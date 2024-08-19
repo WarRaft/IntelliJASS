@@ -33,4 +33,16 @@ public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements 
     return findChildByClass(AngelScriptStr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getHash() {
+    return findChildByType(HASH);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getInclude() {
+    return findNotNullChildByType(INCLUDE);
+  }
+
 }

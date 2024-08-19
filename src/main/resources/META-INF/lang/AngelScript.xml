@@ -43,9 +43,9 @@
 
         <!-- completion -->
         <completion.contributor language="AngelScript"
-                                implementationClass="raft.war.language.angelscript.codeInsight.completion.AngelScriptCompletionContributor"/>
+                                implementationClass="raft.war.language.angelscript.completion.AngelScriptCompletionContributor"/>
         <completion.confidence language="AngelScript"
-                               implementationClass="raft.war.language.angelscript.codeInsight.completion.AngelScriptCompletionConfidence"
+                               implementationClass="raft.war.language.angelscript.completion.AngelScriptCompletionConfidence"
                                order="first"/>
 
         <!-- live template -->

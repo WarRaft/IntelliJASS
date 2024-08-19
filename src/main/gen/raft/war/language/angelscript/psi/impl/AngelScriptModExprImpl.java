@@ -33,4 +33,10 @@ public class AngelScriptModExprImpl extends AngelScriptExprImpl implements Angel
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getPercent() {
+    return findNotNullChildByType(PERCENT);
+  }
+
 }

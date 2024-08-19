@@ -33,4 +33,16 @@ public class AngelScriptGenericTypeImpl extends ASTWrapperPsiElement implements 
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptType.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getGt() {
+    return findNotNullChildByType(GT);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLt() {
+    return findNotNullChildByType(LT);
+  }
+
 }

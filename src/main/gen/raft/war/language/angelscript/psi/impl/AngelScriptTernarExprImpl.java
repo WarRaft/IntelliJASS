@@ -33,4 +33,16 @@ public class AngelScriptTernarExprImpl extends AngelScriptExprImpl implements An
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getQuest() {
+    return findNotNullChildByType(QUEST);
+  }
+
 }

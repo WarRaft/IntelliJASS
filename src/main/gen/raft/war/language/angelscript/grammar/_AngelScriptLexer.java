@@ -3,8 +3,8 @@
 
 package raft.war.language.angelscript.grammar;
 
-import com.intellij.psi.tree.IElementType;
 import com.intellij.lexer.FlexLexer;
+import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -1292,7 +1292,7 @@ int peek() {
           // fall through
           case 227: break;
           case 98:
-            { return CLASSS;
+            { return CLAS;
             }
           // fall through
           case 228: break;

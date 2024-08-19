@@ -39,4 +39,16 @@ public class AngelScriptInitListImpl extends ASTWrapperPsiElement implements Ang
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptInitList.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
+  }
+
 }

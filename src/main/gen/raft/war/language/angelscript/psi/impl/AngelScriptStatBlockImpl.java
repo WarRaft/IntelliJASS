@@ -87,4 +87,16 @@ public class AngelScriptStatBlockImpl extends ASTWrapperPsiElement implements An
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptWhileStmt.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
+  }
+
 }

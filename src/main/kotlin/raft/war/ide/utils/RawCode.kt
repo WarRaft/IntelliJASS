@@ -4,6 +4,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.util.*
+import java.util.regex.Pattern
 
 enum class RawCodeLanguage {
     JASS, AngelScript
@@ -80,7 +81,15 @@ data class RawCode(val bytes: ByteArray, val language: RawCodeLanguage) {
 
         @OptIn(ExperimentalStdlibApi::class)
         fun fromHexString(string: String, language: RawCodeLanguage): RawCode =
-            fromULong(string.removePrefix("0x").removePrefix("$").hexToULong(), language)
+            fromULong(string.hexToULong(), language)
+
+        private val HEXADECIMAL_PATTERN: Pattern = Pattern.compile("\\p{XDigit}+")
+
+        fun fromHexStringOrNull(string: String, language: RawCodeLanguage): RawCode? {
+            val s = string.removePrefix("0x").removePrefix("$")
+            if (!HEXADECIMAL_PATTERN.matcher(s).matches()) return null
+            return fromHexString(s, language)
+        }
     }
 
     override fun equals(other: Any?): Boolean {

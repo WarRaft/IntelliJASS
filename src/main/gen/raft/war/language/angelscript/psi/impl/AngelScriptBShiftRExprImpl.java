@@ -33,4 +33,10 @@ public class AngelScriptBShiftRExprImpl extends AngelScriptExprImpl implements A
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptExpr.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getGtGt() {
+    return findNotNullChildByType(GT_GT);
+  }
+
 }
