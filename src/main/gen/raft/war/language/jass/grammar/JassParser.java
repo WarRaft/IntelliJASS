@@ -707,12 +707,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (
-  //     TypeDef |
-  //     Nativ |
-  //     Glob |
-  //     Fun
-  //     )*
+  // (TypeDef|Nativ|Glob|Fun)*
   static boolean Root(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Root")) return false;
     Marker m = enter_section_(b, l, _NONE_);
@@ -725,10 +720,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // TypeDef |
-  //     Nativ |
-  //     Glob |
-  //     Fun
+  // TypeDef|Nativ|Glob|Fun
   private static boolean Root_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Root_0")) return false;
     boolean r;
@@ -819,7 +811,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // !(ID|
   //     FUNCTION|ENDFUNCTION|RETURN|
-  //     SET|CALL|LOCAL|
+  //     SET|DEBUG|CALL|LOCAL|
   //     LOOP|ENDLOOP|EXITWHEN|
   //     IF|ELSEIF|ENDIF|ELSE)
   static boolean StmtRecover(PsiBuilder b, int l) {
@@ -833,7 +825,7 @@ public class JassParser implements PsiParser, LightPsiParser {
 
   // ID|
   //     FUNCTION|ENDFUNCTION|RETURN|
-  //     SET|CALL|LOCAL|
+  //     SET|DEBUG|CALL|LOCAL|
   //     LOOP|ENDLOOP|EXITWHEN|
   //     IF|ELSEIF|ENDIF|ELSE
   private static boolean StmtRecover_0(PsiBuilder b, int l) {
@@ -844,6 +836,7 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, ENDFUNCTION);
     if (!r) r = consumeToken(b, RETURN);
     if (!r) r = consumeToken(b, SET);
+    if (!r) r = consumeToken(b, DEBUG);
     if (!r) r = consumeToken(b, CALL);
     if (!r) r = consumeToken(b, LOCAL);
     if (!r) r = consumeToken(b, LOOP);

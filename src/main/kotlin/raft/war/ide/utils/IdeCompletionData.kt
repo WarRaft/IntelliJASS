@@ -9,13 +9,12 @@ import com.intellij.codeInsight.template.TemplateManager
 import com.intellij.codeInsight.template.impl.TextExpression
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
-import com.intellij.psi.util.PsiTreeUtil
 
 class IdeCompletionData(parameters: CompletionParameters, val result: CompletionResultSet) {
 
     val current = parameters.originalPosition
-    val prev = PsiTreeUtil.skipWhitespacesBackward(current)
-    val next = PsiTreeUtil.skipWhitespacesForward(current)
+    val prev = IdePsiTreeUtil.skipWhitespacesBackward(current)
+    val next = IdePsiTreeUtil.skipWhitespacesForward(current)
 
     val project = parameters.position.project
     val parent: PsiElement?

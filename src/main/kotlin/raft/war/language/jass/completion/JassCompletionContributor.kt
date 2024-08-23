@@ -7,6 +7,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.progress.ProgressManager
+import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.psi.util.PsiTreeUtil
@@ -22,11 +23,22 @@ import raft.war.language.jass.psi.funName.KEY
 
 internal class JassCompletionContributor : CompletionContributor() {
 
+    private fun isPrevCall(data: IdeCompletionData): Boolean {
+        var prev = data.prev
+        if (prev is JassFunBody) prev = prev.lastChild
+        if (prev?.lastChild is PsiErrorElement) return false
+
+        return prev is JassStmt && prev.callStmt != null && prev.callStmt!!.funCall == null
+    }
+
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
         // ---
         val data = IdeCompletionData(parameters, result)
 
-        if (parameters.isAutoPopup && data.current.elementType != ID) return
+        // ---
+        val isPrevCall = isPrevCall(data)
+
+        if (parameters.isAutoPopup && data.current.elementType != ID && !isPrevCall) return
 
         // globals, function
         if (data.parent is JassFile) {
@@ -43,16 +55,8 @@ internal class JassCompletionContributor : CompletionContributor() {
             })
         }
 
-        // ---
-        var isCallPrev = false
-        if (data.prev is JassStmt && data.prev.callStmt != null) {
-            if (data.prev.callStmt!!.funCall == null) {
-                isCallPrev = true
-            }
-        }
-
         // --
-        val inFunStmt = (data.parent is JassFunBody || data.next is JassFunBody) && !isCallPrev
+        val inFunStmt = (data.parent is JassFunBody || data.next is JassFunBody) && !isPrevCall
 
         // if
         if (inFunStmt || data.current.elementType == IF) {
@@ -111,87 +115,94 @@ internal class JassCompletionContributor : CompletionContributor() {
             }
 
             // call
-            data.addStart(LookupElementBuilder.create("call ").withInsertHandler { ctx, _ ->
+            data.addStart(LookupElementBuilder.create("call").withInsertHandler { ctx, _ ->
+                data.templateInsert(ctx, "call \$END\$")
+                AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
+            })
+
+            data.addStart(LookupElementBuilder.create("debug").withInsertHandler { ctx, _ ->
+                data.templateInsert(ctx, "debug call \$END\$")
                 AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
             })
         }
 
-        // functions
-        var isFunList = data.parent !is JassFile
-        if (isFunList && PsiTreeUtil.findFirstParent(data.parent) { it is JassFunHead || it is JassNativ } != null) isFunList =
-            false
+        this.function(data, isPrevCall)
+    }
 
-        if (isFunList) {
-            val scope = GlobalSearchScope.allScope(data.project)
-            StubIndex.getInstance().processAllKeys(
-                KEY,
-                { stubKey ->
-                    StubIndex.getElements(
-                        KEY,
-                        stubKey,
-                        data.project,
-                        scope,
-                        JassNamedElement::class.java,
-                    ).forEach { func ->
-                        ProgressManager.checkCanceled()
+    private fun function(data: IdeCompletionData, isPrevCall: Boolean) {
+        if (data.parent is JassFile) return
 
-                        val head = func.parent
+        if (PsiTreeUtil.findFirstParent(data.parent) { it is JassFunHead || it is JassNativ } != null) return
 
-                        val take: JassFunTake?
-                        val ret: JassFunRet?
-                        val name: String
+        val scope = GlobalSearchScope.allScope(data.project)
+        StubIndex.getInstance().processAllKeys(
+            KEY,
+            { stubKey ->
+                StubIndex.getElements(
+                    KEY,
+                    stubKey,
+                    data.project,
+                    scope,
+                    JassNamedElement::class.java,
+                ).forEach { func ->
+                    ProgressManager.checkCanceled()
 
-                        when (val p = func.parent) {
-                            is JassFunHead -> {
-                                take = p.funTake
-                                ret = p.funRet
-                                name = p.funName!!.text
-                            }
+                    val head = func.parent
 
-                            is JassNativ -> {
-                                take = p.funTake
-                                ret = p.funRet
-                                name = p.funName!!.text
-                            }
+                    val take: JassFunTake?
+                    val ret: JassFunRet?
+                    val name: String
 
-                            else -> return@forEach
+                    when (val p = func.parent) {
+                        is JassFunHead -> {
+                            take = p.funTake
+                            ret = p.funRet
+                            name = p.funName!!.text
                         }
 
-                        result.addElement(LookupElementBuilder
-                            .create(func)
-                            .withTypeText("function", AllIcons.Ide.HectorOn, false)
-                            .withTypeIconRightAligned(true)
-                            .withPsiElement(head)
-                            .withTailText(" ${take?.text} ${ret?.text}")
-                            .withIcon(AllIcons.Nodes.Function)
-                            .withInsertHandler { ctx, _ ->
-                                // add call
-                                val call =
-                                    if ((data.parent is JassFunBody || data.next is JassFunBody || data.prev is JassFunBody) && !isCallPrev) "call " else ""
+                        is JassNativ -> {
+                            take = p.funTake
+                            ret = p.funRet
+                            name = p.funName!!.text
+                        }
 
-                                // add variables
-                                val tslist: MutableList<String> = mutableListOf()
-                                val tvlist: MutableList<TemplateVariable> = mutableListOf()
-
-                                if (take != null) take.paramList?.paramList?.forEach {
-                                    val vname = "P${it.id.text}"
-                                    tslist.add("\$$vname\$")
-                                    tvlist.add(TemplateVariable(vname, it.id.text))
-                                }
-
-                                val eol = if (call.isEmpty()) "" else "\n"
-
-                                data.templateInsert(
-                                    ctx,
-                                    "$call$name(${tslist.joinToString(", ")})$eol\$END\$",
-                                    *tvlist.toTypedArray()
-                                )
-                            })
+                        else -> return@forEach
                     }
-                    true
-                },
-                scope
-            )
-        }
+
+                    data.result.addElement(LookupElementBuilder
+                        .create(func)
+                        .withTypeText("function", AllIcons.Ide.HectorOn, false)
+                        .withTypeIconRightAligned(true)
+                        .withPsiElement(head)
+                        .withTailText(" ${take?.text} ${ret?.text}")
+                        .withIcon(AllIcons.Nodes.Function)
+                        .withInsertHandler { ctx, _ ->
+                            // add call
+                            val call =
+                                if ((data.parent is JassFunBody || data.next is JassFunBody || data.prev is JassFunBody) && !isPrevCall) "call " else ""
+
+                            // add variables
+                            val tslist: MutableList<String> = mutableListOf()
+                            val tvlist: MutableList<TemplateVariable> = mutableListOf()
+
+                            if (take != null) take.paramList?.paramList?.forEach {
+                                val vname = "P${it.id.text}"
+                                tslist.add("\$$vname\$")
+                                tvlist.add(TemplateVariable(vname, it.id.text))
+                            }
+
+                            val eol = if (call.isEmpty()) "" else "\n"
+
+                            data.templateInsert(
+                                ctx,
+                                "$call$name(${tslist.joinToString(", ")})$eol\$END\$",
+                                *tvlist.toTypedArray()
+                            )
+                        })
+                }
+                true
+            },
+            scope
+        )
     }
 }
