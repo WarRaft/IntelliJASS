@@ -9,12 +9,12 @@ import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassNativeBlock(
+class JassNativeBlockOld(
     myNode: ASTNode,
     myIndent: Indent?,
     myCodeStyleSettings: CodeStyleSettings,
     private val aligner: JassNativeBlockAligner
-) : JassBlock(myNode, null, myIndent, myCodeStyleSettings) {
+) : JassBlockOld(myNode, null, myIndent, myCodeStyleSettings) {
 
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null
@@ -48,8 +48,8 @@ class JassNativeBlock(
                 FUN_RET,
                 PARAM_LIST
             )
-        ) return JassNativeBlock(childNode, null, myCodeStyleSettings, aligner)
+        ) return JassNativeBlockOld(childNode, null, myCodeStyleSettings, aligner)
 
-        return JassBlock(childNode, alignment, null, myCodeStyleSettings)
+        return JassBlockOld(childNode, alignment, null, myCodeStyleSettings)
     }
 }

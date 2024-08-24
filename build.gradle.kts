@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // https://plugins.jetbrains.com/docs/intellij/api-changes-list-2024.html
 
-
 plugins {
     //id("java")
 
@@ -56,7 +55,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     intellijPlatform {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
-        intellijIdeaCommunity("2024.2")
+        intellijIdeaCommunity("2024.2.0.2")
 
         instrumentationTools()
 
@@ -84,7 +83,9 @@ tasks {
 
     // https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html?from=jetbrains.org
     patchPluginXml {
-        //version.set("${project.version}")
+        //version = "${project.version}"
+        //sinceBuild.set("232")
+
     }
 }
 kotlin {

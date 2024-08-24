@@ -10,13 +10,13 @@ import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassGlobalVarBlock(
+class JassGlobalVarBlockOld(
     myNode: ASTNode,
     alignment: Alignment?,
     indent: Indent?,
     codeStyleSettings: CodeStyleSettings,
     private val alignments: HashMap<String, Alignment>
-) : JassBlock(myNode, alignment, indent, codeStyleSettings) {
+) : JassBlockOld(myNode, alignment, indent, codeStyleSettings) {
     override fun makeSubBlock(childNode: ASTNode): Block {
         var alignment: Alignment? = null
 
@@ -40,9 +40,9 @@ class JassGlobalVarBlock(
                 EQ,
                 VAR_DEF
             )
-        ) return JassGlobalVarBlock(childNode, alignment, null, myCodeStyleSettings, alignments)
+        ) return JassGlobalVarBlockOld(childNode, alignment, null, myCodeStyleSettings, alignments)
 
-        return JassBlock(childNode, alignment, null, myCodeStyleSettings)
+        return JassBlockOld(childNode, alignment, null, myCodeStyleSettings)
     }
 
     override val spacingBuilder: SpacingBuilder

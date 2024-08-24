@@ -11,27 +11,27 @@ import raft.war.language.jass.formatting.JassCodeStyleSettings
 import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassRootBlock(myNode: ASTNode, code: CodeStyleSettings, jass: JassCodeStyleSettings) : JassBlock(
+class JassRootBlockOld(myNode: ASTNode, code: CodeStyleSettings, jass: JassCodeStyleSettings) : JassBlockOld(
     myNode, null, Indent.getNoneIndent(), code
 ) {
-    private val typeAlignments: HashMap<String, Alignment> = JassTypeBlock.getAlignments(jass)
+    private val typeAlignments: HashMap<String, Alignment> = JassTypeBlockOld.getAlignments(jass)
     private val nativeAligner = JassNativeBlockAligner(jass)
 
     override fun makeSubBlock(childNode: ASTNode): Block {
-        if (FormatterUtil.isOneOf(childNode, TYPE_DEF)) return JassTypeBlock(
+        if (FormatterUtil.isOneOf(childNode, TYPE_DEF)) return JassTypeBlockOld(
             childNode,
             myCodeStyleSettings,
             typeAlignments
         )
-        if (FormatterUtil.isOneOf(childNode, NATIV)) return JassNativeBlock(
+        if (FormatterUtil.isOneOf(childNode, NATIV)) return JassNativeBlockOld(
             childNode,
             Indent.getNoneIndent(),
             myCodeStyleSettings,
             nativeAligner
         )
-        if (FormatterUtil.isOneOf(childNode, GLOB)) return JassGlobalsBlock(childNode, myCodeStyleSettings)
+        if (FormatterUtil.isOneOf(childNode, GLOB)) return JassGlobalsBlockOld(childNode, myCodeStyleSettings)
 
-        return JassBlock(childNode, myAlignment, myIndent, myCodeStyleSettings)
+        return JassBlockOld(childNode, myAlignment, myIndent, myCodeStyleSettings)
     }
 
     override val spacingBuilder: SpacingBuilder

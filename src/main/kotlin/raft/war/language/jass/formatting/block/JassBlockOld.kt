@@ -9,7 +9,7 @@ import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.psi.JassTypes.*
 
-open class JassBlock(
+open class JassBlockOld(
     val myNode: ASTNode,
     val myAlignment: Alignment?,
     val myIndent: Indent?,
@@ -20,7 +20,7 @@ open class JassBlock(
     private var mySpacingBuilder: SpacingBuilder? = null
 
     open fun makeSubBlock(childNode: ASTNode): Block {
-        return JassBlock(childNode, null, null, myCodeStyleSettings)
+        return JassBlockOld(childNode, null, null, myCodeStyleSettings)
     }
 
     override fun getSubBlocks(): List<Block> {

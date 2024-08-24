@@ -8,11 +8,11 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
-import raft.war.language.jass.formatting.block.JassGlobalVarBlock.Companion.getAlignments
+import raft.war.language.jass.formatting.block.JassGlobalVarBlockOld.Companion.getAlignments
 import raft.war.language.jass.psi.JassTypes.*
 
-class JassGlobalsBlock(myNode: ASTNode, code: CodeStyleSettings) :
-    JassBlock(myNode, null, Indent.getNoneIndent(), code) {
+class JassGlobalsBlockOld(myNode: ASTNode, code: CodeStyleSettings) :
+    JassBlockOld(myNode, null, Indent.getNoneIndent(), code) {
     private val gvarAlignments: HashMap<String, Alignment>
 
     init {
@@ -23,7 +23,7 @@ class JassGlobalsBlock(myNode: ASTNode, code: CodeStyleSettings) :
     override fun makeSubBlock(childNode: ASTNode): Block {
         var indent = Indent.getNormalIndent()
 
-        if (FormatterUtil.isOneOf(childNode, GVAR)) return JassGlobalVarBlock(
+        if (FormatterUtil.isOneOf(childNode, GVAR)) return JassGlobalVarBlockOld(
             childNode,
             null,
             Indent.getNormalIndent(),
@@ -32,7 +32,7 @@ class JassGlobalsBlock(myNode: ASTNode, code: CodeStyleSettings) :
         )
         if (FormatterUtil.isOneOf(childNode, GLOBALS, ENDGLOBALS)) indent = Indent.getNoneIndent()
 
-        return JassBlock(childNode, null, indent, myCodeStyleSettings)
+        return JassBlockOld(childNode, null, indent, myCodeStyleSettings)
     }
 
     override fun getChildAttributes(i: Int): ChildAttributes {

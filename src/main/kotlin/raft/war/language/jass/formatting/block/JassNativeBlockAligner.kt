@@ -21,9 +21,7 @@ class JassNativeBlockAligner internal constructor(private val jass: JassCodeStyl
             Alignment.createAlignment(true)
     }
 
-    fun named(name: String): Alignment? {
-        return map[name]
-    }
+    fun named(name: String): Alignment? = map[name]
 
     fun argument(index: Int): Alignment? {
         if (!jass.AT_NATIVE_DECL_ARGUMENT) return null
