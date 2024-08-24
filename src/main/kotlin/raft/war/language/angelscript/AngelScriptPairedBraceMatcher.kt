@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang
+package raft.war.language.angelscript
 
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
@@ -14,6 +14,6 @@ class AngelScriptPairedBraceMatcher : PairedBraceMatcher {
         BracePair(LBRACK, RBRACK, false),
     )
 
-    override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?): Boolean = false
+    override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?): Boolean = true
     override fun getCodeConstructStart(file: PsiFile, openingBraceOffset: Int): Int = 0
 }

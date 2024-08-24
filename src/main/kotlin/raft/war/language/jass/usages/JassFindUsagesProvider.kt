@@ -1,4 +1,4 @@
-package raft.war.language.jass.findUsages
+package raft.war.language.jass.usages
 
 import com.intellij.lang.HelpID
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner

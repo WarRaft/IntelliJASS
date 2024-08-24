@@ -2,7 +2,6 @@ package raft.war.language.angelscript
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import raft.war.language.angelscript.icons.AngelScriptIcons
-import raft.war.language.angelscript.lang.AngelScriptLanguage
 import javax.swing.Icon
 
 class AngelScriptFileType private constructor() : LanguageFileType(AngelScriptLanguage.instance) {

@@ -3,7 +3,7 @@ package raft.war.language.angelscript.formatting.panel
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 
 class AngelScriptCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
     TabbedLanguageCodeStylePanel(AngelScriptLanguage.instance, currentSettings, settings!!) {

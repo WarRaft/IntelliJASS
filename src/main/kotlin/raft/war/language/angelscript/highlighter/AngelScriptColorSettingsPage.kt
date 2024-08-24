@@ -9,7 +9,7 @@ import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import raft.war.language.angelscript.icons.AngelScriptIcons
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 import javax.swing.Icon
 
 internal class AngelScriptColorSettingsPage : ColorSettingsPage {

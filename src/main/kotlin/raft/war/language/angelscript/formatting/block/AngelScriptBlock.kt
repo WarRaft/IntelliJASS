@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import com.intellij.psi.formatter.FormatterUtil.isWhitespaceOrEmpty
 import raft.war.language.angelscript.formatting.block.utils.AngelScriptBlockSettings
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 import raft.war.language.angelscript.psi.AngelScriptTypes.*
 
 open class AngelScriptBlock(

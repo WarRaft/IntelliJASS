@@ -1,4 +1,4 @@
-package raft.war.language.jass.structureView
+package raft.war.language.jass.structure
 
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement

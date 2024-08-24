@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang.folding
+package raft.war.language.angelscript.folding
 
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
@@ -13,8 +13,8 @@ import com.intellij.psi.util.elementType
 import com.intellij.psi.util.startOffset
 import raft.war.ide.IdeMultiHostInjector.Companion.INJECT_JASS
 import raft.war.language.angelscript.psi.file.AngelScriptFile
-import raft.war.language.angelscript.lang.ANGELSCRIPT_FILE
-import raft.war.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings.Companion.instance
+import raft.war.language.angelscript.ANGELSCRIPT_FILE
+import raft.war.language.angelscript.folding.AngelScriptCodeFoldingSettings.Companion.instance
 import raft.war.language.angelscript.psi.AngelScriptTypes.ENUMS
 import raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT
 

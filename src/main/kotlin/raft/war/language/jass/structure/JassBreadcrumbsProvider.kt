@@ -1,4 +1,4 @@
-package raft.war.language.jass.structureView
+package raft.war.language.jass.structure
 
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement

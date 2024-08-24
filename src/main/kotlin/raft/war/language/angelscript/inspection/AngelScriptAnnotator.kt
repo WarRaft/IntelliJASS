@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang.annotation
+package raft.war.language.angelscript.inspection
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator

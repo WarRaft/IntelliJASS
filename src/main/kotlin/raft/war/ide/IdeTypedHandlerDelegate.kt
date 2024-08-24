@@ -5,10 +5,11 @@ import com.intellij.codeInsight.editorActions.TypedHandlerDelegate
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 import java.io.File
 
 class IdeTypedHandlerDelegate : TypedHandlerDelegate() {
+
     override fun checkAutoPopup(charTyped: Char, project: Project, editor: Editor, file: PsiFile): Result {
         if (file.language is AngelScriptLanguage) {
             if (charTyped == '#') {

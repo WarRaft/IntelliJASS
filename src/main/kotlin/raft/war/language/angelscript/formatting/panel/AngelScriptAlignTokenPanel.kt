@@ -6,7 +6,7 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.util.NlsContexts
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 import raft.war.language.angelscript.AngelScriptFileType
 
 class AngelScriptAlignTokenPanel(settings: CodeStyleSettings?) : OptionTreeWithPreviewPanel(settings) {

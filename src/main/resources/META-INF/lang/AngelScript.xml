@@ -9,7 +9,7 @@
 
         <!-- parser -->
         <lang.parserDefinition language="AngelScript"
-                               implementationClass="raft.war.language.angelscript.lang.AngelScriptParserDefinition"/>
+                               implementationClass="raft.war.language.angelscript.AngelScriptParserDefinition"/>
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
@@ -27,19 +27,19 @@
 
         <!-- annotator -->
         <annotator language="AngelScript"
-                   implementationClass="raft.war.language.angelscript.lang.annotation.AngelScriptAnnotator"/>
+                   implementationClass="raft.war.language.angelscript.inspection.AngelScriptAnnotator"/>
 
         <!-- braces -->
         <lang.braceMatcher language="AngelScript"
-                           implementationClass="raft.war.language.angelscript.lang.AngelScriptPairedBraceMatcher"/>
+                           implementationClass="raft.war.language.angelscript.AngelScriptPairedBraceMatcher"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="AngelScript"
-                             implementationClass="raft.war.language.angelscript.lang.folding.AngelScriptCustomFoldingBuilder"/>
+                             implementationClass="raft.war.language.angelscript.folding.AngelScriptCustomFoldingBuilder"/>
         <codeFoldingOptionsProvider
-                instance="raft.war.language.angelscript.lang.folding.AngelScriptCodeFoldingOptionsProvider"/>
+                instance="raft.war.language.angelscript.folding.AngelScriptCodeFoldingOptionsProvider"/>
         <applicationService
-                serviceImplementation="raft.war.language.angelscript.lang.folding.AngelScriptCodeFoldingSettings"/>
+                serviceImplementation="raft.war.language.angelscript.folding.AngelScriptCodeFoldingSettings"/>
 
         <!-- completion -->
         <completion.contributor language="AngelScript"
@@ -56,7 +56,7 @@
         <!-- commenter -->
         <lang.commenter
                 language="AngelScript"
-                implementationClass="raft.war.language.angelscript.lang.AngelScriptCommenter"/>
+                implementationClass="raft.war.language.angelscript.AngelScriptCommenter"/>
 
     </extensions>
 </idea-plugin>

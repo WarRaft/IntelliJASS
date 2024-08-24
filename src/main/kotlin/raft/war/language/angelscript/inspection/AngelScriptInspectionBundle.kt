@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.codeInspection
+package raft.war.language.angelscript.inspection
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls

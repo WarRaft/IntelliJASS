@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang
+package raft.war.language.angelscript
 
 import com.intellij.lang.Language
 

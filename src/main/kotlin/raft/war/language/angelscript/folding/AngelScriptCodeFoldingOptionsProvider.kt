@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang.folding
+package raft.war.language.angelscript.folding
 
 import com.intellij.application.options.editor.CodeFoldingOptionsProvider
 import com.intellij.openapi.options.BeanConfigurable

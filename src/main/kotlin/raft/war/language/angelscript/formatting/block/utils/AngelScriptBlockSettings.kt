@@ -4,7 +4,7 @@ import com.intellij.formatting.FormattingContext
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings
-import raft.war.language.angelscript.lang.AngelScriptLanguage
+import raft.war.language.angelscript.AngelScriptLanguage
 
 class AngelScriptBlockSettings(formattingContext: FormattingContext) {
     val code: CodeStyleSettings = formattingContext.codeStyleSettings

@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.lang.folding
+package raft.war.language.angelscript.folding
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent

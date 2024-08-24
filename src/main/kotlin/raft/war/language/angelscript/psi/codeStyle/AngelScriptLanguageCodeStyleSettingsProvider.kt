@@ -12,7 +12,7 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings.IndentOptions
 import raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings
 import raft.war.language.angelscript.formatting.panel.AngelScriptAlignTokenPanel
 import raft.war.language.angelscript.formatting.panel.AngelScriptCodeStyleMainPanel
-import raft.war.language.angelscript.lang.AngelScriptLanguage.Companion.instance
+import raft.war.language.angelscript.AngelScriptLanguage.Companion.instance
 
 internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings =
