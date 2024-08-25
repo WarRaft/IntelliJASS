@@ -7,13 +7,14 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil
 import raft.war.language.jass.formatting.JassCodeStyleSettings
+import raft.war.language.jass.formatting.aligner.JassNativAligner
 import raft.war.language.jass.psi.JassTypes.*
 
 class JassNativeBlockOld(
     myNode: ASTNode,
     myIndent: Indent?,
     myCodeStyleSettings: CodeStyleSettings,
-    private val aligner: JassNativeBlockAligner
+    private val aligner: JassNativAligner
 ) : JassBlockOld(myNode, null, myIndent, myCodeStyleSettings) {
 
     override fun makeSubBlock(childNode: ASTNode): Block {

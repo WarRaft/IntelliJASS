@@ -5,6 +5,8 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.formatter.FormatterUtil
 
+// https://plugins.jetbrains.com/docs/intellij/code-formatting.html
+
 abstract class IdeBlock(open val data: IdeBlockData) : ASTBlock {
     private var mySubBlocks: MutableList<Block>? = null
 
@@ -29,7 +31,7 @@ abstract class IdeBlock(open val data: IdeBlockData) : ASTBlock {
 
     override fun getIndent(): Indent? = data.indent
 
-    override fun getAlignment(): Alignment? = null
+    override fun getAlignment(): Alignment? = data.alignment
 
     override fun getSpacing(child1: Block?, child2: Block): Spacing? = null
 

@@ -1,9 +1,9 @@
-package raft.war.language.jass.formatting.block
+package raft.war.language.jass.formatting.aligner
 
 import com.intellij.formatting.Alignment
 import raft.war.language.jass.formatting.JassCodeStyleSettings
 
-class JassNativeBlockAligner internal constructor(private val jass: JassCodeStyleSettings) {
+class JassNativAligner internal constructor(private val jass: JassCodeStyleSettings) {
     private val map = HashMap<String, Alignment>()
     private val list = ArrayList<Alignment>()
 
