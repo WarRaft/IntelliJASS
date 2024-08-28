@@ -4,7 +4,6 @@ import com.intellij.formatting.FormattingContext
 import com.intellij.formatting.FormattingModel
 import com.intellij.formatting.FormattingModelBuilder
 import com.intellij.formatting.FormattingModelProvider
-import raft.war.language.jass.formatting.aligner.JassTypeAligner
 
 internal class JassFormattingModelBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
@@ -21,7 +20,7 @@ internal class JassFormattingModelBuilder : FormattingModelBuilder {
                         jass = jass,
                         indent = null,
                         alignment = null,
-                        typeAligner = JassTypeAligner(jass)
+                        typeAligner = null,
                     )
                 ),
                 code

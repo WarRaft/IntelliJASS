@@ -5,6 +5,8 @@ import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import raft.war.ide.formatting.IdeBlockData
+import raft.war.language.jass.formatting.aligner.JassGlobAligner
+import raft.war.language.jass.formatting.aligner.JassNativAligner
 import raft.war.language.jass.formatting.aligner.JassTypeAligner
 
 data class JassBlockData(
@@ -13,7 +15,9 @@ data class JassBlockData(
     val jass: JassCodeStyleSettings,
     override val indent: Indent?,
     override val alignment: Alignment?,
-    var typeAligner: JassTypeAligner?,
+    val typeAligner: JassTypeAligner? = null,
+    val globAligner: JassGlobAligner? = null,
+    val nativAligner: JassNativAligner? = null,
 ) :
     IdeBlockData(
         node = node,
@@ -21,7 +25,6 @@ data class JassBlockData(
         indent = indent,
         alignment = alignment,
     ) {
-    init {
-        typeAligner ?: JassTypeAligner(jass)
-    }
+    val typeAlignerAll = JassTypeAligner(jass)
+    val nativAlignerAll = JassNativAligner(jass)
 }

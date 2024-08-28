@@ -35,10 +35,9 @@ abstract class IdeBlock(open val data: IdeBlockData) : ASTBlock {
 
     override fun getSpacing(child1: Block?, child2: Block): Spacing? = null
 
-    override fun getChildAttributes(newChildIndex: Int): ChildAttributes =
-        ChildAttributes(Indent.getNoneIndent(), null)
+    override fun getChildAttributes(newChildIndex: Int): ChildAttributes = ChildAttributes(null, null)
 
-    override fun isIncomplete(): Boolean = false
+    override fun isIncomplete(): Boolean = true
 
-    override fun isLeaf(): Boolean = false
+    override fun isLeaf(): Boolean = node.firstChildNode == null
 }
