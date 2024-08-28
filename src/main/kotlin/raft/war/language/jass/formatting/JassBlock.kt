@@ -2,105 +2,127 @@ package raft.war.language.jass.formatting
 
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.formatter.FormatterUtil.isOneOf
 import com.intellij.psi.formatter.FormatterUtil.isWhitespaceOrEmpty
 import raft.war.ide.formatting.IdeBlock
 import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.formatting.aligner.JassGlobAligner
+import raft.war.language.jass.formatting.aligner.JassNativAligner
+import raft.war.language.jass.formatting.aligner.JassTypeAligner
 import raft.war.language.jass.psi.JassFunTake
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
 
-class JassBlock(override val data: JassBlockData) : IdeBlock(data) {
+class JassBlock(
+    node: ASTNode,
+    indent: Indent? = null,
+    alignment: Alignment? = null,
+    code: CodeStyleSettings,
+    common: CommonCodeStyleSettings,
+    val jass: JassCodeStyleSettings,
+    private val typeAligner: JassTypeAligner? = null,
+    private val globAligner: JassGlobAligner? = null,
+    private val nativAligner: JassNativAligner? = null,
+) : IdeBlock(
+    node = node,
+    indent = indent,
+    alignment = alignment,
+    code = code,
+    common = common,
+) {
+    private val typeAlignerAll = JassTypeAligner(jass)
+    private val nativAlignerAll = JassNativAligner(jass)
 
     override fun makeSubBlock(childNode: ASTNode): Block {
-        var node = childNode
-        val nodeType = node.elementType
-        var indent = data.indent
-        var alignment = data.alignment
+        var newNode = childNode
+        val nodeType = newNode.elementType
+        var newIndent: Indent? = null
+        var newAlignment: Alignment? = null
 
         val parent = childNode.psi.parent
 
         if (parent is JassFile && isOneOf(childNode, TYPE_DEF, NATIV, GLOB, FUN, LINE_COMMENT)) {
-            indent = Indent.getNoneIndent()
+            newIndent = Indent.getNoneIndent()
         }
 
         when (nodeType) {
             TYPE_NAME -> {
-                alignment = when {
-                    data.typeAligner != null -> data.typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_TYPE_RIGHT.name)
-                    data.globAligner != null -> data.globAligner.alignment(JassCodeStyleSettings::AT_GVAR_TYPE.name)
-                    else -> alignment
+                newAlignment = when {
+                    typeAligner != null -> typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_TYPE_RIGHT.name)
+                    globAligner != null -> globAligner.alignment(JassCodeStyleSettings::AT_GVAR_TYPE.name)
+                    else -> null
                 }
-                node = node.firstChildNode
+                newNode = newNode.firstChildNode
             }
 
-            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF -> {
-                //indent = Indent.getNoneIndent()
+            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF, GLOBALS, ENDGLOBALS -> {
+                newIndent = Indent.getNoneIndent()
             }
 
-            FUN_BODY -> {
-                indent = Indent.getNormalIndent()
+            FUN_BODY, GVAR -> {
+                newIndent = Indent.getNormalIndent()
             }
         }
 
         // -- typedef
-        if (data.typeAligner != null) {
+        if (typeAligner != null) {
             when (nodeType) {
                 EXTENDS -> {
-                    alignment = data.typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name)
+                    newAlignment = typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name)
                 }
 
                 TYPE_NAME_BASE -> {
-                    alignment = data.typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name)
-                    node = node.firstChildNode.firstChildNode
+                    newAlignment = typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name)
+                    newNode = newNode.firstChildNode.firstChildNode
                 }
             }
         }
 
         // -- globals
-        if (data.globAligner != null) {
+        if (globAligner != null) {
             when (nodeType) {
                 ARRAY -> {
-                    alignment = data.globAligner.alignment(JassCodeStyleSettings::AT_GVAR_ARRAY.name)
+                    newAlignment = globAligner.alignment(JassCodeStyleSettings::AT_GVAR_ARRAY.name)
                 }
 
                 ID -> {
-                    alignment = data.globAligner.alignment(JassCodeStyleSettings::AT_GVAR_NAME.name)
+                    newAlignment = globAligner.alignment(JassCodeStyleSettings::AT_GVAR_NAME.name)
                 }
 
                 EQ -> {
-                    alignment = data.globAligner.alignment(JassCodeStyleSettings::AT_GVAR_ASSIGN.name)
+                    newAlignment = globAligner.alignment(JassCodeStyleSettings::AT_GVAR_ASSIGN.name)
                 }
             }
         }
 
         // -- nativ
-        if (data.nativAligner != null) {
+        if (nativAligner != null) {
             when (nodeType) {
-                NATIVE -> alignment = data.nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NATIVE.name)
+                NATIVE -> newAlignment = nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NATIVE.name)
                 FUN_NAME -> {
-                    alignment = data.nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NAME.name)
-                    node = node.firstChildNode
+                    newAlignment = nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_NAME.name)
+                    newNode = newNode.firstChildNode
                 }
 
                 NOTHING -> {
-                    if (data.jass.AT_NATIVE_DECL_ARGUMENT) {
+                    if (jass.AT_NATIVE_DECL_ARGUMENT) {
                         if (parent is JassFunTake) {
                             if (parent.nothing != null) {
-                                alignment = data.nativAligner.argument(0)
+                                newAlignment = nativAligner.argument(0)
                             }
                         }
                     }
                 }
 
                 TAKES -> {
-                    alignment = data.nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_TAKES.name)
+                    newAlignment = nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_TAKES.name)
 
                 }
 
                 PARAM -> {
-                    if (data.jass.AT_NATIVE_DECL_ARGUMENT) {
+                    if (jass.AT_NATIVE_DECL_ARGUMENT) {
                         val children = childNode.treeParent.getChildren(null)
                         var index = -1
                         for (child in children) {
@@ -108,38 +130,35 @@ class JassBlock(override val data: JassBlockData) : IdeBlock(data) {
                             if (childNode.elementType !== child.elementType) continue
                             index++
                             if (childNode !== child) continue
-                            alignment = data.nativAligner.argument(index)
+                            newAlignment = nativAligner.argument(index)
                             break
                         }
                     }
                 }
 
-                RETURNS -> alignment = data.nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_RETURNS.name)
+                RETURNS -> newAlignment = nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_RETURNS.name)
             }
         }
 
         return JassBlock(
-            JassBlockData(
-                node = node,
-                code = data.code,
-                jass = data.jass,
-                indent = indent,
-                alignment = alignment,
-                typeAligner = if (nodeType == TYPE_DEF) data.typeAlignerAll else data.typeAligner,
-                globAligner = if (nodeType == GLOB) JassGlobAligner(data.jass) else data.globAligner,
-                nativAligner = if (nodeType == NATIV) data.nativAlignerAll else data.nativAligner,
-            )
+            node = newNode,
+            indent = newIndent,
+            alignment = newAlignment,
+            code = code,
+            common = common,
+            jass = jass,
+            typeAligner = if (nodeType == TYPE_DEF) typeAlignerAll else typeAligner,
+            globAligner = if (nodeType == GLOB) JassGlobAligner(jass) else globAligner,
+            nativAligner = if (nodeType == NATIV) nativAlignerAll else nativAligner
         )
     }
 
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
-        val code = data.code.getCommonSettings(instance.id)
+        val sac = if (common.SPACE_AFTER_COMMA) 1 else 0
+        val sbc = if (common.SPACE_BEFORE_COMMA) 1 else 0
+        val saao = if (common.SPACE_AROUND_ASSIGNMENT_OPERATORS) 1 else 0
 
-        val sac = if (code.SPACE_AFTER_COMMA) 1 else 0
-        val sbc = if (code.SPACE_BEFORE_COMMA) 1 else 0
-        val saao = if (code.SPACE_AROUND_ASSIGNMENT_OPERATORS) 1 else 0
-
-        return SpacingBuilder(data.code, instance)
+        return SpacingBuilder(code, instance)
             // type
             .after(TYPE).spacing(1, 1, 0, false, 0)
             .around(TYPE_NAME).spacing(1, 1, 0, false, 0)

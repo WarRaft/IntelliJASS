@@ -4,6 +4,7 @@ import com.intellij.formatting.FormattingContext
 import com.intellij.formatting.FormattingModel
 import com.intellij.formatting.FormattingModelBuilder
 import com.intellij.formatting.FormattingModelProvider
+import raft.war.language.jass.JassLanguage.Companion.instance
 
 internal class JassFormattingModelBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
@@ -14,14 +15,10 @@ internal class JassFormattingModelBuilder : FormattingModelBuilder {
             .createFormattingModelForPsiFile(
                 formattingContext.containingFile,
                 JassBlock(
-                    JassBlockData(
-                        node = formattingContext.node,
-                        code = code,
-                        jass = jass,
-                        indent = null,
-                        alignment = null,
-                        typeAligner = null,
-                    )
+                    node = formattingContext.node,
+                    code = code,
+                    common = code.getCommonSettings(instance.id),
+                    jass = jass,
                 ),
                 code
             )
