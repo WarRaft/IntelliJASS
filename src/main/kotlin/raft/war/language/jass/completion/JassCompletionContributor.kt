@@ -72,11 +72,13 @@ internal class JassCompletionContributor : CompletionContributor() {
         }
 
         // else
-        if (data.parent!!.parent is JassIfStmt) {
-            data.addStart(LookupElementBuilder.create("else")
-                .withInsertHandler { ctx, _ ->
-                    data.templateInsert(ctx, "else\n\$END\$")
-                })
+        when (data.parent!!.parent) {
+            is JassIfStmt, is JassElseIfStmt -> {
+                data.addStart(LookupElementBuilder.create("else")
+                    .withInsertHandler { ctx, _ ->
+                        data.templateInsert(ctx, "else\n\$END\$")
+                    })
+            }
         }
 
         // elseif
@@ -116,12 +118,14 @@ internal class JassCompletionContributor : CompletionContributor() {
 
             // call
             data.addStart(LookupElementBuilder.create("call").withInsertHandler { ctx, _ ->
-                data.templateInsert(ctx, "call \$END\$")
+                ctx.document.insertString(ctx.tailOffset, " ")
+                ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
                 AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
             })
 
             data.addStart(LookupElementBuilder.create("debug").withInsertHandler { ctx, _ ->
-                data.templateInsert(ctx, "debug call \$END\$")
+                ctx.document.insertString(ctx.tailOffset, " call ")
+                ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
                 AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
             })
         }
