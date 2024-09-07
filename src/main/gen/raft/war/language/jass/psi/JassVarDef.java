@@ -14,13 +14,13 @@ public interface JassVarDef extends JassCompositeElement {
   @NotNull
   JassTypeName getTypeName();
 
+  @NotNull
+  JassVarName getVarName();
+
   @Nullable
   PsiElement getArray();
 
   @Nullable
   PsiElement getEq();
-
-  @NotNull
-  PsiElement getId();
 
 }

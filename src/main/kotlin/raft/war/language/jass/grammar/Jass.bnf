@@ -92,13 +92,28 @@
 Root ::= (TypeDef|Nativ|Glob|Fun)* {recoverWhile=RootRecover}
 private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
 
+// === STUB
+FunName ::= ID {
+    implements="raft.war.language.jass.psi.JassNamedElement"
+    extends="raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
+    stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
+    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+}
+
+VarName ::= ID {
+   implements="raft.war.language.jass.psi.JassNamedElement"
+   extends="raft.war.language.jass.psi.varName.JassVarNameBaseImpl"
+   stubClass="raft.war.language.jass.psi.varName.JassVarNameStub"
+   elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+}
+
 // === type
 TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
 TypeNameBase ::= TypeName
 
 // === globals
-VarDef ::= TypeName ARRAY? ID (EQ Expr)? {pin=3}
+VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {pin=3}
 
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
 Gvar ::= CONSTANT? VarDef {pin=2 recoverWhile=GvarRecover}
@@ -108,7 +123,7 @@ private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName)
 ArgList ::= Expr (COMMA Expr)*
 FunCall ::= FunName LPAREN ArgList? RPAREN {pin=2}
 
-Param ::= TypeName ID
+Param ::= TypeName VarName
 ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
 private ParamListRecover ::= !(RETURNS)
 
@@ -123,13 +138,6 @@ FunBody ::= Stmt* {recoverWhile=FunBodyRecover}
 private FunBodyRecover ::= !(ENDFUNCTION|LOOP|ENDLOOP|ELSE|ELSEIF|ENDIF)
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
-
-FunName ::= ID {
-    implements="raft.war.language.jass.psi.JassNamedElement"
-    extends="raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
-    stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
-    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
-}
 
 // === STATEMENT
 Stmt
@@ -150,7 +158,7 @@ private StmtRecover ::= !(ID|
 
 LvarStmt ::= LOCAL? VarDef {pin=2}
 
-SetStmt ::= SET? (ArrayAccess|ID) EQ Expr {pin=3}
+SetStmt ::= SET? (ArrayAccess|VarName) EQ Expr {pin=3}
 
 CallStmt ::= DEBUG? ((CALL? FunCall)|(CALL FunCall?))
 
@@ -217,7 +225,7 @@ PrimExpr ::=
     TRUE|
     Num |
     Str |
-    ID
+    VarName
 
-ArrayAccess ::= ID LBRACK Expr? RBRACK
+ArrayAccess ::= VarName LBRACK Expr? RBRACK
 FunRef ::= FUNCTION FunName {pin=1}

@@ -8,17 +8,23 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static raft.war.language.jass.psi.JassTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import raft.war.language.jass.psi.varName.JassVarNameBaseImpl;
 import raft.war.language.jass.psi.*;
+import raft.war.language.jass.psi.varName.JassVarNameStub;
+import com.intellij.psi.stubs.IStubElementType;
 
-public class JassArrayAccessImpl extends ASTWrapperPsiElement implements JassArrayAccess {
+public class JassVarNameImpl extends JassVarNameBaseImpl implements JassVarName {
 
-  public JassArrayAccessImpl(@NotNull ASTNode node) {
+  public JassVarNameImpl(@NotNull JassVarNameStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public JassVarNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitArrayAccess(this);
+    visitor.visitVarName(this);
   }
 
   @Override
@@ -28,27 +34,9 @@ public class JassArrayAccessImpl extends ASTWrapperPsiElement implements JassArr
   }
 
   @Override
-  @Nullable
-  public JassExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, JassExpr.class);
-  }
-
-  @Override
   @NotNull
-  public JassVarName getVarName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarName.class));
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getLbrack() {
-    return notNullChild(findChildByType(LBRACK));
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getRbrack() {
-    return notNullChild(findChildByType(RBRACK));
+  public PsiElement getId() {
+    return notNullChild(findChildByType(ID));
   }
 
 }

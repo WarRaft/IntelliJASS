@@ -210,7 +210,8 @@ class JassBlock(
         }
 
         when (node.elementType) {
-            FUN, LOOP_STMT, IF_STMT, ELSE_STMT, ELSE_IF_STMT -> ChildAttributes(Indent.getNormalIndent(), null)
+            FUN, LOOP_STMT, IF_STMT, ELSE_STMT, ELSE_IF_STMT -> return ChildAttributes(Indent.getNormalIndent(), null)
+            FUN_BODY -> return ChildAttributes(Indent.getNoneIndent(), null)
         }
 
         return super.getChildAttributes(newChildIndex)

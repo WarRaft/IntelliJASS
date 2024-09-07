@@ -59,6 +59,7 @@ public interface JassTypes {
   IElementType TYPE_NAME = new JassElementType("TYPE_NAME");
   IElementType TYPE_NAME_BASE = new JassElementType("TYPE_NAME_BASE");
   IElementType VAR_DEF = new JassElementType("VAR_DEF");
+  IElementType VAR_NAME = JassElementTypeFactory.factory("VAR_NAME");
 
   IElementType AND = new JassTokenType("and");
   IElementType ARRAY = new JassTokenType("array");
@@ -273,6 +274,9 @@ public interface JassTypes {
       }
       else if (type == VAR_DEF) {
         return new JassVarDefImpl(node);
+      }
+      else if (type == VAR_NAME) {
+        return new JassVarNameImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

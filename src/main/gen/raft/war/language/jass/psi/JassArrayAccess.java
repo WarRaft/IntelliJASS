@@ -12,7 +12,7 @@ public interface JassArrayAccess extends JassCompositeElement {
   JassExpr getExpr();
 
   @NotNull
-  PsiElement getId();
+  JassVarName getVarName();
 
   @NotNull
   PsiElement getLbrack();

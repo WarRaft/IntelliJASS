@@ -92,9 +92,9 @@ class AngelScriptCompletionContributor : CompletionContributor() {
 
                             // add variables
                             if (take != null) take.paramList?.paramList?.forEach {
-                                val vname = "P${it.id.text}"
+                                val vname = "P${it.varName.text}"
                                 tslist.add("\$$vname\$")
-                                tvlist.add(TemplateVariable(vname, it.id.text))
+                                tvlist.add(TemplateVariable(vname, it.varName.text))
                             }
 
                             data.templateInsert(

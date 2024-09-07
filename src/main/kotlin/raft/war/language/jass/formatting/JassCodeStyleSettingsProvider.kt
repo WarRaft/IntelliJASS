@@ -1,4 +1,4 @@
-package raft.war.language.jass
+package raft.war.language.jass.formatting
 
 import com.ibm.icu.impl.Pair
 import com.intellij.application.options.CodeStyleAbstractConfigurable
@@ -7,11 +7,11 @@ import com.intellij.application.options.IndentOptionsEditor
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.lang.Language
 import com.intellij.psi.codeStyle.*
-import raft.war.language.jass.formatting.JassCodeStyleSettings
+import raft.war.language.jass.JassLanguage
 import raft.war.language.jass.formatting.panel.JassAlignTokenPanel
 import raft.war.language.jass.formatting.panel.JassCodeStyleMainPanel
 
-internal class JassLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
+internal class JassCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
         return JassCodeStyleSettings(settings)
     }
@@ -20,7 +20,8 @@ internal class JassLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         settings: CodeStyleSettings,
         modelSettings: CodeStyleSettings
     ): CodeStyleConfigurable {
-        return object : CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.instance.displayName) {
+        return object :
+            CodeStyleAbstractConfigurable(settings, modelSettings, JassLanguage.Companion.instance.displayName) {
             override fun createPanel(settings: CodeStyleSettings): CodeStyleAbstractPanel =
                 JassCodeStyleMainPanel(currentSettings, settings)
 
@@ -28,7 +29,7 @@ internal class JassLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         }
     }
 
-    override fun getLanguage(): Language = JassLanguage.instance
+    override fun getLanguage(): Language = JassLanguage.Companion.instance
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         when (settingsType) {

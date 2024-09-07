@@ -15,10 +15,9 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         if (keywords.contains(name)) stringBuffer.append(KEYWORD_SUFFIX)
     }
 
-    @JvmField
-    var keywords: HashSet<String> = HashSet()
 
-    @JvmField
+    var keywords: HashSet<String> = HashSet()
+    
     var stringBuffer: StringBuffer = StringBuffer()
 
     open fun appendSingleLineComment(comment: String?) {
@@ -88,7 +87,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             global,
             varDef.array != null,
             getConvertedTypeName(varDef.typeName.text),
-            getSafeName(varDef.id.text),
+            getSafeName(varDef.varName.text),
             varDef.expr
         )
     }
@@ -137,8 +136,8 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
     // set
     override fun visitSetStmt(o: JassSetStmt) {
-        val id = o.id
-        if (id != null) appendSafeName(id.text)
+        val vn = o.varName
+        if (vn != null) appendSafeName(vn.text)
         val arr = o.arrayAccess
         arr?.accept(this)
         val expr = o.expr
@@ -199,7 +198,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     }
 
     override fun visitArrayAccess(o: JassArrayAccess) {
-        stringBuffer.append(o.id.text).append("[")
+        stringBuffer.append(o.varName.text).append("[")
         val expr = o.expr
         expr?.accept(this)
         stringBuffer.append("]")
@@ -256,9 +255,9 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             appendNull()
             return
         }
-        val id = o.id
-        if (id != null) {
-            appendSafeName(id.text)
+        val vn = o.varName
+        if (vn != null) {
+            appendSafeName(vn.text)
             return
         }
 

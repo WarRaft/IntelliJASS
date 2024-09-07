@@ -42,7 +42,7 @@
         <lang.formatter language="JASS"
                         implementationClass="raft.war.language.jass.formatting.JassFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="raft.war.language.jass.JassLanguageCodeStyleSettingsProvider"/>
+                implementation="raft.war.language.jass.formatting.JassCodeStyleSettingsProvider"/>
 
         <!-- find usage -->
         <lang.findUsagesProvider
@@ -56,6 +56,7 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.refactor.JassRefactoringSupportProvider"/>
         <renameInputValidator implementation="raft.war.language.jass.refactor.JassRenameInputValidator"/>
+        <renamePsiElementProcessor implementation="raft.war.language.jass.refactor.rename.JassRenamePsiElementProcessorVarName"/>
 
         <!-- reference -->
         <psi.referenceContributor language="JASS"
@@ -72,6 +73,7 @@
 
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
+        <stubIndex implementation="raft.war.language.jass.psi.varName.JassVarNameIndex"/>
 
         <!-- structure -->
         <lang.psiStructureViewFactory

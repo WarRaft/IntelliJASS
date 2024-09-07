@@ -211,6 +211,10 @@ public class JassVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitVarName(@NotNull JassVarName o) {
+    visitNamedElement(o);
+  }
+
   public void visitNamedElement(@NotNull JassNamedElement o) {
     visitCompositeElement(o);
   }

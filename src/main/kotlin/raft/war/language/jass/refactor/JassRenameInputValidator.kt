@@ -8,7 +8,7 @@ import com.intellij.refactoring.rename.RenameInputValidator
 import com.intellij.util.ProcessingContext
 import raft.war.language.jass.psi.JassNamedElement
 
-val regex = Regex("[a-zA-Z][a-zA-Z0-9_]*")
+private val regex = Regex("[a-zA-Z][a-zA-Z0-9_]*")
 
 class JassRenameInputValidator : RenameInputValidator {
     override fun getPattern(): ElementPattern<out PsiElement> = object : ElementPattern<PsiElement> {

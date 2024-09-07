@@ -23,10 +23,10 @@ public interface JassPrimExpr extends JassExpr {
   JassStr getStr();
 
   @Nullable
-  PsiElement getFalse();
+  JassVarName getVarName();
 
   @Nullable
-  PsiElement getId();
+  PsiElement getFalse();
 
   @Nullable
   PsiElement getNull();

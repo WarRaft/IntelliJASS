@@ -189,10 +189,10 @@ internal class JassCompletionContributor : CompletionContributor() {
                             val tslist: MutableList<String> = mutableListOf()
                             val tvlist: MutableList<TemplateVariable> = mutableListOf()
 
-                            if (take != null) take.paramList?.paramList?.forEach {
-                                val vname = "P${it.id.text}"
+                            take?.paramList?.paramList?.forEach {
+                                val vname = "P${it.varName.text}"
                                 tslist.add("\$$vname\$")
-                                tvlist.add(TemplateVariable(vname, it.id.text))
+                                tvlist.add(TemplateVariable(vname, it.varName.text))
                             }
 
                             val eol = if (call.isEmpty()) "" else "\n"

@@ -14,11 +14,11 @@ public interface JassSetStmt extends JassCompositeElement {
   @Nullable
   JassExpr getExpr();
 
+  @Nullable
+  JassVarName getVarName();
+
   @NotNull
   PsiElement getEq();
-
-  @Nullable
-  PsiElement getId();
 
   @Nullable
   PsiElement getSet();

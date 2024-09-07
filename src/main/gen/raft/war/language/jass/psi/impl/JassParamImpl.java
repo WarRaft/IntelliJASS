@@ -35,8 +35,8 @@ public class JassParamImpl extends ASTWrapperPsiElement implements JassParam {
 
   @Override
   @NotNull
-  public PsiElement getId() {
-    return notNullChild(findChildByType(ID));
+  public JassVarName getVarName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarName.class));
   }
 
 }

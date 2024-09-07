@@ -12,6 +12,6 @@ public interface JassParam extends JassCompositeElement {
   JassTypeName getTypeName();
 
   @NotNull
-  PsiElement getId();
+  JassVarName getVarName();
 
 }

@@ -140,7 +140,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
                 stringBuffer.append(getConvertedTypeName(type.text))
             }
             stringBuffer.append(" ")
-            appendSafeName(param.id.text)
+            appendSafeName(param.varName.text)
             if (i < params.size - 1) stringBuffer.append(", ")
         }
         stringBuffer.append("){\n")
@@ -181,8 +181,8 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
 
     // set
     override fun visitSetStmt(o: JassSetStmt) {
-        val id = o.id
-        if (id != null) appendSafeName(id.text)
+        val vn = o.varName
+        if (vn != null) appendSafeName(vn.text)
         val arr = o.arrayAccess
         arr?.accept(this)
         val expr = o.expr
