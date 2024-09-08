@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.impl.JassVarNameImpl
 import raft.war.language.jass.psi.stub.JassNamedStubElementType
 
 class JassVarNameStubElementType(debugName: String) :
-    JassNamedStubElementType<JassVarNameStub, JassVarName>(debugName) {
+    JassNamedStubElementType<JassVarNameStub, JassVarName>(debugName, VAR_NAME_KEY) {
     override fun serialize(stub: JassVarNameStub, dataStream: StubOutputStream) = dataStream.writeName(stub.name)
 
     override fun shouldCreateStub(node: ASTNode?): Boolean = node?.psi is JassVarName

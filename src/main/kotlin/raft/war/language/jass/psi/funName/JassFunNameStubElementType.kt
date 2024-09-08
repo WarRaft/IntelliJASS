@@ -1,6 +1,7 @@
 package raft.war.language.jass.psi.funName
 
 import com.intellij.lang.ASTNode
+import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
@@ -9,7 +10,8 @@ import raft.war.language.jass.psi.stub.JassNamedStubElementType
 import raft.war.language.jass.psi.impl.JassFunNameImpl
 
 class JassFunNameStubElementType(debugName: String) :
-    JassNamedStubElementType<JassFunNameStub, JassFunName>(debugName) {
+    JassNamedStubElementType<JassFunNameStub, JassFunName>(debugName, FUN_NAME_KEY) {
+
     override fun serialize(stub: JassFunNameStub, dataStream: StubOutputStream) = dataStream.writeName(stub.name)
 
     override fun shouldCreateStub(node: ASTNode?): Boolean = node?.psi is JassFunName

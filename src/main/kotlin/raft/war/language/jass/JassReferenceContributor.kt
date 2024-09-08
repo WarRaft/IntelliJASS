@@ -8,7 +8,7 @@ import com.intellij.psi.stubs.StubIndex
 import com.intellij.util.ProcessingContext
 import com.intellij.util.containers.OrderedSet
 import raft.war.language.jass.psi.*
-import raft.war.language.jass.psi.funName.KEY
+import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 internal class JassReferenceContributor : PsiReferenceContributor() {
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
@@ -41,7 +41,7 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                         override fun resolveDeclaration(): List<PsiElement> {
                             val scope = GlobalSearchScope.allScope(element.project)
                             StubIndex.getElements(
-                                KEY,
+                                FUN_NAME_KEY,
                                 myText,
                                 element.project,
                                 scope,

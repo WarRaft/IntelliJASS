@@ -19,7 +19,7 @@ import raft.war.language.jass.psi.JassFunCall
 import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassTypeName
-import raft.war.language.jass.psi.funName.KEY
+import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 
 internal class JassAnnotator : Annotator {
@@ -37,7 +37,7 @@ internal class JassAnnotator : Annotator {
             if (lib == null) return false
 
             for (fn in StubIndex.getElements(
-                KEY,
+                FUN_NAME_KEY,
                 elem.text,
                 element.project,
                 GlobalSearchScope.allScope(element.project),
@@ -51,7 +51,7 @@ internal class JassAnnotator : Annotator {
         if (element is JassNativ) {
             val name = element.funName
             if (name != null) {
-                val inSdkElem = lib?.contains(element.containingFile.virtualFile) ?: false
+                val inSdkElem = lib?.contains(element.containingFile.virtualFile) == true
                 val inSdkDecl = inSdkFunIndex(name)
 
                 holder
@@ -71,7 +71,7 @@ internal class JassAnnotator : Annotator {
         if (element is JassFun) {
             val name = element.funHead.funName
             if (name != null) {
-                val inSdkElem = lib?.contains(element.containingFile.virtualFile) ?: false
+                val inSdkElem = lib?.contains(element.containingFile.virtualFile) == true
                 val inSdkDecl = inSdkFunIndex(name)
 
                 holder

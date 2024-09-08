@@ -17,7 +17,7 @@ import raft.war.ide.utils.IdeCompletionData.TemplateVariable
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
-import raft.war.language.jass.psi.funName.KEY
+import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 // https://intellij-icons.jetbrains.design/
 
@@ -140,10 +140,10 @@ internal class JassCompletionContributor : CompletionContributor() {
 
         val scope = GlobalSearchScope.allScope(data.project)
         StubIndex.getInstance().processAllKeys(
-            KEY,
+            FUN_NAME_KEY,
             { stubKey ->
                 StubIndex.getElements(
-                    KEY,
+                    FUN_NAME_KEY,
                     stubKey,
                     data.project,
                     scope,

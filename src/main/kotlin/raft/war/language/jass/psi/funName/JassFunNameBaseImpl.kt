@@ -39,13 +39,13 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
 
             override fun resolveDeclaration(): List<PsiElement> {
                 StubIndex.getElements(
-                    KEY,
+                    FUN_NAME_KEY,
                     myText,
                     project,
                     GlobalSearchScope.allScope(project),
                     JassNamedElement::class.java,
-                ).forEach { name ->
-                    if (name.parent is JassFunHead || name.parent is JassNativ) result.add(name)
+                ).forEach {
+                    if (it.parent is JassFunHead || it.parent is JassNativ) result.add(it)
                 }
                 return result
             }

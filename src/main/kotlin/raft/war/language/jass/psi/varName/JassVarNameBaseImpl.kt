@@ -39,14 +39,15 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
 
             override fun resolveDeclaration(): List<PsiElement> {
                 StubIndex.getElements(
-                    KEY,
+                    VAR_NAME_KEY,
                     myText,
                     project,
                     GlobalSearchScope.allScope(project),
                     JassNamedElement::class.java,
-                ).forEach { name ->
-                    //if (name.parent is JassFunHead || name.parent is JassNativ) result.add(name)
-                    result.add(name)
+                ).forEach {
+                    when (it.parent) {
+                        is JassVarDef, is JassParam -> result.add(it)
+                    }
                 }
                 return result
             }

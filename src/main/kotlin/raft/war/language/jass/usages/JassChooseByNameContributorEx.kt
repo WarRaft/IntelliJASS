@@ -10,10 +10,10 @@ import com.intellij.util.Processor
 import com.intellij.util.indexing.FindSymbolParameters
 import com.intellij.util.indexing.IdFilter
 import raft.war.language.jass.psi.JassNamedElement
-import raft.war.language.jass.psi.funName.KEY
+import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 class JassChooseByNameContributorEx : ChooseByNameContributorEx {
-    private val myIndexKeys: List<StubIndexKey<String, JassNamedElement>> = listOf(KEY)
+    private val myIndexKeys: List<StubIndexKey<String, JassNamedElement>> = listOf(FUN_NAME_KEY)
 
     override fun processNames(
         processor: Processor<in String>,

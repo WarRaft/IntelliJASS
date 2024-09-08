@@ -13,7 +13,7 @@ import raft.war.language.angelscript.completion.FilePathMatcher.aggregateFilePat
 import raft.war.language.angelscript.psi.file.AngelScriptFile
 import raft.war.language.angelscript.psi.AngelScriptTypes.INCLUDE_STMT
 import raft.war.language.jass.psi.*
-import raft.war.language.jass.psi.funName.KEY
+import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 class AngelScriptCompletionContributor : CompletionContributor() {
 
@@ -59,10 +59,10 @@ class AngelScriptCompletionContributor : CompletionContributor() {
         val lib = JassSyntheticLibrary.fromProject(data.project) ?: return
 
         StubIndex.getInstance().processAllKeys(
-            KEY,
+            FUN_NAME_KEY,
             { stubKey ->
                 StubIndex.getElements(
-                    KEY,
+                    FUN_NAME_KEY,
                     stubKey,
                     data.project,
                     scope,
