@@ -35,7 +35,7 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
         return object : JassReferenceBase(this, TextRange(0, textLength)) {
             override fun handleElementRename(newElementName: String): PsiElement = setName(newElementName)
 
-            override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
+            override fun isReferenceTo(element: PsiElement): Boolean = element is JassFunName && element.text == myText
 
             override fun resolveDeclaration(): List<PsiElement> {
                 StubIndex.getElements(
@@ -45,7 +45,9 @@ abstract class JassFunNameBaseImpl : JassNamedStubbedPsiElementBase<JassFunNameS
                     GlobalSearchScope.allScope(project),
                     JassNamedElement::class.java,
                 ).forEach {
-                    if (it.parent is JassFunHead || it.parent is JassNativ) result.add(it)
+                    when (it.parent) {
+                        is JassFunHead, is JassNativ -> result.add(it)
+                    }
                 }
                 return result
             }

@@ -8,6 +8,7 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubIndex
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.containers.OrderedSet
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.stub.JassNamedStubbedPsiElementBase
@@ -31,11 +32,33 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
     override fun getReference(): PsiReference {
         val myText = this.text
         val result = OrderedSet<PsiElement>()
+        val nodeScope = PsiTreeUtil.findFirstParent(node.psi) { it -> it is JassFun || it is JassGlob }
 
         return object : JassReferenceBase(this, TextRange(0, textLength)) {
             override fun handleElementRename(newElementName: String): PsiElement = setName(newElementName)
 
-            override fun isReferenceTo(element: PsiElement): Boolean = element.text == myText
+            override fun isReferenceTo(element: PsiElement): Boolean {
+                if (nodeScope == null) return false
+                if (element !is JassVarName || element.text != myText) return false
+
+                val elementScope = PsiTreeUtil.findFirstParent(element) { it -> it is JassFun || it is JassGlob }
+                if (elementScope == null) return false
+
+                if (nodeScope === elementScope) return true
+                if (nodeScope is JassGlob || elementScope is JassGlob) return true
+
+                //if (nodeScope is JassGlob && elementScope is JassFun) return true
+                //if (nodeScope is JassFun && elementScope is JassGlob) return true
+
+                //if (nodeScope == elementScope || nodeScope is JassGlob) return true
+
+                //if (nodeScope is JassFun && elementScope is JassGlob) return true
+
+                //
+
+
+                return false
+            }
 
             override fun resolveDeclaration(): List<PsiElement> {
                 StubIndex.getElements(
@@ -45,9 +68,14 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
                     GlobalSearchScope.allScope(project),
                     JassNamedElement::class.java,
                 ).forEach {
-                    when (it.parent) {
-                        is JassVarDef, is JassParam -> result.add(it)
+                    if (it.parent !is JassVarDef && it.parent !is JassParam) return@forEach
+                    val itScope = PsiTreeUtil.findFirstParent(it) { it -> it is JassFun || it is JassGlob }
+                    if (nodeScope === itScope) {
+                        result.add(it)
+                        return@forEach
                     }
+                    //
+                    //result.add(it)
                 }
                 return result
             }
