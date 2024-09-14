@@ -57,7 +57,7 @@ class JassBlock(
                 newNode = newNode.firstChildNode
             }
 
-            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF, GLOBALS, ENDGLOBALS -> {
+            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF, GLOBALS, ENDGLOBALS, LINE_COMMENT -> {
                 newIndent = Indent.getNoneIndent()
             }
 
@@ -164,9 +164,6 @@ class JassBlock(
             .around(TYPE_NAME).spacing(1, 1, 0, false, 0)
             .around(EXTENDS).spacing(1, 1, 0, false, 0)
 
-            // stmt
-            .after(STMT).spacing(1, 10, 1, true, 10)
-
             // fun
             .after(TAKES).spacing(1, 1, 0, false, 0)
             .between(FUNCTION, FUN_HEAD).spacing(1, 1, 0, false, 0)
@@ -182,8 +179,14 @@ class JassBlock(
             // ---
             .before(VAR_DEF).spacing(1, 1, 0, false, 0)
 
+            // paren
+            .between(LPAREN, ARG_LIST).spacing(0, 0, 0, false, 0)
+            .between(ARG_LIST, RPAREN).spacing(0, 0, 0, false, 0)
+            .between(LPAREN, RPAREN).spacing(0, 0, 0, false, 0)
+
             // statement
-            .around(STMT).spacing(1, 1, 1, false, 5)
+            .between(STMT, STMT).spacing(1, 5, 1, true, 5)
+            .between(LINE_COMMENT, STMT).spacing(1, 5, 1, true, 5)
             .after(IF).spacing(1, 1, 0, false, 0)
             .before(THEN).spacing(1, 1, 0, false, 0)
             .after(THEN).spacing(1, 1, 1, false, 5)
