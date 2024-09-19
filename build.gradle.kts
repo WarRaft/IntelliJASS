@@ -8,7 +8,7 @@ plugins {
     //id("java")
 
     //https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#usage
-    id("org.jetbrains.intellij.platform") version "2.0.0"
+    id("org.jetbrains.intellij.platform") version "2.0.1"
 
     // https://kotlinlang.org/docs/gradle-configure-project.html
     kotlin("jvm") version "2.0.20"
@@ -55,7 +55,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     intellijPlatform {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
-        intellijIdeaCommunity("2024.2.0.2")
+        intellijIdeaCommunity("2024.2.2")
 
         instrumentationTools()
 
@@ -69,7 +69,7 @@ dependencies {
 intellijPlatform {
     pluginVerification {
         ides {
-            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2")
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2.2")
             recommended()
         }
     }

@@ -29,53 +29,103 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
         return this
     }
 
+    private fun inGlobal(scope: PsiElement, name: String): Boolean = when (scope) {
+        is JassGlob -> true
+        is JassFun -> {
+            scope.funHead.funTake?.paramList?.paramList?.forEach {
+                if (name == it.varName.text) return false
+            }
+            true
+        }
+
+        else -> false
+    }
+
     override fun getReference(): PsiReference {
-        val myText = this.text
+        val nodeText = this.text
         val result = OrderedSet<PsiElement>()
         val nodeScope = PsiTreeUtil.findFirstParent(node.psi) { it -> it is JassFun || it is JassGlob }
+        val nodeInGlobal = if (nodeScope == null) false else inGlobal(nodeScope, nodeText)
 
         return object : JassReferenceBase(this, TextRange(0, textLength)) {
             override fun handleElementRename(newElementName: String): PsiElement = setName(newElementName)
 
+            /**
+             *  [element] is current cursor target
+             */
             override fun isReferenceTo(element: PsiElement): Boolean {
+
                 if (nodeScope == null) return false
-                if (element !is JassVarName || element.text != myText) return false
+                if (element !is JassVarName || element.text != nodeText) return false
 
                 val elementScope = PsiTreeUtil.findFirstParent(element) { it -> it is JassFun || it is JassGlob }
                 if (elementScope == null) return false
 
                 if (nodeScope === elementScope) return true
-                if (nodeScope is JassGlob || elementScope is JassGlob) return true
 
-                //if (nodeScope is JassGlob && elementScope is JassFun) return true
-                //if (nodeScope is JassFun && elementScope is JassGlob) return true
-
-                //if (nodeScope == elementScope || nodeScope is JassGlob) return true
-
-                //if (nodeScope is JassFun && elementScope is JassGlob) return true
-
-                //
-
-
-                return false
+                return nodeInGlobal && inGlobal(elementScope, nodeText)
             }
 
+            /**
+             *  [node] is current cursor target
+             */
             override fun resolveDeclaration(): List<PsiElement> {
+                if (nodeScope == null) return result
+
                 StubIndex.getElements(
                     VAR_NAME_KEY,
-                    myText,
+                    nodeText,
                     project,
                     GlobalSearchScope.allScope(project),
                     JassNamedElement::class.java,
                 ).forEach {
-                    if (it.parent !is JassVarDef && it.parent !is JassParam) return@forEach
                     val itScope = PsiTreeUtil.findFirstParent(it) { it -> it is JassFun || it is JassGlob }
-                    if (nodeScope === itScope) {
-                        result.add(it)
-                        return@forEach
+                    if (itScope == null) return@forEach
+
+                    when (nodeScope) {
+                        is JassGlob -> {
+                            if (itScope is JassFun) return@forEach
+                            if (it.parent is JassVarDef) {
+                                result.add(it)
+                                return@forEach
+                            }
+                        }
+
+                        is JassFun -> {
+                            when (node.psi.parent) {
+                                is JassVarDef -> {
+                                    if (itScope is JassGlob && it.parent is JassVarDef) {
+                                        result.add(it)
+                                        return@forEach
+                                    }
+                                    if (nodeScope == itScope) {
+                                        if (it.parent is JassParam) {
+                                            result.add(it)
+                                            return@forEach
+                                        }
+                                    }
+                                }
+
+                                is JassParam -> return@forEach
+
+                                else -> {
+                                    if (nodeScope === itScope) {
+                                        when (it.parent) {
+                                            is JassParam, is JassVarDef -> {
+                                                result.add(it)
+                                                return@forEach
+                                            }
+                                        }
+                                    } else {
+                                        if (nodeInGlobal && itScope is JassGlob && it.parent is JassVarDef) {
+                                            result.add(it)
+                                            return@forEach
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    //
-                    //result.add(it)
                 }
                 return result
             }

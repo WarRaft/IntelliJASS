@@ -5,7 +5,7 @@
     <name>JASS</name>
     <version>2.0.42</version>
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__idea-version -->
-    <idea-version since-build="2024.2.0.2"/>
+    <idea-version since-build="2024.2.2"/>
     <vendor url="https://github.com/WarRaft/IntelliJASS">WarRaft</vendor>
 
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#additional-plugin-configuration-files -->

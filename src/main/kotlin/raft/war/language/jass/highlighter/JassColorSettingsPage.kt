@@ -11,9 +11,9 @@ import raft.war.language.jass.JassLanguage
 import javax.swing.Icon
 
 /*
-Юзер функции - жёлтые.
-Нативки - розовые/фиолетовые.
-БЖ - красные.
+
+лоалки, глобалки, аргументы
+CC31B2, 3DFFDF, CC7766.
  */
 
 internal class JassColorSettingsPage : ColorSettingsPage {
@@ -71,9 +71,13 @@ internal class JassColorSettingsPage : ColorSettingsPage {
             ${'$'} // bad character
             type <TN>agent</TN> extends <TN>handle</TN>
             
+            globals
+                constant string Decription = "|c00112233Color |n |r TRIGSTR_123"
+            endglobals
+            
             native <FN>UnitAlive</FN> takes unit id returns boolean 
             
-            function <FU>myFunc</FU> takes nothing returns nothing
+            function <FU>Anal</FU> takes nothing returns nothing
                 local <TN>real</TN> myInt = 1 * 2. + 'cUnt' 
             endfunction
             
