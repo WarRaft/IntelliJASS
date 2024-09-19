@@ -61,6 +61,7 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             DefaultLanguageHighlighterColors.STRING
         )
 
+        // -- functions
         val JASS_FUN_NATIVE: TextAttributesKey = createTextAttributesKey(
             Companion::JASS_FUN_NATIVE.name,
             DefaultLanguageHighlighterColors.IDENTIFIER
@@ -75,6 +76,23 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             Companion::JASS_FUN_USER.name,
             DefaultLanguageHighlighterColors.IDENTIFIER
         )
+
+        // -- variables
+        val JASS_VAR_LOCAL: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_VAR_LOCAL.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+
+        val JASS_VAR_GLOBAL: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_VAR_GLOBAL.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+
+        val JASS_VAR_ARGUMENT: TextAttributesKey = createTextAttributesKey(
+            Companion::JASS_VAR_ARGUMENT.name,
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+
 
         init {
             fillMap(ATTRIBUTES, TokenSet.create(TokenType.BAD_CHARACTER), JASS_BAD_CHARACTER)

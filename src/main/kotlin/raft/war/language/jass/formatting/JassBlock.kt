@@ -11,7 +11,9 @@ import raft.war.language.jass.JassLanguage.Companion.instance
 import raft.war.language.jass.formatting.aligner.JassGlobAligner
 import raft.war.language.jass.formatting.aligner.JassNativAligner
 import raft.war.language.jass.formatting.aligner.JassTypeAligner
+import raft.war.language.jass.psi.JassFun
 import raft.war.language.jass.psi.JassFunTake
+import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
 
@@ -57,12 +59,19 @@ class JassBlock(
                 newNode = newNode.firstChildNode
             }
 
-            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF, GLOBALS, ENDGLOBALS, LINE_COMMENT -> {
+            STMT, FUNCTION, ENDFUNCTION, LOOP, ENDLOOP, ELSE_STMT, ELSE_IF_STMT, ENDIF, GLOBALS, ENDGLOBALS -> {
                 newIndent = Indent.getNoneIndent()
             }
 
             FUN_BODY, GVAR -> {
                 newIndent = Indent.getNormalIndent()
+            }
+
+            LINE_COMMENT -> {
+                newIndent = when (parent) {
+                    is JassFun, is JassGlob -> Indent.getNormalIndent()
+                    else -> Indent.getNoneIndent()
+                }
             }
         }
 

@@ -109,18 +109,14 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
                                 is JassParam -> return@forEach
 
                                 else -> {
-                                    if (nodeScope === itScope) {
-                                        when (it.parent) {
-                                            is JassParam, is JassVarDef -> {
-                                                result.add(it)
-                                                return@forEach
-                                            }
-                                        }
-                                    } else {
-                                        if (nodeInGlobal && itScope is JassGlob && it.parent is JassVarDef) {
+                                    if (nodeScope === itScope) when (it.parent) {
+                                        is JassParam, is JassVarDef -> {
                                             result.add(it)
                                             return@forEach
                                         }
+                                    } else if (nodeInGlobal && itScope is JassGlob && it.parent is JassVarDef) {
+                                        result.add(it)
+                                        return@forEach
                                     }
                                 }
                             }

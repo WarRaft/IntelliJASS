@@ -7,6 +7,7 @@
             <option name="FOREGROUND" value="008000"/>
         </value>
     </option>
+    <!-- functions -->
     <option name="JASS_FUN_NATIVE">
         <value>
             <option name="FOREGROUND" value="C77DBB"/>
@@ -20,6 +21,22 @@
     <option name="JASS_FUN_USER">
         <value>
             <option name="FOREGROUND" value="C7B61A"/>
+        </value>
+    </option>
+    <!-- variables -->
+    <option name="JASS_VAR_LOCAL">
+        <value>
+            <option name="FOREGROUND" value="C124A3"/>
+        </value>
+    </option>
+    <option name="JASS_VAR_GLOBAL">
+        <value>
+            <option name="FOREGROUND" value="305CDC"/>
+        </value>
+    </option>
+    <option name="JASS_VAR_ARGUMENT">
+        <value>
+            <option name="FOREGROUND" value="C1553E"/>
         </value>
     </option>
 

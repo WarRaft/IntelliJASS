@@ -10,12 +10,6 @@ import raft.war.language.jass.JassIcons.FILE
 import raft.war.language.jass.JassLanguage
 import javax.swing.Icon
 
-/*
-
-лоалки, глобалки, аргументы
-CC31B2, 3DFFDF, CC7766.
- */
-
 internal class JassColorSettingsPage : ColorSettingsPage {
     override fun getIcon(): Icon = FILE
 
@@ -48,6 +42,7 @@ internal class JassColorSettingsPage : ColorSettingsPage {
             JassSyntaxHighlighterBase.JASS_STRING
         ),
 
+        // functions
         AttributesDescriptor(
             "Functions//Native",
             JassSyntaxHighlighterBase.JASS_FUN_NATIVE
@@ -61,6 +56,20 @@ internal class JassColorSettingsPage : ColorSettingsPage {
             JassSyntaxHighlighterBase.JASS_FUN_USER
         ),
 
+        // variables
+        AttributesDescriptor(
+            "Variables//Local",
+            JassSyntaxHighlighterBase.JASS_VAR_LOCAL
+        ),
+        AttributesDescriptor(
+            "Variables//Global",
+            JassSyntaxHighlighterBase.JASS_VAR_GLOBAL
+        ),
+        AttributesDescriptor(
+            "Variables//Argument",
+            JassSyntaxHighlighterBase.JASS_VAR_ARGUMENT
+        ),
+
         )
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
@@ -72,17 +81,17 @@ internal class JassColorSettingsPage : ColorSettingsPage {
             type <TN>agent</TN> extends <TN>handle</TN>
             
             globals
-                constant string Decription = "|c00112233Color |n |r TRIGSTR_123"
+                constant <TN>string</TN> <VG>Decription</VG> = "|c00112233Color |n |r TRIGSTR_123"
             endglobals
             
-            native <FN>UnitAlive</FN> takes unit id returns boolean 
+            native <FN>UnitAlive</FN> takes <TN>unit</TN> <VA>id</VA> returns <TN>boolean</TN> 
             
             function <FU>Anal</FU> takes nothing returns nothing
-                local <TN>real</TN> myInt = 1 * 2. + 'cUnt' 
+                local <TN>real</TN> <VL>myInt</VL> = 1 * 2. + 'cUnt' 
             endfunction
             
-            function <FB>SinBJ</FB> takes real degrees returns real
-                return <FN>Sin</FN>(degrees * bj_DEGTORAD)
+            function <FB>SinBJ</FB> takes <TN>real</TN> <VA>degrees</VA> returns <TN>real</TN>
+                return <FN>Sin</FN>(<VA>degrees</VA> * <VG>bj_DEGTORAD</VG>)
             endfunction
             """.trimIndent()
 
@@ -93,6 +102,9 @@ internal class JassColorSettingsPage : ColorSettingsPage {
                 put("FN", JassSyntaxHighlighterBase.JASS_FUN_NATIVE)
                 put("FB", JassSyntaxHighlighterBase.JASS_FUN_BLIZZARD)
                 put("FU", JassSyntaxHighlighterBase.JASS_FUN_USER)
+                put("VL", JassSyntaxHighlighterBase.JASS_VAR_LOCAL)
+                put("VG", JassSyntaxHighlighterBase.JASS_VAR_GLOBAL)
+                put("VA", JassSyntaxHighlighterBase.JASS_VAR_ARGUMENT)
             }
         }
 }
