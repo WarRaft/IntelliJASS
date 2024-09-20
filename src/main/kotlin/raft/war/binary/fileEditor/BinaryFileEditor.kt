@@ -1,7 +1,6 @@
 package raft.war.binary.fileEditor
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter
-import com.intellij.codeInsight.daemon.impl.TextEditorBackgroundHighlighter
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.ex.EditorEx
@@ -110,7 +109,8 @@ class BinaryFileEditor(project: Project, private val file: VirtualFile) : UserDa
 
 
     override fun getBackgroundHighlighter(): BackgroundEditorHighlighter? {
-        return editor.project?.let { TextEditorBackgroundHighlighter(it, editor) }
+        //return editor.project?.let { TextEditorBackgroundHighlighter(it, editor) }
+        return null
     }
 
     override fun dispose() = EditorFactory.getInstance().releaseEditor(editor)

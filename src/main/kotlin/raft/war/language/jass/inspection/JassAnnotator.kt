@@ -137,17 +137,8 @@ internal class JassAnnotator : Annotator {
 
                 when (parent) {
                     is JassVarDef -> when (parent.parent) {
-                        is JassGvar -> {
-                            tk = JASS_VAR_GLOBAL
-
-                        }
-
-                        is JassLvarStmt -> {
-                            tk = JASS_VAR_LOCAL
-                            refElems.forEach {
-                                //print("💋 ${parent.text} | ${it.element?.parent?.text} \n")
-                            }
-                        }
+                        is JassGvar -> tk = JASS_VAR_GLOBAL
+                        is JassLvarStmt -> tk = JASS_VAR_LOCAL
                     }
 
                     is JassParam -> tk = JASS_VAR_ARGUMENT
@@ -155,11 +146,10 @@ internal class JassAnnotator : Annotator {
                     else -> {
                         when (refElems.size) {
                             0 -> {
-                                if (false)
-                                    holder
-                                        .newAnnotation(HighlightSeverity.ERROR, "Variable not exists")
-                                        .range(element.textRange)
-                                        .create()
+                                holder
+                                    .newAnnotation(HighlightSeverity.ERROR, "Variable doesn’t exist")
+                                    .range(element.textRange)
+                                    .create()
                             }
 
                             1 -> {
@@ -177,11 +167,10 @@ internal class JassAnnotator : Annotator {
                             }
 
                             else -> {
-                                if (false)
-                                    holder
-                                        .newAnnotation(HighlightSeverity.WARNING, "Variable has multiple declaration")
-                                        .range(element.textRange)
-                                        .create()
+                                holder
+                                    .newAnnotation(HighlightSeverity.WARNING, "Variable has multiple declarations")
+                                    .range(element.textRange)
+                                    .create()
                             }
                         }
 

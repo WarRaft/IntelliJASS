@@ -29,17 +29,39 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
         return this
     }
 
-    private fun inGlobal(scope: PsiElement, name: String): Boolean = when (scope) {
-        is JassGlob -> true
-        is JassFun -> {
-            scope.funHead.funTake?.paramList?.paramList?.forEach {
-                if (name == it.varName.text) return false
+    private fun funLast(fn: JassFun, name: String): JassVarName? {
+        var out: JassVarName? = null
+
+        fn.funHead.funTake?.paramList?.paramList?.forEach {
+            if (name == it.varName.text) {
+                out = it.varName
             }
-            true
         }
 
+        fn.funBody.stmtList.forEach {
+            val l = it.lvarStmt
+            if (l == null) return@forEach
+            if (name == l.varDef.varName.text) {
+                out = l.varDef.varName
+            }
+        }
+
+        return out
+    }
+
+    private fun inGlobal(scope: PsiElement, name: String): Boolean = when (scope) {
+        is JassGlob -> true
+        is JassFun -> funLast(scope, name) == null
         else -> false
     }
+
+    private fun nodeStubs(): Collection<JassNamedElement> = StubIndex.getElements(
+        VAR_NAME_KEY,
+        text,
+        project,
+        GlobalSearchScope.allScope(project),
+        JassNamedElement::class.java,
+    )
 
     override fun getReference(): PsiReference {
         val nodeText = this.text
@@ -72,57 +94,33 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
             override fun resolveDeclaration(): List<PsiElement> {
                 if (nodeScope == null) return result
 
-                StubIndex.getElements(
-                    VAR_NAME_KEY,
-                    nodeText,
-                    project,
-                    GlobalSearchScope.allScope(project),
-                    JassNamedElement::class.java,
-                ).forEach {
+                fun globIterator(it: JassNamedElement) {
                     val itScope = PsiTreeUtil.findFirstParent(it) { it -> it is JassFun || it is JassGlob }
-                    if (itScope == null) return@forEach
+                    if (itScope !is JassGlob) return
+                    if (it.parent is JassVarDef) result.add(it)
+                }
 
-                    when (nodeScope) {
-                        is JassGlob -> {
-                            if (itScope is JassFun) return@forEach
-                            if (it.parent is JassVarDef) {
-                                result.add(it)
-                                return@forEach
-                            }
-                        }
+                when (nodeScope) {
+                    is JassGlob -> {
+                        nodeStubs().forEach(::globIterator)
+                    }
 
-                        is JassFun -> {
-                            when (node.psi.parent) {
-                                is JassVarDef -> {
-                                    if (itScope is JassGlob && it.parent is JassVarDef) {
-                                        result.add(it)
-                                        return@forEach
-                                    }
-                                    if (nodeScope == itScope) {
-                                        if (it.parent is JassParam) {
-                                            result.add(it)
-                                            return@forEach
-                                        }
-                                    }
-                                }
-
-                                is JassParam -> return@forEach
-
-                                else -> {
-                                    if (nodeScope === itScope) when (it.parent) {
-                                        is JassParam, is JassVarDef -> {
-                                            result.add(it)
-                                            return@forEach
-                                        }
-                                    } else if (nodeInGlobal && itScope is JassGlob && it.parent is JassVarDef) {
-                                        result.add(it)
-                                        return@forEach
-                                    }
+                    is JassFun -> {
+                        when (node.psi.parent) {
+                            is JassVarDef, is JassParam -> return result
+                            else -> {
+                                val l = funLast(nodeScope, nodeText)
+                                if (l == null) {
+                                    nodeStubs().forEach(::globIterator)
+                                } else {
+                                    result.add(l)
+                                    return result
                                 }
                             }
                         }
                     }
                 }
+
                 return result
             }
         }
