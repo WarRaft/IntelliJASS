@@ -14,6 +14,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
 import raft.war.ide.utils.IdeCompletionData
 import raft.war.ide.utils.IdeCompletionData.TemplateVariable
+import raft.war.ide.utils.IdePsiTreeUtil
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
@@ -25,6 +26,10 @@ internal class JassCompletionContributor : CompletionContributor() {
 
     private fun isPrevCall(data: IdeCompletionData): Boolean {
         var prev = data.prev
+        if (prev.elementType == ID) {
+            prev = IdePsiTreeUtil.skipWhitespacesBackward(prev?.prevSibling)
+        }
+
         if (prev is JassFunBody) prev = prev.lastChild
         if (prev?.lastChild is PsiErrorElement) return false
 
