@@ -37,32 +37,57 @@ internal class JassCompletionContributor : CompletionContributor() {
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
-        // ---
         val data = IdeCompletionData(parameters, result)
 
-        // ---
+        root(data)
+
         val isPrevCall = isPrevCall(data)
 
         if (parameters.isAutoPopup && data.current.elementType != ID && !isPrevCall) return
 
-        // globals, function
-        if (data.parent is JassFile) {
-            result.addElement(LookupElementBuilder.create("globals").withInsertHandler { ctx, _ ->
-                data.templateInsert(ctx, "globals\n\$END\$\nendglobals")
+        val inFunStmt = (data.parent is JassFunBody || data.next is JassFunBody) && !isPrevCall
+
+        ifThenElse(data, inFunStmt)
+        loop(data, inFunStmt)
+        function(data, isPrevCall)
+    }
+
+    private fun loop(data: IdeCompletionData, inFunStmt: Boolean) {
+        if (!inFunStmt) return
+
+        // loop
+        data.addStart(LookupElementBuilder.create("loop")
+            .withTailText(" ... endloop")
+            .withInsertHandler { ctx, _ ->
+                data.templateInsert(ctx, "loop\n\$END\$\nendloop")
             })
-            result.addElement(LookupElementBuilder.create("function").withInsertHandler { ctx, _ ->
+
+        // exitwhen
+        if (PsiTreeUtil.findFirstParent(data.parent) { it is JassLoopStmt } != null) {
+            data.addStart(LookupElementBuilder.create("exitwhen").withInsertHandler { ctx, _ ->
                 data.templateInsert(
-                    ctx, "function \$NAME\$ takes \$TAKES\$ returns \$RETURNS\$\n\$END\$\nendfunction",
-                    TemplateVariable("NAME", "name"),
-                    TemplateVariable("TAKES", "nothing"),
-                    TemplateVariable("RETURNS", "nothing")
+                    ctx,
+                    "exitwhen \$EXPR\$\n\$END\$",
+                    TemplateVariable("EXPR", "true")
                 )
             })
         }
 
-        // --
-        val inFunStmt = (data.parent is JassFunBody || data.next is JassFunBody) && !isPrevCall
+        // call
+        data.addStart(LookupElementBuilder.create("call").withInsertHandler { ctx, _ ->
+            ctx.document.insertString(ctx.tailOffset, " ")
+            ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
+            AutoPopupController.getInstance(data.parameters.position.project).scheduleAutoPopup(ctx.editor)
+        })
 
+        data.addStart(LookupElementBuilder.create("debug").withInsertHandler { ctx, _ ->
+            ctx.document.insertString(ctx.tailOffset, " call ")
+            ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
+            AutoPopupController.getInstance(data.parameters.position.project).scheduleAutoPopup(ctx.editor)
+        })
+    }
+
+    private fun ifThenElse(data: IdeCompletionData, inFunStmt: Boolean) {
         // if
         if (inFunStmt || data.current.elementType == IF) {
             data.addStart(LookupElementBuilder.create("if")
@@ -101,41 +126,21 @@ internal class JassCompletionContributor : CompletionContributor() {
                     )
                 })
         }
+    }
 
-        if (inFunStmt) {
-            // loop
-            data.addStart(LookupElementBuilder.create("loop")
-                .withTailText(" ... endloop")
-                .withInsertHandler { ctx, _ ->
-                    data.templateInsert(ctx, "loop\n\$END\$\nendloop")
-                })
-
-            // exitwhen
-            if (PsiTreeUtil.findFirstParent(data.parent) { it is JassLoopStmt } != null) {
-                data.addStart(LookupElementBuilder.create("exitwhen").withInsertHandler { ctx, _ ->
-                    data.templateInsert(
-                        ctx,
-                        "exitwhen \$EXPR\$\n\$END\$",
-                        TemplateVariable("EXPR", "true")
-                    )
-                })
-            }
-
-            // call
-            data.addStart(LookupElementBuilder.create("call").withInsertHandler { ctx, _ ->
-                ctx.document.insertString(ctx.tailOffset, " ")
-                ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
-                AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
-            })
-
-            data.addStart(LookupElementBuilder.create("debug").withInsertHandler { ctx, _ ->
-                ctx.document.insertString(ctx.tailOffset, " call ")
-                ctx.editor.caretModel.moveToOffset(ctx.tailOffset)
-                AutoPopupController.getInstance(parameters.position.project).scheduleAutoPopup(ctx.editor)
-            })
-        }
-
-        this.function(data, isPrevCall)
+    private fun root(data: IdeCompletionData) {
+        if (data.parent !is JassFile) return
+        data.result.addElement(LookupElementBuilder.create("globals").withInsertHandler { ctx, _ ->
+            data.templateInsert(ctx, "globals\n\$END\$\nendglobals")
+        })
+        data.result.addElement(LookupElementBuilder.create("function").withInsertHandler { ctx, _ ->
+            data.templateInsert(
+                ctx, "function \$NAME\$ takes \$TAKES\$ returns \$RETURNS\$\n\$END\$\nendfunction",
+                TemplateVariable("NAME", "name"),
+                TemplateVariable("TAKES", "nothing"),
+                TemplateVariable("RETURNS", "nothing")
+            )
+        })
     }
 
     private fun function(data: IdeCompletionData, isPrevCall: Boolean) {
@@ -178,12 +183,17 @@ internal class JassCompletionContributor : CompletionContributor() {
                         else -> return@forEach
                     }
 
+                    val takeList: MutableList<String> = mutableListOf()
+                    take?.paramList?.paramList?.let {
+                        for (p in it) takeList.add(p.text)
+                    }
+
                     data.result.addElement(LookupElementBuilder
                         .create(func)
-                        .withTypeText("function", AllIcons.Ide.HectorOn, false)
+                        .withTypeText(if (ret?.typeName != null) ret.typeName?.text else null)
                         .withTypeIconRightAligned(true)
                         .withPsiElement(head)
-                        .withTailText(" ${take?.text} ${ret?.text}")
+                        .withTailText("(${takeList.joinToString(", ")})")
                         .withIcon(AllIcons.Nodes.Function)
                         .withInsertHandler { ctx, _ ->
                             // add call

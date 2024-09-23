@@ -10,7 +10,7 @@ import com.intellij.codeInsight.template.impl.TextExpression
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
 
-class IdeCompletionData(parameters: CompletionParameters, val result: CompletionResultSet) {
+class IdeCompletionData(val parameters: CompletionParameters, val result: CompletionResultSet) {
 
     val current = parameters.originalPosition
     val prev = IdePsiTreeUtil.skipWhitespacesBackward(current)
