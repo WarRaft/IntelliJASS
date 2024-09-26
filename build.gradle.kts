@@ -55,7 +55,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     intellijPlatform {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
-        intellijIdeaCommunity("2024.2.2")
+        intellijIdeaCommunity("2024.2.3")
 
         instrumentationTools()
 
@@ -69,7 +69,7 @@ dependencies {
 intellijPlatform {
     pluginVerification {
         ides {
-            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2.2")
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, "2024.2.3")
             recommended()
         }
     }
@@ -89,5 +89,5 @@ tasks {
     }
 }
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }

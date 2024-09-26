@@ -106,17 +106,12 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
                     }
 
                     is JassFun -> {
-                        when (node.psi.parent) {
-                            is JassVarDef, is JassParam -> return result
-                            else -> {
-                                val l = funLast(nodeScope, nodeText)
-                                if (l == null) {
-                                    nodeStubs().forEach(::globIterator)
-                                } else {
-                                    result.add(l)
-                                    return result
-                                }
-                            }
+                        val l = funLast(nodeScope, nodeText)
+                        if (l == null) {
+                            nodeStubs().forEach(::globIterator)
+                        } else {
+                            result.add(l)
+                            return result
                         }
                     }
                 }
