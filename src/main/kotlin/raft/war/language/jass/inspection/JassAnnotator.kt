@@ -3,13 +3,16 @@ package raft.war.language.jass.inspection
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.lang.injection.InjectedLanguageManager
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
 import raft.war.ide.library.JassSyntheticLibrary
+import raft.war.language.jass.executeFuncName
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_BLIZZARD
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_FUN_NATIVE
@@ -17,13 +20,16 @@ import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JA
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_VAR_ARGUMENT
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_VAR_GLOBAL
 import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase.Companion.JASS_VAR_LOCAL
-import raft.war.language.jass.psi.JassFun
 import raft.war.language.jass.psi.JassFunCall
+import raft.war.language.jass.psi.JassFunHead
+import raft.war.language.jass.psi.JassFunName
+import raft.war.language.jass.psi.JassFunRef
 import raft.war.language.jass.psi.JassGvar
 import raft.war.language.jass.psi.JassLvarStmt
 import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassParam
+import raft.war.language.jass.psi.JassStr
 import raft.war.language.jass.psi.JassTypeName
 import raft.war.language.jass.psi.JassVarDef
 import raft.war.language.jass.psi.JassVarName
@@ -31,15 +37,23 @@ import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
 
 internal class JassAnnotator : Annotator {
+    private fun refs(element: PsiElement): Array<out ResolveResult> {
+        val ref = element.reference
+        return if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
+    }
+
+
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         val lib = JassSyntheticLibrary.fromProject(element.project)
+        val injectedLanguageManager = InjectedLanguageManager.getInstance(element.project)
+        val isInject = injectedLanguageManager.isInjectedFragment(element.containingFile)
 
-        fun inSdkFunIndex(elem: PsiElement): Boolean {
+        fun inSdkFunIndex(name: String): Boolean {
             if (lib == null) return false
 
             for (fn in StubIndex.getElements(
                 FUN_NAME_KEY,
-                elem.text,
+                name,
                 element.project,
                 GlobalSearchScope.allScope(element.project),
                 JassNamedElement::class.java,
@@ -49,7 +63,49 @@ internal class JassAnnotator : Annotator {
             return false
         }
 
+        fun funAnnotate(name: String, range: TextRange, refs: Array<out ResolveResult>) {
+            when (refs.size) {
+                0 -> {
+                    holder
+                        .newAnnotation(HighlightSeverity.ERROR, "Function doesn’t exist")
+                        .range(range)
+                        .create()
+                }
+
+                1 -> {
+                    val target = refs.first().element
+                    holder
+                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                        .range(range)
+                        .textAttributes(
+                            if (target?.parent is JassNativ) JASS_FUN_NATIVE else if (inSdkFunIndex(name)) JASS_FUN_BLIZZARD else JASS_FUN_USER
+                        ).create()
+                }
+
+                else -> {
+                    holder
+                        .newAnnotation(HighlightSeverity.WARNING, "Function has multiple declarations")
+                        .range(range)
+                        .create()
+                }
+            }
+        }
+
         when (element) {
+            is JassStr -> {
+                val funName = executeFuncName(element)
+                if (funName != null) {
+                    for (ref in element.references) {
+                        funAnnotate(
+                            funName,
+                            TextRange.create(element.textRange.startOffset + 1, element.textRange.endOffset - 1),
+                            if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
+                        )
+                    }
+
+                }
+            }
+
             is JassTypeName -> {
                 holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
@@ -57,73 +113,45 @@ internal class JassAnnotator : Annotator {
                     .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
             }
 
-            is JassNativ -> {
-                val name = element.funName
-                if (name != null) {
-                    val inSdkElem = lib?.contains(element.containingFile.virtualFile) == true
-                    val inSdkDecl = inSdkFunIndex(name)
+            is JassFunName -> {
+                val parent = element.parent
 
-                    holder
-                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                        .range(name.textRange)
-                        .textAttributes(JASS_FUN_NATIVE).create()
+                when (parent) {
+                    is JassNativ -> {
+                        val inSdkElem = lib?.contains(parent.containingFile.virtualFile) == true
+                        val inSdkDecl = inSdkFunIndex(element.text)
 
-                    if (!inSdkElem && inSdkDecl) {
                         holder
-                            .newAnnotation(HighlightSeverity.ERROR, "Native function overriden")
-                            .range(name.textRange)
-                            .create()
+                            .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                            .range(element.textRange)
+                            .textAttributes(JASS_FUN_NATIVE).create()
+
+                        if (!isInject && !inSdkElem && inSdkDecl) {
+                            holder
+                                .newAnnotation(HighlightSeverity.ERROR, "Native function overriden")
+                                .range(element.textRange)
+                                .create()
+                        }
                     }
-                }
-            }
 
-            is JassFun -> {
-                val name = element.funHead.funName
-                if (name != null) {
-                    val inSdkElem = lib?.contains(element.containingFile.virtualFile) == true
-                    val inSdkDecl = inSdkFunIndex(name)
+                    is JassFunCall, is JassFunRef -> funAnnotate(element.text, element.textRange, refs(element))
 
-                    holder
-                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                        .range(name.textRange)
-                        .textAttributes(if (inSdkDecl) JASS_FUN_BLIZZARD else JASS_FUN_USER).create()
+                    is JassFunHead -> {
+                        val inSdkElem = lib?.contains(element.containingFile.virtualFile) == true
+                        val inSdkDecl = inSdkFunIndex(element.text)
 
-                    if (!inSdkElem && inSdkDecl) {
                         holder
-                            .newAnnotation(HighlightSeverity.ERROR, "SDK function overriden")
-                            .range(name.textRange)
-                            .create()
+                            .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                            .range(element.textRange)
+                            .textAttributes(if (inSdkDecl) JASS_FUN_BLIZZARD else JASS_FUN_USER).create()
+
+                        if (!isInject && !inSdkElem && inSdkDecl) {
+                            holder
+                                .newAnnotation(HighlightSeverity.ERROR, "SDK function overriden")
+                                .range(element.textRange)
+                                .create()
+                        }
                     }
-                }
-            }
-
-            is JassFunCall -> {
-                val name = element.funName
-                val ref = name.reference
-                val refElems: Array<out ResolveResult> =
-                    if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
-
-                if (refElems.isEmpty()) {
-                    holder
-                        .newAnnotation(HighlightSeverity.ERROR, "Function not exists")
-                        .range(name.textRange)
-                        .create()
-                }
-
-                if (refElems.size == 1) {
-                    val refElem = refElems.first().element
-
-                    val tk: TextAttributesKey = if (refElem?.parent is JassNativ) {
-                        JASS_FUN_NATIVE
-                    } else {
-                        if (inSdkFunIndex(name)) JASS_FUN_BLIZZARD else JASS_FUN_USER
-                    }
-
-                    holder
-                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                        .range(name.textRange)
-                        .textAttributes(tk).create()
-
                 }
             }
 
@@ -131,9 +159,7 @@ internal class JassAnnotator : Annotator {
                 val parent = element.parent
                 var tk: TextAttributesKey? = null
 
-                val ref = element.reference
-                val refElems: Array<out ResolveResult> =
-                    if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
+                val refs = this.refs(element)
 
                 when (parent) {
                     is JassVarDef -> when (parent.parent) {
@@ -144,7 +170,7 @@ internal class JassAnnotator : Annotator {
                     is JassParam -> tk = JASS_VAR_ARGUMENT
 
                     else -> {
-                        when (refElems.size) {
+                        when (refs.size) {
                             0 -> {
                                 holder
                                     .newAnnotation(HighlightSeverity.ERROR, "Variable doesn’t exist")
@@ -153,7 +179,7 @@ internal class JassAnnotator : Annotator {
                             }
 
                             1 -> {
-                                val refElem = refElems.first().element
+                                val refElem = refs.first().element
                                 when (refElem?.parent) {
                                     is JassVarDef -> when (refElem.parent.parent) {
                                         is JassGvar -> tk = JASS_VAR_GLOBAL
