@@ -107,10 +107,17 @@ VarName ::= ID {
    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
 
+TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
+   implements="raft.war.language.jass.psi.JassNamedElement"
+   extends="raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl"
+   stubClass="raft.war.language.jass.psi.typeName.JassTypeNameStub"
+   elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+}
+
+
 // === type
-TypeDef ::= TYPE TypeName EXTENDS TypeNameBase {pin=1}
-TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
-TypeNameBase ::= TypeName
+TypeDef ::= TYPE TypeName TypeExtends? {pin=1}
+TypeExtends::= EXTENDS TypeName
 
 // === globals
 VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {pin=3}

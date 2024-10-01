@@ -12,6 +12,7 @@ import com.intellij.usageView.UsageViewShortNameLocation
 import raft.war.language.jass.JassFlexAdapter
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassNamedElement
+import raft.war.language.jass.psi.JassTypeName
 import raft.war.language.jass.psi.JassTypes.FUN_NAME
 import raft.war.language.jass.psi.JassTypes.VAR_NAME
 import raft.war.language.jass.psi.JassVarName
@@ -35,6 +36,7 @@ internal class JassFindUsagesProvider : FindUsagesProvider {
     override fun getType(element: PsiElement): String = when (element) {
         is JassFunName -> "function"
         is JassVarName -> "variable"
+        is JassTypeName -> "type"
         else -> "unknown"
     }
 

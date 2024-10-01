@@ -199,12 +199,12 @@ public class JassVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitTypeName(@NotNull JassTypeName o) {
+  public void visitTypeExtends(@NotNull JassTypeExtends o) {
     visitCompositeElement(o);
   }
 
-  public void visitTypeNameBase(@NotNull JassTypeNameBase o) {
-    visitCompositeElement(o);
+  public void visitTypeName(@NotNull JassTypeName o) {
+    visitNamedElement(o);
   }
 
   public void visitVarDef(@NotNull JassVarDef o) {

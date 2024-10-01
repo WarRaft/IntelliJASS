@@ -56,8 +56,8 @@ public interface JassTypes {
   IElementType STMT = new JassElementType("STMT");
   IElementType STR = new JassElementType("STR");
   IElementType TYPE_DEF = new JassElementType("TYPE_DEF");
-  IElementType TYPE_NAME = new JassElementType("TYPE_NAME");
-  IElementType TYPE_NAME_BASE = new JassElementType("TYPE_NAME_BASE");
+  IElementType TYPE_EXTENDS = new JassElementType("TYPE_EXTENDS");
+  IElementType TYPE_NAME = JassElementTypeFactory.factory("TYPE_NAME");
   IElementType VAR_DEF = new JassElementType("VAR_DEF");
   IElementType VAR_NAME = JassElementTypeFactory.factory("VAR_NAME");
 
@@ -266,11 +266,11 @@ public interface JassTypes {
       else if (type == TYPE_DEF) {
         return new JassTypeDefImpl(node);
       }
+      else if (type == TYPE_EXTENDS) {
+        return new JassTypeExtendsImpl(node);
+      }
       else if (type == TYPE_NAME) {
         return new JassTypeNameImpl(node);
-      }
-      else if (type == TYPE_NAME_BASE) {
-        return new JassTypeNameBaseImpl(node);
       }
       else if (type == VAR_DEF) {
         return new JassVarDefImpl(node);

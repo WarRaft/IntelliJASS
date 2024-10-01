@@ -3,7 +3,8 @@ package raft.war.language.jass.psi
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
-import com.intellij.psi.impl.source.resolve.reference.impl.CachingReference
+
+//import com.intellij.psi.impl.source.resolve.reference.impl.CachingReference
 
 // https://plugins.jetbrains.com/docs/intellij/psi-references.html
 // https://plugins.jetbrains.com/docs/intellij/references-and-resolve.html

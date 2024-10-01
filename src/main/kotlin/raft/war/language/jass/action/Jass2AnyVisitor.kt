@@ -17,7 +17,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
 
     var keywords: HashSet<String> = HashSet()
-    
+
     var stringBuffer: StringBuffer = StringBuffer()
 
     open fun appendSingleLineComment(comment: String?) {
@@ -59,7 +59,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
     override fun visitTypeDef(o: JassTypeDef) {
         val name = o.typeName
-        val base = o.typeNameBase
+        val base = o.typeExtends?.typeName
         if (name == null || base == null) return
         appendTypeDef(name.text, base.text)
     }

@@ -74,6 +74,7 @@
         <!-- index -->
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
         <stubIndex implementation="raft.war.language.jass.psi.varName.JassVarNameIndex"/>
+        <stubIndex implementation="raft.war.language.jass.psi.typeName.JassTypeNameIndex"/>
 
         <!-- structure -->
         <lang.psiStructureViewFactory

@@ -863,7 +863,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TYPE TypeName EXTENDS TypeNameBase
+  // TYPE TypeName TypeExtends?
   public static boolean TypeDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeDef")) return false;
     if (!nextTokenIs(b, TYPE)) return false;
@@ -872,10 +872,29 @@ public class JassParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, TYPE);
     p = r; // pin = 1
     r = r && report_error_(b, TypeName(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, EXTENDS)) && r;
-    r = p && TypeNameBase(b, l + 1) && r;
+    r = p && TypeDef_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  // TypeExtends?
+  private static boolean TypeDef_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypeDef_2")) return false;
+    TypeExtends(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // EXTENDS TypeName
+  public static boolean TypeExtends(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypeExtends")) return false;
+    if (!nextTokenIs(b, EXTENDS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXTENDS);
+    r = r && TypeName(b, l + 1);
+    exit_section_(b, m, TYPE_EXTENDS, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -891,17 +910,6 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, STRING);
     if (!r) r = consumeToken(b, CODE);
     if (!r) r = consumeToken(b, ID);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // TypeName
-  public static boolean TypeNameBase(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeNameBase")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_NAME_BASE, "<type name base>");
-    r = TypeName(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

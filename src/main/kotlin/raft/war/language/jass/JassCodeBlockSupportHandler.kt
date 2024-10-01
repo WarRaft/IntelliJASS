@@ -34,6 +34,8 @@ class JassCodeBlockSupportHandler : CodeBlockSupportHandler {
 
         // function
         if (isOneOf(node, FUNCTION, TAKES, RETURNS, RETURN, ENDFUNCTION)) {
+            if (node.psi.parent is JassFunRef) return list
+
             val func = PsiTreeUtil.findFirstParent(elementAtCursor) { it is JassFun }
             if (func is JassFun) {
                 add(func.funHead.function)

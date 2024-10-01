@@ -11,14 +11,14 @@ import static raft.war.language.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.jass.psi.*;
 
-public class JassTypeNameBaseImpl extends ASTWrapperPsiElement implements JassTypeNameBase {
+public class JassTypeExtendsImpl extends ASTWrapperPsiElement implements JassTypeExtends {
 
-  public JassTypeNameBaseImpl(@NotNull ASTNode node) {
+  public JassTypeExtendsImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitTypeNameBase(this);
+    visitor.visitTypeExtends(this);
   }
 
   @Override
@@ -31,6 +31,12 @@ public class JassTypeNameBaseImpl extends ASTWrapperPsiElement implements JassTy
   @NotNull
   public JassTypeName getTypeName() {
     return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getExtends() {
+    return notNullChild(findChildByType(EXTENDS));
   }
 
 }

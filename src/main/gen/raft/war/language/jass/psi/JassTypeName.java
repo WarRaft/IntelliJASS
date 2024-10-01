@@ -4,9 +4,10 @@ package raft.war.language.jass.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
+import com.intellij.psi.StubBasedPsiElement;
+import raft.war.language.jass.psi.typeName.JassTypeNameStub;
 
-public interface JassTypeName extends JassCompositeElement {
+public interface JassTypeName extends JassNamedElement, StubBasedPsiElement<JassTypeNameStub> {
 
   @Nullable
   PsiElement getBoolean();

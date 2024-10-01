@@ -82,10 +82,12 @@ class JassBlock(
                     newAlignment = typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_EXTENDS.name)
                 }
 
+                /*
                 TYPE_NAME_BASE -> {
                     newAlignment = typeAligner.alignment(JassCodeStyleSettings::AT_TYPE_DECL_TYPE_BASE_RIGHT.name)
                     newNode = newNode.firstChildNode.firstChildNode
                 }
+                 */
             }
         }
 
@@ -243,5 +245,5 @@ class JassBlock(
         return false
     }
 
-    override fun isLeaf(): Boolean = isOneOf(node, TYPE_NAME, TYPE_NAME_BASE)
+    override fun isLeaf(): Boolean = isOneOf(node, TYPE_NAME)
 }

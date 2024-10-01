@@ -9,13 +9,10 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassTypeDef extends JassCompositeElement {
 
   @Nullable
+  JassTypeExtends getTypeExtends();
+
+  @Nullable
   JassTypeName getTypeName();
-
-  @Nullable
-  JassTypeNameBase getTypeNameBase();
-
-  @Nullable
-  PsiElement getExtends();
 
   @NotNull
   PsiElement getType();
