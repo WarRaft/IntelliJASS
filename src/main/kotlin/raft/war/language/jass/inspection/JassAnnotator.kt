@@ -101,7 +101,6 @@ internal class JassAnnotator : Annotator {
                             if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
                         )
                     }
-
                 }
             }
 
