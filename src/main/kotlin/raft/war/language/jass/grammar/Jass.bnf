@@ -94,23 +94,26 @@ private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
 
 // === STUB
 FunName ::= ID {
-    implements="raft.war.language.jass.psi.JassNamedElement"
-    extends="raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
+    extends=  "raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
+
+    implements="raft.war.language.jass.psi.JassNamedElement"
     elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
 
 VarName ::= ID {
-   implements="raft.war.language.jass.psi.JassNamedElement"
-   extends="raft.war.language.jass.psi.varName.JassVarNameBaseImpl"
+   extends=  "raft.war.language.jass.psi.varName.JassVarNameBaseImpl"
    stubClass="raft.war.language.jass.psi.varName.JassVarNameStub"
+
+   implements="raft.war.language.jass.psi.JassNamedElement"
    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
 
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
-   implements="raft.war.language.jass.psi.JassNamedElement"
-   extends="raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl"
+   extends=  "raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl"
    stubClass="raft.war.language.jass.psi.typeName.JassTypeNameStub"
+
+   implements="raft.war.language.jass.psi.JassNamedElement"
    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
 }
 

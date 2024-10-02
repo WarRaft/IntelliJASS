@@ -20,12 +20,11 @@ internal class JassReferenceContributor : PsiReferenceContributor() {
                     element: PsiElement,
                     context: ProcessingContext
                 ): Array<PsiReference> {
-
                     val myText = executeFuncName(element)
                     if (myText == null) return PsiReference.EMPTY_ARRAY
 
                     val result = OrderedSet<PsiElement>()
-                    
+
                     val ref = object : JassReferenceBase(element, TextRange(1, element.textLength - 1)) {
                         override fun handleElementRename(newElementName: String): PsiElement {
                             val strval = JassElementTextFactory.getStrVal(element.project, newElementName)

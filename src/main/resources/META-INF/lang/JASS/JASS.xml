@@ -56,7 +56,8 @@
                 language="JASS"
                 implementationClass="raft.war.language.jass.refactor.JassRefactoringSupportProvider"/>
         <renameInputValidator implementation="raft.war.language.jass.refactor.JassRenameInputValidator"/>
-        <renamePsiElementProcessor implementation="raft.war.language.jass.refactor.rename.JassRenamePsiElementProcessorVarName"/>
+        <renamePsiElementProcessor
+                implementation="raft.war.language.jass.refactor.rename.JassRenamePsiElementProcessorVarName"/>
 
         <!-- reference -->
         <psi.referenceContributor language="JASS"
@@ -72,6 +73,8 @@
                                         implementationClass="raft.war.language.jass.JassLineMarkerProvider"/>
 
         <!-- index -->
+        <!-- https://plugins.jetbrains.com/docs/intellij/stub-indexes.html#implementation -->
+        <stubElementTypeHolder class="raft.war.language.jass.psi.stub.JassStubElementTypes" externalIdPrefix=""/>
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
         <stubIndex implementation="raft.war.language.jass.psi.varName.JassVarNameIndex"/>
         <stubIndex implementation="raft.war.language.jass.psi.typeName.JassTypeNameIndex"/>
