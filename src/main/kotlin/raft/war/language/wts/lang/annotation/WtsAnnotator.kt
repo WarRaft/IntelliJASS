@@ -5,7 +5,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import raft.war.language.jass.highlighter.JassSyntaxHighlighterBase
+import raft.war.language.jass.highlight.JassSyntaxHighlighterBase
 import java.util.regex.Pattern
 
 internal class WtsAnnotator : Annotator {

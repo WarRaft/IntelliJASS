@@ -1,4 +1,4 @@
-package raft.war.language.jass.highlighter
+package raft.war.language.jass.highlight
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors

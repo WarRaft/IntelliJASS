@@ -1,7 +1,7 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="VJASS"
-                  implementationClass="raft.war.language.vjass.openapi.fileTypes.VjassFileType"
+                  implementationClass="raft.war.language.vjass.VjassFileType"
                   fieldName="instance"
                   language="VJASS"
                   extensions="vj"
@@ -13,7 +13,7 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="VJASS"
-                                       implementationClass="raft.war.language.vjass.openapi.fileTypes.VjassSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.vjass.highlight.VjassSyntaxHighlighterFactory"/>
 
         <!-- commenter -->
         <lang.commenter

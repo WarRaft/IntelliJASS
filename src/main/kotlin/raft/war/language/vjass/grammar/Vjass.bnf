@@ -65,6 +65,8 @@
         RETURNS='returns'
         RETURN='return'
         REQUIRES='requires'
+        SCOPE='scope'
+        ENDSCOPE='endscope'
         STATIC='static'
         SET='set'
         STRING='string'
@@ -109,6 +111,7 @@ Root ::= (
     Glob |
     Fun |
     Lib |
+    Scop |
     HookDef |
     StructDef |
     ModuleDef
@@ -120,7 +123,11 @@ Vis ::= (PUBLIC|PRIVATE)
 IdDot ::= ID (DOT ID)*
 
 // === LIBRARY
-Lib ::= LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)* ENDLIBRARY {pin=1}
+LibBody ::= ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)*
+
+Lib ::= LIBRARY LibBody ENDLIBRARY {pin=1}
+Scop ::= SCOPE LibBody ENDSCOPE {pin=1}
+
 LibReq ::= (REQUIRES|NEEDS|USES) LibReqItem (COMMA LibReqItem)* {pin=1}
 LibReqItem ::= OPTIONAL? ID {pin=2}
 

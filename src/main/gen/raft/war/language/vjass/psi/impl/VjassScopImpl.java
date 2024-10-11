@@ -11,14 +11,14 @@ import static raft.war.language.vjass.psi.VjassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.vjass.psi.*;
 
-public class VjassLibImpl extends ASTWrapperPsiElement implements VjassLib {
+public class VjassScopImpl extends ASTWrapperPsiElement implements VjassScop {
 
-  public VjassLibImpl(@NotNull ASTNode node) {
+  public VjassScopImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull VjassVisitor visitor) {
-    visitor.visitLib(this);
+    visitor.visitScop(this);
   }
 
   @Override

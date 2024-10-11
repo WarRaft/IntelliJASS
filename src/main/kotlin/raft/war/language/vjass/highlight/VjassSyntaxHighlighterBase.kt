@@ -1,4 +1,4 @@
-package raft.war.language.vjass.openapi.fileTypes
+package raft.war.language.vjass.highlight
 
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
@@ -9,7 +9,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import raft.war.language.vjass.lexer.VjassFlexAdapter
+import raft.war.language.vjass.VjassFlexAdapter
 import raft.war.language.vjass.psi.VjassTypes.*
 import java.util.*
 
@@ -88,35 +88,52 @@ class VjassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             )
             fillMap(
                 ATTRIBUTES, TokenSet.create(
+                    // var
                     CONSTANT,
-                    FALSE,  // function
+                    SET,
+                    TRUE,
+                    FALSE,
+                    ARRAY,
+                    // function
+                    NATIVE,
+                    CALL,
                     FUNCTION,
-                    ENDFUNCTION,  // if
+                    ENDFUNCTION,
+                    RETURN,
+                    RETURNS,
+                    TAKES,
+                    // if
                     IF,
                     THEN,
                     ELSE,
-                    ENDIF,  // loop
+                    ENDIF,
+                    // loop
                     LOOP,
+                    ENDLOOP,
                     EXITWHEN,
-                    ENDLOOP,  // globals
+                    // globals
                     GLOBALS,
-                    ENDGLOBALS,  // library
+                    ENDGLOBALS,
+                    // library
                     LIBRARY,
+                    ENDLIBRARY,
+                    SCOPE,
+                    ENDSCOPE,
                     INITIALIZER,
+                    OPTIONAL,
                     REQUIRES,
                     NEEDS,
                     USES,
+                    ENDLIBRARY,
+                    // struct
+                    STRUCT,
+                    ENDSTRUCT,
                     METHOD,
-                    ENDLIBRARY,  //
-                    NATIVE,
-                    OPTIONAL,
+                    ENDMETHOD,
+                    //
                     PRIVATE,
                     PUBLIC,
-                    RETURNS,
                     STATIC,
-                    STRUCT,
-                    TAKES,
-                    TRUE
                 ), VJASS_KEYWORD
             )
         }

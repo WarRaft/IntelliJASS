@@ -4,6 +4,9 @@ package raft.war.language.jass.psi;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
+import raft.war.language.jass.psi.funName.JassFunNameStubElementType;
+import raft.war.language.jass.psi.typeName.JassTypeNameStubElementType;
+import raft.war.language.jass.psi.varName.JassVarNameStubElementType;
 import raft.war.language.jass.psi.impl.*;
 
 public interface JassTypes {
@@ -23,7 +26,7 @@ public interface JassTypes {
   IElementType FUN_BODY = new JassElementType("FUN_BODY");
   IElementType FUN_CALL = new JassElementType("FUN_CALL");
   IElementType FUN_HEAD = new JassElementType("FUN_HEAD");
-  IElementType FUN_NAME = JassElementTypeFactory.factory("FUN_NAME");
+  IElementType FUN_NAME = new JassFunNameStubElementType("FUN_NAME");
   IElementType FUN_REF = new JassElementType("FUN_REF");
   IElementType FUN_RET = new JassElementType("FUN_RET");
   IElementType FUN_TAKE = new JassElementType("FUN_TAKE");
@@ -57,9 +60,9 @@ public interface JassTypes {
   IElementType STR = new JassElementType("STR");
   IElementType TYPE_DEF = new JassElementType("TYPE_DEF");
   IElementType TYPE_EXTENDS = new JassElementType("TYPE_EXTENDS");
-  IElementType TYPE_NAME = JassElementTypeFactory.factory("TYPE_NAME");
+  IElementType TYPE_NAME = new JassTypeNameStubElementType("TYPE_NAME");
   IElementType VAR_DEF = new JassElementType("VAR_DEF");
-  IElementType VAR_NAME = JassElementTypeFactory.factory("VAR_NAME");
+  IElementType VAR_NAME = new JassVarNameStubElementType("VAR_NAME");
 
   IElementType AND = new JassTokenType("and");
   IElementType ARRAY = new JassTokenType("array");

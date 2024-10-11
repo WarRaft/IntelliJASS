@@ -98,7 +98,7 @@ FunName ::= ID {
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
 
     implements="raft.war.language.jass.psi.JassNamedElement"
-    elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+    elementTypeClass = "raft.war.language.jass.psi.funName.JassFunNameStubElementType"
 }
 
 VarName ::= ID {
@@ -106,7 +106,7 @@ VarName ::= ID {
    stubClass="raft.war.language.jass.psi.varName.JassVarNameStub"
 
    implements="raft.war.language.jass.psi.JassNamedElement"
-   elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+   elementTypeClass="raft.war.language.jass.psi.varName.JassVarNameStubElementType"
 }
 
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
@@ -114,7 +114,7 @@ TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
    stubClass="raft.war.language.jass.psi.typeName.JassTypeNameStub"
 
    implements="raft.war.language.jass.psi.JassNamedElement"
-   elementTypeFactory="raft.war.language.jass.psi.JassElementTypeFactory.factory"
+   elementTypeClass="raft.war.language.jass.psi.typeName.JassTypeNameStubElementType"
 }
 
 

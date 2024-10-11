@@ -41,6 +41,7 @@ public interface VjassTypes {
   IElementType IF_STMT = new VjassIElement("IF_STMT");
   IElementType IMPLEMENT_DEF = new VjassIElement("IMPLEMENT_DEF");
   IElementType LIB = new VjassIElement("LIB");
+  IElementType LIB_BODY = new VjassIElement("LIB_BODY");
   IElementType LIB_REQ = new VjassIElement("LIB_REQ");
   IElementType LIB_REQ_ITEM = new VjassIElement("LIB_REQ_ITEM");
   IElementType LOOP_STMT = new VjassIElement("LOOP_STMT");
@@ -62,6 +63,7 @@ public interface VjassTypes {
   IElementType PLUS_UNARY_EXPR = new VjassIElement("PLUS_UNARY_EXPR");
   IElementType PRIMARY_EXPR = new VjassIElement("PRIMARY_EXPR");
   IElementType RETURN_STMT = new VjassIElement("RETURN_STMT");
+  IElementType SCOP = new VjassIElement("SCOP");
   IElementType STMT = new VjassIElement("STMT");
   IElementType STRUCT_DEF = new VjassIElement("STRUCT_DEF");
   IElementType STRUCT_NAME = new VjassIElement("STRUCT_NAME");
@@ -92,6 +94,7 @@ public interface VjassTypes {
   IElementType ENDLOOP = new VjassIToken("endloop");
   IElementType ENDMETHOD = new VjassIToken("endmethod");
   IElementType ENDMODULE = new VjassIToken("endmodule");
+  IElementType ENDSCOPE = new VjassIToken("endscope");
   IElementType ENDSTRUCT = new VjassIToken("endstruct");
   IElementType EQ = new VjassIToken("=");
   IElementType EQ_EQ = new VjassIToken("==");
@@ -143,6 +146,7 @@ public interface VjassTypes {
   IElementType RETURN = new VjassIToken("return");
   IElementType RETURNS = new VjassIToken("returns");
   IElementType RPAREN = new VjassIToken(")");
+  IElementType SCOPE = new VjassIToken("scope");
   IElementType SET = new VjassIToken("set");
   IElementType STATIC = new VjassIToken("static");
   IElementType STRING = new VjassIToken("string");
@@ -247,6 +251,9 @@ public interface VjassTypes {
       else if (type == LIB) {
         return new VjassLibImpl(node);
       }
+      else if (type == LIB_BODY) {
+        return new VjassLibBodyImpl(node);
+      }
       else if (type == LIB_REQ) {
         return new VjassLibReqImpl(node);
       }
@@ -309,6 +316,9 @@ public interface VjassTypes {
       }
       else if (type == RETURN_STMT) {
         return new VjassReturnStmtImpl(node);
+      }
+      else if (type == SCOP) {
+        return new VjassScopImpl(node);
       }
       else if (type == STMT) {
         return new VjassStmtImpl(node);

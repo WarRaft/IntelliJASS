@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.vjass.extapi.psi.VjassPsiFileBase
-import raft.war.language.vjass.lexer.VjassFlexAdapter
+import raft.war.language.vjass.VjassFlexAdapter
 import raft.war.language.vjass.psi.VjassTokenSets
 
 class VjassParserDefinition : ParserDefinition {

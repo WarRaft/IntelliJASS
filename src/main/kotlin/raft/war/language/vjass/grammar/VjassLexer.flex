@@ -1,5 +1,6 @@
 package raft.war.language.vjass.grammar;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
@@ -87,6 +88,8 @@ LINE_COMMENT="//"[^\n]*
   "returns"                   { return RETURNS; }
   "return"                    { return RETURN; }
   "requires"                  { return REQUIRES; }
+  "scope"                     { return SCOPE; }
+  "endscope"                  { return ENDSCOPE; }
   "static"                    { return STATIC; }
   "set"                       { return SET; }
   "string"                    { return STRING; }

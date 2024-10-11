@@ -135,6 +135,10 @@ public class VjassVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLibBody(@NotNull VjassLibBody o) {
+    visitPsiElement(o);
+  }
+
   public void visitLibReq(@NotNull VjassLibReq o) {
     visitPsiElement(o);
   }
@@ -212,6 +216,10 @@ public class VjassVisitor extends PsiElementVisitor {
   }
 
   public void visitReturnStmt(@NotNull VjassReturnStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitScop(@NotNull VjassScop o) {
     visitPsiElement(o);
   }
 

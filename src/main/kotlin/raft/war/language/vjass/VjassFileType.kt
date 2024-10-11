@@ -1,4 +1,4 @@
-package raft.war.language.vjass.openapi.fileTypes
+package raft.war.language.vjass
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import raft.war.language.vjass.icons.VjassIcons

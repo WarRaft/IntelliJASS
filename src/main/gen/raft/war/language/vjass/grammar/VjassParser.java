@@ -719,32 +719,45 @@ public class VjassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LIBRARY ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)* ENDLIBRARY
+  // LIBRARY LibBody ENDLIBRARY
   public static boolean Lib(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Lib")) return false;
     if (!nextTokenIs(b, LIBRARY)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, LIB, null);
-    r = consumeTokens(b, 1, LIBRARY, ID);
+    r = consumeToken(b, LIBRARY);
     p = r; // pin = 1
-    r = r && report_error_(b, Lib_2(b, l + 1));
-    r = p && report_error_(b, Lib_3(b, l + 1)) && r;
-    r = p && report_error_(b, Lib_4(b, l + 1)) && r;
+    r = r && report_error_(b, LibBody(b, l + 1));
     r = p && consumeToken(b, ENDLIBRARY) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
+  /* ********************************************************** */
+  // ID (INITIALIZER ID)? LibReq? (StructDef|ModuleDef|Fun|Glob|HookDef)*
+  public static boolean LibBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    r = r && LibBody_1(b, l + 1);
+    r = r && LibBody_2(b, l + 1);
+    r = r && LibBody_3(b, l + 1);
+    exit_section_(b, m, LIB_BODY, r);
+    return r;
+  }
+
   // (INITIALIZER ID)?
-  private static boolean Lib_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Lib_2")) return false;
-    Lib_2_0(b, l + 1);
+  private static boolean LibBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody_1")) return false;
+    LibBody_1_0(b, l + 1);
     return true;
   }
 
   // INITIALIZER ID
-  private static boolean Lib_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Lib_2_0")) return false;
+  private static boolean LibBody_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, INITIALIZER, ID);
@@ -753,26 +766,26 @@ public class VjassParser implements PsiParser, LightPsiParser {
   }
 
   // LibReq?
-  private static boolean Lib_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Lib_3")) return false;
+  private static boolean LibBody_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody_2")) return false;
     LibReq(b, l + 1);
     return true;
   }
 
   // (StructDef|ModuleDef|Fun|Glob|HookDef)*
-  private static boolean Lib_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Lib_4")) return false;
+  private static boolean LibBody_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!Lib_4_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "Lib_4", c)) break;
+      if (!LibBody_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "LibBody_3", c)) break;
     }
     return true;
   }
 
   // StructDef|ModuleDef|Fun|Glob|HookDef
-  private static boolean Lib_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Lib_4_0")) return false;
+  private static boolean LibBody_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LibBody_3_0")) return false;
     boolean r;
     r = StructDef(b, l + 1);
     if (!r) r = ModuleDef(b, l + 1);
@@ -1044,6 +1057,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
   //     Glob |
   //     Fun |
   //     Lib |
+  //     Scop |
   //     HookDef |
   //     StructDef |
   //     ModuleDef
@@ -1065,6 +1079,7 @@ public class VjassParser implements PsiParser, LightPsiParser {
   //     Glob |
   //     Fun |
   //     Lib |
+  //     Scop |
   //     HookDef |
   //     StructDef |
   //     ModuleDef
@@ -1076,10 +1091,26 @@ public class VjassParser implements PsiParser, LightPsiParser {
     if (!r) r = Glob(b, l + 1);
     if (!r) r = Fun(b, l + 1);
     if (!r) r = Lib(b, l + 1);
+    if (!r) r = Scop(b, l + 1);
     if (!r) r = HookDef(b, l + 1);
     if (!r) r = StructDef(b, l + 1);
     if (!r) r = ModuleDef(b, l + 1);
     return r;
+  }
+
+  /* ********************************************************** */
+  // SCOPE LibBody ENDSCOPE
+  public static boolean Scop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Scop")) return false;
+    if (!nextTokenIs(b, SCOPE)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, SCOP, null);
+    r = consumeToken(b, SCOPE);
+    p = r; // pin = 1
+    r = r && report_error_(b, LibBody(b, l + 1));
+    r = p && consumeToken(b, ENDSCOPE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

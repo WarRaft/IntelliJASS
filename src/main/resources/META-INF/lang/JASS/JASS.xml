@@ -16,7 +16,7 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="JASS"
-                                       implementationClass="raft.war.language.jass.highlighter.JassSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.jass.highlight.JassSyntaxHighlighterFactory"/>
 
         <!-- editor -->
         <lang.commenter language="JASS" implementationClass="raft.war.language.jass.JassCommenter"/>
@@ -27,10 +27,11 @@
         <enterHandlerDelegate implementation="raft.war.language.jass.completion.JassEnterHandlerDelegate"/>
 
         <!-- color -->
-        <colorSettingsPage implementation="raft.war.language.jass.highlighter.JassColorSettingsPage"/>
+        <colorSettingsPage implementation="raft.war.language.jass.highlight.JassColorSettingsPage"/>
 
         <!-- annotator -->
         <annotator language="JASS" implementationClass="raft.war.language.jass.inspection.JassAnnotator"/>
+        <codeInsight.parameterInfo language="JASS" implementationClass="raft.war.language.jass.JassParameterInfoHandler"/>
 
         <!-- folding -->
         <lang.foldingBuilder language="JASS"
@@ -74,7 +75,7 @@
 
         <!-- index -->
         <!-- https://plugins.jetbrains.com/docs/intellij/stub-indexes.html#implementation -->
-        <stubElementTypeHolder class="raft.war.language.jass.psi.stub.JassStubElementTypes" externalIdPrefix=""/>
+        <stubElementTypeHolder class="raft.war.language.jass.psi.stub.JassStubElementTypes" externalIdPrefix="jass."/>
         <stubIndex implementation="raft.war.language.jass.psi.funName.JassFunNameIndex"/>
         <stubIndex implementation="raft.war.language.jass.psi.varName.JassVarNameIndex"/>
         <stubIndex implementation="raft.war.language.jass.psi.typeName.JassTypeNameIndex"/>
