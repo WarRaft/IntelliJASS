@@ -45,8 +45,8 @@ public interface AngelScriptTypes {
   IElementType EXPR_STAT = new AngelScriptIElement("EXPR_STAT");
   IElementType FOR_STMT = new AngelScriptIElement("FOR_STMT");
   IElementType FUN = new AngelScriptIElement("FUN");
-  IElementType FUNC_ATTR = new AngelScriptIElement("FUNC_ATTR");
   IElementType FUNC_CALL = new AngelScriptIElement("FUNC_CALL");
+  IElementType FUN_ATTR = new AngelScriptIElement("FUN_ATTR");
   IElementType FUN_DEF = new AngelScriptIElement("FUN_DEF");
   IElementType GENERIC_TYPE = new AngelScriptIElement("GENERIC_TYPE");
   IElementType GT_EQ_EXPR = new AngelScriptIElement("GT_EQ_EXPR");
@@ -85,6 +85,7 @@ public interface AngelScriptTypes {
   IElementType SCOPE = new AngelScriptIElement("SCOPE");
   IElementType SCOPE_EXPR = new AngelScriptIElement("SCOPE_EXPR");
   IElementType STAT_BLOCK = new AngelScriptIElement("STAT_BLOCK");
+  IElementType STAT_BLOCK_BODY = new AngelScriptIElement("STAT_BLOCK_BODY");
   IElementType STR = new AngelScriptIElement("STR");
   IElementType SWITCH_STAT_BLOCK = new AngelScriptIElement("SWITCH_STAT_BLOCK");
   IElementType SWITCH_STMT = new AngelScriptIElement("SWITCH_STMT");
@@ -157,6 +158,7 @@ public interface AngelScriptTypes {
   IElementType INT32 = new AngelScriptIToken("int32");
   IElementType INT64 = new AngelScriptIToken("int64");
   IElementType INT8 = new AngelScriptIToken("int8");
+  IElementType INTERFACE = new AngelScriptIToken("interface");
   IElementType INTVAL = new AngelScriptIToken("INTVAL");
   IElementType IS = new AngelScriptIToken("is");
   IElementType LBRACE = new AngelScriptIToken("{");
@@ -326,11 +328,11 @@ public interface AngelScriptTypes {
       else if (type == FUN) {
         return new AngelScriptFunImpl(node);
       }
-      else if (type == FUNC_ATTR) {
-        return new AngelScriptFuncAttrImpl(node);
-      }
       else if (type == FUNC_CALL) {
         return new AngelScriptFuncCallImpl(node);
+      }
+      else if (type == FUN_ATTR) {
+        return new AngelScriptFunAttrImpl(node);
       }
       else if (type == FUN_DEF) {
         return new AngelScriptFunDefImpl(node);
@@ -445,6 +447,9 @@ public interface AngelScriptTypes {
       }
       else if (type == STAT_BLOCK) {
         return new AngelScriptStatBlockImpl(node);
+      }
+      else if (type == STAT_BLOCK_BODY) {
+        return new AngelScriptStatBlockBodyImpl(node);
       }
       else if (type == STR) {
         return new AngelScriptStrImpl(node);

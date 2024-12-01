@@ -8,7 +8,6 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import com.squareup.wire.internal.JvmField
 import raft.war.language.angelscript.lexer.AngelScriptFlexAdapter
 import raft.war.language.angelscript.psi.AngelScriptTypes.*
 
@@ -72,6 +71,7 @@ class AngelScriptSyntaxHighlighterBase : SyntaxHighlighterBase() {
             IF,
             INCLUDE,
             IN,
+            INTERFACE,
             INOUT,
             NAMESPACE,
             NULL,

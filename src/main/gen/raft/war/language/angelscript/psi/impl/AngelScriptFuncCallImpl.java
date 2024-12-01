@@ -40,9 +40,15 @@ public class AngelScriptFuncCallImpl extends ASTWrapperPsiElement implements Ang
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public PsiElement getGet() {
+    return findChildByType(GET);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getId() {
-    return findNotNullChildByType(ID);
+    return findChildByType(ID);
   }
 
   @Override
@@ -55,6 +61,12 @@ public class AngelScriptFuncCallImpl extends ASTWrapperPsiElement implements Ang
   @Nullable
   public PsiElement getRparen() {
     return findChildByType(RPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSet() {
+    return findChildByType(SET);
   }
 
 }

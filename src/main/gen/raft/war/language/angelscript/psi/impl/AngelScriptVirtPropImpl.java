@@ -29,8 +29,8 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @NotNull
-  public List<AngelScriptFuncAttr> getFuncAttrList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFuncAttr.class);
+  public List<AngelScriptFunAttr> getFunAttrList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFunAttr.class);
   }
 
   @Override

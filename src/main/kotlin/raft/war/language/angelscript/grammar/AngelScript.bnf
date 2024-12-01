@@ -47,6 +47,7 @@
         HANDLE='handle'
         IF='if'
         INCLUDE='include'
+        INTERFACE='interface'
         IN = 'in'
         IS = 'is'
         INOUT='inout'
@@ -189,18 +190,18 @@ IncludeStmt ::= HASH? INCLUDE Str {pin=2}
 //                                                                                              '}'
 //                                                                                          )
 //                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* CLAS ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2}
+Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* (CLAS|INTERFACE) ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2}
 ClazzItem ::= (VirtProp|Constructor|Fun|Var|FunDef)*  {recoverWhile=ClazzItemRecover}
 private ClazzItemRecover ::= !(SEMI|ID|RBRACE|Type)
 ClazzStatBlock ::= LBRACE ClazzItem RBRACE
-Constructor ::= ID ParamList CONST? FuncAttr (SEMI | StatBlock)
+Constructor ::= ID ParamList CONST? FunAttr (SEMI | StatBlock)
 
 // VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'
 //                                                                      {
 //                                                                          ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';')
 //                                                                      }
 //                                                                      '}'
-VirtProp ::= (PRIVATE|PROTECTED)? Type AMP? ID LBRACE ((GET|SET) CONST? FuncAttr (StatBlock | SEMI))*
+VirtProp ::= (PRIVATE|PROTECTED)? Type AMP? ID LBRACE ((GET|SET) CONST? FunAttr (StatBlock | SEMI))*
 FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AMP? ID ParamList SEMI
 // VAR ::=  ['private'|'protected']
 //          TYPE
@@ -288,13 +289,13 @@ Condition ::= Expr (QUEST Assign COLON Assign)?
 //                      ')'
 ArgList ::= LPAREN (ID COLON)? Assign (COMMA (ID COLON)? Assign)* RPAREN
 // FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
-FuncCall ::= Scope ID (ArgList | (LPAREN RPAREN))
+FuncCall ::= Scope (ID|GET|SET) (ArgList | (LPAREN RPAREN))
 // FUNC          ::= {'shared' | 'external'} ['private' | 'protected']  [
 //                                                                          ( (TYPE ['&']) | '~' )
 //                                                                      ]
 //                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
 private FunType ::= Type AMP? AT?
-Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CONST? FuncAttr (SEMI | StatBlock)
+Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CONST? FunAttr (SEMI | StatBlock)
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'
@@ -313,13 +314,21 @@ private ParamRecover ::= !(RPAREN|COMMA);
 // TYPEMOD       ::= ['&' ['in' | 'out' | 'inout']]
 TypeMod ::= AMP (IN|OUT|INOUT)?
 // FUNCATTR      ::= {'override' | 'final' | 'explicit' | 'property'}
-FuncAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
+FunAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
 // STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
-StatBlock ::= LBRACE (Var | Stmt)* RBRACE
+StatBlock ::= LBRACE StatBlockBody? RBRACE
+StatBlockBody ::= (Var | Stmt)*
+
 // STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
-private Stmt ::= (StatBlock|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt)
+private Stmt ::= (
+StatBlock|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt
+) {recoverWhile=StmtRecover}
+private StmtRecover ::= !(RBRACE|COLON|IF|RETURN|FOR|WHILE|Type|SWITCH|CASE|BREAK|PLUS_PLUS|ID|SEMI)
+
 // EXPRSTAT      ::= [ASSIGN] ';'
-ExprStat ::= Assign? SEMI
+ExprStat ::= Assign? SEMI {recoverWhile=StmtRecover}
+
+
 // IF            ::= 'if' '(' ASSIGN ')' STATEMENT ['else' STATEMENT]
 IfStmt ::= IF LPAREN Assign RPAREN Stmt ElseStmt? {pin=1}
 ElseStmt ::= ELSE Stmt {pin=1}
@@ -504,6 +513,8 @@ PrimExpr ::=
     HEXVAL |
     INTVAL |
     Str |
+    GET |
+    SET |
     (AT? ID)
 
 

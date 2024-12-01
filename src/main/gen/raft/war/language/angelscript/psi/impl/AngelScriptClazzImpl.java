@@ -34,15 +34,21 @@ public class AngelScriptClazzImpl extends ASTWrapperPsiElement implements AngelS
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getClas() {
-    return findNotNullChildByType(CLAS);
+    return findChildByType(CLAS);
   }
 
   @Override
   @Nullable
   public PsiElement getColon() {
     return findChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInterface() {
+    return findChildByType(INTERFACE);
   }
 
   @Override

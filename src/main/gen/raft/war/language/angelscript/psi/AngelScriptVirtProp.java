@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptVirtProp extends PsiElement {
 
   @NotNull
-  List<AngelScriptFuncAttr> getFuncAttrList();
+  List<AngelScriptFunAttr> getFunAttrList();
 
   @NotNull
   List<AngelScriptStatBlock> getStatBlockList();

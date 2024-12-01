@@ -29,8 +29,8 @@ public class AngelScriptConstructorImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public AngelScriptFuncAttr getFuncAttr() {
-    return findNotNullChildByClass(AngelScriptFuncAttr.class);
+  public AngelScriptFunAttr getFunAttr() {
+    return findNotNullChildByClass(AngelScriptFunAttr.class);
   }
 
   @Override

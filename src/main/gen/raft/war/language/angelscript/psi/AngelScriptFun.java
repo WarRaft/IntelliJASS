@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptFun extends PsiElement {
 
   @NotNull
-  AngelScriptFuncAttr getFuncAttr();
+  AngelScriptFunAttr getFunAttr();
 
   @NotNull
   AngelScriptParamList getParamList();

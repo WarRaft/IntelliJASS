@@ -65,6 +65,12 @@ public class AngelScriptPrimExprImpl extends AngelScriptExprImpl implements Ange
 
   @Override
   @Nullable
+  public PsiElement getGet() {
+    return findChildByType(GET);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getHexval() {
     return findChildByType(HEXVAL);
   }
@@ -103,6 +109,12 @@ public class AngelScriptPrimExprImpl extends AngelScriptExprImpl implements Ange
   @Nullable
   public PsiElement getRealval() {
     return findChildByType(REALVAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSet() {
+    return findChildByType(SET);
   }
 
   @Override

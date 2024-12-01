@@ -13,7 +13,10 @@ public interface AngelScriptFuncCall extends PsiElement {
   @NotNull
   AngelScriptScope getScope();
 
-  @NotNull
+  @Nullable
+  PsiElement getGet();
+
+  @Nullable
   PsiElement getId();
 
   @Nullable
@@ -21,5 +24,8 @@ public interface AngelScriptFuncCall extends PsiElement {
 
   @Nullable
   PsiElement getRparen();
+
+  @Nullable
+  PsiElement getSet();
 
 }

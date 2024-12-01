@@ -147,11 +147,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFunDef(@NotNull AngelScriptFunDef o) {
+  public void visitFunAttr(@NotNull AngelScriptFunAttr o) {
     visitPsiElement(o);
   }
 
-  public void visitFuncAttr(@NotNull AngelScriptFuncAttr o) {
+  public void visitFunDef(@NotNull AngelScriptFunDef o) {
     visitPsiElement(o);
   }
 
@@ -304,6 +304,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
   }
 
   public void visitStatBlock(@NotNull AngelScriptStatBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStatBlockBody(@NotNull AngelScriptStatBlockBody o) {
     visitPsiElement(o);
   }
 

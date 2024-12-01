@@ -70,6 +70,7 @@ int peek() {
    "if"                        { return IF; }
    "include"                   { return INCLUDE; }
    "in"                        { return IN; }
+   "interface"                 { return INTERFACE; }
    "is"                        { return IS; }
    "inout"                     { return INOUT; }
    "int"                       { return INT; }

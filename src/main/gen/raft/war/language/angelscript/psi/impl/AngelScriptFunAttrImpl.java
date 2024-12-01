@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptFuncAttrImpl extends ASTWrapperPsiElement implements AngelScriptFuncAttr {
+public class AngelScriptFunAttrImpl extends ASTWrapperPsiElement implements AngelScriptFunAttr {
 
-  public AngelScriptFuncAttrImpl(@NotNull ASTNode node) {
+  public AngelScriptFunAttrImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitFuncAttr(this);
+    visitor.visitFunAttr(this);
   }
 
   @Override
