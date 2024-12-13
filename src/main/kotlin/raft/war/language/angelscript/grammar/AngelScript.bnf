@@ -32,6 +32,7 @@
         CLAS='class'
         DOUBLE='double'
         DEFAULT='default'
+        DELETE='delete'
         DO='do'
         ELSE='else'
         ENUM='enum'
@@ -153,6 +154,7 @@
 
 }
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
+// https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
 Root ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* {recoverWhile=RootRecover}
 
@@ -168,55 +170,78 @@ private RootRecover ::= !(PrimType|QUEST|AUTO|CLAS|HASH|NAMESPACE|ENUM|CONST)
 //                                      '}'
 //                                  )
 //                      )
-Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumStatBlock)
-EnumStatBlock ::= LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE
+Enums ::= (SHARED|EXTERNAL)? ENUM ID (SEMI | EnumBracer)
+EnumBracer ::= LBRACE EnumItem? (COMMA EnumItem)* COMMA* RBRACE {pin=1}
 EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
-Nspace ::= NAMESPACE ID (COLON_COLON ID)* NspaceStatBlock {pin=1}
-NspaceStatBlock ::= LBRACE NspaceItems RBRACE
-private NspaceItems ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* //{recoverWhile=StatBlockRecover}
+Nspace ::= NAMESPACE ID (COLON_COLON ID)* NspaceBracer {pin=1}
+NspaceBracer ::= LBRACE NspaceBracerBody RBRACE {pin=1}
+NspaceBracerBody ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)*
 
 IncludeStmt ::= HASH? INCLUDE Str {pin=2}
 
 // FUNCDEF       ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
-// CLASS         ::= {'shared' | 'abstract' | 'final' | 'external'} 'class' IDENTIFIER  (
-//                                                                                          ';'
-//                                                                                          |
-//                                                                                          (
-//                                                                                              [':' IDENTIFIER {',' IDENTIFIER}]
-//                                                                                              '{'
-//                                                                                              {VIRTPROP | FUNC | VAR | FUNCDEF}
-//                                                                                              '}'
-//                                                                                          )
-//                                                                                      )
-Clazz ::= (SHARED|ABSTRACT|FINAL|EXTERNAL)* (CLAS|INTERFACE) ID (SEMI | ((COLON ID (COMMA ID)*)? ClazzStatBlock)) {pin=2}
-ClazzItem ::= (VirtProp|Constructor|Fun|Var|FunDef)*  {recoverWhile=ClazzItemRecover}
+/*
+CLASS ::=   {'shared' | 'abstract' | 'final' | 'external'}
+            'class' IDENTIFIER
+            (
+                ';'
+                |
+                (
+                    [':' IDENTIFIER {',' IDENTIFIER}]
+                    '{'
+                    {VIRTPROP | FUNC | VAR | FUNCDEF}
+                    '}'
+                )
+            )
+*/
+Clazz ::=   (SHARED|ABSTRACT|FINAL|EXTERNAL)*
+            (CLAS|INTERFACE) ID
+            (
+                SEMI
+                |
+                    ((COLON ID (COMMA ID)*)?
+                    ClazzBracer
+                )
+            ) {pin=2}
+ClazzItem ::= VirtProp|Constructor|Fun|Var|FunDef  {recoverWhile=ClazzItemRecover}
 private ClazzItemRecover ::= !(SEMI|ID|RBRACE|Type)
-ClazzStatBlock ::= LBRACE ClazzItem RBRACE
-Constructor ::= ID ParamList CONST? FunAttr (SEMI | StatBlock)
+ClazzBracer ::= LBRACE ClazzItem* RBRACE {pin=1 recoverWhile=ClazzBracerRecover}
+private ClazzBracerRecover ::= !(CLAS|NAMESPACE|Type)
 
-// VIRTPROP      ::= ['private' | 'protected'] TYPE ['&'] IDENTIFIER    '{'
-//                                                                      {
-//                                                                          ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';')
-//                                                                      }
-//                                                                      '}'
-VirtProp ::= (PRIVATE|PROTECTED)? Type AMP? ID LBRACE ((GET|SET) CONST? FunAttr (StatBlock | SEMI))*
+Constructor ::= ID ParamList CONST? FunAttr (DELETE? SEMI | StmtBracer)
+
+/*
+VIRTPROP ::= ['private' | 'protected']
+              TYPE ['&'] IDENTIFIER
+              '{'
+                    { ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';') }
+              '}'
+*/
+VirtProp ::=    (PRIVATE|PROTECTED)?
+                Type AMP? ID
+                LBRACE
+                    ((GET|SET) CONST? FunAttr (StmtBracer | SEMI))*
+                RBRACE
 FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AMP? ID ParamList SEMI
-// VAR ::=  ['private'|'protected']
-//          TYPE
-//          IDENTIFIER
-//          [
-//              ('=' (INITLIST | EXPR)) | ARGLIST
-//          ]
-//          {
-//              ','
-//              IDENTIFIER
-//              [
-//                  ('=' (INITLIST | EXPR)) | ARGLIST
-//              ]
-//          }
-//          ';'
+
+/*
+VAR ::=  ['private'|'protected']
+         TYPE
+         IDENTIFIER
+         [
+             ('=' (INITLIST | EXPR)) | ARGLIST
+         ]
+         {
+             ','
+             IDENTIFIER
+             [
+                 ('=' (INITLIST | EXPR)) | ARGLIST
+             ]
+         }
+         ';'
+*/
 Var ::= (PRIVATE|PROTECTED)?
         Type
         ID
@@ -232,34 +257,34 @@ Var ::= (PRIVATE|PROTECTED)?
         )*
         SEMI
 
-// TYPE ::=
-//          ['const']
-//          SCOPE
-//          DATATYPE
-//          [
-//              '<' TYPE {',' TYPE} '>'
-//          ]
-//          {
-//              ('[' ']') | ('@' ['const'])
-//          }
+/*
+TYPE ::=
+         ['const']
+         SCOPE
+         DATATYPE
+         [ '<' TYPE {',' TYPE} '>' ]
+         { ('[' ']') | ('@' ['const']) }
+*/
 Type ::=    CONST?
             Scope
-            DataType
+            (PrimType|QUEST|AUTO) // DATATYPE ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
             GenericType?
-            (
-                (LBRACK RBRACK)|(AT CONST?)
-            )*
+            ( (LBRACK RBRACK)|(AT CONST?) )*
+
 GenericType ::= LT Type (COMMA Type)* GT
-// SCOPE         ::= ['::'] {IDENTIFIER '::'}   [
-//                                                  IDENTIFIER
-//                                                  [
-//                                                      '<' TYPE {',' TYPE} '>'
-//                                                  ]
-//                                                  '::'
-//                                              ]
+/*
+SCOPE ::=   ['::']
+            {IDENTIFIER '::'}
+            [
+                 IDENTIFIER
+                 [
+                     '<' TYPE {',' TYPE} '>'
+                 ]
+                 '::'
+             ]
+*/
 Scope ::= COLON_COLON? (ID COLON_COLON)* (ID GenericType? COLON_COLON)?
-// DATATYPE      ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
-DataType ::= ID|PrimType|QUEST|AUTO
+
 // PRIMTYPE      ::= 'void' | 'int' | 'int8' | 'int16' | 'int32' | 'int64' | 'uint' | 'uint8' | 'uint16' | 'uint32' | 'uint64' | 'float' | 'double' | 'bool'
 PrimType ::= ARRAY|BOOL|CODE|DOUBLE|FLOAT|HANDLE|INT|INT8|INT16|INT32|INT64|STRING|UINT|UINT16|UINT32|UINT64|VOID|ID
 // INITLIST      ::=    '{'
@@ -295,7 +320,7 @@ FuncCall ::= Scope (ID|GET|SET) (ArgList | (LPAREN RPAREN))
 //                                                                      ]
 //                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
 private FunType ::= Type AMP? AT?
-Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CONST? FunAttr (SEMI | StatBlock)
+Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CONST? FunAttr (SEMI | StmtBracer)
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'
@@ -315,13 +340,16 @@ private ParamRecover ::= !(RPAREN|COMMA);
 TypeMod ::= AMP (IN|OUT|INOUT)?
 // FUNCATTR      ::= {'override' | 'final' | 'explicit' | 'property'}
 FunAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
-// STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
-StatBlock ::= LBRACE StatBlockBody? RBRACE
-StatBlockBody ::= (Var | Stmt)*
+
+/*
+STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
+*/
+StmtBracer ::= LBRACE StmtBracerBody? RBRACE {pin=1}
+StmtBracerBody ::= (Var | Stmt)*
 
 // STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
 private Stmt ::= (
-StatBlock|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt
+StmtBracer|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt
 ) {recoverWhile=StmtRecover}
 private StmtRecover ::= !(RBRACE|COLON|IF|RETURN|FOR|WHILE|Type|SWITCH|CASE|BREAK|PLUS_PLUS|ID|SEMI)
 
@@ -345,8 +373,8 @@ DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI
 // RETURN        ::= 'return' [ASSIGN] ';'
 ReturnStmt ::= RETURN Assign? SEMI
 // SWITCH        ::= 'switch' '(' ASSIGN ')' '{' {CASE} '}'
-SwitchStmt ::= SWITCH LPAREN Assign RPAREN SwitchStatBlock
-SwitchStatBlock ::= LBRACE (CaseStmt)* RBRACE
+SwitchStmt ::= SWITCH LPAREN Assign RPAREN SwitchBracer
+SwitchBracer ::= LBRACE (CaseStmt)* RBRACE {pin=1}
 // CASE          ::= (('case' EXPR) | 'default') ':' {STATEMENT}
 CaseStmt ::= ((CASE Expr) | DEFAULT) COLON CaseStmtList
 CaseStmtList ::= Stmt*
@@ -365,7 +393,7 @@ BreakStmt ::= BREAK SEMI
 //              ]
 //              ')'
 //              STATBLOCK
-Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? RPAREN StatBlock
+Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? RPAREN StmtBracer
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
@@ -508,6 +536,7 @@ PrimExpr ::=
     ArrayAccess |
     FuncCall |
     Lambda |
+    Cazt |
     RAWVAL |
     REALVAL |
     HEXVAL |
@@ -521,3 +550,6 @@ PrimExpr ::=
 Str ::= (STRING_ONE|STRING_THREE)+
 ArrayAccess ::= ID ArrayAccessItem ArrayAccessItem*
 ArrayAccessItem ::= LBRACK Expr? RBRACK {pin=1}
+
+// CAST ::= 'cast' '<' TYPE '>' '(' ASSIGN ')'
+Cazt ::= CAST LT Type GT LPAREN Assign RPAREN {pin=1}

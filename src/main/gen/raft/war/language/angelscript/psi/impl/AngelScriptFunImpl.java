@@ -41,8 +41,8 @@ public class AngelScriptFunImpl extends ASTWrapperPsiElement implements AngelScr
 
   @Override
   @Nullable
-  public AngelScriptStatBlock getStatBlock() {
-    return findChildByClass(AngelScriptStatBlock.class);
+  public AngelScriptStmtBracer getStmtBracer() {
+    return findChildByClass(AngelScriptStmtBracer.class);
   }
 
   @Override

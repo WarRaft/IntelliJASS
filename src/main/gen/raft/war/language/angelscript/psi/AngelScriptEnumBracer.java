@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptEnumStatBlock extends PsiElement {
+public interface AngelScriptEnumBracer extends PsiElement {
 
   @NotNull
   List<AngelScriptEnumItem> getEnumItemList();
@@ -13,7 +13,7 @@ public interface AngelScriptEnumStatBlock extends PsiElement {
   @NotNull
   PsiElement getLbrace();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrace();
 
 }

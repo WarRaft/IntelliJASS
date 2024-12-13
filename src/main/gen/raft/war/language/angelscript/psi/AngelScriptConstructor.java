@@ -14,10 +14,13 @@ public interface AngelScriptConstructor extends PsiElement {
   AngelScriptParamList getParamList();
 
   @Nullable
-  AngelScriptStatBlock getStatBlock();
+  AngelScriptStmtBracer getStmtBracer();
 
   @Nullable
   PsiElement getConst();
+
+  @Nullable
+  PsiElement getDelete();
 
   @NotNull
   PsiElement getId();

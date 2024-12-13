@@ -54,6 +54,7 @@ int peek() {
    "class"                     { return CLAS; }
    "double"                    { return DOUBLE; }
    "default"                   { return DEFAULT; }
+   "delete"                    { return DELETE; }
    "do"                        { return DO; }
    "else"                      { return ELSE; }
    "enum"                      { return ENUM; }

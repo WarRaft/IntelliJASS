@@ -35,6 +35,12 @@ public class AngelScriptPrimExprImpl extends AngelScriptExprImpl implements Ange
 
   @Override
   @Nullable
+  public AngelScriptCazt getCazt() {
+    return findChildByClass(AngelScriptCazt.class);
+  }
+
+  @Override
+  @Nullable
   public AngelScriptFuncCall getFuncCall() {
     return findChildByClass(AngelScriptFuncCall.class);
   }

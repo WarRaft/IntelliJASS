@@ -41,14 +41,20 @@ public class AngelScriptConstructorImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public AngelScriptStatBlock getStatBlock() {
-    return findChildByClass(AngelScriptStatBlock.class);
+  public AngelScriptStmtBracer getStmtBracer() {
+    return findChildByClass(AngelScriptStmtBracer.class);
   }
 
   @Override
   @Nullable
   public PsiElement getConst() {
     return findChildByType(CONST);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDelete() {
+    return findChildByType(DELETE);
   }
 
   @Override

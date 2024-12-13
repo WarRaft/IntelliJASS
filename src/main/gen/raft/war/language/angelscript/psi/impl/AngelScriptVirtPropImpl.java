@@ -35,8 +35,8 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @NotNull
-  public List<AngelScriptStatBlock> getStatBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStatBlock.class);
+  public List<AngelScriptStmtBracer> getStmtBracerList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStmtBracer.class);
   }
 
   @Override
@@ -73,6 +73,12 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
   @Nullable
   public PsiElement getProtected() {
     return findChildByType(PROTECTED);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
   }
 
 }

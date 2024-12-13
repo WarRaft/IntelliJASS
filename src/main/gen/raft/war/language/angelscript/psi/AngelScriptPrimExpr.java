@@ -11,6 +11,9 @@ public interface AngelScriptPrimExpr extends AngelScriptExpr {
   AngelScriptArrayAccess getArrayAccess();
 
   @Nullable
+  AngelScriptCazt getCazt();
+
+  @Nullable
   AngelScriptFuncCall getFuncCall();
 
   @Nullable

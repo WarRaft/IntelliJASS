@@ -236,13 +236,13 @@ class JassBlock(
 
         val type = node.elementType
         val typeLast = node.lastChildNode?.elementType
-        when (type) {
-            GLOB -> return typeLast != ENDGLOBALS
-            FUN -> return typeLast != ENDFUNCTION
-            IF_STMT -> return typeLast != ENDIF
-            LOOP_STMT -> return typeLast != ENDLOOP
+        return when (type) {
+            GLOB -> typeLast != ENDGLOBALS
+            FUN -> typeLast != ENDFUNCTION
+            IF_STMT -> typeLast != ENDIF
+            LOOP_STMT -> typeLast != ENDLOOP
+            else -> false
         }
-        return false
     }
 
     override fun isLeaf(): Boolean = isOneOf(node, TYPE_NAME)

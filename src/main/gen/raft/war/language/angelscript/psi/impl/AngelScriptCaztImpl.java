@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptClazzItemImpl extends ASTWrapperPsiElement implements AngelScriptClazzItem {
+public class AngelScriptCaztImpl extends ASTWrapperPsiElement implements AngelScriptCazt {
 
-  public AngelScriptClazzItemImpl(@NotNull ASTNode node) {
+  public AngelScriptCaztImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitClazzItem(this);
+    visitor.visitCazt(this);
   }
 
   @Override
@@ -29,32 +29,44 @@ public class AngelScriptClazzItemImpl extends ASTWrapperPsiElement implements An
 
   @Override
   @Nullable
-  public AngelScriptConstructor getConstructor() {
-    return findChildByClass(AngelScriptConstructor.class);
+  public AngelScriptAssign getAssign() {
+    return findChildByClass(AngelScriptAssign.class);
   }
 
   @Override
   @Nullable
-  public AngelScriptFun getFun() {
-    return findChildByClass(AngelScriptFun.class);
+  public AngelScriptType getType() {
+    return findChildByClass(AngelScriptType.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getCast() {
+    return findNotNullChildByType(CAST);
   }
 
   @Override
   @Nullable
-  public AngelScriptFunDef getFunDef() {
-    return findChildByClass(AngelScriptFunDef.class);
+  public PsiElement getGt() {
+    return findChildByType(GT);
   }
 
   @Override
   @Nullable
-  public AngelScriptVar getVar() {
-    return findChildByClass(AngelScriptVar.class);
+  public PsiElement getLparen() {
+    return findChildByType(LPAREN);
   }
 
   @Override
   @Nullable
-  public AngelScriptVirtProp getVirtProp() {
-    return findChildByClass(AngelScriptVirtProp.class);
+  public PsiElement getLt() {
+    return findChildByType(LT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRparen() {
+    return findChildByType(RPAREN);
   }
 
 }

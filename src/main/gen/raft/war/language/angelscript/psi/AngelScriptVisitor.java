@@ -75,15 +75,19 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCazt(@NotNull AngelScriptCazt o) {
+    visitPsiElement(o);
+  }
+
   public void visitClazz(@NotNull AngelScriptClazz o) {
     visitPsiElement(o);
   }
 
-  public void visitClazzItem(@NotNull AngelScriptClazzItem o) {
+  public void visitClazzBracer(@NotNull AngelScriptClazzBracer o) {
     visitPsiElement(o);
   }
 
-  public void visitClazzStatBlock(@NotNull AngelScriptClazzStatBlock o) {
+  public void visitClazzItem(@NotNull AngelScriptClazzItem o) {
     visitPsiElement(o);
   }
 
@@ -92,10 +96,6 @@ public class AngelScriptVisitor extends PsiElementVisitor {
   }
 
   public void visitConstructor(@NotNull AngelScriptConstructor o) {
-    visitPsiElement(o);
-  }
-
-  public void visitDataType(@NotNull AngelScriptDataType o) {
     visitPsiElement(o);
   }
 
@@ -115,11 +115,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitEnumItem(@NotNull AngelScriptEnumItem o) {
+  public void visitEnumBracer(@NotNull AngelScriptEnumBracer o) {
     visitPsiElement(o);
   }
 
-  public void visitEnumStatBlock(@NotNull AngelScriptEnumStatBlock o) {
+  public void visitEnumItem(@NotNull AngelScriptEnumItem o) {
     visitPsiElement(o);
   }
 
@@ -231,7 +231,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitNspaceStatBlock(@NotNull AngelScriptNspaceStatBlock o) {
+  public void visitNspaceBracer(@NotNull AngelScriptNspaceBracer o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNspaceBracerBody(@NotNull AngelScriptNspaceBracerBody o) {
     visitPsiElement(o);
   }
 
@@ -303,11 +307,11 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitStatBlock(@NotNull AngelScriptStatBlock o) {
+  public void visitStmtBracer(@NotNull AngelScriptStmtBracer o) {
     visitPsiElement(o);
   }
 
-  public void visitStatBlockBody(@NotNull AngelScriptStatBlockBody o) {
+  public void visitStmtBracerBody(@NotNull AngelScriptStmtBracerBody o) {
     visitPsiElement(o);
   }
 
@@ -315,7 +319,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSwitchStatBlock(@NotNull AngelScriptSwitchStatBlock o) {
+  public void visitSwitchBracer(@NotNull AngelScriptSwitchBracer o) {
     visitPsiElement(o);
   }
 

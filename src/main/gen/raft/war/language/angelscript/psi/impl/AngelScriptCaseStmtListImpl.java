@@ -65,8 +65,8 @@ public class AngelScriptCaseStmtListImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
-  public List<AngelScriptStatBlock> getStatBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStatBlock.class);
+  public List<AngelScriptStmtBracer> getStmtBracerList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStmtBracer.class);
   }
 
   @Override

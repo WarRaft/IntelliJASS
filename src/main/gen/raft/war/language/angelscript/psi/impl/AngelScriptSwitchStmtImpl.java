@@ -35,8 +35,8 @@ public class AngelScriptSwitchStmtImpl extends ASTWrapperPsiElement implements A
 
   @Override
   @NotNull
-  public AngelScriptSwitchStatBlock getSwitchStatBlock() {
-    return findNotNullChildByClass(AngelScriptSwitchStatBlock.class);
+  public AngelScriptSwitchBracer getSwitchBracer() {
+    return findNotNullChildByClass(AngelScriptSwitchBracer.class);
   }
 
   @Override

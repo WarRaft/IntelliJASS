@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptEnumStatBlockImpl extends ASTWrapperPsiElement implements AngelScriptEnumStatBlock {
+public class AngelScriptSwitchBracerImpl extends ASTWrapperPsiElement implements AngelScriptSwitchBracer {
 
-  public AngelScriptEnumStatBlockImpl(@NotNull ASTNode node) {
+  public AngelScriptSwitchBracerImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitEnumStatBlock(this);
+    visitor.visitSwitchBracer(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class AngelScriptEnumStatBlockImpl extends ASTWrapperPsiElement implement
 
   @Override
   @NotNull
-  public List<AngelScriptEnumItem> getEnumItemList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptEnumItem.class);
+  public List<AngelScriptCaseStmt> getCaseStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptCaseStmt.class);
   }
 
   @Override
@@ -40,9 +40,9 @@ public class AngelScriptEnumStatBlockImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRbrace() {
-    return findNotNullChildByType(RBRACE);
+    return findChildByType(RBRACE);
   }
 
 }

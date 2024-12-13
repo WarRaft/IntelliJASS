@@ -54,7 +54,7 @@ internal class AngelScriptCustomFoldingBuilder : CustomFoldingBuilder(), DumbAwa
                 val id: PsiElement = element.id
 
                 val s = id.node
-                val e = element.getNode()
+                val e = element.node
 
                 descriptors.add(
                     FoldingDescriptor(
@@ -75,7 +75,7 @@ internal class AngelScriptCustomFoldingBuilder : CustomFoldingBuilder(), DumbAwa
 
         if (type === ENUMS) {
             val psi = node.getPsi(raft.war.language.angelscript.psi.AngelScriptEnums::class.java)
-            val block = psi.enumStatBlock
+            val block = psi.enumBracer
             return if (block == null) "..." else sizeable(block.enumItemList)
         }
         return null

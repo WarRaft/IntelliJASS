@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptClazz extends PsiElement {
 
   @Nullable
-  AngelScriptClazzStatBlock getClazzStatBlock();
+  AngelScriptClazzBracer getClazzBracer();
 
   @Nullable
   PsiElement getClas();

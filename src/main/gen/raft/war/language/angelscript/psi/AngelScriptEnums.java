@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptEnums extends PsiElement {
 
   @Nullable
-  AngelScriptEnumStatBlock getEnumStatBlock();
+  AngelScriptEnumBracer getEnumBracer();
 
   @NotNull
   PsiElement getEnum();

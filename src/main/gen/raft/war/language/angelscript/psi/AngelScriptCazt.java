@@ -5,24 +5,27 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptLambda extends PsiElement {
+public interface AngelScriptCazt extends PsiElement {
+
+  @Nullable
+  AngelScriptAssign getAssign();
+
+  @Nullable
+  AngelScriptType getType();
 
   @NotNull
-  AngelScriptStmtBracer getStmtBracer();
+  PsiElement getCast();
 
-  @NotNull
-  List<AngelScriptType> getTypeList();
+  @Nullable
+  PsiElement getGt();
 
-  @NotNull
-  List<AngelScriptTypeMod> getTypeModList();
-
-  @NotNull
-  PsiElement getFunction();
-
-  @NotNull
+  @Nullable
   PsiElement getLparen();
 
-  @NotNull
+  @Nullable
+  PsiElement getLt();
+
+  @Nullable
   PsiElement getRparen();
 
 }

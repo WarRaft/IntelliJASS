@@ -71,8 +71,8 @@ public class AngelScriptDoWhileStmtImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public AngelScriptStatBlock getStatBlock() {
-    return findChildByClass(AngelScriptStatBlock.class);
+  public AngelScriptStmtBracer getStmtBracer() {
+    return findChildByClass(AngelScriptStmtBracer.class);
   }
 
   @Override

@@ -26,7 +26,7 @@ public interface AngelScriptCaseStmtList extends PsiElement {
   List<AngelScriptReturnStmt> getReturnStmtList();
 
   @NotNull
-  List<AngelScriptStatBlock> getStatBlockList();
+  List<AngelScriptStmtBracer> getStmtBracerList();
 
   @NotNull
   List<AngelScriptSwitchStmt> getSwitchStmtList();

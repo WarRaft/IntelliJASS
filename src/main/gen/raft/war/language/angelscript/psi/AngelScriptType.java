@@ -7,13 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptType extends PsiElement {
 
-  @NotNull
-  AngelScriptDataType getDataType();
-
   @Nullable
   AngelScriptGenericType getGenericType();
 
+  @Nullable
+  AngelScriptPrimType getPrimType();
+
   @NotNull
   AngelScriptScope getScope();
+
+  @Nullable
+  PsiElement getAuto();
+
+  @Nullable
+  PsiElement getQuest();
 
 }

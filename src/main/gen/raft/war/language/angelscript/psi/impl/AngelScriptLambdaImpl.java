@@ -29,8 +29,8 @@ public class AngelScriptLambdaImpl extends ASTWrapperPsiElement implements Angel
 
   @Override
   @NotNull
-  public AngelScriptStatBlock getStatBlock() {
-    return findNotNullChildByClass(AngelScriptStatBlock.class);
+  public AngelScriptStmtBracer getStmtBracer() {
+    return findNotNullChildByClass(AngelScriptStmtBracer.class);
   }
 
   @Override

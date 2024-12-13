@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptStatBlockBody extends PsiElement {
+public interface AngelScriptStmtBracerBody extends PsiElement {
 
   @NotNull
   List<AngelScriptBreakStmt> getBreakStmtList();
@@ -26,7 +26,7 @@ public interface AngelScriptStatBlockBody extends PsiElement {
   List<AngelScriptReturnStmt> getReturnStmtList();
 
   @NotNull
-  List<AngelScriptStatBlock> getStatBlockList();
+  List<AngelScriptStmtBracer> getStmtBracerList();
 
   @NotNull
   List<AngelScriptSwitchStmt> getSwitchStmtList();

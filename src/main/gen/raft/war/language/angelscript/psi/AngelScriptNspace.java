@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptNspace extends PsiElement {
 
   @Nullable
-  AngelScriptNspaceStatBlock getNspaceStatBlock();
+  AngelScriptNspaceBracer getNspaceBracer();
 
   @NotNull
   PsiElement getNamespace();

@@ -29,8 +29,8 @@ public class AngelScriptClazzImpl extends ASTWrapperPsiElement implements AngelS
 
   @Override
   @Nullable
-  public AngelScriptClazzStatBlock getClazzStatBlock() {
-    return findChildByClass(AngelScriptClazzStatBlock.class);
+  public AngelScriptClazzBracer getClazzBracer() {
+    return findChildByClass(AngelScriptClazzBracer.class);
   }
 
   @Override

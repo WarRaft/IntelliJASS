@@ -14,7 +14,7 @@ public interface AngelScriptFun extends PsiElement {
   AngelScriptParamList getParamList();
 
   @Nullable
-  AngelScriptStatBlock getStatBlock();
+  AngelScriptStmtBracer getStmtBracer();
 
   @Nullable
   AngelScriptType getType();

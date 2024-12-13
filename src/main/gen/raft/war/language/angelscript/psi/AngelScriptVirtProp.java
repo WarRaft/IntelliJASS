@@ -11,7 +11,7 @@ public interface AngelScriptVirtProp extends PsiElement {
   List<AngelScriptFunAttr> getFunAttrList();
 
   @NotNull
-  List<AngelScriptStatBlock> getStatBlockList();
+  List<AngelScriptStmtBracer> getStmtBracerList();
 
   @NotNull
   AngelScriptType getType();
@@ -30,5 +30,8 @@ public interface AngelScriptVirtProp extends PsiElement {
 
   @Nullable
   PsiElement getProtected();
+
+  @NotNull
+  PsiElement getRbrace();
 
 }

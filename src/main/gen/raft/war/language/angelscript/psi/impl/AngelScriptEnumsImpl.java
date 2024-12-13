@@ -29,8 +29,8 @@ public class AngelScriptEnumsImpl extends ASTWrapperPsiElement implements AngelS
 
   @Override
   @Nullable
-  public AngelScriptEnumStatBlock getEnumStatBlock() {
-    return findChildByClass(AngelScriptEnumStatBlock.class);
+  public AngelScriptEnumBracer getEnumBracer() {
+    return findChildByClass(AngelScriptEnumBracer.class);
   }
 
   @Override

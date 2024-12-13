@@ -32,7 +32,7 @@ public interface AngelScriptIfStmt extends PsiElement {
   AngelScriptReturnStmt getReturnStmt();
 
   @Nullable
-  AngelScriptStatBlock getStatBlock();
+  AngelScriptStmtBracer getStmtBracer();
 
   @Nullable
   AngelScriptSwitchStmt getSwitchStmt();

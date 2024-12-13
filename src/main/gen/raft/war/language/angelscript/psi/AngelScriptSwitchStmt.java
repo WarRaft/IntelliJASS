@@ -11,7 +11,7 @@ public interface AngelScriptSwitchStmt extends PsiElement {
   AngelScriptAssign getAssign();
 
   @NotNull
-  AngelScriptSwitchStatBlock getSwitchStatBlock();
+  AngelScriptSwitchBracer getSwitchBracer();
 
   @NotNull
   PsiElement getLparen();

@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptClazzStatBlock extends PsiElement {
+public interface AngelScriptSwitchBracer extends PsiElement {
 
   @NotNull
-  AngelScriptClazzItem getClazzItem();
+  List<AngelScriptCaseStmt> getCaseStmtList();
 
   @NotNull
   PsiElement getLbrace();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrace();
 
 }

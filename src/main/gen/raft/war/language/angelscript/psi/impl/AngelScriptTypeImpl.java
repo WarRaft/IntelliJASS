@@ -28,21 +28,33 @@ public class AngelScriptTypeImpl extends ASTWrapperPsiElement implements AngelSc
   }
 
   @Override
-  @NotNull
-  public AngelScriptDataType getDataType() {
-    return findNotNullChildByClass(AngelScriptDataType.class);
-  }
-
-  @Override
   @Nullable
   public AngelScriptGenericType getGenericType() {
     return findChildByClass(AngelScriptGenericType.class);
   }
 
   @Override
+  @Nullable
+  public AngelScriptPrimType getPrimType() {
+    return findChildByClass(AngelScriptPrimType.class);
+  }
+
+  @Override
   @NotNull
   public AngelScriptScope getScope() {
     return findNotNullChildByClass(AngelScriptScope.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getAuto() {
+    return findChildByType(AUTO);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getQuest() {
+    return findChildByType(QUEST);
   }
 
 }

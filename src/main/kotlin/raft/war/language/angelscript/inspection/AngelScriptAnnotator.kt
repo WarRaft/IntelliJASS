@@ -7,13 +7,14 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import raft.war.ide.IdeMultiHostInjector.Companion.INJECT_JASS
 import raft.war.language.angelscript.highlighter.AngelScriptSyntaxHighlighterBase
+import raft.war.language.angelscript.psi.AngelScriptType
 
 internal class AngelScriptAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         val textRange = element.textRange
         val type = element.node.elementType
 
-        if (element is raft.war.language.angelscript.psi.AngelScriptDataType) {
+        if (element is AngelScriptType) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(textRange)
@@ -21,7 +22,10 @@ internal class AngelScriptAnnotator : Annotator {
             return
         }
 
-        if (type === raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT && element.text.startsWith(INJECT_JASS)) {
+        if (type === raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT && element.text.startsWith(
+                INJECT_JASS
+            )
+        ) {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(TextRange(element.textOffset + 3, element.textOffset + INJECT_JASS.length))
