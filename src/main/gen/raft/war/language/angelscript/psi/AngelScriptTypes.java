@@ -48,6 +48,7 @@ public interface AngelScriptTypes {
   IElementType FUNC_CALL = new AngelScriptIElement("FUNC_CALL");
   IElementType FUN_ATTR = new AngelScriptIElement("FUN_ATTR");
   IElementType FUN_DEF = new AngelScriptIElement("FUN_DEF");
+  IElementType FUN_NAME = new AngelScriptIElement("FUN_NAME");
   IElementType GENERIC_TYPE = new AngelScriptIElement("GENERIC_TYPE");
   IElementType GT_EQ_EXPR = new AngelScriptIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new AngelScriptIElement("GT_EXPR");
@@ -339,6 +340,9 @@ public interface AngelScriptTypes {
       }
       else if (type == FUN_DEF) {
         return new AngelScriptFunDefImpl(node);
+      }
+      else if (type == FUN_NAME) {
+        return new AngelScriptFunNameImpl(node);
       }
       else if (type == GENERIC_TYPE) {
         return new AngelScriptGenericTypeImpl(node);

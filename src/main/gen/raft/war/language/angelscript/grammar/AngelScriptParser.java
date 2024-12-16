@@ -808,7 +808,7 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (SHARED|EXTERNAL|PRIVATE|PROTECTED|TILDE)*
-  //             ((Type? AMP? ID) | ID)
+  //             ((Type? AMP? FunName) | FunName)
   //             ParamList
   //             CONST? FunAttr (SEMI | StmtBracer)
   public static boolean Fun(PsiBuilder b, int l) {
@@ -849,25 +849,25 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (Type? AMP? ID) | ID
+  // (Type? AMP? FunName) | FunName
   private static boolean Fun_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = Fun_1_0(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
+    if (!r) r = FunName(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // Type? AMP? ID
+  // Type? AMP? FunName
   private static boolean Fun_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Fun_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = Fun_1_0_0(b, l + 1);
     r = r && Fun_1_0_1(b, l + 1);
-    r = r && consumeToken(b, ID);
+    r = r && FunName(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -973,26 +973,29 @@ public class AngelScriptParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Scope (ID|GET|SET|DELETE) (ArgList | (LPAREN RPAREN))
+  // ID|GET|SET|DELETE
+  public static boolean FunName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunName")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUN_NAME, "<fun name>");
+    r = consumeToken(b, ID);
+    if (!r) r = consumeToken(b, GET);
+    if (!r) r = consumeToken(b, SET);
+    if (!r) r = consumeToken(b, DELETE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // Scope FunName (ArgList | (LPAREN RPAREN))
   public static boolean FuncCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FuncCall")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNC_CALL, "<func call>");
     r = Scope(b, l + 1);
-    r = r && FuncCall_1(b, l + 1);
+    r = r && FunName(b, l + 1);
     r = r && FuncCall_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // ID|GET|SET|DELETE
-  private static boolean FuncCall_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FuncCall_1")) return false;
-    boolean r;
-    r = consumeToken(b, ID);
-    if (!r) r = consumeToken(b, GET);
-    if (!r) r = consumeToken(b, SET);
-    if (!r) r = consumeToken(b, DELETE);
     return r;
   }
 

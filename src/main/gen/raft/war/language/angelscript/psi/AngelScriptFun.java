@@ -11,6 +11,9 @@ public interface AngelScriptFun extends PsiElement {
   AngelScriptFunAttr getFunAttr();
 
   @NotNull
+  AngelScriptFunName getFunName();
+
+  @NotNull
   AngelScriptParamList getParamList();
 
   @Nullable
@@ -24,9 +27,6 @@ public interface AngelScriptFun extends PsiElement {
 
   @Nullable
   PsiElement getConst();
-
-  @NotNull
-  PsiElement getId();
 
   @Nullable
   PsiElement getSemi();

@@ -155,6 +155,10 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunName(@NotNull AngelScriptFunName o) {
+    visitPsiElement(o);
+  }
+
   public void visitFuncCall(@NotNull AngelScriptFuncCall o) {
     visitPsiElement(o);
   }

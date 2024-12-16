@@ -5,21 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptFuncCall extends PsiElement {
+public interface AngelScriptFunName extends PsiElement {
 
   @Nullable
-  AngelScriptArgList getArgList();
-
-  @NotNull
-  AngelScriptFunName getFunName();
-
-  @NotNull
-  AngelScriptScope getScope();
+  PsiElement getDelete();
 
   @Nullable
-  PsiElement getLparen();
+  PsiElement getGet();
 
   @Nullable
-  PsiElement getRparen();
+  PsiElement getId();
+
+  @Nullable
+  PsiElement getSet();
 
 }

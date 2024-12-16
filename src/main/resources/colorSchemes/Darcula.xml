@@ -58,4 +58,9 @@
             <option name="FOREGROUND" value="#b42faf"/>
         </value>
     </option>
+    <option name="ANGELSCRIPT_FUN_USER">
+        <value>
+            <option name="FOREGROUND" value="C7B61A"/>
+        </value>
+    </option>
 </list>

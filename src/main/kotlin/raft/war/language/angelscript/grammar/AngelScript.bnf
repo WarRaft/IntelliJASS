@@ -317,7 +317,8 @@ Condition ::= Expr (QUEST Assign COLON Assign)?
 //                      ')'
 ArgList ::= LPAREN (ID COLON)? Assign (COMMA (ID COLON)? Assign)* RPAREN
 // FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
-FuncCall ::= Scope (ID|GET|SET|DELETE) (ArgList | (LPAREN RPAREN))
+
+FuncCall ::= Scope FunName (ArgList | (LPAREN RPAREN))
 /*
 FUNC ::=    {'shared' | 'external'} ['private' | 'protected']
             [
@@ -325,8 +326,9 @@ FUNC ::=    {'shared' | 'external'} ['private' | 'protected']
             ]
             IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
 */
+FunName ::= (ID|GET|SET|DELETE)
 Fun ::=     (SHARED|EXTERNAL|PRIVATE|PROTECTED|TILDE)*
-            ((Type? AMP? ID) | ID)
+            ((Type? AMP? FunName) | FunName)
             ParamList
             CONST? FunAttr (SEMI | StmtBracer) {pin=3}
 // PARAMLIST     ::=    '('

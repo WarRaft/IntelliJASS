@@ -13,11 +13,11 @@
 
         <!-- highlight -->
         <lang.syntaxHighlighterFactory language="AngelScript"
-                                       implementationClass="raft.war.language.angelscript.highlighter.AngelScriptSyntaxHighlighterFactory"/>
+                                       implementationClass="raft.war.language.angelscript.highlight.AngelScriptSyntaxHighlighterFactory"/>
 
         <!-- color -->
         <colorSettingsPage
-                implementation="raft.war.language.angelscript.highlighter.AngelScriptColorSettingsPage"/>
+                implementation="raft.war.language.angelscript.highlight.AngelScriptColorSettingsPage"/>
 
         <!-- formatter -->
         <lang.formatter language="AngelScript"
