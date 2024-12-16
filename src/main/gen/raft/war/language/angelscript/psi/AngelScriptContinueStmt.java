@@ -5,18 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptParamList extends PsiElement {
+public interface AngelScriptContinueStmt extends PsiElement {
 
   @NotNull
-  List<AngelScriptParam> getParamList();
-
-  @NotNull
-  PsiElement getLparen();
+  PsiElement getContinue();
 
   @Nullable
-  PsiElement getRparen();
-
-  @Nullable
-  PsiElement getVoid();
+  PsiElement getSemi();
 
 }

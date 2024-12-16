@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptFun extends PsiElement {
 
-  @NotNull
+  @Nullable
   AngelScriptFunAttr getFunAttr();
 
   @NotNull
@@ -23,24 +23,12 @@ public interface AngelScriptFun extends PsiElement {
   PsiElement getAmp();
 
   @Nullable
-  PsiElement getAt();
-
-  @Nullable
   PsiElement getConst();
 
   @NotNull
   PsiElement getId();
 
   @Nullable
-  PsiElement getPrivate();
-
-  @Nullable
-  PsiElement getProtected();
-
-  @Nullable
   PsiElement getSemi();
-
-  @Nullable
-  PsiElement getTilde();
 
 }

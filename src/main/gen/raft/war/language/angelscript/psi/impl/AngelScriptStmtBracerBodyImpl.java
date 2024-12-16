@@ -35,6 +35,12 @@ public class AngelScriptStmtBracerBodyImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
+  public List<AngelScriptContinueStmt> getContinueStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptContinueStmt.class);
+  }
+
+  @Override
+  @NotNull
   public List<AngelScriptDoWhileStmt> getDoWhileStmtList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptDoWhileStmt.class);
   }

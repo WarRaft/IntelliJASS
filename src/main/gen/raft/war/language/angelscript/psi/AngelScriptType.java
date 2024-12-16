@@ -20,6 +20,9 @@ public interface AngelScriptType extends PsiElement {
   PsiElement getAuto();
 
   @Nullable
+  PsiElement getId();
+
+  @Nullable
   PsiElement getQuest();
 
 }

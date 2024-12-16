@@ -28,15 +28,21 @@ public class AngelScriptDoWhileStmtImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptAssign getAssign() {
-    return findNotNullChildByClass(AngelScriptAssign.class);
+    return findChildByClass(AngelScriptAssign.class);
   }
 
   @Override
   @Nullable
   public AngelScriptBreakStmt getBreakStmt() {
     return findChildByClass(AngelScriptBreakStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptContinueStmt getContinueStmt() {
+    return findChildByClass(AngelScriptContinueStmt.class);
   }
 
   @Override
@@ -94,27 +100,27 @@ public class AngelScriptDoWhileStmtImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getLparen() {
-    return findNotNullChildByType(LPAREN);
+    return findChildByType(LPAREN);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRparen() {
-    return findNotNullChildByType(RPAREN);
+    return findChildByType(RPAREN);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getSemi() {
-    return findNotNullChildByType(SEMI);
+    return findChildByType(SEMI);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getWhile() {
-    return findNotNullChildByType(WHILE);
+    return findChildByType(WHILE);
   }
 
 }

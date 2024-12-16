@@ -95,7 +95,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstructor(@NotNull AngelScriptConstructor o) {
+  public void visitContinueStmt(@NotNull AngelScriptContinueStmt o) {
     visitPsiElement(o);
   }
 

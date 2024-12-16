@@ -7,16 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptSwitchStmt extends PsiElement {
 
-  @NotNull
+  @Nullable
   AngelScriptAssign getAssign();
 
-  @NotNull
+  @Nullable
   AngelScriptSwitchBracer getSwitchBracer();
 
-  @NotNull
+  @Nullable
   PsiElement getLparen();
 
-  @NotNull
+  @Nullable
   PsiElement getRparen();
 
   @NotNull

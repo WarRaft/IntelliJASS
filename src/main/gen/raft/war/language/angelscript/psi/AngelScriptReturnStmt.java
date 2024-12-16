@@ -13,7 +13,7 @@ public interface AngelScriptReturnStmt extends PsiElement {
   @NotNull
   PsiElement getReturn();
 
-  @NotNull
+  @Nullable
   PsiElement getSemi();
 
 }

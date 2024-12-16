@@ -14,6 +14,9 @@ public interface AngelScriptForStmt extends PsiElement {
   AngelScriptBreakStmt getBreakStmt();
 
   @Nullable
+  AngelScriptContinueStmt getContinueStmt();
+
+  @Nullable
   AngelScriptDoWhileStmt getDoWhileStmt();
 
   @NotNull
@@ -43,10 +46,10 @@ public interface AngelScriptForStmt extends PsiElement {
   @NotNull
   PsiElement getFor();
 
-  @NotNull
+  @Nullable
   PsiElement getLparen();
 
-  @NotNull
+  @Nullable
   PsiElement getRparen();
 
 }

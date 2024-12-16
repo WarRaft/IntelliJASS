@@ -35,6 +35,12 @@ public class AngelScriptCaseStmtListImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
+  public List<AngelScriptContinueStmt> getContinueStmtList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptContinueStmt.class);
+  }
+
+  @Override
+  @NotNull
   public List<AngelScriptDoWhileStmt> getDoWhileStmtList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptDoWhileStmt.class);
   }

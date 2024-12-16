@@ -7,11 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptWhileStmt extends PsiElement {
 
-  @NotNull
+  @Nullable
   AngelScriptAssign getAssign();
 
   @Nullable
   AngelScriptBreakStmt getBreakStmt();
+
+  @Nullable
+  AngelScriptContinueStmt getContinueStmt();
 
   @Nullable
   AngelScriptDoWhileStmt getDoWhileStmt();
@@ -37,10 +40,10 @@ public interface AngelScriptWhileStmt extends PsiElement {
   @Nullable
   AngelScriptWhileStmt getWhileStmt();
 
-  @NotNull
+  @Nullable
   PsiElement getLparen();
 
-  @NotNull
+  @Nullable
   PsiElement getRparen();
 
   @NotNull

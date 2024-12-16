@@ -51,6 +51,7 @@ int peek() {
    "cast"                      { return CAST; }
    "code"                      { return CODE; }
    "const"                     { return CONST; }
+   "continue"                  { return CONTINUE; }
    "class"                     { return CLAS; }
    "double"                    { return DOUBLE; }
    "default"                   { return DEFAULT; }

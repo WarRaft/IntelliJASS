@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface AngelScriptLambda extends PsiElement {
 
-  @NotNull
+  @Nullable
   AngelScriptStmtBracer getStmtBracer();
 
   @NotNull
@@ -19,10 +19,10 @@ public interface AngelScriptLambda extends PsiElement {
   @NotNull
   PsiElement getFunction();
 
-  @NotNull
+  @Nullable
   PsiElement getLparen();
 
-  @NotNull
+  @Nullable
   PsiElement getRparen();
 
 }

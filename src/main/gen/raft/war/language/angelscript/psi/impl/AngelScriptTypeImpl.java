@@ -53,6 +53,12 @@ public class AngelScriptTypeImpl extends ASTWrapperPsiElement implements AngelSc
 
   @Override
   @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getQuest() {
     return findChildByType(QUEST);
   }

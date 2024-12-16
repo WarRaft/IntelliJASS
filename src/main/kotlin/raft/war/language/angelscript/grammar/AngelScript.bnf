@@ -29,6 +29,7 @@
         CAST='cast'
         CODE='code'
         CONST='const'
+        CONTINUE='continue'
         CLAS='class'
         DOUBLE='double'
         DEFAULT='default'
@@ -157,8 +158,7 @@
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
 Root ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* {recoverWhile=RootRecover}
-
-private RootRecover ::= !(PrimType|QUEST|AUTO|CLAS|HASH|NAMESPACE|ENUM|CONST)
+private RootRecover ::= !(PrimType|QUEST|AUTO|CLAS|HASH|NAMESPACE|ENUM|CONST|ID)
 
 
 //ENUM ::=  {'shared' | 'external'}
@@ -205,12 +205,10 @@ Clazz ::=   (SHARED|ABSTRACT|FINAL|EXTERNAL)*
                     ClazzBracer
                 )
             ) {pin=2}
-ClazzItem ::= VirtProp|Constructor|Fun|Var|FunDef  {recoverWhile=ClazzItemRecover}
-private ClazzItemRecover ::= !(SEMI|ID|RBRACE|Type)
+ClazzItem ::= Fun|VirtProp|Var|FunDef {recoverWhile=ClazzItemRecover}
+private ClazzItemRecover ::= !(SEMI|ID|RBRACE|TILDE|Type)
 ClazzBracer ::= LBRACE ClazzItem* RBRACE {pin=1 recoverWhile=ClazzBracerRecover}
 private ClazzBracerRecover ::= !(CLAS|NAMESPACE|Type)
-
-Constructor ::= ID ParamList CONST? FunAttr (DELETE? SEMI | StmtBracer)
 
 /*
 VIRTPROP ::= ['private' | 'protected']
@@ -258,18 +256,23 @@ Var ::= (PRIVATE|PROTECTED)?
         SEMI
 
 /*
-TYPE ::=
-         ['const']
-         SCOPE
-         DATATYPE
-         [ '<' TYPE {',' TYPE} '>' ]
-         { ('[' ']') | ('@' ['const']) }
+TYPE ::=    ['const']
+            SCOPE
+            DATATYPE
+            [
+                '<' TYPE {',' TYPE} '>'
+            ]
+            {
+                ('[' ']') | ('@' ['const'])
+            }
 */
 Type ::=    CONST?
             Scope
-            (PrimType|QUEST|AUTO) // DATATYPE ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
+            (ID|PrimType|QUEST|AUTO) // DATATYPE ::= (IDENTIFIER | PRIMTYPE | '?' | 'auto')
             GenericType?
-            ( (LBRACK RBRACK)|(AT CONST?) )*
+            (
+                (LBRACK RBRACK) | (AT CONST?)
+            )*
 
 GenericType ::= LT Type (COMMA Type)* GT
 /*
@@ -314,13 +317,18 @@ Condition ::= Expr (QUEST Assign COLON Assign)?
 //                      ')'
 ArgList ::= LPAREN (ID COLON)? Assign (COMMA (ID COLON)? Assign)* RPAREN
 // FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
-FuncCall ::= Scope (ID|GET|SET) (ArgList | (LPAREN RPAREN))
-// FUNC          ::= {'shared' | 'external'} ['private' | 'protected']  [
-//                                                                          ( (TYPE ['&']) | '~' )
-//                                                                      ]
-//                                                                      IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
-private FunType ::= Type AMP? AT?
-Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CONST? FunAttr (SEMI | StmtBracer)
+FuncCall ::= Scope (ID|GET|SET|DELETE) (ArgList | (LPAREN RPAREN))
+/*
+FUNC ::=    {'shared' | 'external'} ['private' | 'protected']
+            [
+                ((TYPE ['&']) | '~')
+            ]
+            IDENTIFIER PARAMLIST ['const'] FUNCATTR (';' | STATBLOCK)
+*/
+Fun ::=     (SHARED|EXTERNAL|PRIVATE|PROTECTED|TILDE)*
+            ((Type? AMP? ID) | ID)
+            ParamList
+            CONST? FunAttr (SEMI | StmtBracer) {pin=3}
 // PARAMLIST     ::=    '('
 //                      [
 //                          'void'
@@ -332,14 +340,14 @@ Fun ::= (SHARED|EXTERNAL)* (PRIVATE|PROTECTED)? (FunType|TILDE)? ID ParamList CO
 //                          )
 //                      ]
 //                      ')'
-ParamList ::= LPAREN (VOID | (Param (COMMA Param)*) )? RPAREN
+ParamList ::= LPAREN (VOID | (Param (COMMA Param)*) )? RPAREN {pin=1}
 Param ::= Type TypeMod? ID? (EQ Expr)? {recoverWhile=ParamRecover}
 private ParamRecover ::= !(RPAREN|COMMA);
 
 // TYPEMOD       ::= ['&' ['in' | 'out' | 'inout']]
 TypeMod ::= AMP (IN|OUT|INOUT)?
 // FUNCATTR      ::= {'override' | 'final' | 'explicit' | 'property'}
-FunAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY)*
+FunAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY|DELETE)*
 
 /*
 STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
@@ -349,9 +357,9 @@ StmtBracerBody ::= (Var | Stmt)*
 
 // STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
 private Stmt ::= (
-StmtBracer|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ReturnStmt
+StmtBracer|ExprStat|IfStmt|ForStmt|WhileStmt|DoWhileStmt|SwitchStmt|BreakStmt|ContinueStmt|ReturnStmt
 ) {recoverWhile=StmtRecover}
-private StmtRecover ::= !(RBRACE|COLON|IF|RETURN|FOR|WHILE|Type|SWITCH|CASE|BREAK|PLUS_PLUS|ID|SEMI)
+private StmtRecover ::= !(SEMI|RBRACE|COLON|IF|RETURN|FOR|WHILE|Type|SWITCH|CASE|BREAK|CONTINUE|PLUS_PLUS|ID)
 
 // EXPRSTAT      ::= [ASSIGN] ';'
 ExprStat ::= Assign? SEMI {recoverWhile=StmtRecover}
@@ -365,21 +373,25 @@ ElseStmt ::= ELSE Stmt {pin=1}
 //                                                          ]
 //                                                          ')'
 //                                                          STATEMENT
-ForStmt ::=  FOR LPAREN (Var | ExprStat) ExprStat (Assign (COMMA Assign)*)? RPAREN Stmt
+ForStmt ::=  FOR LPAREN (Var | ExprStat) ExprStat (Assign (COMMA Assign)*)? RPAREN Stmt  {pin=1}
 // WHILE         ::= 'while' '(' ASSIGN ')' STATEMENT
-WhileStmt ::= WHILE LPAREN Assign RPAREN Stmt
+WhileStmt ::= WHILE LPAREN Assign RPAREN Stmt {pin=1}
 // DOWHILE       ::= 'do' STATEMENT 'while' '(' ASSIGN ')' ';'
-DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI
+DoWhileStmt ::= DO Stmt WHILE LPAREN Assign RPAREN SEMI {pin=1}
 // RETURN        ::= 'return' [ASSIGN] ';'
-ReturnStmt ::= RETURN Assign? SEMI
+ReturnStmt ::= RETURN Assign? SEMI  {pin=1}
 // SWITCH        ::= 'switch' '(' ASSIGN ')' '{' {CASE} '}'
-SwitchStmt ::= SWITCH LPAREN Assign RPAREN SwitchBracer
+SwitchStmt ::= SWITCH LPAREN Assign RPAREN SwitchBracer {pin=1}
 SwitchBracer ::= LBRACE (CaseStmt)* RBRACE {pin=1}
 // CASE          ::= (('case' EXPR) | 'default') ':' {STATEMENT}
 CaseStmt ::= ((CASE Expr) | DEFAULT) COLON CaseStmtList
 CaseStmtList ::= Stmt*
 // BREAK         ::= 'break' ';'
-BreakStmt ::= BREAK SEMI
+BreakStmt ::= BREAK SEMI {pin=1}
+// CONTINUE      ::= 'continue' ';'
+ContinueStmt ::= CONTINUE SEMI {pin=1}
+
+
 // LAMBDA ::=   'function'
 //              '('
 //              [
@@ -393,7 +405,7 @@ BreakStmt ::= BREAK SEMI
 //              ]
 //              ')'
 //              STATBLOCK
-Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? RPAREN StmtBracer
+Lambda ::= FUNCTION LPAREN ((Type TypeMod)? ID? (COMMA (Type TypeMod)? ID?)*)? RPAREN StmtBracer {pin=1}
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md

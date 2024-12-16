@@ -21,31 +21,32 @@ class AngelScriptCompletionContributor : CompletionContributor() {
         val data = IdeCompletionData(parameters, result)
 
         // -- include
-        var child = parameters.position.node
-        do {
-            val parent = child.treeParent ?: break
-            val type = parent.elementType
-            if (type === INCLUDE_STMT) {
-                //fillCompletionVariantsInclude(parameters, result)
-            }
-            child = parent
-        } while (true)
+        if (false) {
+            var child = parameters.position.node
+            do {
+                val parent = child.treeParent ?: break
+                val type = parent.elementType
+                if (type === INCLUDE_STMT) {
+                    //fillCompletionVariantsInclude(parameters, result)
+                }
+                child = parent
+            } while (true)
 
-        val parentDirectoryOfCurrentFile = parameters.originalFile
-            .virtualFile
-            .parent
+            val parentDirectoryOfCurrentFile = parameters.originalFile
+                .virtualFile
+                .parent
 
-        val queryString = getQueryString(parameters)
-        val parentDirectoryOfCurrentFileStr =
-            if (parentDirectoryOfCurrentFile == null) "" else parentDirectoryOfCurrentFile.canonicalPath!!
+            val queryString = getQueryString(parameters)
+            val parentDirectoryOfCurrentFileStr =
+                if (parentDirectoryOfCurrentFile == null) "" else parentDirectoryOfCurrentFile.canonicalPath!!
 
 
-        aggregateFilePaths(parentDirectoryOfCurrentFileStr, queryString)
-            .forEach { path: String? ->
-                result.withPrefixMatcher(queryString)
-                    .addElement(LookupElementBuilder.create(path!!))
-            }
-
+            aggregateFilePaths(parentDirectoryOfCurrentFileStr, queryString)
+                .forEach { path: String? ->
+                    result.withPrefixMatcher(queryString)
+                        .addElement(LookupElementBuilder.create(path!!))
+                }
+        }
 
         // ---
         functions(data)
@@ -78,31 +79,32 @@ class AngelScriptCompletionContributor : CompletionContributor() {
                     val ret = head.funRet
                     val name = head.funName!!.text
 
-                    data.result.addElement(LookupElementBuilder
-                        .create(func)
-                        .withTypeText("function", AllIcons.Ide.HectorOn, false)
-                        .withTypeIconRightAligned(true)
-                        .withPsiElement(head)
-                        .withTailText(" ${take?.text} ${ret?.text}")
-                        .withIcon(AllIcons.Nodes.Function)
-                        .withInsertHandler { ctx, _ ->
+                    data.result.addElement(
+                        LookupElementBuilder
+                            .create(func)
+                            .withTypeText("function", AllIcons.Ide.HectorOn, false)
+                            .withTypeIconRightAligned(true)
+                            .withPsiElement(head)
+                            .withTailText(" ${take?.text} ${ret?.text}")
+                            .withIcon(AllIcons.Nodes.Function)
+                            .withInsertHandler { ctx, _ ->
 
-                            val tslist: MutableList<String> = mutableListOf()
-                            val tvlist: MutableList<TemplateVariable> = mutableListOf()
+                                val tslist: MutableList<String> = mutableListOf()
+                                val tvlist: MutableList<TemplateVariable> = mutableListOf()
 
-                            // add variables
-                            if (take != null) take.paramList?.paramList?.forEach {
-                                val vname = "P${it.varName.text}"
-                                tslist.add("\$$vname\$")
-                                tvlist.add(TemplateVariable(vname, it.varName.text))
-                            }
+                                // add variables
+                                if (take != null) take.paramList?.paramList?.forEach {
+                                    val vname = "P${it.varName.text}"
+                                    tslist.add("\$$vname\$")
+                                    tvlist.add(TemplateVariable(vname, it.varName.text))
+                                }
 
-                            data.templateInsert(
-                                ctx,
-                                "$name(${tslist.joinToString(", ")})\$END\$",
-                                *tvlist.toTypedArray()
-                            )
-                        })
+                                data.templateInsert(
+                                    ctx,
+                                    "$name(${tslist.joinToString(", ")})\$END\$",
+                                    *tvlist.toTypedArray()
+                                )
+                            })
                 }
                 true
             },

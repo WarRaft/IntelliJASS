@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptConstructorImpl extends ASTWrapperPsiElement implements AngelScriptConstructor {
+public class AngelScriptContinueStmtImpl extends ASTWrapperPsiElement implements AngelScriptContinueStmt {
 
-  public AngelScriptConstructorImpl(@NotNull ASTNode node) {
+  public AngelScriptContinueStmtImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitConstructor(this);
+    visitor.visitContinueStmt(this);
   }
 
   @Override
@@ -29,38 +29,8 @@ public class AngelScriptConstructorImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public AngelScriptFunAttr getFunAttr() {
-    return findNotNullChildByClass(AngelScriptFunAttr.class);
-  }
-
-  @Override
-  @NotNull
-  public AngelScriptParamList getParamList() {
-    return findNotNullChildByClass(AngelScriptParamList.class);
-  }
-
-  @Override
-  @Nullable
-  public AngelScriptStmtBracer getStmtBracer() {
-    return findChildByClass(AngelScriptStmtBracer.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getConst() {
-    return findChildByType(CONST);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDelete() {
-    return findChildByType(DELETE);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
+  public PsiElement getContinue() {
+    return findNotNullChildByType(CONTINUE);
   }
 
   @Override

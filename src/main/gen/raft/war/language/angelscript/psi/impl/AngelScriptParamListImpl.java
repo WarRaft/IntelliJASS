@@ -40,9 +40,9 @@ public class AngelScriptParamListImpl extends ASTWrapperPsiElement implements An
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRparen() {
-    return findNotNullChildByType(RPAREN);
+    return findChildByType(RPAREN);
   }
 
   @Override

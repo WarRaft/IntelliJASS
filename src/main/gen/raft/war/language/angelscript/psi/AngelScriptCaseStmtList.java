@@ -11,6 +11,9 @@ public interface AngelScriptCaseStmtList extends PsiElement {
   List<AngelScriptBreakStmt> getBreakStmtList();
 
   @NotNull
+  List<AngelScriptContinueStmt> getContinueStmtList();
+
+  @NotNull
   List<AngelScriptDoWhileStmt> getDoWhileStmtList();
 
   @NotNull

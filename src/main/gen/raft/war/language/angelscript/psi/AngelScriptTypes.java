@@ -32,7 +32,7 @@ public interface AngelScriptTypes {
   IElementType CLAZZ_BRACER = new AngelScriptIElement("CLAZZ_BRACER");
   IElementType CLAZZ_ITEM = new AngelScriptIElement("CLAZZ_ITEM");
   IElementType CONDITION = new AngelScriptIElement("CONDITION");
-  IElementType CONSTRUCTOR = new AngelScriptIElement("CONSTRUCTOR");
+  IElementType CONTINUE_STMT = new AngelScriptIElement("CONTINUE_STMT");
   IElementType DIV_EXPR = new AngelScriptIElement("DIV_EXPR");
   IElementType DIV_UN_EXPR = new AngelScriptIElement("DIV_UN_EXPR");
   IElementType DO_WHILE_STMT = new AngelScriptIElement("DO_WHILE_STMT");
@@ -120,6 +120,7 @@ public interface AngelScriptTypes {
   IElementType COLON_COLON = new AngelScriptIToken("::");
   IElementType COMMA = new AngelScriptIToken(",");
   IElementType CONST = new AngelScriptIToken("const");
+  IElementType CONTINUE = new AngelScriptIToken("continue");
   IElementType DEFAULT = new AngelScriptIToken("default");
   IElementType DELETE = new AngelScriptIToken("delete");
   IElementType DIV = new AngelScriptIToken("/");
@@ -294,8 +295,8 @@ public interface AngelScriptTypes {
       else if (type == CONDITION) {
         return new AngelScriptConditionImpl(node);
       }
-      else if (type == CONSTRUCTOR) {
-        return new AngelScriptConstructorImpl(node);
+      else if (type == CONTINUE_STMT) {
+        return new AngelScriptContinueStmtImpl(node);
       }
       else if (type == DIV_EXPR) {
         return new AngelScriptDivExprImpl(node);

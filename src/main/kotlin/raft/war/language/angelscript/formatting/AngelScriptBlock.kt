@@ -24,8 +24,6 @@ class AngelScriptBlock(
     common = common,
 ) {
 
-    // dfdf
-
     override fun makeSubBlock(childNode: ASTNode): Block {
         var newNode = childNode
         val nodeType = newNode.elementType
@@ -34,11 +32,12 @@ class AngelScriptBlock(
 
         when (nodeType) {
             VAR,
+            ENUMS,
             CLAZZ,
+            NSPACE,
             FUN,
             LBRACE,
             RBRACE,
-            CONSTRUCTOR,
             VAR,
             IF_STMT,
             FOR_STMT,
@@ -75,6 +74,7 @@ class AngelScriptBlock(
 
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
         var sp = SpacingBuilder(code, AngelScriptLanguage.Companion.instance)
+            .between(LPAREN, RPAREN).spacing(0, 0, 0, false, 0)
             .between(PARAM_LIST, STMT_BRACER).spacing(1, 1, 0, false, 0)
             .between(RPAREN, STMT_BRACER).spacing(1, 1, 0, false, 0)
             .between(ID, CLAZZ_BRACER).spacing(1, 1, 0, false, 0)
@@ -95,7 +95,9 @@ class AngelScriptBlock(
         }
 
         when (node.elementType) {
-            STMT_BRACER_BODY -> return ChildAttributes(Indent.getNoneIndent(), null)
+            NSPACE_BRACER_BODY,
+            STMT_BRACER_BODY,
+                -> return ChildAttributes(Indent.getNoneIndent(), null)
         }
 
         return super.getChildAttributes(newChildIndex)

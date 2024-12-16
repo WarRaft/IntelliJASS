@@ -40,9 +40,9 @@ public class AngelScriptReturnStmtImpl extends ASTWrapperPsiElement implements A
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getSemi() {
-    return findNotNullChildByType(SEMI);
+    return findChildByType(SEMI);
   }
 
 }

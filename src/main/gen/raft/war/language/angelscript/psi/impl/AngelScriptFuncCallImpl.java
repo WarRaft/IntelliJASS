@@ -41,6 +41,12 @@ public class AngelScriptFuncCallImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @Nullable
+  public PsiElement getDelete() {
+    return findChildByType(DELETE);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getGet() {
     return findChildByType(GET);
   }

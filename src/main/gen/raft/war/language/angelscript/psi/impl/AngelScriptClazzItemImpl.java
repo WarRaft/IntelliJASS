@@ -29,12 +29,6 @@ public class AngelScriptClazzItemImpl extends ASTWrapperPsiElement implements An
 
   @Override
   @Nullable
-  public AngelScriptConstructor getConstructor() {
-    return findChildByClass(AngelScriptConstructor.class);
-  }
-
-  @Override
-  @Nullable
   public AngelScriptFun getFun() {
     return findChildByClass(AngelScriptFun.class);
   }

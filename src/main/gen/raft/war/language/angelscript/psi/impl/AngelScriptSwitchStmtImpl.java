@@ -28,27 +28,27 @@ public class AngelScriptSwitchStmtImpl extends ASTWrapperPsiElement implements A
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptAssign getAssign() {
-    return findNotNullChildByClass(AngelScriptAssign.class);
+    return findChildByClass(AngelScriptAssign.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptSwitchBracer getSwitchBracer() {
-    return findNotNullChildByClass(AngelScriptSwitchBracer.class);
+    return findChildByClass(AngelScriptSwitchBracer.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getLparen() {
-    return findNotNullChildByType(LPAREN);
+    return findChildByType(LPAREN);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRparen() {
-    return findNotNullChildByType(RPAREN);
+    return findChildByType(RPAREN);
   }
 
   @Override

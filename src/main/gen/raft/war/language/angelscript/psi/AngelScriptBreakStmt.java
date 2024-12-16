@@ -10,7 +10,7 @@ public interface AngelScriptBreakStmt extends PsiElement {
   @NotNull
   PsiElement getBreak();
 
-  @NotNull
+  @Nullable
   PsiElement getSemi();
 
 }

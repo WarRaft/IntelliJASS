@@ -28,9 +28,9 @@ public class AngelScriptFunImpl extends ASTWrapperPsiElement implements AngelScr
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptFunAttr getFunAttr() {
-    return findNotNullChildByClass(AngelScriptFunAttr.class);
+    return findChildByClass(AngelScriptFunAttr.class);
   }
 
   @Override
@@ -59,12 +59,6 @@ public class AngelScriptFunImpl extends ASTWrapperPsiElement implements AngelScr
 
   @Override
   @Nullable
-  public PsiElement getAt() {
-    return findChildByType(AT);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getConst() {
     return findChildByType(CONST);
   }
@@ -77,26 +71,8 @@ public class AngelScriptFunImpl extends ASTWrapperPsiElement implements AngelScr
 
   @Override
   @Nullable
-  public PsiElement getPrivate() {
-    return findChildByType(PRIVATE);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getProtected() {
-    return findChildByType(PROTECTED);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getSemi() {
     return findChildByType(SEMI);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getTilde() {
-    return findChildByType(TILDE);
   }
 
 }

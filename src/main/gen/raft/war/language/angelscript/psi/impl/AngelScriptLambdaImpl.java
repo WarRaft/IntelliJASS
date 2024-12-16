@@ -28,9 +28,9 @@ public class AngelScriptLambdaImpl extends ASTWrapperPsiElement implements Angel
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AngelScriptStmtBracer getStmtBracer() {
-    return findNotNullChildByClass(AngelScriptStmtBracer.class);
+    return findChildByClass(AngelScriptStmtBracer.class);
   }
 
   @Override
@@ -52,15 +52,15 @@ public class AngelScriptLambdaImpl extends ASTWrapperPsiElement implements Angel
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getLparen() {
-    return findNotNullChildByType(LPAREN);
+    return findChildByType(LPAREN);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRparen() {
-    return findNotNullChildByType(RPAREN);
+    return findChildByType(RPAREN);
   }
 
 }

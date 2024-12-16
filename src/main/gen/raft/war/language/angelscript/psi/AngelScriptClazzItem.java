@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptClazzItem extends PsiElement {
 
   @Nullable
-  AngelScriptConstructor getConstructor();
-
-  @Nullable
   AngelScriptFun getFun();
 
   @Nullable

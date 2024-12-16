@@ -14,6 +14,9 @@ public interface AngelScriptFuncCall extends PsiElement {
   AngelScriptScope getScope();
 
   @Nullable
+  PsiElement getDelete();
+
+  @Nullable
   PsiElement getGet();
 
   @Nullable

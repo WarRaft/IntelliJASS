@@ -124,15 +124,22 @@ type abilityintegerlevelarrayfield extends abilityintegerlevelfield
 type abilityreallevelarrayfield extends abilityreallevelfield
 type abilitybooleanlevelarrayfield extends abilitybooleanlevelfield
 type abilitystringlevelarrayfield extends abilitystringlevelfield
-type destructablestringfield extends agentdatafield
-type itemintegerfield extends agentdatafield
-type itemrealfield extends agentdatafield
-type itembooleanfield extends agentdatafield
-type itemstringfield extends agentdatafield
-type unitintegerfield extends agentdatafield
-type unitrealfield extends agentdatafield
-type unitbooleanfield extends agentdatafield
-type unitstringfield extends agentdatafield
+type widgetintegerfield extends agentdatafield
+type widgetrealfield extends agentdatafield
+type widgetbooleanfield extends agentdatafield
+type widgetstringfield extends agentdatafield
+type destructableintegerfield extends widgetintegerfield
+type destructablerealfield extends widgetrealfield
+type destructablebooleanfield extends widgetbooleanfield
+type destructablestringfield extends widgetstringfield
+type itemintegerfield extends widgetintegerfield
+type itemrealfield extends widgetrealfield
+type itembooleanfield extends widgetbooleanfield
+type itemstringfield extends widgetstringfield
+type unitintegerfield extends widgetintegerfield
+type unitrealfield extends widgetrealfield
+type unitbooleanfield extends widgetbooleanfield
+type unitstringfield extends widgetstringfield
 type unitweaponintegerfield extends agentdatafield
 type unitweaponrealfield extends agentdatafield
 type unitweaponbooleanfield extends agentdatafield
@@ -819,7 +826,7 @@ constant playerunitevent EVENT_PLAYER_UNIT_LOADED = ConvertPlayerUnitEvent(51)
 constant playerunitevent EVENT_PLAYER_UNIT_DAMAGED = ConvertPlayerUnitEvent(308)
 constant playerunitevent EVENT_PLAYER_UNIT_DAMAGING = ConvertPlayerUnitEvent(315)
 constant playerunitevent EVENT_PLAYER_UNIT_ATTACK_FINISHED = ConvertPlayerUnitEvent(317)
-constant playerunitevent EVENT_PLAYER_UNIT_DECAY_FINISHED = ConvertPlayerUnitEvent(319)
+constant playerunitevent EVENT_PLAYER_UNIT_DECAY_FINISHED = ConvertPlayerUnitEvent(332)
 
 constant playerunitevent EVENT_PLAYER_UNIT_REINCARNATION_START = ConvertPlayerUnitEvent(325)
 constant playerunitevent EVENT_PLAYER_UNIT_REINCARNATION_END = ConvertPlayerUnitEvent(327)
@@ -886,7 +893,7 @@ constant unitevent EVENT_UNIT_USE_ITEM = ConvertUnitEvent(87)
 constant unitevent EVENT_UNIT_LOADED = ConvertUnitEvent(88)
 
 constant unitevent EVENT_UNIT_ATTACK_FINISHED = ConvertUnitEvent(316)
-constant unitevent EVENT_UNIT_DECAY_FINISHED = ConvertUnitEvent(318)
+constant unitevent EVENT_UNIT_DECAY_FINISHED = ConvertUnitEvent(331)
 
 constant unitevent EVENT_UNIT_REINCARNATION_START = ConvertUnitEvent(326)
 constant unitevent EVENT_UNIT_REINCARNATION_END = ConvertUnitEvent(328)
@@ -972,6 +979,10 @@ constant playerunitevent EVENT_PLAYER_UNIT_SPELL_EFFECT = ConvertPlayerUnitEvent
 constant playerunitevent EVENT_PLAYER_UNIT_SPELL_FINISH = ConvertPlayerUnitEvent(275)
 constant playerunitevent EVENT_PLAYER_UNIT_SPELL_ENDCAST = ConvertPlayerUnitEvent(276)
 constant playerunitevent EVENT_PLAYER_UNIT_PAWN_ITEM = ConvertPlayerUnitEvent(277)
+constant playerunitevent EVENT_PLAYER_UNIT_ACQUIRED_TARGET = ConvertPlayerUnitEvent(278)
+constant playerunitevent EVENT_PLAYER_UNIT_TARGET_IN_RANGE = ConvertPlayerUnitEvent(279)
+constant playerunitevent EVENT_PLAYER_UNIT_MOVE_ITEM_SLOT = ConvertPlayerUnitEvent(280)
+constant playerunitevent EVENT_PLAYER_UNIT_STACK_ITEM = ConvertPlayerUnitEvent(319)
 
 constant playerunitevent EVENT_PLAYER_UNIT_BUFF_RECEIVED = ConvertPlayerUnitEvent(500)
 constant playerunitevent EVENT_PLAYER_UNIT_BUFF_REFRESHED = ConvertPlayerUnitEvent(501)
@@ -983,6 +994,7 @@ constant playerunitevent EVENT_PLAYER_UNIT_ABILITY_REMOVED = ConvertPlayerUnitEv
 constant playerunitevent EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_ON = ConvertPlayerUnitEvent(505)
 constant playerunitevent EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_OFF = ConvertPlayerUnitEvent(506)
 constant playerunitevent EVENT_PLAYER_UNIT_ABILITY_LEVEL_CHANGED = ConvertPlayerUnitEvent(507)
+constant playerunitevent EVENT_PLAYER_UNIT_ABILITY_COOLDOWN_FINISHED = ConvertPlayerUnitEvent(509)
 
 constant playerunitevent EVENT_PLAYER_UNIT_PROJECTILE_LAUNCH = ConvertPlayerUnitEvent(600)
 constant playerunitevent EVENT_PLAYER_UNIT_PROJECTILE_HIT = ConvertPlayerUnitEvent(601)
@@ -1000,6 +1012,8 @@ constant unitevent EVENT_UNIT_SPELL_EFFECT = ConvertUnitEvent(291)
 constant unitevent EVENT_UNIT_SPELL_FINISH = ConvertUnitEvent(292)
 constant unitevent EVENT_UNIT_SPELL_ENDCAST = ConvertUnitEvent(293)
 constant unitevent EVENT_UNIT_PAWN_ITEM = ConvertUnitEvent(294)
+constant unitevent EVENT_UNIT_MOVE_ITEM_SLOT = ConvertUnitEvent(297)
+constant unitevent EVENT_UNIT_STACK_ITEM = ConvertUnitEvent(318)
 
 constant unitevent EVENT_UNIT_BUFF_RECEIVED = ConvertUnitEvent(510)
 constant unitevent EVENT_UNIT_BUFF_REFRESHED = ConvertUnitEvent(511)
@@ -1011,6 +1025,7 @@ constant unitevent EVENT_UNIT_ABILITY_REMOVED = ConvertUnitEvent(514)
 constant unitevent EVENT_UNIT_ABILITY_AUTOCAST_ON = ConvertUnitEvent(515)
 constant unitevent EVENT_UNIT_ABILITY_AUTOCAST_OFF = ConvertUnitEvent(516)
 constant unitevent EVENT_UNIT_ABILITY_LEVEL_CHANGED = ConvertUnitEvent(517)
+constant unitevent EVENT_UNIT_ABILITY_COOLDOWN_FINISHED = ConvertUnitEvent(519)
 
 constant unitevent EVENT_UNIT_PROJECTILE_LAUNCH = ConvertUnitEvent(610)
 constant unitevent EVENT_UNIT_PROJECTILE_HIT = ConvertUnitEvent(611)
@@ -1209,18 +1224,19 @@ constant originframetype ORIGIN_FRAME_COMMAND_BUTTON_AUTOCAST_FRAME = ConvertOri
 constant originframetype ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(42)
 constant originframetype ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43)
 constant originframetype ORIGIN_FRAME_CURSOR_FRAME = ConvertOriginFrameType(44)
-constant originframetype ORIGIN_FRAME_INVENTORY_COVER_FRAME = ConvertOriginFrameType(45)
-constant originframetype ORIGIN_FRAME_UNIT_TIP = ConvertOriginFrameType(46)
-constant originframetype ORIGIN_FRAME_ITEM_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(47)
-constant originframetype ORIGIN_FRAME_ITEM_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(48)
-constant originframetype ORIGIN_FRAME_ITEM_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(49)
-constant originframetype ORIGIN_FRAME_ITEM_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(50)
-constant originframetype ORIGIN_FRAME_TRAINABLE_BUTTON = ConvertOriginFrameType(51)
-constant originframetype ORIGIN_FRAME_CARGO_BUTTON = ConvertOriginFrameType(52)
-constant originframetype ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(53)
-constant originframetype ORIGIN_FRAME_FPS_TEXT = ConvertOriginFrameType(54)
-constant originframetype ORIGIN_FRAME_MEMORY_TEXT = ConvertOriginFrameType(55)
-constant originframetype ORIGIN_FRAME_SIMPLE_TOP = ConvertOriginFrameType(56) // This frame contains all CSimpleRegions/CSimpleFrames.
+constant originframetype ORIGIN_FRAME_UNIT_TIP = ConvertOriginFrameType(45)
+constant originframetype ORIGIN_FRAME_INVENTORY_BAR = ConvertOriginFrameType(46)
+constant originframetype ORIGIN_FRAME_INVENTORY_COVER_FRAME = ConvertOriginFrameType(47)
+constant originframetype ORIGIN_FRAME_ITEM_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(48)
+constant originframetype ORIGIN_FRAME_ITEM_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(49)
+constant originframetype ORIGIN_FRAME_ITEM_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(50)
+constant originframetype ORIGIN_FRAME_ITEM_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(51)
+constant originframetype ORIGIN_FRAME_TRAINABLE_BUTTON = ConvertOriginFrameType(52)
+constant originframetype ORIGIN_FRAME_CARGO_BUTTON = ConvertOriginFrameType(53)
+constant originframetype ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(54)
+constant originframetype ORIGIN_FRAME_FPS_TEXT = ConvertOriginFrameType(55)
+constant originframetype ORIGIN_FRAME_MEMORY_TEXT = ConvertOriginFrameType(56)
+constant originframetype ORIGIN_FRAME_SIMPLE_TOP = ConvertOriginFrameType(57) // This frame contains all CSimpleRegions/CSimpleFrames.
 
 constant framepointtype FRAMEPOINT_TOPLEFT = ConvertFramePointType(0)
 constant framepointtype FRAMEPOINT_TOP = ConvertFramePointType(1)
@@ -4555,7 +4571,7 @@ native MathRealRound takes real r returns real
 native MathRealFloor takes real r returns real
 native MathRealCeil takes real r returns real
 native MathRealAbs takes real r returns real
-native MathRealLog takes real r returns real
+native MathRealLog takes real r, integer base returns real
 native MathRealLn takes real r returns real
 native MathRealModulo takes real dividend, real divisor returns real
 native MathRealMin takes real a, real b returns real
@@ -4565,7 +4581,7 @@ native MathRealClamp takes real value, real min, real max returns real
 native MathRealLerp takes real a, real b, real t returns real
 
 native MathIntegerAbs takes integer i returns integer
-native MathIntegerLog takes integer i returns real
+native MathIntegerLog takes integer i, integer base returns real
 native MathIntegerLn takes integer i returns real
 native MathIntegerModulo takes integer dividend, integer divisor returns integer
 native MathIntegerMin takes integer a, integer b returns integer
@@ -4671,6 +4687,11 @@ native IsRenderStage takes renderstage renderStage returns boolean
 native EnableRenderStage takes renderstage renderStage, boolean enable returns nothing
 native IsStatbarEnabled takes nothing returns boolean
 native EnableStatbar takes boolean enable returns nothing
+
+// Async (Local values) use with caution
+native IsCursorInTargetMode takes nothing returns boolean // When mouse has "target" art.
+native IsSubmenuOpen takes nothing returns boolean // Spellbook, Buildmenu, Hero Learn etc.
+//
 //
 
 // Map API
@@ -4681,6 +4702,8 @@ native SetMapFogColour takes integer colour returns nothing
 //
 
 // Trigger API
+native GetTriggerEvent takes nothing returns event
+
 native TriggerCountEvents takes trigger whichTrigger returns integer
 native TriggerCountConditions takes trigger whichTrigger returns integer
 native TriggerCountActions takes trigger whichTrigger returns integer
@@ -4845,6 +4868,10 @@ native LoadHandleList takes hashtable whichHashtable, integer parentKey, integer
 // Player API
 //
 native GetHostPlayer takes nothing returns player
+native IsPlayerMuted takes player whichPlayer returns boolean
+native SetPlayerMuted takes player whichPlayer, boolean isMute returns nothing
+native IsPlayerMutedForPlayer takes player whichPlayer, player toPlayer returns boolean
+native SetPlayerMutedForPlayer takes player whichPlayer, player toPlayer, boolean isMute returns nothing
 //
 
 //============================================================================
@@ -5048,6 +5075,9 @@ native HandleListForEachByIdEx takes handlelist whichHandleList, integer handleT
 //============================================================================
 // TextTag API
 //
+native GetBaseTextTagFont takes nothing returns string
+native SetBaseTextTagFont takes string fontName, real size, integer flags returns nothing
+
 native IsTextTagVisible takes texttag whichTextTag returns boolean
 native IsTextTagSuspended takes texttag whichTextTag returns boolean
 native IsTextTagPermanent takes texttag whichTextTag returns real
@@ -5080,6 +5110,8 @@ native SetTextTagShadowColour takes texttag whichTextTag, integer colour returns
 native GetTextTagShadowAlpha takes texttag whichTextTag returns integer
 native SetTextTagShadowAlpha takes texttag whichTextTag, integer alpha returns nothing
 native GetTextTagText takes texttag whichTextTag returns string
+native GetTextTagFont takes texttag whichTextTag returns string
+native SetTextTagFont takes texttag whichTextTag, string fontName, real size, integer flags returns nothing
 //
 
 //============================================================================
@@ -5301,6 +5333,8 @@ native IsAbilityVisible takes ability whichAbility returns boolean
 native ShowAbility takes ability whichAbility, boolean show returns nothing
 native IsAbilityEnabledEx takes ability whichAbility returns boolean
 native SetAbilityEnabledEx takes ability whichAbility, boolean enable returns nothing
+native IsAbilityPassive takes ability whichAbility returns boolean
+native SetAbilityPassive takes ability whichAbility, boolean enable returns nothing // only works for CAbilityButton descendants
 native IsAbilityUsable takes ability whichAbility returns boolean
 native IsAbilityAutocastEnabled takes ability whichAbility returns boolean
 native GetAbilityCastTime takes ability whichAbility returns real
@@ -5414,6 +5448,8 @@ native GetBuffOwningAbility takes buff whichbuff returns ability // experimental
 native SetBuffOwningAbility takes buff whichBuff, ability whichAbility returns nothing // experimental
 native IsBuffDispellable takes buff whichBuff returns boolean
 native SetBuffDispellable takes buff whichBuff, boolean isSet returns nothing
+native IsBuffDrawEnabled takes buff whichBuff returns boolean
+native SetBuffDrawEnabled takes buff whichBuff, boolean isSet returns nothing
 native GetBuffLevel takes buff whichBuff returns integer
 native SetBuffLevel takes buff whichBuff, integer level returns nothing
 native GetBuffRemainingDuration takes buff whichBuff returns real
@@ -5482,7 +5518,9 @@ native SetWar3ImageRoll takes war3image whichWar3Image, real roll returns nothin
 native GetWar3ImageModel takes war3image whichWar3Image returns string
 native SetWar3ImageModel takes war3image whichWar3Image, string modelFile returns nothing
 native SetWar3ImageModelEx takes war3image whichWar3Image, string modelFile, integer playerId returns nothing // 0-15, -1 to ignore the colour.
+native GetWar3ImageMaterialTexture takes war3image whichWar3Image, integer materialId, integer textureIndex returns string
 native SetWar3ImageMaterialTexture takes war3image whichWar3Image, string textureName, integer materialId, integer textureIndex returns nothing
+native GetWar3ImageTexture takes war3image whichWar3Image, integer textureIndex returns string
 native SetWar3ImageTexture takes war3image whichWar3Image, string textureName, integer textureIndex returns nothing
 native SetWar3ImageReplaceableTexture takes war3image whichWar3Image, string textureName, integer textureIndex returns nothing // 1 - TeamColour | 2 - TeamGlow | 11 - Cliff0/1 | 21 - "grabbed texture" for CCursorFrame | 31-37 trees.
 native GetWar3ImageModelObjectX takes war3image whichWar3Image, string whichObject returns real
@@ -5499,6 +5537,8 @@ native QueueWar3ImageAnimationByIndex takes war3image whichWar3Image, integer an
 native QueueWar3ImageAnimation takes war3image whichWar3Image, string animationName returns nothing
 native GetWar3ImageAnimationOffsetPercent takes war3image whichWar3Image returns real
 native SetWar3ImageAnimationOffsetPercent takes war3image whichWar3Image, real percent returns nothing
+native IsWar3ImageAnimationFrozen takes war3image whichWar3Image returns boolean
+native SetWar3ImageAnimationFrozen takes war3image whichWar3Image, boolean isFreeze returns nothing
 //
 
 //============================================================================
@@ -5554,7 +5594,9 @@ native SetSpritePitch takes sprite whichSprite, real pitch returns nothing // Y
 native GetSpriteRoll takes sprite whichSprite returns real // Z
 native SetSpriteRoll takes sprite whichSprite, real roll returns nothing // Z
 native SetSpriteOrientation takes sprite whichSprite, real yaw, real pitch, real roll returns nothing // uses SetSpriteOrientationEx with XYZ orientation as default
+native GetSpriteMaterialTexture takes sprite whichSprite, integer materialId, integer textureIndex returns string
 native SetSpriteMaterialTexture takes sprite whichSprite, string textureName, integer materialId, integer textureIndex returns nothing
+native GetSpriteTexture takes sprite whichSprite, integer textureIndex returns string
 native SetSpriteTexture takes sprite whichSprite, string textureName, integer textureIndex returns nothing
 native SetSpriteReplaceableTexture takes sprite whichSprite, string textureName, integer textureIndex returns nothing
 native GetSpriteModel takes sprite whichSprite returns string
@@ -5575,6 +5617,8 @@ native QueueSpriteAnimationByIndex takes sprite whichSprite, integer animIndex r
 native QueueSpriteAnimation takes sprite whichSprite, string animationName returns nothing
 native GetSpriteAnimationOffsetPercent takes sprite whichSprite returns real
 native SetSpriteAnimationOffsetPercent takes sprite whichSprite, real percent returns nothing
+native IsSpriteAnimationFrozen takes sprite whichSprite returns boolean
+native SetSpriteAnimationFrozen takes sprite whichSprite, boolean isFreeze returns nothing
 //
 
 //============================================================================
@@ -5625,7 +5669,9 @@ native SetDoodadPlayerColour takes doodad whichDoodad, playercolor color returns
 native GetDoodadModel takes doodad whichDoodad returns string
 native SetDoodadModel takes doodad whichDoodad, string modelFile returns nothing
 native SetDoodadModelEx takes doodad whichDoodad, string modelFile, integer playerId returns nothing
+native GetDoodadMaterialTexture takes doodad whichDoodad, integer materialId, integer textureIndex returns string
 native SetDoodadMaterialTexture takes doodad whichDoodad, string textureName, integer materialId, integer textureIndex returns nothing
+native GetDoodadTexture takes doodad whichDoodad, integer textureIndex returns string
 native SetDoodadTexture takes doodad whichDoodad, string textureName, integer textureIndex returns nothing
 native SetDoodadReplaceableTexture takes doodad whichDoodad, string textureName, integer textureIndex returns nothing
 native IsDoodadVisible takes doodad whichDoodad returns boolean
@@ -5638,6 +5684,8 @@ native QueueDoodadAnimationByIndex takes doodad whichDoodad, integer animIndex r
 native QueueDoodadAnimation takes doodad whichDoodad, string animationName returns nothing
 native GetDoodadAnimationOffsetPercent takes doodad whichDoodad returns real
 native SetDoodadAnimationOffsetPercent takes doodad whichDoodad, real percent returns nothing
+native IsDoodadAnimationFrozen takes doodad whichDoodad returns boolean
+native SetDoodadAnimationFrozen takes doodad whichDoodad, boolean isFreeze returns nothing
 
 native GetFilterDoodad takes nothing returns doodad
 native GetEnumDoodad takes nothing returns doodad
@@ -5694,7 +5742,9 @@ native SetSpecialEffectPitch takes effect whichEffect, real pitch returns nothin
 native GetSpecialEffectRoll takes effect whichEffect returns real
 native SetSpecialEffectRoll takes effect whichEffect, real roll returns nothing
 native SetSpecialEffectOrientation takes effect whichEffect, real yaw, real pitch, real roll returns nothing
+native GetSpecialEffectMaterialTexture takes effect whichEffect, integer materialId, integer textureIndex returns string
 native SetSpecialEffectMaterialTexture takes effect whichEffect, string textureName, integer materialId, integer textureIndex returns nothing
+native GetSpecialEffectTexture takes effect whichEffect, integer textureIndex returns string
 native SetSpecialEffectTexture takes effect whichEffect, string textureName, integer textureIndex returns nothing
 native SetSpecialEffectReplaceableTexture takes effect whichEffect, string textureName, integer textureIndex returns nothing
 native GetSpecialEffectModel takes effect whichEffect returns string
@@ -5714,6 +5764,8 @@ native QueueSpecialEffectAnimationByIndex takes effect whichEffect, integer anim
 native QueueSpecialEffectAnimation takes effect whichEffect, string animationName returns nothing
 native GetSpecialEffectAnimationOffsetPercent takes effect whichEffect returns real
 native SetSpecialEffectAnimationOffsetPercent takes effect whichEffect, real percent returns nothing
+native IsSpecialEffectAnimationFrozen takes effect whichEffect returns boolean
+native SetSpecialEffectAnimationFrozen takes effect whichEffect, boolean isFreeze returns nothing
 
 native GetTriggerSpecialEffect takes nothing returns effect
 native GetFilterSpecialEffect takes nothing returns effect
@@ -5768,7 +5820,9 @@ native SetTrackablePitch takes trackable whichTrackable, real pitch returns noth
 native GetTrackableRoll takes trackable whichTrackable returns real
 native SetTrackableRoll takes trackable whichTrackable, real roll returns nothing
 native SetTrackableOrientation takes trackable whichTrackable, real yaw, real pitch, real roll returns nothing
+native GetTrackableMaterialTexture takes trackable whichTrackable, integer materialId, integer textureIndex returns string
 native SetTrackableMaterialTexture takes trackable whichTrackable, string textureName, integer materialId, integer textureIndex returns nothing
+native GetTrackableTexture takes trackable whichTrackable, integer textureIndex returns string
 native SetTrackableTexture takes trackable whichTrackable, string textureName, integer textureIndex returns nothing
 native SetTrackableReplaceableTexture takes trackable whichTrackable, string textureName, integer textureIndex returns nothing
 native GetTrackableModel takes trackable whichTrackable returns string
@@ -5788,6 +5842,8 @@ native QueueTrackableAnimationByIndex takes trackable whichTrackable, integer an
 native QueueTrackableAnimation takes trackable whichTrackable, string animationName returns nothing
 native GetTrackableAnimationOffsetPercent takes trackable whichTrackable returns real
 native SetTrackableAnimationOffsetPercent takes trackable whichTrackable, real percent returns nothing
+native IsTrackableAnimationFrozen takes trackable whichTrackable returns boolean
+native SetTrackableAnimationFrozen takes trackable whichTrackable, boolean isFreeze returns nothing
 
 native GetTriggerTrackable takes nothing returns trackable
 native GetFilterTrackable takes nothing returns trackable
@@ -5849,7 +5905,11 @@ native SetWidgetRoll takes widget whichWidget, real roll returns nothing
 native GetWidgetModel takes widget whichWidget returns string
 native SetWidgetModel takes widget whichWidget, string modelFile returns nothing
 native SetWidgetModelEx takes widget whichWidget, string modelFile, integer playerId returns nothing
+native GetWidgetPortrait takes widget whichWidget returns string
+native SetWidgetPortrait takes widget whichWidget, string modelName returns nothing
+native GetWidgetMaterialTexture takes widget whichWidget, integer materialId, integer textureIndex returns string
 native SetWidgetMaterialTexture takes widget whichWidget, string textureName, integer materialId, integer textureIndex returns nothing
+native GetWidgetTexture takes widget whichWidget, integer textureIndex returns string
 native SetWidgetTexture takes widget whichWidget, string textureName, integer textureIndex returns nothing
 native SetWidgetReplaceableTexture takes widget whichWidget, string textureName, integer textureIndex returns nothing
 native GetWidgetModelObjectX takes widget whichWidget, string whichObject returns real
@@ -5866,6 +5926,8 @@ native QueueWidgetAnimationByIndex takes widget whichWidget, integer animIndex r
 native QueueWidgetAnimation takes widget whichWidget, string animationName returns nothing
 native GetWidgetAnimationOffsetPercent takes widget whichWidget returns real
 native SetWidgetAnimationOffsetPercent takes widget whichWidget, real percent returns nothing
+native IsWidgetAnimationFrozen takes widget whichWidget returns boolean
+native SetWidgetAnimationFrozen takes widget whichWidget, boolean isFreeze returns nothing
 
 native TriggerRegisterWidgetEvent takes trigger whichTrigger, widget whichWidget, widgetevent whichWidgetEvent returns event
 //
@@ -5926,7 +5988,11 @@ native SetDestructableRoll takes destructable whichDestructable, real roll retur
 native GetDestructableModel takes destructable whichDestructable returns string
 native SetDestructableModel takes destructable whichDestructable, string modelFile returns nothing
 native SetDestructableModelEx takes destructable whichDestructable, string modelFile, integer playerId returns nothing
+native GetDestructablePortrait takes destructable whichDestructable returns string
+native SetDestructablePortrait takes destructable whichDestructable, string modelName returns nothing
+native GetDestructableMaterialTexture takes destructable whichDestructable, integer materialId, integer textureIndex returns string
 native SetDestructableMaterialTexture takes destructable whichDestructable, string textureName, integer materialId, integer textureIndex returns nothing
+native GetDestructableTexture takes destructable whichDestructable, integer textureIndex returns string
 native SetDestructableTexture takes destructable whichDestructable, string textureName, integer textureIndex returns nothing
 native SetDestructableReplaceableTexture takes destructable whichDestructable, string textureName, integer textureIndex returns nothing
 native GetDestructableModelObjectX takes destructable whichDestructable, string whichObject returns real
@@ -5941,6 +6007,8 @@ native SetDestructableAnimationByIndex takes destructable whichDestructable, int
 native QueueDestructableAnimationByIndex takes destructable whichDestructable, integer animIndex returns nothing
 native GetDestructableAnimationOffsetPercent takes destructable whichDestructable returns real
 native SetDestructableAnimationOffsetPercent takes destructable whichDestructable, real percent returns nothing
+native IsDestructableAnimationFrozen takes destructable whichDestructable returns boolean
+native SetDestructableAnimationFrozen takes destructable whichDestructable, boolean isFreeze returns nothing
 
 native EnumDestructablesInRange takes real x, real y, real radius, boolexpr filter, code handlerFunc returns nothing
 //
@@ -5978,7 +6046,6 @@ native SetItemStringField takes item whichItem, itemstringfield whichField, stri
 //
 
 // Normal API
-constant native GetTriggerItem takes nothing returns item
 native GetItemUnderCursor takes nothing returns item // Async
 native GetItemOwner takes item whichItem returns unit
 native IsItemDroppable takes item whichItem returns boolean
@@ -5997,6 +6064,8 @@ native GetItemLife takes item whichItem returns real
 native SetItemLife takes item whichItem, real life returns nothing
 native GetItemMaxLife takes item whichItem returns real
 native SetItemMaxLife takes item whichItem, real maxLife returns nothing
+native GetItemMaxCharges takes item whichItem returns integer
+native SetItemMaxCharges takes item whichItem, integer charges returns nothing
 native GetItemAbilityById takes item whichItem, integer abilityTypeId returns ability
 native GetItemAbilityByIndex takes item whichItem, integer index returns ability
 native ItemAddAbility takes item whichItem, ability whichAbility returns boolean
@@ -6034,7 +6103,11 @@ native SetItemRoll takes item whichItem, real roll returns nothing
 native GetItemModel takes item whichItem returns string
 native SetItemModel takes item whichItem, string modelFile returns nothing
 native SetItemModelEx takes item whichItem, string modelFile, integer playerColourId returns nothing
+native GetItemPortrait takes item whichItem returns string
+native SetItemPortrait takes item whichItem, string modelName returns nothing
+native GetItemMaterialTexture takes item whichItem, integer materialId, integer textureIndex returns string
 native SetItemMaterialTexture takes item whichItem, string textureName, integer materialId, integer textureIndex returns nothing
+native GetItemTexture takes item whichItem, integer textureIndex returns string
 native SetItemTexture takes item whichItem, string textureName, integer textureIndex returns nothing
 native SetItemReplaceableTexture takes item whichItem, string textureName, integer textureIndex returns nothing
 native GetItemModelObjectX takes item whichItem, string whichObject returns real
@@ -6051,8 +6124,34 @@ native QueueItemAnimationByIndex takes item whichItem, integer animIndex returns
 native QueueItemAnimation takes item whichItem, string animationName returns nothing
 native GetItemAnimationOffsetPercent takes item whichItem returns real
 native SetItemAnimationOffsetPercent takes item whichItem, real percent returns nothing
+native IsItemAnimationFrozen takes item whichItem returns boolean
+native SetItemAnimationFrozen takes item whichItem, boolean isFreeze returns nothing
 
 native EnumItemsInRange takes real x, real y, real radius, boolexpr filter, code handlerFunc returns nothing
+//
+
+// Trigger Item API
+constant native GetTriggerItem takes nothing returns item // For ANY item event
+constant native GetTriggerItemTargetItem takes nothing returns item
+constant native GetTriggerItemSourceSlot takes nothing returns integer
+constant native GetTriggerItemTargetSlot takes nothing returns integer
+
+// For EVENT_PLAYER_UNIT_PICKUP_ITEM and EVENT_UNIT_PICKUP_ITEM, returns the item absorbing the picked up item in case it is stacking.
+constant native GetAbsorbedItem takes nothing returns item
+constant native GetAbsorbingItem takes nothing returns item
+constant native GetAbsorbedItemWasAbsorbed takes nothing returns boolean
+
+// EVENT_PLAYER_UNIT_STACK_ITEM and EVENT_UNIT_STACK_ITEM
+// Source is the item that is losing charges, Target is the item getting charges.
+constant native GetStackingItemSource takes nothing returns item
+constant native GetStackingItemSourcePreviousCharges takes nothing returns integer
+constant native GetStackingItemTarget takes nothing returns item
+constant native GetStackingItemTargetPreviousCharges takes nothing returns integer
+constant native GetStackingItemTargetAddedCharges takes nothing returns integer
+
+// For EVENT_PLAYER_UNIT_MOVE_ITEM_SLOT, EVENT_UNIT_MOVE_ITEM_SLOT and stack related events.
+constant native SetTriggerItemAllowMoveSlot takes boolean isMove returns nothing // Setting this to false will prevent items from moving or stacking.
+constant native SetTriggerItemAllowStack takes boolean isStack returns nothing // Setting this to false will prevent items from stacking in stack event.
 //
 //
 
@@ -6144,8 +6243,16 @@ native IsUnitInvulnerable takes unit whichUnit returns boolean
 native IsUnitHero takes unit whichUnit returns boolean
 native IsUnitTower takes unit whichUnit returns boolean
 native IsUnitShop takes unit whichUnit returns boolean
+
+// Inventory API
 native IsUnitInventoryEnabled takes unit whichUnit returns boolean
 native UnitEnableInventory takes unit whichUnit, boolean enable, boolean ignoreErrorMessages returns nothing // ignoreErrorMessages simply causes the game not to print errors such as "unable to drop/unable to pick up" messages, etc.
+native UnitInventorySetSize takes unit whichUnit, integer size returns nothing
+// 0 - Pick | 1 - Drop | 2 - Give | 3 - Pawn
+native UnitInventoryGetRange takes unit whichUnit, integer rangeType returns real
+native UnitInventorySetRange takes unit whichUnit, integer rangeType, real range returns nothing
+//
+
 native IsUnitMovementEnabled takes unit whichUnit returns boolean
 native UnitEnableMovement takes unit whichUnit, boolean enable, boolean fullDisable returns nothing // fullDisable will also block unit from being able to rotate.
 native IsUnitAttackEnabled takes unit whichUnit returns boolean
@@ -6161,6 +6268,7 @@ native UnitAddAbilityEx takes unit whichUnit, integer abilityTypeId, boolean che
 native UnitRemoveAbilityEx takes unit whichUnit, integer abilityTypeId, boolean removeDuplicates returns boolean
 
 native CountUnitAbilities takes unit whichUnit, boolean alsoCountBuffs returns integer
+native CountUnitAbilitiesWithTypeId takes unit whichUnit, boolean alsoCountBuffs, integer abilityTypeId returns integer
 native GetUnitAbility takes unit whichUnit, integer abilityTypeId returns ability
 native GetUnitAbilityEx takes unit whichUnit, integer abilityTypeId, integer id returns ability // Allows you to search through duplicates.
 native GetUnitAbilityByIndex takes unit whichUnit, integer index returns ability
@@ -6180,6 +6288,7 @@ native UnitAddBuffById takes unit whichUnit, integer buffTypeId returns boolean 
 native UnitAddBuffByIdEx takes unit whichUnit, integer buffTypeId, boolean checkForDuplicates returns boolean
 
 native CountUnitBuffs takes unit whichUnit returns integer
+native CountUnitBuffsWithTypeId takes unit whichUnit, integer buffTypeId returns integer
 native GetUnitBuff takes unit whichUnit, integer buffTypeId returns buff
 native GetUnitBuffEx takes unit whichUnit, integer buffTypeId, integer id returns buff // Allows you to search through duplicates.
 native GetUnitBuffByIndex takes unit whichUnit, integer index returns buff
@@ -6187,6 +6296,7 @@ native GetUnitBuffLevel takes unit whichUnit, integer buffTypeId returns integer
 //
 
 native UnitCancelTimedLife takes unit whichUnit returns nothing
+native UnitRestartTimedLife takes unit whichUnit returns nothing
 native GetUnitRemainingTimedLife takes unit whichUnit returns real
 native SetUnitRemainingTimedLife takes unit whichUnit, real duration returns nothing
 native IsUnitGhosted takes unit whichUnit returns boolean
@@ -6294,7 +6404,11 @@ native SetHeroPrimaryAttribute takes unit whichUnit, heroattribute whichHeroAttr
 native GetUnitModel takes unit whichUnit returns string
 native SetUnitModel takes unit whichUnit, string modelName returns nothing
 native SetUnitModelEx takes unit whichUnit, string modelName, integer playercolourId returns nothing
+native GetUnitPortrait takes unit whichUnit returns string
+native SetUnitPortrait takes unit whichUnit, string modelName returns nothing
+native GetUnitMaterialTexture takes unit whichUnit, integer materialId, integer textureIndex returns string
 native SetUnitMaterialTexture takes unit whichUnit, string textureName, integer materialId, integer textureIndex returns nothing
+native GetUnitTexture takes unit whichUnit, integer textureIndex returns string
 native SetUnitTexture takes unit whichUnit, string textureName, integer textureIndex returns nothing
 native SetUnitReplaceableTexture takes unit whichUnit, string textureName, integer textureIndex returns nothing
 native GetUnitCollisionType takes unit whichUnit returns collisiontype
@@ -6337,6 +6451,8 @@ native GetUnitCurrentAnimationId takes unit whichUnit returns integer
 native GetUnitCurrentAnimationName takes unit whichUnit returns string
 native GetUnitAnimationOffsetPercent takes unit whichUnit returns real
 native SetUnitAnimationOffsetPercent takes unit whichUnit, real percent returns nothing
+native IsUnitAnimationFrozen takes unit whichUnit returns boolean
+native SetUnitAnimationFrozen takes unit whichUnit, boolean isFreeze returns nothing
 // Unit Orientation API, these only work if AutoOrientation is set to false. Note, this will disable auto yaw/pitch/roll updates as well, you will have to do them manually.
 native IsUnitAutoOrientationEnabled takes unit whichUnit returns boolean
 native UnitEnableAutoOrientation takes unit whichUnit, boolean enable returns nothing
@@ -6505,7 +6621,9 @@ native SetProjectilePitch takes projectile whichProjectile, real pitch returns n
 native GetProjectileRoll takes projectile whichProjectile returns real
 native SetProjectileRoll takes projectile whichProjectile, real roll returns nothing
 native SetProjectileOrientation takes projectile whichProjectile, real yaw, real pitch, real roll returns nothing
+native GetProjectileMaterialTexture takes projectile whichProjectile, integer materialId, integer textureIndex returns string
 native SetProjectileMaterialTexture takes projectile whichProjectile, string textureName, integer materialId, integer textureIndex returns nothing
+native GetProjectileTexture takes projectile whichProjectile, integer textureIndex returns string
 native SetProjectileTexture takes projectile whichProjectile, string textureName, integer textureIndex returns nothing
 native SetProjectileReplaceableTexture takes projectile whichProjectile, string textureName, integer textureIndex returns nothing
 native GetProjectileModel takes projectile whichProjectile returns string
@@ -6525,6 +6643,8 @@ native QueueProjectileAnimationByIndex takes projectile whichProjectile, integer
 native QueueProjectileAnimation takes projectile whichProjectile, string animationName returns nothing
 native GetProjectileAnimationOffsetPercent takes projectile whichProjectile returns real
 native SetProjectileAnimationOffsetPercent takes projectile whichProjectile, real percent returns nothing
+native IsProjectileAnimationFrozen takes projectile whichProjectile returns boolean
+native SetProjectileAnimationFrozen takes projectile whichProjectile, boolean isFreeze returns nothing
 
 native GetProjectileSource takes projectile whichProjectile returns unit
 native SetProjectileSource takes projectile whichProjectile, unit whichUnit returns nothing
@@ -6792,26 +6912,28 @@ native SetFrameSpriteTimeScale takes framehandle whichFrame, real timescale retu
 native GetFrameSpritePlayerColour takes framehandle whichFrame returns playercolor
 native SetFrameSpritePlayerColour takes framehandle whichFrame, playercolor color returns nothing
 native GetFrameSpriteAlpha takes framehandle whichFrame returns integer
-native SetFrameSpriteAlpha takes framehandle whichFrame, integer alpha returns boolean
+native SetFrameSpriteAlpha takes framehandle whichFrame, integer alpha returns nothing
 native GetFrameSpriteColour takes framehandle whichFrame returns integer
-native SetFrameSpriteColour takes framehandle whichFrame, integer colour returns boolean
-native SetFrameSpriteVertexColour takes framehandle whichFrame, integer red, integer green, integer blue, integer alpha returns boolean
-native SetFrameSpriteOrientationEx takes framehandle whichFrame, real yaw, real pitch, real roll, integer eulerOrder returns boolean
+native SetFrameSpriteColour takes framehandle whichFrame, integer colour returns nothing
+native SetFrameSpriteVertexColour takes framehandle whichFrame, integer red, integer green, integer blue, integer alpha returns nothing
+native SetFrameSpriteOrientationEx takes framehandle whichFrame, real yaw, real pitch, real roll, integer eulerOrder returns nothing
 native GetFrameSpriteYaw takes framehandle whichFrame returns real
-native SetFrameSpriteYaw takes framehandle whichFrame, real yaw returns boolean
+native SetFrameSpriteYaw takes framehandle whichFrame, real yaw returns nothing
 native GetFrameSpriteFacing takes framehandle whichFrame returns real
-native SetFrameSpriteFacing takes framehandle whichFrame, real facing returns boolean
+native SetFrameSpriteFacing takes framehandle whichFrame, real facing returns nothing
 native GetFrameSpritePitch takes framehandle whichFrame returns real
-native SetFrameSpritePitch takes framehandle whichFrame, real pitch returns boolean
+native SetFrameSpritePitch takes framehandle whichFrame, real pitch returns nothing
 native GetFrameSpriteRoll takes framehandle whichFrame returns real
-native SetFrameSpriteRoll takes framehandle whichFrame, real roll returns boolean
+native SetFrameSpriteRoll takes framehandle whichFrame, real roll returns nothing
 native SetFrameSpriteOrientation takes framehandle whichFrame, real yaw, real pitch, real roll returns nothing
-native SetFrameSpriteMaterialTexture takes framehandle whichFrame, string textureName, integer materialId, integer textureIndex returns nothing
 native GetFrameSpriteMatrixScaleX takes framehandle whichFrame returns real
 native GetFrameSpriteMatrixScaleY takes framehandle whichFrame returns real
 native GetFrameSpriteMatrixScaleZ takes framehandle whichFrame returns real
 native SetFrameSpriteMatrixScale takes framehandle whichFrame, real sizeX, real sizeY, real sizeZ returns nothing
 native ResetFrameSpriteMatrix takes framehandle whichFrame returns nothing
+native GetFrameSpriteMaterialTexture takes framehandle whichFrame, integer materialId, integer textureIndex returns string
+native SetFrameSpriteMaterialTexture takes framehandle whichFrame, string textureName, integer materialId, integer textureIndex returns nothing
+native GetFrameSpriteTexture takes framehandle whichFrame, integer textureIndex returns string
 native SetFrameSpriteTexture takes framehandle whichFrame, string textureName, integer textureIndex returns nothing
 native SetFrameSpriteReplaceableTexture takes framehandle whichFrame, string textureName, integer textureIndex returns nothing
 native GetFrameSpriteModel takes framehandle whichFrame returns string
@@ -6827,6 +6949,8 @@ native SetFrameSpriteAnimation takes framehandle whichFrame, string animationNam
 native QueueFrameSpriteAnimation takes framehandle whichFrame, string animationName returns nothing
 native GetFrameSpriteAnimationOffsetPercent takes framehandle whichFrame returns real
 native SetFrameSpriteAnimationOffsetPercent takes framehandle whichFrame, real percent returns nothing
+native IsFrameSpriteAnimationFrozen takes framehandle whichFrame returns boolean
+native SetFrameSpriteAnimationFrozen takes framehandle whichFrame, boolean isFreeze returns nothing
 //
 
 //============================================================================
@@ -6948,6 +7072,7 @@ native GetEventWeaponType takes nothing returns weapontype
 native SetEventWeaponType takes weapontype weaponType returns boolean
 
 native GetEventIsAttack takes nothing returns boolean
+native GetEventIsAttackEx takes boolean checkActual returns boolean // false checks for isAttack provided in UnitDamageTarget, true returns GetEventIsAttack
 native GetEventIsRanged takes nothing returns boolean
 native GetEventIsCritical takes nothing returns boolean
 

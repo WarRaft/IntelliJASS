@@ -35,6 +35,12 @@ public class AngelScriptElseStmtImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @Nullable
+  public AngelScriptContinueStmt getContinueStmt() {
+    return findChildByClass(AngelScriptContinueStmt.class);
+  }
+
+  @Override
+  @Nullable
   public AngelScriptDoWhileStmt getDoWhileStmt() {
     return findChildByClass(AngelScriptDoWhileStmt.class);
   }
