@@ -24,7 +24,6 @@ abstract class BlpMipmapProcessor {
     /**
      * Set by subclasses when the MipmapProcessor is ready to call decodeMipmap.
      */
-    @JvmField
     protected var canDecode: Boolean = false
 
     /**
@@ -64,7 +63,6 @@ abstract class BlpMipmapProcessor {
      * @param mmDataList unprocessed mipmap data arrays.
      * @param handler    warning handler.
      * @return list of processed mipmap data.
-     * @throws IllegalArgumentException if encodedmmData does not contain at least 1 element.
      */
     open fun postProcessMipmapData(
         mmDataList: List<ByteArray?>,
@@ -98,7 +96,6 @@ abstract class BlpMipmapProcessor {
      * @param handler warning handler.
      * @return encoded mipmap data.
      */
-    @Throws(IOException::class)
     abstract fun encodeMipmap(
         img: BufferedImage?,
         param: ImageWriteParam?, handler: Consumer<String?>?
@@ -148,7 +145,6 @@ abstract class BlpMipmapProcessor {
      * @param handler warning handler.
      * @return the decoded mipmap image.
      */
-    @Throws(IOException::class)
     abstract fun decodeMipmap(
         mmData: ByteArray?,
         param: ImageReadParam?, width: Int, height: Int,
@@ -169,12 +165,10 @@ abstract class BlpMipmapProcessor {
         width: Int, height: Int
     ): Iterator<ImageTypeSpecifier?>?
 
-    @Throws(IOException::class)
     abstract fun readObject(
         src: ImageInputStream?,
         warning: Consumer<String?>?
     )
 
-    @Throws(IOException::class)
     abstract fun writeObject(dst: ImageOutputStream?)
 }

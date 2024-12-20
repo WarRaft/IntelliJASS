@@ -27,17 +27,6 @@ class MagicInt : Comparable<MagicInt> {
     private val value: Int
 
     /**
-     * Constructs a magic number from an internal magic number assuming
-     * BIG_ENDIAN byte order.
-     *
-     * @param value
-     * internal magic number.
-     */
-    constructor(value: Int) {
-        this.value = value
-    }
-
-    /**
      * Constructs a magic number from an internal magic number with the
      * specified byte order.
      *
@@ -60,7 +49,6 @@ class MagicInt : Comparable<MagicInt> {
      *
      * @param value
      * - the type string.
-     * @throws StringIndexOutOfBoundsException
      * - if the type string is not exactly 4 characters long.
      */
     constructor(value: String) {
@@ -125,7 +113,6 @@ class MagicInt : Comparable<MagicInt> {
          * @param value
          * human readable magic number.
          * @return internal magic number.
-         * @throws StringIndexOutOfBoundsException
          * if the type string is not exactly 4 characters long.
          */
         fun stringToMagic(value: String): Int {

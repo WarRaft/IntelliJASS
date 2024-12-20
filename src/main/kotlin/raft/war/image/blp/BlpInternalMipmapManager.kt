@@ -41,9 +41,7 @@ internal class BlpInternalMipmapManager {
      * @param mipmap  the mipmap level.
      * @param warning warning handler function.
      * @return a byte array containing the mipmap data chunk.
-     * @throws IOException if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun getMipmapDataChunk(
         src: ImageInputStream, mipmap: Int,
         warning: Consumer<String?>
@@ -102,9 +100,7 @@ internal class BlpInternalMipmapManager {
      * @param dst    stream to place mipmap data chunks to.
      * @param mipmap the mipmap level.
      * @param chunk  a byte array containing the mipmap data chunk.
-     * @throws IOException if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun setMipmapDataChunk(
         dst: ImageOutputStream, mipmap: Int,
         chunk: ByteArray
@@ -138,9 +134,7 @@ internal class BlpInternalMipmapManager {
      * undefined behavior.
      *
      * @param src stream to place mipmap data chunks to.
-     * @throws IOException if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun setMipmapDataChunkBlockOffset(src: ImageInputStream) {
         val offset = src.streamPosition
         if (offset > 0xFFFFFFFFL) throw IOException("Stream offset too big.")
@@ -153,9 +147,7 @@ internal class BlpInternalMipmapManager {
      *
      * @param src    stream to flush.
      * @param mipmap the mipmap level.
-     * @throws IOException if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun flushToMipmap(src: ImageInputStream, mipmap: Int) {
         // find lowest offset to allow the mipmaps to be read
         var pos = Long.MAX_VALUE
@@ -169,7 +161,6 @@ internal class BlpInternalMipmapManager {
         src.flushBefore(pos)
     }
 
-    @Throws(IOException::class)
     fun readObject(`in`: ImageInputStream) {
         `in`.byteOrder = ByteOrder.LITTLE_ENDIAN
 
@@ -189,7 +180,6 @@ internal class BlpInternalMipmapManager {
         chunkStreamPos = pos
     }
 
-    @Throws(IOException::class)
     fun writeObject(out: ImageOutputStream) {
         out.byteOrder = ByteOrder.LITTLE_ENDIAN
 

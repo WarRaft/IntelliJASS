@@ -67,10 +67,8 @@ internal class BlpExternalMipmapManager(file: Path) {
      * @param mipmap
      * the mipmap level.
      * @return a byte array containing the mipmap data chunk.
-     * @throws IOException
      * if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun getMipmapDataChunk(mipmap: Int): ByteArray {
         return Files.readAllBytes(getMipmapFilePath(mipmap))
     }
@@ -83,10 +81,8 @@ internal class BlpExternalMipmapManager(file: Path) {
      * the mipmap level.
      * @param chunk
      * a byte array containing the mipmap data chunk.
-     * @throws IOException
      * if an IOException occurs.
      */
-    @Throws(IOException::class)
     fun setMipmapDataChunk(mipmap: Int, chunk: ByteArray?) {
         val filePath = getMipmapFilePath(mipmap)
 

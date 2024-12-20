@@ -30,16 +30,13 @@ object BlpCommon {
      * @param magicint file magic number.
      * @return the BLP version number or -1 if not known.
      */
-    @JvmStatic
+
     fun resolveVersion(magicint: MagicInt): Int {
-        // simple linear search
         var i = 0
         while (i < BLP_VERSION_MAGIC.size) {
             if (magicint == BLP_VERSION_MAGIC[i]) return i
             i += 1
         }
-
-        // failure
         return -1
     }
 
@@ -48,9 +45,8 @@ object BlpCommon {
      *
      * @param ver the BLP version number.
      * @return the BLP file magic number in big-endian order.
-     * @throws IndexOutOfBoundsException if ver is not a supported BLP version.
      */
-    @JvmStatic
+
     fun resolveMagic(ver: Int): MagicInt {
         return BLP_VERSION_MAGIC[ver]
     }

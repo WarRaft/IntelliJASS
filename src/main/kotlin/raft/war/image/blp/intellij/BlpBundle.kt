@@ -8,7 +8,6 @@ import com.intellij.DynamicBundle
 private const val BUNDLE = "messages.BlpBundle"
 
 object BlpBundle : DynamicBundle(BUNDLE) {
-    @JvmStatic
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
         getMessage(key, *params)
 }

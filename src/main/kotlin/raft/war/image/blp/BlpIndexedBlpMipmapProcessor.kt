@@ -58,7 +58,6 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
         )
     }
 
-    @Throws(IOException::class)
     override fun encodeMipmap(
         img: BufferedImage?, param: ImageWriteParam?,
         handler: Consumer<String?>?
@@ -156,7 +155,6 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
         return (srcWR.dataBuffer as DataBufferByte).data
     }
 
-    @Throws(IOException::class)
     override fun decodeMipmap(
         mmData: ByteArray?, param: ImageReadParam?,
         width: Int, height: Int, handler: Consumer<String?>?
@@ -200,7 +198,6 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
             .iterator()
     }
 
-    @Throws(IOException::class)
     override fun readObject(
         src: ImageInputStream?,
         warning: Consumer<String?>?
@@ -217,7 +214,6 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
         canDecode = true
     }
 
-    @Throws(IOException::class)
     override fun writeObject(dst: ImageOutputStream?) {
         checkNotNull(dst)
         dst.byteOrder = ByteOrder.LITTLE_ENDIAN

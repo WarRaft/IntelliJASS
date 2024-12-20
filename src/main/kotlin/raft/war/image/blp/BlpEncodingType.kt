@@ -1,7 +1,5 @@
 package raft.war.image.blp
 
-import java.util.*
-
 /**
  * Enum class of all supported BLP image encoding formats. Although the color
  * component precision is fixed for each encoding type, some have multiple
@@ -68,7 +66,6 @@ enum class BlpEncodingType(alphaBitsMask: Int, minVestion: Int) {
     /**
      * Minimum version that supports this encoding type.
      */
-    @JvmField
     val minVersion: Int
 
     /**
@@ -91,7 +88,7 @@ enum class BlpEncodingType(alphaBitsMask: Int, minVestion: Int) {
             i = (i + 1).toByte()
         }
 
-        alphaBitsArray = Arrays.copyOfRange(alphabitsdetect, 0, detected)
+        alphaBitsArray = alphabitsdetect.copyOfRange(0, detected)
     }
 
     /**
