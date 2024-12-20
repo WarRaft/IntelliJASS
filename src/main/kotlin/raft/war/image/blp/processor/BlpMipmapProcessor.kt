@@ -1,7 +1,6 @@
-package raft.war.image.blp
+package raft.war.image.blp.processor
 
 import java.awt.image.BufferedImage
-import java.io.IOException
 import java.util.function.Consumer
 import javax.imageio.ImageReadParam
 import javax.imageio.ImageTypeSpecifier

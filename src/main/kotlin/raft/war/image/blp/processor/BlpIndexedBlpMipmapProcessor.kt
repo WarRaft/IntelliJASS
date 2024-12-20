@@ -1,9 +1,11 @@
-package raft.war.image.blp
+package raft.war.image.blp.processor
 
-import raft.war.image.blp.intellij.BlpBundle.message
+import raft.war.image.blp.BlpEncodingType
+import raft.war.image.blp.BlpIndexColorModel
+import raft.war.image.blp.BlpPackedSampleModel
+import raft.war.image.blp.intellij.BlpBundle
 import java.awt.color.ColorSpace
 import java.awt.image.*
-import java.io.IOException
 import java.nio.ByteOrder
 import java.util.function.Consumer
 import javax.imageio.IIOException
@@ -88,7 +90,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
                     // color space conversion
                     val srcCMapCM = ColorModel.getRGBdefault()
                     val destCMapCM =
-                        BlpIndexColorModel.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
+                        BlpIndexColorModel.Companion.createPaletteColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB))
                     val destCMap = IntArray(srcCMap.size)
                     val components = IntArray(
                         srcCMapCM
@@ -156,33 +158,27 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
     }
 
     override fun decodeMipmap(
-        mmData: ByteArray?, param: ImageReadParam?,
-        width: Int, height: Int, handler: Consumer<String?>?
+        mmData: ByteArray?,
+        param: ImageReadParam?,
+        width: Int,
+        height: Int,
+        handler: Consumer<String?>?
     ): BufferedImage {
-        // create sample model
         var mData = mmData
         val sm = BlpPackedSampleModel(
             width, height,
             bandSizes, null
         )
 
-        // validate chunk size
         val expected = sm.bufferSize
         checkNotNull(mData)
         if (mData.size != expected) {
-            handler!!.accept(message("BadBuffer", mData.size, expected))
+            handler!!.accept(BlpBundle.message("BadBuffer", mData.size, expected))
             mData = mData.copyOf(expected)
         }
 
-        // produce image WritableRaster
-        val db: DataBuffer = DataBufferByte(mData, mData.size)
-        val raster = Raster.createWritableRaster(sm, db, null)
-
-        // produce buffered image
-        return BufferedImage(
-            indexedBLPColorModel, raster,
-            false, null
-        )
+        val rt = Raster.createWritableRaster(sm, DataBufferByte(mData, mData.size), null)
+        return BufferedImage(indexedBLPColorModel, rt, false, null)
     }
 
     override fun getSupportedImageTypes(
@@ -204,7 +200,7 @@ class BlpIndexedBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() {
     ) {
         checkNotNull(src)
         src.byteOrder = ByteOrder.LITTLE_ENDIAN
-        val palette = IntArray(BlpIndexColorModel.MAX_PALETTE_LENGTH)
+        val palette = IntArray(BlpIndexColorModel.Companion.MAX_PALETTE_LENGTH)
         src.readFully(palette, 0, palette.size)
 
         indexedBLPColorModel = BlpIndexColorModel(

@@ -1,7 +1,13 @@
 package raft.war.image.blp
 
+import com.intellij.util.ui.UIUtil
 import raft.war.image.blp.intellij.BlpBundle
+import raft.war.image.blp.processor.BlpIndexedBlpMipmapProcessor
+import raft.war.image.blp.processor.BlpJPEGBlpMipmapProcessor
+import raft.war.image.blp.processor.BlpMipmapProcessor
+import java.awt.Color
 import java.awt.Rectangle
+import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
@@ -18,79 +24,50 @@ import javax.imageio.stream.FileImageInputStream
 import javax.imageio.stream.ImageInputStream
 
 class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingProvider) {
-    /**
-     * BLP stream metadata object. Represents the contents of the BLP file
-     * header and is used to decode all mipmap levels.
-     */
     private var streamMeta: BlpStreamMetadata? = null
-
-    /**
-     * Internally managed ImageInputStream.
-     */
     private var intSrc: ImageInputStream? = null
 
-    /**
-     * Mipmap manager adapter class. Turns varying manager interfaces into a
-     * standard reader interface.
-     */
     private abstract class MipmapReader {
         abstract fun getMipmapDataChunk(mipmap: Int): ByteArray?
-
-        open fun flushTo(mipmap: Int) {
-        }
+        open fun flushTo(mipmap: Int) {}
     }
 
-    /**
-     * Mipmap reader to get mipmap data chunks from.
-     */
     private var mipmapReader: MipmapReader? = null
+    private lateinit var blpMipmapProcessor: BlpMipmapProcessor
 
-    /**
-     * Mipmap processor for content.
-     */
-    private var blpMipmapProcessor: BlpMipmapProcessor? = null
-
-    /**
-     * Loads the BLP header from an input source. The header is only loaded once
-     * with the results cached for performance.
-     *
-     */
     private fun loadHeader() {
         if (streamMeta != null) return
 
         checkNotNull(input) { "no input source has been set" }
 
         var path: Path? = null
-        if (input is Path) {
-            path = input as Path
-        } else if (input is File) {
-            path = (input as File).toPath()
+        when (input) {
+            is Path -> {
+                path = input as Path
+            }
+
+            is File -> {
+                path = (input as File).toPath()
+            }
         }
 
         val src: ImageInputStream?
         if (input is ImageInputStream) {
-            // ImageInputStream provided
             src = input as ImageInputStream
         } else if (path != null) {
-            // create internally managed ImageInputStream
             intSrc = FileImageInputStream(path.toFile())
-
-            // validate Path
             src = intSrc
-        } else  // invalid input has been assigned
+        } else
             throw IllegalStateException("bad input state")
 
-        // start from beginning of stream
         src!!.seek(0)
 
         val streamMeta = BlpStreamMetadata()
         streamMeta.setWarningHandler(Consumer { msg: String? -> this.processWarningOccurred(msg!!) })
         streamMeta.readObject(src)
 
-        // read mipmap location data
-        val mipmapReader: MipmapReader?
+        val mipmapReader: MipmapReader
         if (streamMeta.getVersion() > 0) {
-            // mipmap chunks within same file
             val imm = BlpInternalMipmapManager()
             imm.readObject(src)
             val thisref = this
@@ -107,54 +84,42 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
                 }
             }
         } else if (path != null) {
-            // file must have ".blp" extension
             val emm = BlpExternalMipmapManager(path)
-
             mipmapReader = object : MipmapReader() {
                 override fun getMipmapDataChunk(mipmap: Int): ByteArray? {
                     return emm.getMipmapDataChunk(mipmap)
                 }
             }
         } else {
-            // no path to locate mipmap chunk files
             throw IIOException(
                 "BLP0 image can only be loaded from Path or File input."
             )
         }
 
-        // read content header
-        if (streamMeta.encodingType == BlpEncodingType.JPEG) {
-            blpMipmapProcessor = BlpJPEGBlpMipmapProcessor(streamMeta.alphaBits.toInt())
+        blpMipmapProcessor = if (streamMeta.encodingType == BlpEncodingType.JPEG) {
+            BlpJPEGBlpMipmapProcessor(streamMeta.alphaBits.toInt())
         } else if (streamMeta.encodingType == BlpEncodingType.INDEXED) {
-            blpMipmapProcessor = BlpIndexedBlpMipmapProcessor(
+            BlpIndexedBlpMipmapProcessor(
                 streamMeta.alphaBits.toInt()
             )
         } else {
             throw IIOException("Unsupported content type.")
         }
-        blpMipmapProcessor!!.readObject(src, Consumer { msg: String? -> this.processWarningOccurred(msg!!) })
+        blpMipmapProcessor.readObject(src, Consumer { msg: String? -> this.processWarningOccurred(msg!!) })
 
-        // if seeking forward only then header data can now be discarded
         if (seekForwardOnly) mipmapReader.flushTo(0)
 
         this.streamMeta = streamMeta
         this.mipmapReader = mipmapReader
     }
 
-    /**
-     * Checks if the given image index is valid.
-     *
-     * @param imageIndex the image index to check.
-     */
     private fun checkImageIndex(imageIndex: Int) {
-        // test if image mipmap level exists
         if (streamMeta!!.mipmapCount <= imageIndex) throw IndexOutOfBoundsException(
             String.format(
                 "Mipmap level does not exist: %d.", imageIndex
             )
         )
 
-        // test for seekForwardOnly functionality
         if (imageIndex < minIndex) throw IndexOutOfBoundsException(
             String.format(
                 "Violation of seekForwardOnly: at %d wanting %d.",
@@ -164,13 +129,12 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
     }
 
     override fun setInput(
-        input: Any?, seekForwardOnly: Boolean,
+        input: Any?,
+        seekForwardOnly: Boolean,
         ignoreMetadata: Boolean
     ) {
-        // parent performs type checks and generates exceptions
         super.setInput(input, seekForwardOnly, ignoreMetadata)
 
-        // close internal ImageInputStream
         if (intSrc != null) {
             try {
                 intSrc!!.close()
@@ -186,19 +150,13 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
         mipmapReader = null
     }
 
-    /**
-     * Sends all attached warning listeners a warning message. The messages will
-     * be localized for each warning listener.
-     *
-     * @param msg the warning message to send to all warning listeners.
-     */
     override fun processWarningOccurred(msg: String) {
         if (warningListeners == null) return
         else requireNotNull(msg) { "msg is null." }
         val numListeners = warningListeners.size
         for (i in 0..<numListeners) {
-            val listener = warningListeners.get(i)
-            var locale = warningLocales.get(i)
+            val listener = warningListeners[i]
+            var locale = warningLocales[i]
             if (locale == null) {
                 locale = Locale.getDefault()
             }
@@ -221,7 +179,7 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
         loadHeader()
         checkImageIndex(imageIndex)
 
-        return blpMipmapProcessor!!.getSupportedImageTypes(
+        return blpMipmapProcessor.getSupportedImageTypes(
             streamMeta!!.getWidth(imageIndex),
             streamMeta!!.getHeight(imageIndex)
         )
@@ -247,30 +205,24 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
         loadHeader()
         checkImageIndex(imageIndex)
 
-        // seek forward functionality
         if (seekForwardOnly && minIndex < imageIndex) {
             minIndex = imageIndex
             mipmapReader!!.flushTo(minIndex)
         }
 
-        if (!blpMipmapProcessor!!.canDecode()) throw IIOException("Mipmap processor cannot decode.")
+        if (!blpMipmapProcessor.canDecode()) throw IIOException("Mipmap processor cannot decode.")
 
         processImageStarted(imageIndex)
 
-        // get mipmap image data
         val mmData = mipmapReader!!.getMipmapDataChunk(imageIndex)
 
-        // unpack mipmap image data into a mipmap image
         val width = streamMeta!!.getWidth(imageIndex)
         val height = streamMeta!!.getHeight(imageIndex)
-        val srcImg = blpMipmapProcessor!!.decodeMipmap(
+        val srcImg = blpMipmapProcessor.decodeMipmap(
             mmData, param,
             width, height, Consumer { msg: String? -> this.processWarningOccurred(msg!!) })
-        // imageIndex);
         val destImg: BufferedImage?
 
-        // return src image if direct read mode is specified or no
-        // ImageReadParam is present
         if (param == null
             || (param is BlpReadParam && param
                 .isDirectRead)
@@ -282,25 +234,24 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
             )
 
             checkReadParamBandSettings(
-                param, srcImg!!.getSampleModel()
-                    .getNumBands(), destImg.getSampleModel().getNumBands()
+                param, srcImg!!.sampleModel
+                    .getNumBands(), destImg.sampleModel.getNumBands()
             )
 
             val srcRegion = Rectangle()
             val destRegion = Rectangle()
             computeRegions(param, width, height, destImg, srcRegion, destRegion)
 
-            // extract param settings
             val srcBands = param.getSourceBands()
             val destBands = param.getDestinationBands()
             val ssX = param.getSourceXSubsampling()
             val ssY = param.getSourceYSubsampling()
 
-            val srcRaster = srcImg.getRaster().createWritableChild(
+            val srcRaster = srcImg.raster.createWritableChild(
                 srcRegion.x, srcRegion.y, srcRegion.width,
                 srcRegion.height, 0, 0, srcBands
             )
-            val destRaster = destImg.getRaster()
+            val destRaster = destImg.raster
                 .createWritableChild(
                     destRegion.x, destRegion.y,
                     destRegion.width, destRegion.height, 0, 0,
@@ -327,7 +278,21 @@ class BlpReader(originatingProvider: ImageReaderSpi?) : ImageReader(originatingP
         }
 
         processImageComplete()
+
+        //return createTriangleImage(width, height)
         return destImg
+    }
+
+    fun createTriangleImage(width: Int, height: Int): BufferedImage {
+        val image = UIUtil.createImage(null, width, height, BufferedImage.TYPE_INT_ARGB)
+        val g2d = image.createGraphics()
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2d.color = Color.GREEN
+        val xPoints = intArrayOf(width / 2, width / 4, 3 * width / 4)
+        val yPoints = intArrayOf(height / 4, 3 * height / 4, 3 * height / 4)
+        g2d.fillPolygon(xPoints, yPoints, 3)
+        g2d.dispose()
+        return image
     }
 
     override fun dispose() {

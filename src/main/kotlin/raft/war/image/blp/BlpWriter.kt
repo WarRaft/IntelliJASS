@@ -1,6 +1,9 @@
 package raft.war.image.blp
 
 import raft.war.image.blp.intellij.BlpBundle
+import raft.war.image.blp.processor.BlpIndexedBlpMipmapProcessor
+import raft.war.image.blp.processor.BlpJPEGBlpMipmapProcessor
+import raft.war.image.blp.processor.BlpMipmapProcessor
 import java.awt.Image
 import java.awt.Point
 import java.awt.Rectangle

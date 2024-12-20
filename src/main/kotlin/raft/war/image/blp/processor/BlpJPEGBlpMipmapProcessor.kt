@@ -1,29 +1,20 @@
-package raft.war.image.blp
+package raft.war.image.blp.processor
 
+import raft.war.image.blp.BlpEncodingType
+import raft.war.image.blp.BlpReadParam
+import raft.war.image.blp.BlpWriteParam
 import raft.war.image.blp.intellij.BlpBundle
 import java.awt.Rectangle
 import java.awt.Transparency
 import java.awt.color.ColorSpace
-import java.awt.image.BufferedImage
-import java.awt.image.ColorModel
-import java.awt.image.ComponentColorModel
-import java.awt.image.DataBuffer
-import java.awt.image.WritableRaster
+import java.awt.image.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteOrder
-import java.util.Arrays
+import java.util.*
 import java.util.function.Consumer
-import javax.imageio.IIOException
-import javax.imageio.IIOImage
-import javax.imageio.ImageIO
-import javax.imageio.ImageReadParam
-import javax.imageio.ImageReader
-import javax.imageio.ImageTypeSpecifier
-import javax.imageio.ImageWriteParam
-import javax.imageio.ImageWriter
+import javax.imageio.*
 import javax.imageio.event.IIOReadWarningListener
 import javax.imageio.event.IIOWriteWarningListener
 import javax.imageio.stream.ImageInputStream
@@ -230,7 +221,7 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
         ) {
             jpegParam.setCompressionQuality(param.getCompressionQuality())
         } else {
-            jpegParam.setCompressionQuality(BlpWriteParam.DEFAULT_QUALITY)
+            jpegParam.setCompressionQuality(BlpWriteParam.Companion.DEFAULT_QUALITY)
         }
         jpegWriter.addIIOWriteWarningListener(object : IIOWriteWarningListener {
             override fun warningOccurred(
@@ -315,22 +306,15 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
         })
         val jpegParam = jpegReader.defaultReadParam
         jpegParam.setSourceBands(JPEG_BAND_ARRAY)
-        if (directRead) {
-            // optimizations to improve direct read mode performance
-            jpegParam.setSourceRegion(Rectangle(width, height))
-        }
+        if (directRead) jpegParam.setSourceRegion(Rectangle(width, height))
         var srcRaster = jpegReader.readRaster(0, jpegParam)
 
-        // cleanup
         iis.close()
         jpegReader.dispose()
 
-        // direct read shortcut
         if (directRead && srcRaster is WritableRaster
             && srcRaster.getWidth() == width && srcRaster.getHeight() == height
         ) {
-            // enforce alpha band to match color model
-
             if (!jpegBLPColorModel.hasAlpha()) srcRaster = srcRaster.createWritableChild(
                 0, 0,
                 srcRaster.getWidth(), srcRaster.getHeight(), 0, 0,
@@ -340,7 +324,6 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
             return BufferedImage(jpegBLPColorModel, srcRaster, false, null)
         }
 
-        // alpha warning check
         if (!jpegBLPColorModel.hasAlpha()) {
             val alphaSamples = srcRaster.getSamples(
                 0, 0,
@@ -355,7 +338,6 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
             }
         }
 
-        // dimension check warning
         if (srcRaster.getWidth() != width || srcRaster.getHeight() != height) handler!!.accept(
             BlpBundle.message(
                 "JPEGDimensionMismatch",
@@ -363,16 +345,10 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
             )
         )
 
-        // create destination image
-        val destImg = BufferedImage(
-            jpegBLPColorModel,
-            jpegBLPColorModel.createCompatibleWritableRaster(width, height),
-            false, null
-        )
-        val destRaster = destImg.raster
+        val rt = jpegBLPColorModel.createCompatibleWritableRaster(width, height);
 
-        // copy data
-        destRaster.setRect(
+        val destImg = BufferedImage(jpegBLPColorModel, rt, false, null)
+        destImg.raster.setRect(
             srcRaster.createChild(
                 0,
                 0,
@@ -383,7 +359,6 @@ internal class BlpJPEGBlpMipmapProcessor(alphaBits: Int) : BlpMipmapProcessor() 
                 intArrayOf(0, 1, 2, 3).copyOf(jpegBLPColorModel.getNumComponents())
             )
         )
-
         return destImg
     }
 
