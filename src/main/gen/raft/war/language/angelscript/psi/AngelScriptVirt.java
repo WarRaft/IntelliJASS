@@ -5,16 +5,13 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptVirtProp extends PsiElement {
-
-  @NotNull
-  List<AngelScriptFunAttr> getFunAttrList();
-
-  @NotNull
-  List<AngelScriptStmtBracer> getStmtBracerList();
+public interface AngelScriptVirt extends PsiElement {
 
   @NotNull
   AngelScriptType getType();
+
+  @NotNull
+  AngelScriptVirtBracer getVirtBracer();
 
   @Nullable
   PsiElement getAmp();
@@ -22,16 +19,10 @@ public interface AngelScriptVirtProp extends PsiElement {
   @NotNull
   PsiElement getId();
 
-  @NotNull
-  PsiElement getLbrace();
-
   @Nullable
   PsiElement getPrivate();
 
   @Nullable
   PsiElement getProtected();
-
-  @NotNull
-  PsiElement getRbrace();
 
 }

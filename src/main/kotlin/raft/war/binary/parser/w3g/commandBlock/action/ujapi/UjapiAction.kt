@@ -31,7 +31,7 @@ class UjapiAction : CommandBlockAction {
                     }
                 }
             }
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
         }
 
         if (subAction != null) subAction!!.parse(inBuffer)

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface AngelScriptStmtBracer extends PsiElement {
 
   @Nullable
-  AngelScriptStmtBracerBody getStmtBracerBody();
+  AngelScriptStmtItem getStmtItem();
 
   @NotNull
   PsiElement getLbrace();

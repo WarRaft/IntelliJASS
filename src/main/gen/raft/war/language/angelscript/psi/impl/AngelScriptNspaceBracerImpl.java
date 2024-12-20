@@ -29,8 +29,8 @@ public class AngelScriptNspaceBracerImpl extends ASTWrapperPsiElement implements
 
   @Override
   @Nullable
-  public AngelScriptNspaceBracerBody getNspaceBracerBody() {
-    return findChildByClass(AngelScriptNspaceBracerBody.class);
+  public AngelScriptNspaceItem getNspaceItem() {
+    return findChildByClass(AngelScriptNspaceItem.class);
   }
 
   @Override

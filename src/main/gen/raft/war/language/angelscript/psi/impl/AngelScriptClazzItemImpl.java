@@ -47,8 +47,8 @@ public class AngelScriptClazzItemImpl extends ASTWrapperPsiElement implements An
 
   @Override
   @Nullable
-  public AngelScriptVirtProp getVirtProp() {
-    return findChildByClass(AngelScriptVirtProp.class);
+  public AngelScriptVirt getVirt() {
+    return findChildByClass(AngelScriptVirt.class);
   }
 
 }

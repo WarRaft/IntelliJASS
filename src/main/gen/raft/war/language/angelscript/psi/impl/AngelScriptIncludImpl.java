@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptStmtBracerImpl extends ASTWrapperPsiElement implements AngelScriptStmtBracer {
+public class AngelScriptIncludImpl extends ASTWrapperPsiElement implements AngelScriptInclud {
 
-  public AngelScriptStmtBracerImpl(@NotNull ASTNode node) {
+  public AngelScriptIncludImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitStmtBracer(this);
+    visitor.visitInclud(this);
   }
 
   @Override
@@ -29,20 +29,20 @@ public class AngelScriptStmtBracerImpl extends ASTWrapperPsiElement implements A
 
   @Override
   @Nullable
-  public AngelScriptStmtItem getStmtItem() {
-    return findChildByClass(AngelScriptStmtItem.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getLbrace() {
-    return findNotNullChildByType(LBRACE);
+  public AngelScriptStr getStr() {
+    return findChildByClass(AngelScriptStr.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getRbrace() {
-    return findChildByType(RBRACE);
+  public PsiElement getHash() {
+    return findChildByType(HASH);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getInclude() {
+    return findNotNullChildByType(INCLUDE);
   }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptStmtBracerBody extends PsiElement {
+public interface AngelScriptStmtItem extends PsiElement {
 
   @NotNull
   List<AngelScriptBreakStmt> getBreakStmtList();

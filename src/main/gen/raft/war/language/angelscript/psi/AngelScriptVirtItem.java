@@ -5,18 +5,24 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptClazzItem extends PsiElement {
+public interface AngelScriptVirtItem extends PsiElement {
+
+  @NotNull
+  AngelScriptFunAttr getFunAttr();
 
   @Nullable
-  AngelScriptFun getFun();
+  AngelScriptStmtBracer getStmtBracer();
 
   @Nullable
-  AngelScriptFunDef getFunDef();
+  PsiElement getConst();
 
   @Nullable
-  AngelScriptVar getVar();
+  PsiElement getGet();
 
   @Nullable
-  AngelScriptVirt getVirt();
+  PsiElement getSemi();
+
+  @Nullable
+  PsiElement getSet();
 
 }

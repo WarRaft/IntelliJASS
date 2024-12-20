@@ -14,25 +14,30 @@ import raft.war.image.blp.legacy.MagicInt;
 
 import static raft.war.image.blp.BlpImageSpiCommon.*;
 
-/**
- * Service provider for BLP image file ImageReader.
- *
- * @author Imperial Good
- */
 public class BlpReaderSpi extends ImageReaderSpi {
     static final String READER_CLASS = "raft.war.image.blp.BlpReader";
-    static final Class<?>[] INPUT_TYPES = {ImageInputStream.class, File.class,
-            Path.class};
     static final String[] WRITER_SPI_CLASSES = {"raft.war.image.blp.BlpWriterSpi"};
 
     public BlpReaderSpi() {
-        super(VENDOR, VERSION, FORMAT_NAMES, FORMAT_SUFFIXES, FORMAT_MIMES,
-                READER_CLASS, INPUT_TYPES, WRITER_SPI_CLASSES,
-                STANDARD_STREAM_METADATA_SUPPORT, NATIVE_STREAM_METADATA_NAME,
-                NATIVE_STREAM_METADATA_CLASS, EXTRA_STREAM_METADATA_NAME,
-                EXTRA_STREAM_METADATA_CLASS, STANDARD_IMAGE_METADATA_SUPPORT,
-                NATIVE_IMAGE_METADATA_NAME, NATIVE_IMAGE_METADATA_CLASS,
-                EXTRA_IMAGE_METADATA_NAME, EXTRA_IMAGE_METADATA_CLASS);
+        super(VENDOR,
+                VERSION,
+                FORMAT_NAMES,
+                FORMAT_SUFFIXES,
+                FORMAT_MIMES,
+                READER_CLASS,
+                new Class[]{ImageInputStream.class, File.class, Path.class},
+                WRITER_SPI_CLASSES,
+                STANDARD_STREAM_METADATA_SUPPORT,
+                NATIVE_STREAM_METADATA_NAME,
+                NATIVE_STREAM_METADATA_CLASS,
+                EXTRA_STREAM_METADATA_NAME,
+                EXTRA_STREAM_METADATA_CLASS,
+                STANDARD_IMAGE_METADATA_SUPPORT,
+                NATIVE_IMAGE_METADATA_NAME,
+                NATIVE_IMAGE_METADATA_CLASS,
+                EXTRA_IMAGE_METADATA_NAME,
+                EXTRA_IMAGE_METADATA_CLASS
+        );
     }
 
     @Override
@@ -60,7 +65,7 @@ public class BlpReaderSpi extends ImageReaderSpi {
     }
 
     @Override
-    public ImageReader createReaderInstance(Object extension) throws IOException {
+    public ImageReader createReaderInstance(Object extension) {
         return new BlpReader(this);
     }
 

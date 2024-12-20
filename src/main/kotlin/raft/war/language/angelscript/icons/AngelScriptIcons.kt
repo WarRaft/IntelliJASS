@@ -5,5 +5,5 @@ import javax.swing.Icon
 
 // https://www.svgrepo.com/collection/halloween-20/
 object AngelScriptIcons {
-    val FILE: Icon = getIcon("/icons/ass.png", AngelScriptIcons::class.java)
+    val FILE: Icon = getIcon("/icons/angelscript.png", AngelScriptIcons::class.java)
 }

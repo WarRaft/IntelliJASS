@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface AngelScriptNspaceBracerBody extends PsiElement {
+public interface AngelScriptNspaceItem extends PsiElement {
 
   @NotNull
   List<AngelScriptClazz> getClazzList();
@@ -20,7 +20,7 @@ public interface AngelScriptNspaceBracerBody extends PsiElement {
   List<AngelScriptFunDef> getFunDefList();
 
   @NotNull
-  List<AngelScriptIncludeStmt> getIncludeStmtList();
+  List<AngelScriptInclud> getIncludList();
 
   @NotNull
   List<AngelScriptNspace> getNspaceList();

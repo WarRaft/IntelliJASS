@@ -43,13 +43,15 @@ class AngelScriptBlock(
             FOR_STMT,
             EXPR_STAT,
             BLOCK_COMMENT,
+            RETURN_STMT,
             LINE_COMMENT,
-            INCLUDE_STMT -> {
+            INCLUD -> {
                 newIndent = Indent.getNoneIndent()
             }
         }
 
         when (node.elementType) {
+            CLAZZ_BRACER,
             STMT_BRACER,
             ENUM_BRACER,
             NSPACE_BRACER -> {
@@ -59,6 +61,10 @@ class AngelScriptBlock(
                         newIndent = Indent.getNormalIndent()
                     }
                 }
+            }
+
+            CASE_STMT_LIST -> {
+                newIndent = Indent.getNoneIndent()
             }
         }
 
@@ -95,8 +101,8 @@ class AngelScriptBlock(
         }
 
         when (node.elementType) {
-            NSPACE_BRACER_BODY,
-            STMT_BRACER_BODY,
+            NSPACE_ITEM,
+            STMT_ITEM,
                 -> return ChildAttributes(Indent.getNoneIndent(), null)
         }
 
@@ -104,15 +110,7 @@ class AngelScriptBlock(
     }
 
     override fun isIncomplete(): Boolean {
-        if (node.psi is AngelScriptFile) return true
-
-        val type = node.elementType
-        val typeLast = node.lastChildNode?.elementType
-
-        return when (type) {
-            STMT_BRACER_BODY -> typeLast != SEMI
-            else -> false
-        }
+        return node.psi is AngelScriptFile
     }
 
     override fun isLeaf(): Boolean = false

@@ -47,7 +47,7 @@ open class W3g {
 
             record.parse(data)
             return record
-        } catch (e: BufferUnderflowException) {
+        } catch (_: BufferUnderflowException) {
             data.reset()
             return null // Need More
         }
@@ -107,7 +107,7 @@ open class W3g {
                     if (record is TimeSlotRecord) {
                         timestamp += record.timeIncrement.toLong()
                     }
-                } catch (e: EOFException) {
+                } catch (_: EOFException) {
                     break@blockDecoder
                 } catch (e: Exception) {
                     throw Exception(e)

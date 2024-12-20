@@ -1,6 +1,6 @@
+**/.DS_Store
 /build/
 /.gradle/
 /gradle/
-/src/test/testData/.idea/
 /.kotlin/
 /.intellijPlatform/

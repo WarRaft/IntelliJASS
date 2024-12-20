@@ -179,7 +179,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitIncludeStmt(@NotNull AngelScriptIncludeStmt o) {
+  public void visitInclud(@NotNull AngelScriptInclud o) {
     visitPsiElement(o);
   }
 
@@ -239,7 +239,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitNspaceBracerBody(@NotNull AngelScriptNspaceBracerBody o) {
+  public void visitNspaceItem(@NotNull AngelScriptNspaceItem o) {
     visitPsiElement(o);
   }
 
@@ -315,7 +315,7 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStmtBracerBody(@NotNull AngelScriptStmtBracerBody o) {
+  public void visitStmtItem(@NotNull AngelScriptStmtItem o) {
     visitPsiElement(o);
   }
 
@@ -347,7 +347,15 @@ public class AngelScriptVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitVirtProp(@NotNull AngelScriptVirtProp o) {
+  public void visitVirt(@NotNull AngelScriptVirt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVirtBracer(@NotNull AngelScriptVirtBracer o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVirtItem(@NotNull AngelScriptVirtItem o) {
     visitPsiElement(o);
   }
 

@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements AngelScriptVirtProp {
+public class AngelScriptVirtImpl extends ASTWrapperPsiElement implements AngelScriptVirt {
 
-  public AngelScriptVirtPropImpl(@NotNull ASTNode node) {
+  public AngelScriptVirtImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitVirtProp(this);
+    visitor.visitVirt(this);
   }
 
   @Override
@@ -29,20 +29,14 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
 
   @Override
   @NotNull
-  public List<AngelScriptFunAttr> getFunAttrList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptFunAttr.class);
-  }
-
-  @Override
-  @NotNull
-  public List<AngelScriptStmtBracer> getStmtBracerList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, AngelScriptStmtBracer.class);
-  }
-
-  @Override
-  @NotNull
   public AngelScriptType getType() {
     return findNotNullChildByClass(AngelScriptType.class);
+  }
+
+  @Override
+  @NotNull
+  public AngelScriptVirtBracer getVirtBracer() {
+    return findNotNullChildByClass(AngelScriptVirtBracer.class);
   }
 
   @Override
@@ -58,12 +52,6 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
   }
 
   @Override
-  @NotNull
-  public PsiElement getLbrace() {
-    return findNotNullChildByType(LBRACE);
-  }
-
-  @Override
   @Nullable
   public PsiElement getPrivate() {
     return findChildByType(PRIVATE);
@@ -73,12 +61,6 @@ public class AngelScriptVirtPropImpl extends ASTWrapperPsiElement implements Ang
   @Nullable
   public PsiElement getProtected() {
     return findChildByType(PROTECTED);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getRbrace() {
-    return findNotNullChildByType(RBRACE);
   }
 
 }

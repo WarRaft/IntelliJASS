@@ -11,11 +11,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.spi.ImageWriterSpi;
 import javax.imageio.stream.ImageOutputStream;
 
-/**
- * Service provider for BLP image file ImageWriter.
- *
- * @author Imperial Good
- */
 public class BlpWriterSpi extends ImageWriterSpi {
     static final String WRITER_CLASS = "raft.war.image.blp.BlpWriter";
     static final Class<?>[] OUTPUT_TYPES = {ImageOutputStream.class,
@@ -34,7 +29,6 @@ public class BlpWriterSpi extends ImageWriterSpi {
 
     @Override
     public boolean canEncodeImage(ImageTypeSpecifier type) {
-        // not at all strict for maximum usability
         return true;
     }
 

@@ -111,7 +111,7 @@ class BlpJPEGBlpMipmapProcessor extends BlpMipmapProcessor {
     @Override
     public List<byte[]> postProcessMipmapData(List<byte[]> mmDataList, Consumer<String> handler) {
         // determine maximum shared header
-        byte[] sharedHeader = mmDataList.get(0).clone();
+        byte[] sharedHeader = mmDataList.getFirst().clone();
         int sharedLength = sharedHeader.length;
         final int mmDataNum = mmDataList.size();
         for (int i = 1; i < mmDataNum; i += 1) {

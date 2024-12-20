@@ -1,4 +1,4 @@
-package raft.war.language.angelscript.psi.codeStyle
+package raft.war.language.angelscript.formatting
 
 import com.ibm.icu.impl.Pair
 import com.intellij.application.options.CodeStyleAbstractConfigurable
@@ -6,13 +6,15 @@ import com.intellij.application.options.CodeStyleAbstractPanel
 import com.intellij.application.options.IndentOptionsEditor
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.lang.Language
-import com.intellij.psi.codeStyle.*
-import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.*
-import com.intellij.psi.codeStyle.CommonCodeStyleSettings.IndentOptions
-import raft.war.language.angelscript.formatting.AngelScriptCodeStyleSettings
+import com.intellij.psi.codeStyle.CodeStyleConfigurable
+import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings
+import com.intellij.psi.codeStyle.CustomCodeStyleSettings
+import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
+import raft.war.language.angelscript.AngelScriptLanguage
 import raft.war.language.angelscript.formatting.panel.AngelScriptAlignTokenPanel
 import raft.war.language.angelscript.formatting.panel.AngelScriptCodeStyleMainPanel
-import raft.war.language.angelscript.AngelScriptLanguage.Companion.instance
 
 internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings =
@@ -22,7 +24,7 @@ internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleS
         settings: CodeStyleSettings,
         modelSettings: CodeStyleSettings
     ): CodeStyleConfigurable {
-        return object : CodeStyleAbstractConfigurable(settings, modelSettings, instance.displayName) {
+        return object : CodeStyleAbstractConfigurable(settings, modelSettings, AngelScriptLanguage.Companion.instance.displayName) {
             override fun createPanel(settings: CodeStyleSettings): CodeStyleAbstractPanel =
                 AngelScriptCodeStyleMainPanel(currentSettings, settings)
 
@@ -31,7 +33,7 @@ internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleS
     }
 
     override fun getLanguage(): Language {
-        return instance
+        return AngelScriptLanguage.Companion.instance
     }
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
@@ -40,27 +42,27 @@ internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleS
         when (settingsType) {
             SettingsType.INDENT_SETTINGS -> consumer.showStandardOptions()
             SettingsType.SPACING_SETTINGS -> consumer.showStandardOptions(
-                SpacingOption.SPACE_AFTER_COMMA.name,
-                SpacingOption.SPACE_BEFORE_COMMA.name,
-                SpacingOption.SPACE_AROUND_ASSIGNMENT_OPERATORS.name
+                CodeStyleSettingsCustomizable.SpacingOption.SPACE_AFTER_COMMA.name,
+                CodeStyleSettingsCustomizable.SpacingOption.SPACE_BEFORE_COMMA.name,
+                CodeStyleSettingsCustomizable.SpacingOption.SPACE_AROUND_ASSIGNMENT_OPERATORS.name
             )
 
             SettingsType.BLANK_LINES_SETTINGS -> consumer.showStandardOptions(
-                BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS.name
+                CodeStyleSettingsCustomizable.BlankLinesOption.KEEP_BLANK_LINES_IN_DECLARATIONS.name
             )
 
             SettingsType.WRAPPING_AND_BRACES_SETTINGS -> consumer.showStandardOptions(
-                WrappingOrBraceOption.CLASS_BRACE_STYLE.name,
-                WrappingOrBraceOption.METHOD_BRACE_STYLE.name,
-                WrappingOrBraceOption.BRACE_STYLE.name,
-                WrappingOrBraceOption.INDENT_CASE_FROM_SWITCH.name
+                CodeStyleSettingsCustomizable.WrappingOrBraceOption.CLASS_BRACE_STYLE.name,
+                CodeStyleSettingsCustomizable.WrappingOrBraceOption.METHOD_BRACE_STYLE.name,
+                CodeStyleSettingsCustomizable.WrappingOrBraceOption.BRACE_STYLE.name,
+                CodeStyleSettingsCustomizable.WrappingOrBraceOption.INDENT_CASE_FROM_SWITCH.name
             )
 
             SettingsType.LANGUAGE_SPECIFIC -> {
                 addToGroup(
                     consumer, arrayOf(
                         Pair.of(AngelScriptCodeStyleSettings::AT_ENUM_EQ.name, "'=' token"),
-                    ), AngelScriptAlignTokenPanel.ENUM
+                    ), AngelScriptAlignTokenPanel.Companion.ENUM
                 )
             }
 
@@ -72,7 +74,7 @@ internal class AngelScriptLanguageCodeStyleSettingsProvider : LanguageCodeStyleS
         return SmartIndentOptionsEditor()
     }
 
-    override fun customizeDefaults(commonSettings: CommonCodeStyleSettings, indentOptions: IndentOptions) {
+    override fun customizeDefaults(commonSettings: CommonCodeStyleSettings, indentOptions: CommonCodeStyleSettings.IndentOptions) {
         indentOptions.INDENT_SIZE = 4
         indentOptions.CONTINUATION_INDENT_SIZE = 4
         indentOptions.TAB_SIZE = 4

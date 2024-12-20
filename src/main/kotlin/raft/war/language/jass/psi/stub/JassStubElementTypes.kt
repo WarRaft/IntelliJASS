@@ -12,12 +12,12 @@ interface JassStubElementTypes {
     @Suppress("unused")
     companion object {
         @JvmField
-        val VAR_NAME: JassVarNameStubElementType = JassTypes.VAR_NAME as JassVarNameStubElementType;
+        val VAR_NAME: JassVarNameStubElementType = JassTypes.VAR_NAME as JassVarNameStubElementType
 
         @JvmField
-        val FUN_NAME: JassFunNameStubElementType = JassTypes.FUN_NAME as JassFunNameStubElementType;
+        val FUN_NAME: JassFunNameStubElementType = JassTypes.FUN_NAME as JassFunNameStubElementType
 
         @JvmField
-        val TYPE_NAME: JassTypeNameStubElementType = JassTypes.TYPE_NAME as JassTypeNameStubElementType;
+        val TYPE_NAME: JassTypeNameStubElementType = JassTypes.TYPE_NAME as JassTypeNameStubElementType
     }
 }

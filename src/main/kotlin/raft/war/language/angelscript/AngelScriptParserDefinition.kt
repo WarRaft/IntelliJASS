@@ -12,12 +12,13 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import raft.war.language.angelscript.psi.file.AngelScriptFile
 import raft.war.language.angelscript.lexer.AngelScriptFlexAdapter
-import raft.war.language.angelscript.psi.AngelScriptTokenSets
+import raft.war.language.angelscript.psi.AngelScriptTypes.BLOCK_COMMENT
+import raft.war.language.angelscript.psi.AngelScriptTypes.LINE_COMMENT
 
 class AngelScriptParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = AngelScriptFlexAdapter()
 
-    override fun getCommentTokens(): TokenSet = AngelScriptTokenSets.COMMENTS
+    override fun getCommentTokens(): TokenSet = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
@@ -28,7 +29,8 @@ class AngelScriptParserDefinition : ParserDefinition {
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = AngelScriptFile(viewProvider)
 
-    override fun createElement(node: ASTNode): PsiElement = raft.war.language.angelscript.psi.AngelScriptTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode): PsiElement =
+        raft.war.language.angelscript.psi.AngelScriptTypes.Factory.createElement(node)
 
 }
 

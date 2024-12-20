@@ -157,7 +157,7 @@
 // https://www.angelcode.com/angelscript/sdk/docs/manual/doc_script_bnf.html
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
-Root ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* {recoverWhile=RootRecover}
+Root ::= (Includ|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)* {recoverWhile=RootRecover}
 private RootRecover ::= !(PrimType|QUEST|AUTO|CLAS|HASH|NAMESPACE|ENUM|CONST|ID)
 
 
@@ -176,10 +176,11 @@ EnumItem ::= ID (EQ Expr)?
 
 //NAMESPACE     ::= 'namespace' IDENTIFIER {'::' IDENTIFIER} '{' SCRIPT '}'
 Nspace ::= NAMESPACE ID (COLON_COLON ID)* NspaceBracer {pin=1}
-NspaceBracer ::= LBRACE NspaceBracerBody RBRACE {pin=1}
-NspaceBracerBody ::= (IncludeStmt|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)*
+NspaceBracer ::= LBRACE NspaceItem RBRACE {pin=1}
+NspaceItem ::= (Includ|Enums|Var|Fun|FunDef|Clazz|Nspace|SEMI)*
 
-IncludeStmt ::= HASH? INCLUDE Str {pin=2}
+
+Includ ::= HASH? INCLUDE Str {pin=2}
 
 // FUNCDEF       ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
 /*
@@ -205,23 +206,25 @@ Clazz ::=   (SHARED|ABSTRACT|FINAL|EXTERNAL)*
                     ClazzBracer
                 )
             ) {pin=2}
-ClazzItem ::= Fun|VirtProp|Var|FunDef {recoverWhile=ClazzItemRecover}
+ClazzItem ::= Fun|Virt|Var|FunDef {recoverWhile=ClazzItemRecover}
 private ClazzItemRecover ::= !(SEMI|ID|RBRACE|TILDE|Type)
 ClazzBracer ::= LBRACE ClazzItem* RBRACE {pin=1 recoverWhile=ClazzBracerRecover}
 private ClazzBracerRecover ::= !(CLAS|NAMESPACE|Type)
 
 /*
-VIRTPROP ::= ['private' | 'protected']
-              TYPE ['&'] IDENTIFIER
-              '{'
+VIRTPROP ::=    ['private' | 'protected']
+                TYPE ['&'] IDENTIFIER
+                '{'
                     { ('get' | 'set') ['const'] FUNCATTR (STATBLOCK | ';') }
-              '}'
+                '}'
 */
-VirtProp ::=    (PRIVATE|PROTECTED)?
-                Type AMP? ID
-                LBRACE
-                    ((GET|SET) CONST? FunAttr (StmtBracer | SEMI))*
-                RBRACE
+Virt ::=    (PRIVATE|PROTECTED)? Type AMP? ID VirtBracer
+VirtBracer ::= LBRACE VirtItem* RBRACE
+VirtItem::= ((GET|SET) CONST? FunAttr (StmtBracer | SEMI))
+
+/*
+FUNCDEF ::= {'external' | 'shared'} 'funcdef' TYPE ['&'] IDENTIFIER PARAMLIST ';'
+*/
 FunDef ::= (EXTERNAL|SHARED)* FUNCDEF Type AMP? ID ParamList SEMI
 
 /*
@@ -308,14 +311,17 @@ InitList ::=    LBRACE
 Assign ::= Condition (AssignOp Assign)?
 // CONDITION     ::= EXPR ['?' ASSIGN ':' ASSIGN]
 Condition ::= Expr (QUEST Assign COLON Assign)?
-// ARGLIST       ::=    '('
-//                      [IDENTIFIER ':']
-//                      ASSIGN
-//                      {
-//                          ',' [IDENTIFIER ':'] ASSIGN
-//                      }
-//                      ')'
-ArgList ::= LPAREN (ID COLON)? Assign (COMMA (ID COLON)? Assign)* RPAREN
+/*
+ARGLIST ::= '('
+            [IDENTIFIER ':']
+            ASSIGN
+            {
+                ',' [IDENTIFIER ':'] ASSIGN
+            }
+            ')'
+*/
+private TernarOp ::= ID COLON
+ArgList ::= LPAREN TernarOp? Assign (COMMA TernarOp? Assign?)* RPAREN
 // FUNCCALL      ::= SCOPE IDENTIFIER ARGLIST
 
 FuncCall ::= Scope FunName (ArgList | (LPAREN RPAREN))
@@ -342,7 +348,7 @@ Fun ::=     (SHARED|EXTERNAL|PRIVATE|PROTECTED|TILDE)*
 //                          )
 //                      ]
 //                      ')'
-ParamList ::= LPAREN (VOID | (Param (COMMA Param)*) )? RPAREN {pin=1}
+ParamList ::= LPAREN (VOID | ((COMMA? Param)|(COMMA Param?))* )? RPAREN {pin=1}
 Param ::= Type TypeMod? ID? (EQ Expr)? {recoverWhile=ParamRecover}
 private ParamRecover ::= !(RPAREN|COMMA);
 
@@ -354,8 +360,8 @@ FunAttr ::= (OVERRIDE|FINAL|EXPLICIT|PROPERTY|DELETE)*
 /*
 STATBLOCK     ::= '{' {VAR | STATEMENT} '}'
 */
-StmtBracer ::= LBRACE StmtBracerBody? RBRACE {pin=1}
-StmtBracerBody ::= (Var | Stmt)*
+StmtBracer ::= LBRACE StmtItem? RBRACE {pin=1}
+StmtItem ::= (Var | Stmt)*
 
 // STATEMENT     ::= (IF | FOR | WHILE | RETURN | STATBLOCK | BREAK | CONTINUE | DOWHILE | SWITCH | EXPRSTAT | TRY)
 private Stmt ::= (

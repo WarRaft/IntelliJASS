@@ -21,23 +21,6 @@ import javax.imageio.stream.ImageInputStream;
 
 import raft.war.image.blp.intellij.BlpBundle;
 
-/**
- * Implementation class for the BLP image reader.
- * <p>
- * Supports opening of BLP versions 0 and 1. Mipmap levels translate into image
- * number.
- * <p>
- * Default resulting BufferedImage objects may come in a variety of image types
- * based on the content of the blp file. The image type chosen aims to preserve
- * the underlying data structure.
- * <p>
- * No image metadata can be extracted to preserve JPEG content image quality.
- * <p>
- * Raster is not supported. Read progress updates are not supported, but all
- * other listeners work.
- *
- * @author ImperialGood
- */
 public class BlpReader extends ImageReader {
     /**
      * BLP stream metadata object. Represents the contents of the BLP file

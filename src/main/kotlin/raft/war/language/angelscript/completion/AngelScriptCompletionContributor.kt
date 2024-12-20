@@ -11,7 +11,7 @@ import raft.war.ide.utils.IdeCompletionData
 import raft.war.ide.utils.IdeCompletionData.TemplateVariable
 import raft.war.language.angelscript.completion.FilePathMatcher.aggregateFilePaths
 import raft.war.language.angelscript.psi.file.AngelScriptFile
-import raft.war.language.angelscript.psi.AngelScriptTypes.INCLUDE_STMT
+import raft.war.language.angelscript.psi.AngelScriptTypes.INCLUD
 import raft.war.language.jass.psi.*
 import raft.war.language.jass.psi.funName.FUN_NAME_KEY
 
@@ -26,7 +26,7 @@ class AngelScriptCompletionContributor : CompletionContributor() {
             do {
                 val parent = child.treeParent ?: break
                 val type = parent.elementType
-                if (type === INCLUDE_STMT) {
+                if (type === INCLUD) {
                     //fillCompletionVariantsInclude(parameters, result)
                 }
                 child = parent

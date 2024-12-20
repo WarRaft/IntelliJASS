@@ -23,7 +23,7 @@
         <lang.formatter language="AngelScript"
                         implementationClass="raft.war.language.angelscript.formatting.AngelScriptFormattingModelBuilder"/>
         <langCodeStyleSettingsProvider
-                implementation="raft.war.language.angelscript.psi.codeStyle.AngelScriptLanguageCodeStyleSettingsProvider"/>
+                implementation="raft.war.language.angelscript.formatting.AngelScriptLanguageCodeStyleSettingsProvider"/>
 
         <!-- annotator -->
         <annotator language="AngelScript"

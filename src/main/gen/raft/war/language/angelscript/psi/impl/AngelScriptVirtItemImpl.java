@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements AngelScriptIncludeStmt {
+public class AngelScriptVirtItemImpl extends ASTWrapperPsiElement implements AngelScriptVirtItem {
 
-  public AngelScriptIncludeStmtImpl(@NotNull ASTNode node) {
+  public AngelScriptVirtItemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitIncludeStmt(this);
+    visitor.visitVirtItem(this);
   }
 
   @Override
@@ -28,21 +28,39 @@ public class AngelScriptIncludeStmtImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @Nullable
-  public AngelScriptStr getStr() {
-    return findChildByClass(AngelScriptStr.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getHash() {
-    return findChildByType(HASH);
-  }
-
-  @Override
   @NotNull
-  public PsiElement getInclude() {
-    return findNotNullChildByType(INCLUDE);
+  public AngelScriptFunAttr getFunAttr() {
+    return findNotNullChildByClass(AngelScriptFunAttr.class);
+  }
+
+  @Override
+  @Nullable
+  public AngelScriptStmtBracer getStmtBracer() {
+    return findChildByClass(AngelScriptStmtBracer.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getConst() {
+    return findChildByType(CONST);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getGet() {
+    return findChildByType(GET);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemi() {
+    return findChildByType(SEMI);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSet() {
+    return findChildByType(SET);
   }
 
 }

@@ -11,14 +11,14 @@ import static raft.war.language.angelscript.psi.AngelScriptTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.angelscript.psi.*;
 
-public class AngelScriptStmtBracerBodyImpl extends ASTWrapperPsiElement implements AngelScriptStmtBracerBody {
+public class AngelScriptStmtItemImpl extends ASTWrapperPsiElement implements AngelScriptStmtItem {
 
-  public AngelScriptStmtBracerBodyImpl(@NotNull ASTNode node) {
+  public AngelScriptStmtItemImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AngelScriptVisitor visitor) {
-    visitor.visitStmtBracerBody(this);
+    visitor.visitStmtItem(this);
   }
 
   @Override

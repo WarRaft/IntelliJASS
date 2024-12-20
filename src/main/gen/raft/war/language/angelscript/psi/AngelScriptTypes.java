@@ -53,7 +53,7 @@ public interface AngelScriptTypes {
   IElementType GT_EQ_EXPR = new AngelScriptIElement("GT_EQ_EXPR");
   IElementType GT_EXPR = new AngelScriptIElement("GT_EXPR");
   IElementType IF_STMT = new AngelScriptIElement("IF_STMT");
-  IElementType INCLUDE_STMT = new AngelScriptIElement("INCLUDE_STMT");
+  IElementType INCLUD = new AngelScriptIElement("INCLUD");
   IElementType INIT_LIST = new AngelScriptIElement("INIT_LIST");
   IElementType IS_EXPR = new AngelScriptIElement("IS_EXPR");
   IElementType LAMBDA = new AngelScriptIElement("LAMBDA");
@@ -67,7 +67,7 @@ public interface AngelScriptTypes {
   IElementType NOT_EXPR = new AngelScriptIElement("NOT_EXPR");
   IElementType NSPACE = new AngelScriptIElement("NSPACE");
   IElementType NSPACE_BRACER = new AngelScriptIElement("NSPACE_BRACER");
-  IElementType NSPACE_BRACER_BODY = new AngelScriptIElement("NSPACE_BRACER_BODY");
+  IElementType NSPACE_ITEM = new AngelScriptIElement("NSPACE_ITEM");
   IElementType N_EQ_EXPR = new AngelScriptIElement("N_EQ_EXPR");
   IElementType OR_EXPR = new AngelScriptIElement("OR_EXPR");
   IElementType PARAM = new AngelScriptIElement("PARAM");
@@ -87,7 +87,7 @@ public interface AngelScriptTypes {
   IElementType SCOPE = new AngelScriptIElement("SCOPE");
   IElementType SCOPE_EXPR = new AngelScriptIElement("SCOPE_EXPR");
   IElementType STMT_BRACER = new AngelScriptIElement("STMT_BRACER");
-  IElementType STMT_BRACER_BODY = new AngelScriptIElement("STMT_BRACER_BODY");
+  IElementType STMT_ITEM = new AngelScriptIElement("STMT_ITEM");
   IElementType STR = new AngelScriptIElement("STR");
   IElementType SWITCH_BRACER = new AngelScriptIElement("SWITCH_BRACER");
   IElementType SWITCH_STMT = new AngelScriptIElement("SWITCH_STMT");
@@ -95,7 +95,9 @@ public interface AngelScriptTypes {
   IElementType TYPE = new AngelScriptIElement("TYPE");
   IElementType TYPE_MOD = new AngelScriptIElement("TYPE_MOD");
   IElementType VAR = new AngelScriptIElement("VAR");
-  IElementType VIRT_PROP = new AngelScriptIElement("VIRT_PROP");
+  IElementType VIRT = new AngelScriptIElement("VIRT");
+  IElementType VIRT_BRACER = new AngelScriptIElement("VIRT_BRACER");
+  IElementType VIRT_ITEM = new AngelScriptIElement("VIRT_ITEM");
   IElementType WHILE_STMT = new AngelScriptIElement("WHILE_STMT");
   IElementType XOR_EXPR = new AngelScriptIElement("XOR_EXPR");
 
@@ -356,8 +358,8 @@ public interface AngelScriptTypes {
       else if (type == IF_STMT) {
         return new AngelScriptIfStmtImpl(node);
       }
-      else if (type == INCLUDE_STMT) {
-        return new AngelScriptIncludeStmtImpl(node);
+      else if (type == INCLUD) {
+        return new AngelScriptIncludImpl(node);
       }
       else if (type == INIT_LIST) {
         return new AngelScriptInitListImpl(node);
@@ -398,8 +400,8 @@ public interface AngelScriptTypes {
       else if (type == NSPACE_BRACER) {
         return new AngelScriptNspaceBracerImpl(node);
       }
-      else if (type == NSPACE_BRACER_BODY) {
-        return new AngelScriptNspaceBracerBodyImpl(node);
+      else if (type == NSPACE_ITEM) {
+        return new AngelScriptNspaceItemImpl(node);
       }
       else if (type == N_EQ_EXPR) {
         return new AngelScriptNEqExprImpl(node);
@@ -458,8 +460,8 @@ public interface AngelScriptTypes {
       else if (type == STMT_BRACER) {
         return new AngelScriptStmtBracerImpl(node);
       }
-      else if (type == STMT_BRACER_BODY) {
-        return new AngelScriptStmtBracerBodyImpl(node);
+      else if (type == STMT_ITEM) {
+        return new AngelScriptStmtItemImpl(node);
       }
       else if (type == STR) {
         return new AngelScriptStrImpl(node);
@@ -482,8 +484,14 @@ public interface AngelScriptTypes {
       else if (type == VAR) {
         return new AngelScriptVarImpl(node);
       }
-      else if (type == VIRT_PROP) {
-        return new AngelScriptVirtPropImpl(node);
+      else if (type == VIRT) {
+        return new AngelScriptVirtImpl(node);
+      }
+      else if (type == VIRT_BRACER) {
+        return new AngelScriptVirtBracerImpl(node);
+      }
+      else if (type == VIRT_ITEM) {
+        return new AngelScriptVirtItemImpl(node);
       }
       else if (type == WHILE_STMT) {
         return new AngelScriptWhileStmtImpl(node);
