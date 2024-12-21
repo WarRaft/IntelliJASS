@@ -778,7 +778,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TYPE TypeName TypeExtends?
+  // TYPE TypeName TypeExt?
   public static boolean TypeDef(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeDef")) return false;
     if (!nextTokenIs(b, "<TypeDef>", TYPE)) return false;
@@ -792,20 +792,20 @@ public class JassParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // TypeExtends?
+  // TypeExt?
   private static boolean TypeDef_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeDef_2")) return false;
-    TypeExtends(b, l + 1);
+    TypeExt(b, l + 1);
     return true;
   }
 
   /* ********************************************************** */
   // EXTENDS TypeName
-  public static boolean TypeExtends(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "TypeExtends")) return false;
-    if (!nextTokenIs(b, "<TypeExtends>", EXTENDS)) return false;
+  public static boolean TypeExt(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TypeExt")) return false;
+    if (!nextTokenIs(b, "<TypeExt>", EXTENDS)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_EXTENDS, "<TypeExtends>");
+    Marker m = enter_section_(b, l, _NONE_, TYPE_EXT, "<TypeExt>");
     r = consumeToken(b, EXTENDS);
     p = r; // pin = 1
     r = r && TypeName(b, l + 1);

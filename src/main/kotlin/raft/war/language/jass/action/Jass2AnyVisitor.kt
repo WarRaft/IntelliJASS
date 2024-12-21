@@ -59,7 +59,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
     override fun visitTypeDef(o: JassTypeDef) {
         val name = o.typeName
-        val base = o.typeExtends?.typeName
+        val base = o.typeExt?.typeName
         if (name == null || base == null) return
         appendTypeDef(name.text, base.text)
     }

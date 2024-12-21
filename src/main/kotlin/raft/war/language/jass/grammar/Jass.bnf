@@ -119,13 +119,15 @@ TypeName ::= ID {
 }
 
 // === type
-TypeDef ::= TYPE TypeName TypeExtends? {name=TypeDef pin=1}
-TypeExtends::= EXTENDS TypeName {name=TypeExtends pin=1}
+TypeDef ::= TYPE TypeName TypeExt? {name=TypeDef pin=1}
+TypeExt::= EXTENDS TypeName {name=TypeExt pin=1}
 
 // === globals
-VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {name=VarDef pin=3 recoverWhile=StmtRecover}
-
 Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1 name=Glob}
+
+// === variable
+VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {name=VarDef pin=3 recoverWhile=StmtRecover}
+LvarStmt ::= LOCAL? VarDef {pin=2 name=LvarStmt recoverWhile=StmtRecover}
 Gvar ::= CONSTANT? VarDef { name=Gvar pin=2 recoverWhile=StmtRecover}
 
 // === function
@@ -163,8 +165,6 @@ ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
     SET|DEBUG|CALL|LOCAL|
     LOOP|ENDLOOP|EXITWHEN|
     IF|ELSEIF|ENDIF|ELSE|ID)
-
-LvarStmt ::= LOCAL? VarDef {pin=2 name=LvarStmt recoverWhile=StmtRecover}
 
 SetStmt ::= SET? (ArrayAccess|VarName) EQ Expr {pin=3 name=SetStmt}
 

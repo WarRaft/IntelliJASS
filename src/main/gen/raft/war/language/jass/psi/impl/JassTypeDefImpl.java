@@ -29,8 +29,8 @@ public class JassTypeDefImpl extends ASTWrapperPsiElement implements JassTypeDef
 
   @Override
   @Nullable
-  public JassTypeExtends getTypeExtends() {
-    return PsiTreeUtil.getChildOfType(this, JassTypeExtends.class);
+  public JassTypeExt getTypeExt() {
+    return PsiTreeUtil.getChildOfType(this, JassTypeExt.class);
   }
 
   @Override

@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassTypeDef extends JassCompositeElement {
 
   @Nullable
-  JassTypeExtends getTypeExtends();
+  JassTypeExt getTypeExt();
 
   @Nullable
   JassTypeName getTypeName();

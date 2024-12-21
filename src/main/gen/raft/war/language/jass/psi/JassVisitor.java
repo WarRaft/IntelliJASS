@@ -199,7 +199,7 @@ public class JassVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitTypeExtends(@NotNull JassTypeExtends o) {
+  public void visitTypeExt(@NotNull JassTypeExt o) {
     visitCompositeElement(o);
   }
 

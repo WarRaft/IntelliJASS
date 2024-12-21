@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
 import raft.war.language.jass.JassLanguage
 import raft.war.language.jass.psi.JassFun
+import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassLoopStmt
 
 class JassBreadcrumbsProvider : BreadcrumbsProvider {
@@ -12,13 +13,15 @@ class JassBreadcrumbsProvider : BreadcrumbsProvider {
 
     override fun getElementInfo(element: PsiElement): String = when (element) {
         is JassFun -> "function ${element.funHead.funName?.text}"
-        is JassLoopStmt -> "loop"
         else -> element.text
     }
 
     override fun acceptElement(element: PsiElement): Boolean = when (element) {
-        is JassFun -> true
-        is JassLoopStmt -> true
+        is JassFun,
+        is JassLoopStmt,
+        is JassGlob
+            -> true
+
         else -> false
     }
 
