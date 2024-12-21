@@ -8,7 +8,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public interface JassCallStmt extends JassCompositeElement {
 
-  @Nullable
+  @NotNull
   JassFunCall getFunCall();
 
   @Nullable

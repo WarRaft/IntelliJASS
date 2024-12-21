@@ -39,12 +39,12 @@ class Slk(text: String) {
                             i++
                             val start = i
                             while (i < line.length && (line[i] != '"' || line[i - 1] == '\\')) i++
-                            value = line.substring(start, i).replace("\\n", "\n").replace("\\\"", "\"")
+                            value = line.substring(start, i) //.replace("\\n", "\n").replace("\\\"", "\"")
                             i++
                         } else {
                             val start = i
                             while (i < line.length && line[i] != ';') i++
-                            value = line.substring(start, i).replace("\\n", "\n")
+                            value = line.substring(start, i) //.replace("\\n", "\n")
                         }
                     }
 

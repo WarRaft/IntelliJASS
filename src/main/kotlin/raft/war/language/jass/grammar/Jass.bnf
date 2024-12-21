@@ -19,6 +19,7 @@
     generateTokenAccessors=true
 
     extends(".*Expr")=Expr
+    name(".*Expr")='expression'
 
     tokens = [
         WHITE_SPACE='regexp:\s+'
@@ -94,6 +95,8 @@ private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
 
 // === STUB
 FunName ::= ID {
+    name=FunName
+
     extends=  "raft.war.language.jass.psi.funName.JassFunNameBaseImpl"
     stubClass="raft.war.language.jass.psi.funName.JassFunNameStub"
 
@@ -102,6 +105,8 @@ FunName ::= ID {
 }
 
 VarName ::= ID {
+    name = VarName
+
    extends=  "raft.war.language.jass.psi.varName.JassVarNameBaseImpl"
    stubClass="raft.war.language.jass.psi.varName.JassVarNameStub"
 
@@ -109,7 +114,10 @@ VarName ::= ID {
    elementTypeClass="raft.war.language.jass.psi.varName.JassVarNameStubElementType"
 }
 
+// HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
 TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
+    name=TypeName
+
    extends=  "raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl"
    stubClass="raft.war.language.jass.psi.typeName.JassTypeNameStub"
 
@@ -119,33 +127,31 @@ TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
 
 
 // === type
-TypeDef ::= TYPE TypeName TypeExtends? {pin=1}
-TypeExtends::= EXTENDS TypeName
+TypeDef ::= TYPE TypeName TypeExtends? {pin=1 name=TypeDef}
+TypeExtends::= EXTENDS TypeName {name=TypeExtends}
 
 // === globals
-VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {pin=3}
+VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {name=VarDef pin=3 recoverWhile=StmtRecover}
 
-Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1}
-Gvar ::= CONSTANT? VarDef {pin=2 recoverWhile=GvarRecover}
-private GvarRecover ::= !(CONSTANT|GLOBALS|ENDGLOBALS|FUNCTION|TypeName)
+Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1 name=Glob}
+Gvar ::= CONSTANT? VarDef { name=Gvar pin=2 recoverWhile=StmtRecover}
 
 // === function
-ArgList ::= Expr (COMMA Expr)*
-FunCall ::= FunName LPAREN ArgList? RPAREN {pin=2}
+ArgList ::= Expr (COMMA Expr)* {name=ArgList}
+FunCall ::= FunName LPAREN ArgList? RPAREN {pin=2 name=FunCall}
 
-Param ::= TypeName VarName
+Param ::= TypeName VarName {name=Param}
 ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
 private ParamListRecover ::= !(RETURNS)
 
-FunTake ::= TAKES (NOTHING|ParamList)
-FunRet ::= RETURNS (NOTHING|TypeName)
+FunTake ::= TAKES (NOTHING|ParamList) {name=FunTake}
+FunRet ::= RETURNS (NOTHING|TypeName) {name=FunRet}
 
-Fun ::= FunHead FunBody ENDFUNCTION
-FunHead ::= CONSTANT? FUNCTION FunName? FunTake? FunRet? {pin=2}
+Fun ::= FunHead FunBody ENDFUNCTION {name=Fun}
+FunHead ::= CONSTANT? FUNCTION FunName? FunTake? FunRet? {pin=2 name=FunHead}
 
-Nativ ::= CONSTANT? NATIVE FunName? FunTake? FunRet? {pin=2}
-FunBody ::= Stmt* {recoverWhile=FunBodyRecover}
-private FunBodyRecover ::= !(ENDFUNCTION|LOOP|ENDLOOP|ELSE|ELSEIF|ENDIF)
+Nativ ::= CONSTANT? NATIVE FunName? FunTake? FunRet? {pin=2 name=Nativ}
+FunBody ::= Stmt* {name=FunBody recoverWhile=StmtRecover}
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
@@ -158,28 +164,28 @@ Stmt
     | IfStmt
     | LoopStmt
     | ExitWhenStmt
-    {recoverWhile=StmtRecover}
+    {recoverWhile=StmtRecover name=Stmt}
 
-private StmtRecover ::= !(ID|
-    FUNCTION|ENDFUNCTION|RETURN|
+private StmtRecover ::= !(
+ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
     SET|DEBUG|CALL|LOCAL|
     LOOP|ENDLOOP|EXITWHEN|
-    IF|ELSEIF|ENDIF|ELSE)
+    IF|ELSEIF|ENDIF|ELSE|TypeName|ID)
 
-LvarStmt ::= LOCAL? VarDef {pin=2}
+LvarStmt ::= LOCAL? VarDef {pin=2 name=LvarStmt recoverWhile=StmtRecover}
 
-SetStmt ::= SET? (ArrayAccess|VarName) EQ Expr {pin=3}
+SetStmt ::= SET? (ArrayAccess|VarName) EQ Expr {pin=3 name=SetStmt}
 
-CallStmt ::= DEBUG? ((CALL? FunCall)|(CALL FunCall?))
+CallStmt ::= DEBUG? CALL? FunCall {name=CallStmt recoverWhile=StmtRecover}
 
-ReturnStmt ::= RETURN Expr? {pin=1}
+ReturnStmt ::= RETURN Expr? {pin=1 name=ReturnStmt}
 
-IfStmt ::= IF Expr THEN? FunBody (ElseIfStmt|ElseStmt)* ENDIF {pin=1}
-ElseIfStmt ::= ELSEIF Expr THEN? FunBody {pin=1}
-ElseStmt ::= ELSE FunBody {pin=1}
+IfStmt ::= IF Expr THEN? FunBody (ElseIfStmt|ElseStmt)* ENDIF {pin=1 name=IfStmt}
+ElseIfStmt ::= ELSEIF Expr THEN? FunBody {pin=1 name=ElseIfStmt}
+ElseStmt ::= ELSE FunBody {pin=1 name=ElseStmt}
 
-LoopStmt ::= LOOP FunBody ENDLOOP {pin=1}
-ExitWhenStmt ::=EXITWHEN Expr {pin=1}
+LoopStmt ::= LOOP FunBody ENDLOOP {name=LoopStmt pin=1 recoverWhile=StmtRecover}
+ExitWhenStmt ::=EXITWHEN Expr {pin=1 name=ExitWhenStmt}
 
 // === EXPRESSION
 // https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md
@@ -194,7 +200,7 @@ Expr ::=
     NotExpr |
     EqExpr|NeqExpr|LtExpr|LtEqExpr|GtExpr|GtEqExpr|
     OrExpr|AndExpr|
-    PrimExpr
+    PrimExpr {name=Expr}
 
 PlusExpr ::= Expr PLUS Expr
 MinusExpr ::= Expr MINUS Expr
@@ -220,10 +226,11 @@ AndExpr ::= Expr AND Expr
 ParenExpr ::= LPAREN Expr RPAREN
 
 Str ::= STRVAL {
+    name = Str
     extends="raft.war.language.jass.psi.JassStrBaseImpl"
 }
 
-Num ::= INTVAL | REALVAL | HEXVAL | RAWVAL
+Num ::= INTVAL | REALVAL | HEXVAL | RAWVAL {name=Num}
 
 PrimExpr ::=
     ParenExpr |
@@ -235,7 +242,7 @@ PrimExpr ::=
     TRUE|
     Num |
     Str |
-    VarName
+    VarName {name=PrimExpr}
 
-ArrayAccess ::= VarName LBRACK Expr? RBRACK
-FunRef ::= FUNCTION FunName {pin=1}
+ArrayAccess ::= VarName LBRACK Expr? RBRACK {name=ArrayAccess}
+FunRef ::= FUNCTION FunName {pin=1 name=FunRef}

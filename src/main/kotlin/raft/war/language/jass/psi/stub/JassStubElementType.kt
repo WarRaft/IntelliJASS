@@ -11,6 +11,6 @@ abstract class JassStubElementType<S : StubElement<T>, T : JassCompositeElement?
     override fun getExternalId(): String = "jass.${super.toString()}"
 
     companion object {
-        const val STUB_VERSION = 200
+        const val STUB_VERSION = 300
     }
 }
