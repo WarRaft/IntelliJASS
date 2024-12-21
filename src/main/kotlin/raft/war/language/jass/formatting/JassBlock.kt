@@ -63,7 +63,7 @@ class JassBlock(
                 newIndent = Indent.getNoneIndent()
             }
 
-            FUN_BODY, GVAR -> {
+            FUN_BODY, VAR_DEF -> {
                 newIndent = Indent.getNormalIndent()
             }
 

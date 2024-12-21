@@ -39,10 +39,10 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
         }
 
         fn.funBody.stmtList.forEach {
-            val l = it.lvarStmt
+            val l = it.varDef
             if (l == null) return@forEach
-            if (name == l.varDef.varName.text) {
-                out = l.varDef.varName
+            if (name == l.varName.text) {
+                out = l.varName
             }
         }
 

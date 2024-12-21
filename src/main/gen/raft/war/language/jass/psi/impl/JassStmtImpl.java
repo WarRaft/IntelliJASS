@@ -53,12 +53,6 @@ public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
 
   @Override
   @Nullable
-  public JassLvarStmt getLvarStmt() {
-    return PsiTreeUtil.getChildOfType(this, JassLvarStmt.class);
-  }
-
-  @Override
-  @Nullable
   public JassReturnStmt getReturnStmt() {
     return PsiTreeUtil.getChildOfType(this, JassReturnStmt.class);
   }
@@ -67,6 +61,12 @@ public class JassStmtImpl extends ASTWrapperPsiElement implements JassStmt {
   @Nullable
   public JassSetStmt getSetStmt() {
     return PsiTreeUtil.getChildOfType(this, JassSetStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public JassVarDef getVarDef() {
+    return PsiTreeUtil.getChildOfType(this, JassVarDef.class);
   }
 
 }

@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassGlob extends JassCompositeElement {
 
   @NotNull
-  List<JassGvar> getGvarList();
+  List<JassVarDef> getVarDefList();
 
   @Nullable
   PsiElement getEndglobals();

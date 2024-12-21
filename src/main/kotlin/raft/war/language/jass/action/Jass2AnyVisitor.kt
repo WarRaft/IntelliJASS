@@ -85,17 +85,21 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         appendVar(
             constant,
             global,
-            varDef.array != null,
+            varDef.varDefModList.find { it.array != null } != null,
             getConvertedTypeName(varDef.typeName.text),
             getSafeName(varDef.varName.text),
             varDef.expr
         )
     }
 
-    override fun visitGvar(o: JassGvar) = appendVarPrepare(o.constant != null, true, o.getVarDef())
-
-    override fun visitLvarStmt(o: JassLvarStmt) =
-        appendVarPrepare(constant = false, global = false, varDef = o.getVarDef())
+    override fun visitVarDef(o: JassVarDef) {
+        val const = o.varDefModList.find { it.constant != null }
+        appendVarPrepare(
+            const != null,
+            o.parent.parent is JassGlob,
+            o
+        )
+    }
 
     // --- function
     abstract fun appendFunction(returns: String?, name: String?, params: List<JassParam?>, statements: List<JassStmt?>)

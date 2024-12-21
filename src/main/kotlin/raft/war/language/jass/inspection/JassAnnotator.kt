@@ -25,8 +25,7 @@ import raft.war.language.jass.psi.JassFunCall
 import raft.war.language.jass.psi.JassFunHead
 import raft.war.language.jass.psi.JassFunName
 import raft.war.language.jass.psi.JassFunRef
-import raft.war.language.jass.psi.JassGvar
-import raft.war.language.jass.psi.JassLvarStmt
+import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassNamedElement
 import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassParam
@@ -186,8 +185,8 @@ internal class JassAnnotator : Annotator {
 
                 when (parent) {
                     is JassVarDef -> when (parent.parent) {
-                        is JassGvar -> tk = JASS_VAR_GLOBAL
-                        is JassLvarStmt -> tk = JASS_VAR_LOCAL
+                        is JassGlob -> tk = JASS_VAR_GLOBAL
+                        else -> tk = JASS_VAR_LOCAL
                     }
 
                     is JassParam -> tk = JASS_VAR_ARGUMENT
@@ -205,8 +204,8 @@ internal class JassAnnotator : Annotator {
                                 val refElem = refs.first().element
                                 when (refElem?.parent) {
                                     is JassVarDef -> when (refElem.parent.parent) {
-                                        is JassGvar -> tk = JASS_VAR_GLOBAL
-                                        is JassLvarStmt -> tk = JASS_VAR_LOCAL
+                                        is JassGlob -> tk = JASS_VAR_GLOBAL
+                                        else -> tk = JASS_VAR_LOCAL
                                     }
 
                                     is JassParam -> {

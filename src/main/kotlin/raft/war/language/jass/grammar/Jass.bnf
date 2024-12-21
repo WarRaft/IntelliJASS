@@ -123,12 +123,11 @@ TypeDef ::= TYPE TypeName TypeExt? {name=TypeDef pin=1}
 TypeExt::= EXTENDS TypeName {name=TypeExt pin=1}
 
 // === globals
-Glob ::= GLOBALS Gvar* ENDGLOBALS {pin=1 name=Glob}
+Glob ::= GLOBALS VarDef* ENDGLOBALS {pin=1 name=Glob}
 
 // === variable
-VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {name=VarDef pin=3 recoverWhile=StmtRecover}
-LvarStmt ::= LOCAL? VarDef {pin=2 name=LvarStmt recoverWhile=StmtRecover}
-Gvar ::= CONSTANT? VarDef { name=Gvar pin=2 recoverWhile=StmtRecover}
+VarDefMod ::= CONSTANT|LOCAL|ARRAY
+VarDef ::= VarDefMod* TypeName VarDefMod* VarName (EQ Expr)? {name=VarDef pin=4 recoverWhile=StmtRecover}
 
 // === function
 ArgList ::= Expr (COMMA Expr)* {name=ArgList}
@@ -153,7 +152,7 @@ FunBody ::= Stmt* {name=FunBody recoverWhile=StmtRecover}
 Stmt
     ::= SetStmt
     | CallStmt
-    | LvarStmt
+    | VarDef
     | ReturnStmt
     | IfStmt
     | LoopStmt

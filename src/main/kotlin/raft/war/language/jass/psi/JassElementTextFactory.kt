@@ -13,7 +13,7 @@ class JassElementTextFactory {
 
         fun replacePrimText(target: PsiElement, value: String) {
             val file = createFile(target.project, "globals int a = $value endglobals")
-            val child = (file.firstChild as JassGlob).gvarList[0].getVarDef().expr!!.firstChild.firstChild
+            val child = (file.firstChild as JassGlob).varDefList[0].expr!!.firstChild.firstChild
             target.replace(child)
         }
 
@@ -37,7 +37,7 @@ class JassElementTextFactory {
 
         fun recreateExpr(project: Project, value: String): JassExpr? {
             val file = createFile(project, "globals int a = $value endglobals")
-            return (file.firstChild as JassGlob).gvarList[0].getVarDef().expr
+            return (file.firstChild as JassGlob).varDefList[0].expr
         }
 
         fun replaceExprChild(project: Project, target: PsiElement, value: String) {
@@ -52,7 +52,7 @@ class JassElementTextFactory {
 
         fun getStrVal(project: Project, text: String): PsiElement {
             val file = createFile(project, "globals int a = \"$text\" endglobals")
-            return ((file.firstChild as JassGlob).gvarList[0].getVarDef().expr as JassPrimExpr).str!!.strval
+            return ((file.firstChild as JassGlob).varDefList[0].expr as JassPrimExpr).str!!.strval
         }
     }
 }

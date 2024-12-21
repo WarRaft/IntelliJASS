@@ -33,12 +33,10 @@ public interface JassTypes {
   IElementType GLOB = new JassElementType("GLOB");
   IElementType GT_EQ_EXPR = new JassElementType("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassElementType("GT_EXPR");
-  IElementType GVAR = new JassElementType("GVAR");
   IElementType IF_STMT = new JassElementType("IF_STMT");
   IElementType LOOP_STMT = new JassElementType("LOOP_STMT");
   IElementType LT_EQ_EXPR = new JassElementType("LT_EQ_EXPR");
   IElementType LT_EXPR = new JassElementType("LT_EXPR");
-  IElementType LVAR_STMT = new JassElementType("LVAR_STMT");
   IElementType MINUS_EXPR = new JassElementType("MINUS_EXPR");
   IElementType MINUS_UN_EXPR = new JassElementType("MINUS_UN_EXPR");
   IElementType MUL_EXPR = new JassElementType("MUL_EXPR");
@@ -62,6 +60,7 @@ public interface JassTypes {
   IElementType TYPE_EXT = new JassElementType("TYPE_EXT");
   IElementType TYPE_NAME = new JassTypeNameStubElementType("TYPE_NAME");
   IElementType VAR_DEF = new JassElementType("VAR_DEF");
+  IElementType VAR_DEF_MOD = new JassElementType("VAR_DEF_MOD");
   IElementType VAR_NAME = new JassVarNameStubElementType("VAR_NAME");
 
   IElementType AND = new JassTokenType("and");
@@ -185,9 +184,6 @@ public interface JassTypes {
       else if (type == GT_EXPR) {
         return new JassGtExprImpl(node);
       }
-      else if (type == GVAR) {
-        return new JassGvarImpl(node);
-      }
       else if (type == IF_STMT) {
         return new JassIfStmtImpl(node);
       }
@@ -199,9 +195,6 @@ public interface JassTypes {
       }
       else if (type == LT_EXPR) {
         return new JassLtExprImpl(node);
-      }
-      else if (type == LVAR_STMT) {
-        return new JassLvarStmtImpl(node);
       }
       else if (type == MINUS_EXPR) {
         return new JassMinusExprImpl(node);
@@ -271,6 +264,9 @@ public interface JassTypes {
       }
       else if (type == VAR_DEF) {
         return new JassVarDefImpl(node);
+      }
+      else if (type == VAR_DEF_MOD) {
+        return new JassVarDefModImpl(node);
       }
       else if (type == VAR_NAME) {
         return new JassVarNameImpl(node);

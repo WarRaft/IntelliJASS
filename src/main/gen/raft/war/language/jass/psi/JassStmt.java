@@ -21,12 +21,12 @@ public interface JassStmt extends JassCompositeElement {
   JassLoopStmt getLoopStmt();
 
   @Nullable
-  JassLvarStmt getLvarStmt();
-
-  @Nullable
   JassReturnStmt getReturnStmt();
 
   @Nullable
   JassSetStmt getSetStmt();
+
+  @Nullable
+  JassVarDef getVarDef();
 
 }

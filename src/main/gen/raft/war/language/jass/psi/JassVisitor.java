@@ -95,10 +95,6 @@ public class JassVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitGvar(@NotNull JassGvar o) {
-    visitCompositeElement(o);
-  }
-
   public void visitIfStmt(@NotNull JassIfStmt o) {
     visitCompositeElement(o);
   }
@@ -113,10 +109,6 @@ public class JassVisitor extends PsiElementVisitor {
 
   public void visitLtExpr(@NotNull JassLtExpr o) {
     visitExpr(o);
-  }
-
-  public void visitLvarStmt(@NotNull JassLvarStmt o) {
-    visitCompositeElement(o);
   }
 
   public void visitMinusExpr(@NotNull JassMinusExpr o) {
@@ -208,6 +200,10 @@ public class JassVisitor extends PsiElementVisitor {
   }
 
   public void visitVarDef(@NotNull JassVarDef o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitVarDefMod(@NotNull JassVarDefMod o) {
     visitCompositeElement(o);
   }
 

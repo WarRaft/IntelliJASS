@@ -11,14 +11,14 @@ import static raft.war.language.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.jass.psi.*;
 
-public class JassGvarImpl extends ASTWrapperPsiElement implements JassGvar {
+public class JassVarDefModImpl extends ASTWrapperPsiElement implements JassVarDefMod {
 
-  public JassGvarImpl(@NotNull ASTNode node) {
+  public JassVarDefModImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitGvar(this);
+    visitor.visitVarDefMod(this);
   }
 
   @Override
@@ -28,15 +28,21 @@ public class JassGvarImpl extends ASTWrapperPsiElement implements JassGvar {
   }
 
   @Override
-  @NotNull
-  public JassVarDef getVarDef() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarDef.class));
+  @Nullable
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
   }
 
   @Override
   @Nullable
   public PsiElement getConstant() {
     return findChildByType(CONSTANT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLocal() {
+    return findChildByType(LOCAL);
   }
 
 }

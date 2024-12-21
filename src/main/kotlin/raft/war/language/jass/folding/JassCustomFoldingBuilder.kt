@@ -84,7 +84,7 @@ internal class JassCustomFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
         if (type === JassTypes.GLOB) {
             val psi = node.getPsi(JassGlob::class.java)
-            val size = psi.gvarList.size
+            val size = psi.varDefList.size
             return if (size == 0) " ... " else " ($size) "
         }
 

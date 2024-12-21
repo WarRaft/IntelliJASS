@@ -29,8 +29,8 @@ public class JassGlobImpl extends ASTWrapperPsiElement implements JassGlob {
 
   @Override
   @NotNull
-  public List<JassGvar> getGvarList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassGvar.class);
+  public List<JassVarDef> getVarDefList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassVarDef.class);
   }
 
   @Override
