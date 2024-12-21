@@ -6,6 +6,6 @@ import raft.war.language.jass.psi.JassTypes
 
 class JassQuoteHandler : SimpleTokenSetQuoteHandler(
     TokenSet.create(
-        JassTypes.STRING
+        JassTypes.STRVAL
     )
 )

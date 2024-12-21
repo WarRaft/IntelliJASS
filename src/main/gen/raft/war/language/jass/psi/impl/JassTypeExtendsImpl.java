@@ -28,9 +28,9 @@ public class JassTypeExtendsImpl extends ASTWrapperPsiElement implements JassTyp
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JassTypeName getTypeName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
+    return PsiTreeUtil.getChildOfType(this, JassTypeName.class);
   }
 
   @Override

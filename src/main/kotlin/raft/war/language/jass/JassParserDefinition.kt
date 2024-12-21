@@ -13,7 +13,7 @@ import com.intellij.psi.tree.TokenSet
 import raft.war.language.jass.grammar.JassParser
 import raft.war.language.jass.psi.JassTypes
 import raft.war.language.jass.psi.JassTypes.LINE_COMMENT
-import raft.war.language.jass.psi.JassTypes.STRING
+import raft.war.language.jass.psi.JassTypes.STRVAL
 import raft.war.language.jass.psi.file.JassFileElementType
 import raft.war.language.jass.psi.file.JassFile
 
@@ -31,5 +31,5 @@ class JassParserDefinition : ParserDefinition {
 
 
     override fun getCommentTokens(): TokenSet = TokenSet.create(LINE_COMMENT)
-    override fun getStringLiteralElements(): TokenSet = TokenSet.create(STRING)
+    override fun getStringLiteralElements(): TokenSet = TokenSet.create(STRVAL)
 }

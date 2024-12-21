@@ -36,7 +36,7 @@ class JassRawcode(elem: PsiElement) {
             strval = ""
         } else {
             error = false
-            bytes = Arrays.copyOfRange(textbytes, 1, textbytes.size - 1)
+            bytes = textbytes.copyOfRange(1, textbytes.size - 1)
             safe = isSafe()
 
             strval = String(bytes, StandardCharsets.UTF_8)

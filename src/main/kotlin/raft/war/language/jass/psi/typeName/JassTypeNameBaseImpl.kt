@@ -53,4 +53,15 @@ abstract class JassTypeNameBaseImpl : JassNamedStubbedPsiElementBase<JassTypeNam
             }
         }
     }
+
+    companion object {
+        const val TYPE_CODE = "code"
+
+        fun isBaseType(name: String): Boolean = when (name) {
+            "handle", "integer", "real", "boolean", "string", TYPE_CODE -> true
+            else -> false
+        }
+
+
+    }
 }

@@ -9,7 +9,7 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 public interface JassFunRet extends JassCompositeElement {
 
   @Nullable
-  JassTypeName getTypeName();
+  PsiElement getId();
 
   @Nullable
   PsiElement getNothing();

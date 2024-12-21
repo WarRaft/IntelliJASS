@@ -27,8 +27,6 @@
 
         AND='and'
         ARRAY='array'
-        BOOLEAN='boolean'
-        CODE='code'
         CALL='call'
         CONSTANT='constant'
         DEBUG='debug'
@@ -43,9 +41,7 @@
         FALSE='false'
         FUNCTION='function'
         GLOBALS='globals'
-        HANDLE='handle'
         IF='if'
-        INTEGER='integer'
         LOCAL='local'
         LOOP='loop'
         NATIVE='native'
@@ -53,11 +49,9 @@
         NOTHING='nothing'
         NULL='null'
         OR='or'
-        REAL='real'
         RETURNS='returns'
         RETURN='return'
         SET='set'
-        STRING='string'
         TAKES='takes'
         THEN='then'
         TRUE='true'
@@ -114,8 +108,7 @@ VarName ::= ID {
    elementTypeClass="raft.war.language.jass.psi.varName.JassVarNameStubElementType"
 }
 
-// HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE
-TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
+TypeName ::= ID {
     name=TypeName
 
    extends=  "raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl"
@@ -125,10 +118,9 @@ TypeName ::= HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID {
    elementTypeClass="raft.war.language.jass.psi.typeName.JassTypeNameStubElementType"
 }
 
-
 // === type
-TypeDef ::= TYPE TypeName TypeExtends? {pin=1 name=TypeDef}
-TypeExtends::= EXTENDS TypeName {name=TypeExtends}
+TypeDef ::= TYPE TypeName TypeExtends? {name=TypeDef pin=1}
+TypeExtends::= EXTENDS TypeName {name=TypeExtends pin=1}
 
 // === globals
 VarDef ::= TypeName ARRAY? VarName (EQ Expr)? {name=VarDef pin=3 recoverWhile=StmtRecover}
@@ -145,7 +137,7 @@ ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
 private ParamListRecover ::= !(RETURNS)
 
 FunTake ::= TAKES (NOTHING|ParamList) {name=FunTake}
-FunRet ::= RETURNS (NOTHING|TypeName) {name=FunRet}
+FunRet ::= RETURNS (NOTHING|ID) {name=FunRet}
 
 Fun ::= FunHead FunBody ENDFUNCTION {name=Fun}
 FunHead ::= CONSTANT? FUNCTION FunName? FunTake? FunRet? {pin=2 name=FunHead}
@@ -170,7 +162,7 @@ private StmtRecover ::= !(
 ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
     SET|DEBUG|CALL|LOCAL|
     LOOP|ENDLOOP|EXITWHEN|
-    IF|ELSEIF|ENDIF|ELSE|TypeName|ID)
+    IF|ELSEIF|ENDIF|ELSE|ID)
 
 LvarStmt ::= LOCAL? VarDef {pin=2 name=LvarStmt recoverWhile=StmtRecover}
 

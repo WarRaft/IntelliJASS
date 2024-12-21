@@ -32,8 +32,6 @@ import static raft.war.language.jass.psi.JassTypes.*;
 
   "and"                       { return AND; }
   "array"                     { return ARRAY; }
-  "boolean"                   { return BOOLEAN; }
-  "code"                      { return CODE; }
   "call"                      { return CALL; }
   "constant"                  { return CONSTANT; }
   "debug"                     { return DEBUG; }
@@ -48,9 +46,7 @@ import static raft.war.language.jass.psi.JassTypes.*;
   "false"                     { return FALSE; }
   "function"                  { return FUNCTION; }
   "globals"                   { return GLOBALS; }
-  "handle"                    { return HANDLE; }
   "if"                        { return IF; }
-  "integer"                   { return INTEGER; }
   "local"                     { return LOCAL; }
   "loop"                      { return LOOP; }
   "native"                    { return NATIVE; }
@@ -58,11 +54,9 @@ import static raft.war.language.jass.psi.JassTypes.*;
   "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
   "or"                        { return OR; }
-  "real"                      { return REAL; }
   "returns"                   { return RETURNS; }
   "return"                    { return RETURN; }
   "set"                       { return SET; }
-  "string"                    { return STRING; }
   "takes"                     { return TAKES; }
   "then"                      { return THEN; }
   "true"                      { return TRUE; }

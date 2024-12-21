@@ -3,6 +3,7 @@ package raft.war.language.jass.action.jass2angelscript
 import raft.war.language.jass.inspection.number.JassRawcode
 import raft.war.language.jass.action.Jass2AnyVisitor
 import raft.war.language.jass.psi.*
+import raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl.Companion.TYPE_CODE
 
 /*
 ExecuteFunc
@@ -124,7 +125,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         if (returns == null) {
             stringBuffer.append("void")
         } else {
-            if (returns == "code") {
+            if (returns == TYPE_CODE) {
                 stringBuffer.append("BoolexprFunc@")
             } else {
                 stringBuffer.append(returns)
@@ -134,7 +135,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
         for (i in params.indices) {
             val param = params[i]
             val type = param!!.typeName
-            if (type.code != null) {
+            if (type.text == TYPE_CODE) {
                 stringBuffer.append("BoolexprFunc@")
             } else {
                 stringBuffer.append(getConvertedTypeName(type.text))

@@ -11,6 +11,7 @@ import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.psi.ResolveResult
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
+import com.intellij.psi.util.elementType
 import raft.war.ide.library.JassSyntheticLibrary
 import raft.war.language.jass.executeFuncName
 import raft.war.language.jass.highlight.JassSyntaxHighlighterBase
@@ -31,9 +32,11 @@ import raft.war.language.jass.psi.JassNativ
 import raft.war.language.jass.psi.JassParam
 import raft.war.language.jass.psi.JassStr
 import raft.war.language.jass.psi.JassTypeName
+import raft.war.language.jass.psi.JassTypes
 import raft.war.language.jass.psi.JassVarDef
 import raft.war.language.jass.psi.JassVarName
 import raft.war.language.jass.psi.funName.FUN_NAME_KEY
+import raft.war.language.jass.psi.typeName.JassTypeNameBaseImpl.Companion.isBaseType
 
 
 internal class JassAnnotator : Annotator {
@@ -42,10 +45,39 @@ internal class JassAnnotator : Annotator {
         return if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
     }
 
+    private fun annotateId(id: PsiElement, holder: AnnotationHolder) {
+        val injectedLanguageManager = InjectedLanguageManager.getInstance(id.project)
+        val isInject = injectedLanguageManager.isInjectedFragment(id.containingFile)
+        val parent = id.parent
+
+        when (parent) {
+            is JassTypeName -> {
+                val refs = this.refs(parent)
+                if (!isInject && !isBaseType(id.text) && refs.isEmpty()) {
+                    holder
+                        .newAnnotation(HighlightSeverity.ERROR, "Type not exist")
+                        .range(id.textRange)
+                        .create()
+                }
+
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(id.textRange)
+                    .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
+            }
+
+        }
+    }
+
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        if (element.elementType == JassTypes.ID) {
+            annotateId(element, holder)
+        }
+
         val lib = JassSyntheticLibrary.fromProject(element.project)
         val injectedLanguageManager = InjectedLanguageManager.getInstance(element.project)
         val isInject = injectedLanguageManager.isInjectedFragment(element.containingFile)
+
 
         fun inSdkFunIndex(name: String): Boolean {
             if (lib == null) return false
@@ -101,32 +133,6 @@ internal class JassAnnotator : Annotator {
                             if (ref is PsiPolyVariantReference) ref.multiResolve(true) else emptyArray()
                         )
                     }
-                }
-            }
-
-            is JassTypeName -> {
-                val id = element.id
-                var h = false
-
-                if (id == null) {
-                    h = true
-                } else {
-                    val refs = this.refs(element)
-                    if (refs.isNotEmpty()) {
-                        h = true
-                    } else {
-                        holder
-                            .newAnnotation(HighlightSeverity.ERROR, "Type not exist")
-                            .range(element.textRange)
-                            .create()
-                    }
-                }
-
-                if (h) {
-                    holder
-                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                        .range(element.textRange)
-                        .textAttributes(JassSyntaxHighlighterBase.JASS_TYPE_NAME).create()
                 }
             }
 

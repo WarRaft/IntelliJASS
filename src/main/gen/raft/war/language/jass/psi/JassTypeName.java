@@ -9,25 +9,7 @@ import raft.war.language.jass.psi.typeName.JassTypeNameStub;
 
 public interface JassTypeName extends JassNamedElement, StubBasedPsiElement<JassTypeNameStub> {
 
-  @Nullable
-  PsiElement getBoolean();
-
-  @Nullable
-  PsiElement getCode();
-
-  @Nullable
-  PsiElement getHandle();
-
-  @Nullable
+  @NotNull
   PsiElement getId();
-
-  @Nullable
-  PsiElement getInteger();
-
-  @Nullable
-  PsiElement getReal();
-
-  @Nullable
-  PsiElement getString();
 
 }

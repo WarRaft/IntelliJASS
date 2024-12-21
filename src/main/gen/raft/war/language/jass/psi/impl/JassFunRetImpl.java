@@ -29,8 +29,8 @@ public class JassFunRetImpl extends ASTWrapperPsiElement implements JassFunRet {
 
   @Override
   @Nullable
-  public JassTypeName getTypeName() {
-    return PsiTreeUtil.getChildOfType(this, JassTypeName.class);
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
   @Override

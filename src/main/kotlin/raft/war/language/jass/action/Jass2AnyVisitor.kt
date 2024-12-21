@@ -104,7 +104,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
         val head = o.funHead
 
         val ret = head.funRet
-        val rettype = ret?.typeName
+        val rettype = ret?.id
 
         val name = head.funName
 
@@ -151,7 +151,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     // call
     override fun visitCallStmt(o: JassCallStmt) {
         if (o.debug != null) appendBlockLineComment("debug")
-        o.funCall?.accept(this)
+        o.funCall.accept(this)
         appendStatementLineEnd()
     }
 

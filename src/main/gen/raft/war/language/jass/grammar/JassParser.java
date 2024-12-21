@@ -300,7 +300,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // RETURNS (NOTHING|TypeName)
+  // RETURNS (NOTHING|ID)
   public static boolean FunRet(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunRet")) return false;
     if (!nextTokenIs(b, "<FunRet>", RETURNS)) return false;
@@ -312,12 +312,12 @@ public class JassParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // NOTHING|TypeName
+  // NOTHING|ID
   private static boolean FunRet_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunRet_1")) return false;
     boolean r;
     r = consumeToken(b, NOTHING);
-    if (!r) r = TypeName(b, l + 1);
+    if (!r) r = consumeToken(b, ID);
     return r;
   }
 
@@ -531,6 +531,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   // TypeName VarName
   public static boolean Param(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Param")) return false;
+    if (!nextTokenIs(b, "<Param>", ID)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PARAM, "<Param>");
     r = TypeName(b, l + 1);
@@ -727,7 +728,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   // ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
   //     SET|DEBUG|CALL|LOCAL|
   //     LOOP|ENDLOOP|EXITWHEN|
-  //     IF|ELSEIF|ENDIF|ELSE|TypeName|ID)
+  //     IF|ELSEIF|ENDIF|ELSE|ID)
   static boolean StmtRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover")) return false;
     boolean r;
@@ -740,7 +741,7 @@ public class JassParser implements PsiParser, LightPsiParser {
   // ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
   //     SET|DEBUG|CALL|LOCAL|
   //     LOOP|ENDLOOP|EXITWHEN|
-  //     IF|ELSEIF|ENDIF|ELSE|TypeName|ID
+  //     IF|ELSEIF|ENDIF|ELSE|ID
   private static boolean StmtRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StmtRecover_0")) return false;
     boolean r;
@@ -760,7 +761,6 @@ public class JassParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, ELSEIF);
     if (!r) r = consumeToken(b, ENDIF);
     if (!r) r = consumeToken(b, ELSE);
-    if (!r) r = TypeName(b, l + 1);
     if (!r) r = consumeToken(b, ID);
     return r;
   }
@@ -804,27 +804,23 @@ public class JassParser implements PsiParser, LightPsiParser {
   public static boolean TypeExtends(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeExtends")) return false;
     if (!nextTokenIs(b, "<TypeExtends>", EXTENDS)) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TYPE_EXTENDS, "<TypeExtends>");
     r = consumeToken(b, EXTENDS);
+    p = r; // pin = 1
     r = r && TypeName(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
-  // HANDLE|INTEGER|REAL|BOOLEAN|STRING|CODE|ID
+  // ID
   public static boolean TypeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeName")) return false;
+    if (!nextTokenIs(b, "<TypeName>", ID)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_NAME, "<TypeName>");
-    r = consumeToken(b, HANDLE);
-    if (!r) r = consumeToken(b, INTEGER);
-    if (!r) r = consumeToken(b, REAL);
-    if (!r) r = consumeToken(b, BOOLEAN);
-    if (!r) r = consumeToken(b, STRING);
-    if (!r) r = consumeToken(b, CODE);
-    if (!r) r = consumeToken(b, ID);
+    r = consumeToken(b, ID);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

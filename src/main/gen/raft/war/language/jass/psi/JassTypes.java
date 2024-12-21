@@ -66,9 +66,7 @@ public interface JassTypes {
 
   IElementType AND = new JassTokenType("and");
   IElementType ARRAY = new JassTokenType("array");
-  IElementType BOOLEAN = new JassTokenType("boolean");
   IElementType CALL = new JassTokenType("call");
-  IElementType CODE = new JassTokenType("code");
   IElementType COMMA = new JassTokenType(",");
   IElementType CONSTANT = new JassTokenType("constant");
   IElementType DEBUG = new JassTokenType("debug");
@@ -88,11 +86,9 @@ public interface JassTypes {
   IElementType GLOBALS = new JassTokenType("globals");
   IElementType GT = new JassTokenType(">");
   IElementType GT_EQ = new JassTokenType(">=");
-  IElementType HANDLE = new JassTokenType("handle");
   IElementType HEXVAL = new JassTokenType("HEXVAL");
   IElementType ID = new JassTokenType("ID");
   IElementType IF = new JassTokenType("if");
-  IElementType INTEGER = new JassTokenType("integer");
   IElementType INTVAL = new JassTokenType("INTVAL");
   IElementType LBRACK = new JassTokenType("[");
   IElementType LINE_COMMENT = new JassTokenType("LINE_COMMENT");
@@ -112,13 +108,11 @@ public interface JassTypes {
   IElementType PLUS = new JassTokenType("+");
   IElementType RAWVAL = new JassTokenType("RAWVAL");
   IElementType RBRACK = new JassTokenType("]");
-  IElementType REAL = new JassTokenType("real");
   IElementType REALVAL = new JassTokenType("REALVAL");
   IElementType RETURN = new JassTokenType("return");
   IElementType RETURNS = new JassTokenType("returns");
   IElementType RPAREN = new JassTokenType(")");
   IElementType SET = new JassTokenType("set");
-  IElementType STRING = new JassTokenType("string");
   IElementType STRVAL = new JassTokenType("STRVAL");
   IElementType TAKES = new JassTokenType("takes");
   IElementType THEN = new JassTokenType("then");

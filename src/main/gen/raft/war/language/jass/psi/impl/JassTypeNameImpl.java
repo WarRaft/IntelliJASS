@@ -34,45 +34,9 @@ public class JassTypeNameImpl extends JassTypeNameBaseImpl implements JassTypeNa
   }
 
   @Override
-  @Nullable
-  public PsiElement getBoolean() {
-    return findChildByType(BOOLEAN);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getCode() {
-    return findChildByType(CODE);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getHandle() {
-    return findChildByType(HANDLE);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public PsiElement getId() {
-    return findChildByType(ID);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getInteger() {
-    return findChildByType(INTEGER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getReal() {
-    return findChildByType(REAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(STRING);
+    return notNullChild(findChildByType(ID));
   }
 
 }
