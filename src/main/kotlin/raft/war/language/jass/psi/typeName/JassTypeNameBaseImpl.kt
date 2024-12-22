@@ -58,7 +58,7 @@ abstract class JassTypeNameBaseImpl : JassNamedStubbedPsiElementBase<JassTypeNam
         const val TYPE_CODE = "code"
 
         fun isBaseType(name: String): Boolean = when (name) {
-            "handle", "integer", "real", "boolean", "string", TYPE_CODE -> true
+            "handle", "integer", "real", "boolean", "string", "nothing", TYPE_CODE -> true
             else -> false
         }
 

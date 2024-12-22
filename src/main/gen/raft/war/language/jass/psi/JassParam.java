@@ -8,10 +8,13 @@ import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
 public interface JassParam extends JassCompositeElement {
 
-  @NotNull
+  @Nullable
   JassTypeName getTypeName();
 
-  @NotNull
-  JassVarName getVarName();
+  @Nullable
+  JassVarDef getVarDef();
+
+  @Nullable
+  PsiElement getComma();
 
 }

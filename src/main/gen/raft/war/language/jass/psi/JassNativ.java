@@ -12,10 +12,10 @@ public interface JassNativ extends JassCompositeElement {
   JassFunName getFunName();
 
   @Nullable
-  JassFunRet getFunRet();
+  JassReturnz getReturnz();
 
   @Nullable
-  JassFunTake getFunTake();
+  JassTakez getTakez();
 
   @Nullable
   PsiElement getConstant();

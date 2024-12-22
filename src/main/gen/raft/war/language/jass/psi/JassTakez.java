@@ -6,15 +6,12 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import raft.war.language.jass.psi.compositeElement.JassCompositeElement;
 
-public interface JassVarDefMod extends JassCompositeElement {
+public interface JassTakez extends JassCompositeElement {
 
-  @Nullable
-  PsiElement getArray();
+  @NotNull
+  List<JassParam> getParamList();
 
-  @Nullable
-  PsiElement getConstant();
-
-  @Nullable
-  PsiElement getLocal();
+  @NotNull
+  PsiElement getTakes();
 
 }

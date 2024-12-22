@@ -32,11 +32,14 @@ abstract class JassVarNameBaseImpl : JassNamedStubbedPsiElementBase<JassVarNameS
     private fun funLast(fn: JassFun, name: String): JassVarName? {
         var out: JassVarName? = null
 
-        fn.funHead.funTake?.paramList?.paramList?.forEach {
+        /*
+        fn.funHead.takez?.paramList?.paramList?.forEach {
             if (name == it.varName.text) {
                 out = it.varName
             }
         }
+
+         */
 
         fn.funBody.stmtList.forEach {
             val l = it.varDef

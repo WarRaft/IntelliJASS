@@ -74,17 +74,23 @@ class Jass2LuaVisitor internal constructor() : Jass2AnyVisitor() {
         statements: List<JassStmt?>
     ) {
         for (param in params) {
+            /*
             stringBuffer.append("---@param ")
             appendSafeName(param!!.varName.text)
             stringBuffer.append(" ").append(getConvertedTypeName(param.typeName.text)).append("\n")
+
+             */
         }
         if (returns != null) stringBuffer.append("---@return ").append(returns).append("\n")
 
         stringBuffer.append("function ").append(name).append("(")
+        /*
         for (i in params.indices) {
             appendSafeName(params[i]!!.varName.text)
             if (i < params.size - 1) stringBuffer.append(", ")
         }
+
+         */
         stringBuffer.append(")\n")
         for (stmt in statements) stmt!!.accept(this)
         stringBuffer.append("end\n")

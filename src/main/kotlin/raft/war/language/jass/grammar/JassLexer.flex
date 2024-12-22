@@ -51,7 +51,6 @@ import static raft.war.language.jass.psi.JassTypes.*;
   "loop"                      { return LOOP; }
   "native"                    { return NATIVE; }
   "not"                       { return NOT; }
-  "nothing"                   { return NOTHING; }
   "null"                      { return NULL; }
   "or"                        { return OR; }
   "returns"                   { return RETURNS; }

@@ -17,7 +17,7 @@ public interface JassArrayAccess extends JassCompositeElement {
   @NotNull
   PsiElement getLbrack();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrack();
 
 }

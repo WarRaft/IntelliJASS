@@ -82,6 +82,7 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     )
 
     private fun appendVarPrepare(constant: Boolean, global: Boolean, varDef: JassVarDef) {
+        /*
         appendVar(
             constant,
             global,
@@ -90,15 +91,20 @@ abstract class Jass2AnyVisitor : JassVisitor() {
             getSafeName(varDef.varName.text),
             varDef.expr
         )
+
+         */
     }
 
     override fun visitVarDef(o: JassVarDef) {
+        /*
         val const = o.varDefModList.find { it.constant != null }
         appendVarPrepare(
             const != null,
             o.parent.parent is JassGlob,
             o
         )
+
+         */
     }
 
     // --- function
@@ -107,20 +113,23 @@ abstract class Jass2AnyVisitor : JassVisitor() {
     override fun visitFun(o: JassFun) {
         val head = o.funHead
 
-        val ret = head.funRet
-        val rettype = ret?.id
+        val ret = head.returnz
+        val rettype = ret?.typeName
 
         val name = head.funName
 
-        val take = head.funTake
+        val take = head.takez
         var params: List<JassParam?> = ArrayList()
+        /*
         if (take != null) {
             val list = take.paramList
             if (list != null) params = list.paramList
         }
 
+         */
+
         appendFunction(
-            if (ret == null || rettype == null || ret.nothing != null) null else getConvertedTypeName(rettype.text),
+            if (ret == null || rettype == null) null else getConvertedTypeName(rettype.text),
             if (name == null) "" else getSafeName(name.text),
             params,
             o.funBody.stmtList
@@ -154,9 +163,12 @@ abstract class Jass2AnyVisitor : JassVisitor() {
 
     // call
     override fun visitCallStmt(o: JassCallStmt) {
+        /*
         if (o.debug != null) appendBlockLineComment("debug")
         o.funCall.accept(this)
         appendStatementLineEnd()
+
+         */
     }
 
     override fun visitFunCall(o: JassFunCall) {

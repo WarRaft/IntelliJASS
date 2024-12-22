@@ -11,14 +11,14 @@ import static raft.war.language.jass.psi.JassTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import raft.war.language.jass.psi.*;
 
-public class JassParamListImpl extends ASTWrapperPsiElement implements JassParamList {
+public class JassReturnzImpl extends ASTWrapperPsiElement implements JassReturnz {
 
-  public JassParamListImpl(@NotNull ASTNode node) {
+  public JassReturnzImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JassVisitor visitor) {
-    visitor.visitParamList(this);
+    visitor.visitReturnz(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class JassParamListImpl extends ASTWrapperPsiElement implements JassParam
 
   @Override
   @NotNull
-  public List<JassParam> getParamList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassParam.class);
+  public JassTypeName getTypeName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getReturns() {
+    return notNullChild(findChildByType(RETURNS));
   }
 
 }

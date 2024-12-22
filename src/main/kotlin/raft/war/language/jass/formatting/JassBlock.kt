@@ -12,7 +12,6 @@ import raft.war.language.jass.formatting.aligner.JassGlobAligner
 import raft.war.language.jass.formatting.aligner.JassNativAligner
 import raft.war.language.jass.formatting.aligner.JassTypeAligner
 import raft.war.language.jass.psi.JassFun
-import raft.war.language.jass.psi.JassFunTake
 import raft.war.language.jass.psi.JassGlob
 import raft.war.language.jass.psi.JassTypes.*
 import raft.war.language.jass.psi.file.JassFile
@@ -117,16 +116,6 @@ class JassBlock(
                     newNode = newNode.firstChildNode
                 }
 
-                NOTHING -> {
-                    if (jass.AT_NATIVE_DECL_ARGUMENT) {
-                        if (parent is JassFunTake) {
-                            if (parent.nothing != null) {
-                                newAlignment = nativAligner.argument(0)
-                            }
-                        }
-                    }
-                }
-
                 TAKES -> {
                     newAlignment = nativAligner.named(JassCodeStyleSettings::AT_NATIVE_DECL_TAKES.name)
 
@@ -211,7 +200,7 @@ class JassBlock(
             // all
             .between(TYPE_NAME, ID).spacing(1, 1, 0, false, 0)
             .around(NATIVE).spacing(1, 1, 0, false, 0)
-            .around(FUN_TAKE).spacing(1, 1, 0, false, 0)
+            .around(TAKEZ).spacing(1, 1, 0, false, 0)
             .after(RETURNS).spacing(1, 1, 0, false, 0)
 
             // return

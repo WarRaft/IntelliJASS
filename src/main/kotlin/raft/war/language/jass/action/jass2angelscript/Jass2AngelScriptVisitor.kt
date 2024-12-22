@@ -132,6 +132,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
             }
         }
         stringBuffer.append(' ').append(name).append("(")
+        /*
         for (i in params.indices) {
             val param = params[i]
             val type = param!!.typeName
@@ -144,6 +145,7 @@ class Jass2AngelScriptVisitor internal constructor() : Jass2AnyVisitor() {
             appendSafeName(param.varName.text)
             if (i < params.size - 1) stringBuffer.append(", ")
         }
+         */
         stringBuffer.append("){\n")
         for (stmt in statements) stmt!!.accept(this)
         stringBuffer.append("}\n")

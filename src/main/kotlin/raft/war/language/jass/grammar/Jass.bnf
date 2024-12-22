@@ -46,7 +46,6 @@
         LOOP='loop'
         NATIVE='native'
         NOT='not'
-        NOTHING='nothing'
         NULL='null'
         OR='or'
         RETURNS='returns'
@@ -84,8 +83,17 @@
     ]
 }
 
-Root ::= (TypeDef|Nativ|Glob|Fun)* {recoverWhile=RootRecover}
-private RootRecover ::= !(TYPE|GLOBALS|NATIVE|FUNCTION)
+Root ::= RootItem*
+private RootItem
+    ::=
+    TypeDef|
+    Item
+    //CallStmt
+ //Nativ|
+ //Glob|
+ //Fun
+    {recoverWhile=RootItemRecover}
+private RootItemRecover ::= KeywordRecover !(ID)
 
 // === STUB
 FunName ::= ID {
@@ -118,56 +126,75 @@ TypeName ::= ID {
    elementTypeClass="raft.war.language.jass.psi.typeName.JassTypeNameStubElementType"
 }
 
+// https://github.com/JetBrains/Grammar-Kit/blob/master/grammars/Grammar.bnf
+// https://github.com/JetBrains/Grammar-Kit?tab=readme-ov-file#rule-modifiers
+
+private KeywordRecover::= !(
+    GLOBALS|ENDGLOBALS|
+    FUNCTION|ENDFUNCTION|
+    LOOP|ENDLOOP|EXITWHEN|
+    IF|ELSE|ELSEIF|ENDIF|
+    TYPE|EXTENDS|
+    LOCAL|CONSTANT|SET|
+    DEBUG|CALL|
+    RETURN
+    )
+
+private ExprRecover ::= !(
+    PLUS|MINUS|MUL|DIV|
+    LT|LT_EQ|GT|GT_EQ|NOT|
+    EQ|EQ_EQ|NEQ|
+    LPAREN|RPAREN|
+    LBRACK|RBRACK
+)
+
 // === type
 TypeDef ::= TYPE TypeName TypeExt? {name=TypeDef pin=1}
 TypeExt::= EXTENDS TypeName {name=TypeExt pin=1}
 
-// === globals
-Glob ::= GLOBALS VarDef* ENDGLOBALS {pin=1 name=Glob}
-
 // === variable
-VarDefMod ::= CONSTANT|LOCAL|ARRAY
-VarDef ::= VarDefMod* TypeName VarDefMod* VarName (EQ Expr)? {name=VarDef pin=4 recoverWhile=StmtRecover}
+Item ::= (CONSTANT|LOCAL|SET|DEBUG|CALL)* ID ARRAY? ID? (BrackExpr|(LPAREN RPAREN))* (EQ Expr)? {name=Item pin=2 recoverWhile=VarDefRecover}
+private VarDefRecover ::= KeywordRecover ExprRecover !(ID)
+
+// call
+//FunCall ::= FunName LPAREN /*ArgList?*/ RPAREN {pin=2 name=FunCall}
+//ArgList ::= Expr (COMMA Expr)* {name=ArgList}
+//CallStmt ::= (DEBUG|CALL)* FunCall {pin=2 name=CallStmt recoverWhile=KeywordRecover}
+
+// === globals
+Globalz ::= GLOBALS Item* ENDGLOBALS {pin=1 name=Globalz}
+
+Param ::= ((COMMA? Item)|(COMMA Item?)|TypeName) {recoverWhile=ParamRecover}
+private ParamRecover ::= !(COMMA|StmtRecoverBody)
+
+Takez ::= TAKES Param* {name=Takez recoverWhile=StmtRecover}
 
 // === function
-ArgList ::= Expr (COMMA Expr)* {name=ArgList}
-FunCall ::= FunName LPAREN ArgList? RPAREN {pin=2 name=FunCall}
+Returnz ::= RETURNS TypeName {name=Returnz}
 
-Param ::= TypeName VarName {name=Param}
-ParamList ::= Param (COMMA Param)* {pin=1 recoverWhile=ParamListRecover}
-private ParamListRecover ::= !(RETURNS)
+Fun ::= FunHead FunBody ENDFUNCTION {name=Fun recoverWhile=RootRecover}
+FunHead ::= CONSTANT? FUNCTION FunName? Takez? Returnz? {pin=2 name=FunHead}
 
-FunTake ::= TAKES (NOTHING|ParamList) {name=FunTake}
-FunRet ::= RETURNS (NOTHING|ID) {name=FunRet}
-
-Fun ::= FunHead FunBody ENDFUNCTION {name=Fun}
-FunHead ::= CONSTANT? FUNCTION FunName? FunTake? FunRet? {pin=2 name=FunHead}
-
-Nativ ::= CONSTANT? NATIVE FunName? FunTake? FunRet? {pin=2 name=Nativ}
+Nativ ::= CONSTANT? NATIVE FunName? Takez? Returnz? {pin=2 name=Nativ}
 FunBody ::= Stmt* {name=FunBody recoverWhile=StmtRecover}
 
 // https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute
 
 // === STATEMENT
 Stmt
-    ::= SetStmt
-    | CallStmt
-    | VarDef
+    ::= Item
     | ReturnStmt
     | IfStmt
     | LoopStmt
     | ExitWhenStmt
     {recoverWhile=StmtRecover name=Stmt}
 
-private StmtRecover ::= !(
-ENDGLOBALS|CONSTANT|FUNCTION|ENDFUNCTION|RETURN|
-    SET|DEBUG|CALL|LOCAL|
+private StmtRecoverBody ::=
+ENDGLOBALS|CONSTANT|LOCAL|FUNCTION|ENDFUNCTION|RETURN|RETURNS|
+    SET|DEBUG|CALL|LOCAL
     LOOP|ENDLOOP|EXITWHEN|
-    IF|ELSEIF|ENDIF|ELSE|ID)
-
-SetStmt ::= SET? (ArrayAccess|VarName) EQ Expr {pin=3 name=SetStmt}
-
-CallStmt ::= DEBUG? CALL? FunCall {name=CallStmt recoverWhile=StmtRecover}
+    IF|ELSEIF|ENDIF|ELSE|ID
+private StmtRecover ::= !(StmtRecoverBody)
 
 ReturnStmt ::= RETURN Expr? {pin=1 name=ReturnStmt}
 
@@ -199,11 +226,11 @@ MinusExpr ::= Expr MINUS Expr
 MulExpr ::= Expr MUL Expr
 DivExpr ::= Expr DIV Expr
 
-MulUnExpr ::= MUL Expr
-DivUnExpr ::= DIV Expr
-PlusUnExpr ::= PLUS Expr
-MinusUnExpr ::= MINUS Expr
-NotExpr ::= NOT Expr
+MulUnExpr ::= MUL Expr {pin=1}
+DivUnExpr ::= DIV Expr {pin=1}
+PlusUnExpr ::= PLUS Expr {pin=1}
+MinusUnExpr ::= MINUS Expr {pin=1}
+NotExpr ::= NOT Expr {pin=1}
 
 EqExpr ::= Expr EQ_EQ Expr
 NeqExpr ::= Expr NEQ Expr
@@ -214,7 +241,8 @@ GtEqExpr ::= Expr GT_EQ Expr
 
 OrExpr ::= Expr OR Expr
 AndExpr ::= Expr AND Expr
-ParenExpr ::= LPAREN Expr RPAREN
+ParenExpr ::= LPAREN Expr RPAREN {pin=1}
+BrackExpr ::= LBRACK Expr? RBRACK {pin=1}
 
 Str ::= STRVAL {
     name = Str
@@ -225,15 +253,13 @@ Num ::= INTVAL | REALVAL | HEXVAL | RAWVAL {name=Num}
 
 PrimExpr ::=
     ParenExpr |
-    ArrayAccess |
-    FunCall |
+    BrackExpr |
     FunRef |
     FALSE|
     NULL|
     TRUE|
     Num |
     Str |
-    VarName {name=PrimExpr}
+    Item {name=PrimExpr}
 
-ArrayAccess ::= VarName LBRACK Expr? RBRACK {name=ArrayAccess}
 FunRef ::= FUNCTION FunName {pin=1 name=FunRef}

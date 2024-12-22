@@ -28,15 +28,21 @@ public class JassParamImpl extends ASTWrapperPsiElement implements JassParam {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JassTypeName getTypeName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassTypeName.class));
+    return PsiTreeUtil.getChildOfType(this, JassTypeName.class);
   }
 
   @Override
-  @NotNull
-  public JassVarName getVarName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarName.class));
+  @Nullable
+  public JassVarDef getVarDef() {
+    return PsiTreeUtil.getChildOfType(this, JassVarDef.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getComma() {
+    return findChildByType(COMMA);
   }
 
 }

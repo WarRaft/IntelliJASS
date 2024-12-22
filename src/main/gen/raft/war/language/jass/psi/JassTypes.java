@@ -28,8 +28,6 @@ public interface JassTypes {
   IElementType FUN_HEAD = new JassElementType("FUN_HEAD");
   IElementType FUN_NAME = new JassFunNameStubElementType("FUN_NAME");
   IElementType FUN_REF = new JassElementType("FUN_REF");
-  IElementType FUN_RET = new JassElementType("FUN_RET");
-  IElementType FUN_TAKE = new JassElementType("FUN_TAKE");
   IElementType GLOB = new JassElementType("GLOB");
   IElementType GT_EQ_EXPR = new JassElementType("GT_EQ_EXPR");
   IElementType GT_EXPR = new JassElementType("GT_EXPR");
@@ -47,20 +45,20 @@ public interface JassTypes {
   IElementType NUM = new JassElementType("NUM");
   IElementType OR_EXPR = new JassElementType("OR_EXPR");
   IElementType PARAM = new JassElementType("PARAM");
-  IElementType PARAM_LIST = new JassElementType("PARAM_LIST");
   IElementType PAREN_EXPR = new JassElementType("PAREN_EXPR");
   IElementType PLUS_EXPR = new JassElementType("PLUS_EXPR");
   IElementType PLUS_UN_EXPR = new JassElementType("PLUS_UN_EXPR");
   IElementType PRIM_EXPR = new JassElementType("PRIM_EXPR");
+  IElementType RETURNZ = new JassElementType("RETURNZ");
   IElementType RETURN_STMT = new JassElementType("RETURN_STMT");
   IElementType SET_STMT = new JassElementType("SET_STMT");
   IElementType STMT = new JassElementType("STMT");
   IElementType STR = new JassElementType("STR");
+  IElementType TAKEZ = new JassElementType("TAKEZ");
   IElementType TYPE_DEF = new JassElementType("TYPE_DEF");
   IElementType TYPE_EXT = new JassElementType("TYPE_EXT");
   IElementType TYPE_NAME = new JassTypeNameStubElementType("TYPE_NAME");
   IElementType VAR_DEF = new JassElementType("VAR_DEF");
-  IElementType VAR_DEF_MOD = new JassElementType("VAR_DEF_MOD");
   IElementType VAR_NAME = new JassVarNameStubElementType("VAR_NAME");
 
   IElementType AND = new JassTokenType("and");
@@ -101,7 +99,6 @@ public interface JassTypes {
   IElementType NATIVE = new JassTokenType("native");
   IElementType NEQ = new JassTokenType("!=");
   IElementType NOT = new JassTokenType("not");
-  IElementType NOTHING = new JassTokenType("nothing");
   IElementType NULL = new JassTokenType("null");
   IElementType OR = new JassTokenType("or");
   IElementType PLUS = new JassTokenType("+");
@@ -169,12 +166,6 @@ public interface JassTypes {
       else if (type == FUN_REF) {
         return new JassFunRefImpl(node);
       }
-      else if (type == FUN_RET) {
-        return new JassFunRetImpl(node);
-      }
-      else if (type == FUN_TAKE) {
-        return new JassFunTakeImpl(node);
-      }
       else if (type == GLOB) {
         return new JassGlobImpl(node);
       }
@@ -226,9 +217,6 @@ public interface JassTypes {
       else if (type == PARAM) {
         return new JassParamImpl(node);
       }
-      else if (type == PARAM_LIST) {
-        return new JassParamListImpl(node);
-      }
       else if (type == PAREN_EXPR) {
         return new JassParenExprImpl(node);
       }
@@ -240,6 +228,9 @@ public interface JassTypes {
       }
       else if (type == PRIM_EXPR) {
         return new JassPrimExprImpl(node);
+      }
+      else if (type == RETURNZ) {
+        return new JassReturnzImpl(node);
       }
       else if (type == RETURN_STMT) {
         return new JassReturnStmtImpl(node);
@@ -253,6 +244,9 @@ public interface JassTypes {
       else if (type == STR) {
         return new JassStrImpl(node);
       }
+      else if (type == TAKEZ) {
+        return new JassTakezImpl(node);
+      }
       else if (type == TYPE_DEF) {
         return new JassTypeDefImpl(node);
       }
@@ -264,9 +258,6 @@ public interface JassTypes {
       }
       else if (type == VAR_DEF) {
         return new JassVarDefImpl(node);
-      }
-      else if (type == VAR_DEF_MOD) {
-        return new JassVarDefModImpl(node);
       }
       else if (type == VAR_NAME) {
         return new JassVarNameImpl(node);

@@ -41,14 +41,14 @@ public class JassVarDefImpl extends ASTWrapperPsiElement implements JassVarDef {
 
   @Override
   @NotNull
-  public List<JassVarDefMod> getVarDefModList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JassVarDefMod.class);
+  public JassVarName getVarName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarName.class));
   }
 
   @Override
-  @NotNull
-  public JassVarName getVarName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, JassVarName.class));
+  @Nullable
+  public PsiElement getArray() {
+    return findChildByType(ARRAY);
   }
 
   @Override

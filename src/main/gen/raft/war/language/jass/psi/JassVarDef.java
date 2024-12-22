@@ -15,10 +15,10 @@ public interface JassVarDef extends JassCompositeElement {
   JassTypeName getTypeName();
 
   @NotNull
-  List<JassVarDefMod> getVarDefModList();
-
-  @NotNull
   JassVarName getVarName();
+
+  @Nullable
+  PsiElement getArray();
 
   @Nullable
   PsiElement getEq();

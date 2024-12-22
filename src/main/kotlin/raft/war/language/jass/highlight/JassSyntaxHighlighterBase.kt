@@ -100,6 +100,7 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
             fillMap(ATTRIBUTES, TokenSet.create(LINE_COMMENT), JASS_LINE_COMMENT)
             fillMap(ATTRIBUTES, TokenSet.create(COMMA), JASS_COMMA)
             fillMap(ATTRIBUTES, TokenSet.create(STRVAL), JASS_STRING)
+            fillMap(ATTRIBUTES, TokenSet.create(TYPE_NAME), JASS_TYPE_NAME)
             fillMap(
                 ATTRIBUTES, TokenSet.create(
                     INTVAL,
@@ -107,12 +108,6 @@ class JassSyntaxHighlighterBase : SyntaxHighlighterBase() {
                     RAWVAL,
                     HEXVAL
                 ), JASS_NUMBER
-            )
-            fillMap(
-                ATTRIBUTES, TokenSet.create(
-                    NOTHING,
-                    TYPE_NAME
-                ), JASS_TYPE_NAME
             )
             fillMap(
                 ATTRIBUTES, TokenSet.create(

@@ -153,20 +153,20 @@ internal class JassCompletionContributor : CompletionContributor() {
 
                     val head = func.parent
 
-                    val take: JassFunTake?
-                    val ret: JassFunRet?
+                    val take: JassTakez?
+                    val ret: JassReturnz?
                     val name: String
 
                     when (val p = func.parent) {
                         is JassFunHead -> {
-                            take = p.funTake
-                            ret = p.funRet
+                            take = p.takez
+                            ret = p.returnz
                             name = p.funName!!.text
                         }
 
                         is JassNativ -> {
-                            take = p.funTake
-                            ret = p.funRet
+                            take = p.takez
+                            ret = p.returnz
                             name = p.funName!!.text
                         }
 
@@ -174,14 +174,17 @@ internal class JassCompletionContributor : CompletionContributor() {
                     }
 
                     val takeList: MutableList<String> = mutableListOf()
+                    /*
                     take?.paramList?.paramList?.let {
                         for (p in it) takeList.add(p.text)
                     }
 
+                     */
+
                     data.result.addElement(
                         LookupElementBuilder
                             .create(func)
-                            .withTypeText(if (ret?.id != null) ret.id?.text else null)
+                            .withTypeText(if (ret?.typeName != null) ret.typeName.text else null)
                             .withTypeIconRightAligned(true)
                             .withPsiElement(head)
                             .withTailText("(${takeList.joinToString(", ")})")
@@ -195,11 +198,14 @@ internal class JassCompletionContributor : CompletionContributor() {
                                 val tslist: MutableList<String> = mutableListOf()
                                 val tvlist: MutableList<TemplateVariable> = mutableListOf()
 
+                                /*
                                 take?.paramList?.paramList?.forEach {
                                     val vname = "P${it.varName.text}"
                                     tslist.add("\$$vname\$")
                                     tvlist.add(TemplateVariable(vname, it.varName.text))
                                 }
+
+                                 */
 
                                 val eol = if (call.isEmpty()) "" else "\n"
 

@@ -11,10 +11,4 @@ public interface JassCallStmt extends JassCompositeElement {
   @NotNull
   JassFunCall getFunCall();
 
-  @Nullable
-  PsiElement getCall();
-
-  @Nullable
-  PsiElement getDebug();
-
 }

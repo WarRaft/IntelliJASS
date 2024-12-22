@@ -75,8 +75,8 @@ class AngelScriptCompletionContributor : CompletionContributor() {
                     val head = func.parent
                     if (head !is JassNativ) return@forEach
 
-                    val take = head.funTake
-                    val ret = head.funRet
+                    val take = head.takez
+                    val ret = head.returnz
                     val name = head.funName!!.text
 
                     data.result.addElement(
@@ -93,10 +93,10 @@ class AngelScriptCompletionContributor : CompletionContributor() {
                                 val tvlist: MutableList<TemplateVariable> = mutableListOf()
 
                                 // add variables
-                                if (take != null) take.paramList?.paramList?.forEach {
-                                    val vname = "P${it.varName.text}"
-                                    tslist.add("\$$vname\$")
-                                    tvlist.add(TemplateVariable(vname, it.varName.text))
+                                take?.paramList?.forEach {
+                                    //val vname = "P${it.varDef.varName.text}"
+                                    //tslist.add("\$$vname\$")
+                                    //tvlist.add(TemplateVariable(vname, it.varName.text))
                                 }
 
                                 data.templateInsert(

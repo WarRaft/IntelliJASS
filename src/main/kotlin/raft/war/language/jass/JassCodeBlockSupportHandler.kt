@@ -40,8 +40,8 @@ class JassCodeBlockSupportHandler : CodeBlockSupportHandler {
             if (func is JassFun) {
                 add(func.funHead.function)
                 add(func.endfunction)
-                add(func.funHead.funTake?.takes)
-                add(func.funHead.funRet?.returns)
+                add(func.funHead.takez?.takes)
+                add(func.funHead.returnz?.returns)
 
                 val funcs: Collection<JassReturnStmt> =
                     PsiTreeUtil.collectElementsOfType(func, JassReturnStmt::class.java)

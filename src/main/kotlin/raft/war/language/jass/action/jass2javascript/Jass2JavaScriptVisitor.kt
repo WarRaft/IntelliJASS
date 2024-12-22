@@ -133,6 +133,7 @@ class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor(
         statements: List<JassStmt?>
     ) {
         if (!typescript) {
+            /*
             stringBuffer.append("/**\n")
             for (param in params) {
                 stringBuffer.append(" *  @param {").append(getConvertedTypeName(param!!.typeName.text)).append("} ")
@@ -141,10 +142,14 @@ class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor(
             }
             if (returns != null) stringBuffer.append(" *  @returns {").append(returns).append("}\n")
             stringBuffer.append(" */\n")
+
+             */
         }
 
         stringBuffer.append("function ").append(name).append("(")
+        /*
         for (i in params.indices) {
+
             val param = params[i]
 
             appendSafeName(param!!.varName.text)
@@ -154,6 +159,8 @@ class Jass2JavaScriptVisitor(private var typescript: Boolean) : Jass2AnyVisitor(
             }
             if (i < params.size - 1) stringBuffer.append(", ")
         }
+
+         */
         stringBuffer.append("){\n")
         for (stmt in statements) stmt!!.accept(this)
         stringBuffer.append("}\n")
