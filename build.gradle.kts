@@ -8,10 +8,10 @@ plugins {
     //id("java")
 
     //https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html#usage
-    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.intellij.platform") version "2.2.0"
 
     // https://kotlinlang.org/docs/gradle-configure-project.html
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.1.0"
 }
 
 group = "org.intellij.sdk"
@@ -57,7 +57,7 @@ dependencies {
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
         intellijIdeaCommunity("2024.3")
 
-        instrumentationTools()
+        //instrumentationTools() // deprecated
 
         // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html#intellijPlatform-pluginVerification
         pluginVerifier()

@@ -31,7 +31,4 @@ Just Another Scripting Syntax for [Warcraft III](https://en.wikipedia.org/wiki/W
 
 ## Support
 
-Please add the class raft.war.language.jass.psi.funName.JassFunNameStubElementType with external ID jass.FUN_NAME containing stub element type constants to "stubElementTypeHolder" extension.
-
-
 <a href="https://www.buymeacoffee.com/nazarpunk"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=nazarpunk&button_colour=BD5FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
